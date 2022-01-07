@@ -9,12 +9,14 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LogPedidosCreadosComponent } from './pronostico/log-pedidos-creados/log-pedidos-creados.component';
 import { NotifierModule } from 'angular-notifier';
 import { SeguimientoCandidatoMpComponent } from './pronostico/seguimiento-candidato-mp/seguimiento-candidato-mp.component';
+import { ProductosArimaComponent } from './arima/productos-arima/productos-arima.component';
 
 @NgModule({
   declarations: [
     SeguimientoCandidatosProComponent,
     LogPedidosCreadosComponent,
-    SeguimientoCandidatoMpComponent
+    SeguimientoCandidatoMpComponent,
+    ProductosArimaComponent
   ],
   imports: [
     RouterModule.forChild(ProduccionRoutes),

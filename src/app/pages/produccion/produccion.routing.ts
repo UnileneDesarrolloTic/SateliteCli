@@ -1,4 +1,4 @@
-import { SeguimientoCandidatosProComponent } from '@pages/produccion/pronostico/seguimiento-candidatos-pro/seguimiento-candidatos-pro.component';
+import { ProductosArimaComponent } from './arima/productos-arima/productos-arima.component';
 import { Routes } from "@angular/router";
 import { AuthGuard } from "@guard/auth.guard";
 import { LogPedidosCreadosComponent } from '@pages/produccion/pronostico/log-pedidos-creados/log-pedidos-creados.component';
@@ -11,32 +11,23 @@ export const ProduccionRoutes: Routes = [
     children : [
       {
         path: 'candidatoProArima',
-        component: SeguimientoCandidatosProComponent,
+        component: ProductosArimaComponent,
         data: {
-          title: "Candidatos Producto Arima",
-          urls: [
-            {title: 'Candidatos Producto' }
-          ]
+          title: "Productos arima"
         }
       },
       {
         path: 'candidatoMPArima',
         component: SeguimientoCandidatoMpComponent,
         data: {
-          title: "Candidatos Materia Prima Arima",
-          urls: [
-            {title: 'Candidatos Materia Prima' }
-          ]
+          title: "Candidatos Materia Prima Arima"
         }
       },
       {
         path: 'pedidoCreadoArima',
         component: LogPedidosCreadosComponent,
         data: {
-          title: "Pedidos Creados Arima",
-          urls: [
-            {title: 'Pedidos Creados' }
-          ]
+          title: "Pedidos Creados Arima"
         }
       }
     ]

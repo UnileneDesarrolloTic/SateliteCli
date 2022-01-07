@@ -23,7 +23,7 @@ export class PronosticoService {
     .set('segundoFiltro', body['segundoFiltro'])
     .set('tercerFiltro', body['tercerFiltro'])
 
-    return this._http.get<SeguimientoCandidato[]>(this.url+"/api/Pronostico/SegimientoCandidatos", {'params': params}).pipe(
+    return this._http.get<SeguimientoCandidato[]>(this.url+"/api/Pronostico/ProductosArima", {'params': params}).pipe(
       catchError (() => throwError("Error al obtener el seguimiento de candidatos"))
     );
   }
