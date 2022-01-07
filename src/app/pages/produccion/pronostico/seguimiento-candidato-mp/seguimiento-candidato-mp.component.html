@@ -1,0 +1,233 @@
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <form autocomplete="off" [formGroup]='formularioFiltro'>
+          <div class="row mb-2">
+            <div class="col-4">
+              <select class="custom-select btn-rounded col-9" formControlName="regla" style="float: left"
+                (change)="obtenerListaCandidatosMP()" #selectRegla>
+                <option value="MPAGAR1">MP Agujas Arima Regla 1</option>
+                <option value="MPAG0R2">MP Agujas Promedio Regla 2</option>
+                <option value="MPAG0R3">MP Agujas Regla 3</option>
+              </select>
+            </div>
+            <div class="col-4 text-center">
+              <button class="btn btn-rounded btn-outline-primary" type="button" (click)="obtenerListaCandidatosMP()">
+                Actualizar
+              </button>
+            </div>
+            <div class="col-4">
+              <input type="text" style="float: right" formControlName='textFilter' placeholder="Buscar Item o Descripción."
+                  class="form-control rounded-pill col-8" (keyup)="filtroCandidato()">
+            </div>
+          </div>
+        </form>
+
+          <div class="row">
+            <div class="col-12" style="height: 78vh;">
+              <ngx-datatable style="height: 100%;"
+                class="material"
+                [loadingIndicator]="flagLoading"
+                [rows]="listaCandidatos"
+                [columnMode]="'force'"
+                [headerHeight]="50"
+                [footerHeight]="50"
+                [rowHeight]="50"
+                [scrollbarH]="true"
+                [scrollbarV]="true"
+                [messages]="messagerNgxTable"
+              >
+                <ngx-datatable-column name="#" prop='candidato' [width]="60"></ngx-datatable-column>
+                <ngx-datatable-column prop='item' [width]="100"></ngx-datatable-column>
+                <ngx-datatable-column name="Descripción" prop='descripcion' [width]="140"></ngx-datatable-column>
+                <ngx-datatable-column *ngIf="selectRegla.value != 'MPAG0R3'" name="Alerta" prop='cantPedir' [width]="100">
+                  <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    {{ value | number }}
+                  </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column *ngIf="selectRegla.value == 'MPAGAR1'" name="C Variación" prop='coeficienteVariacion' [width]="95">
+                    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                      {{ value | number }} %
+                    </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column prop="pronostico" [width]="94">
+                  <ng-template let-column="column" let-sort="sortFn" ngx-datatable-header-template>
+                    <span *ngIf="selectRegla.value == 'MPAGAR1'">Pronostico</span>
+                    <span *ngIf="selectRegla.value != 'MPAGAR1'">Pro. Mensual</span>
+                  </ng-template>
+                  <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    {{ value | number }}
+                  </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column *ngIf="selectRegla.value == 'MPAGAR1'" name="L Superior" prop='limiteSuperior' [width]="93">
+                    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                      {{ value | number }}
+                    </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column *ngIf="selectRegla.value == 'MPAGAR1'" name="P Control" prop='puntoControl' [width]="93">
+                    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                      {{ value | number }}
+                    </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column *ngIf="selectRegla.value == 'MPAGAR1'" name="Máximo" prop='maximo' [width]="90">
+                    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                      {{ value | number }}
+                    </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Aduanas" prop='aduanas' [width]="100">
+                    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                      <span *ngIf="!getTransitoAduana(row['item'])">
+                        {{value | number}}
+                      </span>
+                      <button class="btn btn-sm btn-outline-primary btn-rounded" type="button" *ngIf="getTransitoAduana(row['item'])"
+                       (click)="abrirModalTransito(modalCCAD, row['item'], 'aduanas', row['descripcion'])">
+                        {{ value | number }}
+                      </button>
+                    </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Pendiente OC" prop='pendienteOC' [width]="100">
+                    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                      <span *ngIf="!getPendienteOrdenComprar(row['item'])">
+                        {{value | number}}
+                      </span>
+                      <button class="btn btn-sm btn-outline-primary btn-rounded" type="button" *ngIf="getPendienteOrdenComprar(row['item'])"
+                       (click)="abrirModalTransito(modalPendienteOC, row['item'], 'pendienteOC', row['descripcion'])">
+                        {{ value | number }}
+                      </button>
+                    </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="C Calidad" prop='transporteCC' [width]="100">
+                    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                      <span *ngIf="!getTransitoCC(row['item'])">
+                        {{value | number}}
+                      </span>
+                      <button class="btn btn-sm btn-outline-primary btn-rounded" type="button" *ngIf="getTransitoCC(row['item'])"
+                       (click)="abrirModalTransito(modalCCAD, row['item'], 'transporteCC', row['descripcion'])">
+                        {{ value | number }}
+                      </button>
+                    </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="S Actual" prop='stockActual' [width]="95">
+                    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                      {{ value | number }}
+                    </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="S Comprometido" prop='stockComprometido' [width]="105">
+                    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                      {{ value | number }}
+                    </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="S Disponible" prop='stockDisponible' [width]="110">
+                    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                      {{ value | number }}
+                    </ng-template>
+                </ngx-datatable-column>
+              </ngx-datatable>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+<ng-template #modalPendienteOC let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">
+      Ordenes de compra pendientes
+    </h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">
+        &times;
+      </span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p class="text-info">ITEM: {{itemModal}} - {{descripcionModal}}</p>
+    <div class="table-responsive table-sm">
+      <table class="table table-striped no-wrap border mt-4" style="font-size: 13px;">
+          <thead>
+              <tr>
+                  <th class="text-center">Nro Orden</th>
+                  <th class="text-center">Proveedor</th>
+                  <th class="text-center">C. Pedido</th>
+                  <th class="text-center">C. Recibida</th>
+                  <th class="text-center">C. Pendiente</th>
+                  <th class="text-center">Fec. Prometida</th>
+                  <th class="text-center">Dif. Días</th>
+              </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let ordenCompra of listaDettalleOC">
+                <td class="text-center">
+                  {{ ordenCompra['numeroOrden'] }}
+                </td>
+                <td class="text-center">
+                  {{ ordenCompra['proveedor'] }}
+                </td>
+                <td class="text-center">
+                  {{ ordenCompra['cantidad'] | number }}
+                </td>
+                <td class="text-center">
+                  {{ ordenCompra['cantidadRecibida'] | number }}
+                </td>
+                <td class="text-center">
+                  {{ ordenCompra['pendienteOC'] | number }}
+                </td>
+                <td class="text-center">
+                  {{ ordenCompra['fecha'] | date:'dd/MM/yyyy' }}
+                </td>
+                <td class="text-center" [ngStyle] = "{'color':ordenCompra['diferenciaFecha']>0 ? '#FC0000':'#27E900' }">
+                  {{ ordenCompra['diferenciaFecha'] }}
+                </td>
+            </tr>
+          </tbody>
+      </table>
+    </div>
+  </div>
+</ng-template>
+
+
+<ng-template #modalCCAD let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">
+      Pedidos en tránsito
+    </h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">
+        &times;
+      </span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p class="text-info">ITEM: {{itemModal}} - {{descripcionModal}}</p>
+    <div class="table-responsive table-sm" >
+      <table class="table table-striped no-wrap border mt-4" style="font-size: 13px;" >
+          <thead>
+              <tr>
+                  <th class="text-center">Nro. Lote</th>
+                  <th class="text-center">Cantidad</th>
+                  <th class="text-center">Fecha Ingreso</th>
+                  <th class="text-center">Dif. Días</th>
+              </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let itemTransito of listaDettalleOC">
+                <td class="text-center">
+                  {{ itemTransito['numeroOrden'] }}
+                </td>
+                <td class="text-center">
+                  {{ itemTransito['cantidad'] | number }}
+                </td>
+                <td class="text-center">
+                  {{ itemTransito['fecha'] | date:'dd/MM/yyyy' }}
+                </td>
+                <td class="text-center">
+                  {{ itemTransito['diferenciaFecha'] }}
+                </td>
+            </tr>
+          </tbody>
+      </table>
+    </div>
+  </div>
+</ng-template>

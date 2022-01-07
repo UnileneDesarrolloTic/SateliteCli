@@ -1,0 +1,27 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "downlevelIteration": true,
+    "module": "esnext",
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "target": "es2015",
+    "typeRoots": ["node_modules/@types"],
+    "lib": ["es2017", "dom"],
+    "paths": {
+      "@auth/*":["app/auth/*"],
+      "@pages/*":["app/pages/*"],
+      "@model/*":["app/shared/model/*"],
+      "@layout/*":["app/layout/*"],
+      "@shared/*":["app/shared/*"],
+      "@data/*":["app/data/*"],
+      "@guard/*":["app/guard/*"]
+    },
+
+  }
+}

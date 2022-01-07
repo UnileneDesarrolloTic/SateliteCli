@@ -1,0 +1,103 @@
+<form [formGroup]="formularioFiltro" (submit)="filtrarPedido()">
+  <div class="row">
+    <div class="col-12">
+      <div class="card border-left border-dark">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-sm-12 col-lg-4">
+                <div class="form-group row">
+                    <label for="fname2" class="col-sm-3 text-right control-label col-form-label">Inicio</label>
+                    <div class="col-sm-9">
+                        <input type="date" name='fechaInicio' formControlName='fechaInicio' class="form-control form-control-sm" placeholder="Fecha Inicio">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-lg-4">
+                <div class="form-group row">
+                    <label for="lname2" class="col-sm-3 text-right control-label col-form-label">Fin</label>
+                    <div class="col-sm-9">
+                        <input type="date" name='fechaFin' formControlName='fechaFin' class="form-control form-control-sm" placeholder="Fecha Fin">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-lg-4">
+              <div class="form-group row">
+                  <label for="lname2" class="col-sm-3 text-right control-label col-form-label">
+                    Item
+                  </label>
+                  <div class="col-sm-9">
+                      <input type="text" name='item' formControlName="item" class="form-control form-control-sm" placeholder="Item Spring"> 
+                  </div>
+              </div>
+            </div>
+          </div>
+          <div class="row justify-content-center">
+            <button type="submit" class="btn btn-rounded btn-dark">Buscar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-2">  
+    <div class="col-12">
+      <div class="card border-left border-dark">
+        <div class="card-body">
+          <div class="row mb-2">
+            <div class="col-12 text-center">
+              <select class="custom-select" style="float: right; width: auto" formControlName="registroPorPagina" (change)="cambioRegistroPorPagina($event.target.value)">
+                <option value="10">10 pedidos por página</option>
+                <option value="20">20 pedidos por página</option>
+                <option value="50">50 pedidos por página</option>
+              </select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <ngx-datatable
+                class="material fullscreen"
+                [rows]="listaPedidos"
+                [columnMode]="'force'"
+                [headerHeight]="50"
+                [footerHeight]="50"
+                rowHeight="auto"
+                [scrollbarH]="true"
+                [messages]="messagerNgxTable"
+                [externalPaging]="true"
+                [count]="paginado.totalRegistros"
+                [limit]="getObtenerLimit()"
+                offset="reinicio"
+                (page)="dataTableOnChange($event)"
+              >
+
+                <ngx-datatable-column name="fecha" [width]="110">
+                  <ng-template let-column="column" let-sort="sortFn" ngx-datatable-header-template>
+                    Fecha
+                  </ng-template>
+                  <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    {{ value | date:'dd/MM/yy hh:mm' }}
+                  </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Pedido" prop='pedido' [width]="100"></ngx-datatable-column>
+                <ngx-datatable-column name="E. Pedido" prop='estadoPedido' [width]="110"></ngx-datatable-column>
+                <ngx-datatable-column name="Item" prop='item' [width]="131"></ngx-datatable-column>
+                <ngx-datatable-column name="Descripcion" prop='descripcion' [width]="245"></ngx-datatable-column>
+                <ngx-datatable-column name="Lote" prop='lote' [width]="102"></ngx-datatable-column>
+                <ngx-datatable-column name="E. Lote" prop='estadoLote' [width]="110"></ngx-datatable-column>
+                <ngx-datatable-column name="Disponible" prop='stockDisponible' [width]="85"></ngx-datatable-column>
+                <ngx-datatable-column name="Transito" prop='stockTransito' [width]="80"></ngx-datatable-column>
+                <ngx-datatable-column name="P. Control" prop='puntoControl' [width]="80"></ngx-datatable-column>
+                <ngx-datatable-column name="L. Superior" prop='limiteSuperior' [width]="80"></ngx-datatable-column>
+                <ngx-datatable-column name="Solicitado" prop='cantSolicitada' [width]="80"></ngx-datatable-column>
+                <ngx-datatable-column name="Muestra" prop='cantContraMuestra' [width]="81"></ngx-datatable-column>
+
+              </ngx-datatable>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form> 
+  <notifier-container></notifier-container>

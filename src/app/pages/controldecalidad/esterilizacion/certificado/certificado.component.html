@@ -1,0 +1,1220 @@
+<div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+    <div class="card">
+      <div class="card-header bg-info">
+        <h4 class="card-title mb-0 text-white">Filtros de certificados</h4>
+      </div>
+
+      <div class="card-body">
+        <form
+          [formGroup]="formulario"
+          (submit)="filtrarCertificados()"
+          id="filtrarCertificados"
+        >
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group">
+                <label class="control-label" for="ordenServicio"
+                  >Orden de Servicio</label
+                >
+                <input
+                  type="text"
+                  formControlName="ordenServicio"
+                  id="os"
+                  class="form-control"
+                  placeholder="Orden de Servicio"
+                />
+              </div>
+            </div>
+          </div>
+          <!-- <div class="row">
+                <div class="col-12">
+                    <div class="form-group">
+                        <label class="control-label" for="documentoFiltro">Documento</label>
+                        <input type="text" formControlName="documento" id="documentoFiltro" class="form-control" placeholder="Documento de identidad">
+                    </div>
+                </div>
+              </div> -->
+
+          <div class="row">
+            <div class="col-md-12 mt-2">
+              <button type="submit" class="btn btn-rounded btn-block btn-info">
+                Filtrar
+              </button>
+              <button
+                type="button"
+                (click)="abrirModal(modalDetalleUsuario, null)"
+                class="btn btn-rounded btn-block btn-success"
+              >
+                Nuevo Certificado
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-9">
+    <div class="card border-left border-cyan">
+      <div class="card-body">
+        <div class="d-flex no-block align-items-center">
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <thead class="bg-info text-white">
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Orden de Servicio</th>
+                  <th scope="col">Fecha</th>
+                  <th scope="col">Cliente</th>
+                  <th scope="col">Lote</th>
+                  <th scope="col">Producto</th>
+                  <th scope="col">Opciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let certificado of listaCertificados">
+                  <td>{{ certificado.id }}</td>
+                  <td>{{ certificado.ordenServicio }}</td>
+                  <td>{{ certificado.fechaEmision | date: "shortDate" }}</td>
+                  <td>{{ certificado.cliente }}</td>
+                  <td>{{ certificado.lote }}</td>
+                  <td>{{ certificado.producto }}</td>
+                  <td style="text-align: center">
+                    <!-- <a href="javascript: void(0);" (click)="abrirModal(modalDetalleUsuario, user)" class="link mr-2"
+                      placement="top" ngbTooltip="Editar" >
+                      <i-feather name="edit-2" class="feather-sm"></i-feather>
+                    </a> -->
+                    <a
+                      href="javascript: void(0);"
+                      class="link"
+                      (click)="GenerarReporte(certificado.codigoCertificado)"
+                      placement="top"
+                      ngbTooltip="Generar"
+                    >
+                      <i class="fa fa-print" aria-hidden="true"></i>
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="row d-flex justify-content-center mt-4">
+          <ngb-pagination
+            [collectionSize]="paginador.totalRegistros"
+            [(page)]="page"
+            [pageSize]="pageSize"
+            [boundaryLinks]="true"
+            (pageChange)="cambioPagina($event)"
+            [ellipses]="false"
+            [maxSize]="5"
+            [rotate]="true"
+          >
+          </ngb-pagination>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #modalDetalleUsuario let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Información Certificado</h4>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form
+      autocomplete="off"
+      [formGroup]="formularioCertificado"
+      id="detalleUsuario"
+    >
+      <div class="row">
+        <div class="col-sm-12 col-md-6">
+          <div class="form-group">
+            <label for="codigoCertificado" class="control-label col-form-label"
+              >Código certificado</label
+            >
+            <input
+              formControlName="codigoCertificado"
+              type="number"
+              id="codigoCertificado"
+              class="form-control"
+              placeholder="Autogenerado"
+            />
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-6">
+          <div class="form-group">
+            <label for="fechaEmision" class="control-label col-form-label"
+              >Fecha de Emisión</label
+            >
+            <input
+              formControlName="fechaEmision"
+              type="date"
+              id="fechaEmision"
+              class="form-control"
+              placeholder="Fecha de Emisión"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12 col-md-6">
+          <div class="form-group">
+            <label for="ordenServicio" class="control-label col-form-label"
+              >Orden de Servicio</label
+            >
+            <input
+              formControlName="ordenServicio"
+              type="text"
+              id="ordenServicio"
+              class="form-control"
+              placeholder="Orden de Servicio"
+            />
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-6">
+          <div class="form-group">
+            <label for="cliente" class="control-label col-form-label"
+              >Cliente</label
+            >
+            <input
+              formControlName="cliente"
+              type="text"
+              id="cliente"
+              class="form-control"
+              placeholder="Cliente"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12 col-md-6">
+          <div class="form-group">
+            <label for="lote" class="control-label col-form-label">Lote</label>
+            <input
+              type="text"
+              formControlName="lote"
+              id="lote"
+              class="form-control"
+              placeholder="Lote"
+            />
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-6">
+          <div class="form-group">
+            <label for="producto" class="control-label col-form-label"
+              >Producto</label
+            >
+            <input
+              type="text"
+              formControlName="producto"
+              id="producto"
+              class="form-control"
+              placeholder="Producto"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-12 col-md-6">
+          <div class="form-group">
+            <label for="marca" class="control-label col-form-label"
+              >Marca</label
+            >
+            <input
+              type="text"
+              formControlName="marca"
+              id="marca"
+              class="form-control"
+              placeholder="Marca"
+            />
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-4">
+          <div class="form-group">
+            <label for="cantidad" class="control-label col-form-label"
+              >Cantidad</label
+            >
+            <input
+              type="number"
+              formControlName="cantidad"
+              id="cantidad"
+              class="form-control"
+              placeholder="Cantidad"
+            />
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-2" style="margin-top: auto">
+          <div class="form-group">
+            <select
+              name="cantidadUnidadMedida"
+              class="form-control"
+              id="cantidadUnidadMedida"
+            >
+              <option value="und">und</option>
+              <option value="lt">lt</option>
+              <option value="kg">kg</option>
+              <option value="UTE(s)">UTE(s)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-12 col-md-6">
+          <div class="form-group">
+            <label for="equipo" class="control-label col-form-label"
+              >Equipo</label
+            >
+            <select
+              name="equipo"
+              class="form-control"
+              id="equipo"
+              (change)="CambioEquipo()"
+            >
+              <option value="1">BIO 300</option>
+              <option value="2">HMQ-0.5</option>
+              <option value="3">ARH-750</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-6" *ngIf="OpcionB300">
+          <div class="form-group">
+            <label for="renombrarBio300" class="control-label col-form-label"
+              >Renombrar</label
+            >
+            <input
+              type="text"
+              formControlName="renombrarBio300"
+              id="renombrarBio300"
+              class="form-control"
+            />
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-6" *ngIf="OpcionesEquipo">
+          <div class="form-group">
+            <label class="control-label col-form-label">Opciones</label>
+            <div class="form-control" style="border: none">
+              <div class="custom-control custom-radio custom-control-inline">
+                <input
+                  formControlName="opcion"
+                  type="radio"
+                  class="custom-control-input"
+                  id="opcion1"
+                  name="opcion"
+                  value="op1"
+                  (change)="CambioOP($event.target)"
+                />
+                <label class="custom-control-label" for="opcion1"
+                  >Opción 1</label
+                >
+              </div>
+              <div class="custom-control custom-radio custom-control-inline">
+                <input
+                  formControlName="opcion"
+                  type="radio"
+                  class="custom-control-input"
+                  id="opcion2"
+                  name="opcion"
+                  value="op2"
+                  (change)="CambioOP($event.target)"
+                />
+                <label class="custom-control-label" for="opcion2"
+                  >Opción 2</label
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12 col-md-12">
+          <div class="form-group">
+            <label class="control-label col-form-label"
+              >1.- Datos Del Proceso</label
+            >
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12 col-md-6">
+          <div class="form-group">
+            <label for="fechaInicio" class="control-label col-form-label"
+              >Fecha inicio</label
+            >
+            <input
+              type="date"
+              formControlName="fechaInicio"
+              id="fechaInicio"
+              class="form-control"
+              placeholder="Fecha inicio"
+            />
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-6">
+          <div class="form-group">
+            <label for="fechaTermino" class="control-label col-form-label"
+              >Fecha término</label
+            >
+            <input
+              type="date"
+              formControlName="fechaTermino"
+              id="fechaTermino"
+              class="form-control"
+              placeholder="Fecha término"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12 col-md-12">
+          <div class="form-group">
+            <label
+              for="metodoEsterilizacion"
+              class="control-label col-form-label"
+              >Método de esterilización</label
+            >
+            <input
+              type="text"
+              formControlName="metodoEsterilizacion"
+              id="metodoEsterilizacion"
+              class="form-control"
+              placeholder="Método de esterilización"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12 col-md-6">
+          <div class="form-group">
+            <label for="temperaturaProceso" class="control-label col-form-label"
+              >Temperatura del proceso</label
+            >
+            <input
+              type="text"
+              formControlName="temperaturaProceso"
+              id="temperaturaProceso"
+              class="form-control"
+              placeholder="Temperatura del proceso"
+            />
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-3">
+          <div class="form-group">
+            <label for="tiempoAireacion" class="control-label col-form-label"
+              >Tiempo aireación</label
+            >
+            <input
+              type="number"
+              formControlName="tiempoAireacion"
+              id="tiempoAireacion"
+              class="form-control"
+              placeholder="Tiempo aireación"
+            />
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-3" style="margin-top: auto">
+          <div class="form-group">
+            <select
+              name="taUnidadMedida"
+              class="form-control"
+              id="taUnidadMedida"
+            >
+              <option value="horas">horas</option>
+              <option value="minutos">minutos</option>
+              <option value="remociones">remociones</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12 col-md-4">
+          <div class="form-group">
+            <label for="tiempoExposicion" class="control-label col-form-label"
+              >Tiempo de exposición</label
+            >
+            <input
+              type="number"
+              formControlName="tiempoExposicion"
+              id="tiempoExposicion"
+              class="form-control"
+              placeholder="Tiempo de exposición"
+            />
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-2" style="margin-top: auto">
+          <div class="form-group">
+            <select
+              name="teUnidadMedida"
+              class="form-control"
+              id="teUnidadMedida"
+            >
+              <option value="horas">horas</option>
+              <option value="minutos">minutos</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-6">
+          <div class="form-group">
+            <label for="hrProceso" class="control-label col-form-label"
+              >HR% del proceso</label
+            >
+            <input
+              type="number"
+              formControlName="hrProceso"
+              id="hrProceso"
+              class="form-control"
+              placeholder="HR% del proceso"
+            />
+          </div>
+        </div>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="col-sm-12 col-md-12">
+          <div class="form-group">
+            <label class="control-label col-form-label"
+              >2.- Controles en Proceso</label
+            >
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12 col-md-12">
+          <div class="form-group">
+            <label class="control-label col-form-label"
+              >2.1. Cinta Testigo de control de esterilización</label
+            >
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-6">
+          <div class="form-group">
+            <label for="descrpcion_21" class="control-label col-form-label"
+              >Descripción</label
+            >
+            <button
+              (click)="abrirModalLote(modalLote, 1)"
+              style="float: right"
+              class="btn btn-info btn-sm"
+            >
+              Buscar Lote
+            </button>
+            <input
+              type="text"
+              formControlName="descripcion_21"
+              id="descrpcion_21"
+              class="form-control"
+              placeholder="Descripción"
+              readonly
+            />
+            <input
+              type="number"
+              formControlName="loteId_21"
+              style="display: none"
+            />
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-6">
+          <div class="form-group">
+            <label for="lote_21" class="control-label col-form-label"
+              >Lote</label
+            >
+            <input
+              type="text"
+              formControlName="lote_21"
+              id="lote_21"
+              class="form-control"
+              placeholder="Lote"
+              readonly
+            />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12 col-md-6">
+          <div class="form-group">
+            <label for="expira_21" class="control-label col-form-label"
+              >Expira</label
+            >
+            <input
+              type="text"
+              formControlName="expira_21"
+              id="expira_21"
+              class="form-control"
+              placeholder="Expira"
+              readonly
+            />
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-6">
+          <div class="form-group">
+            <label class="control-label col-form-label">Resultado</label>
+            <div class="form-control" style="border: none">
+              <div class="custom-control custom-radio custom-control-inline">
+                <input
+                  formControlName="resultado_21"
+                  type="radio"
+                  class="custom-control-input"
+                  id="conforme_21"
+                  name="resultado_21"
+                  value="C"
+                />
+                <label class="custom-control-label" for="conforme_21"
+                  >Conforme</label
+                >
+              </div>
+              <div class="custom-control custom-radio custom-control-inline">
+                <input
+                  formControlName="resultado_21"
+                  type="radio"
+                  class="custom-control-input"
+                  id="noConforme_21"
+                  name="resultado_21"
+                  value="N"
+                />
+                <label class="custom-control-label" for="noConforme_21"
+                  >No Conforme</label
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12 col-md-12">
+          <div class="form-group">
+            <label class="control-label col-form-label"
+              >2.2. Indicador Químico EO Gas - Clase 5</label
+            >
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-6">
+          <div class="form-group">
+            <label for="descripcion_22" class="control-label col-form-label"
+              >Descripción</label
+            >
+            <button
+              (click)="abrirModalLote(modalLote, 2)"
+              style="float: right"
+              class="btn btn-info btn-sm"
+            >
+              Buscar Lote
+            </button>
+            <input
+              type="text"
+              formControlName="descripcion_22"
+              id="descripcion_22"
+              class="form-control"
+              placeholder="Descripción"
+              readonly
+            />
+            <input
+              type="number"
+              formControlName="loteId_22"
+              style="display: none"
+            />
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-6">
+          <div class="form-group">
+            <label for="lote_22" class="control-label col-form-label"
+              >Lote</label
+            >
+            <input
+              type="text"
+              formControlName="lote_22"
+              id="lote_22"
+              class="form-control"
+              placeholder="Lote"
+              readonly
+            />
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-6">
+          <div class="form-group">
+            <label for="expira_22" class="control-label col-form-label"
+              >Expira</label
+            >
+            <input
+              type="text"
+              formControlName="expira_22"
+              id="expira_22"
+              class="form-control"
+              placeholder="Expira"
+              readonly
+            />
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-6">
+          <div class="form-group">
+            <label class="control-label col-form-label">Resultado</label>
+            <div class="form-control" style="border: none">
+              <div class="custom-control custom-radio custom-control-inline">
+                <input
+                  formControlName="resultado_22"
+                  type="radio"
+                  class="custom-control-input"
+                  id="conforme_22"
+                  name="resultado_22"
+                  value="C"
+                />
+                <label class="custom-control-label" for="generoMasculino"
+                  >Conforme</label
+                >
+              </div>
+              <div class="custom-control custom-radio custom-control-inline">
+                <input
+                  formControlName="resultado_22"
+                  type="radio"
+                  class="custom-control-input"
+                  id="noConforme_22"
+                  name="resultado_22"
+                  value="N"
+                />
+                <label class="custom-control-label" for="noConforme_22"
+                  >No Conforme</label
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12 col-md-12">
+          <div class="form-group">
+            <label class="control-label col-form-label"
+              >2.3. Trazas de óxido de Etileno</label
+            >
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-6">
+          <div class="form-group">
+            <label for="modelo_23" class="control-label col-form-label"
+              >Modelo</label
+            >
+            <input
+              type="text"
+              formControlName="modelo_23"
+              id="modelo_23"
+              class="form-control"
+              placeholder="Modelo"
+            />
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-6">
+          <div class="form-group">
+            <label for="codigo_23" class="control-label col-form-label"
+              >Código</label
+            >
+            <input
+              type="text"
+              formControlName="codigo_23"
+              id="codigo_23"
+              class="form-control"
+              placeholder="Código"
+            />
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-6">
+          <div class="form-group">
+            <label class="control-label col-form-label">Resultado</label>
+            <div class="form-control" style="border: none">
+              <div class="custom-control custom-radio custom-control-inline">
+                <input
+                  formControlName="resultado_23"
+                  type="radio"
+                  class="custom-control-input"
+                  id="conforme_23"
+                  name="resultado_23"
+                  value="C"
+                />
+                <label class="custom-control-label" for="conforme_23"
+                  >Conforme</label
+                >
+              </div>
+              <div class="custom-control custom-radio custom-control-inline">
+                <input
+                  formControlName="resultado_23"
+                  type="radio"
+                  class="custom-control-input"
+                  id="noConforme_23"
+                  name="resultado_23"
+                  value="N"
+                />
+                <label class="custom-control-label" for="noConforme_23"
+                  >No Conforme</label
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12 col-md-12">
+          <div class="form-group">
+            <label class="control-label col-form-label"
+              >2.4. Indicador Biológico (I.B.)</label
+            >
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-6">
+          <div class="form-group">
+            <label class="control-label col-form-label">Tipo</label>
+            <div class="form-control" style="border: none">
+              <div class="custom-control custom-radio custom-control-inline">
+                <input
+                  formControlName="tipo_24"
+                  type="radio"
+                  class="custom-control-input"
+                  id="covencional"
+                  name="tipo_24"
+                  value="C"
+                  (change)="CambioIB($event.target)"
+                />
+                <label class="custom-control-label" for="covencional"
+                  >Convencional</label
+                >
+              </div>
+              <div class="custom-control custom-radio custom-control-inline">
+                <input
+                  formControlName="tipo_24"
+                  type="radio"
+                  class="custom-control-input"
+                  id="lecturaRapida"
+                  name="tipo_24"
+                  value="L"
+                  (change)="CambioIB($event.target)"
+                />
+                <label class="custom-control-label" for="lecturaRapida"
+                  >Lectura Rápida</label
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-6">
+          <div class="form-group">
+            <label for="iaCodigo_24" class="control-label col-form-label"
+              >Incubador/Autolectora código</label
+            >
+            <input
+              type="text"
+              formControlName="iaCodigo_24"
+              id="iaCodigo_24"
+              class="form-control"
+              placeholder="Incubador/Autolectora código"
+            />
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-6">
+          <div class="form-group">
+            <label for="descripcion_24" class="control-label col-form-label"
+              >Descripción</label
+            >
+            <button
+              (click)="abrirModalLote(modalLote, 3)"
+              style="float: right"
+              class="btn btn-info btn-sm"
+            >
+              Buscar Lote
+            </button>
+            <input
+              type="text"
+              formControlName="descripcion_24"
+              id="descripcion_24"
+              class="form-control"
+              placeholder="Descripción"
+              readonly
+            />
+            <input
+              type="number"
+              formControlName="loteId_24"
+              style="display: none"
+            />
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-6">
+          <div class="form-group">
+            <label for="lote_24" class="control-label col-form-label"
+              >Lote</label
+            >
+            <input
+              type="text"
+              formControlName="lote_24"
+              id="lote_24"
+              class="form-control"
+              placeholder="Lote"
+              readonly
+            />
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-6">
+          <div class="form-group">
+            <label for="expira_24" class="control-label col-form-label"
+              >Expira</label
+            >
+            <input
+              type="text"
+              formControlName="expira_24"
+              id="expira_24"
+              class="form-control"
+              placeholder="Expira"
+              readonly
+            />
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-12">
+          <div class="form-group">
+            <label
+              for="nroDocumentoUsuario"
+              class="control-label col-form-label"
+              >Resultados</label
+            >
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-6">
+          <div class="form-group">
+            <label for="ibExpuestos_24" class="control-label col-form-label"
+              >I.B expuestos</label
+            >
+            <input
+              type="number"
+              formControlName="ibExpuestos_24"
+              id="ibExpuestos_24"
+              class="form-control"
+              placeholder="I.B expuestos"
+            />
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-6">
+          <div class="form-group">
+            <label class="control-label col-form-label">Resultado</label>
+            <div class="form-control" style="border: none">
+              <div class="custom-control custom-radio custom-control-inline">
+                <input
+                  formControlName="ibExpuestosResultado_24"
+                  type="radio"
+                  class="custom-control-input"
+                  id="ibExpuestosNegativo"
+                  name="ibExpuestosResultado_24"
+                  value="N"
+                />
+                <label class="custom-control-label" for="ibExpuestosNegativo"
+                  >Negativo</label
+                >
+              </div>
+              <div class="custom-control custom-radio custom-control-inline">
+                <input
+                  formControlName="ibExpuestosResultado_24"
+                  type="radio"
+                  class="custom-control-input"
+                  id="ibExpuestosPositivo"
+                  name="ibExpuestosResultado_24"
+                  value="P"
+                />
+                <label class="custom-control-label" for="ibExpuestosPositivo"
+                  >Positivo</label
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-6">
+          <div class="form-group">
+            <label for="ibNoExpuestos_24" class="control-label col-form-label"
+              >I.B No expuestos</label
+            >
+            <input
+              type="number"
+              formControlName="ibNoExpuestos_24"
+              id="ibNoExpuestos_24"
+              class="form-control"
+              placeholder="I.B No expuestos"
+            />
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-6">
+          <div class="form-group">
+            <label class="control-label col-form-label">Resultado</label>
+            <div class="form-control" style="border: none">
+              <div class="custom-control custom-radio custom-control-inline">
+                <input
+                  formControlName="ibNoExpuestosResultado_24"
+                  type="radio"
+                  class="custom-control-input"
+                  id="ibNoExpuestosNegativo"
+                  name="ibNoExpuestosResultado_24"
+                  value="N"
+                />
+                <label class="custom-control-label" for="ibNoExpuestosNegativo"
+                  >Negativo</label
+                >
+              </div>
+              <div class="custom-control custom-radio custom-control-inline">
+                <input
+                  formControlName="ibNoExpuestosResultado_24"
+                  type="radio"
+                  class="custom-control-input"
+                  id="ibNoExpuestosPositivo"
+                  name="ibNoExpuestosResultado_24"
+                  value="P"
+                />
+                <label class="custom-control-label" for="ibNoExpuestosPositivo"
+                  >Positivo</label
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-6">
+          <div class="form-group">
+            <label class="control-label col-form-label">Conclusión</label>
+            <div class="form-control" style="border: none">
+              <div class="custom-control custom-radio custom-control-inline">
+                <input
+                  formControlName="conclusion_24"
+                  type="radio"
+                  class="custom-control-input"
+                  id="conforme_24"
+                  name="conclusion_24"
+                  value="C"
+                />
+                <label class="custom-control-label" for="conforme_24"
+                  >Proceso conforme</label
+                >
+              </div>
+              <div class="custom-control custom-radio custom-control-inline">
+                <input
+                  formControlName="conclusion_24"
+                  type="radio"
+                  class="custom-control-input"
+                  id="noConforme_24"
+                  name="conclusion_24"
+                  value="N"
+                />
+                <label class="custom-control-label" for="noConforme_24"
+                  >Proceso no conforme</label
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-12">
+          <div class="form-group">
+            <label for="observacion" class="control-label col-form-label"
+              >Observación</label
+            >
+            <input
+              type="text"
+              formControlName="observacion"
+              id="observacion"
+              class="form-control"
+              placeholder="Observación"
+            />
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-success" (click)="nuevoCertificado()">
+      Registrar
+    </button>
+    <button
+      type="button"
+      class="btn btn-light"
+      (click)="modal.close('Close click')"
+    >
+      Close
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #modalLote let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Elegir Lote</h4>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form
+      autocomplete="off"
+      [formGroup]="formularioLote"
+      (submit)="FiltrarLotes()"
+      *ngIf="loteMaestro"
+    >
+      <div class="row">
+        <div class="col-8">
+          <div class="form-group">
+            <input
+              type="text"
+              formControlName="descripcion"
+              class="form-control form-control-sm"
+              id="descripcion"
+              placeholder="Descripción"
+            />
+            <input type="hidden" formControlName="identificador" />
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="form-group">
+            <button type="submit" class="btn btn-rounded btn-info">
+              Filtrar
+            </button>
+            <button (click)="NuevoLote()" class="btn btn-rounded btn-success">
+              Nuevo
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-12">
+        <div class="card border-left border-cyan">
+          <div class="card-body">
+            <div class="d-flex no-block align-items-center">
+              <div class="table-responsive">
+                <table class="table table-hover">
+                  <thead class="bg-info text-white">
+                    <tr>
+                      <th style="visibility: none"></th>
+                      <th scope="col">Descripción</th>
+                      <th scope="col">Lote</th>
+                      <th scope="col">Expira</th>
+                      <th scope="col">Opciones</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let lote of listaLotes">
+                      <td style="visibility: none">{{ lote.id }}</td>
+                      <td>{{ lote.descripcion }}</td>
+                      <td>{{ lote.lote }}</td>
+                      <td>{{ lote.expira }}</td>
+                      <td>
+                        <a
+                          href="javascript: void(0);"
+                          (click)="ObtenerLote(modalLote, lote)"
+                          class="link mr-2"
+                          placement="top"
+                          ngbTooltip="Obtener"
+                        >
+                          <i class="ti-angle-left"></i>
+                        </a>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="row d-flex justify-content-center mt-4">
+              <ngb-pagination
+                [collectionSize]="paginador.totalRegistros"
+                [(page)]="page"
+                [pageSize]="pageSize"
+                [boundaryLinks]="true"
+                (pageChange)="cambioPagina($event)"
+                [ellipses]="false"
+                [maxSize]="5"
+                [rotate]="true"
+              >
+              </ngb-pagination>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    <form
+      autocomplete="off"
+      [formGroup]="formularioLoteDetalle"
+      id="detalleLote"
+      *ngIf="!loteMaestro"
+    >
+      <div class="row">
+        <div class="col-sm-12 col-md-12">
+          <div class="form-group">
+            <label
+              for="descripcionDetalleLote"
+              class="control-label col-form-label"
+              >Descripción</label
+            >
+            <input
+              formControlName="descripcionDetalleLote"
+              type="text"
+              id="descripcionDetalleLote"
+              class="form-control"
+              placeholder="Descripción"
+            />
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-12">
+          <div class="form-group">
+            <label for="loteDetalleLote" class="control-label col-form-label"
+              >Lote</label
+            >
+            <input
+              formControlName="loteDetalleLote"
+              type="text"
+              id="loteDetalleLote"
+              class="form-control"
+              placeholder="Lote"
+            />
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-12">
+          <div class="form-group">
+            <label for="expiraDetalleLote" class="control-label col-form-label"
+              >Expira</label
+            >
+            <input
+              formControlName="expiraDetalleLote"
+              type="text"
+              id="expiraDetalleLote"
+              class="form-control"
+              placeholder="Expira"
+            />
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-rounded btn-success btn-sm"
+      (click)="RegistrarLote()"
+      *ngIf="!loteMaestro"
+    >
+      Registrar
+    </button>
+    <button
+      type="button"
+      class="btn btn-rounded btn-danger btn-sm"
+      (click)="modal.close('Cancelar')"
+      *ngIf="loteMaestro"
+    >
+      Cancelar
+    </button>
+    <button
+      type="button"
+      class="btn btn-rounded btn-danger btn-sm"
+      (click)="CerrarDetalle()"
+      *ngIf="!loteMaestro"
+    >
+      Volver
+    </button>
+  </div>
+</ng-template>

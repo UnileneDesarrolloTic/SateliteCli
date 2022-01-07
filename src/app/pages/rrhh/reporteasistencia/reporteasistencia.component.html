@@ -1,0 +1,37 @@
+<div class="col-md-8">
+  <div class="card">
+    <div class="card-body">
+      <form class="row">
+        <div class="form-group row">
+          <label for="example-date-input" class="col-6 col-form-label"
+            >Fecha de Reporte</label
+          >
+          <div class="col-6">
+            <input class="form-control" type="date" id="FechaReporte" />
+          </div>
+        </div>
+        <div style="margin-left: auto">
+          <button
+            type="button"
+            class="btn btn-warning"
+            (click)="GenerarReporte(modalGeneracion)"
+          >
+            <i class="ti-download"></i>
+            Descargar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<ng-template #modalGeneracion let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Generando</h4>
+  </div>
+  <div class="modal-body"></div>
+  <div class="modal-footer">
+    <span class="spinner-border"></span>
+    <br />
+    <span>Cargando...</span>
+  </div>
+</ng-template>

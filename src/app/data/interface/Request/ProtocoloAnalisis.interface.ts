@@ -1,0 +1,36 @@
+export interface ProtocoloAnalisisData {
+  idFormato: number;
+  companiaSocio: string;
+  tipoDocumento: string;
+  numeroDocumento: string;
+  estado: string;
+  fechaDocumento: string;
+  clienteNombre: string;
+  monedaDocumento: string;
+  montoTotal: number;
+  voucherPeriodo: string;
+  voucherNo: string;
+  clienteNumero: number;
+  impresionPendienteFlag: string;
+  montoPagado: number;
+  comentarios: number;
+  fechaVencimiento: string;
+  procesoImportacionNumero: string;
+  formaPagoNombre: string;
+  creditoFlag: string;
+  clasificacion: string;
+  clienteReferencia: string;
+  itemCodigo: string;
+  descripcion: string;
+  ordenFabricacion: string;
+  lote: string;
+  unidadCodigo: string;
+  cantidadPedida: number;
+  monto: number;
+  numeroDeParte: string;
+  clasificacionRotacion: string;
+  almacenCodigo: string;
+  itemSerie: string;
+  protocoloFlag: string;
+  linea: number;
+}

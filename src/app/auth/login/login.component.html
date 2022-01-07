@@ -1,0 +1,53 @@
+<div class="auth-wrapper d-flex no-block justify-content-center align-items-center" style="background:url(assets/images/background/login-register.jpg) no-repeat center center;">
+  <div class="auth-box m-3 m-md-0">
+      <div id="loginform" >
+          <div class="logo">
+              <!-- <span class="db"><img src="assets/images/logo-icon.png" alt="logo" /></span> -->
+              <!-- <h5 class="font-medium m-b-20"></h5> -->
+              <span class="db"><img src="assets/images/logo-unilene-mundo.png" alt="logo" width="185px" height="40px"/></span>
+              <br><br>
+          </div>
+          <!-- Form -->
+          <div class="row">
+              <div class="col-12">
+                  <form [formGroup]="formulario" (submit)="login()" class="form-horizontal m-t-20" id="loginform">
+                      <div class="input-group mb-3">
+                          <div class="input-group-prepend">
+                              <span class="input-group-text" id="basic-addon1"><i class="ti-user"></i></span>
+                          </div>
+                          <input formControlName = "usuario" type="text" class="form-control" placeholder="Usuario" aria-label="Username" aria-describedby="basic-addon1" autocomplete="username">
+                      </div>
+                      <div class="input-group mb-3">
+                          <div class="input-group-prepend">
+                              <span class="input-group-text" id="basic-addon2"><i class="ti-pencil"></i></span>
+                          </div>
+                          <input formControlName = "clave" type="password" class="form-control" placeholder="Contraseña" aria-label="Password" aria-describedby="basic-addon1" autocomplete="current-password">
+                      </div>
+                      <div class="form-group row">
+                          <div class="col-md-12">
+                              <div class="custom-control custom-checkbox d-flex">
+                                  <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                  <label class="custom-control-label font-14" for="customCheck1">Recordar</label>
+                                  <span class="text-dark font-14 ml-auto"><i class="fa fa-lock m-r-5"></i> Zona segura</span>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="form-group text-center">
+                          <div class="col-xs-12 p-b-20">
+                              <button class="btn btn-block btn-lg btn-info" [disabled]='!formulario.valid' type="submit">Iniciar Sesi&oacute;n</button>
+                          </div>
+                      </div>
+                      <div class="row">
+                          <div class="col-xs-12 col-sm-12 col-md-12 m-t-10 text-center">
+                              <div class="social">
+                                  <a href="javascript:void(0)" class="btn btn-facebook mr-2" data-toggle="tooltip" title="" data-original-title="Login with Facebook"> <i aria-hidden="true" class="fab fa-facebook"></i> </a>
+                                  <a href="javascript:void(0)" class="btn btn-googleplus" data-toggle="tooltip" title="" data-original-title="Login with Google"> <i aria-hidden="true" class="fab fa-google-plus"></i> </a>
+                              </div>
+                          </div>
+                      </div>
+                  </form>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>

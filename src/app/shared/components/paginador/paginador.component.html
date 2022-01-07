@@ -1,0 +1,21 @@
+<nav aria-label="Page navigation example" *ngIf="paginas?.length > 0">
+
+  <ul class="pagination justify-content-center">
+
+      <li class="page-item" [ngClass]="{'disabled': paginador.first}" [ngClass]="{'disabled': paginador.number < 1}">
+          <a class="page-link" (click)="cambiarPagina(paginador.number - 1)">&laquo;</a>
+      </li>
+
+      <li class="page-item" *ngFor="let pagina of paginas" [ngClass]="{'active': pagina == paginador.number}">
+          <span  class="page-link" *ngIf="pagina == paginador.number">{{ pagina + 1 }}</span>
+          <a class="page-link" *ngIf="pagina != paginador.number" (click)="cambiarPagina(pagina)">{{ pagina + 1}}</a>
+      </li>
+
+      <li class="page-item" [ngClass]="{'disabled': paginador.last}" [ngClass]="{'disabled': paginador.number >= paginador.totalPages - 1}">
+          <a class="page-link"  (click)="cambiarPagina(paginador.number + 1)">&raquo;</a>
+      </li>
+
+
+  </ul>
+
+</nav>

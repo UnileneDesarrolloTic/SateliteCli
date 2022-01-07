@@ -1,0 +1,170 @@
+<div class="row" *ngIf="!vistaDetalle">
+  <div class="col-md-12">
+    <!--- Complete Table -->
+    <div class="card">
+      <div class="card-body">
+        <ngb-alert *ngIf="FormatoNoEncontrado" (close)="closeAlert()">
+          <strong>Formato no disponible!</strong> La cotización elegida no
+          cuenta con un formato, favor de revisar el número de documento.
+        </ngb-alert>
+        <h4 class="card-title mb-0">
+          <span class="lstick"></span>Cotizaciones
+        </h4>
+        <div class="row">
+          <div class="col-md-5">
+            <div class="form-group">
+              <label>Número de Documento</label>
+              <input
+                class="form-control"
+                placeholder="Número de Documento"
+                type="text"
+                [(ngModel)]="ngmNumeroDocumento"
+              />
+            </div>
+          </div>
+          <div class="col-md-5">
+            <div class="form-group">
+              <label>Nombre de Cliente</label>
+              <input
+                class="form-control"
+                placeholder="Nombre de Cliente"
+                type="text"
+                [(ngModel)]="ngmClienteNombre"
+              />
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label style="color: white">Botón de buscar</label>
+              <button
+                type="button"
+                class="btn btn-primary ml-auto"
+                (click)="
+                  filtrarCotizaciones(ngmNumeroDocumento, ngmClienteNombre)
+                "
+              >
+                Buscar
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="table table-hover">
+          <table
+            class="table table-striped border mt-4"
+            style="font-size: 12px"
+          >
+            <thead class="no-wrap">
+              <tr>
+                <th>N° Documento</th>
+                <th>Razón social</th>
+                <th>RUC</th>
+                <th>Dirección</th>
+                <th>Contacto</th>
+                <th>Opciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let cotizacion of listaCotizaciones">
+                <td>{{ cotizacion.numeroDocumento }}</td>
+                <td>{{ cotizacion.clienteNombre }}</td>
+                <td>{{ cotizacion.clienteRUC }}</td>
+                <td>{{ cotizacion.clienteDireccion }}</td>
+                <td>{{ cotizacion.contacto }}</td>
+                <td>
+                  <a
+                    href="javascript: void(0);"
+                    class="link"
+                    (click)="
+                      Editar(cotizacion.idFormato, cotizacion.numeroDocumento)
+                    "
+                  >
+                    <i class="icon-pencil text-info m-r-10"></i>
+                  </a>
+                  <a
+                    href="javascript: void(0);"
+                    class="link"
+                    (click)="
+                      GenerarReporte(
+                        cotizacion.numeroDocumento,
+                        cotizacion.idFormato,
+                        modalGeneracion
+                      )
+                    "
+                  >
+                    <i class="ti-download text-warning pointer"></i>
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="d-flex justify-content-center p-2">
+            <ngb-pagination
+              [collectionSize]="paginador.totalRegistros"
+              [(page)]="page"
+              [pageSize]="pageSize"
+              [boundaryLinks]="true"
+              (pageChange)="cambioPagina($event)"
+              [ellipses]="false"
+              [maxSize]="5"
+              [rotate]="true"
+            >
+            </ngb-pagination>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row" *ngIf="vistaDetalle">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-header bg-info">
+        <h4 class="m-b-0 text-white">Datos Cotización</h4>
+      </div>
+      <form action="#">
+        <div class="card-body">
+          <h4 class="card-title">Información</h4>
+        </div>
+        <hr />
+        <div class="form-body">
+          <div class="card-body">
+            <div class="row p-t-20" id="contenedor"></div>
+          </div>
+          <div class="card-body" id="cbTitle"></div>
+          <div class="card-body" id="cbBody"></div>
+
+          <hr />
+          <div class="form-actions">
+            <div class="card-body">
+              <button
+                type="submit"
+                class="btn btn-success"
+                (click)="GenerarCotizacion(modalGeneracion)"
+              >
+                <i class="fa fa-save"></i> Guardar
+              </button>
+              <button
+                type="button"
+                (click)="CancelEdit()"
+                class="btn btn-secondary"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<ng-template #modalGeneracion let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Generando</h4>
+  </div>
+  <div class="modal-body"></div>
+  <div class="modal-footer">
+    <span class="spinner-border"></span>
+    <br />
+    <span>Cargando...</span>
+  </div>
+</ng-template>

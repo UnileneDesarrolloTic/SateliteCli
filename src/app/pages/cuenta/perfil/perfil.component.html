@@ -1,0 +1,139 @@
+<div class="row">
+  <div class="col-lg-12">
+      <div class="card ">
+          <div class="card-header bg-info">
+              <h4 class="card-title text-white">DATOS PERSONALES</h4>
+          </div>
+          <form [formGroup]="formulario" action="#" class="form-horizontal">
+              <div class="form-body">
+                  <hr class="m-t-0 m-b-40">
+                  <div class="card-body">
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="control-label text-left col-md-3">Nombre</label>
+                                <div class="col-md-9">
+                                    <input formControlName="nombre" type="text" class="form-control" placeholder="Nombre (s)" >
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group has-danger row">
+                                <label class="control-label text-left col-md-3">Ap. Paterno</label>
+                                <div class="col-md-9">
+                                    <input formControlName="apellidoPaterno" type="text" class="form-control form-control-danger" placeholder="Apellido Paterno">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group has-danger row">
+                            <label class="control-label text-left col-md-3">Ap. Materno</label>
+                            <div class="col-md-9">
+                                <input formControlName="apellidoMaterno" type="text" class="form-control form-control-danger" placeholder="Apellido Materno">
+                            </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="control-label text-left col-md-3">Género</label>
+                          <div class="col-md-9">
+                            <select formControlName='sexo' class="form-control custom-select"  data-placeholder="Elige un género" tabindex="1">
+                              <option value="M">Masculino</option>
+                              <option value="F">Femenino</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="control-label text-left col-md-3">Tipo doc.</label>
+                                <div class="col-md-9">
+                                    <select formControlName="tipoDocumento" class="form-control custom-select" data-placeholder="Elige un tipo de doc." tabindex="1">
+                                        <option value="{{tipo.codigo}}" *ngFor="let tipo of tiposDocumentos">{{tipo.abreviatura}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group has-danger row">
+                              <label class="control-label text-left col-md-3">Nro documento</label>
+                              <div class="col-md-9">
+                                  <input formControlName="nroDocumento" type="text" class="form-control form-control-danger" placeholder="Número documento">
+                              </div>
+                          </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group has-danger row">
+                            <label class="control-label text-left col-md-3">Correo</label>
+                            <div class="col-md-9">
+                                <input formControlName="correo" type="email" class="form-control form-control-danger" placeholder="Correo electrónico">
+                            </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                          <div class="form-group row">
+                            <label class="control-label text-left col-md-3">Contraseña</label>
+                            <div class="col-md-9">
+                              <input type="password" class="form-control form-control-danger" placeholder="Contraseña" value="12345678" disabled>
+                            </div>
+                          </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group has-danger row">
+                            <label class="control-label text-left col-md-3">Estado</label>
+                            <div class="col-md-9">
+                              <select formControlName="estado" class="form-control custom-select" data-placeholder="Estado del usuario" tabindex="1">
+                                  <option value="A">Activo</option>
+                                  <option value="I">Inactivo</option>
+                              </select>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                          <div class="form-group row">
+                              <label class="control-label text-left col-md-3">Nacionalidad</label>
+                              <div class="col-md-9">
+                                  <select formControlName="pais" class="form-control custom-select" data-placeholder="Elige un país" tabindex="1">
+                                      <option *ngFor="let pais of paises" value="{{pais.codigo}}">{{pais.nombre}}</option>
+                                  </select>
+                              </div>
+                          </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group has-danger row">
+                            <label class="control-label text-left col-md-3">Célular</label>
+                            <div class="col-md-9">
+                                <input formControlName="celular" type="number" class="form-control form-control-danger" placeholder="Número de celular">
+                            </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="control-label text-left col-md-3">Fec. nacimiento</label>
+                          <div class="col-md-9">
+                            <input formControlName="fechaNacimiento" type="datetime-local" class="form-control">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+              </div>
+          </form>
+      </div>
+  </div>
+</div>
