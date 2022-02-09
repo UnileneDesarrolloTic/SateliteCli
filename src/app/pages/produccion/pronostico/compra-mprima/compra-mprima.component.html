@@ -1,0 +1,59 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <form autocomplete="off" [formGroup]='formularioPeriodo'  (submit)="filtrarPeriodo()" id="filtroUsuario" >
+                    <div class="row">
+                        <div class="col-3">
+                            <div class="form-group">
+                                <label  class="control-label col-form-label" for="periodo">Periodo</label>
+                                <select formControlName="periodo" class="form-control" id="periodo">
+                                    <option selected disabled>Seleccione un Periodo</option>
+                                    <option *ngFor="let meses of ListarMeses" value="{{meses.codigo}}">{{meses.Descripcion}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="form-group">
+                                <label  class="control-label col-form-label" for="periodo">Regla</label>
+                                <select formControlName="periodo" class="form-control" id="periodo">
+                                    <option selected disabled>Seleccione un Periodo</option>
+                                    <option *ngFor="let meses of ListarMeses" value="{{meses.codigo}}">{{meses.Descripcion}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="form-group">
+                                <label  class="control-label col-form-label" for="periodo">Agrupador</label>
+                                <select formControlName="periodo" class="form-control" id="periodo">
+                                    <option selected disabled>Seleccione un Periodo</option>
+                                    <option *ngFor="let meses of ListarMeses" value="{{meses.codigo}}">{{meses.Descripcion}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="form-group">
+                                <label  class="control-label col-form-label" for="periodo">Filtros</label>
+                                <select formControlName="periodo" class="form-control" id="periodo">
+                                    <option selected disabled>Seleccione un Periodo</option>
+                                    <option *ngFor="let meses of ListarMeses" value="{{meses.codigo}}">{{meses.Descripcion}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 form-group m-b-0 text-center">
+                          <button type="submit" class="btn btn-info btn-sm waves-effect waves-light">Buscar</button>
+                        </div>
+                      </div>
+                </form>
+
+                <div class="row">
+                    <div class="col-12" style="height: 78vh;">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

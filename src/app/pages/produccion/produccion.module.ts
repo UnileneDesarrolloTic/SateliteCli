@@ -10,13 +10,16 @@ import { LogPedidosCreadosComponent } from './pronostico/log-pedidos-creados/log
 import { NotifierModule } from 'angular-notifier';
 import { SeguimientoCandidatoMpComponent } from './pronostico/seguimiento-candidato-mp/seguimiento-candidato-mp.component';
 import { ProductosArimaComponent } from './arima/productos-arima/productos-arima.component';
+import { CompraMPrimaComponent } from './pronostico/compra-mprima/compra-mprima.component';
 
 @NgModule({
   declarations: [
     SeguimientoCandidatosProComponent,
     LogPedidosCreadosComponent,
     SeguimientoCandidatoMpComponent,
-    ProductosArimaComponent
+    ProductosArimaComponent,
+    CompraMPrimaComponent
+    
   ],
   imports: [
     RouterModule.forChild(ProduccionRoutes),

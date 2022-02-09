@@ -36,6 +36,14 @@ export class VerticalSidebarComponent {
 
     this.menuServise.obtenerMenuUsuarioSesion().subscribe( menuItems => {
 
+      console.log(menuItems);
+      	  
+      menuItems.forEach((element)=>{
+        if(element.codigo==13){
+            element.subMenu.push({"codigo": 25, "ruta": "/Produccion/Arima/ComprasMpArima", "titulo": "Compras M.Prima","icono": "","clase": "","claseEtiqueta": "","extraLink": false ,  "menuPadre": 13, "subMenu": []})
+          }
+       });
+
       if(menuItems.length < 1) {
         _toast.warning('No cuenta con ningun permiso asignado.', 'Sin accesos.')
         _sesionService.cerrarSesion;

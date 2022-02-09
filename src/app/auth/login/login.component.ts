@@ -27,8 +27,8 @@ export class LoginComponent {
 
   crearFormulario(){
     this.formulario = this.fb.group({
-      usuario: ['', [Validators.required]],
-      clave : ['', [Validators.required]]
+      usuario: ['egomez', [Validators.required]],
+      clave : ['12345678', [Validators.required]]
     });
   }
 
