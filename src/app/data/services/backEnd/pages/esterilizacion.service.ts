@@ -10,7 +10,7 @@ import { catchError } from 'rxjs/operators';
 })
 
 export class EsterilizacionService{
-    private url = environment.urlApiSatelliteCore + "/api/controlcalidad/";
+    private url = environment.urlApiSatelliteCore + "/api/ControlCalidad/";
 
     constructor(private _http: HttpClient) { }
 
@@ -44,17 +44,4 @@ export class EsterilizacionService{
     )
   }
 
-  //Provisional
-  ListarCotizaciones(body){
-    return this._http.post(this.url + "ListarCotizaciones", body).pipe(
-      catchError(() => throwError("Error al registrar el reporte"))
-    )
-  }
-  
-  GenerarReporteCotizacion(body){
-    return this._http.post(this.url + "GenerarReporteCotizacion", body).pipe(
-      catchError(() => throwError("Error al registrar el reporte"))
-    )
-  }
-    
 }

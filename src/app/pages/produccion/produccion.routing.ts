@@ -1,33 +1,34 @@
-import { ProductosArimaComponent } from './arima/productos-arima/productos-arima.component';
 import { Routes } from "@angular/router";
 import { AuthGuard } from "@guard/auth.guard";
-import { LogPedidosCreadosComponent } from '@pages/produccion/pronostico/log-pedidos-creados/log-pedidos-creados.component';
-import { SeguimientoCandidatoMpComponent } from '@pages/produccion/pronostico/seguimiento-candidato-mp/seguimiento-candidato-mp.component'
+
+import { ProductoTerminadoComponent } from '@pages/produccion/arima/producto-terminado/producto-terminado.component';
+import { MateriaPrimaComponent } from '@pages/produccion/arima/materia-prima/materia-prima.component'
+import { LogPedidosAutomaticosComponent } from '@pages/produccion/arima/log-pedidos-automaticos/log-pedidos-automaticos.component';
 
 export const ProduccionRoutes: Routes = [
   {
-    path: 'pronostico',
+    path: 'Arima',
     canActivate: [AuthGuard],
     children : [
       {
-        path: 'candidatoProArima',
-        component: ProductosArimaComponent,
+        path: 'ProductoTerminadoArima',
+        component: ProductoTerminadoComponent,
         data: {
-          title: "Productos arima"
+          title: "Productos Terminado Arima"
         }
       },
       {
-        path: 'candidatoMPArima',
-        component: SeguimientoCandidatoMpComponent,
+        path: 'MateriaPrimaArima',
+        component: MateriaPrimaComponent,
         data: {
-          title: "Candidatos Materia Prima Arima"
+          title: "Materia Prima Arima"
         }
       },
       {
-        path: 'pedidoCreadoArima',
-        component: LogPedidosCreadosComponent,
+        path: 'PedidosArima',
+        component: LogPedidosAutomaticosComponent,
         data: {
-          title: "Pedidos Creados Arima"
+          title: "Pedidos Automáticos Arima"
         }
       }
     ]

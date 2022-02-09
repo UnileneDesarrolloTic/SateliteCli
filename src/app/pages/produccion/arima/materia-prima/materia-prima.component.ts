@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { PronosticoService } from '@data/services/backEnd/pages/pronostico.service';
+import { ProduccionService } from '@data/services/backEnd/pages/produccion.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'app-seguimiento-candidato-mp',
-  templateUrl: './seguimiento-candidato-mp.component.html'
+  selector: 'app-materia-prima',
+  templateUrl: './materia-prima.component.html'
 })
-export class SeguimientoCandidatoMpComponent {
+export class MateriaPrimaComponent {
 
   listaCandidatos: any[]
   dataCompleta: any[]
@@ -23,7 +23,7 @@ export class SeguimientoCandidatoMpComponent {
     'totalMessage': 'Candidatos'
   }
 
-  constructor(private _pronosticoService: PronosticoService, private _modalService: NgbModal, private _fb: FormBuilder) {
+  constructor(private _pronosticoService: ProduccionService, private _modalService: NgbModal, private _fb: FormBuilder) {
     this.crearFormulario()
     this.obtenerListaCandidatosMP()
   }
@@ -111,5 +111,4 @@ export class SeguimientoCandidatoMpComponent {
         scrollable: false
       });
   }
-
 }
