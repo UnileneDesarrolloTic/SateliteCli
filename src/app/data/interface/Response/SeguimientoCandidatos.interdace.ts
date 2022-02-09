@@ -15,5 +15,7 @@ export interface SeguimientoCandidato {
   stockComprometido : number,
   stockDisponible : number,
   stockEnTransito : number,
-  pedidosTransito: PedidoEnTransito[]
+  pedidosTransito: PedidoEnTransito[],
+  alerta:number,
+  diferenciaMax:number,
 }
