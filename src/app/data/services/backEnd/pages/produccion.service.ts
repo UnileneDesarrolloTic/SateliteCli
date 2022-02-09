@@ -9,21 +9,17 @@ import { catchError } from "rxjs/operators";
 @Injectable({
   providedIn: 'root'
 })
-export class PronosticoService {
+export class ProduccionService {
 
   private url = environment.urlApiSatelliteCore;
 
   constructor(private _http: HttpClient) { }
 
-  ListSeguimientoCandidatos(body){
+  ListarProductosArima(periodo: string){
 
-    const params =  new HttpParams()
-    .set('periodo', body['periodo'])
-    .set('primerFiltro', body['primerFiltro'])
-    .set('segundoFiltro', body['segundoFiltro'])
-    .set('tercerFiltro', body['tercerFiltro'])
+    const params = new HttpParams().set('periodo', periodo)
 
-    return this._http.get<SeguimientoCandidato[]>(this.url+"/api/Pronostico/ProductosArima", {'params': params}).pipe(
+    return this._http.get<SeguimientoCandidato[]>(this.url+"/api/Produccion/ProductosArima", {'params': params}).pipe(
       catchError (() => throwError("Error al obtener el seguimiento de candidatos"))
     );
   }
@@ -31,13 +27,13 @@ export class PronosticoService {
   ListSeguimientoCandidatosMateriaPrima(regla){
     const params =  new HttpParams().set('regla', regla)
 
-    return this._http.get<SeguimientoCandidato[]>(this.url+"/api/Pronostico/SegimientoCandidatosMP", {'params': params}).pipe(
+    return this._http.get<SeguimientoCandidato[]>(this.url+"/api/Produccion/SegimientoCandidatosMP", {'params': params}).pipe(
       catchError (() => throwError("Error al obtener el seguimiento de candidatos"))
     );
   }
 
   ListaPedidosCreadosAutomaticoLog(body){
-    return this._http.post(this.url + "/api/Pronostico/ListaPedidosCreadoAuto", body).pipe(
+    return this._http.post(this.url + "/api/Produccion/ListaPedidosCreadoAuto", body).pipe(
       catchError ((ex)=> throwError('Ocurrio un error al obtener los pedidos'))
     );
   }

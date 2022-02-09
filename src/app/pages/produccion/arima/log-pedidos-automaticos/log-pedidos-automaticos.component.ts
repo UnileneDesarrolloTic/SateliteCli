@@ -1,14 +1,14 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { Paginado } from '@data/interface/Comodin/Paginado.interface';
-import { PronosticoService } from '@data/services/backEnd/pages/pronostico.service';
+import { ProduccionService } from '@data/services/backEnd/pages/produccion.service';
 import { NotifierService } from 'angular-notifier';
 
 @Component({
-  selector: 'app-log-pedidos-creados',
-  templateUrl: './log-pedidos-creados.component.html'
+  selector: 'app-log-pedidos-automaticos',
+  templateUrl: './log-pedidos-automaticos.component.html'
 })
-export class LogPedidosCreadosComponent implements OnInit {
+export class LogPedidosAutomaticosComponent implements OnInit {
 
   private notifier: NotifierService
   formularioFiltro: FormGroup
@@ -36,7 +36,7 @@ export class LogPedidosCreadosComponent implements OnInit {
 
   pagina: number = 0
 
-  constructor(private _pronosticoService: PronosticoService, notifier: NotifierService, private _fb: FormBuilder) {
+  constructor(private _pronosticoService: ProduccionService, notifier: NotifierService, private _fb: FormBuilder) {
     this.notifier = notifier
     this.crearFormulario()
   }

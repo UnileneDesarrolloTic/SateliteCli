@@ -11,9 +11,9 @@ export interface SeguimientoCandidato {
   limiteSuperior : number,
   puntoControl: number,
   stockMax : number,
-  stockActual : number,
-  stockComprometido : number,
   stockDisponible : number,
   stockEnTransito : number,
+  alerta : number,
+  pedidoAtrasado : boolean,
   pedidosTransito: PedidoEnTransito[]
 }
