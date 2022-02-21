@@ -24,6 +24,7 @@ export class ProductoTerminadoComponent implements OnInit {
   filtrosForm: FormGroup;
   periodoCtrl = new FormControl(this._periodoActual);
   textFilterCtrl = new FormControl('');
+  itemDetalle: string = '';
 
   messagerNgxTable = {
     'emptyMessage': 'No se ha encontrado candidatos para estos filtro',
@@ -162,7 +163,8 @@ export class ProductoTerminadoComponent implements OnInit {
     }
   }
 
-  abrirModalTransito(modal: NgbModal, detalle){
+  abrirModalTransito(modal: NgbModal, detalle, item:string){
+    this.itemDetalle = item
     this.pedidosItemTransito = []
     this.pedidosItemTransito = detalle
 

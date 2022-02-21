@@ -144,7 +144,7 @@
                     {{value | number}}
                   </span>
                   <button class="btn btn-sm btn-outline-info btn-rounded" type="button" *ngIf="row['pedidosTransito'].length >= 1"
-                  (click)="abrirModalTransito(modalDetalleTransito, row['pedidosTransito'])">
+                  (click)="abrirModalTransito(modalDetalleTransito, row['pedidosTransito'], row['item'])">
                     {{ value | number }}
                   </button>
                 </ng-template>
@@ -166,7 +166,7 @@
 <ng-template #modalDetalleTransito let-modal>
   <div class="modal-header">
     <h4 class="modal-title">
-      Stock en tránsito del Item {{ pedidosItemTransito[1]['item'] }}
+      Stock en tránsito del Item {{itemDetalle}}
     </h4>
     <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
       <span aria-hidden="true">
