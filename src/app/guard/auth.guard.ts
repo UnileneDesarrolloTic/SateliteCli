@@ -30,7 +30,6 @@ export class AuthGuard implements CanActivate {
       map((resp: DataAccesoRuta) => {
 
         if(resp.success){
-
           if(resp.content.codigo == 2)
             return true
           else {

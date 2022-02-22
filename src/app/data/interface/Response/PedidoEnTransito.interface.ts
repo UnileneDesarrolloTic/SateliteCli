@@ -1,6 +1,5 @@
 export interface PedidoEnTransito {
-  pedidoNumero : string,
-  numeroLote: number,
+  lote: number,
   item: string,
   cantidadPedida: number,
   cantidadIngresada: number,

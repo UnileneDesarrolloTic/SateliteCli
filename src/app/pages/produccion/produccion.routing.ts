@@ -1,11 +1,9 @@
-import { ProductosArimaComponent } from './arima/productos-arima/productos-arima.component';
 import { Routes } from "@angular/router";
 import { AuthGuard } from "@guard/auth.guard";
-import { LogPedidosCreadosComponent } from '@pages/produccion/pronostico/log-pedidos-creados/log-pedidos-creados.component';
-import { SeguimientoCandidatoMpComponent } from '@pages/produccion/pronostico/seguimiento-candidato-mp/seguimiento-candidato-mp.component'
-import { CompraMPrimaComponent } from '@pages/produccion/pronostico/compra-mprima/compra-mprima.component'
-
-
+import { ProductoTerminadoComponent } from '@pages/produccion/arima/producto-terminado/producto-terminado.component';
+import { MateriaPrimaComponent } from '@pages/produccion/arima/materia-prima/materia-prima.component'
+import { LogPedidosAutomaticosComponent } from '@pages/produccion/arima/log-pedidos-automaticos/log-pedidos-automaticos.component';
+import { CompraMateriaPrimaComponent } from "./arima/compra-materia-prima/compra-materia-prima.component";
 
 export const ProduccionRoutes: Routes = [
   {
@@ -14,45 +12,33 @@ export const ProduccionRoutes: Routes = [
     children : [
       {
         path: 'ProductoTerminadoArima',
-        component: ProductosArimaComponent ,
+        component: ProductoTerminadoComponent,
         data: {
-        title: "Productos Arima",
-        urls: [
-                { title: 'Productos Arima' }
-            ]
+          title: "Productos Terminado Arima"
         }
       },
       {
         path: 'MateriaPrimaArima',
-        component: SeguimientoCandidatoMpComponent ,
+        component: MateriaPrimaComponent,
         data: {
-        title: "Materia Pri. Arima",
-        urls: [
-                { title: 'Candidatos Materia Prima Arima' }
-            ]
+          title: "Materia Prima Arima"
         }
       },
       {
         path: 'PedidosArima',
-        component: CompraMPrimaComponent ,
+        component: LogPedidosAutomaticosComponent,
         data: {
-        title: "Pedidos Arima",
-        urls: [
-                { title: 'Pedidos Arima' }
-            ]
+          title: "Pedidos Automáticos Arima"
         }
       },
       {
-        path: 'ComprasMpArima',
-        component: CompraMPrimaComponent ,
+        path: 'CompraMateriaPrima',
+        component: CompraMateriaPrimaComponent,
         data: {
-        title: "Compras M.Prima",
-        urls: [
-                { title: 'Compras M.Prima' }
-            ]
+          title: "Compra Arima"
         }
-      },
-	  
-    ]
+      },		  
+    ]   
   },
+ 
 ]

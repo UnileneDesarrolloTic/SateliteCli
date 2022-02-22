@@ -276,8 +276,10 @@ export class ProtocoloAnalisisComponent {
 
   async imprimirProtocoloAnalisis(modal: NgbModal) {
     this.openVerticallyCentered(modal);
+
     let pdfs = [];
     let lotes = this.filterLotes();
+
     await Promise.all(
       lotes.map(async (lote) => {
         let body = {

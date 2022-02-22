@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Pais } from '@data/interface/Request/Pais.interface';
 import { TipoDocumentoIdentidad } from '@data/interface/Request/TipoDocumentoIdentidad.interface';
 import { RolData } from '@data/interface/Response/RolData.interface';
+import { SubFamilia } from '@data/interface/Response/SubFamilia.Interface';
 import { environment } from 'environments/environment';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -35,6 +36,13 @@ export class GenericoService {
     return this._http.get<RolData[]>(this.url + "/api/Common/listarRoles", {'params': params}).pipe(
       catchError( () => throwError("Error al obtener los roles") )
     );
+  }
+
+  ListarFamiliaMateriaP(){
+    return this._http.get<SubFamilia[]>(this.url + "/api/Common/ListarFamiliaMP").pipe(
+      catchError ((ex)=> throwError('Ocurrio un error al obtener los pedidos'))
+    );
+
   }
 
 }

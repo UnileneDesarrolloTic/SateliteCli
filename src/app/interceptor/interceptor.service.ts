@@ -31,18 +31,28 @@ export class InterceptorService implements HttpInterceptor {
       'Common/ListarPaises',
       'Common/ObtenerMenuUsuarioSesion',
       'Common/listarRoles',
+      'Common/ListarFamiliaMP',
       'usuario/ObtenerUsuario',
       'usuario/ListarUsuarios',
       'ValidacionAccesos/ValidarAccesoRuta',
       'ValidacionAccesos/validarToken',
-      'produccion/ListarAlertasStockItem',
-      'Pronostico/SegimientoCandidatos',
-      'Pronostico/SegimientoCandidatosMP',
-      'Pronostico/ListaPedidosCreadoAuto',
+      'Produccion/ProductosArima',
+      'Produccion/SegimientoCandidatosMP',
+      'Produccion/ListaPedidosCreadoAuto',
+      'Produccion/CompraMateriaPrima',
       'Comercial/ListarCotizaciones',
       'Comercial/GenerarReporteCotizacion',
       'Comercial/ObtenerEstructuraFormato',
-      'Comercial/RegistrarRespuestas'
+      'Comercial/RegistrarRespuestas',
+      'Comercial/ListarProtocoloAnalisis',
+      'Comercial/ListarClientes',
+      'Comercial/GenerarReporteProtocoloAnalisis',
+      'ControlCalidad/ListarCertificados',
+      'ControlCalidad/RegistrarCertificado',
+      'ControlCalidad/ListarLotes',
+      'ControlCalidad/GenerarReporte',
+      'ControlCalidad/RegistrarLote',
+      'RRHH/GenerarReporteAsistencia'
     ];
     const data = this.sesionService.datosPersonales();
 
@@ -65,28 +75,20 @@ export class InterceptorService implements HttpInterceptor {
           if(!data) this.authService.onLogout()
       }),
       catchError((err: HttpErrorResponse) => {
-        // console.log({err})
-        // if(err.status === 0)
-        // {
-        //   this.toastr.error("El servicio no responde", 'Error de servicio');
-        //   localStorage.clear();
-        //   this.router.navigate(['authentication/login'])
-        // }
-        // else
-          if (err.status === 401){
-            if(err.error?.message == 'Correo o contraseña incorrecta.')
-              this.toastr.warning(err.error.message, 'Aviso!');
+        if (err.status === 401){
+          if(err.error?.message == 'Usuario o contraseña incorrecta.')
+            this.toastr.warning(err.error.message, 'Aviso!');
+          else
+            if(this.authService.isLogin())
+              this.toastr.warning('No se ha iniciado sesión', 'Aviso!')
             else
-              if(this.authService.isLogin())
-                this.toastr.warning('No se ha iniciado sesión', 'Aviso!')
+              if(this.authService.isExpiredToken())
+                this.toastr.warning('La sesión a expirado', 'Error de Autorización')
               else
-                if(this.authService.isExpiredToken())
-                  this.toastr.warning('La sesión a expirado', 'Error de Autorización')
-                else
-                  this.toastr.error('Error al validar su identidad', 'Error')
+                this.toastr.error('Error al validar su identidad', 'Error')
 
-          localStorage.clear();
-          this.router.navigate(['authentication/login'])
+        localStorage.clear();
+        this.router.navigate(['authentication/login'])
         }else{
           if(err.status === 403){
             this.toastr.warning('No cuenta con los permisos necesarios.', 'Aviso!')
