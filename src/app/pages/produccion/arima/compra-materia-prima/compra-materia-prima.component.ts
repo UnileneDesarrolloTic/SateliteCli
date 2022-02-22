@@ -5,7 +5,6 @@ import { ComprasMateriaPrimaArima } from '@data/interface/Response/CompraMateria
 import { DetalleOrdenCompraMP } from '@data/interface/Response/DetalleordenCompraMPArima';
 import { SubFamilia } from '@data/interface/Response/SubFamilia.Interface';
 import { ProduccionService } from '@data/services/backEnd/pages/produccion.service';
-
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { GenericoService } from '@shared/services/comunes/generico.service';
 import { debounceTime } from 'rxjs/operators';
@@ -113,7 +112,6 @@ export class CompraMateriaPrimaComponent implements OnInit {
 
 
   BuscarProducto() {
-    // vamos a quitarle  el - a la fecha
     this.flagLoading = true;
 
     const ConstParametros = {
@@ -139,8 +137,7 @@ export class CompraMateriaPrimaComponent implements OnInit {
           this.filtrosForm.controls['FiltrarAlerta'].setValue('TD');
           this.filtrosForm.controls['FiltrarAlerta'].enable();
         }
-       
-        // this.CambiodeFiltroSubfamilia("");
+      
       },
       catchError => {
         this.messagerNgxTable.emptyMessage = "Ocurrio un error al obtener lista de producto"
@@ -182,10 +179,6 @@ export class CompraMateriaPrimaComponent implements OnInit {
     this.flagLoading = false;
   }
 
-
- 
-
-
   //combox box 
   CambiodeFiltroAlerta(event: any) {
     this.ListaCompraMaterial = []
@@ -202,8 +195,6 @@ export class CompraMateriaPrimaComponent implements OnInit {
     }
   }
 
-
-
   abrirModalTransito(modal: NgbModal, detalle) {
     this.DetalleOrdenCompraMP = []
     this.DetalleOrdenCompraMP = detalle
@@ -216,9 +207,6 @@ export class CompraMateriaPrimaComponent implements OnInit {
     });
   }
 
-
-
-  // Getter method to access formcontrols
   get f() {
     return this.filtrosForm.controls;
   }
