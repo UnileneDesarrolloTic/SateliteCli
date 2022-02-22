@@ -1,0 +1,327 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card border-left border-dark">
+            <div class="card-body">
+                <form autocomplete="off" [formGroup]="filtrosForm" (submit)="BuscarProducto()">
+                    <div class="row">
+                        <div class="m-0 col-12 col-sm-12 col-md-12 col-lg-6 col-xl-3">
+                            <div class="form-group row d-flex">
+                                <label for="periodo"
+                                    class="col-12 col-sm-4 col-md-4 control-label col-form-label">Periodo</label>
+                                <div class="col-12 col-sm-7 col-md-7">
+                                    <input type="month" class="form-control" formControlName="periodo">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="m-0 col-12 col-sm-12 col-md-12 col-lg-6 col-xl-3">
+                            <div class="form-group row d-flex">
+                                <label for="regla"
+                                    class="col-12 col-sm-4 col-md-4 control-label col-form-label">Regla</label>
+                                <div class="col-12 col-sm-7 col-md-7">
+                                    <select class="custom-select" formControlName="regla">
+                                        <option value="TD">todas las reglas</option>
+                                        <option value="R1">Regla 1</option>
+                                        <option value="R2">Regla 2</option>
+                                        <option value="R3">Regla 3</option>
+                                        <option value="R4">Regla 4</option>
+                                        <option value="R5">Regla 5</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="m-0 col-12 col-sm-12 col-md-12 col-lg-6 col-xl-3">
+                            <div class="form-group row d-flex">
+                                <label for="agrupador"
+                                    class="col-12 col-sm-4 col-md-4 control-label col-form-label">Agrupador</label>
+                                <div class="col-12 col-sm-7 col-md-7">
+
+                                    <select class="custom-select" formControlName="agrupador">
+                                        <option value="TD">Todos los Agrupadores</option>
+                                        <option value="01">Suturas</option>
+                                        <option value="02">Mallas</option>
+                                        <option value="03">Mascara Aerocámaras</option>
+                                        <option value="06">Plasticos</option>
+                                        <option value="07">Linea Xterie</option>
+                                        <option value="08">Esponjas - Apósitos</option>
+                                    </select>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="m-0 col-12 col-sm-12 col-md-12 col-lg-6 col-xl-3">
+                            <div class="form-group row d-flex">
+                                <label for="filtro"
+                                    class="col-12 col-sm-4 col-md-4 control-label col-form-label">Familia</label>
+                                <div class="col-12 col-sm-7 col-md-7">
+                                    <select class="custom-select" formControlName="familia">
+                                        <option value="TD">Todas las Familias</option>
+                                        <!-- <option value="CJ">Cajas</option> -->
+                                        <!-- <option value="EM">Empaque</option> -->
+                                        <option value="EE">Envases y Embalajes</option>
+                                        <option value="ET">Etiqueta</option>
+                                        <option value="HE">Hebras</option>
+                                        <option value="OT">Otros</option>
+                                        <option value="XT">InsumoXterie</option>
+                                    </select>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="m-0 col-12 col-sm-12 col-md-12 col-lg-6 col-xl-3">
+                            <div class="form-group row d-flex">
+                                <label class="col-12 col-sm-4 col-md-4 control-label col-form-label">Linea</label>
+                                <div class="col-12 col-sm-7 col-md-7">
+                                    <select class="custom-select" formControlName="linea">
+                                        <option value="MI">Material Importación</option>
+                                        <option value="MN">Material Nacional</option>
+                                    </select>
+                                </div>
+                                <!--   -->
+                            </div>
+                        </div>
+                        <div class="m-0 col-12 col-sm-12 col-md-12 col-lg-6 col-xl-3">
+                            <div class="form-group row d-flex">
+                                <label class="col-12 col-sm-4 col-md-4 control-label col-form-label">Familia MP</label>
+                                <div class="col-12 col-sm-7 col-md-7">
+                                    <select  class="custom-select"  formControlName="familiaMP">
+                                        <option *ngFor="let subfa of ListarArraySubFamilia" [value]="subfa.codigo">
+                                          {{subfa.valor1}}
+                                        </option>
+                                    </select>
+                                </div>
+                                <!--   -->
+                            </div>
+                        </div>
+                        
+                        <div class="m-0 col-12 col-sm-12 col-md-12 col-lg-6 col-xl-3">
+                            <div class="form-group row d-flex">
+                                <label class="col-12 col-sm-4 col-md-4 control-label col-form-label">Filtros</label>
+                                <div class="col-12 col-sm-7 col-md-7">
+                                    <select class="custom-select" formControlName="FiltrarAlerta"
+                                        (change)="CambiodeFiltroAlerta($event)" >
+                                        <option value="TD">TODOS</option>
+                                        <option value="FAL">Productos con alerta</option>
+                                        <option value="FSA">Productos sin alerta</option>
+
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row justify-content-center">
+                        <button type="submit" [disabled]="!filtrosForm.valid"
+                            class="btn btn-rounded btn-dark">Buscar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="card border-left border-dark">
+            <div class="card-body">
+                <div class="row mb-2">
+                    <div class="col-4">
+                        <input type="text" style="float: right" placeholder="Buscar Item O Descripcion"
+                            class="form-control rounded-pill" [formControl]='textFilterCtrl'>
+                    </div>
+                    <div class="col-2 col-md-4">
+                    </div>
+                    <!--  -->
+                </div>
+
+                <div class="row">
+                    <div class="col-12" style="height: 75vh;">
+                        <ngx-datatable class="material" [rows]="ListaCompraMaterial" [columnMode]="'force'"
+                            [headerHeight]="50" [footerHeight]="50" [rowHeight]="50" [messages]="messagerNgxTable"
+                            [scrollbarV]="true" [sorts]="[{prop: 'name', dir: 'desc'}]" style="height: 85%;"
+                            class="material" [loadingIndicator]="flagLoading" [rowHeight]="50" [scrollbarH]="true">
+
+
+                            <!-- Descripcion -->
+                            <ngx-datatable-column name="Descripcion" prop="Descripcion" text-align="center"
+                                [width]="220">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.descripcion}}
+                                </ng-template>
+                            </ngx-datatable-column>
+
+                            <!-- Descripcion -->
+                            <ngx-datatable-column name="Familia" prop="familiaMP" text-align="center"
+                                [width]="220">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.familiaMP}}
+                                </ng-template>
+                            </ngx-datatable-column>
+
+
+                            <!-- Item -->
+                            <ngx-datatable-column name="Item" prop="item" [width]="120">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.item}}
+                                </ng-template>
+                            </ngx-datatable-column>
+
+
+
+                            <!-- Promedio Alerta -->
+                            <ngx-datatable-column name="Alerta" isFixedRow="true" prop="alerta" [width]="80">
+                                <ng-template let-row="row" text-align="center" ngx-datatable-cell-template>
+                                    {{row.alerta}}
+                                </ng-template>
+                            </ngx-datatable-column>
+
+                            <!-- Kraljic -->
+                            <ngx-datatable-column name="Kraljic" prop="kraljic" [width]="100">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.kraljic}}
+                                </ng-template>
+                            </ngx-datatable-column>
+
+                            <!-- coeficiente Variacion -->
+                            <ngx-datatable-column name="Variacion" prop="coeficienteVariacion" [width]="100">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.coeficienteVariacion}}
+                                </ng-template>
+                            </ngx-datatable-column>
+
+                            <!-- Promedio anual -->
+                            <ngx-datatable-column name="P.12Meses" prop="promedioanual" [width]="100">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.promedioanual | number }}
+                                </ng-template>
+                            </ngx-datatable-column>
+
+
+                            <!-- Promedio Historico -->
+                            <ngx-datatable-column name="Historico" prop="promedioHist" [width]="100">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.promedioHist | number }}
+                                </ng-template>
+                            </ngx-datatable-column>
+
+                            <!-- meses -->
+                            <ngx-datatable-column name="Meses" prop="meses" [width]="50">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.meses}}
+                                </ng-template>
+                            </ngx-datatable-column>
+
+
+                            <!-- Pronostico -->
+                            <ngx-datatable-column name="Pronostico" prop="pronostico" [width]="100">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.pronostico | number }}
+                                </ng-template>
+                            </ngx-datatable-column>
+
+                            <!--  limiteSuperior -->
+                            <ngx-datatable-column name="L.Superior" prop="limiteSuperior" [width]="100">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.limiteSuperior | number }}
+                                </ng-template>
+                            </ngx-datatable-column>
+
+                            <!-- Promedio Punto de Control -->
+                            <ngx-datatable-column name="P.Control" prop="puntoControl" [width]="100">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.puntoControl | number }}
+                                </ng-template>
+                            </ngx-datatable-column>
+
+
+
+
+                            <!-- Promedio Orden de compra -->
+                            <ngx-datatable-column name="OC" prop="pendienteOC" [width]="100">
+                                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                                    <span *ngIf="row.detalleCompra.length < 1">
+                                        {{row.pendienteOC | number}}
+                                    </span>
+                                    <button class="btn btn-sm btn-outline-info btn-rounded" type="button"
+                                        *ngIf="row.detalleCompra.length >= 1"
+                                        (click)="abrirModalTransito(modalDetalleTransito, row.detalleCompra)">
+                                        {{ row.pendienteOC | number }}
+                                    </button>
+                                </ng-template>
+                            </ngx-datatable-column>
+
+
+                            <!-- Promedio Adunas -->
+                            <ngx-datatable-column name="Aduanas" prop="aduanas" [width]="100">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.aduanas | number }}
+                                </ng-template>
+                            </ngx-datatable-column>
+
+                            <!-- Promedio Control Calidad -->
+                            <ngx-datatable-column name="Calidad" prop="controlCalidad" [width]="100">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.controlCalidad | number }}
+                                </ng-template>
+                            </ngx-datatable-column>
+
+
+                            <!-- Promedio Stock Disponible -->
+                            <ngx-datatable-column name="Disponible" prop="stockDisponible" [width]="100">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.stockDisponible | number }}
+                                </ng-template>
+                            </ngx-datatable-column>
+                        </ngx-datatable>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<ng-template #modalDetalleTransito let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">
+            Stock en tránsito del Item {{ DetalleOrdenCompraMP[0].item }}
+        </h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">
+                &times;
+            </span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="table-responsive table-sm">
+            <table class="table table-striped no-wrap border mt-4" style="font-size: 13px;">
+                <thead>
+                    <tr>
+                        <th class="text-center">Numero Orden</th>
+                        <th class="text-center">Pedida</th>
+                        <th class="text-center">Pendiente</th>
+                        <th class="text-center">Fecha Prometida</th>
+                        <th class="text-center">Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let oc of DetalleOrdenCompraMP">
+                        <td class="text-center">
+                            {{ oc.numeroOrden }}
+                        </td>
+                        <td class="text-center">
+                            {{ oc.cantidadPedida | number }}
+                        </td>
+                        <td class="text-center">
+                            {{ oc.detallePendienteOC | number }}
+                        </td>
+                        <td class="text-center">
+                            {{ oc.fechaPrometida | date: 'dd/MM/yy hh:mm' }}
+                        </td>
+                        <td class="text-center">
+                            {{ oc.estadoDetalle }}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</ng-template>

@@ -4,6 +4,7 @@ import { Injectable } from "@angular/core";
 import { environment } from "environments/environment";
 import { throwError } from "rxjs";
 import { catchError } from "rxjs/operators";
+import { ComprasMateriaPrimaArima } from '@data/interface/Response/CompraMateriaPrimaArima';
 
 
 @Injectable({
@@ -34,6 +35,11 @@ export class ProduccionService {
 
   ListaPedidosCreadosAutomaticoLog(body){
     return this._http.post(this.url + "/api/Produccion/ListaPedidosCreadoAuto", body).pipe(
+      catchError ((ex)=> throwError('Ocurrio un error al obtener los pedidos'))
+    );
+  }
+  ListaCompraMP(CompraMp){
+    return this._http.post<ComprasMateriaPrimaArima[]>(this.url + "/api/Produccion/CompraMateriaPrima", CompraMp).pipe(
       catchError ((ex)=> throwError('Ocurrio un error al obtener los pedidos'))
     );
   }

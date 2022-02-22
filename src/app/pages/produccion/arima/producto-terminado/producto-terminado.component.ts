@@ -85,7 +85,7 @@ export class ProductoTerminadoComponent implements OnInit {
       this.dataCompleta = []
       this.flagLoading = true
 
-      let periodo =  this.periodoCtrl.value.replace('-','')
+      let periodo =  this.periodoCtrl.value.replace('-','');
       this.messagerNgxTable.emptyMessage = "No se ha encontrado candidatos, seleccione otro periodo"
 
       this._produccionService.ListarProductosArima(periodo).subscribe(

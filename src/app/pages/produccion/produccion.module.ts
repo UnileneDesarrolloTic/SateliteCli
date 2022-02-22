@@ -9,12 +9,15 @@ import { NotifierModule } from 'angular-notifier';
 import { MateriaPrimaComponent } from './arima/materia-prima/materia-prima.component';
 import { LogPedidosAutomaticosComponent } from './arima/log-pedidos-automaticos/log-pedidos-automaticos.component';
 import { ProductoTerminadoComponent } from './arima/producto-terminado/producto-terminado.component';
+import { CompraMateriaPrimaComponent } from './arima/compra-materia-prima/compra-materia-prima.component';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 @NgModule({
   declarations: [
     MateriaPrimaComponent,
     LogPedidosAutomaticosComponent,
-    ProductoTerminadoComponent
+    ProductoTerminadoComponent,
+    CompraMateriaPrimaComponent
   ],
   imports: [
     RouterModule.forChild(ProduccionRoutes),
@@ -24,6 +27,7 @@ import { ProductoTerminadoComponent } from './arima/producto-terminado/producto-
     NgbModule,
     NotifierModule,
     ReactiveFormsModule,
+    NgMultiSelectDropDownModule
   ]
 })
 export class ProduccionModule { }
