@@ -74,8 +74,8 @@ export class InterceptorService implements HttpInterceptor {
       }),
       catchError((err: HttpErrorResponse) => {
         if (err.status === 401){
-          if(err.error?.message == 'Usuario o contraseña incorrecta.')
-            this.toastr.warning(err.error.message, 'Aviso!');
+          if(err.error?.message == 'Correo o contraseña incorrecta.')
+            this.toastr.warning('Usuario o contraseña incorrecta.', 'Credencial incorrecta!');
           else
             if(this.authService.isLogin())
               this.toastr.warning('No se ha iniciado sesión', 'Aviso!')
