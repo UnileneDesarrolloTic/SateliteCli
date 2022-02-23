@@ -133,7 +133,9 @@ export class CompraMateriaPrimaComponent implements OnInit {
         this.ListaCompraMaterial = resp;
         this.ListaTemporalCompraMaterial = resp;
         this.flagLoading = false
-        if(parametros.periodo==this._periodoActual.replace("-","")){
+
+        
+        if(parametros.Periodo==this._periodoActual.replace("-","")){
           this.filtrosForm.controls['FiltrarAlerta'].setValue('TD');
           this.filtrosForm.controls['FiltrarAlerta'].enable();
         }
@@ -164,6 +166,7 @@ export class CompraMateriaPrimaComponent implements OnInit {
     this.flagLoading = true;
 
     this.filtrosForm.get("periodo").valueChanges.subscribe( valor => {
+     
       if(valor==this._periodoActual){
         this.filtrosForm.controls['FiltrarAlerta'].setValue('TD');
         this.filtrosForm.controls['FiltrarAlerta'].enable();
