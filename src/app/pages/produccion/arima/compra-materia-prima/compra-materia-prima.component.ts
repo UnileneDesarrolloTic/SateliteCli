@@ -132,14 +132,15 @@ export class CompraMateriaPrimaComponent implements OnInit {
       resp => {
         this.ListaCompraMaterial = resp;
         this.ListaTemporalCompraMaterial = resp;
-        this.flagLoading = false
-
-        
+       
         if(parametros.Periodo==this._periodoActual.replace("-","")){
           this.filtrosForm.controls['FiltrarAlerta'].setValue('TD');
           this.filtrosForm.controls['FiltrarAlerta'].enable();
+        }else{
+          this.filtrosForm.controls['FiltrarAlerta'].setValue('TD');
         }
-      
+
+        this.flagLoading = false
       },
       catchError => {
         this.messagerNgxTable.emptyMessage = "Ocurrio un error al obtener lista de producto"
@@ -150,8 +151,8 @@ export class CompraMateriaPrimaComponent implements OnInit {
   listarFamiliaMateriaPrima(){
     this._commonService.ListarFamiliaMateriaP().subscribe(
         resp=>{
-            this.ListarArraySubFamilia=resp;
-            this.ListarArraySubFamilia.push({codigo:"TD",valor1:"TODOS"});
+            this.ListarArraySubFamilia=resp
+            this.ListarArraySubFamilia.push({codigo:"TD",valor1:"Todos"});
             
         },
         catchError => {
@@ -172,7 +173,8 @@ export class CompraMateriaPrimaComponent implements OnInit {
         this.filtrosForm.controls['FiltrarAlerta'].enable();
       }else{
         this.filtrosForm.controls['FiltrarAlerta'].setValue('TD');
-        this.filtrosForm.controls['FiltrarAlerta'].disable();
+        // this.filtrosForm.controls['FiltrarAlerta'].disable();
+        this.filtrosForm.controls['FiltrarAlerta'].enable();
       }
     })
 

@@ -19,7 +19,7 @@
                                     class="col-12 col-sm-4 col-md-4 control-label col-form-label">Regla</label>
                                 <div class="col-12 col-sm-7 col-md-7">
                                     <select class="custom-select" formControlName="regla">
-                                        <option value="TD">todas las reglas</option>
+                                        <option value="TD">Todas las reglas</option>
                                         <option value="R1">Regla 1</option>
                                         <option value="R2">Regla 2</option>
                                         <option value="R3">Regla 3</option>
@@ -61,7 +61,7 @@
                                         <option value="ET">Etiqueta</option>
                                         <option value="HE">Hebras</option>
                                         <option value="OT">Otros</option>
-                                        <option value="XT">InsumoXterie</option>
+                                        <option value="XT">Insumo Xterie</option>
                                     </select>
 
                                 </div>
@@ -99,10 +99,9 @@
                                 <div class="col-12 col-sm-7 col-md-7">
                                     <select class="custom-select" formControlName="FiltrarAlerta"
                                         (change)="CambiodeFiltroAlerta($event)" >
-                                        <option value="TD">TODOS</option>
+                                        <option value="TD">Todos</option>
                                         <option value="FAL">Productos con alerta</option>
                                         <option value="FSA">Productos sin alerta</option>
-
                                     </select>
                                 </div>
                             </div>
@@ -149,9 +148,9 @@
                             </ngx-datatable-column>
 
                             <!-- Descripcion -->
-                            <ngx-datatable-column name="Familia" prop="familiaMP" text-align="center"
+                            <ngx-datatable-column  name="Familia" prop="familiaMP" 
                                 [width]="220">
-                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                <ng-template let-row="row" text-align="center"  ngx-datatable-cell-template>
                                     {{row.familiaMP}}
                                 </ng-template>
                             </ngx-datatable-column>
@@ -169,7 +168,7 @@
                             <!-- Promedio Alerta -->
                             <ngx-datatable-column name="Alerta" isFixedRow="true" prop="alerta" [width]="80">
                                 <ng-template let-row="row" text-align="center" ngx-datatable-cell-template>
-                                    {{row.alerta}}
+                                    {{row.alerta | number}}
                                 </ng-template>
                             </ngx-datatable-column>
 
@@ -317,7 +316,7 @@
                             {{ oc.fechaPrometida | date: 'dd/MM/yy hh:mm' }}
                         </td>
                         <td class="text-center">
-                            {{ oc.estadoDetalle }}
+                            {{ oc.estadoDetalle=='PE' ? 'PENDIENTE' : oc.estadoDetalle=='PR' ? 'PREPARACION' : 'NO DEFINIDO'  }}
                         </td>
                     </tr>
                 </tbody>

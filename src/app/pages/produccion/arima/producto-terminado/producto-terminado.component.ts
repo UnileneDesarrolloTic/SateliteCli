@@ -64,7 +64,7 @@ export class ProductoTerminadoComponent implements OnInit {
 
     this.periodoCtrl.valueChanges.subscribe( _ => {
       this.deshabilitarFiltroPorPeriodo();
-      // this.ObtenerProductos();
+      this.ObtenerProductos();
     });
 
     this.filtrosForm.valueChanges.subscribe( _ => {
