@@ -35,7 +35,6 @@ export class VerticalSidebarComponent {
     this.nombreUsuario= this.sesionUsuario.nombres.split(" ",1) + ' ' + this.sesionUsuario.apellidoPaterno
 
     this.menuServise.obtenerMenuUsuarioSesion().subscribe( menuItems => {
-        console.log(menuItems,"menu");
       if(menuItems.length < 1) {
         _toast.warning('No cuenta con ningun permiso asignado.', 'Sin accesos.')
         _sesionService.cerrarSesion;

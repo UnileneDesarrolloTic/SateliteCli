@@ -88,7 +88,7 @@ export class CompraMateriaPrimaComponent implements OnInit {
   
   filtroItem() {
     if (this.textFilterCtrl.value != '') {
-      const TextFiltro = this.textFilterCtrl.value.toLowerCase();
+      const TextFiltro = this.textFilterCtrl.value.toLowerCase().trim();
       this.ListaCompraMaterial = this.ListaTemporalCompraMaterial.filter(element => element.item.toLowerCase().indexOf(TextFiltro) !== -1 || element.descripcion?.toLowerCase().indexOf(TextFiltro) !== -1 || element.familiaMP?.toLowerCase().indexOf(TextFiltro) !== -1);
     } else {
       this.ListaCompraMaterial = this.ListaTemporalCompraMaterial
@@ -175,8 +175,8 @@ export class CompraMateriaPrimaComponent implements OnInit {
         this.filtrosForm.controls['FiltrarAlerta'].enable();
       }else{
         this.filtrosForm.controls['FiltrarAlerta'].setValue('TD');
-        // this.filtrosForm.controls['FiltrarAlerta'].disable();
-        this.filtrosForm.controls['FiltrarAlerta'].enable();
+        this.filtrosForm.controls['FiltrarAlerta'].disable();
+        
       }
     })
 
