@@ -140,6 +140,8 @@ export class CompraMateriaPrimaComponent implements OnInit {
           this.filtrosForm.controls['FiltrarAlerta'].setValue('TD');
         }
 
+        this.textFilterCtrl.patchValue("");
+        
         this.flagLoading = false
       },
       catchError => {

@@ -11,9 +11,10 @@ import { ProtocoloAnalisisComponent } from "@pages/comercial/protocoloanalisis/p
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { CotizacionComponent } from './cotizacion/cotizacion.component';
 
 @NgModule({
-  declarations: [GeneracionFormatosComponent, ProtocoloAnalisisComponent],
+  declarations: [GeneracionFormatosComponent, ProtocoloAnalisisComponent, CotizacionComponent],
   imports: [
     RouterModule.forChild(ComercialRoutes),
     CommonModule,

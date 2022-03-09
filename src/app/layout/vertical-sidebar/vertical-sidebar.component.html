@@ -39,35 +39,35 @@
             <ul aria-expanded="false" class="collapse first-level" *ngIf="sidebarnavItem.subMenu.length > 0"
                 [ngClass]="{'in' : showMenu === sidebarnavItem.titulo }">
 
-                <li class="sidebar-item" *ngFor="let sidebarnavSubItem of sidebarnavItem.subMenu"
-                    (click)="sidebarnavSubItem.subMenu.length != 0 ? '' : handleNotify()"
-                    [class.active]="showSubMenu === sidebarnavSubItem.titulo"
-                    [routerLinkActive]="sidebarnavSubItem.subMenu.length > 0 ? '' : 'active'">
+                    <li class="sidebar-item" *ngFor="let sidebarnavSubItem of sidebarnavItem.subMenu"
+                        (click)="sidebarnavSubItem.subMenu.length != 0 ? '' : handleNotify()"
+                        [class.active]="showSubMenu === sidebarnavSubItem.titulo"
+                        [routerLinkActive]="sidebarnavSubItem.subMenu.length > 0 ? '' : 'active'">
 
-                    <a class="sidebar-link"
-                        [routerLink]="sidebarnavSubItem.subMenu.length > 0 ? null : [sidebarnavSubItem.ruta]"
-                        [routerLinkActive]="sidebarnavSubItem.subMenu.length > 0 ? '' : 'router-link-active'"
-                        [ngClass]="[sidebarnavSubItem.clase]" *ngIf="!sidebarnavSubItem.extraLink;"
-                        (click)="addActiveClass(sidebarnavSubItem.titulo)">
-                        <i [ngClass]="[sidebarnavSubItem.icono]"></i>
-                        <span class="hide-menu">{{sidebarnavSubItem.titulo}}</span>
-                    </a>
+                        <a class="sidebar-link"
+                            [routerLink]="sidebarnavSubItem.subMenu.length > 0 ? null : [sidebarnavSubItem.ruta]"
+                            [routerLinkActive]="sidebarnavSubItem.subMenu.length > 0 ? '' : 'router-link-active'"
+                            [ngClass]="sidebarnavSubItem.clase=='' ? '' : sidebarnavSubItem.clase" *ngIf="!sidebarnavSubItem.extraLink;"
+                            (click)="addActiveClass(sidebarnavSubItem.titulo)">
+                            <i-feather></i-feather>
+                            <span class="hide-menu">{{sidebarnavSubItem.titulo}}</span>
+                        </a>
 
-                    <!-- Third level menu -->
-                    <ul aria-expanded="false" class="collapse Second-level" *ngIf="sidebarnavSubItem.subMenu.length > 0"
-                        [ngClass]="{'in' : showSubMenu === sidebarnavSubItem.titulo }">
-                        <li class="sidebar-item" *ngFor="let sidebarnavSubsubItem of sidebarnavSubItem.subMenu"
-                            routerLinkActive="active" [ngClass]="[sidebarnavSubsubItem.clase]">
-                            <a class="sidebar-link" [routerLink]="[sidebarnavSubsubItem.ruta]"
-                                *ngIf="!sidebarnavSubsubItem.extraLink;"
-                                [routerLinkActive]="sidebarnavSubsubItem.subMenu.length > 0 ? '' : 'router-link-active'">
-                                <i [ngClass]="[sidebarnavSubsubItem.icono]"></i>
-                                <span class="hide-menu">{{sidebarnavSubsubItem.titulo}}</span>
-                            </a>
-                        </li>
-                    </ul>
+                        <!-- Third level menu -->
+                        <ul aria-expanded="false" class="collapse Second-level" *ngIf="sidebarnavSubItem.subMenu.length > 0"
+                            [ngClass]="{'in' : showSubMenu === sidebarnavSubItem.titulo }">
+                            <li class="sidebar-item" *ngFor="let sidebarnavSubsubItem of sidebarnavSubItem.subMenu"
+                                routerLinkActive="active" [ngClass]="sidebarnavSubItem.clase=='' ? '' : sidebarnavSubItem.clase">
+                                <a class="sidebar-link" [routerLink]="[sidebarnavSubsubItem.ruta]"
+                                    *ngIf="!sidebarnavSubsubItem.extraLink;"
+                                    [routerLinkActive]="sidebarnavSubsubItem.subMenu.length > 0 ? '' : 'router-link-active'">
+                                    <i-feather [name]="CornerdownRightIcon"></i-feather>
+                                    <span class="hide-menu">{{sidebarnavSubsubItem.titulo}}</span>
+                                </a>
+                            </li>
+                        </ul>
 
-                </li>
+                    </li>
             </ul>
         </li>
     </ul>

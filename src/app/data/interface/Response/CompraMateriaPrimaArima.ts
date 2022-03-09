@@ -13,6 +13,7 @@ export interface ComprasMateriaPrimaArima {
     promedioHist: number,
     pronostico: number,
     limiteSuperior: number,
+    maximo:number,
     puntoControl: number,
     controlCalidad: number,
     aduanas: number,
