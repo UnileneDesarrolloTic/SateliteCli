@@ -523,12 +523,9 @@ export class CotizacionComponent implements OnInit {
 	//  ListDetalle.forEach(element=>{
 	// 	variableDetalle[element.columnaResp]='',
 	//  });
-
-	 console.log(variableDetalle); 
 	
+	 console.log(variableDetalle); 
 
-	debugger;
-	  
 	return this._fb.group([]);
   }
 
