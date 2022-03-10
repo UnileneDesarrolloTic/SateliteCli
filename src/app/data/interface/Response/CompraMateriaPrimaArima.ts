@@ -19,6 +19,7 @@ export interface ComprasMateriaPrimaArima {
     pendienteOC: number,
     stockDisponible: number,
     alerta: number,
+    duracion:number,
     detalleCompra:DetalleOrdenCompraMP[]
   }
   

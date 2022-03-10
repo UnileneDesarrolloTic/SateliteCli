@@ -138,6 +138,13 @@
                             [scrollbarV]="true" [sorts]="[{prop: 'name', dir: 'desc'}]" style="height: 85%;"
                             class="material" [loadingIndicator]="flagLoading" [rowHeight]="50" [scrollbarH]="true">
 
+                            <!-- Item -->
+                            <ngx-datatable-column name="Item" prop="item" [width]="120">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.item}}
+                                </ng-template>
+                            </ngx-datatable-column>
+    
 
                             <!-- Descripcion -->
                             <ngx-datatable-column name="Descripcion" prop="Descripcion" text-align="center"
@@ -147,24 +154,22 @@
                                 </ng-template>
                             </ngx-datatable-column>
 
-                            <!-- Descripcion -->
-                            <ngx-datatable-column  name="Familia" prop="familiaMP" 
-                                [width]="220">
-                                <ng-template let-row="row" text-align="center"  ngx-datatable-cell-template>
-                                    {{row.familiaMP}}
-                                </ng-template>
-                            </ngx-datatable-column>
 
-
-                            <!-- Item -->
-                            <ngx-datatable-column name="Item" prop="item" [width]="120">
+                            <!-- Promedio anual -->
+                            <ngx-datatable-column name="P.12Meses" prop="promedioanual" [width]="100">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
-                                    {{row.item}}
+                                    {{row.promedioanual | number }}
+                                </ng-template>
+                             </ngx-datatable-column>
+
+                             
+                            <!-- meses -->
+                            <ngx-datatable-column name="MesesDuracion" prop="duracion" [width]="80">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.duracion}}
                                 </ng-template>
                             </ngx-datatable-column>
-
-
-
+                             
                             <!-- Promedio Alerta -->
                             <ngx-datatable-column name="Alerta" isFixedRow="true" prop="alerta" [width]="80">
                                 <ng-template let-row="row" text-align="center" ngx-datatable-cell-template>
@@ -172,69 +177,20 @@
                                 </ng-template>
                             </ngx-datatable-column>
 
-                            <!-- Kraljic -->
-                            <ngx-datatable-column name="Kraljic" prop="kraljic" [width]="100">
+
+                        
+                            <!-- Promedio Stock Disponible -->
+                            <ngx-datatable-column name="Disponible" prop="stockDisponible" [width]="100">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
-                                    {{row.kraljic}}
-                                </ng-template>
-                            </ngx-datatable-column>
-
-                            <!-- coeficiente Variacion -->
-                            <ngx-datatable-column name="Variacion" prop="coeficienteVariacion" [width]="100">
-                                <ng-template let-row="row" ngx-datatable-cell-template>
-                                    {{row.coeficienteVariacion}}
-                                </ng-template>
-                            </ngx-datatable-column>
-
-                            <!-- Promedio anual -->
-                            <ngx-datatable-column name="P.12Meses" prop="promedioanual" [width]="100">
-                                <ng-template let-row="row" ngx-datatable-cell-template>
-                                    {{row.promedioanual | number }}
-                                </ng-template>
-                            </ngx-datatable-column>
-
-
-                            <!-- Promedio Historico -->
-                            <ngx-datatable-column name="Historico" prop="promedioHist" [width]="100">
-                                <ng-template let-row="row" ngx-datatable-cell-template>
-                                    {{row.promedioHist | number }}
-                                </ng-template>
-                            </ngx-datatable-column>
-
-                            <!-- meses -->
-                            <ngx-datatable-column name="Meses" prop="meses" [width]="50">
-                                <ng-template let-row="row" ngx-datatable-cell-template>
-                                    {{row.meses}}
-                                </ng-template>
-                            </ngx-datatable-column>
-
-
-                            <!-- Pronostico -->
-                            <ngx-datatable-column name="Pronostico" prop="pronostico" [width]="100">
-                                <ng-template let-row="row" ngx-datatable-cell-template>
-                                    {{row.pronostico | number }}
-                                </ng-template>
-                            </ngx-datatable-column>
-
-                            <!--  limiteSuperior -->
-                            <ngx-datatable-column name="L.Superior" prop="limiteSuperior" [width]="100">
-                                <ng-template let-row="row" ngx-datatable-cell-template>
-                                    {{row.limiteSuperior | number }}
-                                </ng-template>
-                            </ngx-datatable-column>
-
-                            <!-- Promedio Punto de Control -->
-                            <ngx-datatable-column name="P.Control" prop="puntoControl" [width]="100">
-                                <ng-template let-row="row" ngx-datatable-cell-template>
-                                    {{row.puntoControl | number }}
+                                    {{row.stockDisponible | number }}
                                 </ng-template>
                             </ngx-datatable-column>
 
 
 
 
-                            <!-- Promedio Orden de compra -->
-                            <ngx-datatable-column name="OC" prop="pendienteOC" [width]="100">
+                             <!-- Promedio Orden de compra -->
+                             <ngx-datatable-column name="OC" prop="pendienteOC" [width]="100">
                                 <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                                     <span *ngIf="row.detalleCompra.length < 1">
                                         {{row.pendienteOC | number}}
@@ -263,12 +219,64 @@
                             </ngx-datatable-column>
 
 
-                            <!-- Promedio Stock Disponible -->
-                            <ngx-datatable-column name="Disponible" prop="stockDisponible" [width]="100">
-                                <ng-template let-row="row" ngx-datatable-cell-template>
-                                    {{row.stockDisponible | number }}
+                            <!-- FAmilia MP -->
+                            <ngx-datatable-column  name="Familia" prop="familiaMP" 
+                                [width]="220">
+                                <ng-template let-row="row" text-align="center"  ngx-datatable-cell-template>
+                                    {{row.familiaMP}}
                                 </ng-template>
                             </ngx-datatable-column>
+
+
+
+
+                            <!-- Kraljic -->
+                            <ngx-datatable-column name="Kraljic" prop="kraljic" [width]="150">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.kraljic}}
+                                </ng-template>
+                            </ngx-datatable-column>
+
+                            <!-- coeficiente Variacion -->
+                            <ngx-datatable-column name="Variacion" prop="coeficienteVariacion" [width]="100">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.coeficienteVariacion}}
+                                </ng-template>
+                            </ngx-datatable-column>
+
+                      
+
+
+                            <!-- Promedio Historico -->
+                            <ngx-datatable-column name="Historico" prop="promedioHist" [width]="100">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.promedioHist | number }}
+                                </ng-template>
+                            </ngx-datatable-column>
+
+
+
+                            <!-- Pronostico -->
+                            <ngx-datatable-column name="Pronostico" prop="pronostico" [width]="100">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.pronostico | number }}
+                                </ng-template>
+                            </ngx-datatable-column>
+
+                            <!--  limiteSuperior -->
+                            <ngx-datatable-column name="L.Superior" prop="limiteSuperior" [width]="100">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.limiteSuperior | number }}
+                                </ng-template>
+                            </ngx-datatable-column>
+
+                            <!-- Promedio Punto de Control -->
+                            <ngx-datatable-column name="P.Control" prop="puntoControl" [width]="100">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.puntoControl | number }}
+                                </ng-template>
+                            </ngx-datatable-column>
+
                         </ngx-datatable>
                     </div>
                 </div>
