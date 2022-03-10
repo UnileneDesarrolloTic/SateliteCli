@@ -136,10 +136,14 @@ export class CompraMateriaPrimaComponent implements OnInit {
         if(parametros.Periodo==this._periodoActual.replace("-","")){
           this.filtrosForm.controls['FiltrarAlerta'].setValue('TD');
           this.filtrosForm.controls['FiltrarAlerta'].enable();
+         
         }else{
+        
           this.filtrosForm.controls['FiltrarAlerta'].setValue('TD');
         }
 
+        this.textFilterCtrl.patchValue("");
+        
         this.flagLoading = false
       },
       catchError => {
@@ -171,10 +175,11 @@ export class CompraMateriaPrimaComponent implements OnInit {
       if(valor==this._periodoActual){
         this.filtrosForm.controls['FiltrarAlerta'].setValue('TD');
         this.filtrosForm.controls['FiltrarAlerta'].enable();
+        
       }else{
         this.filtrosForm.controls['FiltrarAlerta'].setValue('TD');
-        // this.filtrosForm.controls['FiltrarAlerta'].disable();
-        this.filtrosForm.controls['FiltrarAlerta'].enable();
+        this.filtrosForm.controls['FiltrarAlerta'].disable();
+
       }
     })
 

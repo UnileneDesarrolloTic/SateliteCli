@@ -97,7 +97,7 @@
                             <div class="form-group row d-flex">
                                 <label class="col-12 col-sm-4 col-md-4 control-label col-form-label">Filtros</label>
                                 <div class="col-12 col-sm-7 col-md-7">
-                                    <select class="custom-select" formControlName="FiltrarAlerta"
+                                    <select class="custom-select" [disabled]="DisabledCampo" formControlName="FiltrarAlerta"
                                         (change)="CambiodeFiltroAlerta($event)" >
                                         <option value="TD">Todos</option>
                                         <option value="FAL">Productos con alerta</option>
