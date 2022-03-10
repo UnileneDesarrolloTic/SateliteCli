@@ -34,4 +34,19 @@ export class CotizacionService{
             catchError(() => throwError("Error al registrar el reporte"))
         )
     }
+
+
+    // nuevas apis
+
+    SeleccionarCotizacion(){
+        return this._http.get("http://172.168.10.22:81/SatelliteCore/api/Cotizacion/EstructuraCamposFormato?codFormato=3").pipe(
+            catchError(() => throwError("Error al registrar el reporte"))
+        )
+    }
+
+    InformacionDetalleCotizacion(){
+        return this._http.get("http://172.168.10.22:81/SatelliteCore/api/Cotizacion/ObtenerDatos?idFormato=3&cotizacion=0000018661").pipe(
+            catchError(() => throwError("Error al registrar el reporte"))
+        )
+    }
 }
