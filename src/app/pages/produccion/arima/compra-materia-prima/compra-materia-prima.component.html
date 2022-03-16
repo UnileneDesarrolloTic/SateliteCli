@@ -4,7 +4,7 @@
             <div class="card-body">
                 <form autocomplete="off" [formGroup]="filtrosForm" (submit)="BuscarProducto()">
                     <div class="row">
-                        <div class="m-0 col-12 col-sm-12 col-md-12 col-lg-6 col-xl-3">
+                        <!-- <div class="m-0 col-12 col-sm-12 col-md-12 col-lg-6 col-xl-3">
                             <div class="form-group row d-flex">
                                 <label for="periodo"
                                     class="col-12 col-sm-4 col-md-4 control-label col-form-label">Periodo</label>
@@ -12,7 +12,7 @@
                                     <input type="month" class="form-control" formControlName="periodo">
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="m-0 col-12 col-sm-12 col-md-12 col-lg-6 col-xl-3">
                             <div class="form-group row d-flex">
                                 <label for="regla"
@@ -147,9 +147,9 @@
     
 
                             <!-- Descripcion -->
-                            <ngx-datatable-column name="Descripcion" prop="Descripcion" text-align="center"
+                            <ngx-datatable-column name="Descripcion" prop="descripcion" text-align="center"
                                 [width]="220">
-                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                <ng-template  style="font-size: 5px !important" let-row="row" ngx-datatable-cell-template>
                                     {{row.descripcion}}
                                 </ng-template>
                             </ngx-datatable-column>
@@ -163,10 +163,10 @@
                              </ngx-datatable-column>
 
                              
-                            <!-- meses -->
+                            <!-- MesesDuracion  -->
                             <ngx-datatable-column name="MesesDuracion" prop="duracion" [width]="80">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
-                                    {{row.duracion}}
+                                    {{row.duracion | number:'1.1-1' }}
                                 </ng-template>
                             </ngx-datatable-column>
                              
@@ -187,8 +187,6 @@
                             </ngx-datatable-column>
 
 
-
-
                              <!-- Promedio Orden de compra -->
                              <ngx-datatable-column name="OC" prop="pendienteOC" [width]="100">
                                 <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
@@ -203,7 +201,6 @@
                                 </ng-template>
                             </ngx-datatable-column>
 
-
                             <!-- Promedio Adunas -->
                             <ngx-datatable-column name="Aduanas" prop="aduanas" [width]="100">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
@@ -214,7 +211,14 @@
                             <!-- Promedio Control Calidad -->
                             <ngx-datatable-column name="Calidad" prop="controlCalidad" [width]="100">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
-                                    {{row.controlCalidad | number }}
+                                    <span *ngIf="row.detalleCalidad.length < 1">
+                                        {{row.controlCalidad | number}}
+                                    </span>
+                                    <button class="btn btn-sm btn-outline-info btn-rounded" type="button"
+                                        *ngIf="row.detalleCalidad.length >= 1"
+                                        (click)="abrirModalCalidad(modalDetalleCalidad, row.detalleCalidad)">
+                                        {{ row.controlCalidad | number }}
+                                    </button>
                                 </ng-template>
                             </ngx-datatable-column>
 
@@ -228,12 +232,17 @@
                             </ngx-datatable-column>
 
 
-
-
                             <!-- Kraljic -->
                             <ngx-datatable-column name="Kraljic" prop="kraljic" [width]="150">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
                                     {{row.kraljic}}
+                                </ng-template>
+                            </ngx-datatable-column>
+
+                              <!-- MesesDuracion  -->
+                              <ngx-datatable-column name="Meses" prop="meses" [width]="80">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    {{row.meses | number:'1.1-2' }}
                                 </ng-template>
                             </ngx-datatable-column>
 
@@ -245,8 +254,6 @@
                             </ngx-datatable-column>
 
                       
-
-
                             <!-- Promedio Historico -->
                             <ngx-datatable-column name="Historico" prop="promedioHist" [width]="100">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
@@ -326,6 +333,56 @@
                         <td class="text-center">
                             {{ oc.estadoDetalle=='PE' ? 'PENDIENTE' : oc.estadoDetalle=='PR' ? 'PREPARACION' : 'NO DEFINIDO'  }}
                         </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</ng-template>
+
+
+
+<ng-template #modalDetalleCalidad let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">
+             Item: {{ DetalleCalidad[0].item }}
+        </h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">
+                &times;
+            </span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="table-responsive table-sm">
+            <table class="table table-striped no-wrap border mt-4" style="font-size: 13px;">
+                <thead>
+                    <tr>
+                        <th class="text-center">#</th>
+                        <th class="text-center">Numero Orden</th>
+                        <th class="text-center">Numero Control</th>
+                        <th class="text-center">Cantidad Recibida</th>
+                        <th class="text-center">Estado</th>
+                    </tr>
+                </thead>
+                <tbody >
+                     <tr *ngFor="let calidad of DetalleCalidad; let i = index">
+                        <td class="text-center">
+                            {{ i + 1 }}
+                        </td>
+                        <td class="text-center">
+                            {{ calidad.referenciaNumeroDocumento }}
+                        </td>
+                        <td class="text-center">
+                            {{ calidad.controlNumero}}
+                        </td>
+                        <td class="text-center">
+                            {{ calidad.cantidadRecibida | number }}
+                        </td>
+                        <td class="text-center">
+                            {{ calidad.estado }}
+                        </td>
+                        
                     </tr>
                 </tbody>
             </table>

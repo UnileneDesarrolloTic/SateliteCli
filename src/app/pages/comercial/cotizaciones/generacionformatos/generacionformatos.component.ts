@@ -22,7 +22,88 @@ export class GeneracionFormatosComponent {
     return this._searchTerm;
   }
 
-  listaCotizaciones: CotizacionData[] = []
+  listaCotizaciones: CotizacionData[] = [
+		{
+			"idFormato": 12,
+			"numeroDocumento": "0000019372",
+			"clienteNombre": "CLINICA ESPECIALIZADA EMANUEL SOCIEDAD ANONIMA CERRADA",
+			"clienteRUC": "20601681898",
+			"clienteDireccion": "CAL. LAS AZUCENAS 203 (PLAZA JOSE A. QUIÑONES)",
+			"contacto": "Logistica"
+		},
+		{
+			"idFormato": 12,
+			"numeroDocumento": "0000019371",
+			"clienteNombre": "SUTUMED CORPORATION",
+			"clienteRUC": "90000000168",
+			"clienteDireccion": "9280 COLLEGE PKWAY, UNIT #5, FORT MYERS FL 33919",
+			"contacto": "QIHAN ZHAI"
+		},
+		{
+			"idFormato": 5,
+			"numeroDocumento": "0000019370",
+			"clienteNombre": "SEGURO SOCIAL DE SALUD ESSALUD-RED PRESTACIONAL ALMENARA",
+			"clienteRUC": "20131257750",
+			"clienteDireccion": "AV. GRAU No. 800",
+			"contacto": "Ismael Lopez"
+		},
+		{
+			"idFormato": 12,
+			"numeroDocumento": "0000019369",
+			"clienteNombre": "HOSP. DE APOYO DEPART. MARIA AUXILIADORA",
+			"clienteRUC": "20162041291",
+			"clienteDireccion": "AV.MIGUEL IGLESIAS 968",
+			"contacto": "Paddy Pella Jimenez - Programación"
+		},
+		{
+			"idFormato": 12,
+			"numeroDocumento": "0000019368",
+			"clienteNombre": "HOSP. DE APOYO DEPART. MARIA AUXILIADORA",
+			"clienteRUC": "20162041291",
+			"clienteDireccion": "AV.MIGUEL IGLESIAS 968",
+			"contacto": "Paddy Pella Jimenez - Programación"
+		},
+		{
+			"idFormato": 12,
+			"numeroDocumento": "0000019367",
+			"clienteNombre": "HOSP. DE APOYO DEPART. MARIA AUXILIADORA",
+			"clienteRUC": "20162041291",
+			"clienteDireccion": "AV.MIGUEL IGLESIAS 968",
+			"contacto": "Paddy Pella Jimenez - Programación"
+		},
+		{
+			"idFormato": 12,
+			"numeroDocumento": "0000019366",
+			"clienteNombre": "HOSP. DE APOYO DEPART. MARIA AUXILIADORA",
+			"clienteRUC": "20162041291",
+			"clienteDireccion": "AV.MIGUEL IGLESIAS 968",
+			"contacto": "Paddy Pella Jimenez - Programación"
+		},
+		{
+			"idFormato": 12,
+			"numeroDocumento": "0000019365",
+			"clienteNombre": "HOSP. DE APOYO DEPART. MARIA AUXILIADORA",
+			"clienteRUC": "20162041291",
+			"clienteDireccion": "AV.MIGUEL IGLESIAS 968",
+			"contacto": "Paddy Pella Jimenez - Programación"
+		},
+		{
+			"idFormato": 12,
+			"numeroDocumento": "0000019364",
+			"clienteNombre": "HOSP. DE APOYO DEPART. MARIA AUXILIADORA",
+			"clienteRUC": "20162041291",
+			"clienteDireccion": "AV.MIGUEL IGLESIAS 968",
+			"contacto": "Paddy Pella Jimenez - Programación"
+		},
+		{
+			"idFormato": 12,
+			"numeroDocumento": "0000019363",
+			"clienteNombre": "HOSP. DE APOYO DEPART. MARIA AUXILIADORA",
+			"clienteRUC": "20162041291",
+			"clienteDireccion": "AV.MIGUEL IGLESIAS 968",
+			"contacto": "Paddy Pella Jimenez - Programación"
+		}
+	]
 
   paginador: Paginado = {
     paginaActual: 1,
@@ -169,6 +250,8 @@ export class GeneracionFormatosComponent {
     //Contrucción de Tabla
     var cabeceras = data.cabeceras;
     var detalle = data.data;
+
+    console.log(cabeceras,detalle);
 
     var tercerDiv = document.getElementById("cbTitle");
     var h4 = document.createElement("h4");

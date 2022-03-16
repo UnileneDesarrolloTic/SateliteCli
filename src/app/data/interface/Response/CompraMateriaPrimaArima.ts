@@ -1,3 +1,4 @@
+import { DetalleCalidad } from "./DetalleCalidad.interface";
 import { DetalleOrdenCompraMP } from "./DetalleordenCompraMPArima";
 
 export interface ComprasMateriaPrimaArima {
@@ -21,6 +22,7 @@ export interface ComprasMateriaPrimaArima {
     stockDisponible: number,
     alerta: number,
     duracion:number,
-    detalleCompra:DetalleOrdenCompraMP[]
+    detalleCompra:DetalleOrdenCompraMP[],
+    detalleCalidad:DetalleCalidad[]
   }
   

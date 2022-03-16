@@ -174,6 +174,12 @@ export class CotizacionComponent implements OnInit {
 			(resp: Cotizacion) => {
 
 				if (resp.cabecera.length > 0) {
+					this.ListCamposPantillaCabecera = [];
+					this.CabeceraDetalle=[];
+					this.InformacionCotizacion = [];
+					this.DetalleCotizacion = [];
+
+
 					this.vistaDetalle = true;
 					this.IdFormato = idFormato;
 					this.NroDocumento = numeroDocumento;
@@ -181,8 +187,6 @@ export class CotizacionComponent implements OnInit {
 					this.ListCabeceraDetalle = resp.detalle;
 					this.ListarDetalleCotizacion();
 					this.ConstruirDetalle();
-
-
 				} else {
 					this.toastr.info("La cotización elegida no cuenta con un formato, favor de revisar el número de documento");
 				}
@@ -190,27 +194,11 @@ export class CotizacionComponent implements OnInit {
 			}
 		)
 
-		// if (idFormato == 0) {
-		//   this.FormatoNoEncontrado = true;
-		// }
-		// else {
-		//   this.FormatoNoEncontrado = false;
-		//   this.vistaDetalle = true;
-		//   this.IdFormato = idFormato;
-		//   this.NroDocumento = numeroDocumento;
-
-		//   const body = {
-		//     IdFormato: parseInt(idFormato),
-		//     NumeroDocumento: numeroDocumento
-		//   }
-
-		//   this._cotizacionService.ObtenerEstructuraFormato(body).subscribe(resp => {
-		//     var data = resp;
-		//     this.ConstruirDetalle(data);
-		//   });
-
 	}
 
+	ListDetalleCotizacion(): FormArray {
+		return this.Formulario.get("detalle") as FormArray;
+	}
 
 	async ListarDetalleCotizacion() {
 		return this._cotizacionService.InformacionDetalleCotizacion().toPromise()
@@ -220,82 +208,141 @@ export class CotizacionComponent implements OnInit {
 		for (let items in this.ListCamposPantillaCabecera) {
 			this.Formulario.addControl(this.ListCamposPantillaCabecera[items].columnaResp, new FormControl(this.ListCamposPantillaCabecera[items].valorDefecto, this.ListCamposPantillaCabecera[items].requerido ? Validators.required : null))
 		}
-
 		//CABECERA DEL DETALLE
-		// this.CabeceraDetalle = this.ListCabeceraDetalle.map((items: any) => ({ valorCabecera: items.etiqueta, columnaResp: items.columnaResp, valorDefecto: items.valorDefecto, requerido: items.requerido }))
+		this.CabeceraDetalle = this.ListCabeceraDetalle.map((items: any) => ({ columnaResp: items.columnaResp, valorDefecto: items.valorDefecto, requerido: items.requerido, tipoDato: items.tipoDato }))
 		this.InformacionCotizacion = await this.ListarDetalleCotizacion();
 		this.DetalleCotizacion = this.InformacionCotizacion.detalle;
-
-
 		this.ConstruirTable(this.DetalleCotizacion, this.ListCabeceraDetalle);
 
-		console.log(this.Formulario.value)
-	}
-
-	ListDetalleCotizacion(): FormArray {
-		return this.Formulario.get("detalle") as FormArray;
 	}
 
 	ConstruirTable(ArrayListDetalleCotizacion, ArrayCabecera) {
-		const ArrayProduct = this.Formulario.controls.detalle as FormArray;
-		ArrayListDetalleCotizacion.forEach((itemproduct) => {
-			// ArrayProduct.push(this._fb.group(this.prueba(itemproduct,ArrayCabecera)))
-			ArrayProduct.push(this._fb.group({
-				nroItem : itemproduct.nroItem,
-				codigoSAP : [itemproduct.codigoSAP],
-				denominacion : [itemproduct.denominacion],
-				undMedida : [itemproduct.undMedida],
-				cantidadTotal : [itemproduct.cantidadTotal],
-				marca : [itemproduct.marca],
-				paisProcedencia : [itemproduct.paisProcedencia],
-				presentacion : [itemproduct.presentacion],
-				modelo : [itemproduct.modelo],
 
-				rnpVigente : [itemproduct.rnpVigente],
-				vigenciaMinima : [itemproduct.vigenciaMinima],
-				cumpleDenominacionItem : [itemproduct.cumpleDenominacionItem],
-				cartaPresentacion : [itemproduct.cartaPresentacion],
-				registroSanitario : [itemproduct.registroSanitario],
-				certificadoAnalisis : [itemproduct.certificadoAnalisis],
-				cumpleEspecificacionTec : [itemproduct.cumpleEspecificacionTec],
-				practicaAlmacenamiento : [itemproduct.practicaAlmacenamiento],
+		var cabeceras = ArrayCabecera;
+		var detalle = ArrayListDetalleCotizacion;
 
-				practicaManufactura : [itemproduct.practicaManufactura],
-				capacidadAtencion : [itemproduct.capacidadAtencion],
-				plazoEntrega : [itemproduct.plazoEntrega],
-				precioUnitario : [itemproduct.precioUnitario],
-				valorTotal : [itemproduct.valorTotal],
+		var bodyt = document.getElementById("cbBody");
+		var table = document.createElement("table");
+		var thead = document.createElement("thead");
+		var trh = document.createElement("tr");
+		table.setAttribute("class", "table table-striped no-wrap border mt-4 table-responsive");
+		table.setAttribute("style", "font-size: 12px")
+		bodyt.appendChild(table);
 
-				
-			}))
-			
+		table.appendChild(thead);
+		thead.appendChild(trh);
+		cabeceras.forEach(element => {
+			var th = document.createElement("th");
+			th.setAttribute("scope", "col");
+			th.setAttribute("style", "vertical-align: middle");
+			th.innerHTML = element.columnaResp;
+			trh.appendChild(th);
 		});
-		console.log(this.Formulario.value);
+		//cabecera de opcion
+		var th = document.createElement("th");
+		th.setAttribute("scope", "col");
+		th.setAttribute("style", "vertical-align: middle");
+		th.innerHTML = "Opcion";
+		trh.appendChild(th);
+
+		var tbody = document.createElement("tbody");
+		tbody.setAttribute("id", "tbodyDetalle")
+		table.appendChild(tbody);
+		detalle.forEach((elementSup, index) => {
+			var tr = document.createElement("tr");
+			tbody.appendChild(tr);
+			for (let campo in elementSup) {
+				var td = document.createElement("td");
+				td.innerHTML = elementSup[campo];
+				td.setAttribute("id",campo);
+				td.setAttribute("contenteditable", "true");
+				tr.appendChild(td);
+			}
+
+			var td = document.createElement('td');
+			td.innerHTML = '<button class="btn"  type="button"><i class="fa fa-trash" style="font-size:15px;color: red" ></i></button>';
+			td.addEventListener("click",()=>{
+					this.DetalleCotizacion.splice(index,1);
+					console.log(this.DetalleCotizacion);
+					table.remove();
+					this.ConstruirTable(this.DetalleCotizacion,this.ListCabeceraDetalle)
+			})
+			// td.onclick = (function(entry) {return function() {this.Alert()}});
+
+			// var td = document.createElement('td');
+			// td.innerHTML = '<button type="button">Delete</button>';
+			// td.onclick = function (elementSup) {
+			// 	// this.DetalleCotizacion.splice(elementSup,1);
+			// };
+			tr.appendChild(td);
+		});
 	}
 
-	// prueba(itemproduct,ArrayCabecera):object{
-
-	// 	return {
-	// 		Andy:["entre",[Validators.required]]
-
-	// 	}
-	// }
-
-	ItemCreateDetalle(ItemsVariables) {
-
+	Alert(posicion){
+		console.log(posicion)
+		// this.DetalleCotizacion.splice(elementSup,1)
 	}
-
-
-
-
-
 
 
 	GenerarCotizacion(modal: NgbModal) {
-
+		
 	}
+
+	GuardarCotizacion() {
+		var infordatelle = document.getElementById("tbodyDetalle");
+    	var respcotizacion = Array();
+		var Mensajedevalicacion=null;
+		infordatelle.childNodes.forEach((element:any) => {
+			var obj = Object();
+			this.ListCabeceraDetalle.forEach((cabecera,posicion)=>{
+				//validamos campos del array 
+				let validar = this.ValidarCamposArray(cabecera,element.childNodes[posicion].innerText)
+				if (validar){
+					switch (cabecera.columnaResp.toLocaleLowerCase()) {
+						case element.childNodes[posicion].id.toLocaleLowerCase():
+							obj[element.childNodes[posicion].id]= cabecera.columnaResp=='NUMBER' ?  parseFloat(element.childNodes[posicion].innerText) : element.childNodes[posicion].innerText
+							break;
+					}
+				}else{
+					Mensajedevalicacion=`La columna '${element.childNodes[posicion].id}' Necesita Agregar un valor`;
+				}
+				
+			});	
+
+			respcotizacion.push(obj);	
+		});
+		
+		//mandamos el formato
+		if(!Mensajedevalicacion){
+			const ValorEnviarCotizacion={
+				...this.Formulario.value,
+				detalle: respcotizacion,
+			}
+			console.log(ValorEnviarCotizacion)
+			this.toastr.success("Se Guardo Correctamente");
+			this.CancelEdit();
+		}else{
+			this.toastr.info(Mensajedevalicacion);
+		}
+		
+
+		
+	}
+
+
+	ValidarCamposArray(cabecera,valor){
+		if(cabecera.requerido==true){
+			return valor=="" || valor==null ? false : true;
+		}
+		return true;
+	}
+
 
 	CancelEdit() {
 		this.vistaDetalle = false;
+		this.ListCamposPantillaCabecera = [];
+		this.CabeceraDetalle=[];
+		this.InformacionCotizacion = [];
+		this.DetalleCotizacion = [];
 	}
 }

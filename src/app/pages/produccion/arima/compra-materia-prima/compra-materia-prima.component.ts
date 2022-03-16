@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Paginado } from '@data/interface/Comodin/Paginado.interface';
 import { ComprasMateriaPrimaArima } from '@data/interface/Response/CompraMateriaPrimaArima';
+import { DetalleCalidad } from '@data/interface/Response/DetalleCalidad.interface';
 import { DetalleOrdenCompraMP } from '@data/interface/Response/DetalleordenCompraMPArima';
 import { SubFamilia } from '@data/interface/Response/SubFamilia.Interface';
 import { ProduccionService } from '@data/services/backEnd/pages/produccion.service';
@@ -18,6 +19,7 @@ export class CompraMateriaPrimaComponent implements OnInit {
   ListaCompraMaterial: ComprasMateriaPrimaArima[] = [];
   ListaTemporalCompraMaterial: ComprasMateriaPrimaArima[] = [];
   DetalleOrdenCompraMP: DetalleOrdenCompraMP[];
+  DetalleCalidad:DetalleCalidad[];
   ListarArraySubFamilia:SubFamilia[]=[];
   flagLoading: boolean = false;
   DisabledCampo:boolean=false;
@@ -205,8 +207,8 @@ export class CompraMateriaPrimaComponent implements OnInit {
   }
 
   abrirModalTransito(modal: NgbModal, detalle) {
-    this.DetalleOrdenCompraMP = []
-    this.DetalleOrdenCompraMP = detalle
+    this.DetalleOrdenCompraMP = [];
+    this.DetalleOrdenCompraMP = detalle;
 
     this._modalService.open(modal, {
       centered: true,
@@ -214,6 +216,18 @@ export class CompraMateriaPrimaComponent implements OnInit {
       size: 'lg',
       scrollable: true
     });
+  }
+
+  abrirModalCalidad(modal:NgbModal,detalle){
+      this.DetalleCalidad=[];
+      this.DetalleCalidad=detalle;
+      console.log(this.DetalleCalidad);
+      this._modalService.open(modal, {
+        centered: true,
+        backdrop: 'static',
+        size: 'md',
+        scrollable: true
+      });
   }
 
   get f() {

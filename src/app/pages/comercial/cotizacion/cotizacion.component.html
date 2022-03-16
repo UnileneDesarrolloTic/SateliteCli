@@ -88,62 +88,27 @@
             <div class="card-header bg-info">
                 <h4 class="m-b-0 text-white">Datos Cotización</h4>
             </div>
-            <form action="#" [formGroup]="Formulario">
+            <form  [formGroup]="Formulario"   (submit)="GuardarCotizacion()">
                 <div class="card-body">
-                    <h4 class="card-title">Información</h4>
                     <div class="row">
                         <div class="col-md-4" *ngFor="let keyArray of ListCamposPantillaCabecera"> 
                             <div class="form-group"> 
-                                <label for="floatEmail">{{keyArray.etiqueta}}</label> 
-                                <input  type="text" class="form-control" [formControlName]="keyArray.columnaResp" > 
+                                <label >{{keyArray.etiqueta}}</label> 
+                                <input  type="text" class="form-control form-control-sm" [formControlName]="keyArray.columnaResp" > 
                             </div> 
                         </div>
                     </div>
                 </div>
                 <div class="card-body">
-                    <h4 class="card-title">DETALLE</h4>
-                    <div class="table-hover table-responsive table-bordered">
-                        <table class="table table-striped border">
-                          <thead style="font-size: 12px">
-                            <tr>
-                              <th class="text-center" *ngFor="let valor of ListCabeceraDetalle"  >{{valor.etiqueta}}</th>
-                            </tr>
-                          </thead>
-                          <tbody style="font-size: 12px" formArrayName="detalle" >
-                            <tr *ngFor="let itemrow of Formulario.controls.detalle.controls; let i=index;let l=last" [formGroupName]="i" >
-                               <td><input formControlName="nroItem"></td>
-                               <td><input formControlName="codigoSAP"></td>
-                               <td><input formControlName="denominacion"></td>
-                               <td><input formControlName="undMedida"></td>
-                               <td><input formControlName="cantidadTotal"></td>
-                               <td><input formControlName="marca"></td>
-                               <td><input formControlName="paisProcedencia"></td>
-                               <td><input formControlName="presentacion" class="form-control"></td>
-                               <td><input formControlName="modelo" class="form-control"></td>
-                               <td><input formControlName="rnpVigente" class="form-control"></td>
-                               <td><input formControlName="vigenciaMinima" class="form-control"></td>
-                               <td><input formControlName="cumpleDenominacionItem" class="form-control"></td>
-                               <td><input formControlName="cartaPresentacion" class="form-control"></td>
-                               <td><input formControlName="registroSanitario" class="form-control"></td>
-                               <td><input formControlName="certificadoAnalisis" class="form-control"></td>
-                               <td><input formControlName="cumpleEspecificacionTec" class="form-control"></td>
-                               <td><input formControlName="practicaAlmacenamiento" class="form-control"></td>
-                               <td><input formControlName="practicaManufactura" class="form-control"></td>
-                               <td><input formControlName="capacidadAtencion" class="form-control"></td>
-                               <td><input formControlName="plazoEntrega" class="form-control"></td>
-                               <td><input formControlName="precioUnitario" class="form-control"></td>
-                               <td><input formControlName="valorTotal" class="form-control"></td>
-
-                            <td>
-                                <button *ngIf="Formulario.controls.detalle.controls.length > 1" (click)="deleteRow(i)" class="btn btn-danger">Delete</button>
-                            </td>
-                        </tr>
-                          </tbody>
-                        </table>
-                      </div>
+                    <div class="card-body" id="cbBody"></div>
                 </div>
-                <button type="submit" [disabled]="!Formulario.valid"
-                            class="btn btn-rounded btn-dark">Guardar</button>
+                <div class="card-body justify-content-center">
+                    <button type="submit"  [disabled]="!Formulario.valid"
+                    class="btn btn-rounded btn-success">Guardar</button>
+                    <button type="button"  (click)="CancelEdit()"
+                                class="btn btn-rounded btn-dark">Cancelar</button>
+                </div>
+               
             </form>
 
         </div>
