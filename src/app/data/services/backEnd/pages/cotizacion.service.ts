@@ -37,16 +37,38 @@ export class CotizacionService{
 
 
     // nuevas apis
-
-    SeleccionarCotizacion(){
-        return this._http.get("http://172.168.10.22:81/SatelliteCore/api/Cotizacion/EstructuraCamposFormato?codFormato=3").pipe(
+    // /Cotizacion/listar
+    ListarCotizacionApi(body){
+        return this._http.post( `http://172.168.10.22:81/SatelliteCore/api/Cotizacion/ListarCotizaciones`,body).pipe( 
             catchError(() => throwError("Error al registrar el reporte"))
         )
     }
 
-    InformacionDetalleCotizacion(){
-        return this._http.get("http://172.168.10.22:81/SatelliteCore/api/Cotizacion/ObtenerDatos?idFormato=3&cotizacion=0000018661").pipe(
+    SeleccionarCotizacion(idformato){
+        return this._http.get( `http://172.168.10.22:81/SatelliteCore/api/Cotizacion/EstructuraCamposFormato?codFormato=${idformato}`).pipe(
             catchError(() => throwError("Error al registrar el reporte"))
         )
     }
+
+    InformacionDetalleCotizacion(idFormato,numeroDocumento){
+        return this._http.get( `http://172.168.10.22:81/SatelliteCore/api/Cotizacion/ObtenerDatos?idFormato=${idFormato}&cotizacion=${numeroDocumento}`).pipe(
+            catchError(() => throwError("Error al registrar el reporte"))
+        )
+    }
+
+    FormatoPorCliente(){
+        return this._http.get(`http://172.168.10.22:81/SatelliteCore/api/Cotizacion/FormatosPorCliente`).pipe(
+            catchError(() => throwError("Error al registrar el reporte"))
+        )
+    }
+
+
+    FormatoDescarga(){
+        return this._http.get(`http://172.168.10.22:81/SatelliteCore/api/Cotizacion/ReportesPorCotizacion?cotizacion=0000018661`).pipe(
+            catchError(() => throwError("Error al registrar el reporte"))
+        )
+    }
+
+    // /Cotizacion/Actualizar
+
 }

@@ -4,76 +4,72 @@
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title mb-0">
-                    <span class="lstick"></span>Cotizaciones
+                    <span class="lstick"></span>Cotizaciones 
                 </h4>
-                <div class="row">
-                    <div class="col-md-5">
-                        <div class="form-group">
-                            <label>Número de Documento</label>
-                            <input class="form-control" placeholder="Número de Documento" type="text"
-                                [(ngModel)]="ngmNumeroDocumento" />
+                <form autocomplete="off" [formGroup]="formSearch" (submit)="ListarCotizacion()" id="filtroUsuario">
+                    <div class="row" style="align-items: center">
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label>Número de Documento</label>
+                                <input class="form-control" placeholder="Número de Documento" type="text"
+                                formControlName="ngmNumeroDocumento" />
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label>Nombre de Cliente</label>
+                                <input class="form-control" placeholder="Nombre de Cliente" type="text"
+                                formControlName="ngmClienteNombre" />
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary mt-4">
+                                    Buscar
+                                </button>     
+                            </div>                     
                         </div>
                     </div>
-                    <div class="col-md-5">
-                        <div class="form-group">
-                            <label>Nombre de Cliente</label>
-                            <input class="form-control" placeholder="Nombre de Cliente" type="text"
-                                [(ngModel)]="ngmClienteNombre" />
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <div class="form-group">
-                            <label style="color: white">Botón de buscar</label>
-                            <button type="button" class="btn btn-primary ml-auto" (click)="
-                    filtrarCotizaciones(ngmNumeroDocumento, ngmClienteNombre)
-                  ">
-                                Buscar
-                            </button>
-                        </div>
-                    </div>
-                </div>
+                </form>
+               
                 <div class="table table-hover">
-                    <table class="table table-striped border mt-4" style="font-size: 12px">
-                        <thead class="no-wrap">
-                            <tr>
-                                <th>N° Documento</th>
-                                <th>Razón social</th>
-                                <th>RUC</th>
-                                <th>Dirección</th>
-                                <th>Contacto</th>
-                                <th>Opciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let cotizacion of listaCotizaciones">
-                                <td>{{ cotizacion.numeroDocumento }}</td>
-                                <td>{{ cotizacion.clienteNombre }}</td>
-                                <td>{{ cotizacion.clienteRUC }}</td>
-                                <td>{{ cotizacion.clienteDireccion }}</td>
-                                <td>{{ cotizacion.contacto }}</td>
-                                <td>
-                                    <a href="javascript: void(0);" class="link" (click)="
-                        Editar(cotizacion.idFormato, cotizacion.numeroDocumento)
-                      ">
-                                        <i class="icon-pencil text-info m-r-10"></i>
-                                    </a>
-                                    <a href="javascript: void(0);" class="link" (click)="
-                        GenerarReporte(
-                          cotizacion.numeroDocumento,
-                          cotizacion.idFormato,
-                          modalGeneracion
-                        )
-                      ">
-                                        <i class="ti-download text-warning pointer"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="scroll-group">
+                        <table class=" scroll-group table table-striped border mt-4" style="font-size: 12px">
+                            <thead class="no-wrap">
+                                <tr>
+                                    <th>N° Documento</th>
+                                    <th>Razón social</th>
+                                    <th>RUC</th>
+                                    <th>Dirección</th>
+                                    <th>Contacto</th>
+                                    <th>Opciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let cotizacion of listaCotizaciones">
+                                    <td>{{ cotizacion.numeroDocumento }}</td>
+                                    <td>{{ cotizacion.clienteNombre }}</td>
+                                    <td>{{ cotizacion.clienteRUC }}</td>
+                                    <td>{{ cotizacion.clienteDireccion }}</td>
+                                    <td>{{ cotizacion.contacto }}</td>
+                                    <td>
+                                        <a href="javascript: void(0);" class="link"  (click)="NuevoDocumentoModal(cotizacion)">
+                                      
+                                            <i class="icon-doc text-info m-r-10"></i>
+                                        </a>
+                                        <a href="javascript: void(0);" class="link"  (click)="GenerarCotizacion(cotizacion)">
+                                            <i class="icon-notebook text-danger pointer"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                   
                     <div class="d-flex justify-content-center p-2">
-                        <ngb-pagination [collectionSize]="paginador.totalRegistros" [(page)]="page"
-                            [pageSize]="pageSize" [boundaryLinks]="true" (pageChange)="cambioPagina($event)"
-                            [ellipses]="false" [maxSize]="5" [rotate]="true">
+                        <ngb-pagination  *ngIf="paginador.totalPaginas > 1"
+                            [collectionSize]="paginador.totalRegistros" [(page)]="page" [pageSize]="pageSize" [boundaryLinks]="true"
+                            (pageChange)="cambioPagina($event)" [ellipses] ="false" [maxSize] = 5 [rotate] = "true">
                         </ngb-pagination>
                     </div>
                 </div>
@@ -86,38 +82,50 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header bg-info">
-                <h4 class="m-b-0 text-white">Datos Cotización</h4>
+                <h4 class="m-b-0 text-white"><i class="fas fa-info-circle text-white pointer"></i> Datos Cotización</h4>
             </div>
-            <form  [formGroup]="Formulario"   (submit)="GuardarCotizacion()">
+            <form [formGroup]="Formulario" (submit)="GuardarCotizacion()">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-4" *ngFor="let keyArray of ListCamposPantillaCabecera"> 
-                            <div class="form-group"> 
-                                <label >{{keyArray.etiqueta}}</label> 
-                                <input  type="text" class="form-control form-control-sm" [formControlName]="keyArray.columnaResp" > 
-                            </div> 
+                    <div class="col-md-4" *ngFor="let keyArray of ListCamposPantillaCabecera">
+                                <div class="form-group">
+                                    <label>{{keyArray.etiqueta}}</label>
+                                    <input type="text" class="form-control form-control-sm"
+                                        [formControlName]="keyArray.columnaResp">
+                                </div>
                         </div>
+                        <!-- <div class="col-md-4" *ngFor="let keyArray of InformacionCotizacion.cabecera">
+                                <pre>{{values}}</pre>
+                        </div> -->
                     </div>
                 </div>
+                 <!-- Button -->
+                <div class="d-md-flex align-items-center bg-white">
+                    <div class="ml-auto  mt-md-0 mr-5">
+                        <!-- Add Contact -->
+                        <button type="button" class="btn btn-info rounded-pill py-2" (click)='AgregarCotizacion()'><i
+                                class="fas fa-plus  font-14 mr-1 text-white"></i>
+                            <span class="ml-1 text-white font-weight-bold">Agregar</span>
+                        </button>
+                    </div>
+                </div>
+                <!-- Tabla -->
                 <div class="card-body">
                     <div class="card-body" id="cbBody"></div>
                 </div>
                 <div class="card-body justify-content-center">
-                    <button type="submit"  [disabled]="!Formulario.valid"
-                    class="btn btn-rounded btn-success">Guardar</button>
-                    <button type="button"  (click)="CancelEdit()"
-                                class="btn btn-rounded btn-dark">Cancelar</button>
+                    <button type="submit" [disabled]="!Formulario.valid"
+                        class="btn btn-rounded btn-success"><i class="fas fa-save text-white pointer"></i> Guardar</button>
+                    <button type="button" (click)="CancelEdit()" class="btn btn-rounded btn-dark"><i class=" fas fa-ban text-white pointer"></i> Cancelar </button>
                 </div>
-               
+
             </form>
 
         </div>
     </div>
 </div>
 
-
-
-
+<!-- GENERADOR DE PDF -->
 <ng-template #modalGeneracion let-modal>
     <div class="modal-header">
         <h4 class="modal-title">Generando</h4>

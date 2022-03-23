@@ -225,7 +225,7 @@ export class CompraMateriaPrimaComponent implements OnInit {
       this._modalService.open(modal, {
         centered: true,
         backdrop: 'static',
-        size: 'md',
+        size: 'lg',
         scrollable: true
       });
   }

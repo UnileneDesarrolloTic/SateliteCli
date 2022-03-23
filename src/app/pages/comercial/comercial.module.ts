@@ -12,9 +12,13 @@ import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { CotizacionComponent } from './cotizacion/cotizacion.component';
+import { ModalDocumentoCotizacionComponent } from './cotizacion/modal-documento-cotizacion/modal-documento-cotizacion.component';
+import { ModalDescargaCotizacionComponent } from './cotizacion/modal-descarga-cotizacion/modal-descarga-cotizacion.component';
+
+import { ModalAgregarCotizacionComponent } from './cotizacion/modal-agregar-cotizacion/modal-agregar-cotizacion.component';
 
 @NgModule({
-  declarations: [GeneracionFormatosComponent, ProtocoloAnalisisComponent, CotizacionComponent],
+  declarations: [GeneracionFormatosComponent, ProtocoloAnalisisComponent, CotizacionComponent, ModalDocumentoCotizacionComponent, ModalDescargaCotizacionComponent, ModalAgregarCotizacionComponent],
   imports: [
     RouterModule.forChild(ComercialRoutes),
     CommonModule,
@@ -25,6 +29,6 @@ import { CotizacionComponent } from './cotizacion/cotizacion.component';
     ReactiveFormsModule,
     NgxDatatableModule,
   ],
-  exports: [GeneracionFormatosComponent, ProtocoloAnalisisComponent],
+  exports: [GeneracionFormatosComponent, ProtocoloAnalisisComponent ,ModalDocumentoCotizacionComponent,ModalDescargaCotizacionComponent],
 })
 export class ComercialModule {}

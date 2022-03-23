@@ -360,9 +360,10 @@
                     <tr>
                         <th class="text-center">#</th>
                         <th class="text-center">Numero Orden</th>
-                        <th class="text-center">Numero Control</th>
+                      
                         <th class="text-center">Cantidad Recibida</th>
                         <th class="text-center">Estado</th>
+                        <th class="text-center">F.Preparacion</th>
                     </tr>
                 </thead>
                 <tbody >
@@ -371,16 +372,16 @@
                             {{ i + 1 }}
                         </td>
                         <td class="text-center">
-                            {{ calidad.referenciaNumeroDocumento }}
-                        </td>
-                        <td class="text-center">
-                            {{ calidad.controlNumero}}
+                            {{ calidad.numeroOrden }}
                         </td>
                         <td class="text-center">
                             {{ calidad.cantidadRecibida | number }}
                         </td>
                         <td class="text-center">
                             {{ calidad.estado }}
+                        </td>
+                        <td class="text-center">
+                            {{ calidad.fechaPreparacion}}
                         </td>
                         
                     </tr>

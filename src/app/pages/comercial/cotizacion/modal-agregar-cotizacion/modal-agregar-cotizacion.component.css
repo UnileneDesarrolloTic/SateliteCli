@@ -1,0 +1,6 @@
+.scroll-group {
+    overflow-x:hidden;
+    white-space: nowrap;
+    width: 100%;
+    overflow-y:hidden;
+  }
