@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit,Output ,EventEmitter } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Paginado } from '@data/interface/Comodin/Paginado.interface';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -23,6 +23,8 @@ import { ModalAgregarCotizacionComponent } from './modal-agregar-cotizacion/moda
 })
 export class CotizacionComponent implements OnInit {
 
+	childMessage: string = "Hola Mundo!";
+	
 	vistaDetalle: Boolean = false;
 	FormatoNoEncontrado: Boolean = false;
 	IdFormato: Number;
@@ -33,7 +35,7 @@ export class CotizacionComponent implements OnInit {
 	dropdownSettings = {};
 	EditarBoolean: boolean = false;
 
-	Formulario: FormGroup;
+	// Formulario: FormGroup;
 	formSearch: FormGroup;
 
 	//FORMATOS POR CLIENTE
@@ -197,10 +199,6 @@ export class CotizacionComponent implements OnInit {
 			ngmClienteNombre: ['',],
 		})
 
-		this.Formulario = this._fb.group({
-			// cabecera: new FormArray([]),
-			detalle: new FormArray([]),
-		})
 	}
 
 	ngOnInit(): void {
@@ -311,7 +309,6 @@ export class CotizacionComponent implements OnInit {
 
 		this._cotizacionService.SeleccionarCotizacion(idFormato).subscribe(
 			(resp: Cotizacion) => {
-				console.log(resp)
 				if (resp.cabecera.length > 0) {
 					this.ListCamposPantillaCabecera = [];
 					this.CabeceraDetalle = [];
@@ -324,8 +321,7 @@ export class CotizacionComponent implements OnInit {
 					this.NroDocumento = numeroDocumento;
 					this.ListCamposPantillaCabecera = resp.cabecera;
 					this.ListCabeceraDetalle = resp.detalle;
-					this.ListarDetalleCotizacion(idFormato, numeroDocumento);
-					this.ConstruirDetalle(idFormato, numeroDocumento);
+			
 				} else {
 					this.toastr.info("La cotización elegida no cuenta con un formato, favor de revisar el número de documento");
 				}
@@ -335,207 +331,9 @@ export class CotizacionComponent implements OnInit {
 
 	}
 
-
-
-	ListDetalleCotizacion(idFormato): FormArray {
-		return this.Formulario.get("detalle") as FormArray;
-	}
-
-	async ListarDetalleCotizacion(idFormato, numeroDocumento) {
-		return this._cotizacionService.InformacionDetalleCotizacion(idFormato, numeroDocumento).toPromise()
-	}
-
-	async ConstruirDetalle(idFormato, numeroDocumento) {
-
-		//contruimos la cabecera de la cotizacion
-		// for (let items in this.ListCamposPantillaCabecera) {
-		// 	this.Formulario.addControl(this.ListCamposPantillaCabecera[items].columnaResp, new FormControl(this.ListCamposPantillaCabecera[items].valorDefecto, this.ListCamposPantillaCabecera[items].requerido ? Validators.required : null));
-		// }
-
-		for (let items in this.ListCamposPantillaCabecera) {
-				this.Formulario.addControl(this.ListCamposPantillaCabecera[items].columnaResp, new FormControl(this.ListCamposPantillaCabecera[items].valorDefecto, this.ListCamposPantillaCabecera[items].requerido ? Validators.required : null));
-		}
-		
-
-		//CABECERA DEL DETALLE
-		this.CabeceraDetalle = this.ListCabeceraDetalle.map((items: any) => ({ columnaResp: items.columnaResp, valorDefecto: items.valorDefecto, requerido: items.requerido, tipoDato: items.tipoDato }))
-		this.InformacionCotizacion = await this.ListarDetalleCotizacion(idFormato, numeroDocumento);
-		this.DetalleCotizacionTotal = await this.InformacionCotizacion.detalle;
-
-
-		//COLOCAMOS LO QUE VIENE EL API DE ObtenerDatos
-		for (let variable in this.InformacionCotizacion.cabecera) {
-			this.ListCamposPantillaCabecera.forEach((row: any) => {
-				switch (row.columnaResp) {
-					case variable:
-							this.Formulario.get(variable).patchValue(this.InformacionCotizacion.cabecera[variable]);
-						break;
-				}
-			})
-		}
-		
-		//COMPARACION DE ARRAY  DE LO QUE TENGO Y LO QUE ME SOBRA
-		this.DetalleCotizacion = this.Prueba; /// LO QUE VIENE  (hay una variable de prueba) this.Prueba
-		this.ListaFaltantesCotizacion = this.DetalleCotizacionTotal;
-
-		// console.log(this.DetalleCotizacion,this.Prueba);
-		// SOLO LO QUE SOBRAN
-		this.DetalleCotizacion.forEach((element: any) => {
-			this.ListaFaltantesCotizacion = this.ListaFaltantesCotizacion.filter((elementFil: any) => element.NroItem != elementFil.NroItem);
-		})
-
-		this.ConstruirTable(this.DetalleCotizacion, this.ListCabeceraDetalle);
-	}
-
-
-	ConstruirTable(ArrayListDetalleCotizacion, ArrayCabecera) {
-
-		var cabeceras = ArrayCabecera;
-		var detalle = ArrayListDetalleCotizacion;
-
-		var bodyt = document.getElementById("cbBody");
-		var table = document.createElement("table");
-		var thead = document.createElement("thead");
-		var trh = document.createElement("tr");
-		table.setAttribute("class", "table table-striped no-wrap border table-responsive");
-		table.setAttribute("style", "font-size: 12px");
-		table.setAttribute("id", "idtable")
-		bodyt.appendChild(table);
-		table.appendChild(thead);
-		thead.appendChild(trh);
-		cabeceras.forEach(element => {
-			var th = document.createElement("th");
-			th.setAttribute("scope", "col");
-			th.setAttribute("style", "vertical-align: middle");
-			th.innerHTML = element.etiqueta;
-			trh.appendChild(th);
-		});
-		//cabecera de opcion
-		var th = document.createElement("th");
-		th.setAttribute("scope", "col");
-		th.setAttribute("style", "vertical-align: middle");
-		th.innerHTML = "Opcion";
-		trh.appendChild(th);
-
-		var tbody = document.createElement("tbody");
-		tbody.setAttribute("id", "tbodyDetalle")
-		table.appendChild(tbody);
-		detalle.forEach((elementSup, index) => {
-			var tr = document.createElement("tr");
-			tbody.appendChild(tr);
-			for (let campo in elementSup) {
-				var td = document.createElement("td");
-				td.innerHTML = elementSup[campo];
-				td.setAttribute("id", campo);
-				td.setAttribute("contenteditable", "true");
-				tr.appendChild(td);
-			}
-
-			var td = document.createElement('td');
-			td.innerHTML = '<i class="fa fa-trash" style="font-size:14px;color: red; cursor:pointer"></i>';
-			td.addEventListener("click", () => {
-				let Seleccionado = this.DetalleCotizacion.splice(index, 1);
-				this.ListaFaltantesCotizacion.push(Seleccionado[0]);
-				table.remove();
-				this.ConstruirTable(this.DetalleCotizacion, this.ListCabeceraDetalle);
-			})
-			tr.appendChild(td);
-		});
-	}
-
-
-
-	GuardarCotizacion() {
-		var infordatelle = document.getElementById("tbodyDetalle");
-		var respcotizacion = Array();
-		var Mensajedevalicacion = null;
-		infordatelle.childNodes.forEach((element: any) => {
-			var obj = Object();
-			this.ListCabeceraDetalle.forEach((cabecera, posicion) => {
-				//validamos campos del array 
-				let validar = this.ValidarCamposArray(cabecera, element.childNodes[posicion].innerText)
-				if (validar) {
-					switch (cabecera.columnaResp.toLocaleLowerCase()) {
-						case element.childNodes[posicion].id.toLocaleLowerCase():
-							obj[element.childNodes[posicion].id] = cabecera.columnaResp == 'NUMBER' ? parseFloat(element.childNodes[posicion].innerText) : element.childNodes[posicion].innerText
-							break;
-					}
-				} else {
-					Mensajedevalicacion = `La columna '${element.childNodes[posicion].id}' Necesita Agregar un valor`;
-				}
-
-			});
-
-			respcotizacion.push(obj);
-		});
-
-		//mandamos el formato
-		if (!Mensajedevalicacion) {
-			const ValorEnviarCotizacion = {
-				...this.Formulario.value,
-				detalle: respcotizacion,
-			}
-			console.log(ValorEnviarCotizacion);
-			this.toastr.success("Se Guardo Correctamente");
-			this.CancelEdit();
-		} else {
-			this.toastr.info(Mensajedevalicacion);
-		}
-
-
-
-	}
-
-
-	ValidarCamposArray(cabecera, valor) {
-		if (cabecera.requerido == true) {
-			return valor == "" || valor == null ? false : true;
-		}
-		return true;
-	}
-
-
-	CancelEdit() {
-		this.vistaDetalle = false;
-		this.ListCamposPantillaCabecera = [];
-		this.CabeceraDetalle = [];
-		this.InformacionCotizacion = [];
-		this.DetalleCotizacion = [];
-		this.ListaFaltantesCotizacion = [];
-	}
-
-	AgregarCotizacion() {
-
-		const dataCotizacion = {
-			ListaFaltante: this.ListaFaltantesCotizacion,
-			CabeceraDetalle: this.ListCabeceraDetalle
-		}
-
-		const modalRefAgregarCotizacion = this.modalService.open(ModalAgregarCotizacionComponent, {
-			ariaLabelledBy: 'modal-basic-title',
-			windowClass: 'md-class',
-			backdropClass: 'light-blue-backdrop',
-			backdrop: 'static',
-			size: 'xl',
-			scrollable: true,
-			keyboard: false
-		});
-
-		modalRefAgregarCotizacion.componentInstance.fromParent = dataCotizacion;
-		modalRefAgregarCotizacion.result.then((result) => {
-			if (result.length > 0) {
-				var table = document.getElementById("idtable");
-				table.remove();
-				this.DetalleCotizacion.push(result[0])
-				this.ConstruirTable(this.DetalleCotizacion, this.ListCabeceraDetalle);
-
-			}
-
-		}, (reason) => {
-			// console.log("salir Generar Cotizacion", reason)
-		});
-	}
-
+	procesaPropagar(mensaje) {
+		this.vistaDetalle=mensaje;
+	  }
 
 
 

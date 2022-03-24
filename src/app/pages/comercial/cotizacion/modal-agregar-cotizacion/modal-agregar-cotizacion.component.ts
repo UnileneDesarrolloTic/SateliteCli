@@ -30,11 +30,18 @@ export class ModalAgregarCotizacionComponent implements OnInit {
       var thead = document.createElement("thead");
       var trh = document.createElement("tr");
       table.setAttribute("class", "table table-striped no-wrap border table-responsive");
-      table.setAttribute("style", "font-size: 12px")
+      table.setAttribute("style", "font-size: 12px;overflow-y: auto; height: calc(100vh - 15rem)")
       bodyt.appendChild(table);
   
       table.appendChild(thead);
       thead.appendChild(trh);
+      
+        //cabecera de opcion
+        var th = document.createElement("th");
+        th.setAttribute("scope", "col");
+        th.setAttribute("style", "vertical-align: middle");
+        th.innerHTML = "Opcion";
+        trh.appendChild(th);
       cabeceras.forEach(element => {
         var th = document.createElement("th");
         th.setAttribute("scope", "col");
@@ -42,12 +49,7 @@ export class ModalAgregarCotizacionComponent implements OnInit {
         th.innerHTML = element.etiqueta;
         trh.appendChild(th);
       });
-      //cabecera de opcion
-      var th = document.createElement("th");
-      th.setAttribute("scope", "col");
-      th.setAttribute("style", "vertical-align: middle");
-      th.innerHTML = "Opcion";
-      trh.appendChild(th);
+    
   
       var tbody = document.createElement("tbody");
       tbody.setAttribute("id", "tbodyDetalle")
@@ -55,14 +57,6 @@ export class ModalAgregarCotizacionComponent implements OnInit {
       detalle.forEach((elementSup, index) => {
         var tr = document.createElement("tr");
         tbody.appendChild(tr);
-        for (let campo in elementSup) {
-          var td = document.createElement("td");
-          td.innerHTML = elementSup[campo];
-          td.setAttribute("id", campo);
-          td.setAttribute("contenteditable", "false");
-          tr.appendChild(td);
-        }
-  
         var td = document.createElement('td');
         td.innerHTML = '<i class="far fa-share-square" style="font-size:15px;cursor:pointer"></i>';
         td.addEventListener("click", () => {
@@ -71,6 +65,15 @@ export class ModalAgregarCotizacionComponent implements OnInit {
           this.activeModal.close( Seleccionado ); 
         })
         tr.appendChild(td);
+
+        for (let campo in elementSup) {
+          var td = document.createElement("td");
+          td.innerHTML = elementSup[campo];
+          td.setAttribute("id", campo);
+          td.setAttribute("contenteditable", "false");
+          tr.appendChild(td);
+        }
+
       });
     
       }    

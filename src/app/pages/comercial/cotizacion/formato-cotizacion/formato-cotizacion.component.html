@@ -1,0 +1,41 @@
+<div class="col-lg-12">
+    <div class="card">
+        <div class="card-header bg-info">
+            <h4 class="m-b-0 text-white"><i class="fas fa-info-circle text-white pointer"></i> Datos Cotización</h4>
+        </div>
+        <form [formGroup]="Formulario" (submit)="GuardarCotizacion()">
+            <div class="card-body">
+                <div class="row">
+                <div class="col-md-4" *ngFor="let keyArray of ListCamposPantillaCabecera">
+                            <div class="form-group">
+                                <label>{{keyArray.etiqueta}}</label>
+                                <input type="text" class="form-control form-control-sm"
+                                    [formControlName]="keyArray.columnaResp">
+                            </div>
+                    </div>
+                </div>
+            </div>
+             <!-- Button -->
+            <div class="d-md-flex align-items-center bg-white">
+                <div class="ml-auto  mt-md-0 mr-5">
+                    <!-- Add Contact -->
+                    <button type="button" class="btn btn-info rounded-pill py-2" (click)='AgregarCotizacion()'><i
+                            class="fas fa-plus  font-14 mr-1 text-white"></i>
+                        <span class="ml-1 text-white font-weight-bold">Agregar</span>
+                    </button>
+                </div>
+            </div>
+            <!-- Tabla -->
+            <div class="card-body">
+                <div class="card-body" id="cbBody"></div>
+            </div>
+            <div class="card-body justify-content-center">
+                <button type="submit" [disabled]="!Formulario.valid"
+                    class="btn btn-rounded btn-success"><i class="fas fa-save text-white pointer"></i> Guardar</button>
+                <button type="button" (click)="CancelEdit()" class="btn btn-rounded btn-dark"><i class=" fas fa-ban text-white pointer"></i> Cancelar </button>
+            </div>
+
+        </form>
+
+    </div>
+</div>
