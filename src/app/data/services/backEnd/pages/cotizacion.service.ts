@@ -72,7 +72,7 @@ export class CotizacionService{
     }
 
     FormatoDescarga(nrodocumento){
-        const params = new HttpParams().set('cotizacion', '0000018661');
+        const params = new HttpParams().set('cotizacion', nrodocumento);
 
         return this._http.get(`${environment.urlApiSatelliteCore}/api/Cotizacion/ReportesPorCotizacion`,{'params': params}).pipe(
             catchError(() => throwError("Error al registrar el reporte"))
@@ -96,6 +96,7 @@ export class CotizacionService{
     }
 
     ObtenerReporte(codigo){
+
         const params = new HttpParams().set('codigoReporte', codigo);
 
         return this._http.get(`${environment.urlApiSatelliteCore}/api/Cotizacion/ObtenerReporte`,{'params':params}).pipe(

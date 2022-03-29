@@ -23,6 +23,7 @@ export class FormatoCotizacionComponent implements OnInit {
 	@Input() FlagGuardarActualizar:number;
 	@Input() InformacionCotizacion: any;
 	@Input() Codigo:string
+	@Input() nombreFormato:string;
 	
 	@Output()
 	propagar = new EventEmitter<boolean>();
@@ -50,7 +51,7 @@ export class FormatoCotizacionComponent implements OnInit {
 			private toastr: ToastrService) {
 
 			this.Formulario = this._fb.group({
-				detalle: new FormArray([]),
+				// detalle: new FormArray([]),
 			})
 	}
 
@@ -88,7 +89,12 @@ export class FormatoCotizacionComponent implements OnInit {
 			this.ListCamposPantillaCabecera.forEach((row: any) => {
 				switch (row.columnaResp) {
 					case this.CambioPrimeraLetra(variable):
-							this.Formulario.get(this.CambioPrimeraLetra(variable)).patchValue(this.InformacionCotizacion.cabecera[variable]);
+							if(row.tipoDato!='DATE'){
+								this.Formulario.get(this.CambioPrimeraLetra(variable)).patchValue(this.InformacionCotizacion.cabecera[variable]);
+							}else{
+								let formatodate=this.InformacionCotizacion.cabecera[variable].split("T")
+								this.Formulario.get(this.CambioPrimeraLetra(variable)).patchValue(formatodate[0]);
+							}	
 						break;
 				}
 			})
@@ -144,6 +150,7 @@ export class FormatoCotizacionComponent implements OnInit {
 			var tr = document.createElement("tr");
 			tbody.appendChild(tr);
 			for (let campo in elementSup) {
+				// console.log(elementSup[campo]);
 				var td = document.createElement("td");
 				td.innerHTML = elementSup[campo];
 				td.setAttribute("id", this.CambioPrimeraLetra(campo));
@@ -265,13 +272,14 @@ export class FormatoCotizacionComponent implements OnInit {
 				Detalle: respcotizacion
 			},
 		}
+		// console.log(ValorEnviarCotizacion);
 		this._cotizacionService.RegistrarCotizacion(ValorEnviarCotizacion).subscribe(
 			resp=>{
 				this.toastr.success("Se Guardo Correctamente");
 				this.CancelEdit();
 			},
 			error=>{
-				console.log(error,"error");
+				// console.log(error,"error");
 			}
 		)
 	}
@@ -286,6 +294,7 @@ export class FormatoCotizacionComponent implements OnInit {
 			}
 			
 		}
+		console.log(ValorEnviarCotizacion);
 		console.log(ValorEnviarCotizacion)
 		this._cotizacionService.Actualizar(ValorEnviarCotizacion).subscribe(
 			resp=>{
@@ -315,7 +324,15 @@ export class FormatoCotizacionComponent implements OnInit {
 				if(variable!="detalle"){
 					switch (row.columnaResp) {
 						case this.CambioPrimeraLetra(variable):
-								 this.Formulario.get(this.CambioPrimeraLetra(variable)).patchValue(InformacionCotizacion[variable]);		
+								
+								 	if(row.tipoDato != 'DATE'){
+										this.Formulario.get(this.CambioPrimeraLetra(variable)).patchValue(InformacionCotizacion[variable]);
+									 }else{
+										 //InformacionCotizacion[variable]
+										let formatodate=InformacionCotizacion[variable].split("T")
+										this.Formulario.get(this.CambioPrimeraLetra(variable)).patchValue(formatodate[0]);
+									 }
+										
 							break;
 					}
 				}

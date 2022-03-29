@@ -28,6 +28,7 @@ export class CotizacionComponent implements OnInit {
 	vistaDetalle: Boolean = false;
 	FlagGuardarActualizar:number=1;
 	Codigo:string;
+	nombreFormato:string;
 	FormatoNoEncontrado: Boolean = false;
 	IdFormato: Number;
 	NroDocumento: String;
@@ -146,7 +147,9 @@ export class CotizacionComponent implements OnInit {
 		
 				modalRef.componentInstance.fromParent = data;
 				modalRef.result.then((result) => {
+					console.log(result)
 					this.FlagGuardarActualizar=1;
+					this.nombreFormato=result.nombreFormato;
 					this.Editar(result.seleccionado, result.numeroDocumento);
 				}, (reason) => {
 					// console.log("salir2", reason)
@@ -176,7 +179,8 @@ export class CotizacionComponent implements OnInit {
 		modalRefGenerarCotizacion.result.then((result) => {
 			this.FlagGuardarActualizar=2;
 			this.InformacionCotizacion=result.bodyCotizacion;
-			this.Codigo=result.Codigo
+			this.Codigo=result.Codigo;
+			this.nombreFormato=result.nombreFormato;
 			this.Editar(result.idformato,result.numeroDocumento);
 			
 		}, (reason) => {

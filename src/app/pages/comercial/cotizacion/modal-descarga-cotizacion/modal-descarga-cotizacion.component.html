@@ -13,8 +13,7 @@
                 <table class="table table-striped border mt-4" style="font-size: 11px">
                     <thead class="no-wrap">
                         <tr>
-                            <th>ID</th>
-                            <th>Codigo</th>
+                            <th>ID Formato</th>
                             <th>Formato</th>
                             <th>Registrado por </th>
                             <th>Fecha registro</th>
@@ -26,7 +25,6 @@
                     <tbody>
                         <tr *ngFor="let descarga of ListaDescarga">
                             <td>{{ descarga.idFormato }}</td>
-                            <th>{{ descarga.codigo }}</th>
                             <td>{{ descarga.formato }}</td>
                             <td>{{ descarga.usuarioRegistro }}</td>
                             <td>{{ descarga.fechaRegistro  | date: 'dd/MM/yyyy' }}</td>

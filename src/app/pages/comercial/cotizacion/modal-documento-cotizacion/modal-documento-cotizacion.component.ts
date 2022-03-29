@@ -24,13 +24,18 @@ export class ModalDocumentoCotizacionComponent implements OnInit {
 
   ngOnInit(): void {
     this.ListaFormatos=this.fromParent.listaFormato;
+    console.log(this.ListaFormatos);
     this.Items=this.fromParent.items;
   }
 
   save() {
+      // filtramos el nombre del formato seleccionado
+      let nombreformato:any = this.ListaFormatos.find((element:any)=> element.idFormato == this.form.controls.SeleccionFormato.value ? element.formato : '');
+      
       const respuesta={
           seleccionado: this.form.controls.SeleccionFormato.value,
-          numeroDocumento: this.Items.numeroDocumento
+          numeroDocumento: this.Items.numeroDocumento,
+          nombreFormato: nombreformato.formato
       } 
       this.activeModal.close( respuesta ); 
     }

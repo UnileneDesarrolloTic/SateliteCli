@@ -3,8 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CotizacionService } from '@data/services/backEnd/pages/cotizacion.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
-import { saveAs } from 'file-saver';
-import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-modal-descarga-cotizacion',
@@ -21,8 +19,7 @@ export class ModalDescargaCotizacionComponent implements OnInit {
               public activeModal: NgbActiveModal,
               private fb:FormBuilder,
               private _cotizacionService: CotizacionService,
-              private toastr: ToastrService,
-              private sanitizer: DomSanitizer
+              private toastr: ToastrService
             ) {
               this.form=this.fb.group({})
     }
@@ -35,6 +32,7 @@ export class ModalDescargaCotizacionComponent implements OnInit {
   ListarFormatosDescarga(){
       this._cotizacionService.FormatoDescarga(this.fromParent.numeroDocumento).subscribe(
         (resp:any)=>{
+          // console.log(resp);
           this.ListaDescarga=resp
         }
       )
@@ -95,13 +93,14 @@ export class ModalDescargaCotizacionComponent implements OnInit {
         const formato={
            idformato:itemcotizacion.idFormato,
            Codigo:itemcotizacion.codigo,
+           nombreFormato:itemcotizacion.formato,
            numeroDocumento:this.fromParent.numeroDocumento,
            bodyCotizacion:resp
         }
         this.activeModal.close( formato ); 
       },
       error=>{
-        this.toastr.info(error);
+        this.toastr.info("Error con el formato de cotizacion");
       }
    )
   }
