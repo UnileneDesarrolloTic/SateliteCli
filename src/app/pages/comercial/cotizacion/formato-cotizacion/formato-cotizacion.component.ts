@@ -15,16 +15,19 @@ import { ModalAgregarCotizacionComponent } from '../modal-agregar-cotizacion/mod
   styleUrls: ['./formato-cotizacion.component.css']
 })
 export class FormatoCotizacionComponent implements OnInit {
-  @Input() idformatos;
-  @Input() NroDocumento;
-  @Input() ListCamposPantillaCabecera: CabeceraPantillaCotizacion[] = [];;
-  @Input() ListCabeceraDetalle: DetallePantillaCotizacion[] = [];
-  @Input() vistaDetalle: Boolean;
+	@Input() idformatos;
+	@Input() NroDocumento;
+	@Input() ListCamposPantillaCabecera: CabeceraPantillaCotizacion[] = [];;
+	@Input() ListCabeceraDetalle: DetallePantillaCotizacion[] = [];
+	@Input() vistaDetalle: Boolean;
+	@Input() FlagGuardarActualizar:number;
+	@Input() InformacionCotizacion: any;
+	@Input() Codigo:string
+	
+	@Output()
+	propagar = new EventEmitter<boolean>();
 
-  @Output()
-  propagar = new EventEmitter<boolean>();
-
-  //FORMATOS POR CLIENTE
+ 	//FORMATOS POR CLIENTE
 	ListarFormatoClient: Object[] = [];
 	listaCotizaciones: Object[] = [];
 	// Cabecera Pantilla
@@ -35,164 +38,40 @@ export class FormatoCotizacionComponent implements OnInit {
 
 	//Detalle Cotizacion 
 	DetalleCotizacion: Object[] = [];
-	DetalleCotizacionTotal: Object[] = [];
-	InformacionCotizacion: any;
+	DetalleCotizacionTotal: any;
 	ListaFaltantesCotizacion: Object[] = [];
 
-  Prueba: Object[] = [
-		{
-			"NroItem": 1,
-			"CodigoSap": "",
-			"Denominación": "Indicador multiparámetro de vapor - CD29 Bolsa x 500",
-			"UM": "BOL",
-			"Cantidad": 11.0000,
-			"Marca": "TERRAGENE",
-			"Procedencia": "ARGENTINA",
-			"Presentacion": null,
-			"PlazoEntrega": "02 Días Calendarios",
-			"VigenciaMinima": "Mayor a 24 Meses",
-			"AutoSanitario": "SI",
-			"CartaRepresentacion": "SI",
-			"Cbpm": "SI",
-			"MetodologiaAnalisis": "SI",
-			"FichaTecnica": "SI",
-			"Folleteria": "SI",
-			"CompPlazoEntrega": "SI",
-			"CompReposicionDefecto": "SI",
-			"Muestra": "SI",
-			"RotuladoESSALUD": "SI",
-			"PrecioUnitario": 41.525424,
-			"PrecioTotal": 456.7796640000
-		},
-		{
-			"NroItem": 2,
-			"CodigoSap": "",
-			"Denominación": "Integrador de vapor - IT26-C Bolsa x 250",
-			"UM": "BOL",
-			"Cantidad": 4.0000,
-			"Marca": null,
-			"Procedencia": "ARGENTINA",
-			"Presentacion": null,
-			"PlazoEntrega": "02 Días Calendarios",
-			"VigenciaMinima": "Mayor a 24 Meses",
-			"AutoSanitario": "SI",
-			"CartaRepresentacion": "SI",
-			"Cbpm": "SI",
-			"MetodologiaAnalisis": "SI",
-			"FichaTecnica": "SI",
-			"Folleteria": "SI",
-			"CompPlazoEntrega": "SI",
-			"CompReposicionDefecto": "SI",
-			"Muestra": "SI",
-			"RotuladoESSALUD": "SI",
-			"PrecioUnitario": 203.389831,
-			"PrecioTotal": 813.5593240000
-		},
-		{
-			"NroItem": 4,
-			"CodigoSap": "",
-			"Denominación": "MANGA POLIETILENO PARA ESTERILIZACION 15 CM X 60 M",
-			"UM": "UNI",
-			"Cantidad": 4.0000,
-			"Marca": "BIOSEAL",
-			"Procedencia": "PERU",
-			"Presentacion": "ROLLO X 60 METROS",
-			"PlazoEntrega": "02 Días Calendarios",
-			"VigenciaMinima": "Mayor a 24 Meses",
-			"AutoSanitario": "SI",
-			"CartaRepresentacion": "SI",
-			"Cbpm": "SI",
-			"MetodologiaAnalisis": "SI",
-			"FichaTecnica": "SI",
-			"Folleteria": "SI",
-			"CompPlazoEntrega": "SI",
-			"CompReposicionDefecto": "SI",
-			"Muestra": "SI",
-			"RotuladoESSALUD": "SI",
-			"PrecioUnitario": 29.491525,
-			"PrecioTotal": 117.9661000000
-		},
-		{
-			"NroItem": 5,
-			"CodigoSap": "",
-			"Denominación": "MANGA POLIETILENO PARA ESTERILIZACION 20 CM X 60 M",
-			"UM": "UNI",
-			"Cantidad": 7.0000,
-			"Marca": "BIOSEAL",
-			"Procedencia": "PERU",
-			"Presentacion": "ROLLO X 60 METROS",
-			"PlazoEntrega": "02 Días Calendarios",
-			"VigenciaMinima": "Mayor a 24 Meses",
-			"AutoSanitario": "SI",
-			"CartaRepresentacion": "SI",
-			"Cbpm": "SI",
-			"MetodologiaAnalisis": "SI",
-			"FichaTecnica": "SI",
-			"Folleteria": "SI",
-			"CompPlazoEntrega": "SI",
-			"CompReposicionDefecto": "SI",
-			"Muestra": "SI",
-			"RotuladoESSALUD": "SI",
-			"PrecioUnitario": 35.593220,
-			"PrecioTotal": 249.1525400000
-		},
-		{
-			"NroItem": 6,
-			"CodigoSap": "",
-			"Denominación": "MANGA POLIETILENO PARA ESTERILIZACION 30 CM X 60 M",
-			"UM": "UNI",
-			"Cantidad": 11.0000,
-			"Marca": "BIOSEAL",
-			"Procedencia": "PERU",
-			"Presentacion": "ROLLO X 60 METROS",
-			"PlazoEntrega": "02 Días Calendarios",
-			"VigenciaMinima": "Mayor a 24 Meses",
-			"AutoSanitario": "SI",
-			"CartaRepresentacion": "SI",
-			"Cbpm": "SI",
-			"MetodologiaAnalisis": "SI",
-			"FichaTecnica": "SI",
-			"Folleteria": "SI",
-			"CompPlazoEntrega": "SI",
-			"CompReposicionDefecto": "SI",
-			"Muestra": "SI",
-			"RotuladoESSALUD": "SI",
-			"PrecioUnitario": 42.203390,
-			"PrecioTotal": 464.2372900000
-		}
-	]
 
   Formulario: FormGroup;
-  constructor(private modalService: NgbModal,
-		private _sesionService: SesionService,
-		private _cotizacionService: CotizacionService,
-		private _fb: FormBuilder,
-		private toastr: ToastrService) {
+	constructor(private modalService: NgbModal,
+			private _sesionService: SesionService,
+			private _cotizacionService: CotizacionService,
+			private _fb: FormBuilder,
+			private toastr: ToastrService) {
 
-    
-		this.Formulario = this._fb.group({
-			detalle: new FormArray([]),
-		})
-   }
+			this.Formulario = this._fb.group({
+				detalle: new FormArray([]),
+			})
+	}
 
-  ngOnInit(): void {
-    console.log("hijo");
-    console.log(this.idformatos);
-    console.log(this.NroDocumento);
-    console.log(this.ListCamposPantillaCabecera);
-    console.log(this.ListCabeceraDetalle);
-    console.log(this.vistaDetalle);
-    this.ListarDetalleCotizacion(this.idformatos, this.NroDocumento);
-    this.ConstruirDetalle(this.idformatos, this.NroDocumento);
-    
-  }
+	ngOnInit(): void {
+		if(this.FlagGuardarActualizar==1){
+			this.ListarDetalleCotizacion(this.idformatos, this.NroDocumento);
+			this.ConstruirDetalle(this.idformatos, this.NroDocumento);
+		}else{
+			this.ListarDetalleCotizacion(this.idformatos, this.NroDocumento);
+			this.ConstruirDetalleActualizar(this.InformacionCotizacion);
+		}
+	
+		
+	}
 
-  async ListarDetalleCotizacion(idFormato, numeroDocumento) {
-		return this._cotizacionService.InformacionDetalleCotizacion(idFormato, numeroDocumento).toPromise()
+	async ListarDetalleCotizacion(idFormato, numeroDocumento) {
+			return this._cotizacionService.InformacionDetalleCotizacion(idFormato, numeroDocumento).toPromise()
 	}
 
 	async ConstruirDetalle(idFormato, numeroDocumento) {
-
+			
 		//contruimos la cabecera de la cotizacion
 		for (let items in this.ListCamposPantillaCabecera) {
 				this.Formulario.addControl(this.ListCamposPantillaCabecera[items].columnaResp, new FormControl(this.ListCamposPantillaCabecera[items].valorDefecto, this.ListCamposPantillaCabecera[items].requerido ? Validators.required : null));
@@ -204,23 +83,22 @@ export class FormatoCotizacionComponent implements OnInit {
 		this.InformacionCotizacion = await this.ListarDetalleCotizacion(idFormato, numeroDocumento);
 		this.DetalleCotizacionTotal = await this.InformacionCotizacion.detalle;
 
-
 		//COLOCAMOS LO QUE VIENE EL API DE ObtenerDatos
 		for (let variable in this.InformacionCotizacion.cabecera) {
 			this.ListCamposPantillaCabecera.forEach((row: any) => {
 				switch (row.columnaResp) {
-					case variable:
-							this.Formulario.get(variable).patchValue(this.InformacionCotizacion.cabecera[variable]);
+					case this.CambioPrimeraLetra(variable):
+							this.Formulario.get(this.CambioPrimeraLetra(variable)).patchValue(this.InformacionCotizacion.cabecera[variable]);
 						break;
 				}
 			})
 		}
 		
 		//COMPARACION DE ARRAY  DE LO QUE TENGO Y LO QUE ME SOBRA
-		this.DetalleCotizacion = this.Prueba; /// LO QUE VIENE  (hay una variable de prueba) this.Prueba
+		this.DetalleCotizacion = this.DetalleCotizacionTotal; /// LO QUE VIENE  (hay una variable de prueba) this.Prueba
 		this.ListaFaltantesCotizacion = this.DetalleCotizacionTotal;
 
-		// console.log(this.DetalleCotizacion,this.Prueba);
+		
 		// SOLO LO QUE SOBRAN
 		this.DetalleCotizacion.forEach((element: any) => {
 			this.ListaFaltantesCotizacion = this.ListaFaltantesCotizacion.filter((elementFil: any) => element.NroItem != elementFil.NroItem);
@@ -268,7 +146,7 @@ export class FormatoCotizacionComponent implements OnInit {
 			for (let campo in elementSup) {
 				var td = document.createElement("td");
 				td.innerHTML = elementSup[campo];
-				td.setAttribute("id", campo);
+				td.setAttribute("id", this.CambioPrimeraLetra(campo));
 				td.setAttribute("contenteditable", "true");
 				tr.appendChild(td);
 			}
@@ -299,7 +177,7 @@ export class FormatoCotizacionComponent implements OnInit {
 				if (validar) {
 					switch (cabecera.columnaResp.toLocaleLowerCase()) {
 						case element.childNodes[posicion].id.toLocaleLowerCase():
-							obj[element.childNodes[posicion].id] = cabecera.columnaResp == 'NUMBER' ? parseFloat(element.childNodes[posicion].innerText) : element.childNodes[posicion].innerText
+							obj[element.childNodes[posicion].id] = cabecera.tipoDato == 'NUMBER' ? parseFloat(element.childNodes[posicion].innerText) : element.childNodes[posicion].innerText
 							break;
 					}
 				} else {
@@ -313,29 +191,27 @@ export class FormatoCotizacionComponent implements OnInit {
 
 		//mandamos el formato
 		if (!Mensajedevalicacion) {
-			const ValorEnviarCotizacion = {
-				...this.Formulario.value,
-				detalle: respcotizacion,
-			}
-			console.log(ValorEnviarCotizacion);
-			this.toastr.success("Se Guardo Correctamente");
-			this.CancelEdit();
+				if(this.FlagGuardarActualizar==1){
+					this.Guardar(respcotizacion);
+				}else{
+					this.Actualizar(respcotizacion);
+
+				}
 		} else {
 			this.toastr.info(Mensajedevalicacion);
 		}
-
-
-
 	}
 
+	CambioPrimeraLetra(variable) {
+		return variable.charAt(0).toUpperCase() + variable.slice(1);
+	}
 
 	ValidarCamposArray(cabecera, valor) {
 		if (cabecera.requerido == true) {
-			return valor == "" || valor == null ? false : true;
+			return valor == "" || valor == null || valor == "\n" ? false : true;
 		}
 		return true;
 	}
-
 
 	CancelEdit() {
 		this.vistaDetalle = false;
@@ -344,7 +220,7 @@ export class FormatoCotizacionComponent implements OnInit {
 		this.InformacionCotizacion = [];
 		this.DetalleCotizacion = [];
 		this.ListaFaltantesCotizacion = [];
-    this.propagar.emit(false);
+		this.propagar.emit(false);
 	}
 
 	AgregarCotizacion() {
@@ -379,5 +255,79 @@ export class FormatoCotizacionComponent implements OnInit {
 		});
 	}
 
+
+	Guardar(respcotizacion){
+		const ValorEnviarCotizacion = {
+			idFormato:parseInt(this.idformatos),
+			nroCotizacion:this.NroDocumento,
+			cotizacion:{
+				...this.Formulario.value,
+				Detalle: respcotizacion
+			},
+		}
+		this._cotizacionService.RegistrarCotizacion(ValorEnviarCotizacion).subscribe(
+			resp=>{
+				this.toastr.success("Se Guardo Correctamente");
+				this.CancelEdit();
+			},
+			error=>{
+				console.log(error,"error");
+			}
+		)
+	}
+
+	Actualizar(respcotizacion){
+		
+		const ValorEnviarCotizacion = {
+			idObject: this.Codigo,
+			cotizacion:{
+			...this.Formulario.value,
+				Detalle: respcotizacion
+			}
+			
+		}
+		console.log(ValorEnviarCotizacion)
+		this._cotizacionService.Actualizar(ValorEnviarCotizacion).subscribe(
+			resp=>{
+				this.toastr.success("Se Guardo Correctamente");
+				this.CancelEdit();
+			},
+			error=>{
+				// console.log(error,"error");
+			}
+		)
+	}
+
+	//ACTUALIZAR
+	async ConstruirDetalleActualizar(InformacionCotizacion){
+		//contruimos la cabecera de la cotizacion
+		for (let items in this.ListCamposPantillaCabecera) {
+			this.Formulario.addControl(this.ListCamposPantillaCabecera[items].columnaResp, new FormControl("", this.ListCamposPantillaCabecera[items].requerido ? Validators.required : null));
+		}
+
+		this.DetalleCotizacionTotal = await this.ListarDetalleCotizacion(this.idformatos, this.NroDocumento);
+		this.ListaFaltantesCotizacion = this.DetalleCotizacionTotal.detalle;
+		this.DetalleCotizacion=await InformacionCotizacion.detalle;
+
+		//COLOCAMOS LO QUE VIENE EL API DE ObtenerDatos
+		for (let variable in InformacionCotizacion) {
+			this.ListCamposPantillaCabecera.forEach((row: any) => {
+				if(variable!="detalle"){
+					switch (row.columnaResp) {
+						case this.CambioPrimeraLetra(variable):
+								 this.Formulario.get(this.CambioPrimeraLetra(variable)).patchValue(InformacionCotizacion[variable]);		
+							break;
+					}
+				}
+			})
+		}
+
+		
+
+		this.DetalleCotizacion.forEach((element: any) => {
+			this.ListaFaltantesCotizacion = this.ListaFaltantesCotizacion.filter((elementFil: any) => element.nroItem != elementFil.nroItem);
+		})
+		this.ConstruirTable(this.DetalleCotizacion, this.ListCabeceraDetalle);
+	}
 
 }

@@ -80,13 +80,11 @@
     </div>
 </div>
 
-<!-- <div class="row" *ngIf="vistaDetalle">
-   
-</div> -->
-
-<app-formato-cotizacion *ngIf="vistaDetalle" (propagar)="procesaPropagar($event)" [vistaDetalle]="vistaDetalle"
+<app-formato-cotizacion *ngIf="vistaDetalle" (propagar)="CambiarEstadoInterface($event)" [vistaDetalle]="vistaDetalle" 
+    [InformacionCotizacion]="InformacionCotizacion" [FlagGuardarActualizar]="FlagGuardarActualizar"
     [idformatos]="IdFormato" [NroDocumento]="NroDocumento" [ListCamposPantillaCabecera]="ListCamposPantillaCabecera"
-    [ListCabeceraDetalle]="ListCabeceraDetalle"></app-formato-cotizacion>
+    [ListCabeceraDetalle]="ListCabeceraDetalle" [Codigo]="Codigo"></app-formato-cotizacion>
+
 
 <!-- GENERADOR DE PDF -->
 <ng-template #modalGeneracion let-modal>

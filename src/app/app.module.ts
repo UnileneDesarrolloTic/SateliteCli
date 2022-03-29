@@ -47,7 +47,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     BreadcrumbComponent,
     VerticalNavigationComponent,
     VerticalSidebarComponent,
-    FullComponent
+    FullComponent,
   ],
   imports: [
     CommonModule,

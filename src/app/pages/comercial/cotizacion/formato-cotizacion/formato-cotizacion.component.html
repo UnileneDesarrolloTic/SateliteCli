@@ -1,7 +1,7 @@
 <div class="col-lg-12">
     <div class="card">
         <div class="card-header bg-info">
-            <h4 class="m-b-0 text-white"><i class="fas fa-info-circle text-white pointer"></i> Datos Cotización</h4>
+            <h4 class="m-b-0 text-white"><i class="fas fa-info-circle text-white pointer"></i> Datos Cotización N° {{NroDocumento}}</h4>
         </div>
         <form [formGroup]="Formulario" (submit)="GuardarCotizacion()">
             <div class="card-body">
@@ -9,7 +9,7 @@
                 <div class="col-md-4" *ngFor="let keyArray of ListCamposPantillaCabecera">
                             <div class="form-group">
                                 <label>{{keyArray.etiqueta}}</label>
-                                <input type="text" class="form-control form-control-sm"
+                                <input [type]="keyArray.tipoDato=='STRING'? 'type' : keyArray.tipoDato=='NUMBER' ? 'number' : 'date'" class="form-control form-control-sm"
                                     [formControlName]="keyArray.columnaResp">
                             </div>
                     </div>

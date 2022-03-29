@@ -52,10 +52,19 @@ export class InterceptorService implements HttpInterceptor {
       'ControlCalidad/ListarLotes',
       'ControlCalidad/GenerarReporte',
       'ControlCalidad/RegistrarLote',
-      'RRHH/GenerarReporteAsistencia'
+      'RRHH/GenerarReporteAsistencia',
+      'Cotizacion/Listar',
+      'Cotizacion/FormatosPorCliente',
+      'Cotizacion/FormatoEstructura',
+      'Cotizacion/FormatoDatos',
+      'Cotizacion/ReportesPorCotizacion',
+      'Cotizacion/Guardar',
+      'Cotizacion/ObtenerDatosReporte',
+      'Cotizacion/ObtenerReporte',
+      'Cotizacion/Actualizar'
     ];
     const data = this.sesionService.datosPersonales();
-
+  
     if(metodosAuth.indexOf(metodoActual)==-1){
       let headers = new HttpHeaders({
         contentType:"application/json; charset=utf-8"
