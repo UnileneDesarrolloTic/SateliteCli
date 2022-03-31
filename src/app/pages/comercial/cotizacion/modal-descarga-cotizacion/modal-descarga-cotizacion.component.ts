@@ -15,7 +15,8 @@ export class ModalDescargaCotizacionComponent implements OnInit {
   @Input() fromParent;
   ListaDescarga:object[]=[];
   Items:any;
-  constructor(private modalService: NgbModal,
+  Quitamodal:any;
+  constructor(public _modalService: NgbModal,
               public activeModal: NgbActiveModal,
               private fb:FormBuilder,
               private _cotizacionService: CotizacionService,
@@ -38,12 +39,21 @@ export class ModalDescargaCotizacionComponent implements OnInit {
       )
   }
 
-  GenerarCotizacion(itemcotizacion){
+  GenerarCotizacion(modal: NgbModal,itemcotizacion){
+      this.Quitamodal = this._modalService.open(modal, {
+              centered: true,
+              backdrop: 'static',
+              size: 'sm',
+              scrollable: true
+            });
+        
       this._cotizacionService.ObtenerReporte(itemcotizacion.codigo).subscribe(
           (resp:any)=>{
             this.file(resp.content)
+            
           },
-          error=>{console.log(error)}
+          error=>{this.toastr.info(error)
+                  this.Quitamodal.close()}
       );
 
 
@@ -81,6 +91,7 @@ export class ModalDescargaCotizacionComponent implements OnInit {
     URL.revokeObjectURL(objectURL);
 
     exportLinkElement.remove();
+    this.Quitamodal.close();
 };
 
 

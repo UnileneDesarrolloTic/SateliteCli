@@ -13,7 +13,7 @@
                 <table class="table table-striped border mt-4" style="font-size: 11px">
                     <thead class="no-wrap">
                         <tr>
-                            <th>ID Formato</th>
+                          
                             <th>Formato</th>
                             <th>Registrado por </th>
                             <th>Fecha registro</th>
@@ -24,18 +24,25 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let descarga of ListaDescarga">
-                            <td>{{ descarga.idFormato }}</td>
+                            
                             <td>{{ descarga.formato }}</td>
                             <td>{{ descarga.usuarioRegistro }}</td>
-                            <td>{{ descarga.fechaRegistro  | date: 'dd/MM/yyyy' }}</td>
+                            <td>{{ descarga.fechaRegistro  | date: 'dd/MM/yyyy hh:mm:ss' }}</td>
                             <td>{{ descarga.usuarioModificacion }}</td>
-                            <td>{{ descarga.fechaModificacion | date: 'dd/MM/yyyy' }}</td>
-                            <td>
-                                <a href="javascript: void(0);" class="link" (click)="Editar(descarga)">
-                                    <i class="fas fa-edit text-info pointer p-1" size="25px"></i>
+                            <td>{{ descarga.fechaModificacion | date: 'dd/MM/yyyy hh:mm:ss' }}</td>
+                            <td align="center">
+                                <!-- <button  type="button" class="btn btn-xs p-1 btn-info waves-effect waves-light" (click)="Editar(descarga)">
+                                    <span class="btn-label"><i class="fas fa-edit"></i></span>  
+                                </button> -->
+                                <!-- <button type="button"  class="btn btn-sm  p-1" (click)="GenerarCotizacion(modalGeneracion,descarga)">
+                                    <span class="btn-label"><i class="far fa-2xl fa-file-excel" ></i></span>
+                                </button> -->
+
+                                <a class="pointer mr-2" (click)="Editar(descarga)">
+                                    <i  style="font-size: 20px;color: #1475f6;" class="fas fa-clipboard-list" ></i>
                                 </a>
-                                <a href="javascript: void(0);" class="link" (click)="GenerarCotizacion(descarga)">
-                                    <i class="fas fa-file-excel text-primary pointer p-1" size="25px"></i>
+                                <a  class="pointer" (click)="GenerarCotizacion(modalGeneracion,descarga)">
+                                    <i  style="font-size: 20px;color: #1A8E1E;" class="far  fa-file-excel quitarhover" ></i>
                                 </a>
                             </td>
                         </tr>
@@ -49,3 +56,18 @@
         
     </div>
 </div>
+
+
+<!-- GENERADOR DE PDF -->
+<ng-template #modalGeneracion let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">Generando el excel</h4>
+    </div>
+    <div class="modal-body" align="center">
+        
+            <span class="spinner-border text-info"></span>
+            <br />
+            <span class="text-info">Cargando...</span>
+      
+    </div>
+</ng-template>

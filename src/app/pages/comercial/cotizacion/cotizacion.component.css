@@ -5,3 +5,11 @@
       }
     
 }
+
+.pointer{
+  cursor: pointer;
+}
+
+.quitarhover:active:enabled{
+  color: #67757c;
+}

@@ -46,7 +46,7 @@ export class LoginComponent {
       }
 
       this.authService.autenticarUsuario(body).subscribe( resp => {
-
+       
         if(resp.success){
 
           this.toastr.success('Usuario autenticado.', 'Éxito!', {closeButton:true});

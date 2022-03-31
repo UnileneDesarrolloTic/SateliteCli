@@ -52,15 +52,20 @@
                                     <td>{{ cotizacion.clienteRUC }}</td>
                                     <td>{{ cotizacion.clienteDireccion }}</td>
                                     <td>{{ cotizacion.contacto }}</td>
-                                    <td>
-                                        <a href="javascript: void(0);" class="link"
-                                            (click)="NuevoDocumentoModal(cotizacion)">
-
-                                            <i class="icon-doc text-info m-r-10"></i>
-                                        </a>
-                                        <a href="javascript: void(0);" class="link"
+                                    <td align="center">
+                                        <!-- <button type="button" class="btn btn-xs p-1 btn-info waves-effect waves-light"
+                                                    (click)="NuevoDocumentoModal(cotizacion)">
+                                            <span class="btn-label"><i class="fas fa-file-alt"></i></span>  
+                                        </button>
+                                        <button type="button" class="btn btn-xs p-1 btn-danger waves-effect waves-light"
                                             (click)="GenerarCotizacion(cotizacion)">
-                                            <i class="icon-notebook text-danger pointer"></i>
+                                            <span class="btn-label"><i class="fas fa-folder-open"></i></span>
+                                        </button> -->
+                                        <a class="pointer mr-2" (click)="NuevoDocumentoModal(cotizacion)">
+                                            <i  style="font-size: 18px;color: #1475f6;" class="fas fa-file-alt" ></i>
+                                        </a>
+                                        <a class="pointer" (click)="GenerarCotizacion(cotizacion)">
+                                            <i  style="font-size: 18px;color: #1A8E1E;" class="fas fa-book" ></i>
                                         </a>
                                     </td>
                                 </tr>

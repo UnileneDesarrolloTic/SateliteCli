@@ -294,8 +294,7 @@ export class FormatoCotizacionComponent implements OnInit {
 			}
 			
 		}
-		console.log(ValorEnviarCotizacion);
-		console.log(ValorEnviarCotizacion)
+
 		this._cotizacionService.Actualizar(ValorEnviarCotizacion).subscribe(
 			resp=>{
 				this.toastr.success("Se Guardo Correctamente");

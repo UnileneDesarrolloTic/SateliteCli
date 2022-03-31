@@ -147,7 +147,7 @@ export class CotizacionComponent implements OnInit {
 		
 				modalRef.componentInstance.fromParent = data;
 				modalRef.result.then((result) => {
-					console.log(result)
+					
 					this.FlagGuardarActualizar=1;
 					this.nombreFormato=result.nombreFormato;
 					this.Editar(result.seleccionado, result.numeroDocumento);

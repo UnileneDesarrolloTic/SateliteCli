@@ -3,3 +3,11 @@
     white-space: nowrap;
     width: 80%;
   } */
+
+  .pointer{
+    cursor: pointer;
+  }
+
+  .quitarhover:active:enabled{
+    color: #67757c;
+  }
