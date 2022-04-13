@@ -1,8 +1,7 @@
-/* .scroll-group {
-    overflow-x:hidden;
-    white-space: nowrap;
-    width: 80%;
-  } */
+.scroll-group {
+    overflow-y: auto;
+    height: 400px;
+  }
 
   .pointer{
     cursor: pointer;

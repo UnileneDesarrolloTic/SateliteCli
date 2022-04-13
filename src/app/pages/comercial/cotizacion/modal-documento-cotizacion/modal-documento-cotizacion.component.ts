@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { CotizacionService } from '@data/services/backEnd/pages/cotizacion.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -13,9 +14,11 @@ export class ModalDocumentoCotizacionComponent implements OnInit {
   @Input() fromParent;
   ListaFormatos:object[]=[];
   Items:any;
+ 
   constructor(private modalService: NgbModal,
               public activeModal: NgbActiveModal,
-              private fb:FormBuilder
+              private fb:FormBuilder,
+              private _cotizacionService: CotizacionService
             ) {
               this.form=this.fb.group({
                   SeleccionFormato:[null,[Validators.required]]
@@ -23,10 +26,19 @@ export class ModalDocumentoCotizacionComponent implements OnInit {
     }
 
   ngOnInit(): void {
-    this.ListaFormatos=this.fromParent.listaFormato;
-    console.log(this.ListaFormatos);
     this.Items=this.fromParent.items;
+    // console.log(this.fromParent);
+    this.ListarFormatoCotizacion(this.Items.codCliente);
   }
+
+  ListarFormatoCotizacion(codClient) {
+		this._cotizacionService.FormatoPorCliente(codClient).subscribe(
+			(res: any) => {
+				this.ListaFormatos = res;
+				
+			}
+		)
+	}
 
   save() {
       // filtramos el nombre del formato seleccionado
