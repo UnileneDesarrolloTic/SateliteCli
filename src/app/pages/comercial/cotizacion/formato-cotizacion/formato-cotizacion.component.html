@@ -5,10 +5,16 @@
         </div>
         <form [formGroup]="Formulario" (submit)="GuardarCotizacion()">
             <div class="card-body">
+                <div class="row justify-content-end mb-2">
+                    <button type="submit" [disabled]="!Formulario.valid" class="btn  btn-sm btn-success"><i class="fas fa-save text-white pointer"></i> Guardar</button>
+                    <button type="button" [disabled]="!Formulario.valid" class="btn  btn-sm btn-warning" (click)="GuardadoConDescargar(true)"><i class="fas fa-save text-white pointer"></i> Guardar y descargar</button>
+                    <button type="button" (click)="CancelEdit()" class="btn  btn-sm btn-danger"><i class=" fas fa-ban text-white pointer"></i> Cancelar </button>  
+                </div>
+                
                 <div class="row">
                     <div class="col-md-4" *ngFor="let keyArray of ListCamposPantillaCabecera">
                                 <div class="form-group">
-                                    <label>{{keyArray.etiqueta}}</label>
+                                    <label>{{keyArray.etiqueta}} <span *ngIf="keyArray.requerido">(*)</span></label>
                                     <input [type]="keyArray.tipoDato=='STRING'? 'type' : keyArray.tipoDato=='NUMBER' ? 'number' : 'date'" class="form-control form-control-sm"
                                         [formControlName]="keyArray.columnaResp">
                                 </div>
@@ -19,8 +25,8 @@
                
                 <div class="row justify-content-end mb-2">
                     <button type="button" (click)="AgregarCotizacion()" class="btn  btn-sm  btn-info"><i class=" fas fa-plus text-white pointer"></i> Agregar </button>
-                    <button type="submit" [disabled]="!Formulario.valid" class="btn  btn-sm btn-success"><i class="fas fa-save text-white pointer"></i> Guardar</button>
-                    <button type="button" (click)="CancelEdit()" class="btn  btn-sm btn-danger"><i class=" fas fa-ban text-white pointer"></i> Cancelar </button>    
+                    <!-- <button type="submit" [disabled]="!Formulario.valid" class="btn  btn-sm btn-success"><i class="fas fa-save text-white pointer"></i> Guardar</button>
+                    <button type="button" (click)="CancelEdit()" class="btn  btn-sm btn-danger"><i class=" fas fa-ban text-white pointer"></i> Cancelar </button>     -->
                 </div>
                 <div class="row" id="cbBody"></div>
                
