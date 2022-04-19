@@ -1,15 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-drogueria',
-  templateUrl: './drogueria.component.html',
-  styleUrls: ['./drogueria.component.css']
+  templateUrl: './drogueria.component.html'
 })
-export class DrogueriaComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
-}
+export class DrogueriaComponent{}

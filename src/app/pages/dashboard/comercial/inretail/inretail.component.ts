@@ -4,8 +4,4 @@ import { Component } from '@angular/core';
   selector: 'app-inretail',
   templateUrl: './inretail.component.html'
 })
-export class InretailComponent  {
-
-  constructor() { }
-
-}
+export class InretailComponent  {}

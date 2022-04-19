@@ -8,6 +8,7 @@ import { InretailComponent } from '@pages/dashboard/comercial/inretail/inretail.
 import { RentabilidadComponent } from '@pages/dashboard/comercial/rentabilidad/rentabilidad.component'
 import { RentabilidadEstrategicoComponent } from './comercial/rentabilidad-estrategico/rentabilidad-estrategico.component';
 import { DrogueriaComponent } from "./comercial/drogueria/drogueria.component";
+import { SeguimientoOperacionesComponent } from "./produccion/seguimiento-operaciones/seguimiento-operaciones.component";
 
 export const DashboardRoutes: Routes = [
     {
@@ -18,50 +19,35 @@ export const DashboardRoutes: Routes = [
                 path: 'pedidos',
                 component: PedidosComponent ,
                 data: {
-                title: "Dashboard comercial pedidos",
-                urls: [
-                        { title: 'Dashboard pedidos' }
-                    ]
+                  title: "Dashboard comercial pedidos"
                 }
             },
             {
                 path: 'ventas',
                 component: VentasComponent ,
                 data: {
-                title: "Dashboard comercial ventas",
-                urls: [
-                        { title: 'Dashboard ventas' }
-                    ]
+                  title: "Dashboard comercial ventas"
                 }
             },
             {
                 path: 'exportacion',
                 component: ExportacionComponent ,
                 data: {
-                title: "Dashboard comercial exportación",
-                urls: [
-                        { title: 'Dashboard exportación' }
-                    ]
+                  title: "Dashboard comercial exportación"
                 }
             },
             {
                 path: 'ventasInretail',
                 component: InretailComponent ,
                 data: {
-                title: "Dashboard comercial ventas inretail",
-                urls: [
-                        { title: 'Dashboard ventas inretail' }
-                    ]
+                  title: "Dashboard comercial ventas inretail"
                 }
             },
             {
                 path: 'rentabilidad',
                 component: RentabilidadComponent ,
                 data: {
-                title: "Dashboard comercial rentabilidad",
-                urls: [
-                        { title: 'Dashboard rentabilidad' }
-                    ]
+                  title: "Dashboard comercial rentabilidad"
                 }
             },
             {
@@ -75,10 +61,7 @@ export const DashboardRoutes: Routes = [
             path: 'drogueria',
             component: DrogueriaComponent ,
             data: {
-            title: "Dashboard drogueria",
-            urls: [
-                    { title: 'Dashboard drogueria' }
-                ]
+              title: "Dashboard drogueria"
             }
         },
         ]
@@ -91,12 +74,16 @@ export const DashboardRoutes: Routes = [
                 path: 'pedidosArima',
                 component: PedidoArimaComponent ,
                 data: {
-                title: "Dashboard producción pedidos arima",
-                urls: [
-                        { title: 'Dashboard pedidos arima' }
-                    ]
+                  title: "Dashboard producción pedidos arima"
                 }
-            }
+            },
+            {
+              path: 'seguimiento-operaciones',
+              component: SeguimientoOperacionesComponent ,
+              data: {
+                title: "Dashboard seguimiento operaciones"
+              }
+          }
         ]
     }
 ]

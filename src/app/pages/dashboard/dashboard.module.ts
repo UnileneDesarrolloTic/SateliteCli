@@ -9,6 +9,7 @@ import { InretailComponent } from './comercial/inretail/inretail.component';
 import { RentabilidadComponent } from './comercial/rentabilidad/rentabilidad.component';
 import { RentabilidadEstrategicoComponent } from './comercial/rentabilidad-estrategico/rentabilidad-estrategico.component';
 import { DrogueriaComponent } from './comercial/drogueria/drogueria.component';
+import { SeguimientoOperacionesComponent } from './produccion/seguimiento-operaciones/seguimiento-operaciones.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { DrogueriaComponent } from './comercial/drogueria/drogueria.component';
     InretailComponent,
     RentabilidadComponent,
     RentabilidadEstrategicoComponent,
-    DrogueriaComponent
+    DrogueriaComponent,
+    SeguimientoOperacionesComponent
   ],
   imports: [
     RouterModule.forChild(DashboardRoutes)

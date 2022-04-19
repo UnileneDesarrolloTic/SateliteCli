@@ -14,8 +14,7 @@ import { UsuarioSesionData } from "@data/interface/Response/UsuarioSesionDara.in
 
 @Component({
   selector: "app-certificado",
-  templateUrl: "./certificado.component.html",
-  styleUrls: ["./certificado.component.css"],
+  templateUrl: "./certificado.component.html"
 })
 export class CertificadoComponent implements OnInit {
   modalLote: any;
