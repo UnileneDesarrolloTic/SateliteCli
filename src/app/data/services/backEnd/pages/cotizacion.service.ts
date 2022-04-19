@@ -113,4 +113,16 @@ export class CotizacionService{
         )
     }
 
+
+    //Listar Formato Cotizacion 
+
+    ListarFormatoCotizaciones(){
+        return this._http.get(`${environment.urlApiSatelliteCore}/api/Cotizacion/ListarFormatoCotizacion`).pipe(
+            catchError(() => throwError("Error al registrar el reporte"))
+        )
+    }
+
+    
+
+
 }

@@ -127,7 +127,7 @@ export class FormatoCotizacionComponent implements OnInit {
 		var thead = document.createElement("thead");
 		var trh = document.createElement("tr");
 		table.setAttribute("class", "table table-striped no-wrap border table-responsive");
-		table.setAttribute("style", "font-size: 12px; width: auto;");
+		table.setAttribute("style", "font-size: 12px; width: auto;overflow-y: auto; height: calc(100vh - 15rem)");
 		table.setAttribute("id", "idtable")
 		bodyt.appendChild(table);
 		table.appendChild(thead);
