@@ -65,8 +65,10 @@ export class CompraMateriaPrimaComponent implements OnInit {
 
 
   inicializarFormulario() {
+    //new Date().toLocaleString("es-Cl").substring(3,10);  '03-2022'\
+    //Date().toISOString().substring(0, 7)
     this.filtrosForm = this._fb.group({
-      periodo: [new Date().toISOString().substring(0, 7), Validators.required],
+      periodo: [ this.CambioFormato(new Date().toLocaleString("es-Cl").substring(3,10)), Validators.required],
       regla: ["TD", Validators.required],
       agrupador: ["TD", Validators.required],
       familia: ["TD", Validators.required],
@@ -76,7 +78,7 @@ export class CompraMateriaPrimaComponent implements OnInit {
     })
 
     this.filtrosForm.reset({
-      periodo: new Date().toISOString().substring(0, 7),
+      periodo: this.CambioFormato(new Date().toLocaleString("es-Cl").substring(3,10)),
       regla: 'TD',
       agrupador: 'TD',
       familia: 'TD',
@@ -86,7 +88,11 @@ export class CompraMateriaPrimaComponent implements OnInit {
     })
   }
 
+  CambioFormato(fecha){
+      let format = fecha.split("-");
 
+      return format[1]+''+format[0];
+  }
   
   filtroItem() {
     if (this.textFilterCtrl.value != '') {

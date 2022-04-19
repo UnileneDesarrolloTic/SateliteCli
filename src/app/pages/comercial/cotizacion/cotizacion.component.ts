@@ -93,7 +93,7 @@ export class CotizacionComponent implements OnInit {
 			"ultimaPagina": true
 		};
 
-		this.ListarFormatoCotizacion();
+		// this.ListarFormatoCotizacion();
 		this.ListarCotizacion();
 
 
@@ -121,17 +121,18 @@ export class CotizacionComponent implements OnInit {
 		);
 	}
 
-	ListarFormatoCotizacion() {
-		this._cotizacionService.FormatoPorCliente().subscribe(
-			(res: any) => {
-				this.ListarFormatoClient = res;
-			}
-		)
-	}
+	// ListarFormatoCotizacion() {
+	// 	this._cotizacionService.FormatoPorCliente().subscribe(
+	// 		(res: any) => {
+	// 			this.ListarFormatoClient = res;
+				
+	// 		}
+	// 	)
+	// }
 
 	NuevoDocumentoModal(cotizacion) {
 		let ListFormatosCliente:any = this.ListarFormatoClient.filter(element => element["codCliente"] == cotizacion.codCliente)
-		if (ListFormatosCliente.length>1){
+		// if (ListFormatosCliente.length>1){
 				const data = {
 					items: cotizacion,
 					listaFormato: ListFormatosCliente
@@ -154,11 +155,11 @@ export class CotizacionComponent implements OnInit {
 				}, (reason) => {
 					// console.log("salir2", reason)
 				});
-		}else if(ListFormatosCliente.length==1){
-			this.Editar(ListFormatosCliente[0].idFormato, cotizacion.numeroDocumento);
-		}else{
-			this.toastr.info("No continene ningun formato");
-		}
+		// }else if(ListFormatosCliente.length==1){
+		// 	this.Editar(ListFormatosCliente[0].idFormato, cotizacion.numeroDocumento);
+		// }else{
+		// 	this.toastr.info("No continene ningun formato");
+		// }
 		
 	}
 
@@ -167,7 +168,6 @@ export class CotizacionComponent implements OnInit {
 		const modalRefGenerarCotizacion = this.modalService.open(ModalDescargaCotizacionComponent, {
 			ariaLabelledBy: 'modal-basic-title',
 			centered: true,
-			windowClass: 'md-class',
 			backdropClass: 'light-blue-backdrop',
 			backdrop: 'static',
 			size: 'xl',

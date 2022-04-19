@@ -56,6 +56,7 @@ export class FormatoCotizacionComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
+		//console.log(this.ListCabeceraDetalle,this.ListCamposPantillaCabecera);
 		if(this.FlagGuardarActualizar==1){
 			this.ListarDetalleCotizacion(this.idformatos, this.NroDocumento);
 			this.ConstruirDetalle(this.idformatos, this.NroDocumento);
@@ -80,7 +81,7 @@ export class FormatoCotizacionComponent implements OnInit {
 		
 
 		//CABECERA DEL DETALLE
-		this.CabeceraDetalle = this.ListCabeceraDetalle.map((items: any) => ({ columnaResp: items.columnaResp, valorDefecto: items.valorDefecto, requerido: items.requerido, tipoDato: items.tipoDato }))
+		this.CabeceraDetalle = this.ListCabeceraDetalle.map((items: any) => ({ columnaResp: this.CambioPrimeraLetra(items.columnaResp), valorDefecto: items.valorDefecto, requerido: items.requerido, tipoDato: items.tipoDato }))
 		this.InformacionCotizacion = await this.ListarDetalleCotizacion(idFormato, numeroDocumento);
 		this.DetalleCotizacionTotal = await this.InformacionCotizacion.detalle;
 
@@ -92,7 +93,7 @@ export class FormatoCotizacionComponent implements OnInit {
 							if(row.tipoDato!='DATE'){
 								this.Formulario.get(this.CambioPrimeraLetra(variable)).patchValue(this.InformacionCotizacion.cabecera[variable]);
 							}else{
-								let formatodate=this.InformacionCotizacion.cabecera[variable].split("T")
+								let formatodate=this.InformacionCotizacion.cabecera[variable].split("T");
 								this.Formulario.get(this.CambioPrimeraLetra(variable)).patchValue(formatodate[0]);
 							}	
 						break;
@@ -116,6 +117,8 @@ export class FormatoCotizacionComponent implements OnInit {
 
 	ConstruirTable(ArrayListDetalleCotizacion, ArrayCabecera) {
 
+		
+
 		var cabeceras = ArrayCabecera;
 		var detalle = ArrayListDetalleCotizacion;
 
@@ -124,7 +127,7 @@ export class FormatoCotizacionComponent implements OnInit {
 		var thead = document.createElement("thead");
 		var trh = document.createElement("tr");
 		table.setAttribute("class", "table table-striped no-wrap border table-responsive");
-		table.setAttribute("style", "font-size: 12px");
+		table.setAttribute("style", "font-size: 12px; width: auto;");
 		table.setAttribute("id", "idtable")
 		bodyt.appendChild(table);
 		table.appendChild(thead);
@@ -150,7 +153,7 @@ export class FormatoCotizacionComponent implements OnInit {
 			var tr = document.createElement("tr");
 			tbody.appendChild(tr);
 			for (let campo in elementSup) {
-				// console.log(elementSup[campo]);
+					//  console.log(campo);
 				var td = document.createElement("td");
 				td.innerHTML = elementSup[campo];
 				td.setAttribute("id", this.CambioPrimeraLetra(campo));
@@ -172,18 +175,22 @@ export class FormatoCotizacionComponent implements OnInit {
 
 
 
-	GuardarCotizacion() {
+	GuardarCotizacion(opcionesDescarga?:boolean) {
 		var infordatelle = document.getElementById("tbodyDetalle");
 		var respcotizacion = Array();
 		var Mensajedevalicacion = null;
+
+		
 		infordatelle.childNodes.forEach((element: any) => {
 			var obj = Object();
 			this.ListCabeceraDetalle.forEach((cabecera, posicion) => {
 				//validamos campos del array 
+				
 				let validar = this.ValidarCamposArray(cabecera, element.childNodes[posicion].innerText)
 				if (validar) {
 					switch (cabecera.columnaResp.toLocaleLowerCase()) {
 						case element.childNodes[posicion].id.toLocaleLowerCase():
+							
 							obj[element.childNodes[posicion].id] = cabecera.tipoDato == 'NUMBER' ? parseFloat(element.childNodes[posicion].innerText) : element.childNodes[posicion].innerText
 							break;
 					}
@@ -193,15 +200,18 @@ export class FormatoCotizacionComponent implements OnInit {
 
 			});
 
-			respcotizacion.push(obj);
+			respcotizacion.push(obj); 
 		});
 
+	
+		// console.log(respcotizacion);
 		//mandamos el formato
 		if (!Mensajedevalicacion) {
 				if(this.FlagGuardarActualizar==1){
-					this.Guardar(respcotizacion);
+					 this.Guardar(respcotizacion,opcionesDescarga);
+
 				}else{
-					this.Actualizar(respcotizacion);
+					this.Actualizar(respcotizacion,opcionesDescarga);
 
 				}
 		} else {
@@ -263,7 +273,7 @@ export class FormatoCotizacionComponent implements OnInit {
 	}
 
 
-	Guardar(respcotizacion){
+	Guardar(respcotizacion,opcionesDescarga?:boolean){
 		const ValorEnviarCotizacion = {
 			idFormato:parseInt(this.idformatos),
 			nroCotizacion:this.NroDocumento,
@@ -272,19 +282,23 @@ export class FormatoCotizacionComponent implements OnInit {
 				Detalle: respcotizacion
 			},
 		}
-		// console.log(ValorEnviarCotizacion);
 		this._cotizacionService.RegistrarCotizacion(ValorEnviarCotizacion).subscribe(
-			resp=>{
-				this.toastr.success("Se Guardo Correctamente");
-				this.CancelEdit();
+			(resp:any)=>{
+				console.log(resp)
+				if(resp.success==true){
+					this.toastr.success(resp.message);
+					if(opcionesDescarga){
+						this.GenerarReporte(resp.content);
+					}
+					this.CancelEdit();
+				}
+				
 			},
-			error=>{
-				// console.log(error,"error");
-			}
+			error=>{this.toastr.info(error)}
 		)
 	}
 
-	Actualizar(respcotizacion){
+	Actualizar(respcotizacion,opcionesDescarga?:boolean){
 		
 		const ValorEnviarCotizacion = {
 			idObject: this.Codigo,
@@ -298,13 +312,72 @@ export class FormatoCotizacionComponent implements OnInit {
 		this._cotizacionService.Actualizar(ValorEnviarCotizacion).subscribe(
 			resp=>{
 				this.toastr.success("Se Guardo Correctamente");
+				if(opcionesDescarga){
+					this.GenerarReporte(this.Codigo);
+				}
 				this.CancelEdit();
 			},
-			error=>{
-				// console.log(error,"error");
-			}
+			error=>{this.toastr.info(error)}
 		)
 	}
+
+
+	GuardadoConDescargar(valor:boolean){
+			if(valor){
+				this.GuardarCotizacion(valor);
+			}else{
+				this.GuardarCotizacion();
+			}
+	}
+
+
+
+	GenerarReporte(codigo){
+		this._cotizacionService.ObtenerReporte(codigo).subscribe(
+			(resp:any)=>{
+			  this.file(resp.content)
+			  
+			},
+			error=>{this.toastr.info(error)}
+		);
+	}
+
+
+	base64ToUint8Array(string) { 
+		var raw = atob(string); 
+		var rawLength = raw.length; 
+		var array = new Uint8Array(new ArrayBuffer(rawLength)); 
+		for (var i = 0; i < rawLength; i += 1) { 
+		array[i] = raw.charCodeAt(i); 
+		} 
+		return array; 
+	  } 
+	
+	 URL = window.URL || window.webkitURL;
+	
+	  file(helloWorldExcelContent){
+		const fileBlob = new Blob(
+		  [this.base64ToUint8Array(helloWorldExcelContent)],
+		  { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }
+		);
+		var objectURL = URL.createObjectURL(fileBlob);
+		
+		const exportLinkElement = document.createElement('a');
+	
+		exportLinkElement.hidden = true;
+		exportLinkElement.download = "Cotizacion "+this.NroDocumento+".xlsx";
+		exportLinkElement.href = objectURL;
+		exportLinkElement.text = "downloading...";
+	
+		document.body.appendChild(exportLinkElement);
+		exportLinkElement.click();
+	
+		URL.revokeObjectURL(objectURL);
+	
+		exportLinkElement.remove();
+		
+	};
+
 
 	//ACTUALIZAR
 	async ConstruirDetalleActualizar(InformacionCotizacion){
@@ -314,6 +387,7 @@ export class FormatoCotizacionComponent implements OnInit {
 		}
 
 		this.DetalleCotizacionTotal = await this.ListarDetalleCotizacion(this.idformatos, this.NroDocumento);
+		
 		this.ListaFaltantesCotizacion = this.DetalleCotizacionTotal.detalle;
 		this.DetalleCotizacion=await InformacionCotizacion.detalle;
 
@@ -338,9 +412,10 @@ export class FormatoCotizacionComponent implements OnInit {
 			})
 		}
 
-		
+		// console.log(this.DetalleCotizacion,this.ListaFaltantesCotizacion);
 
 		this.DetalleCotizacion.forEach((element: any) => {
+			
 			this.ListaFaltantesCotizacion = this.ListaFaltantesCotizacion.filter((elementFil: any) => element.nroItem != elementFil.nroItem);
 		})
 		this.ConstruirTable(this.DetalleCotizacion, this.ListCabeceraDetalle);

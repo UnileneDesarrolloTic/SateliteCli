@@ -47,8 +47,10 @@ export class CotizacionService{
         )
     }
 
-    FormatoPorCliente(){
-        return this._http.get(`${environment.urlApiSatelliteCore}/api/Cotizacion/FormatosPorCliente`).pipe(
+    FormatoPorCliente(codCliente){
+        const params = new HttpParams().set('idCliente', codCliente);
+
+        return this._http.get(`${environment.urlApiSatelliteCore}/api/Cotizacion/FormatosPorCliente`,{'params':params}).pipe(
             catchError(() => throwError("Error al registrar el reporte"))
         )
     }

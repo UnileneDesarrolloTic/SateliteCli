@@ -1,0 +1,6 @@
+.table-responsive {
+    display: block;
+    width: auto;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
