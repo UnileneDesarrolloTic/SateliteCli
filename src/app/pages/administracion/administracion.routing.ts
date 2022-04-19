@@ -3,6 +3,7 @@ import { EditarUsuarioComponent } from './usuario/editar-usuario/editar-usuario.
 import { Routes } from "@angular/router";
 import { AuthGuard } from "@guard/auth.guard";
 import { ListarUsuarioComponent } from "@pages/administracion/usuario/listar-usuario/listar-usuario.component";
+import { ConfigCotizacionComponent } from './config-cotizacion/config-cotizacion.component';
 
 export const AdministracionRoutes: Routes = [
   {
@@ -27,6 +28,16 @@ export const AdministracionRoutes: Routes = [
             }
           }
         ]
+      },
+      {
+        path: 'configcotizacion',
+        component: ConfigCotizacionComponent,
+        data: {
+          title: "Config Cotizacion",
+          urls: [
+            {title: 'Configuracion Cotizacion' }
+          ]
+        },
       },
     ]
   },
