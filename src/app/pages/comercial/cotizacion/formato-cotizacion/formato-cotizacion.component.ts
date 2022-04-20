@@ -1,14 +1,11 @@
 import { Component, Input, OnInit, Output,EventEmitter  } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { CabeceraPantillaCotizacion } from '@data/interface/Response/CabeceraPantillaCotizacion.interface';
 import { DetallePantillaCotizacion } from '@data/interface/Response/DetallePantillaCotizacion.interface';
 import { CotizacionService } from '@data/services/backEnd/pages/cotizacion.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { SesionService } from '@shared/services/comunes/sesion.service';
 import { ToastrService } from 'ngx-toastr';
-
 import { ModalAgregarCotizacionComponent } from '../modal-agregar-cotizacion/modal-agregar-cotizacion.component';
-
 @Component({
   selector: 'app-formato-cotizacion',
   templateUrl: './formato-cotizacion.component.html',
@@ -24,28 +21,23 @@ export class FormatoCotizacionComponent implements OnInit {
 	@Input() InformacionCotizacion: any;
 	@Input() Codigo:string
 	@Input() nombreFormato:string;
-	
+
 	@Output()
 	propagar = new EventEmitter<boolean>();
 
  	//FORMATOS POR CLIENTE
 	ListarFormatoClient: Object[] = [];
 	listaCotizaciones: Object[] = [];
-	// Cabecera Pantilla
 
-	//detalle Pantilla
 	CabeceraDetalle: any = [];
 
-
-	//Detalle Cotizacion 
 	DetalleCotizacion: Object[] = [];
 	DetalleCotizacionTotal: any;
 	ListaFaltantesCotizacion: Object[] = [];
 
-
   Formulario: FormGroup;
+
 	constructor(private modalService: NgbModal,
-			private _sesionService: SesionService,
 			private _cotizacionService: CotizacionService,
 			private _fb: FormBuilder,
 			private toastr: ToastrService) {
@@ -56,16 +48,10 @@ export class FormatoCotizacionComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
-		//console.log(this.ListCabeceraDetalle,this.ListCamposPantillaCabecera);
-		if(this.FlagGuardarActualizar==1){
-			this.ListarDetalleCotizacion(this.idformatos, this.NroDocumento);
+		if(this.FlagGuardarActualizar==1)
 			this.ConstruirDetalle(this.idformatos, this.NroDocumento);
-		}else{
-			this.ListarDetalleCotizacion(this.idformatos, this.NroDocumento);
+		else
 			this.ConstruirDetalleActualizar(this.InformacionCotizacion);
-		}
-	
-		
 	}
 
 	async ListarDetalleCotizacion(idFormato, numeroDocumento) {
@@ -73,12 +59,12 @@ export class FormatoCotizacionComponent implements OnInit {
 	}
 
 	async ConstruirDetalle(idFormato, numeroDocumento) {
-			
+
 		//contruimos la cabecera de la cotizacion
 		for (let items in this.ListCamposPantillaCabecera) {
 				this.Formulario.addControl(this.ListCamposPantillaCabecera[items].columnaResp, new FormControl(this.ListCamposPantillaCabecera[items].valorDefecto, this.ListCamposPantillaCabecera[items].requerido ? Validators.required : null));
 		}
-		
+
 
 		//CABECERA DEL DETALLE
 		this.CabeceraDetalle = this.ListCabeceraDetalle.map((items: any) => ({ columnaResp: this.CambioPrimeraLetra(items.columnaResp), valorDefecto: items.valorDefecto, requerido: items.requerido, tipoDato: items.tipoDato }))
@@ -95,17 +81,17 @@ export class FormatoCotizacionComponent implements OnInit {
 							}else{
 								let formatodate=this.InformacionCotizacion.cabecera[variable].split("T");
 								this.Formulario.get(this.CambioPrimeraLetra(variable)).patchValue(formatodate[0]);
-							}	
+							}
 						break;
 				}
 			})
 		}
-		
+
 		//COMPARACION DE ARRAY  DE LO QUE TENGO Y LO QUE ME SOBRA
 		this.DetalleCotizacion = this.DetalleCotizacionTotal; /// LO QUE VIENE  (hay una variable de prueba) this.Prueba
 		this.ListaFaltantesCotizacion = this.DetalleCotizacionTotal;
 
-		
+
 		// SOLO LO QUE SOBRAN
 		this.DetalleCotizacion.forEach((element: any) => {
 			this.ListaFaltantesCotizacion = this.ListaFaltantesCotizacion.filter((elementFil: any) => element.NroItem != elementFil.NroItem);
@@ -117,8 +103,6 @@ export class FormatoCotizacionComponent implements OnInit {
 
 	ConstruirTable(ArrayListDetalleCotizacion, ArrayCabecera) {
 
-		
-
 		var cabeceras = ArrayCabecera;
 		var detalle = ArrayListDetalleCotizacion;
 
@@ -127,7 +111,7 @@ export class FormatoCotizacionComponent implements OnInit {
 		var thead = document.createElement("thead");
 		var trh = document.createElement("tr");
 		table.setAttribute("class", "table table-striped no-wrap border table-responsive");
-		table.setAttribute("style", "font-size: 12px; width: auto;overflow-y: auto; height: calc(100vh - 15rem)");
+		table.setAttribute("style", "font-size: 12px; width: auto;overflow-y: auto; height: 30rem");
 		table.setAttribute("id", "idtable")
 		bodyt.appendChild(table);
 		table.appendChild(thead);
@@ -152,8 +136,8 @@ export class FormatoCotizacionComponent implements OnInit {
 		detalle.forEach((elementSup, index) => {
 			var tr = document.createElement("tr");
 			tbody.appendChild(tr);
+
 			for (let campo in elementSup) {
-					//  console.log(campo);
 				var td = document.createElement("td");
 				td.innerHTML = elementSup[campo];
 				td.setAttribute("id", this.CambioPrimeraLetra(campo));
@@ -180,17 +164,17 @@ export class FormatoCotizacionComponent implements OnInit {
 		var respcotizacion = Array();
 		var Mensajedevalicacion = null;
 
-		
+
 		infordatelle.childNodes.forEach((element: any) => {
 			var obj = Object();
 			this.ListCabeceraDetalle.forEach((cabecera, posicion) => {
-				//validamos campos del array 
-				
+				//validamos campos del array
+
 				let validar = this.ValidarCamposArray(cabecera, element.childNodes[posicion].innerText)
 				if (validar) {
 					switch (cabecera.columnaResp.toLocaleLowerCase()) {
 						case element.childNodes[posicion].id.toLocaleLowerCase():
-							
+
 							obj[element.childNodes[posicion].id] = cabecera.tipoDato == 'NUMBER' ? parseFloat(element.childNodes[posicion].innerText) : element.childNodes[posicion].innerText
 							break;
 					}
@@ -200,23 +184,18 @@ export class FormatoCotizacionComponent implements OnInit {
 
 			});
 
-			respcotizacion.push(obj); 
+			respcotizacion.push(obj);
 		});
-
-	
-		// console.log(respcotizacion);
 		//mandamos el formato
 		if (!Mensajedevalicacion) {
-				if(this.FlagGuardarActualizar==1){
+				if(this.FlagGuardarActualizar==1)
 					 this.Guardar(respcotizacion,opcionesDescarga);
-
-				}else{
+				else
 					this.Actualizar(respcotizacion,opcionesDescarga);
 
-				}
-		} else {
+		}else
 			this.toastr.info(Mensajedevalicacion);
-		}
+
 	}
 
 	CambioPrimeraLetra(variable) {
@@ -224,9 +203,9 @@ export class FormatoCotizacionComponent implements OnInit {
 	}
 
 	ValidarCamposArray(cabecera, valor) {
-		if (cabecera.requerido == true) {
+		if (cabecera.requerido == true)
 			return valor == "" || valor == null || valor == "\n" ? false : true;
-		}
+
 		return true;
 	}
 
@@ -266,9 +245,6 @@ export class FormatoCotizacionComponent implements OnInit {
 				this.ConstruirTable(this.DetalleCotizacion, this.ListCabeceraDetalle);
 
 			}
-
-		}, (reason) => {
-			// console.log("salir Generar Cotizacion", reason)
 		});
 	}
 
@@ -284,29 +260,30 @@ export class FormatoCotizacionComponent implements OnInit {
 		}
 		this._cotizacionService.RegistrarCotizacion(ValorEnviarCotizacion).subscribe(
 			(resp:any)=>{
-				console.log(resp)
 				if(resp.success==true){
+
 					this.toastr.success(resp.message);
-					if(opcionesDescarga){
+
+					if(opcionesDescarga)
 						this.GenerarReporte(resp.content);
-					}
+
 					this.CancelEdit();
 				}
-				
+
 			},
 			error=>{this.toastr.info(error)}
 		)
 	}
 
 	Actualizar(respcotizacion,opcionesDescarga?:boolean){
-		
+
 		const ValorEnviarCotizacion = {
 			idObject: this.Codigo,
 			cotizacion:{
 			...this.Formulario.value,
 				Detalle: respcotizacion
 			}
-			
+
 		}
 
 		this._cotizacionService.Actualizar(ValorEnviarCotizacion).subscribe(
@@ -336,48 +313,46 @@ export class FormatoCotizacionComponent implements OnInit {
 		this._cotizacionService.ObtenerReporte(codigo).subscribe(
 			(resp:any)=>{
 			  this.file(resp.content)
-			  
 			},
 			error=>{this.toastr.info(error)}
 		);
 	}
 
 
-	base64ToUint8Array(string) { 
-		var raw = atob(string); 
-		var rawLength = raw.length; 
-		var array = new Uint8Array(new ArrayBuffer(rawLength)); 
-		for (var i = 0; i < rawLength; i += 1) { 
-		array[i] = raw.charCodeAt(i); 
-		} 
-		return array; 
-	  } 
-	
-	 URL = window.URL || window.webkitURL;
-	
-	  file(helloWorldExcelContent){
+	base64ToUint8Array(string) {
+		var raw = atob(string);
+		var rawLength = raw.length;
+		var array = new Uint8Array(new ArrayBuffer(rawLength));
+		for (var i = 0; i < rawLength; i += 1) {
+		  array[i] = raw.charCodeAt(i);
+		}
+		return array;
+	}
+
+	URL = window.URL || window.webkitURL;
+
+	file(excelContent){
 		const fileBlob = new Blob(
-		  [this.base64ToUint8Array(helloWorldExcelContent)],
+		  [this.base64ToUint8Array(excelContent)],
 		  { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }
 		);
+
 		var objectURL = URL.createObjectURL(fileBlob);
-		
 		const exportLinkElement = document.createElement('a');
-	
+
 		exportLinkElement.hidden = true;
 		exportLinkElement.download = "Cotizacion "+this.NroDocumento+".xlsx";
 		exportLinkElement.href = objectURL;
 		exportLinkElement.text = "downloading...";
-	
+
 		document.body.appendChild(exportLinkElement);
 		exportLinkElement.click();
-	
-		URL.revokeObjectURL(objectURL);
-	
-		exportLinkElement.remove();
-		
-	};
 
+		URL.revokeObjectURL(objectURL);
+
+		exportLinkElement.remove();
+
+	};
 
 	//ACTUALIZAR
 	async ConstruirDetalleActualizar(InformacionCotizacion){
@@ -387,7 +362,7 @@ export class FormatoCotizacionComponent implements OnInit {
 		}
 
 		this.DetalleCotizacionTotal = await this.ListarDetalleCotizacion(this.idformatos, this.NroDocumento);
-		
+
 		this.ListaFaltantesCotizacion = this.DetalleCotizacionTotal.detalle;
 		this.DetalleCotizacion=await InformacionCotizacion.detalle;
 
@@ -397,7 +372,7 @@ export class FormatoCotizacionComponent implements OnInit {
 				if(variable!="detalle"){
 					switch (row.columnaResp) {
 						case this.CambioPrimeraLetra(variable):
-								
+
 								 	if(row.tipoDato != 'DATE'){
 										this.Formulario.get(this.CambioPrimeraLetra(variable)).patchValue(InformacionCotizacion[variable]);
 									 }else{
@@ -405,17 +380,14 @@ export class FormatoCotizacionComponent implements OnInit {
 										let formatodate=InformacionCotizacion[variable].split("T")
 										this.Formulario.get(this.CambioPrimeraLetra(variable)).patchValue(formatodate[0]);
 									 }
-										
+
 							break;
 					}
 				}
 			})
 		}
 
-		// console.log(this.DetalleCotizacion,this.ListaFaltantesCotizacion);
-
 		this.DetalleCotizacion.forEach((element: any) => {
-			
 			this.ListaFaltantesCotizacion = this.ListaFaltantesCotizacion.filter((elementFil: any) => element.nroItem != elementFil.nroItem);
 		})
 		this.ConstruirTable(this.DetalleCotizacion, this.ListCabeceraDetalle);
