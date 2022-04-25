@@ -14,13 +14,15 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { EditarUsuarioComponent } from './usuario/editar-usuario/editar-usuario.component';
 import { ConfigCotizacionComponent } from './config-cotizacion/config-cotizacion.component';
+import { EditarConfigCotizacionComponent } from './config-cotizacion/editar-config-cotizacion/editar-config-cotizacion.component';
 
 
 @NgModule({
   declarations: [
     ListarUsuarioComponent,
     EditarUsuarioComponent,
-    ConfigCotizacionComponent
+    ConfigCotizacionComponent,
+    EditarConfigCotizacionComponent
   ],
   imports: [
     RouterModule.forChild(AdministracionRoutes),

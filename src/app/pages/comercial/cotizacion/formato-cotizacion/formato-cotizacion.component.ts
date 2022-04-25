@@ -48,10 +48,14 @@ export class FormatoCotizacionComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
-		if(this.FlagGuardarActualizar==1)
+		//console.log(this.ListCabeceraDetalle,this.ListCamposPantillaCabecera);
+		if(this.FlagGuardarActualizar==1){
+			//this.ListarDetalleCotizacion(this.idformatos, this.NroDocumento);
 			this.ConstruirDetalle(this.idformatos, this.NroDocumento);
-		else
+		}else{
+			//this.ListarDetalleCotizacion(this.idformatos, this.NroDocumento);
 			this.ConstruirDetalleActualizar(this.InformacionCotizacion);
+		}
 	}
 
 	async ListarDetalleCotizacion(idFormato, numeroDocumento) {
@@ -111,11 +115,12 @@ export class FormatoCotizacionComponent implements OnInit {
 		var thead = document.createElement("thead");
 		var trh = document.createElement("tr");
 		table.setAttribute("class", "table table-striped no-wrap border table-responsive");
-		table.setAttribute("style", "font-size: 12px; width: auto;overflow-y: auto; height: 30rem");
+		table.setAttribute("style", "font-size: 12px; width: auto;overflow-y: auto; height:  30rem");
 		table.setAttribute("id", "idtable")
 		bodyt.appendChild(table);
 		table.appendChild(thead);
 		thead.appendChild(trh);
+		
 		cabeceras.forEach(element => {
 			var th = document.createElement("th");
 			th.setAttribute("scope", "col");
