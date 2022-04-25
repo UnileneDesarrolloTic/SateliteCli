@@ -58,10 +58,10 @@ export class FormatoCotizacionComponent implements OnInit {
 	ngOnInit(): void {
 		//console.log(this.ListCabeceraDetalle,this.ListCamposPantillaCabecera);
 		if(this.FlagGuardarActualizar==1){
-			this.ListarDetalleCotizacion(this.idformatos, this.NroDocumento);
+			//this.ListarDetalleCotizacion(this.idformatos, this.NroDocumento);
 			this.ConstruirDetalle(this.idformatos, this.NroDocumento);
 		}else{
-			this.ListarDetalleCotizacion(this.idformatos, this.NroDocumento);
+			//this.ListarDetalleCotizacion(this.idformatos, this.NroDocumento);
 			this.ConstruirDetalleActualizar(this.InformacionCotizacion);
 		}
 	
@@ -127,11 +127,12 @@ export class FormatoCotizacionComponent implements OnInit {
 		var thead = document.createElement("thead");
 		var trh = document.createElement("tr");
 		table.setAttribute("class", "table table-striped no-wrap border table-responsive");
-		table.setAttribute("style", "font-size: 12px; width: auto;overflow-y: auto; height: calc(100vh - 15rem)");
+		table.setAttribute("style", "font-size: 12px; width: auto;overflow-y: auto; height:  30rem");
 		table.setAttribute("id", "idtable")
 		bodyt.appendChild(table);
 		table.appendChild(thead);
 		thead.appendChild(trh);
+		
 		cabeceras.forEach(element => {
 			var th = document.createElement("th");
 			th.setAttribute("scope", "col");
@@ -284,7 +285,6 @@ export class FormatoCotizacionComponent implements OnInit {
 		}
 		this._cotizacionService.RegistrarCotizacion(ValorEnviarCotizacion).subscribe(
 			(resp:any)=>{
-				console.log(resp)
 				if(resp.success==true){
 					this.toastr.success(resp.message);
 					if(opcionesDescarga){

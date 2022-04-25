@@ -1,0 +1,10 @@
+.bodytable{
+    font-size: 14px; 
+    width: auto;
+    overflow-y: auto;
+    height:  30rem
+}
+
+.pointer{
+    cursor: pointer;
+  }

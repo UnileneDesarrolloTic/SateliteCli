@@ -1,1 +1,36 @@
-<p>config-cotizacion works!</p>
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Lista Formato</h4>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead class="bg-primary text-white">
+                        <tr>
+                            <th>ID</th>
+                            <th>NOMBRE</th>
+                            <th>DESCRIPCION</th>
+                            <th>ESTADO</th>
+                            <th>OPCION</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bodytable">
+                        <tr *ngFor="let cotizacion of ListarFormatoCotizacion"   >
+                            <td>{{cotizacion.idFormato}}</td>
+                            <td>{{cotizacion.titulo}}</td>
+                            <td>{{cotizacion.descripcion}}</td>
+                            <td>{{cotizacion.estado =='A' ? 'ACTIVO' : 'INACTIVO'}}</td>
+                            <td>
+                                <a class="pointer just" (click)="EditarFormato(cotizacion)">
+                                    <i  style="font-size: 16px;color: #1475f6;" class="fas fa-edit"></i>
+                                </a>
+                            </td>
+                        </tr>
+                       
+                    </tbody>
+                </table>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
