@@ -12,10 +12,12 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { FrmControlAgujaComponent } from './agujas/frm-control-aguja/frm-control-aguja.component';
 
 @NgModule({
   declarations: [
-    CertificadoComponent
+    CertificadoComponent,
+    FrmControlAgujaComponent
   ],
   imports: [
     RouterModule.forChild(ControlCalidadRoutes),
@@ -31,7 +33,8 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
     DatePipe
   ],
   exports: [
-    CertificadoComponent
+    CertificadoComponent,
+    FrmControlAgujaComponent
   ]
 })
 

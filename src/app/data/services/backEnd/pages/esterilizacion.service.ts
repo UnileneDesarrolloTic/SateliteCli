@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CertificadoData } from '@data/interface/Request/Certificado.interface';
 import { environment } from 'environments/environment';
@@ -44,4 +44,34 @@ export class EsterilizacionService{
     )
   }
 
+  ListarOrdenesCompra(numero: string){
+    const params =  new HttpParams().set('NumeroOrden', numero)
+
+    return this._http.get(this.url+"ListaOrdenesCompra", {'params': params}).pipe(
+      catchError (() => throwError("Error con el LISTADO DE ORDENES DE COMPRA"))
+    );
+  }
+
+  ListarAnalisis(lote: string){
+    const params =  new HttpParams().set('lote', lote)
+    return this._http.get(this.url+"ListarAnalisisAguja", {'params': params}).pipe(
+      catchError (() => throwError("Error con el LISTADO DE ANALISIS DE AGUJAS"))
+    );
+  }
+
+  ListarCiclos(identificador: string){
+    const params =  new HttpParams().set('identificador', identificador)
+    return this._http.get(this.url+"ListarCiclos", {'params': params}).pipe(
+      catchError (() => throwError("Error con el LISTADO DE ANALISIS DE AGUJAS"))
+    );
+  }
+  
+  RegistrarControlAgujas(body){
+    return this._http.post(this.url + "RegistrarControlAgujas", body).pipe(
+      catchError(() => throwError("Error al registrar el lote"))
+    )
+  }
+
 }
+
+

@@ -55,7 +55,10 @@
               "src/assets/vendor/css-chart.css",
               "src/assets/scss/style.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/jquery/dist/jquery.js",
+              "node_modules/datatables.net/js/jquery.dataTables.js"
+            ]
           },
           "configurations": {
             "production": {

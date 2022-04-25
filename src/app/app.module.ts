@@ -27,7 +27,10 @@ import { BreadcrumbComponent } from './layout/breadcrumb/breadcrumb.component';
 import { VerticalSidebarComponent } from '@layout/vertical-sidebar/vertical-sidebar.component';
 import { VerticalNavigationComponent } from '@layout/vertical-header/vertical-navigation.component';
 
+import { DataTablesModule } from "angular-datatables";
+
 import { AuthGuard } from '@guard/auth.guard';
+import { FrmControlAgujaComponent } from './pages/controldecalidad/agujas/frm-control-aguja/frm-control-aguja.component';
 
 // Select some icons (use an object, not an array)
 const icons = { Home, Edit2, Trash2, BarChart2, TrendingUp, Tool, Server, Cpu, CheckSquare, ShoppingCart, Users };
@@ -61,7 +64,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     FeatherModule.pick(icons),
     RouterModule.forRoot(AppRoutes),
     PerfectScrollbarModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    DataTablesModule
   ],
   providers: [
     AuthGuard,

@@ -24,6 +24,7 @@ export class InterceptorService implements HttpInterceptor {
     else
       metodoActual = req.url.substring(( req.url.indexOf('/api/') + 5 ), finTextServicio )
 
+      console.log(metodoActual);
     let reqClone:any;
 
     const metodosAuth = [
@@ -52,6 +53,10 @@ export class InterceptorService implements HttpInterceptor {
       'ControlCalidad/ListarLotes',
       'ControlCalidad/GenerarReporte',
       'ControlCalidad/RegistrarLote',
+      'ControlCalidad/ListaOrdenesCompra',
+      'ControlCalidad/ListarAnalisisAguja',
+      'ControlCalidad/ListarCiclos',
+      'ControlCalidad/RegistrarControlAgujas',
       'RRHH/GenerarReporteAsistencia'
     ];
     const data = this.sesionService.datosPersonales();
