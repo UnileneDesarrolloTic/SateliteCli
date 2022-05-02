@@ -49,6 +49,8 @@
               </div>
             </ng-template>
           </ngb-tab>
+
+
           <ngb-tab>
             <ng-template ngbTabTitle>
               <span class="visible-xs">
@@ -157,8 +159,7 @@
               </span>
               <span class="hidden-xs">Registro Analisis</span>
             </ng-template>
-
-            <ng-container ngbTabContent>
+            <ng-template ngbTabContent>
 
               <div class="row card-body">
 
@@ -221,10 +222,10 @@
                             <th>CICLO</th>
                           </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="{{'table'+ i}}"> 
                           <tr *ngFor=" let x of [1,2,3,4,5,6,7,8,9,10]" class="border border-warning">
                             <td><label>{{x}}</label></td>
-                            <td><input type="number" id="{{(10*(i))+x-10}}" value="{{(10*(i))+x-10}}" class="form-control" /></td>
+                            <td><input type="number" id="{{'input'+ i + x}}" value="{{0}}"   class="form-control" /></td>
                           </tr>
                         </tbody>
                       </table>
@@ -246,8 +247,10 @@
                               <div class="col-md-3" *ngFor="let e of listaCiclos">
                                 <div class="row">
                                   <label class="col-md-4">{{e.detalle}}</label>
-                                  <div class="input-group col-md-7">
-                                    <input type="text" class="form-control">
+                                  <div  id={{e.detalle}} class="input-group col-md-7">
+                                    <input type="text" id="resp"  class="form-control">
+                                    <input type="text" id="valormaximo" placeholder="max" value="{{e.val_1}}" class="form-control">
+                                    <input type="text" id="valorminimo" placeholder="min" value="{{e.val_2}}" class="form-control">
                                     <div class="input-group-append">
                                       <span class="input-group-text"> % </span>
                                     </div>
@@ -289,7 +292,7 @@
                 </DIV>
               </form> -->
 
-            </ng-container>
+            </ng-template>
           </ngb-tab>
         </ngb-tabset>
       </div>

@@ -24,7 +24,7 @@ export class FrmControlAgujaComponent implements OnInit {
   //---------------------------------------
 tablas=[];
   //Campos form 3 - registro de pruebas
-  txtNumeroAnalisis: string = '';
+  txtNumeroAnalisis: string = 'AG-1318-22';
   txtCntPruebas: string = '';
   txtCiclos: string = '';
   txtDescripcion: string = '';
@@ -64,10 +64,34 @@ tablas=[];
   }
 
   guardar() {
+    console.log(this.listaCiclos);
+     var ArrayNumero=[];
+      for(let i=1; i<=this.tablas.length;i++ ){
+           var bodytable= document.getElementById(`table${i}`)
 
+          for (let index = 1; index < bodytable.childNodes.length; index++) {
+            var inputnumber= parseInt((<HTMLInputElement>document.getElementById(`input${i}${index}`))?.value) == NaN ?  0 : parseInt((<HTMLInputElement>document.getElementById(`input${i}${index}`))?.value);
+            ArrayNumero.push(inputnumber);
+            
+          }
+      }
+
+      
+      this.CalculoCiclos(ArrayNumero);
   }
 
+  CalculoCiclos(ArrayNumero){
+      this.listaCiclos.forEach((itemsciclos:any)=>{
+            let detalleciclo=document.getElementById(itemsciclos.detalle);
+             
+            console.log((<HTMLInputElement>detalleciclo.childNodes[1]).value);
+            console.log((<HTMLInputElement>detalleciclo.childNodes[2]).value);
+            // let valormaximo = (<HTMLInputElement>document.getElementById("valormaximo")).value;
+            // let valorminimo = (<HTMLInputElement>document.getElementById("valorminimo")).value;
 
+            // console.log(valormaximo,valorminimo);
+      })
+  }
 
   ListarCiclos(identificador) {
     this.servListaAnalisis.ListarCiclos(identificador)
