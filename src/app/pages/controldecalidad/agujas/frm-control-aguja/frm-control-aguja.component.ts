@@ -1,5 +1,5 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { EsterilizacionService } from '@data/services/backEnd/pages/esterilizacion.service';
 import { SesionService } from '@shared/services/comunes/sesion.service';
@@ -22,7 +22,7 @@ export class FrmControlAgujaComponent implements OnInit {
   listaCiclos: object[] = [];
   datosMatricula: object[] = [];
   //---------------------------------------
-tablas=[];
+  tablas=[];
   //Campos form 3 - registro de pruebas
   txtNumeroAnalisis: string = 'AG-1318-22';
   txtCntPruebas: string = '';
@@ -31,18 +31,16 @@ tablas=[];
   txtFechaAnalisis: Date;
   date: any;
 
+  formFiltro: FormGroup;
+
   constructor(
-    private http: HttpClient,
     private servListaOrdenes: EsterilizacionService,
     private servListaAnalisis: EsterilizacionService,
-
     private sesion: SesionService,
     private toastr: ToastrService,
+    private _fb: FormBuilder
   ) {
-    //let now2 = moment().format("YYYY-MM-DD");
-    // this.txtFechaVencimiento = now2;
-    // this.txtFechaAnalisis = now2;
-    //console.log(sesion.datosPersonales().codUsuario)
+    this.InicializarFormulario();
   }
 
   ngOnInit(): void {
@@ -54,7 +52,16 @@ tablas=[];
     this.ListarAnalisisAgujas();
   }
 
+  InicializarFormulario(){
+    this.formFiltro =  this._fb.group({
+      ordenCompra : [''],
+      lote : ['']
+    })
 
+    this.formFiltro.valueChanges.subscribe(
+      valor => console.log(valor)
+    );
+  }
 
   GenerarListaPruebas(filas): void {
     var ciclos=Math.trunc((filas/10));
@@ -72,18 +79,18 @@ tablas=[];
           for (let index = 1; index < bodytable.childNodes.length; index++) {
             var inputnumber= parseInt((<HTMLInputElement>document.getElementById(`input${i}${index}`))?.value) == NaN ?  0 : parseInt((<HTMLInputElement>document.getElementById(`input${i}${index}`))?.value);
             ArrayNumero.push(inputnumber);
-            
+
           }
       }
 
-      
+
       this.CalculoCiclos(ArrayNumero);
   }
 
   CalculoCiclos(ArrayNumero){
       this.listaCiclos.forEach((itemsciclos:any)=>{
             let detalleciclo=document.getElementById(itemsciclos.detalle);
-             
+
             console.log((<HTMLInputElement>detalleciclo.childNodes[1]).value);
             console.log((<HTMLInputElement>detalleciclo.childNodes[2]).value);
             // let valormaximo = (<HTMLInputElement>document.getElementById("valormaximo")).value;
@@ -103,10 +110,10 @@ tablas=[];
 
 
   ListarAnalisisAgujas() {
-    this.servListaAnalisis.ListarAnalisis("")
-      .subscribe((data: any) => {//aca se puede llenar el modelo
-        this.listarAnalisisAguja = data;//el nombre se usa para llamarlo desde el html con el ngfor
-      }
+    this.servListaAnalisis.ListarAnalisis("").subscribe(
+      (data: any) => {
+          this.listarAnalisisAguja = data;
+        }
       )
   }
 
