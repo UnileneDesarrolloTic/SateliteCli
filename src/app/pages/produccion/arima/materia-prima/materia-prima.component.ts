@@ -18,6 +18,11 @@ export class MateriaPrimaComponent {
   flagLoading: boolean =  false
   formularioFiltro: FormGroup
 
+  TotalAduanas:number=0;
+  TotalPendiente:number=0;
+  TotalControlCalidad:number=0;
+  TotalDisponible:number=0;
+
   messagerNgxTable = {
     'emptyMessage': 'No se ha encontrado candidatos para este filtro',
     'totalMessage': 'Candidatos'
@@ -52,8 +57,10 @@ export class MateriaPrimaComponent {
         this.listaCandidatos = resp['seguimientoCandidatosMPA']
         this.dataCompleta = resp['seguimientoCandidatosMPA']
         this.listaCompletaOCPendientes = resp['ordenComprasPendientes']
-        this.filtroCandidato()
-        this.flagLoading = false
+        this.filtroCandidato();
+        this.flagLoading = false;
+        this.calcularTotal(resp["detalleTotalesProducto"]);
+        
       },
       catchError => {
         this.messagerNgxTable.emptyMessage = 'Ocurrio un error al obtener los candidatos'
@@ -111,4 +118,21 @@ export class MateriaPrimaComponent {
         scrollable: false
       });
   }
+
+  calcularTotal(ProductoAlmacen){
+        ProductoAlmacen.forEach((element:any) => {
+              if(element.nombreTotal=="ADUANAS"){
+                  this.TotalAduanas=element.cantidad;
+              }else if(element.nombreTotal=="STOCKACTUAL"){
+                  this.TotalDisponible=element.cantidad;
+              }else if(element.nombreTotal=="CALIDAD"){
+                  this.TotalControlCalidad=element.cantidad;
+              }else {
+                  this.TotalPendiente  = element.cantidad;
+              }
+        });
+  }
+
 }
+
+

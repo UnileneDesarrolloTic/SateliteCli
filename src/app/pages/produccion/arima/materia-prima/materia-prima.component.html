@@ -1,3 +1,42 @@
+
+<div class="row p-1">
+  <div class="col-md-3">
+      <div class="card-body bg-info">
+          <div class="m-r-20 text-white align-self-center rounded-pill">Aduanas</div>
+          <div class="d-flex no-block">
+              <div class="align-self-center">
+                <h3 class="m-t-0 text-white">{{TotalAduanas | number}}</h3></div>
+          </div>
+      </div>
+</div>
+<div class="col-md-3">
+    <div class="card-body bg-secondary ">
+      <div class="m-r-20 text-black align-self-center rounded-pill">Pendientes</div>
+        <div class="d-flex no-block">
+            <div class="align-self-center">
+              <h3 class="m-t-0 text-black">{{TotalPendiente | number}}</h3></div>
+        </div>
+    </div>
+</div>
+<div class="col-md-3">
+    <div class="card-body bg-primary">
+      <div class="m-r-20 text-white align-self-center">C.Calidad</div>
+        <div class="d-flex no-block">
+            <div class="align-self-center">
+            <h3 class="m-t-0 text-white">{{TotalControlCalidad | number}}</h3></div>
+        </div>
+    </div>
+</div>
+<div class="col-md-3">
+    <div class="card-body bg-danger">
+        <div class="m-r-20 text-white align-self-center">Disponible</div>
+        <div class="d-flex no-block">
+              <div class="align-self-center">
+              <h3 class="m-t-0 text-white">{{TotalDisponible | number}}</h3></div>
+        </div>
+    </div>
+</div>
+</div>
 <div class="row">
   <div class="col-12">
     <div class="card">
@@ -10,6 +49,7 @@
                 <option value="MPAGAR1">MP Agujas Arima Regla 1</option>
                 <option value="MPAG0R2">MP Agujas Promedio Regla 2</option>
                 <option value="MPAG0R3">MP Agujas Regla 3</option>
+                <option value="MPAG0R4">MP Agujas Regla 4 (serie 300)</option>
               </select>
             </div>
             <div class="col-4 text-center">
@@ -46,6 +86,45 @@
                     {{ value | number }}
                   </ng-template>
                 </ngx-datatable-column>
+                <ngx-datatable-column name="S Disponible" prop='stockDisponible' [width]="110">
+                  <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    {{ value | number }}
+                  </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column name="Pendiente OC" prop='pendienteOC' [width]="100">
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                  <span *ngIf="!getPendienteOrdenComprar(row['item'])">
+                    {{value | number}}
+                  </span>
+                  <button class="btn btn-sm btn-outline-primary btn-rounded" type="button" *ngIf="getPendienteOrdenComprar(row['item'])"
+                   (click)="abrirModalTransito(modalPendienteOC, row['item'], 'pendienteOC', row['descripcion'])">
+                    {{ value | number }}
+                  </button>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Aduanas" prop='aduanas' [width]="100">
+              <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                <span *ngIf="!getTransitoAduana(row['item'])">
+                  {{value | number}}
+                </span>
+                <button class="btn btn-sm btn-outline-primary btn-rounded" type="button" *ngIf="getTransitoAduana(row['item'])"
+                 (click)="abrirModalTransito(modalCCAD, row['item'], 'aduanas', row['descripcion'])">
+                  {{ value | number }}
+                </button>
+              </ng-template>
+          </ngx-datatable-column>
+         
+          <ngx-datatable-column name="C Calidad" prop='transporteCC' [width]="100">
+              <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                <span *ngIf="!getTransitoCC(row['item'])">
+                  {{value | number}}
+                </span>
+                <button class="btn btn-sm btn-outline-primary btn-rounded" type="button" *ngIf="getTransitoCC(row['item'])"
+                 (click)="abrirModalTransito(modalCCAD, row['item'], 'transporteCC', row['descripcion'])">
+                  {{ value | number }}
+                </button>
+              </ng-template>
+          </ngx-datatable-column>
                 <ngx-datatable-column *ngIf="selectRegla.value == 'MPAGAR1'" name="C Variación" prop='coeficienteVariacion' [width]="95">
                     <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                       {{ value | number }} %
@@ -54,60 +133,29 @@
                 <ngx-datatable-column prop="pronostico" [width]="94">
                   <ng-template let-column="column" let-sort="sortFn" ngx-datatable-header-template>
                     <span *ngIf="selectRegla.value == 'MPAGAR1'">Pronostico</span>
-                    <span *ngIf="selectRegla.value != 'MPAGAR1'">Pro. Mensual</span>
+                    <span *ngIf="selectRegla.value == 'MPAG0R2' || selectRegla.value == 'MPAG0R3'">Pro. Mensual</span>
+                    <span *ngIf="selectRegla.value == 'MPAG0R4'">Pro. 20y21</span>
                   </ng-template>
                   <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                     {{ value | number }}
                   </ng-template>
                 </ngx-datatable-column>
-                <ngx-datatable-column *ngIf="selectRegla.value == 'MPAGAR1'" name="L Superior" prop='limiteSuperior' [width]="93">
+                <ngx-datatable-column *ngIf="selectRegla.value == 'MPAGAR1' || selectRegla.value == 'MPAG0R4'" name="L Superior" prop='limiteSuperior' [width]="93">
                     <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                       {{ value | number }}
                     </ng-template>
                 </ngx-datatable-column>
-                <ngx-datatable-column *ngIf="selectRegla.value == 'MPAGAR1'" name="P Control" prop='puntoControl' [width]="93">
+                <ngx-datatable-column *ngIf="selectRegla.value == 'MPAGAR1' || selectRegla.value == 'MPAG0R4'" name="P Control" prop='puntoControl' [width]="93">
                     <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                       {{ value | number }}
                     </ng-template>
                 </ngx-datatable-column>
-                <ngx-datatable-column *ngIf="selectRegla.value == 'MPAGAR1'" name="Máximo" prop='maximo' [width]="90">
+                <ngx-datatable-column *ngIf="selectRegla.value == 'MPAGAR1' || selectRegla.value == 'MPAG0R4'" name="Máximo" prop='maximo' [width]="90">
                     <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                       {{ value | number }}
                     </ng-template>
                 </ngx-datatable-column>
-                <ngx-datatable-column name="Aduanas" prop='aduanas' [width]="100">
-                    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                      <span *ngIf="!getTransitoAduana(row['item'])">
-                        {{value | number}}
-                      </span>
-                      <button class="btn btn-sm btn-outline-primary btn-rounded" type="button" *ngIf="getTransitoAduana(row['item'])"
-                       (click)="abrirModalTransito(modalCCAD, row['item'], 'aduanas', row['descripcion'])">
-                        {{ value | number }}
-                      </button>
-                    </ng-template>
-                </ngx-datatable-column>
-                <ngx-datatable-column name="Pendiente OC" prop='pendienteOC' [width]="100">
-                    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                      <span *ngIf="!getPendienteOrdenComprar(row['item'])">
-                        {{value | number}}
-                      </span>
-                      <button class="btn btn-sm btn-outline-primary btn-rounded" type="button" *ngIf="getPendienteOrdenComprar(row['item'])"
-                       (click)="abrirModalTransito(modalPendienteOC, row['item'], 'pendienteOC', row['descripcion'])">
-                        {{ value | number }}
-                      </button>
-                    </ng-template>
-                </ngx-datatable-column>
-                <ngx-datatable-column name="C Calidad" prop='transporteCC' [width]="100">
-                    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                      <span *ngIf="!getTransitoCC(row['item'])">
-                        {{value | number}}
-                      </span>
-                      <button class="btn btn-sm btn-outline-primary btn-rounded" type="button" *ngIf="getTransitoCC(row['item'])"
-                       (click)="abrirModalTransito(modalCCAD, row['item'], 'transporteCC', row['descripcion'])">
-                        {{ value | number }}
-                      </button>
-                    </ng-template>
-                </ngx-datatable-column>
+               
                 <ngx-datatable-column name="S Actual" prop='stockActual' [width]="95">
                     <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                       {{ value | number }}
@@ -118,11 +166,7 @@
                       {{ value | number }}
                     </ng-template>
                 </ngx-datatable-column>
-                <ngx-datatable-column name="S Disponible" prop='stockDisponible' [width]="110">
-                    <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                      {{ value | number }}
-                    </ng-template>
-                </ngx-datatable-column>
+                
               </ngx-datatable>
             </div>
           </div>
