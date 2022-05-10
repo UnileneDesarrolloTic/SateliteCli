@@ -103,20 +103,37 @@ export class MateriaPrimaComponent {
     if(filtro == 'aduanas')
       this.listaDettalleOC = this.listaCompletaOCPendientes.filter(x => x['item'] == item && x['almacen'] == 'TRANSITO')
 
-    if (filtro == 'pendienteOC')
+    if (filtro == 'pendienteOC'){
       this._modalService.open(modal, {
         centered: true,
         backdrop: 'static',
         size: 'xl',
         scrollable: true
       });
-    else
+    }
+    else {
+      this.ObtenerOrdenCompra(item)
       this._modalService.open(modal, {
         centered: true,
         backdrop: 'static',
         size: 'lg',
         scrollable: false
       });
+    }
+  }
+
+  ObtenerOrdenCompra(item){
+    this._pronosticoService.DetalleControlCalidadMP(item).subscribe(
+      (resp:any) => {
+        console.log(resp)
+        
+      },
+      catchError => {
+        this.messagerNgxTable.emptyMessage = 'Ocurrio un error al obtener los candidatos'
+      }
+    )
+      const data={Item:item}
+      console.log(data)
   }
 
   calcularTotal(ProductoAlmacen){

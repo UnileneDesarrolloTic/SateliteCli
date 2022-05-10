@@ -40,6 +40,7 @@ export class InterceptorService implements HttpInterceptor {
       'Produccion/SegimientoCandidatosMP',
       'Produccion/ListaPedidosCreadoAuto',
       'Produccion/CompraMateriaPrima',
+      'Produccion/ControlCalidadItemMP',
       'Comercial/ListarCotizaciones',
       'Comercial/GenerarReporteCotizacion',
       'Comercial/ObtenerEstructuraFormato',
