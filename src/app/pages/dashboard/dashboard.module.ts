@@ -10,6 +10,9 @@ import { RentabilidadComponent } from './comercial/rentabilidad/rentabilidad.com
 import { RentabilidadEstrategicoComponent } from './comercial/rentabilidad-estrategico/rentabilidad-estrategico.component';
 import { DrogueriaComponent } from './comercial/drogueria/drogueria.component';
 import { SeguimientoOperacionesComponent } from './produccion/seguimiento-operaciones/seguimiento-operaciones.component';
+import { SegUnishopB2cComponent } from './comercial/seg-unishop-b2c/seg-unishop-b2c.component';
+import { SegOperacionesComercialComponent } from './comercial/seg-operaciones-comercial/seg-operaciones-comercial.component';
+import { EstadosFinancierosComponent } from './comercial/estados-financieros/estados-financieros.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +24,10 @@ import { SeguimientoOperacionesComponent } from './produccion/seguimiento-operac
     RentabilidadComponent,
     RentabilidadEstrategicoComponent,
     DrogueriaComponent,
-    SeguimientoOperacionesComponent
+    SeguimientoOperacionesComponent,
+    SegUnishopB2cComponent,
+    SegOperacionesComercialComponent,
+    EstadosFinancierosComponent
   ],
   imports: [
     RouterModule.forChild(DashboardRoutes)
