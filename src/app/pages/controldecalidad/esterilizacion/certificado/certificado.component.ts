@@ -53,7 +53,6 @@ export class CertificadoComponent implements OnInit {
     private _fb: FormBuilder,
     private modalService: NgbModal,
     private genericoServices: GenericoService,
-    private datePipe: DatePipe,
     private _cryptoService: CryptoService,
     private _sesionService: SesionService
   ) {
