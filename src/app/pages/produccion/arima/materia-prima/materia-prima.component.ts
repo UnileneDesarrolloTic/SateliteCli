@@ -13,6 +13,7 @@ export class MateriaPrimaComponent {
   dataCompleta: any[]
   listaCompletaOCPendientes: any[]
   listaDettalleOC: any[]
+  listaDettalleCC: any[]
   itemModal: string = ""
   descripcionModal: string = ""
   flagLoading: boolean =  false
@@ -22,13 +23,16 @@ export class MateriaPrimaComponent {
   TotalPendiente:number=0;
   TotalControlCalidad:number=0;
   TotalDisponible:number=0;
-
+  TotalCantidadCC:number=0;
+  
   messagerNgxTable = {
     'emptyMessage': 'No se ha encontrado candidatos para este filtro',
     'totalMessage': 'Candidatos'
   }
 
-  constructor(private _pronosticoService: ProduccionService, private _modalService: NgbModal, private _fb: FormBuilder) {
+  constructor(private _pronosticoService: ProduccionService, 
+              private _modalService: NgbModal, 
+              private _fb: FormBuilder) {
     this.crearFormulario()
     this.obtenerListaCandidatosMP()
   }
@@ -125,15 +129,15 @@ export class MateriaPrimaComponent {
   ObtenerOrdenCompra(item){
     this._pronosticoService.DetalleControlCalidadMP(item).subscribe(
       (resp:any) => {
-        console.log(resp)
+         this.TotalCantidadCC=0;
+         this.listaDettalleCC=resp;
+         this.listaDettalleCC.forEach(element=> this.TotalCantidadCC = this.TotalCantidadCC + element.cantidad)
         
       },
       catchError => {
         this.messagerNgxTable.emptyMessage = 'Ocurrio un error al obtener los candidatos'
       }
     )
-      const data={Item:item}
-      console.log(data)
   }
 
   calcularTotal(ProductoAlmacen){

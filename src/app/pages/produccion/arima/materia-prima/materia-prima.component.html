@@ -1,41 +1,42 @@
 
 <div class="row p-1">
-  <div class="col-md-3">
-      <div class="card-body bg-info">
-          <div class="m-r-20 text-white align-self-center rounded-pill">Aduanas</div>
-          <div class="d-flex no-block">
-              <div class="align-self-center">
-                <h3 class="m-t-0 text-white">{{TotalAduanas | number}}</h3></div>
-          </div>
+   <!-- Column -->
+   <div class="col-md-6 col-lg-3 col-xlg-3">
+    <div class="card card-hover">
+      <div class="box bg-info  text-center">
+        <h3 class="font-light text-white">{{TotalAduanas | number}}</h3>
+        <h6 class="text-white">Aduanas</h6>
       </div>
-</div>
-<div class="col-md-3">
-    <div class="card-body bg-secondary ">
-      <div class="m-r-20 text-black align-self-center rounded-pill">Pendientes</div>
-        <div class="d-flex no-block">
-            <div class="align-self-center">
-              <h3 class="m-t-0 text-black">{{TotalPendiente | number}}</h3></div>
-        </div>
     </div>
-</div>
-<div class="col-md-3">
-    <div class="card-body bg-primary">
-      <div class="m-r-20 text-white align-self-center">C.Calidad</div>
-        <div class="d-flex no-block">
-            <div class="align-self-center">
-            <h3 class="m-t-0 text-white">{{TotalControlCalidad | number}}</h3></div>
-        </div>
+  </div>
+  <!-- Column -->
+  <div class="col-md-6 col-lg-3 col-xlg-3">
+    <div class="card card-hover">
+      <div class="box bg-warning text-center" >
+        <h3 class="font-light text-white">{{TotalPendiente | number}}</h3>
+        <h6 class="text-white">Pendientes</h6>
+      </div>
     </div>
-</div>
-<div class="col-md-3">
-    <div class="card-body bg-danger">
-        <div class="m-r-20 text-white align-self-center">Disponible</div>
-        <div class="d-flex no-block">
-              <div class="align-self-center">
-              <h3 class="m-t-0 text-white">{{TotalDisponible | number}}</h3></div>
-        </div>
+  </div>
+  <!-- Column -->
+  <div class="col-md-6 col-lg-3 col-xlg-3">
+    <div class="card card-hover">
+      <div class="box bg-success text-center">
+        <h3 class="font-light text-white">{{TotalControlCalidad | number}}</h3>
+        <h6 class="text-white">Control de Calidad</h6>
+      </div>
     </div>
-</div>
+  </div>
+  <!-- Column -->
+  <div class="col-md-6 col-lg-3 col-xlg-3">
+    <div class="card card-hover">
+      <div class="box bg-primary text-center">
+        <h3 class="font-light text-white">{{TotalDisponible | number}}</h3>
+        <h6 class="text-white">Disponible</h6>
+      </div>
+    </div>
+  </div>
+  <!-- Column -->
 </div>
 <div class="row">
   <div class="col-12">
@@ -78,9 +79,9 @@
                 [scrollbarV]="true"
                 [messages]="messagerNgxTable"
               >
-                <ngx-datatable-column name="#" prop='candidato' [width]="60"></ngx-datatable-column>
+                <ngx-datatable-column name="#" prop='candidato' [width]="50"></ngx-datatable-column>
                 <ngx-datatable-column prop='item' [width]="100"></ngx-datatable-column>
-                <ngx-datatable-column name="Descripción" prop='descripcion' [width]="140"></ngx-datatable-column>
+                <ngx-datatable-column name="Descripción" prop='descripcion' [width]="170"></ngx-datatable-column>
                 <ngx-datatable-column *ngIf="selectRegla.value != 'MPAG0R3'" name="Alerta" prop='cantPedir' [width]="100">
                   <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                     {{ value | number }}
@@ -125,7 +126,7 @@
                 </button>
               </ng-template>
           </ngx-datatable-column>
-                <ngx-datatable-column *ngIf="selectRegla.value == 'MPAGAR1'" name="C Variación" prop='coeficienteVariacion' [width]="95">
+                <ngx-datatable-column *ngIf=""  name="C Variación" prop='coeficienteVariacion' [width]="95">
                     <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                       {{ value | number }} %
                     </ng-template>
@@ -140,7 +141,7 @@
                     {{ value | number }}
                   </ng-template>
                 </ngx-datatable-column>
-                <ngx-datatable-column *ngIf="selectRegla.value == 'MPAGAR1' || selectRegla.value == 'MPAG0R4'" name="L Superior" prop='limiteSuperior' [width]="93">
+                <!-- <ngx-datatable-column *ngIf="selectRegla.value == 'MPAGAR1' || selectRegla.value == 'MPAG0R4'" name="L Superior" prop='limiteSuperior' [width]="93">
                     <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                       {{ value | number }}
                     </ng-template>
@@ -154,9 +155,9 @@
                     <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                       {{ value | number }}
                     </ng-template>
-                </ngx-datatable-column>
+                </ngx-datatable-column> -->
                
-                <ngx-datatable-column name="S Actual" prop='stockActual' [width]="95">
+                <!-- <ngx-datatable-column name="S Actual" prop='stockActual' [width]="95">
                     <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                       {{ value | number }}
                     </ng-template>
@@ -165,7 +166,7 @@
                     <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                       {{ value | number }}
                     </ng-template>
-                </ngx-datatable-column>
+                </ngx-datatable-column> -->
                 
               </ngx-datatable>
             </div>
@@ -243,21 +244,23 @@
       </span>
     </button>
   </div>
-  <div class="modal-body">
+  <div class="modal-body" style="overflow-y: auto;height: 400px;">
     <p class="text-info">ITEM: {{itemModal}} - {{descripcionModal}}</p>
     <div class="table-responsive table-sm" >
-      <table class="table table-striped no-wrap border mt-4" style="font-size: 13px;" >
+      <table class="table table-striped no-wrap border mt-4" style="font-size: 13px" >
           <thead>
               <tr>
-                  <th class="text-center">Nro. Lote</th>
+                  <th class="text-center">Proveedor</th>
+                  <th class="text-center">Tipo Documento</th>
+                  <th class="text-center">Numero Orden</th>
                   <th class="text-center">Cantidad</th>
-                  <th class="text-center">Fecha Ingreso</th>
-                  <th class="text-center">Dif. Días</th>
+                  
+                  <!-- <th class="text-center">Dif. Días</th> -->
               </tr>
           </thead>
-          <tbody>
-            <tr *ngFor="let itemTransito of listaDettalleOC">
-                <td class="text-center">
+          <tbody >
+            <tr *ngFor="let itemTransito of listaDettalleCC" [ngStyle]="{'color': itemTransito['referenciaTipoDocumentoOrden']=='OC' ? 'blue' : 'red'}">
+                <!-- <td class="text-center">
                   {{ itemTransito['numeroOrden'] }}
                 </td>
                 <td class="text-center">
@@ -265,10 +268,32 @@
                 </td>
                 <td class="text-center">
                   {{ itemTransito['fecha'] | date:'dd/MM/yyyy' }}
+                </td>-->
+                <td class="text-center" *ngIf="itemTransito['referenciaTipoDocumentoOrden']=='OC'">
+                  {{ itemTransito['nombreCompleto'] }}
+                </td>
+                <td class="text-center" *ngIf="itemTransito['referenciaTipoDocumentoOrden']=='CC'|| itemTransito['referenciaTipoDocumentoOrden']=='RQ'"> 
+                </td>
+                <td class="text-center" *ngIf="itemTransito['referenciaTipoDocumentoOrden']=='OC'">
+                  {{ itemTransito['referenciaTipoDocumentoOrden'] }}
+                </td>
+                <td class="text-center" *ngIf="itemTransito['referenciaTipoDocumentoOrden']=='CC' || itemTransito['referenciaTipoDocumentoOrden']=='RQ'"> 
                 </td>
                 <td class="text-center">
-                  {{ itemTransito['diferenciaFecha'] }}
+                  {{ itemTransito['referenciaNumeroDocumentoOrden'] }}
                 </td>
+                <td class="text-center">
+                  {{ itemTransito['cantidad'] | number }}
+                </td>
+               
+            </tr>
+            <tr>
+              <td class="text-center"></td>
+              <td class="text-center"></td>
+              <td class="text-center">Total</td>
+              <td class="text-center">
+                {{ TotalCantidadCC }}
+              </td>
             </tr>
           </tbody>
       </table>
