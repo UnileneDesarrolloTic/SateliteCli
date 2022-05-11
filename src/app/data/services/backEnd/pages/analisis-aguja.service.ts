@@ -41,12 +41,6 @@ export class AnalisisAgujaService
     );
   }
 
-  RegistrarControlAgujas(body){
-    return this._http.post(this.url + "RegistrarControlAgujas", body).pipe(
-      catchError(() => throwError("Error al registrar el lote"))
-    )
-  }
-
   CantidadPruebasFlexionPorItem(controlNumero: string, secuencia: number){
 
     const params =  new HttpParams().set('controlNumero', controlNumero).set('secuencia', secuencia.toString())
@@ -54,7 +48,12 @@ export class AnalisisAgujaService
     return this._http.get(this.url + "CantidadPruebasFlexionPorItem",{'params': params}).pipe(
       catchError(() => throwError("Error al obtener la cantidad de pruebas"))
     )
+  }
 
+  RegistrarAnalisisAguja(body: object){
+    return this._http.post(this.url + "RegistrarAnalisisAguja", body).pipe(
+      catchError(() => throwError("Error al obtener la cantidad de pruebas"))
+    )
   }
 
 }

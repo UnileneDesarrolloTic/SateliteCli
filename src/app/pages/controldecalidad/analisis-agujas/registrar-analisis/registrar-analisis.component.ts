@@ -15,14 +15,15 @@ export class RegistrarAnalisisComponent implements OnInit {
   cargandoCantidadFlexion: boolean = true
   filtroOrdenCompra: FormGroup
   formRegristrarAnalisis: FormGroup
+  spinnerGuardarAnalisis: boolean = false
 
   constructor(private _modalService: NgbModal, private _esterilizacionService: AnalisisAgujaService, private _fb: FormBuilder, private _toastr: ToastrService,) {
     this.InicializarFormulario();
   }
 
   ngOnInit(): void {
-
-    this.ListarOrdenCompra({for:'FOR001630'});
+    this.filtroOrdenCompra.setValue({for: '1630'})
+    this.ListarOrdenCompra({for:'FOR001630'}); // eliminar al final
   }
 
   InicializarFormulario(){
@@ -32,21 +33,18 @@ export class RegistrarAnalisisComponent implements OnInit {
     });
 
     this.formRegristrarAnalisis = this._fb.group({
-      item:['', [Validators.required]],
-      descripcionItem:['', [Validators.required]],
-      cantidadRecibida:[0, [Validators.required]],
-      cantidadPruebas:[0, [Validators.required]],
-      fechaVencimiento: ['', [Validators.required]]
+      controlNumero:[{value: '', disabled : false}, Validators.required],
+      secuencia:[{value: '', disabled : false}, Validators.required],
+      item:[{value: '', disabled : false}, Validators.required],
+      descripcionItem:[{value: '', disabled : true}, Validators.required],
+      cantidadRecibida:[{value: 0, disabled : true}, Validators.required],
+      cantidadPruebas:[{value: 0, disabled : true}, Validators.required],
+      fechaVencimiento: ['', Validators.required]
     })
 
-    this.filtroOrdenCompra.valueChanges.pipe(debounceTime(700)).subscribe(
+    this.filtroOrdenCompra.valueChanges.pipe(debounceTime(750)).subscribe(
       filtro => this.ListarOrdenCompra(filtro)
     );
-
-    this.formRegristrarAnalisis.controls['item'].disable();
-    this.formRegristrarAnalisis.controls['descripcionItem'].disable();
-    this.formRegristrarAnalisis.controls['cantidadRecibida'].disable();
-    this.formRegristrarAnalisis.controls['cantidadPruebas'].disable();
   }
 
   ListarOrdenCompra(filtro: object) {
@@ -70,18 +68,17 @@ export class RegistrarAnalisisComponent implements OnInit {
 
     let itemSeleccionado = this.listaOrdenesCompra.find( x => x['controlNumero'] == controlNumero && x['secuencia'] == secuencia)
 
-    console.log(itemSeleccionado)
-
     if (itemSeleccionado['analisis'] == undefined || itemSeleccionado['analisis']  == ""){
 
       this.cargandoCantidadFlexion = true;
 
-      this.formRegristrarAnalisis.reset({cantidadPruebas: 0})
-
       this.formRegristrarAnalisis.reset({
+        controlNumero: controlNumero,
+        secuencia: secuencia,
         item: itemSeleccionado['item'],
         descripcionItem: itemSeleccionado['descripcionItem'],
         cantidadRecibida: itemSeleccionado['cantidadRecibida'],
+        cantidadPruebas: 0,
         fechaVencimiento: new Date().toISOString().slice(0, 10)
       });
 
@@ -91,12 +88,10 @@ export class RegistrarAnalisisComponent implements OnInit {
           this.formRegristrarAnalisis.patchValue({cantidadPruebas: result['content']})
           this.cargandoCantidadFlexion = false;
         }, err => {
-          this._toastr.error("Error al obtener la cantidad de pruebas", "Error Servidor!!", {timeOut: 3000})
+          this._toastr.error("Error al obtener la cantidad de pruebas", "Error en el servidor!!", {timeOut: 3000})
           this.cargandoCantidadFlexion = false;
           this.formRegristrarAnalisis.patchValue({cantidadPruebas: 0})
         });
-
-      console.log({itemSeleccionado})
 
       this.AbrirModalRegistrarAnalisis(modal)
     }
@@ -117,7 +112,36 @@ export class RegistrarAnalisisComponent implements OnInit {
   }
 
   RegistrarAnalisis(){
-    console.log('SUBMIT')
+
+    this.spinnerGuardarAnalisis = true
+
+    if (this.formRegristrarAnalisis.invalid || this.formRegristrarAnalisis.get('cantidadPruebas').value == 0)
+    {
+      this._toastr.error("El datos ingresados no son válidos","Error de datos !!")
+      this.spinnerGuardarAnalisis = false
+      return
+    }
+
+    const requesBody = {
+      controlNumero: this.formRegristrarAnalisis.get('controlNumero').value,
+      secuencia: this.formRegristrarAnalisis.get('secuencia').value,
+      cantidadPruebas: this.formRegristrarAnalisis.get('cantidadPruebas').value,
+      fechaVencimiento : this.formRegristrarAnalisis.get('fechaVencimiento').value,
+      codUsuarioSesion: 0
+    }
+
+    this._esterilizacionService.RegistrarAnalisisAguja(requesBody).subscribe(
+      (result: any) => {
+        this._toastr.success("Se registro el análisis N° " + result['content']['numeroAnalisis'],"Éxito !!", {timeOut: 3000})
+        this.spinnerGuardarAnalisis = false
+        this.CerrarModal();
+        this.ListarOrdenCompra(this.filtroOrdenCompra.value) // eliminar al final
+      }, err => {
+        this._toastr.error("Error al guardar el análisis", "Error en el servidor!!", {timeOut: 3000})
+        this.spinnerGuardarAnalisis = false
+      }
+    );
+
   }
 
   CerrarModal() {

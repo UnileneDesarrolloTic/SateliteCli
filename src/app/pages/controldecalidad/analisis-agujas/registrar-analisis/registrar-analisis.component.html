@@ -126,7 +126,10 @@
 
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" (click)="CerrarModal()">Cancelar</button>
-        <button type="submit" class="btn btn-success">Guardar</button>
+        <button type="submit" class="btn btn-success" [disabled]="spinnerGuardarAnalisis">
+          <span *ngIf="!spinnerGuardarAnalisis">Guardar</span>
+          <i *ngIf="spinnerGuardarAnalisis"class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+        </button>
       </div>
     </form>
   </div>
