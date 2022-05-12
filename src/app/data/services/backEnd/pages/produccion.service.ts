@@ -45,12 +45,18 @@ export class ProduccionService {
   }
 
   DetalleControlCalidadMP(Item){
-    
     const params =  new HttpParams().set('Item', Item)
 
     return this._http.get<SeguimientoCandidato[]>(this.url+"/api/Produccion/ControlCalidadItemMP", {'params': params}).pipe(
       catchError (() => throwError("Error al obtener el seguimiento de candidatos"))
     );
   }
+
+  MostrarColumna(){
+    return this._http.get<SeguimientoCandidato[]>(this.url+"/api/Produccion/MostrarColumnaMP").pipe(
+      catchError (() => throwError("Error al obtener el seguimiento de candidatos"))
+    );
+  }
+  
 
 }

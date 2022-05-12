@@ -24,6 +24,7 @@ export class MateriaPrimaComponent {
   TotalControlCalidad:number=0;
   TotalDisponible:number=0;
   TotalCantidadCC:number=0;
+  ColumnaOcultas:boolean;
   
   messagerNgxTable = {
     'emptyMessage': 'No se ha encontrado candidatos para este filtro',
@@ -33,8 +34,10 @@ export class MateriaPrimaComponent {
   constructor(private _pronosticoService: ProduccionService, 
               private _modalService: NgbModal, 
               private _fb: FormBuilder) {
+    this.MostrarColumnaMateriaPrima();
     this.crearFormulario()
     this.obtenerListaCandidatosMP()
+    
   }
 
   crearFormulario(){
@@ -47,6 +50,16 @@ export class MateriaPrimaComponent {
       regla: 'MPAGAR1',
       textFilter: ''
     })
+  }
+
+  MostrarColumnaMateriaPrima(){
+    this._pronosticoService.MostrarColumna().subscribe(
+        (resp:any)=>{
+            console.log(resp)
+            this.ColumnaOcultas=resp.content.permisoColumna;
+        }
+    )
+      
   }
 
   obtenerListaCandidatosMP(){
