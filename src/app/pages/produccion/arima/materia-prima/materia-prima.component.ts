@@ -55,7 +55,6 @@ export class MateriaPrimaComponent {
   MostrarColumnaMateriaPrima(){
     this._pronosticoService.MostrarColumna().subscribe(
         (resp:any)=>{
-            console.log(resp)
             this.ColumnaOcultas=resp.content.permisoColumna;
         }
     )
