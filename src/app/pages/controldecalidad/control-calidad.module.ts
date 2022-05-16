@@ -16,6 +16,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { ImprimirAnalisisComponent } from './analisis-agujas/imprimir-analisis/imprimir-analisis.component';
 import { RegistrarAnalisisComponent } from './analisis-agujas/registrar-analisis/registrar-analisis.component';
+import { PruebaFlexionComponent } from './analisis-agujas/prueba-flexion/prueba-flexion.component';
 
 
 @NgModule({
@@ -24,6 +25,7 @@ import { RegistrarAnalisisComponent } from './analisis-agujas/registrar-analisis
     FrmControlAgujaComponent,
     ImprimirAnalisisComponent,
     RegistrarAnalisisComponent,
+    PruebaFlexionComponent,
   ],
   imports: [
     RouterModule.forChild(ControlCalidadRoutes),

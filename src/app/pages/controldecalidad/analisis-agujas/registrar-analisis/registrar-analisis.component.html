@@ -40,7 +40,6 @@
                 <th>Cnt. Recibida</th>
                 <th>Lote Apro.</th>
                 <th>Lote Rech.</th>
-                <th>Análisis</th>
                 <td>-</td>
               </tr>
             </thead>
@@ -56,7 +55,6 @@
                 <td>{{ e.cantidadRecibida | number }}</td>
                 <td>{{ e.loteAprobado }}</td>
                 <td>{{ e.loteRechazado }}</td>
-                <td>{{ e.analisis }}</td>
                 <td>
                   <a type="button" (click)="AbrirAnalisis(modalRegistrarAnalisis, e.controlNumero, e.secuencia)">
                     <i class="fas fa-file-alt"></i>

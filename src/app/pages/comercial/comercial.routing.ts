@@ -7,7 +7,7 @@ import { ProtocoloAnalisisComponent } from './protocoloanalisis/protocoloanalisi
 export const ComercialRoutes: Routes = [
   {
     path: 'cotizacion',
-    canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
     children : [
       {
         path: 'formatos',
@@ -23,7 +23,7 @@ export const ComercialRoutes: Routes = [
   },
   {
     path: '',
-    canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
     children : [
       {
         path: 'ProtocoloAnalisis',
@@ -39,7 +39,7 @@ export const ComercialRoutes: Routes = [
   },
   {
     path: 'cotizacion',
-    canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
     children : [
       {
         path: 'formulario',

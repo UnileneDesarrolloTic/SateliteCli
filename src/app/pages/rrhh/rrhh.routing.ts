@@ -5,7 +5,7 @@ import { AuthGuard } from "@guard/auth.guard";
 export const RRHHRoutes: Routes = [
   {
     path: '',
-    canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
     children : [
       {
         path: 'ReporteAsistencia',

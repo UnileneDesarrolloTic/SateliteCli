@@ -8,7 +8,7 @@ import { CompraMateriaPrimaComponent } from "./arima/compra-materia-prima/compra
 export const ProduccionRoutes: Routes = [
   {
     path: 'Arima',
-    canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
     children : [
       {
         path: 'ProductoTerminadoArima',
@@ -37,8 +37,8 @@ export const ProduccionRoutes: Routes = [
         data: {
           title: "Compra Arima"
         }
-      },		  
-    ]   
+      },
+    ]
   },
- 
+
 ]

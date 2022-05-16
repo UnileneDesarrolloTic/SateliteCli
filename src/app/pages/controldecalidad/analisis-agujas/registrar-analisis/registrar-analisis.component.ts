@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AnalisisAgujaService } from '@data/services/backEnd/pages/analisis-aguja.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
@@ -17,7 +18,7 @@ export class RegistrarAnalisisComponent implements OnInit {
   formRegristrarAnalisis: FormGroup
   spinnerGuardarAnalisis: boolean = false
 
-  constructor(private _modalService: NgbModal, private _esterilizacionService: AnalisisAgujaService, private _fb: FormBuilder, private _toastr: ToastrService,) {
+  constructor(private _modalService: NgbModal, private _esterilizacionService: AnalisisAgujaService, private _fb: FormBuilder, private _toastr: ToastrService, private _router: Router) {
     this.InicializarFormulario();
   }
 
@@ -33,9 +34,9 @@ export class RegistrarAnalisisComponent implements OnInit {
     });
 
     this.formRegristrarAnalisis = this._fb.group({
+      item:[{value: '', disabled : true}, Validators.required],
       controlNumero:[{value: '', disabled : false}, Validators.required],
       secuencia:[{value: '', disabled : false}, Validators.required],
-      item:[{value: '', disabled : false}, Validators.required],
       descripcionItem:[{value: '', disabled : true}, Validators.required],
       cantidadRecibida:[{value: 0, disabled : true}, Validators.required],
       cantidadPruebas:[{value: 0, disabled : true}, Validators.required],
@@ -68,7 +69,7 @@ export class RegistrarAnalisisComponent implements OnInit {
 
     let itemSeleccionado = this.listaOrdenesCompra.find( x => x['controlNumero'] == controlNumero && x['secuencia'] == secuencia)
 
-    if (itemSeleccionado['analisis'] == undefined || itemSeleccionado['analisis']  == ""){
+    if (itemSeleccionado['loteAprobado'] == undefined || itemSeleccionado['loteAprobado']  == ""){
 
       this.cargandoCantidadFlexion = true;
 
@@ -88,16 +89,15 @@ export class RegistrarAnalisisComponent implements OnInit {
           this.formRegristrarAnalisis.patchValue({cantidadPruebas: result['content']})
           this.cargandoCantidadFlexion = false;
         }, err => {
-          this._toastr.error("Error al obtener la cantidad de pruebas", "Error en el servidor!!", {timeOut: 3000})
+          this._toastr.error("Error al obtener la cantidad de pruebas", "Error en el servidor!!", {timeOut: 3000, closeButton: true})
           this.cargandoCantidadFlexion = false;
           this.formRegristrarAnalisis.patchValue({cantidadPruebas: 0})
         });
 
       this.AbrirModalRegistrarAnalisis(modal)
     }
-    else {
-      console.log("SI TIENE ANALISIS")
-    }
+    else
+      this.ValidarLoteAnalisisCreado(controlNumero, secuencia, itemSeleccionado['loteAprobado'])
   }
 
   AbrirModalRegistrarAnalisis(modal:NgbModal){
@@ -132,16 +132,32 @@ export class RegistrarAnalisisComponent implements OnInit {
 
     this._esterilizacionService.RegistrarAnalisisAguja(requesBody).subscribe(
       (result: any) => {
-        this._toastr.success("Se registro el análisis N° " + result['content']['numeroAnalisis'],"Éxito !!", {timeOut: 3000})
+
+        const numeroAnalisis:string = result['content']['numeroAnalisis'];
+        this._toastr.success("Se registro el análisis N° " + numeroAnalisis,"Éxito !!", {timeOut: 3000})
         this.spinnerGuardarAnalisis = false
-        this.CerrarModal();
-        this.ListarOrdenCompra(this.filtroOrdenCompra.value) // eliminar al final
+        this.CerrarModal()
+        this.AbrirModuloPruebaFlexion(numeroAnalisis)
       }, err => {
         this._toastr.error("Error al guardar el análisis", "Error en el servidor!!", {timeOut: 3000})
         this.spinnerGuardarAnalisis = false
       }
     );
+  }
 
+  ValidarLoteAnalisisCreado(controlNumero: string, secuencia: number, loteAnalisis: string){
+
+    this._esterilizacionService.ValidarLoteCreado(controlNumero, secuencia).subscribe(
+      result => {
+        if(result['success'])
+          this.AbrirModuloPruebaFlexion(loteAnalisis)
+      },
+      err => this._toastr.error("Error al validar el lote de analisis", "Error en el servidor!!", {timeOut: 3000, closeButton: true})
+    )
+  }
+
+  AbrirModuloPruebaFlexion(codigoAnalisis: string){
+    this._router.navigate(['ControlCalidad', 'analisis-agujas', 'prueba-flexion', codigoAnalisis]);
   }
 
   CerrarModal() {

@@ -3,7 +3,6 @@
     <div class="card">
       <div class="card-body">
         <ngb-tabset>
-
           <ngb-tab>
             <ng-template ngbTabTitle>
               <span class="visible-xs">
@@ -14,114 +13,6 @@
             <ng-template ngbTabContent>
 
               <div class="row card-body">
-                <div class="col-md-4">
-                  <form autocomplete="off" [formGroup]="filtroOrdenCompra">
-                    <label>Orden de Compra (FOR):</label>
-                    <div class="input-group">
-                      <input type="text" class="form-control" formControlName="for"/>
-                    </div>
-                  </form>
-                </div>
-                <!-- <div class="col-md-4">
-                  <div class="form-group">
-                    <label>Fecha de Vencimiento:</label>
-                    <div class="input-group">
-                      <div class="input-group-addon">
-                        <i class="fa fa-calendar-check-o"></i>
-                      </div>
-                      <input type="date" min="0" class="form-control" [(ngModel)]="txtFechaVencimiento" />
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="form-group">
-                    <label>Cantidad de Pruebas:</label>
-                    <div class="input-group">
-                      <div class="input-group-addon">
-                        <i class="fa fa-bar-chart"></i>
-                      </div>
-                      <input type="number" min="0" class="form-control" [(ngModel)]="txtCantidadPruebas" />
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-2 col-md-4 col-md-6">
-                  <div class="form-group">
-                    <label>Proveedor:</label>
-                    <div class="input-group"><input type="text" class="form-control" [(ngModel)]="txtNombreProveedor"
-                        disabled>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-2 col-md-4 col-md-6">
-                  <div class="form-group">
-                    <label>N° Orden:</label>
-                    <div class="input-group"><input type="text" class="form-control" [(ngModel)]="txtNumeroOrden"
-                        disabled>
-                    </div>
-                  </div>
-                </div> -->
-
-              </div>
-              <div class="row">
-                <div class="col-12">
-                  <div class="card">
-                    <div class="card-body">
-                      <table class="table table-striped border hover">
-                        <thead>
-                          <tr>
-                            <th>FOR</th>
-                            <th>N°</th>
-                            <th>N° Control</th>
-                            <th>Cod. Item</th>
-                            <th>Item Descipción</th>
-                            <th>Un.</th>
-                            <th>Cnt. Pedida</th>
-                            <th>Cnt. Recibida</th>
-                            <th>Lote Apro.</th>
-                            <th>Lote Rech.</th>
-                            <!-- <td>-</td> -->
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr *ngFor="let e of listaOrdenesCompra">
-                            <td>{{ e.numeroOrden }}</td>
-                            <td>{{ e.secuencia }}</td>
-                            <td>{{ e.controlNumero }}</td>
-                            <td>{{ e.item }}</td>
-                            <td>{{ e.descripcionItem }}</td>
-                            <td>{{ e.unidadCodigo }}</td>
-                            <td>{{ e.cantidadPedida }}</td>
-                            <td>{{ e.cantidadRecibida }}</td>
-                            <td>{{ e.loteAprobado }}</td>
-                            <td>{{ e.loteRechazado }}</td>
-                            <!-- <td><button class="btn btn-block btn-info" type="button"
-                                (click)="MatricularLote(e.secuencia,e.cantidadPedida,e.coD_PROVEEDOR,e.controlNumero)"><i
-                                  class="fa fa-magic"></i></button></td> -->
-                          </tr>
-                        </tbody>
-                      </table>
-
-                      <ngb-pagination class="d-flex justify-content-center" [collectionSize]="200" [pageSize]="20" (pageChange)="PaginaCambiadaOrdenCompra($event)" [(page)]="paginaOrdenCompra"></ngb-pagination>
-
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-            </ng-template>
-          </ngb-tab>
-
-          <ngb-tab>
-            <ng-template ngbTabTitle>
-              <span class="visible-xs">
-                <i class="ti-user"></i>
-              </span>
-              <span class="hidden-xs">&nbsp;&nbsp;Registro Analisis</span>
-            </ng-template>
-            <ng-template ngbTabContent>
-
-              <!-- <div class="row card-body">
-
                 <div class="col-md-3">
                   <label>Numero de Análisis:</label>
                   <div class="input-group">
@@ -226,8 +117,8 @@
                     </div>
                   </div>
                 </div>
-              </div> -->
-              <!-- <form [formGroup]="invoiceForm">
+              </div>
+              <form [formGroup]="invoiceForm">
                 <DIV class="form-body">
                   <div formArrayName="Rows" class="row">
                       <div class="col-md-3">
@@ -249,7 +140,7 @@
                     </div>
                   </div>
                 </DIV>
-              </form> -->
+              </form>
 
             </ng-template>
           </ngb-tab>

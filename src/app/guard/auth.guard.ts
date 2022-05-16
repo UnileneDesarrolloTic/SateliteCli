@@ -2,7 +2,7 @@ import { catchError, map } from 'rxjs/operators';
 import { DataAccesoRuta } from '@data/interface/Request/AccesoRuta.interface';
 import { AuthService } from '@data/services/backEnd/auth/auth.service';
 import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router} from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivateChild, RouterStateSnapshot} from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, throwError } from 'rxjs';
 
@@ -13,11 +13,14 @@ import { UsuarioSesionData } from '@data/interface/Response/UsuarioSesionDara.in
   providedIn: 'root'
 })
 
-export class AuthGuard implements CanActivate {
+export class AuthGuard implements CanActivateChild {
 
-  constructor(private _router: Router, private _authService: AuthService, private _toastr: ToastrService, private _sesionService: SesionService) { }
+  constructor(private _authService: AuthService, private _toastr: ToastrService, private _sesionService: SesionService,) { }
 
-  canActivate( next: ActivatedRouteSnapshot, state: RouterStateSnapshot):Observable<boolean> | boolean
+  resolve(){
+
+  }
+  canActivateChild( childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot):Observable<boolean> | boolean
   {
     const datosUsuario: UsuarioSesionData = this._sesionService.datosPersonales();
 

@@ -56,4 +56,22 @@ export class AnalisisAgujaService
     )
   }
 
+  ValidarLoteCreado(controlNumero: string, secuencia: number){
+
+    const params =  new HttpParams().set('controlNumero', controlNumero).set('secuencia', secuencia.toString())
+
+    return this._http.get(this.url + "ValidarLoteCreado", {'params': params}).pipe(
+      catchError(() => throwError("Error al validad el lote creado"))
+    )
+  }
+
+  ObtenerAnalisisAguja(loteAnalisis: string){
+
+    const params =  new HttpParams().set('loteAnalisis', loteAnalisis)
+
+    return this._http.get(this.url + "ObtenerAnalisisAguja", {'params': params}).pipe(
+      catchError(() => throwError("Error al obtener el análisis de la aguja"))
+    )
+  }
+
 }

@@ -4,11 +4,12 @@ import { AuthGuard } from "@guard/auth.guard";
 import { FrmControlAgujaComponent } from '@pages/controldecalidad/agujas/frm-control-aguja/frm-control-aguja.component';
 import { ImprimirAnalisisComponent } from '@pages/controldecalidad/analisis-agujas/imprimir-analisis/imprimir-analisis.component';
 import { RegistrarAnalisisComponent } from '@pages/controldecalidad/analisis-agujas/registrar-analisis/registrar-analisis.component';
+import { PruebaFlexionComponent } from '@pages/controldecalidad/analisis-agujas/prueba-flexion/prueba-flexion.component';
 
 export const ControlCalidadRoutes: Routes = [
   {
     path: 'esterilizacion',
-    canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
     children : [
       {
         path: 'certificado',
@@ -24,7 +25,7 @@ export const ControlCalidadRoutes: Routes = [
   },
   {
     path: 'analisis-agujas',
-    canActivate: [AuthGuard],
+    // canActivateChild: [AuthGuard],
     children : [
       {
         path: 'prueba',
@@ -45,8 +46,16 @@ export const ControlCalidadRoutes: Routes = [
         component: RegistrarAnalisisComponent,
         data: {
           title: "Registrar los análisis de agujas"
-        }
+        },
       },
+      {
+        path: 'prueba-flexion/:codAnalisis',
+        component: PruebaFlexionComponent,
+        data: {
+          title: "Prueba de flexión"
+        },
+      },
+
     ],
   },
 ]
