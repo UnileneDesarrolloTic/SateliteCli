@@ -1,0 +1,49 @@
+<div class="row">
+
+    <div class="card-body"   >
+    <form (ngSubmit)="save(modalGeneracion)"  [formGroup]="form"  > 
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Advertencia</h4>
+            <button type="button"  class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            
+            <div class="row justify-content-center">
+                <div class="form-group">
+                    <a><i class=" fas fa-file-alt" style="font-size:45px;color: #5d7596"></i></a>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="form-group">
+                    <h3>¿Desea procesar la información?</h3>
+                    <div class="row justify-content-center">
+                        <div class="col-md-4 mr-4">
+                            <label for="periodo"></label>
+                            <input type="text" formControlName="periodo"  class="form-control form-control-sm-3" placeholder="INGRESE EL PERIODO">
+                        </div>
+                    </div> 
+                </div>
+            </div>     
+        </div>
+        <div class="modal-footer justify-content-center">
+            <button type="submit" [disabled]="!form.valid" class="btn btn-rounded btn-info">Aceptar</button>
+        </div>
+    </form>
+    </div>
+</div>
+
+<!-- GENERADOR DE PDF -->
+<ng-template #modalGeneracion let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">Generando el Blog de notas</h4>
+    </div>
+    <div class="modal-body" align="center">
+        
+            <span class="spinner-border text-info"></span>
+            <br />
+            <span class="text-info">Cargando...</span>
+      
+    </div>
+</ng-template>

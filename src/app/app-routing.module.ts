@@ -39,6 +39,10 @@ export const AppRoutes: Routes = [
       {
         path:'RRHH',
         loadChildren:() => import('@pages/rrhh/rrhh.module').then(m => m.RRHHModule)
+      },
+      {
+        path:'Contabilidad',
+        loadChildren:() => import('@pages/contabilidad/contabilidad.module').then(m => m.ContabilidadModule)
       }
     ]
   },

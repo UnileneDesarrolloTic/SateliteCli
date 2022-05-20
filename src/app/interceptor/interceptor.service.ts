@@ -64,7 +64,10 @@ export class InterceptorService implements HttpInterceptor {
       'Cotizacion/ObtenerDatosReporte',
       'Cotizacion/ObtenerReporte',
       'Cotizacion/Actualizar',
-      'Cotizacion/ListarFormatoCotizacion'
+      'Cotizacion/ListarFormatoCotizacion',
+      'Contabilidad/ListarDetraccionContabilidad',
+      'Contabilidad/GernerarBlogNotasDetraccion',
+      'Contabilidad/ProcesarDetraccionContabilidad'
     ];
     const data = this.sesionService.datosPersonales();
   

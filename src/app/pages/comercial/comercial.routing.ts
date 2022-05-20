@@ -2,6 +2,7 @@ import { Routes } from "@angular/router";
 import { AuthGuard } from "@guard/auth.guard";
 import { CotizacionComponent } from "./cotizacion/cotizacion.component";
 import { GeneracionFormatosComponent } from './cotizaciones/generacionformatos/generacionformatos.component';
+import { LicitacionesComponent } from "./licitaciones/licitaciones.component";
 import { ProtocoloAnalisisComponent } from './protocoloanalisis/protocoloanalisis.component';
 
 export const ComercialRoutes: Routes = [
@@ -53,4 +54,21 @@ export const ComercialRoutes: Routes = [
       },
     ]
   },
+  {
+    path: 'licitaciones',
+    canActivate: [AuthGuard],
+    children : [
+      {
+        path: 'actaverificacion',
+        component: LicitacionesComponent,
+        data: {
+          title: "Acta Verificacion CC",
+          urls: [
+            {title: 'Acta Verificacion CC' }
+          ]
+        }
+      },
+    ]
+  },
+
 ]

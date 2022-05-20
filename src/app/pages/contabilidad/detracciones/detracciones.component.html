@@ -1,0 +1,87 @@
+
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <label for="totalimporte">Total Importe: {{totalimporte}}</label>
+          <div class="row justify-content-start">
+            <div class="d-flex flex-row" style="align-items: center;">
+              <div class="p-2">
+                <p>RECORDATORIO:</p>
+                <p>Por favor, El archivo Aque se  vaya a subir debe estar en el disco C</p>
+                <input type="file"  (change)="handleUpload($event)" #archivo  id="archivo"  class="form-control"> 
+              </div>
+              <div class="p-2 mt-2">
+                
+              </div>
+              
+            </div>
+            
+          </div>
+          <div class="row justify-content-end mb-2">
+            <button type="button" (click)="GuardarExcel()" [disabled]="displayButton" class="btn btn-primary btn-rounded"><i class=" fas fa-file-excel"></i> Subir Excel</button>
+            <button type="button" (click)="procesar()" class="btn btn-secondary btn-rounded"><i class="fas fa-file-alt"></i> Procesar</button>
+          </div>
+           
+          <div class="d-flex no-block align-items-center">
+            <div class="table-hover table-responsive table-bordered">
+              <table class="table table-striped border table-hover table-inf">
+                <thead style="font-size: 13px" class="bg-info text-white" >
+                  <tr>
+                    <th class="text-center" scope="col">N°</th>
+                    <th class="text-center" scope="col">RUC</th>
+                    <th class="text-center" scope="col">Razon Social</th>
+                    <th class="text-center" scope="col">NumProf</th>
+                    <th class="text-center" scope="col">Servicio</th>
+                    <th class="text-center" scope="col">Importe</th>
+                    <th class="text-center" scope="col">Serie</th>
+                    <th class="text-center" scope="col">Numero</th>
+                    <th class="text-center" scope="col">Periodo</th>
+                    <th class="text-center" scope="col">Tipo</th>
+                    <th class="text-center">Tip.Doc</th>
+                    <th class="text-center" scope="col">Tip.Ope</th>
+                   
+                  </tr>
+                </thead>
+                <tbody style="font-size: 13px" id="tbodyDetalle" >
+                  <tr *ngFor="let detraccion of listarDetraccion; let i = index">
+                    <td class="text-center" contenteditable="false" id="num_Registro" >{{detraccion.num_Registro}}</td>
+                    <td class="text-center" contenteditable="false" id="ruc">{{detraccion.ruc}}</td>
+                    <td class="text-center" contenteditable="false" id="razonSocial" >{{detraccion.razonSocial}}</td>
+                    <td class="text-center" contenteditable="true" id="numProf" >{{detraccion.numProf}}</td>
+                    <td class="text-center" contenteditable="true"  id="bienServicio">{{detraccion.bienServicio}}</td>
+                    <td class="text-center" contenteditable="false"  id="importe">{{detraccion.importe}}</td>
+                    <td class="text-center" contenteditable="true"  id="serie">{{detraccion.serie}}</td>
+                    <td class="text-center" contenteditable="true"  id="numero">{{detraccion.numero}}</td>
+                    <td class="text-center" contenteditable="true"  id="periodo">{{detraccion.periodo}}</td>
+                    <td class="text-center" contenteditable="true"  id="tipo">{{detraccion.tipo}}</td>
+                    <td class="text-center" contenteditable="true"  id="tipoDocumento">{{detraccion.tipoDocumento}}</td>
+                    <td class="text-center" contenteditable="true"  id="tipoOperacion">{{detraccion.tipoOperacion}}</td>
+                   
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <!-- <div class="row d-flex justify-content-center mt-4">
+            <ngb-pagination  *ngIf="paginador.totalPaginas > 1"
+                [collectionSize]="paginador.totalRegistros" [(page)]="page" [pageSize]="pageSize" [boundaryLinks]="true"
+                (pageChange)="cambioPagina($event)" [ellipses] ="false" [maxSize] = 5 [rotate] = "true">
+            </ngb-pagination>
+          </div> -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+<ng-template #modalGeneracion let-modal>
+  <div class="modal-header">
+      <h4 class="modal-title">Generando el blog de nota</h4>
+  </div>
+  <div class="modal-body" align="center">
+          <span class="spinner-border text-info"></span>
+          <br />
+          <span class="text-info">Cargando...</span>
+  </div>
+</ng-template>
