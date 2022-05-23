@@ -5,7 +5,7 @@ import { AuthGuard } from '@guard/auth.guard';
 export const CuentaRoutes: Routes = [
   {
     path: '',
-    canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
     children : [
       {
         path: 'perfil',

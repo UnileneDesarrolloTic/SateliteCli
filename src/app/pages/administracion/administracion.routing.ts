@@ -8,7 +8,7 @@ import { ConfigCotizacionComponent } from './config-cotizacion/config-cotizacion
 export const AdministracionRoutes: Routes = [
   {
     path: '',
-    canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
     children : [
       {
         path: 'usuarios',

@@ -26,7 +26,7 @@ export const AppRoutes: Routes = [
       },
       {
         path:'ControlCalidad',
-        loadChildren:() => import('@pages/controldecalidad/esterilizacion/certificado/control-calidad.module').then(m => m.ControlCalidadModule)
+        loadChildren:() => import('@pages/controldecalidad/control-calidad.module').then(m => m.ControlCalidadModule)
       },
       {
         path:'Dashboard',

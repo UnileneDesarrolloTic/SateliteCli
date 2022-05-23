@@ -1,0 +1,151 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-body">
+        <ngb-tabset>
+          <ngb-tab>
+            <ng-template ngbTabTitle>
+              <span class="visible-xs">
+                <i class="ti-user"></i>
+              </span>
+              <span class="hidden-xs">&nbsp;&nbsp;Registro Analisis</span>
+            </ng-template>
+            <ng-template ngbTabContent>
+
+              <div class="row card-body">
+                <div class="col-md-3">
+                  <label>Numero de Análisis:</label>
+                  <div class="input-group">
+                    <input type="text" class="form-control" [(ngModel)]="txtNumeroAnalisis" />
+                    <div class="input-group-btn">
+                      <button type="button" class="btn btn-success" (click)="ListarNumeroAnalisisAgujas()">
+                        <i class="fa fa-search"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <label>Nº Pruebas:</label>
+                    <input type="text" class="form-control" [(ngModel)]="txtCntPruebas" disabled>
+                  </div>
+                </div>
+
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <label>Nº Ciclos:</label>
+                    <input type="text" class="form-control" [(ngModel)]="txtCiclos" disabled>
+                  </div>
+                </div>
+
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label>Descripción:</label>
+                    <input type="text" class="form-control" [(ngModel)]="txtDescripcion" disabled>
+                  </div>
+                </div>
+
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <label>Fecha de Analisis:</label>
+                    <input type="date" class="form-control" [(ngModel)]="txtFechaAnalisis">
+                  </div>
+                </div>
+              </div>
+
+              <div class="row d-flex no-block align-items-center">
+                <div class="ml-auto">
+                  <button class="btn btn-success" (click)="guardar()">
+                    <i class="fa fa fa-save"></i> Guardar</button>
+                </div>
+              </div>
+
+              <form>
+                <DIV class="form-body">
+                  <div class="row">
+                    <div class="col-md-3" *ngFor="let i of tablas">
+                      <table class="table">
+                        <thead class="bg-warning text-white">
+                          <tr>
+                            <th>#</th>
+                            <th>CICLO</th>
+                          </tr>
+                        </thead>
+                        <tbody id="{{'table'+ i}}">
+                          <tr *ngFor=" let x of [1,2,3,4,5,6,7,8,9,10]" class="border border-warning">
+                            <td><label>{{x}}</label></td>
+                            <td><input type="number" id="{{'input'+ i + x}}" value="{{0}}"   class="form-control" /></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </DIV>
+              </form>
+              <hr>
+              <div class="row">
+                <div class="col-12">
+                  <div class="card">
+                    <div class="card-body">
+                      <h4 class="card-title">Resultados de Flexión - sobre 10 Agujas:</h4>
+                      <form action="#">
+                        <div class="form-body">
+                          <div class="form-group">
+                            <div class="row">
+
+                              <div class="col-md-3" *ngFor="let e of listaCiclos">
+                                <div class="row">
+                                  <label class="col-md-4">{{e.detalle}}</label>
+                                  <div  id={{e.detalle}} class="input-group col-md-7">
+                                    <input type="text" id="resp"  class="form-control">
+                                    <input type="text" id="valormaximo" placeholder="max" value="{{e.val_1}}" class="form-control">
+                                    <input type="text" id="valorminimo" placeholder="min" value="{{e.val_2}}" class="form-control">
+                                    <div class="input-group-append">
+                                      <span class="input-group-text"> % </span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+
+                            </div>
+                          </div>
+
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <form [formGroup]="invoiceForm">
+                <DIV class="form-body">
+                  <div formArrayName="Rows" class="row">
+                      <div class="col-md-3">
+                      <table class="table">
+                        <thead class="bg-warning text-white">
+                          <tr>
+                            <th>#</th>
+                            <th>Valores</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let itemrow of invoiceForm.controls.Rows.controls;let i = index;let l = last"
+                            [formGroupName]="i" class="border border-warning">
+                            <td><label>{{i+1}}</label></td>
+                            <td><input type="number" id="{{i}}" class="form-control" /></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </DIV>
+              </form>
+
+            </ng-template>
+          </ngb-tab>
+        </ngb-tabset>
+      </div>
+    </div>
+  </div>
+</div>

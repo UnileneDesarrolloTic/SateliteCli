@@ -38,14 +38,14 @@ export class LogPedidosAutomaticosComponent implements OnInit {
 
   constructor(private _pronosticoService: ProduccionService, notifier: NotifierService, private _fb: FormBuilder) {
     this.notifier = notifier
-    this.crearFormulario()
+    this.CrearFormulario()
   }
 
   ngOnInit(): void {
     this.filtrarPedido()
   }
 
-  crearFormulario(){
+  CrearFormulario(){
     this.formularioFiltro = this._fb.group({
       fechaInicio: [''],
       fechaFin: [''],
@@ -64,7 +64,7 @@ export class LogPedidosAutomaticosComponent implements OnInit {
     return this.formularioFiltro.get('registroPorPagina').value * 1
   }
 
-  listarPedidos (){
+  ListarPedidos (){
 
     const body = {
       fechaInicio: this.formularioFiltro.get('fechaInicio').value,
@@ -99,7 +99,7 @@ export class LogPedidosAutomaticosComponent implements OnInit {
     } else if (itemSpring != "" && (inicio == "" || fin == "")) {
       this.notifier.notify( 'warning', 'El rango de fech xas esta incompleta' )
     } else {
-      this.listarPedidos()
+      this.ListarPedidos()
     }
   }
 

@@ -1,0 +1,82 @@
+<div class="row">
+  <div class="col-12">
+    <div class="card border-left border-info">
+      <div class="card-header bg-info text-white" style="font-weight: bold">
+        Filtros de búsqueda
+      </div>
+      <div class="card-body">
+        <form autocomplete="off" [formGroup]="filroAnalisisAguja">
+          <div class="row">
+            <div class="col-sm-12 col-md-6 col-lg-4">
+                <div class="form-group row">
+                    <label for="fname2" class="col-sm-3 text-right control-label col-form-label">Ord. Compra</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" id="fname2" placeholder="Orden de compra" formControlName = "ordenCompra">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-4">
+                <div class="form-group row">
+                    <label for="lname2" class="col-sm-3 text-right control-label col-form-label">Lote</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" placeholder="Lote" formControlName="lote">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-4">
+              <div class="form-group row">
+                  <label for="lname2" class="col-sm-3 text-right control-label col-form-label">Item</label>
+                  <div class="col-sm-9">
+                      <input type="text" class="form-control" placeholder="Descripción item" formControlName="item" >
+                  </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12">
+    <div class="card border-left border-info">
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-striped border hover">
+            <thead>
+              <tr>
+                <th class="text-center">Lote</th>
+                <th class="text-center">Item</th>
+                <th class="text-center">Descripción Item</th>
+                <th class="text-center">Ord. Compra</th>
+                <th class="text-center">Proveedor</th>
+                <th class="text-center">Cantidad</th>
+                <th class="text-center">F. Analisis</th>
+                <th class="text-center">Cnt. Pruebas</th>
+                <th class="text-center">Imprimir</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let e of listarAnalisisAguja">
+                <td class="text-center">{{ e.lote }}</td>
+                <td class="text-center">{{ e.item }}</td>
+                <td>{{ e.descripcionItem }}</td>
+                <td class="text-center">{{ e.ordenCompra }}</td>
+                <td>{{ e.proveedor }}</td>
+                <td class="text-center">{{ e.cantidad | number }}</td>
+                <td class="text-center">{{ e.fechaRegistro | date:"dd/MM/yyyy hh:mm"}}</td>
+                <td class="text-center">{{ e.cantidadPruebas | number }}</td>
+                <td class="text-center">
+                  <a type="button" (click)="ObtenerReporteAnalisis(e.lote)">
+                    <i class="fa fa-print text-dark"></i>
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <ngb-pagination class="d-flex justify-content-center" [collectionSize]="200" [pageSize]="20" (pageChange)="PaginaCambiadaListaAnalisis($event)" [(page)]="paginaAnalisisAguja"></ngb-pagination>
+      </div>
+    </div>
+  </div>
+</div>

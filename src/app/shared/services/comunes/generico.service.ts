@@ -45,4 +45,14 @@ export class GenericoService {
 
   }
 
+  RedondearDecimales(numero, decimales = 2, usarComa = false) {
+
+    var opciones = {
+        maximumFractionDigits: decimales,
+        useGrouping: false
+    };
+
+    return new Intl.NumberFormat((usarComa ? "es" : "en"), opciones).format(numero);
+  }
+
 }

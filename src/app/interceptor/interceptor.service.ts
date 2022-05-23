@@ -67,10 +67,19 @@ export class InterceptorService implements HttpInterceptor {
       'Cotizacion/ListarFormatoCotizacion',
       'Contabilidad/ListarDetraccionContabilidad',
       'Contabilidad/GernerarBlogNotasDetraccion',
-      'Contabilidad/ProcesarDetraccionContabilidad'
+      'Contabilidad/ProcesarDetraccionContabilidad',
+      'AnalisisAguja/ListaOrdenesCompra',
+      'AnalisisAguja/ListarAnalisisAguja',
+      'AnalisisAguja/ListarCiclos',
+      'AnalisisAguja/CantidadPruebasFlexionPorItem',
+      'AnalisisAguja/RegistrarAnalisisAguja',
+      'AnalisisAguja/ValidarLoteCreado',
+      'AnalisisAguja/AnalisisAgujaFlexion',
+      'AnalisisAguja/GuardarEditarPruebaFlexionAguja',
+      'AnalisisAguja/ReporteAnalisisFlexion'
     ];
     const data = this.sesionService.datosPersonales();
-  
+
     if(metodosAuth.indexOf(metodoActual)==-1){
       let headers = new HttpHeaders({
         contentType:"application/json; charset=utf-8"

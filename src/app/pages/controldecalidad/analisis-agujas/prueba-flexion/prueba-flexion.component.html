@@ -1,0 +1,117 @@
+<div class="row">
+  <div class="col-12">
+    <div class="card border-left border-info">
+      <div class="card-header bg-info text-white" style="font-weight: bold">
+        Datos del análisis
+      </div>
+      <div class="card-body">
+        <form autocomplete="off" [formGroup]="datosAnalisisForm">
+          <div class="row">
+            <div class="col-sm-12 col-md-6 col-lg-3">
+              <div class="form-group">
+                  <label for="inputname" class="control-label col-form-label">Análisis</label>
+                  <input type="text" class="form-control" id="NroAnalisis" formControlName="analisis">
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-3">
+              <div class="form-group">
+                  <label for="inputname" class="control-label col-form-label">Nro Pruebas</label>
+                  <input type="number" class="form-control" id="NroPruebas" formControlName="pruebas">
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-3">
+              <div class="form-group">
+                  <label for="inputname" class="control-label col-form-label">Item</label>
+                  <input type="text" class="form-control" id="NroItem" formControlName="item">
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-3">
+              <div class="form-group">
+                  <label for="inputname" class="control-label col-form-label">Proveedor</label>
+                  <input type="text" class="form-control" id="NroProveedor" formControlName="proveedor">
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<form autocomplete="off" [formGroup]="resultAnalisis" (submit)="GuardarAnalisisAguja()">
+  <div class="row">
+    <div class="col-12">
+      <div class="card border-left border-info">
+        <div class="card-body">
+          <div class="row" formArrayName="ciclosFlexion">
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2" *ngFor="let grupo of listaGruposCiclos">
+              <table class="table">
+                <thead class="bg-info text-white">
+                  <tr>
+                    <th class="text-center">#</th>
+                    <th class="text-center">CICLO</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="border border-info" *ngFor="let ciclo of [0,1,2,3,4,5,6,7,8,9]">
+                    <ng-container [formGroup]="ciclosFlexion.controls[ciclo + grupo]" >
+                      <td class="text-center p-2">
+                        {{ grupo + ciclo + 1}}
+                      </td>
+                      <td class="text-center p-2">
+                        <input onkeydown="return event.keyCode !== 69" type="number" class="form-control form-control-sm" placeholder="0" formControlName="valor" />
+                      </td>
+                    </ng-container>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <div class="card border-left border-info">
+        <div class="card-body">
+          <h6 class="card-title mb-4">Resultados de Flexión - sobre {{ciclosFlexion.length}} Agujas:</h6>
+          <div class="row" formArrayName="resumenFlexion" *ngIf="resumenFlexion.controls.length > 0">
+            <ng-container  *ngFor="let result of resumenFlexion.controls; let i = index">
+              <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2" [formGroup]="result">
+                <div class="form-group row">
+                  <label for="lname2" class="col-4 text-center control-label col-form-label col-form-label-sm" style="font-weight:bold">
+                    {{ result.value['ciclo'] }} ciclo
+                  </label>
+                  <div class="input-group mb-3 col-8">
+                    <input type="number" class="form-control" placeholder="0" formControlName="porcentaje">
+                    <div class="input-group-append">
+                      <span class="input-group-text">%</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+          <hr>
+          <div class="card-body m-2 p-0">
+              <div class="form-group m-b-0 text-right">
+                <button type="button" class="btn btn-dark waves-effect waves-light" (click)="Cancelar()">
+                  <i class="fas fa-ban" aria-hidden="true"></i>&nbsp;&nbsp;Cancelar
+                </button>
+                <button type="submit" class="btn btn-info waves-effect waves-light" [disabled]="botonGuardarDisabled">
+                  <span *ngIf="!botonGuardarDisabled">
+                    <i class="fas fa-save" aria-hidden="true"></i>&nbsp;&nbsp;Guardar
+                  </span>
+                  <span *ngIf="botonGuardarDisabled">
+                    <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+                    Guardan..
+                  </span>
+                </button>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

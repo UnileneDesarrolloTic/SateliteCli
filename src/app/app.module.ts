@@ -61,7 +61,9 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     FeatherModule.pick(icons),
     RouterModule.forRoot(AppRoutes),
     PerfectScrollbarModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot({
+      preventDuplicates: true
+    })
   ],
   providers: [
     AuthGuard,

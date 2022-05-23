@@ -16,7 +16,7 @@ import { SeguimientoOperacionesComponent } from "./produccion/seguimiento-operac
 export const DashboardRoutes: Routes = [
     {
         path: 'comercial',
-        canActivate: [AuthGuard],
+        canActivateChild: [AuthGuard],
         children : [
             {
                 path: 'pedidos',
@@ -92,7 +92,7 @@ export const DashboardRoutes: Routes = [
     },
     {
         path: 'produccion',
-        canActivate: [AuthGuard],
+        canActivateChild: [AuthGuard],
         children : [
             {
                 path: 'pedidosArima',

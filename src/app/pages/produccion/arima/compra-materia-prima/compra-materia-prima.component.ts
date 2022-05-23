@@ -56,12 +56,12 @@ export class CompraMateriaPrimaComponent implements OnInit {
 
 
 
-  ngOnInit(): void {    
+  ngOnInit(): void {
     this.BuscarProducto();
-    
+
   }
 
-  
+
 
 
   inicializarFormulario() {
@@ -93,7 +93,7 @@ export class CompraMateriaPrimaComponent implements OnInit {
 
       return format[1]+''+format[0];
   }
-  
+
   filtroItem() {
     if (this.textFilterCtrl.value != '') {
       const TextFiltro = this.textFilterCtrl.value.toLowerCase().trim();
@@ -114,7 +114,7 @@ export class CompraMateriaPrimaComponent implements OnInit {
   }
 
 
-  get BooleanListProduct(){     
+  get BooleanListProduct(){
       return true;
   }
 
@@ -131,7 +131,7 @@ export class CompraMateriaPrimaComponent implements OnInit {
       FamiliaMP:this.filtrosForm.controls.familiaMP.value,
     }
     this.listaProductos(ConstParametros);
-    
+
   }
 
 
@@ -140,18 +140,18 @@ export class CompraMateriaPrimaComponent implements OnInit {
       resp => {
         this.ListaCompraMaterial = resp;
         this.ListaTemporalCompraMaterial = resp;
-       
+
         if(parametros.Periodo==this._periodoActual.replace("-","")){
           this.filtrosForm.controls['FiltrarAlerta'].setValue('TD');
           this.filtrosForm.controls['FiltrarAlerta'].enable();
-         
+
         }else{
-        
+
           this.filtrosForm.controls['FiltrarAlerta'].setValue('TD');
         }
 
         this.textFilterCtrl.patchValue("");
-        
+
         this.flagLoading = false
       },
       catchError => {
@@ -165,7 +165,7 @@ export class CompraMateriaPrimaComponent implements OnInit {
         resp=>{
             this.ListarArraySubFamilia=resp
             this.ListarArraySubFamilia.push({codigo:"TD",valor1:"Todos"});
-            
+
         },
         catchError => {
           this.messagerNgxTable.emptyMessage = "Ocurrio un error al obtener lista de producto"
@@ -179,11 +179,11 @@ export class CompraMateriaPrimaComponent implements OnInit {
     this.flagLoading = true;
 
     this.filtrosForm.get("periodo").valueChanges.subscribe( valor => {
-     
+
       if(valor==this._periodoActual){
         this.filtrosForm.controls['FiltrarAlerta'].setValue('TD');
         this.filtrosForm.controls['FiltrarAlerta'].enable();
-        
+
       }else{
         this.filtrosForm.controls['FiltrarAlerta'].setValue('TD');
         this.filtrosForm.controls['FiltrarAlerta'].disable();
@@ -196,11 +196,11 @@ export class CompraMateriaPrimaComponent implements OnInit {
     this.flagLoading = false;
   }
 
-  //combox box 
+  //combox box
   CambiodeFiltroAlerta(event: any) {
     this.ListaCompraMaterial = []
     let TextFiltro = event.target.value;
-   
+
     this.ListaCompraMaterial = this.ListaTemporalCompraMaterial
 
     if (TextFiltro == "FAL") { // Productos con alerta
