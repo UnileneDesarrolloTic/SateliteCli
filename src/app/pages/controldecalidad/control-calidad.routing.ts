@@ -5,6 +5,7 @@ import { FrmControlAgujaComponent } from '@pages/controldecalidad/agujas/frm-con
 import { ImprimirAnalisisComponent } from '@pages/controldecalidad/analisis-agujas/imprimir-analisis/imprimir-analisis.component';
 import { RegistrarAnalisisComponent } from '@pages/controldecalidad/analisis-agujas/registrar-analisis/registrar-analisis.component';
 import { PruebaFlexionComponent } from '@pages/controldecalidad/analisis-agujas/prueba-flexion/prueba-flexion.component';
+import { ConfirmExitGuard } from '@guard/confirm-exit.guard';
 
 export const ControlCalidadRoutes: Routes = [
   {
@@ -25,7 +26,7 @@ export const ControlCalidadRoutes: Routes = [
   },
   {
     path: 'analisis-agujas',
-    // canActivateChild: [AuthGuard],
+    canActivateChild: [AuthGuard],
     children : [
       {
         path: 'prueba',
@@ -44,18 +45,23 @@ export const ControlCalidadRoutes: Routes = [
       {
         path: 'registrar-analisis',
         component: RegistrarAnalisisComponent,
+        canActivateChild: [AuthGuard],
         data: {
           title: "Registrar los análisis de agujas"
-        },
+        }
       },
       {
         path: 'prueba-flexion/:codAnalisis',
+        canDeactivate: [ConfirmExitGuard],
         component: PruebaFlexionComponent,
         data: {
-          title: "Prueba de flexión"
+          title: "Prueba de flexión",
+          urls: [
+            { title: 'Lista análisis', url: '/ControlCalidad/analisis-agujas/registrar-analisis' },
+            { title: 'Prueba Flexión' }
+          ]
         },
-      },
-
+      }
     ],
   },
 ]

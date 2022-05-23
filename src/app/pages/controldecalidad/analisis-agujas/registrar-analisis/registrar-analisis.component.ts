@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AnalisisAgujaService } from '@data/services/backEnd/pages/analisis-aguja.service';
@@ -10,7 +10,7 @@ import { debounceTime } from 'rxjs/operators';
   selector: 'app-registrar-analisis',
   templateUrl: './registrar-analisis.component.html'
 })
-export class RegistrarAnalisisComponent implements OnInit {
+export class RegistrarAnalisisComponent {
 
   listaOrdenesCompra: Object[] = []
   cargandoCantidadFlexion: boolean = true
@@ -22,10 +22,6 @@ export class RegistrarAnalisisComponent implements OnInit {
     this.InicializarFormulario();
   }
 
-  ngOnInit(): void {
-    this.filtroOrdenCompra.setValue({for: '1630'})
-    this.ListarOrdenCompra({for:'FOR001630'}); // eliminar al final
-  }
 
   InicializarFormulario(){
 
@@ -117,7 +113,7 @@ export class RegistrarAnalisisComponent implements OnInit {
 
     if (this.formRegristrarAnalisis.invalid || this.formRegristrarAnalisis.get('cantidadPruebas').value == 0)
     {
-      this._toastr.error("El datos ingresados no son válidos","Error de datos !!")
+      this._toastr.error("El datos ingresados no son válidos","Error de datos !!", {timeOut: 3000, tapToDismiss:true})
       this.spinnerGuardarAnalisis = false
       return
     }
@@ -134,12 +130,12 @@ export class RegistrarAnalisisComponent implements OnInit {
       (result: any) => {
 
         const numeroAnalisis:string = result['content']['numeroAnalisis'];
-        this._toastr.success("Se registro el análisis N° " + numeroAnalisis,"Éxito !!", {timeOut: 3000})
+        this._toastr.success("Se registro el análisis N° " + numeroAnalisis,"Éxito !!", {tapToDismiss:true})
         this.spinnerGuardarAnalisis = false
         this.CerrarModal()
         this.AbrirModuloPruebaFlexion(numeroAnalisis)
       }, err => {
-        this._toastr.error("Error al guardar el análisis", "Error en el servidor!!", {timeOut: 3000})
+        this._toastr.error("Error al guardar el análisis", "Error en el servidor!!", {timeOut: 3000, tapToDismiss:true})
         this.spinnerGuardarAnalisis = false
       }
     );
@@ -152,7 +148,7 @@ export class RegistrarAnalisisComponent implements OnInit {
         if(result['success'])
           this.AbrirModuloPruebaFlexion(loteAnalisis)
       },
-      err => this._toastr.error("Error al validar el lote de analisis", "Error en el servidor!!", {timeOut: 3000, closeButton: true})
+      err => this._toastr.error("Error al validar el lote de analisis", "Error en el servidor!!", {timeOut: 3000, tapToDismiss:true})
     )
   }
 

@@ -67,7 +67,7 @@
                 <td class="text-center">{{ e.fechaRegistro | date:"dd/MM/yyyy hh:mm"}}</td>
                 <td class="text-center">{{ e.cantidadPruebas | number }}</td>
                 <td class="text-center">
-                  <a type="button">
+                  <a type="button" (click)="ObtenerReporteAnalisis(e.lote)">
                     <i class="fa fa-print text-dark"></i>
                   </a>
                 </td>

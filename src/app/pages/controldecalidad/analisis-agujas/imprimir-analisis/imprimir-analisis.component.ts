@@ -14,7 +14,7 @@ export class ImprimirAnalisisComponent implements OnInit {
   paginaAnalisisAguja: number = 1
   filroAnalisisAguja: FormGroup;
 
-  constructor( private _esterilizacionService: AnalisisAgujaService, private _fb: FormBuilder, private _toastr: ToastrService,)
+  constructor( private _analisisAgujaService: AnalisisAgujaService, private _fb: FormBuilder, private _toastr: ToastrService,)
   {
     this.InicializarFormulario();
   }
@@ -50,11 +50,11 @@ export class ImprimirAnalisisComponent implements OnInit {
     if (filtros['item'] == undefined)
       filtros['item'] = ""
 
-    this._esterilizacionService.ListarAnalisis(filtros['ordenCompra'], filtros['lote'], filtros['item'], pagina).subscribe(
+    this._analisisAgujaService.ListarAnalisis(filtros['ordenCompra'], filtros['lote'], filtros['item'], pagina).subscribe(
       (data: any) => {
           this.listarAnalisisAguja = data;
           if(this.listarAnalisisAguja.length < 1)
-            this._toastr.warning("No se encontraron registros", "Adventencia !!",{timeOut: 2000, closeButton: true});
+            this._toastr.warning("No se encontraron registros", "Adventencia !!",{timeOut: 4000, closeButton: true});
         }
       )
   }
@@ -64,5 +64,54 @@ export class ImprimirAnalisisComponent implements OnInit {
 
     this.ListarAnalisisAgujas(filtro, pagina)
   }
+
+  ObtenerReporteAnalisis(loteAnalisis: string){
+
+    this._analisisAgujaService.ObtenerReporteFlexionAguja(loteAnalisis).subscribe(
+      response => {
+        if(response['success'] == false)
+        {
+          this._toastr.warning(response['message'], "Adventencia !!",{timeOut: 5000, closeButton: true});
+          return
+        }
+
+        this.file(response, loteAnalisis)
+      }
+    );
+
+  }
+
+  file(fileContent, loteAnalisis){
+		const fileBlob = new Blob(
+		  [this.base64ToUint8Array(fileContent['content'])],
+		  { type: "application/pdf" }
+		);
+
+		var objectURL = URL.createObjectURL(fileBlob);
+		const exportLinkElement = document.createElement('a');
+
+		exportLinkElement.hidden = true;
+		exportLinkElement.download = loteAnalisis + ".pdf";
+		exportLinkElement.href = objectURL;
+		exportLinkElement.text = "downloading...";
+
+		document.body.appendChild(exportLinkElement);
+		exportLinkElement.click();
+
+		URL.revokeObjectURL(objectURL);
+
+		exportLinkElement.remove();
+
+	};
+
+  base64ToUint8Array(string) {
+		var raw = atob(string);
+		var rawLength = raw.length;
+		var array = new Uint8Array(new ArrayBuffer(rawLength));
+		for (var i = 0; i < rawLength; i += 1) {
+		  array[i] = raw.charCodeAt(i);
+		}
+		return array;
+	}
 
 }
