@@ -16,7 +16,7 @@ export class DetraccionesComponent implements OnInit {
   listarDetraccion:any=[];
   totalimporte:number=0;
   displayButton:boolean=true;
-
+  Ocultar:boolean=true;
   @ViewChild("archivo", {
     read: ElementRef
   }) 
@@ -128,14 +128,17 @@ export class DetraccionesComponent implements OnInit {
   }
 
   GuardarExcel(){
+      this.Ocultar=false;
       let archivos = this.archivo.nativeElement.files;
       this._ContabilidadService.SubirExcelProcesoDetraccion(archivos[0].name).subscribe( resp => {
         if(resp==1){
-          this.toastr.success("Guardado Con exito");
+          this.toastr.success("Guardado con exito");
           this.ListarDetraccion();
+          this.Ocultar=true;
         }
       },
-    error=> {this.toastr.info("Comuniquese con el administrador de TI")});
+    error=> {this.toastr.info("Comuniquese con el administrador de TI")
+              this.Ocultar=true;});
   }
 
   handleUpload(event) {

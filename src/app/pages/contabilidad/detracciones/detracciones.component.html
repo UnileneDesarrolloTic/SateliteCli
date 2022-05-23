@@ -3,26 +3,42 @@
     <div class="col-lg-12">
       <div class="card">
         <div class="card-body">
-          <label for="totalimporte">Total Importe: {{totalimporte}}</label>
           <div class="row justify-content-start">
-            <div class="d-flex flex-row" style="align-items: center;">
+            <div class="d-flex flex-row">
               <div class="p-2">
-                <p>RECORDATORIO:</p>
-                <p>Por favor, El archivo Aque se  vaya a subir debe estar en el disco C</p>
+                <h6><b>RECORDAR </b>(para cargar el archivo al sistema)</h6>
+                <p>El archivo debe de estar en el  <b class="text-info">disco C:</b></p>
+                <p>La hoja debe llamarse <b class="text-info">UNILENE</b></p>
                 <input type="file"  (change)="handleUpload($event)" #archivo  id="archivo"  class="form-control"> 
               </div>
-              <div class="p-2 mt-2">
-                
-              </div>
-              
             </div>
-            
-          </div>
-          <div class="row justify-content-end mb-2">
-            <button type="button" (click)="GuardarExcel()" [disabled]="displayButton" class="btn btn-primary btn-rounded"><i class=" fas fa-file-excel"></i> Subir Excel</button>
-            <button type="button" (click)="procesar()" class="btn btn-secondary btn-rounded"><i class="fas fa-file-alt"></i> Procesar</button>
-          </div>
            
+          </div>
+          <div  *ngIf="Ocultar" class="row justify-content-end ">
+            <button type="button" (click)="GuardarExcel()" [disabled]="displayButton" class="btn btn-primary btn-rounded"><i class=" fas fa-file-excel"></i> subir información </button>
+          </div>
+            <div *ngIf="!Ocultar" class="row justify-content-end p-2">
+              <span class="spinner-border text-info"></span>
+              <br />
+              <span class="text-info">Cargando...</span>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="d-flex">
+            <div class="mr-auto p-2">
+                <label for="totalimporte">Total Importe: {{totalimporte | number : '1.2-2'}}</label>
+            </div>
+            <div class="p-2">
+              <button type="button" (click)="procesar()" class="btn btn-secondary btn-rounded"><i class="fas fa-file-alt"></i> Generar txt </button>
+            </div>
+          </div>
+        
           <div class="d-flex no-block align-items-center">
             <div class="table-hover table-responsive table-bordered">
               <table class="table table-striped border table-hover table-inf">
@@ -63,21 +79,14 @@
               </table>
             </div>
           </div>
-          <!-- <div class="row d-flex justify-content-center mt-4">
-            <ngb-pagination  *ngIf="paginador.totalPaginas > 1"
-                [collectionSize]="paginador.totalRegistros" [(page)]="page" [pageSize]="pageSize" [boundaryLinks]="true"
-                (pageChange)="cambioPagina($event)" [ellipses] ="false" [maxSize] = 5 [rotate] = "true">
-            </ngb-pagination>
-          </div> -->
         </div>
       </div>
     </div>
   </div>
-
   
-<ng-template #modalGeneracion let-modal>
+<ng-template #modalCarga let-modal>
   <div class="modal-header">
-      <h4 class="modal-title">Generando el blog de nota</h4>
+      <h4 class="modal-title">Subiendo Información al sistema</h4>
   </div>
   <div class="modal-body" align="center">
           <span class="spinner-border text-info"></span>

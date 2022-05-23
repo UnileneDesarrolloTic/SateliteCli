@@ -11,9 +11,9 @@ export const ContabilidadRoutes: Routes = [
         path: 'Detraccion',
         component: DetraccionesComponent,
         data: {
-          title: "Detraccion",
+          title: "Declaración de detracción al: "+ (new Date().toLocaleString("es-Cl")).substring(0,10) ,
           urls: [
-            {title: 'Detraccion' }
+            {title: 'Detracción' }
           ]
         }
       },
