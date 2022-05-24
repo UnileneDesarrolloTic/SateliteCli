@@ -5,7 +5,7 @@ import { DetraccionesComponent } from "./detracciones/detracciones.component";
 export const ContabilidadRoutes: Routes = [
   {
     path: '',
-    canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
     children : [
       {
         path: 'Detraccion',
@@ -19,6 +19,6 @@ export const ContabilidadRoutes: Routes = [
       },
     ]
   },
- 
+
 
 ]

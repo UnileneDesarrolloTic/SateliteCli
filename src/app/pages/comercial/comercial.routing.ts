@@ -56,7 +56,7 @@ export const ComercialRoutes: Routes = [
   },
   {
     path: 'licitaciones',
-    canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
     children : [
       {
         path: 'actaverificacion',
