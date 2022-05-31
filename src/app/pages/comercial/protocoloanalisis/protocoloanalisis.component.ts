@@ -1,4 +1,4 @@
-import { FormGroup, FormBuilder } from "@angular/forms";
+import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { Component, ViewChild } from "@angular/core";
 import { ProtocoloAnalisisData } from "@data/interface/Request/ProtocoloAnalisis.interface";
 import { ComercialService } from "@data/services/backEnd/pages/comercial.service";
@@ -79,7 +79,7 @@ export class ProtocoloAnalisisComponent {
       ordenFabricacion: [""],
       idCliente: [""],
       nombreCliente: [""],
-      tipoDoc: ["F"],
+      tipoDocu: ["F"],
     });
   }
 
@@ -210,7 +210,7 @@ export class ProtocoloAnalisisComponent {
       Lote: this.frmBusqueda.get("lote").value,
       OrdenFabricacion: this.frmBusqueda.get("ordenFabricacion").value,
       IdCliente: this.frmBusqueda.get("idCliente").value,
-      TipoDoc: this.frmBusqueda.get("tipoDoc").value,
+      TipoDoc: this.frmBusqueda.get("tipoDocu").value,
       Pagina: this.pagina,
       RegistrosPorPagina: 1000,
     };

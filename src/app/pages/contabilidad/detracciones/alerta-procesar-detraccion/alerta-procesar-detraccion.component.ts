@@ -26,7 +26,7 @@ export class AlertaProcesarDetraccionComponent implements OnInit {
             ) {
 
               this.form = this.fb.group({
-                periodo : ['',Validators.required],
+                periodo : ['',[Validators.required]],
                
               })
              

@@ -1,0 +1,76 @@
+
+    <div class="modal-header">
+      <i class="fa fa-search mt-1 mr-2" aria-hidden="true"></i>
+      <h4 class="modal-title">Búsqueda de Clientes</h4>
+      <button
+        type="button"
+        class="close"
+        aria-label="Close"
+        (click)="activeModal.close()"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="card">
+        <div class="card-body">
+          <form class="w-50 m-b-30 ml-1 row">
+            <label class="col-md-3 p-0">Buscar:</label>
+            <div class="col-md-9 p-0">
+              <div class="col-md-12 p-0">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Buscar el cliente"
+                  [formControl]="textFilterCliente"
+                />
+              </div>
+            </div>
+          </form>
+          <ngx-datatable #table
+          class="material"
+                [columnMode]="'force'"
+                [headerHeight]="50"
+                [footerHeight]="50"
+                [rowHeight]="'auto'"
+                [limit]="10"
+                [rows]="ListaClientes"
+        >
+          <ngx-datatable-column name="Codigo" prop="persona" [width]="100">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+              {{ value }}
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column
+            name="Nombre Completo"
+            prop="nombreCompleto"
+            [width]="450"
+          >
+            <ng-template let-value="value" ngx-datatable-cell-template>
+              {{ value }}
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Estado" prop="estado" [width]="100">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+              {{ value }}
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Acción" sortable="false" prop="id">
+            <ng-template
+              let-row="row"
+              let-value="value"
+              ngx-datatable-cell-template
+            >
+              <button
+                md-icon-button
+                class="btn btn-success btn-xs"
+                (click)="ObtenerCliente(row)"
+              >
+                Pasar
+              </button>
+            </ng-template>
+          </ngx-datatable-column>
+        </ngx-datatable>
+        </div>
+      </div>
+    </div>

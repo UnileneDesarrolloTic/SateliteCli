@@ -131,57 +131,62 @@
             </div>
             <div class="col-md-3">
               <div class="form-group col-md-12">
+                <label>Tipo Documento:</label>
                 <div class="input-group">
-                  <label>N° Documento:</label>
-                  <div class="mr-0 ml-auto">
-                    <button
-                      id="btnNroDocumento"
-                      class="btn btn-primary btn-sm mr-0 h-75"
-                      (click)="AlternaGuiaFactura()"
-                      style="padding-top: 2px"
-                    >
-                      Factura
-                    </button>
-                  </div>
+                  <span class="input-group-text" style="padding: 10px">
+                    <i class="fas fa-list" aria-hidden="true"></i>
+                  </span>
+                  <select class="form-control" formControlName="tipoDocu">
+                    <option value="N">Ninguno</option>
+                    <option value="P">Pedido</option>
+                    <option selected value="F">Factura</option>
+                    <option value="G">Guia</option>
+                   
+                    
+                </select>
                 </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group col-md-12">
+                <label>NrDocumento:</label>
 
                 <div class="input-group">
-                  <div>
-                    <span class="input-group-text" style="padding: 10px">
-                      <i class="fa fa-edit" aria-hidden="true"></i>
-                    </span>
-                  </div>
+                  <span class="input-group-text" style="padding: 10px">
+                    <i class="fa fa-edit" aria-hidden="true"></i>
+                  </span>
                   <input
-                    id="nroDocumentoAlterna"
                     class="form-control"
-                    placeholder="N° Factura"
+                    placeholder="N° Documento"
                     type="text"
                     formControlName="numeroDocumento"
                   />
                 </div>
               </div>
             </div>
-            <div class="col-md-3 row">
-              <div class="mt-auto mb-3 ml-auto mr-0">
-                <button
-                  type="button"
-                  class="btn btn-primary"
-                  (click)="filtrarProtocoloAnalisis()"
-                >
-                  <i class="fa fa-search"></i>
-                  Buscar
-                </button>
-              </div>
-              <div class="mt-auto mb-3 mr-0">
-                <button
-                  type="button"
-                  class="btn btn-info"
-                  (click)="imprimirProtocoloAnalisis(modalGeneracion)"
-                >
-                  <i class="fa fa-print"></i>
-                  Imprimir
-                </button>
-              </div>
+            
+          </div>
+          <div class="row justify-content-end">
+            <div class="mt-auto mb-3 ml-auto mr-0">
+              <button
+                type="button"
+                class="btn btn-primary"
+                (click)="filtrarProtocoloAnalisis()"
+              >
+                <i class="fa fa-search"></i>
+                Buscar
+              </button>
+            </div>
+            <div class="mt-auto mb-3 mr-0">
+              <button
+                type="button"
+                class="btn btn-info"
+                (click)="imprimirProtocoloAnalisis(modalGeneracion)"
+                [disabled]="!frmBusqueda.valid"
+              >
+                <i class="fa fa-print"></i>
+                Imprimir
+              </button>
             </div>
           </div>
         </form>

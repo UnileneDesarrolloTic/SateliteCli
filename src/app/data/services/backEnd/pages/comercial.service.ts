@@ -27,4 +27,16 @@ export class ComercialService {
       .post(this.url + "GenerarReporteProtocoloAnalisis", body)
       .pipe(catchError(() => throwError("Error al registrar el reporte")));
   }
+
+  ListarLicitaciones(body) {
+    return this._http
+      .post(this.url + "ListarDocumentoLicitacion", body)
+      .pipe(catchError(() => throwError("Error al registrar el reporte")));
+  }
+
+  GenerarPdfNumeroGuias(body) {
+    return this._http
+      .post(this.url + "NumerodeGuiaLicitacion", body)
+      .pipe(catchError(() => throwError("Error al registrar el reporte")));
+  }
 }
