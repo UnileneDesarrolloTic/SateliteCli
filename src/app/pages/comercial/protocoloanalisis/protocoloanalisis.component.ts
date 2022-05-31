@@ -39,6 +39,7 @@ export class ProtocoloAnalisisComponent {
   };
 
   frmBusqueda: FormGroup;
+  disabledInput:boolean=false;
 
   //Variables Globales - Búsqueda Cliente
   GlobalesBusquedaCliente = {
@@ -66,6 +67,7 @@ export class ProtocoloAnalisisComponent {
   ) {
     this.crearFormularioBusqueda();
     this.filtrarClientes();
+    this.validacampos();
   }
 
   /****************Funciones - Principal****************/
@@ -166,7 +168,12 @@ export class ProtocoloAnalisisComponent {
     this.filtrarProtocoloAnalisis();
   }
 
+  validacampos(){
+    this.frmBusqueda.controls.tipoDocu.value=="N" ? this.disabledInput=true :  this.disabledInput=false; 
+  }
+
   filtrarProtocoloAnalisis() {
+    
     let checkbox = <HTMLInputElement>(
       document.getElementById("alternaSeleccion")
     );
@@ -203,6 +210,15 @@ export class ProtocoloAnalisisComponent {
       }
     }
 
+    if(this.frmBusqueda.controls.tipoDocu.value=="N"){
+        if(this.frmBusqueda.controls.ordenFabricacion.value.trim()=="" && this.frmBusqueda.controls.lote.value.trim()==""){
+            return this.toastr.info("Debe Ingresar la Orden de fabricacion o Lote");
+        }
+
+        
+        
+    }
+
     const body = {
       FechaInicio: fecIni,
       FechaFinal: fecFin,
@@ -231,6 +247,9 @@ export class ProtocoloAnalisisComponent {
       this.desSeleccionarTodos();
     }
   }
+
+
+  
 
   seleccionarTodos() {
     let tbody = document.getElementById("tbodyPrincipal");
