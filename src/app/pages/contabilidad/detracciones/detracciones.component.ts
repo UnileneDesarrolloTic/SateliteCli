@@ -94,8 +94,7 @@ export class DetraccionesComponent implements OnInit {
 		modalRefGenerarCotizacion.result.then((result) => {
          
 		}, (reason) => {
-			
-			
+
 		});
   }
 
