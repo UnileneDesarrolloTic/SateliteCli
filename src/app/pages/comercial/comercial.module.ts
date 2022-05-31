@@ -17,7 +17,7 @@ import { ModalDescargaCotizacionComponent } from './cotizacion/modal-descarga-co
 
 import { ModalAgregarCotizacionComponent } from './cotizacion/modal-agregar-cotizacion/modal-agregar-cotizacion.component';
 import { FormatoCotizacionComponent } from './cotizacion/formato-cotizacion/formato-cotizacion.component';
-import { LicitacionesComponent } from './licitaciones/licitaciones.component';
+import { DocumentoLicitacionesComponent } from './documento-licitaciones/documento-licitaciones.component';
 
 @NgModule({
   declarations: [GeneracionFormatosComponent, 
@@ -26,7 +26,7 @@ import { LicitacionesComponent } from './licitaciones/licitaciones.component';
                  ModalDocumentoCotizacionComponent, 
                  ModalDescargaCotizacionComponent, 
                  ModalAgregarCotizacionComponent, 
-                 FormatoCotizacionComponent, LicitacionesComponent],
+                 FormatoCotizacionComponent, DocumentoLicitacionesComponent],
   imports: [
     RouterModule.forChild(ComercialRoutes),
     CommonModule,
@@ -42,6 +42,6 @@ import { LicitacionesComponent } from './licitaciones/licitaciones.component';
             ModalDocumentoCotizacionComponent, 
             ModalDescargaCotizacionComponent, 
             FormatoCotizacionComponent,
-            LicitacionesComponent],
+            ],
 })
 export class ComercialModule { }
