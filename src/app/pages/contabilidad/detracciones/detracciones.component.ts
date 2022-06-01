@@ -52,16 +52,7 @@ export class DetraccionesComponent implements OnInit {
     this.ListarDetraccion();
   }
 
-  // FiltrarDetraccion(){
-  //   this.ListarDetraccion();
-  // }
-
   ListarDetraccion(){
-   /* const body = {
-      // documento: this.formulario.controls.documento.value,
-      Pagina : this.pagina,
-      RegistrosPorPagina: 10
-    }*/
     this._ContabilidadService.ListarDetracciones().subscribe( resp => {
         this.listarDetraccion = resp;
         this.listarDetraccion?.length>0 ?  this.TotalImporte(this.listarDetraccion) : '';
@@ -134,6 +125,9 @@ export class DetraccionesComponent implements OnInit {
           this.toastr.success("Guardado con exito");
           this.ListarDetraccion();
           this.Ocultar=true;
+        }else{
+          this.toastr.info("El archivo debe de estar en el disco C: \n  La hoja debe llamarse UNILENE");
+          this.Ocultar=true;
         }
       },
     error=> {this.toastr.info("Comuniquese con el administrador de TI")
@@ -141,6 +135,7 @@ export class DetraccionesComponent implements OnInit {
   }
 
   handleUpload(event) {
+    console.log(event);
     const file = event.target.files[0];
     if(file){
       this.displayButton=false;

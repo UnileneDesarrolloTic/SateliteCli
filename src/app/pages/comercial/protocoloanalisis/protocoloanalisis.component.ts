@@ -169,6 +169,7 @@ export class ProtocoloAnalisisComponent {
   }
 
   validacampos(){
+    this.frmBusqueda.get("numeroDocumento").patchValue("");
     this.frmBusqueda.controls.tipoDocu.value=="N" ? this.disabledInput=true :  this.disabledInput=false; 
   }
 
@@ -212,7 +213,7 @@ export class ProtocoloAnalisisComponent {
 
     if(this.frmBusqueda.controls.tipoDocu.value=="N"){
         if(this.frmBusqueda.controls.ordenFabricacion.value.trim()=="" && this.frmBusqueda.controls.lote.value.trim()==""){
-            return this.toastr.info("Debe Ingresar la Orden de fabricacion o Lote");
+            return this.toastr.info("Debe Ingresar la Orden de fabricación o Lote");
         }
 
         
@@ -234,6 +235,7 @@ export class ProtocoloAnalisisComponent {
     this._comercialService.ListarProtocoloAnalisis(body).subscribe((resp) => {
       this.listaProtocoloAnalisis = resp["contenido"];
       this.paginador = resp["paginado"];
+      this.listaProtocoloAnalisis.length==0 && this.toastr.info("No se encontraron resultados");
     });
   }
 
