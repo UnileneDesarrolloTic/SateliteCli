@@ -1,0 +1,55 @@
+<div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="row justify-content-end">
+            <button type="button" class="btn btn-info btn-rounded"(click)="NuevoProceso()" ><i class="fas fa-file-medical"></i> Nuevo proceso </button>
+         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-body">        
+          <div class="d-flex no-block align-items-center">
+            <div class="table-hover table-responsive table-bordered">
+              <table class="table table-striped border table-hover table-inf">
+                <thead style="font-size: 13px" class="bg-info text-white" >
+                  <tr>
+                    <th class="text-center" scope="col">Proceso</th>
+                    <th class="text-center" scope="col">Monto</th>
+                    <th class="text-center" scope="col">Estado</th>
+                    <th class="text-center" scope="col">Avance</th>
+                    <th class="text-center" scope="col">Dist.</th>
+                    <th class="text-center" scope="col">Detalle</th>
+                  
+                   
+                  </tr>
+                </thead>
+                <tbody style="font-size: 13px" id="tbodyDetalle" >
+                  <tr *ngFor="let proceso of ListarProceso; let i = index">
+                    <td class="text-center" >{{proceso.proceso}}</td>
+                    <td class="text-center" >{{proceso.Monto}}</td>
+                    <td class="text-center" >{{proceso.Estado}}</td>
+                    <td class="text-center" >{{proceso.Avance}}</td>
+                    <td class="text-center" >
+                        <span *ngIf="proceso.Dist=='S'">{{proceso.Dist}}</span>
+                        <span *ngIf="proceso.Dist=='N'">
+                          <button type="button"  (click)="DistribucionProceso()"  style="font-size: 12px" class="btn btn-info" >{{proceso.Dist}} </button>
+                        </span>
+                    </td>
+                    <td class="text-center">
+                      <button type="button" class="btn btn-info"  style="font-size: 10px" (click)="DetalleProceso()" ><i class="fas fa-ellipsis-h" ></i> </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>

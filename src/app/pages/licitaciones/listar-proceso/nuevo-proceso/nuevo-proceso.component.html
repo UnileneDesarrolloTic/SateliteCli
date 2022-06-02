@@ -1,0 +1,92 @@
+<div class="row">
+    <div class="col-lg-12">
+      <form autocomplete="off" [formGroup]="form" (submit)="Guardar()">
+        <div class="card">
+          <div class="card-body">
+            <div class="row justify-content-end">
+              <div class="col-md-3">
+                  <label for="NumeroProceso" class="text-right control-label col-form-label">N° Proceso</label>
+                  <div class="form-group">
+                      <input type="text"  class="form-control" placeholder="Proceso">
+                  </div>
+              </div>
+              <div class="col-md-9">
+                  <label for="cliente" class="text-right control-label col-form-label text-white">.</label>
+                  <div class="form-group">
+                      <div class="input-group mb-3">
+                        <input type="text" name='cliente'  formControlName="cliente"  readonly  class="form-control" placeholder="Buscar Cliente" aria-label="" aria-describedby="basic-addon1">
+                        <div class="input-group-append">
+                            <button class="btn mr-0 btn-info" (click)="openModalConsultaClientes()"  type="button">
+                                <i class="ti-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                    </div>
+              </div>
+           </div>
+           <div class="row justify-content-between">
+              <div class="col-md-3">
+                  <label for="cliente" class="text-right control-label col-form-label text-white">.</label>
+                  <div class="form-group">
+                      <div class="input-group mb-3">
+                        <input type="text" name='pedido' class="form-control" formControlName="NumeroProceso" placeholder="Pedido" aria-label="" aria-describedby="basic-addon1">
+                        <div class="input-group-append">
+                            <button class="btn mr-0 btn-dark"  [disabled]="DeshabilitarBoton" (click)="BuscarPedido()" type="button">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    </div>
+              </div>
+              <div class="col-md-3">
+                  <label for="Pedido" class="text-right text-white control-label col-form-label">.</label>
+                  <div class="form-group">
+                      <button type="submit" class="btn btn-primary rounded"><i class="fas fa-save"></i> Guardar </button>
+                  </div>
+              </div>
+           </div>
+        </div>
+        </div>
+      </form>
+      
+  </div>
+</div>
+
+
+<div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-body">        
+          <div class="d-flex no-block align-items-center">
+            <div class="table-hover table-responsive table-bordered">
+              <table class="table table-striped border table-hover table-inf">
+                <thead style="font-size: 13px" class="bg-info text-white" >
+                  <tr>
+                    <th class="text-center" scope="col">Pedido</th>
+                    <th class="text-center" scope="col">Linea</th>
+                    <th class="text-center" scope="col">Item</th>
+                    <th class="text-center" scope="col">Descripcion</th>
+                    <th class="text-center" scope="col">Cantidad</th>
+                    <th class="text-center" scope="col">P.Unit</th>
+                    <th class="text-center" scope="col">Monto Total</th>
+                
+                  </tr>
+                </thead>
+                <tbody style="font-size: 13px" id="tbodyDetalle" >
+                  <tr *ngFor="let pedido of ListarDetallePedido; let i = index">
+                    <td class="text-center" id="pedido" >{{pedido.pedido}}</td>
+                    <td class="text-center" contenteditable="true" id="linea" >{{pedido.linea}}</td>
+                    <td class="text-center" id="item" >{{pedido.item}}</td>
+                    <td class="text-center" id="descripcion" >{{pedido.descripcion}}</td>
+                    <td class="text-center" id="cantidadPedida">{{pedido.cantidadPedida}}</td>
+                    <td class="text-center" id="precioUnitario">{{pedido.precioUnitario}}</td>
+                    <td class="text-center" id="monto">{{pedido.monto}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>

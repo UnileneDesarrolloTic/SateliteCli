@@ -78,7 +78,8 @@ export class InterceptorService implements HttpInterceptor {
       'AnalisisAguja/ValidarLoteCreado',
       'AnalisisAguja/AnalisisAgujaFlexion',
       'AnalisisAguja/GuardarEditarPruebaFlexionAguja',
-      'AnalisisAguja/ReporteAnalisisFlexion'
+      'AnalisisAguja/ReporteAnalisisFlexion',
+      'Licitaciones/ListaDetallePedido'
     ];
     const data = this.sesionService.datosPersonales();
 
