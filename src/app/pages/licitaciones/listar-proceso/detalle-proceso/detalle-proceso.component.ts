@@ -10,6 +10,7 @@ export class DetalleProcesoComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    console.log("Listado");
   }
 
 }

@@ -7,7 +7,7 @@
               <div class="col-md-3">
                   <label for="NumeroProceso" class="text-right control-label col-form-label">N° Proceso</label>
                   <div class="form-group">
-                      <input type="text"  class="form-control" placeholder="Proceso">
+                      <input type="text"  class="form-control"  formControlName="NumeroProceso" placeholder="Proceso">
                   </div>
               </div>
               <div class="col-md-9">
@@ -29,7 +29,7 @@
                   <label for="cliente" class="text-right control-label col-form-label text-white">.</label>
                   <div class="form-group">
                       <div class="input-group mb-3">
-                        <input type="text" name='pedido' class="form-control" formControlName="NumeroProceso" placeholder="Pedido" aria-label="" aria-describedby="basic-addon1">
+                        <input type="text" name='pedido' class="form-control" formControlName="Pedido" placeholder="Pedido" aria-label="" aria-describedby="basic-addon1">
                         <div class="input-group-append">
                             <button class="btn mr-0 btn-dark"  [disabled]="DeshabilitarBoton" (click)="BuscarPedido()" type="button">
                                 <i class="fas fa-plus"></i>
@@ -41,7 +41,7 @@
               <div class="col-md-3">
                   <label for="Pedido" class="text-right text-white control-label col-form-label">.</label>
                   <div class="form-group">
-                      <button type="submit" class="btn btn-primary rounded"><i class="fas fa-save"></i> Guardar </button>
+                      <button type="submit"  [disabled]="!form.valid" class="btn btn-primary rounded"><i class="fas fa-save"></i> Guardar </button>
                   </div>
               </div>
            </div>

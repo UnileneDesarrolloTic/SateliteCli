@@ -33,7 +33,7 @@ export class NuevoProcesoComponent implements OnInit {
     this.form = this._fb.group({
       idcliente:[ ,Validators.required],
       cliente: [ ,Validators.required],
-      Proceso: [,],
+      Pedido: [,],
       NumeroProceso: [,Validators.required],
     })
    
@@ -68,20 +68,20 @@ openModalConsultaClientes(){
 
 
   BuscarPedido(){
-    console.log(this.form.controls.NumeroProceso.value);
-    if(this.form.controls.NumeroProceso.value.trim()=="" || this.form.controls.NumeroProceso.value==undefined ){
+    
+    if(this.form.controls.Pedido.value.trim()=="" || this.form.controls.Pedido.value==undefined ){
          this.toastr.info("Debe Ingresar el Numero de Pedido");
         }else{
-          this._LicitacioneService.ListarDetallePedido(this.form.controls.NumeroProceso.value.trim(),this.form.controls.idcliente.value).subscribe(
+          this._LicitacioneService.ListarDetallePedido(this.form.controls.Pedido.value.trim(),this.form.controls.idcliente.value).subscribe(
             (resp)=>{
                   if(resp.length>0 ){
                     resp.forEach((element)=>{
                         this.ListarDetallePedido.push(element);
                     })
-                    this.form.controls.NumeroProceso.reset();
+                    this.form.controls.Pedido.reset();
                   }else{
                     this.toastr.info("No hay Registrado de ese pedido");
-                    this.form.controls.NumeroProceso.reset();
+                    this.form.controls.Pedido.reset();
                   } 
                  
             },
@@ -94,39 +94,41 @@ openModalConsultaClientes(){
     }
    
     Guardar(){
-        console.log(this.form.value);
+        
         
       var infordatelle = document.getElementById("tbodyDetalle") as HTMLTableElement;
       var ArrayDetalle = Array();
       for (let index = 0; index <= infordatelle.childNodes.length -2; index++) {
           var obj = Object();
-          obj.pedido= (infordatelle.rows[index])?.cells.item(0).innerHTML;
-          obj.linea=parseInt((infordatelle.rows[index])?.cells.item(1).innerHTML);
-          obj.item=(infordatelle.rows[index])?.cells.item(2).innerHTML;
-          obj.descripcion=(infordatelle.rows[index])?.cells.item(3).innerHTML;
-          obj.cantidadPedida=parseFloat((infordatelle.rows[index])?.cells.item(4).innerHTML);
-          obj.precioUnitario=parseFloat(((infordatelle.rows[index])?.cells.item(5).innerHTML));
-          obj.monto=parseFloat(((infordatelle.rows[index])?.cells.item(6).innerHTML));
+          obj.Pedido= (infordatelle.rows[index])?.cells.item(0).innerHTML;
+          obj.Linea=parseInt((infordatelle.rows[index])?.cells.item(1).innerHTML);
+          obj.Item=(infordatelle.rows[index])?.cells.item(2).innerHTML;
+          obj.Descripcion=(infordatelle.rows[index])?.cells.item(3).innerHTML;
+          obj.CantidadPedida=parseFloat((infordatelle.rows[index])?.cells.item(4).innerHTML);
+          obj.PrecioUnitario=parseFloat(((infordatelle.rows[index])?.cells.item(5).innerHTML));
+          obj.Monto=parseFloat(((infordatelle.rows[index])?.cells.item(6).innerHTML));
           ArrayDetalle.push(obj);
       }
 
-      let duplicados = [];
-      const tempArray = ArrayDetalle.sort();
-      
-      for (let i = 0; i < tempArray.length; i++) {
-        if (tempArray[i + 1]?.linea === tempArray[i]?.linea) {
-          duplicados.push(tempArray[i]?.linea);
-        }
-      }
+      let busqueda = ArrayDetalle.reduce((acc, detalle) => {
+        acc[detalle.Linea] = ++acc[detalle.Linea] || 0;
+        return acc;
+      }, {})
+
+      let duplicados = ArrayDetalle.filter((detalle) => {
+        return busqueda[detalle.Linea];
+      });
       
       if(duplicados.length>0){
-          return this.toastr.info("Lineas Duplicadas: "+ JSON.stringify(duplicados));
+        return this.toastr.info("Existe duplicidad en la columna Linea");
       }
-      console.log("pase");
-
-      console.log(duplicados);
-
-      console.log(ArrayDetalle);
+      
+      const ConstProceso={
+          Cliente:parseInt(this.form.controls.idcliente.value),
+          Proceso:this.form.controls.NumeroProceso.value,
+          DetalleProceso:ArrayDetalle
+      }
+      console.log(ConstProceso);
 
     }
    
