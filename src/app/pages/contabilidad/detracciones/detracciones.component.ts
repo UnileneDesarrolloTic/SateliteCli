@@ -4,6 +4,7 @@ import { Paginado } from '@data/interface/Comodin/Paginado.interface';
 import { ContabilidadService } from '@data/services/backEnd/pages/contabilidad.service';
 import {  NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
+import { Observable, ReplaySubject } from 'rxjs';
 import { AlertaProcesarDetraccionComponent } from './alerta-procesar-detraccion/alerta-procesar-detraccion.component';
 
 @Component({
@@ -17,6 +18,7 @@ export class DetraccionesComponent implements OnInit {
   totalimporte:number=0;
   displayButton:boolean=true;
   Ocultar:boolean=true;
+  base64string:string="";
   @ViewChild("archivo", {
     read: ElementRef
   }) 
@@ -120,13 +122,17 @@ export class DetraccionesComponent implements OnInit {
   GuardarExcel(){
       this.Ocultar=false;
       let archivos = this.archivo.nativeElement.files;
-      this._ContabilidadService.SubirExcelProcesoDetraccion(archivos[0].name).subscribe( resp => {
+      const ArchivoFile={
+        nombrearchivo:archivos[0].name,
+        base64string:this.base64string
+      }
+      this._ContabilidadService.SubirExcelProcesoDetraccion(ArchivoFile).subscribe( resp => {
         if(resp==1){
           this.toastr.success("Guardado con exito");
           this.ListarDetraccion();
           this.Ocultar=true;
         }else{
-          this.toastr.info("El archivo debe de estar en el disco C: \n  La hoja debe llamarse UNILENE");
+          this.toastr.info("La hoja debe llamarse UNILENE");
           this.Ocultar=true;
         }
       },
@@ -138,6 +144,9 @@ export class DetraccionesComponent implements OnInit {
     console.log(event);
     const file = event.target.files[0];
     if(file){
+      this.convertFile(event.target.files[0]).subscribe(base64 => {
+        this.base64string=base64
+      });
       this.displayButton=false;
     }
   }
@@ -147,6 +156,15 @@ export class DetraccionesComponent implements OnInit {
   cambioPagina(paginaCambiada: Number){
     this.pagina = paginaCambiada
     this.ListarDetraccion()
+  }
+
+
+  convertFile(file : File) : Observable<string> {
+    const result = new ReplaySubject<string>(1);
+    const reader = new FileReader();
+    reader.readAsBinaryString(file);
+    reader.onload = (event) => result.next(btoa(event.target.result.toString()));
+    return result;
   }
 
   

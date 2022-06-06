@@ -26,8 +26,7 @@ export class AlertaProcesarDetraccionComponent implements OnInit {
             ) {
 
               this.form = this.fb.group({
-                periodo : ['',[Validators.required]],
-               
+                periodo : ['',[Validators.required,Validators.maxLength(6)]],
               })
              
     }
@@ -95,7 +94,7 @@ export class AlertaProcesarDetraccionComponent implements OnInit {
     const exportLinkElement = document.createElement('a');
 
     exportLinkElement.hidden = true;
-    exportLinkElement.download = periodo+".txt";
+    exportLinkElement.download = "D20197705249"+".txt";
     exportLinkElement.href = objectURL;
     exportLinkElement.text = "downloading...";
 
