@@ -141,7 +141,7 @@ export class DetraccionesComponent implements OnInit {
   }
 
   handleUpload(event) {
-    console.log(event);
+   
     const file = event.target.files[0];
     if(file){
       this.convertFile(event.target.files[0]).subscribe(base64 => {
