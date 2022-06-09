@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { environment } from "environments/environment";
 import { throwError } from "rxjs";
@@ -39,4 +39,19 @@ export class ComercialService {
       .post(this.url + "NumerodeGuiaLicitacion", body)
       .pipe(catchError(() => throwError("Error al registrar el reporte")));
   }
+
+  BuscarDocumentoPedido(pedido){
+    const params = new HttpParams().set('pedido', pedido)
+
+    return this._http.get<any>(this.url+"NumeroPedido", {'params': params}).pipe(
+      catchError (() => throwError("Error al obtener el seguimiento de candidatos"))
+    );
+  }
+
+  GuardarRotuladoPedido(body) {
+    return this._http
+      .post(this.url + "RegistrarRotuladosPedido", body)
+      .pipe(catchError(() => throwError("Error al registrar el reporte")));
+  }
+
 }

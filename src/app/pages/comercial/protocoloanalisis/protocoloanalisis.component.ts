@@ -257,7 +257,7 @@ export class ProtocoloAnalisisComponent {
     let tbody = document.getElementById("tbodyPrincipal");
     tbody.childNodes.forEach((element) => {
       if (element.childNodes.length !== 0) {
-        let checkbox = <HTMLInputElement>element.childNodes[9].childNodes[0];
+        let checkbox = <HTMLInputElement>element.childNodes[10].childNodes[0];
         if (checkbox.getAttribute("disabled") == null) {
           checkbox.checked = true;
         }
@@ -269,7 +269,7 @@ export class ProtocoloAnalisisComponent {
     let tbody = document.getElementById("tbodyPrincipal");
     tbody.childNodes.forEach((element) => {
       if (element.childNodes.length !== 0) {
-        (<HTMLInputElement>element.childNodes[9].childNodes[0]).checked = false;
+        (<HTMLInputElement>element.childNodes[10].childNodes[0]).checked = false;
       }
     });
   }
@@ -279,7 +279,7 @@ export class ProtocoloAnalisisComponent {
     let lotes = [];
     tbody.childNodes.forEach((element) => {
       if (element.childNodes.length !== 0) {
-        let checkbox = <HTMLInputElement>element.childNodes[9].childNodes[0];
+        let checkbox = <HTMLInputElement>element.childNodes[10].childNodes[0];
         if (
           checkbox.getAttribute("disabled") == null &&
           checkbox.checked == true

@@ -204,6 +204,7 @@
                 <th>Nombre Cliente</th>
                 <th>Item</th>
                 <th>Descripción</th>
+                <th>Cantidad</th>
                 <th>Lote</th>
                 <th>Orden Fabricación</th>
                 <th>Comentario</th>
@@ -221,15 +222,16 @@
             </thead>
             <tbody id="tbodyPrincipal">
               <tr *ngFor="let PA of listaProtocoloAnalisis">
-                <td>{{ PA.numeroDocumento }}</td>
-                <td>{{ PA.fechaDocumento | date: "shortDate" }}</td>
-                <td>{{ PA.clienteNombre }}</td>
-                <td>{{ PA.itemCodigo }}</td>
-                <td>{{ PA.descripcion }}</td>
-                <td>{{ PA.lote }}</td>
-                <td>{{ PA.ordenFabricacion }}</td>
-                <td>{{ PA.comentarios }}</td>
-                <td>{{ PA.protocoloFlag != "S" ? "N" : PA.protocoloFlag }}</td>
+                <td class="text-dark"><b>{{ PA.numeroDocumento }}</b></td>
+                <td class="text-dark"><b>{{ PA.fechaDocumento | date: "shortDate" }}</b></td>
+                <td class="text-dark"><b>{{ PA.clienteNombre }}</b></td>
+                <td class="text-dark"><b>{{ PA.itemCodigo }}</b></td>
+                <td class="text-dark"><b>{{ PA.descripcion }}</b></td>
+                <td class="text-dark"><b>{{ PA.cantidadPedida }}</b></td>
+                <td class="text-dark"><b>{{ PA.lote }}</b></td>
+                <td class="text-dark"><b>{{ PA.ordenFabricacion }}</b></td>
+                <td class="text-dark"><b>{{ PA.comentarios }}</b></td>
+                <td class="text-dark"><b>{{ PA.protocoloFlag != "S" ? "N" : PA.protocoloFlag }}</b></td>
                 <td class="text-center">
                   <input
                     type="checkbox"

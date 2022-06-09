@@ -123,14 +123,14 @@ export class DocumentoLicitacionesComponent implements OnInit {
                 this.TemporalListarLicitaciones=[];
               }
               this.buscarnumeroguia="";
+              this.MaestroSeleccion=false;
+              this.botonestado=true;
           }
       )
   }
 
   filtroGuiaNumero(){
-     
       this.buscarnumeroguiaCambio.next();
-      
   }
 
   

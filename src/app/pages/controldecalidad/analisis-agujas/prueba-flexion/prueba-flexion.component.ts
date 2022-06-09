@@ -122,7 +122,7 @@ export class PruebaFlexionComponent implements OnInit , OnExit
           this._router.navigate(['ControlCalidad','analisis-agujas','registrar-analisis']);
         }
 
-        this.listaGruposCiclos = [0,10,20,30]// this.CrearDatosArreglo(cabeceraAnalisis.cantidadPruebas)
+        this.listaGruposCiclos = this.CrearDatosArreglo(cabeceraAnalisis.cantidadPruebas)
 
         this.datosAnalisisForm.patchValue(
           {

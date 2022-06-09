@@ -28,10 +28,9 @@ export class ContabilidadService {
   }
 
 
-  SubirExcelProcesoDetraccion(urlarchivo){
-    const params = new HttpParams().set('urlarchivo', urlarchivo);
+  SubirExcelProcesoDetraccion(body){
 
-      return this._http.get(`${environment.urlApiSatelliteCore}/api/Contabilidad/ProcesarDetraccionContabilidad`,{'params':params}).pipe(
+      return this._http.post(`${environment.urlApiSatelliteCore}/api/Contabilidad/ProcesarDetraccionContabilidad`,body).pipe(
           catchError(() => throwError("Error al registrar el reporte"))
       )
   }
