@@ -15,9 +15,8 @@ export class LicitacionesService {
   constructor(private _http: HttpClient) { 
   }
 
-  ListarDetallePedido(Pedido,idCliente){
-    const params =  new HttpParams().set('Pedido', Pedido).set("idCliente", idCliente)
-
+  ListarDetallePedido(Pedido){
+    const params =  new HttpParams().set('Pedido', Pedido)
     return this._http.get<DetallePedido[]>(this.url+"/api/Licitaciones/ListaDetallePedido", {'params': params}).pipe(
       catchError (() => throwError("Error al obtener Detalle de Pedido"))
     );

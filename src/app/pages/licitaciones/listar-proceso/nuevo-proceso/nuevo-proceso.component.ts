@@ -5,7 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { LicitacionesService } from '@data/services/backEnd/pages/licitaciones.service';
 import { DetallePedido } from '@data/interface/Response/ListarDetallePedido.interface';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 @Component({
   selector: 'app-nuevo-proceso',
   templateUrl: './nuevo-proceso.component.html',
@@ -14,65 +14,39 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class NuevoProcesoComponent implements OnInit {
   listarcliente:object[]=[];
   ListarDetallePedido:DetallePedido[]=[];
-  DeshabilitarBoton:boolean=true;
-
   form:FormGroup;
   constructor(private _comercialService:ComercialService,
               private modalService: NgbModal,
               private toastr: ToastrService,
-              private _fb: FormBuilder,
               private _LicitacioneService:LicitacionesService) {
                 this.crearFormulario();
                }
 
   ngOnInit(): void {
-    this.ListarCliente();
+    
   }
 
   crearFormulario(){ 
-    this.form = this._fb.group({
-      idcliente:[ ,Validators.required],
-      cliente: [ ,Validators.required],
-      Pedido: [,],
-      NumeroProceso: [,Validators.required],
+    this.form=new FormGroup({
+      Pedido : new FormControl(''),
+      NumeroProceso : new FormControl('',Validators.required),
+      Asociado : new FormControl('',Validators.required),
+      Descripcion : new FormControl('',Validators.required)
     })
    
    }
 
-  ListarCliente(){
-    const body = {};
-    this._comercialService.ListarClientes(body).subscribe((resp) => {
-      resp["success"]==true ? this.listarcliente=resp["content"] : this.listarcliente=[];
-    });
-  }
- 
-openModalConsultaClientes(){
-    const modalBusquedaCliente = this.modalService.open(ModalClienteComponent, {
-      ariaLabelledBy: "modal-basic-title",
-      backdrop: "static",
-      size: "lg",
-    });
-    
-    const data={
-        listarclientes:this.listarcliente
-    }
 
-    modalBusquedaCliente.componentInstance.fromParent = data;
-		modalBusquedaCliente.result.then((result) => { 
-       this.DeshabilitarBoton=false;
-       this.form.get("idcliente").patchValue(result.persona);
-       this.form.get("cliente").patchValue(result.nombreCompleto);
-		});
-     
-  }
+ 
+
 
 
   BuscarPedido(){
-    
+      console.log(this.form.controls.Pedido.value);
     if(this.form.controls.Pedido.value.trim()=="" || this.form.controls.Pedido.value==undefined ){
          this.toastr.info("Debe Ingresar el Numero de Pedido");
         }else{
-          this._LicitacioneService.ListarDetallePedido(this.form.controls.Pedido.value.trim(),this.form.controls.idcliente.value).subscribe(
+          this._LicitacioneService.ListarDetallePedido(this.form.controls.Pedido.value.trim()).subscribe(
             (resp)=>{
                   if(resp.length>0 ){
                     resp.forEach((element)=>{

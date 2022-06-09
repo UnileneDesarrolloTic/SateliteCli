@@ -10,7 +10,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { NuevoProcesoComponent } from './listar-proceso/nuevo-proceso/nuevo-proceso.component';
 import { ListarProcesoComponent } from "./listar-proceso/listar-proceso.component";
 import { DetalleProcesoComponent } from './listar-proceso/detalle-proceso/detalle-proceso.component';
-import { DistribucionProcesoComponent } from './listar-proceso/distribucion-proceso/distribucion-proceso.component';
+import { DistribucionProcesoComponent } from './distribucion-proceso/distribucion-proceso.component';
 
 
 @NgModule({

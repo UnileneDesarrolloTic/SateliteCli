@@ -3,46 +3,37 @@
       <form autocomplete="off" [formGroup]="form" (submit)="Guardar()">
         <div class="card">
           <div class="card-body">
-            <div class="row justify-content-end">
-              <div class="col-md-3">
-                  <label for="NumeroProceso" class="text-right control-label col-form-label">N° Proceso</label>
-                  <div class="form-group">
-                      <input type="text"  class="form-control"  formControlName="NumeroProceso" placeholder="Proceso">
-                  </div>
-              </div>
-              <div class="col-md-9">
-                  <label for="cliente" class="text-right control-label col-form-label text-white">.</label>
-                  <div class="form-group">
-                      <div class="input-group mb-3">
-                        <input type="text" name='cliente'  formControlName="cliente"  readonly  class="form-control" placeholder="Buscar Cliente" aria-label="" aria-describedby="basic-addon1">
+            <div class="row justify-content-start">
+              <div class="col-md-4">
+                <label for="cliente" class="text-right control-label col-form-label text-white">.</label>
+                    <div class="input-group mb-3">
+                      <input type="text" name='pedido' class="form-control form-control-sm" formControlName="Pedido" placeholder="Pedido" aria-label="" aria-describedby="basic-addon1">
                         <div class="input-group-append">
-                            <button class="btn mr-0 btn-info" (click)="openModalConsultaClientes()"  type="button">
-                                <i class="ti-search"></i>
-                            </button>
-                        </div>
-                    </div>
-                    </div>
-              </div>
-           </div>
-           <div class="row justify-content-between">
-              <div class="col-md-3">
-                  <label for="cliente" class="text-right control-label col-form-label text-white">.</label>
-                  <div class="form-group">
-                      <div class="input-group mb-3">
-                        <input type="text" name='pedido' class="form-control" formControlName="Pedido" placeholder="Pedido" aria-label="" aria-describedby="basic-addon1">
-                        <div class="input-group-append">
-                            <button class="btn mr-0 btn-dark"  [disabled]="DeshabilitarBoton" (click)="BuscarPedido()" type="button">
+                            <button class="btn mr-0 btn-dark btn-sm" (click)="BuscarPedido()" type="button">
                                 <i class="fas fa-plus"></i>
                             </button>
                         </div>
-                    </div>
-                    </div>
+                    </div> 
+            </div>
+              <div class="col-md-4">
+                  <label for="Proceso" class="text-right control-label col-form-label">N° Proceso</label>
+                  <input type="text"  class="form-control form-control-sm"  formControlName="NumeroProceso" placeholder="INGRESE EL NUMERO DE PROCESO">
               </div>
+              <div class="col-md-4">
+                <label for="Asociado" class="text-right control-label col-form-label">Asociado</label>
+                  <input type="text"  class="form-control form-control-sm"  formControlName="Asociado" placeholder="INGRESE EL ASOCIADO">
+               </div>
+               
+           </div>
+           <div class="row justify-content-start">
+              <div class="col-md-12">
+                  <label for="Descripcion" class="text-right control-label col-form-label">Descripcion</label>
+                    <input type="text"  class="form-control form-control-sm"  formControlName="Descripcion" placeholder="INGRESE LA DESCRIPCION">
+              </div>
+          </div>
+           <div class="row justify-content-end p-3">
               <div class="col-md-3">
-                  <label for="Pedido" class="text-right text-white control-label col-form-label">.</label>
-                  <div class="form-group">
-                      <button type="submit"  [disabled]="!form.valid" class="btn btn-primary rounded"><i class="fas fa-save"></i> Guardar </button>
-                  </div>
+                 <button type="submit"  [disabled]="!form.valid" class="btn btn-primary rounded"><i class="fas fa-save"></i> Guardar </button>
               </div>
            </div>
         </div>

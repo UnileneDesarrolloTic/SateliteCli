@@ -1,7 +1,7 @@
 import { Routes } from "@angular/router";
 import { AuthGuard } from "@guard/auth.guard";
+import { DistribucionProcesoComponent } from "./distribucion-proceso/distribucion-proceso.component";
 import { DetalleProcesoComponent } from "./listar-proceso/detalle-proceso/detalle-proceso.component";
-import { DistribucionProcesoComponent } from "./listar-proceso/distribucion-proceso/distribucion-proceso.component";
 import { ListarProcesoComponent } from "./listar-proceso/listar-proceso.component";
 import { NuevoProcesoComponent } from "./listar-proceso/nuevo-proceso/nuevo-proceso.component";
 
@@ -33,15 +33,22 @@ export const LicitacionesRoutes: Routes = [
           title: "Detalle Proceso"
         }
       },
-      {
-        path: 'distribucion-proceso',
-        component: DistribucionProcesoComponent,
-        data: {
-          title: "Distribuccion Proceso"
-        }
-      },
       
     ],
+  },
+  {
+    path: 'distribucion-proceso',
+    canActivateChild: [AuthGuard],
+    children : [
+      {
+        path: 'procesos',
+        component: DistribucionProcesoComponent,
+        data: {
+          title: "Distribucion Procesos",
+          
+        }
+      },
+    ]
   },
 
 

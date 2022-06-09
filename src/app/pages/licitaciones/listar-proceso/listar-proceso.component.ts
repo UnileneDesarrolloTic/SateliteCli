@@ -27,8 +27,6 @@ export class ListarProcesoComponent implements OnInit {
     this._router.navigate(['Licitaciones','proceso','detalle-proceso']);
   }
 
-  DistribucionProceso(){
-    this._router.navigate(['Licitaciones','proceso','distribucion-proceso']);
-  }
+
 
 }
