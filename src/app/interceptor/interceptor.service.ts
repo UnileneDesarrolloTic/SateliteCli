@@ -51,6 +51,8 @@ export class InterceptorService implements HttpInterceptor {
       'Comercial/GenerarReporteProtocoloAnalisis',
       'Comercial/ListarDocumentoLicitacion',
       'Comercial/NumerodeGuiaLicitacion',
+      'Comercial/NumeroPedido',
+      'Comercial/RegistrarRotuladosPedido',
       'ControlCalidad/ListarCertificados',
       'ControlCalidad/RegistrarCertificado',
       'ControlCalidad/ListarLotes',
@@ -78,7 +80,8 @@ export class InterceptorService implements HttpInterceptor {
       'AnalisisAguja/ValidarLoteCreado',
       'AnalisisAguja/AnalisisAgujaFlexion',
       'AnalisisAguja/GuardarEditarPruebaFlexionAguja',
-      'AnalisisAguja/ReporteAnalisisFlexion'
+      'AnalisisAguja/ReporteAnalisisFlexion',
+
     ];
     const data = this.sesionService.datosPersonales();
 

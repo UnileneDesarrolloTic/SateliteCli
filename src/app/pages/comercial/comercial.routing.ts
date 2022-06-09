@@ -4,6 +4,7 @@ import { CotizacionComponent } from "./cotizacion/cotizacion.component";
 import { GeneracionFormatosComponent } from './cotizaciones/generacionformatos/generacionformatos.component';
 import { DocumentoLicitacionesComponent } from "./documento-licitaciones/documento-licitaciones.component";
 import { ProtocoloAnalisisComponent } from './protocoloanalisis/protocoloanalisis.component';
+import { RotuladoPEDComponent } from "./rotulado-ped/rotulado-ped.component";
 
 export const ComercialRoutes: Routes = [
   {
@@ -38,6 +39,7 @@ export const ComercialRoutes: Routes = [
       },
     ]
   },
+  
   {
     path: 'cotizacion',
     canActivateChild: [AuthGuard],
@@ -65,6 +67,22 @@ export const ComercialRoutes: Routes = [
           title: "Doc. Licitaciones",
           urls: [
             {title: 'Doc. Licitaciones' }
+          ]
+        }
+      },
+    ]
+  },
+  {
+    path: '',
+    canActivateChild: [AuthGuard],
+    children : [
+      {
+        path: 'RotuladoPED',
+        component: RotuladoPEDComponent,
+        data: {
+          title: "Rotulado Pedido",
+          urls: [
+            {title: 'Rotulado Pedido' }
           ]
         }
       },

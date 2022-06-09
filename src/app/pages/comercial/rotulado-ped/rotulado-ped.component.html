@@ -1,0 +1,71 @@
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+
+                <div class="row justify-content-start">
+                    <div class="col-md-3">
+                        <label for="cliente"
+                            class="col-sm-3 text-right control-label col-form-label text-white">.</label>
+                        <div class="form-group">
+                            <div class="input-group mb-3">
+                                <input type="text" name='pedido' [(ngModel)]="NumeroPedido"
+                                    class="form-control form-control-sm" placeholder="Buscar Pedido" aria-label=""
+                                    aria-describedby="basic-addon1">
+                                <div class="input-group-append">
+                                    <button class="btn mr-0 btn-info form-control-sm" (click)="FiltrarPedido()" type="button">
+                                        <i class="ti-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <form autocomplete="off" [formGroup]="form" (submit)="Guardar()">
+                <div class="card-body">
+
+                    <div class="row p-1">
+                        <div class="col-md-3">
+                            <label for="">N° Pedido : {{DatosNumeroPedido?.numeroDocumento}}</label>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="">Cliente : {{DatosNumeroPedido?.clienteNombre}}</label>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="">Fecha: {{DatosNumeroPedido?.fechaDocumento | date }}</label>
+                        </div>
+                    </div>
+                    <div class="row p-1">
+                        <div class="col-12">
+                            <div class="d-flex justify-content-around">
+                                <div class="col-md-4">
+                                    <label for="">Rotulado Interno :</label>
+                                    <input type="text" formControlName="rInterno" [readonly]="botonDeshabilitar" class="form-control form-control-sm"
+                                        placeholder="Ingrese El Rotulado Interno">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="">Rotulado Externo :</label>
+                                    <input type="text" formControlName="rExterno" [readonly]="botonDeshabilitar" class="form-control form-control-sm"
+                                        placeholder="Ingrese El Rotulado Externo">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row p-2 d-flex justify-content-end">
+                        <div class="form-group">
+                            <button type="submit"  [disabled]="!form.valid" class="btn btn-info btn-rounded"><i class="fa fa-save"></i> Guardar </button>
+                            <!--   -->
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
