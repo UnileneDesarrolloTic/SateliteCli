@@ -1,5 +1,5 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable , Output} from '@angular/core';
 import { Pais } from '@data/interface/Request/Pais.interface';
 import { TipoDocumentoIdentidad } from '@data/interface/Request/TipoDocumentoIdentidad.interface';
 import { RolData } from '@data/interface/Response/RolData.interface';
@@ -12,6 +12,7 @@ import { catchError, map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class GenericoService {
+  @Output() idParams: EventEmitter<any> = new EventEmitter();
 
   private url = environment.urlApiSatelliteCore;
 

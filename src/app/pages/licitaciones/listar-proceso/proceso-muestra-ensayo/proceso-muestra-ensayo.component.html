@@ -1,0 +1,100 @@
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card">
+      <form autocomplete="off" [formGroup]="form">
+        <div class="card-body">
+          <div class="container">
+            <div class="row justify-content-start">
+              <div class="col-md-6">
+                <div class="row">
+                  <label class="col-md-3 text-right">N° Entrega </label>
+                  <div class="col-md-4">
+                    <div class="form-group m-b-30">
+                      <select class="custom-select mr-sm-2" (change)="Filtrar()" formControlName="NumeroEntrega"
+                        id="inlineFormCustomSelect">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="container">
+          <div class="d-flex no-block justify-content-end p-1">
+            <button type="button" class="btn btn-primary" [disabled]="DeshabilitarBoton" (click)="Guardar()"> <i
+                class="fa fa-save"></i> Guardar</button>
+          </div>
+          <div class="d-flex no-block align-items-center">
+            <div class="table-responsive" style="font-size: 11px; height:  20rem">
+              <table class="table table-striped">
+                <thead class="bg-info text-white">
+                  <tr>
+                    <th class="text-center bg-white" style="border-top: none;" colspan="3"></th>
+                    <th class="text-center" colspan="2">Entrega N° {{form.controls.NumeroEntrega.value}}</th>
+                  </tr>
+                  <tr>
+                    <th class="text-center">N°Item</th>
+                    <th class="text-center">Codigo de Items</th>
+                    <th class="text-center">Descripcion Items</th>
+                    <th class="text-center">Muestra</th>
+                    <th class="text-center">Ensayo</th>
+                  </tr>
+
+                </thead>
+                <tbody id="tbodyDetalle" class="border" style="font-size: 11px;">
+                  <tr *ngFor="let lessonForm of ProgramacionMuestreo.controls; let i = index">
+                    <ng-container [formGroup]="lessonForm">
+                      <td class="text-center">
+                        <b>{{lessonForm.value.numeroItem}}</b>
+                      </td>
+                      <td class="text-center">
+                        <b>{{lessonForm.value.codItem}}</b>
+                      </td>
+                      <td class="text-left">
+                        <b>{{lessonForm.value.descripcionItem}}</b>
+                      </td>
+                      <td class="text-center">
+                        <div class="input-group input-group-sm" style='width:7rem'>
+                          <input type="text" class="form-control form-control-sm" formControlName="numeroMuestreo" />
+                        </div>
+                      </td>
+                      <td class="text-center">
+                        <div class="input-group input-group-sm" style='width:7rem'>
+                          <input type="text" class="form-control form-control-sm" formControlName="numeroEnsayo" />
+                        </div>
+                      </td>
+                    </ng-container>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
