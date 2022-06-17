@@ -12,8 +12,13 @@ import { AlertaProcesarDetraccionComponent } from './detracciones/alerta-procesa
 
 
 @NgModule({
-  declarations: [DetraccionesComponent, AlertaProcesarDetraccionComponent],
-  imports: [
+  declarations:
+  [
+    DetraccionesComponent,
+    AlertaProcesarDetraccionComponent
+  ],
+  imports:
+  [
     RouterModule.forChild(ContabilidadRoutes),
     CommonModule,
     FeatherModule,
@@ -23,6 +28,10 @@ import { AlertaProcesarDetraccionComponent } from './detracciones/alerta-procesa
     ReactiveFormsModule,
     NgxDatatableModule,
   ],
-  exports: [DetraccionesComponent,AlertaProcesarDetraccionComponent],
+  exports:
+  [
+    DetraccionesComponent,
+    AlertaProcesarDetraccionComponent
+  ],
 })
 export class ContabilidadModule { }

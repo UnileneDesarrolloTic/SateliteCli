@@ -22,12 +22,18 @@ export class AuthGuard implements CanActivateChild {
   }
   canActivateChild( childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot):Observable<boolean> | boolean
   {
+
+
     let ruta = state.url;
 
-    const codigoAnalisis: string = childRoute['params']['codAnalisis'];
-
-    if(codigoAnalisis != undefined && codigoAnalisis != null)
-      ruta = state.url.replace(codigoAnalisis, ':codAnalisis');
+    const parametro = childRoute['params']
+    if(Object.keys(parametro).length !== 0)
+    {
+      Object.entries(childRoute['params']).forEach(([key, value]) => {
+        let variableReg = new RegExp(`/${value}`,'g')
+        ruta = ruta.replace(variableReg, `/:${key}`)
+      })
+    }
 
     const datosUsuario: UsuarioSesionData = this._sesionService.datosPersonales();
 

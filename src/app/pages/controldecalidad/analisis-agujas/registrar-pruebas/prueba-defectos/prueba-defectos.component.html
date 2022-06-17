@@ -1,0 +1,262 @@
+
+<form autocomplete="off" [formGroup]="formulario" (submit)="guardarPruebaAspecto()">
+  <div class="row">
+    <div class="col-12">
+      <div class="card border-left border-info">
+        <div class="card-header bg-info text-white" style="font-weight: bold">
+          ANÁLISIS DE ACEPTABILIDAD DE DEFECTOS DE ASPECTO DE LA AGUJA
+        </div>
+        <div class="card-body" formArrayName="pruebas">
+          <br>
+          <h6 class="text-info font-weight-bold">ASPECTO DE LA AGUJA:</h6>
+          <div class="row">
+            <div class="table-responsive">
+              <table class="table table-bordered table-sm">
+                <thead>
+                  <tr style="font-size: 14px">
+                    <th scope="col" class="text-center font-weight-bold col-sm-3">Zonas</th>
+                    <th scope="col" class="text-center font-weight-bold col-sm-2">Observaciones</th>
+                    <th scope="col" class="text-center font-weight-bold col-sm-2">Cantidad</th>
+                    <th scope="col" class="text-center font-weight-bold col-sm-1">%</th>
+                    <th scope="col" class="text-center font-weight-bold col-sm-2">Tolerancia</th>
+                    <th scope="col" class="text-center font-weight-bold col-sm-2">Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr [formGroup]="agujeroCentrado">
+                    <td rowSpan="2" class="text-center">
+                      AGUJERO
+                    </td>
+                    <td class="text-center">
+                      Agujero centrado
+                    </td>
+                    <td class="text-center">
+                      <input type="number" class="form-control form-control-sm" style="font-size: 14px" formControlName="cantidad"/>
+                    </td>
+                    <td class="text-center">
+                      {{ agujeroCentrado.get('porcentaje').value }}
+                    </td>
+                    <td class="text-center">
+                      {{ agujeroCentrado.get('tolerancia').value }} %
+                    </td>
+                    <td rowSpan="2" class="text-center">
+                      <span *ngIf="agujeroCentrado.get('estado').value == 'A'"> <i class="fas fa-check text-success"></i> Aprobado</span>
+                      <span *ngIf="agujeroCentrado.get('estado').value == 'R'"> <i class="fas fa-times text-danger"></i> Rechazado</span>
+                      <span *ngIf="agujeroCentrado.get('estado').value == ''"  class="text-info" style="font-size: 14px;">La cantidad no debe ser mayor a la muestra ({{cantidadMuestra}})</span>
+                    </td>
+                  </tr>
+                  <tr [formGroup]="agujeroDescentrado">
+                    <td class="text-center">
+                      Agujero descentrado
+                    </td>
+                    <td class="text-center">
+                      {{ agujeroDescentrado.get('cantidad').value }}
+                    </td>
+                    <td class="text-center">
+                      {{ agujeroDescentrado.get('porcentaje').value }}
+                    </td>
+                    <td class="text-center">
+                      {{ agujeroDescentrado.get('tolerancia').value }} %
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="row">
+            <div class="table-responsive">
+              <table class="table table-bordered table-sm">
+                <thead>
+                  <tr style="font-size: 14px">
+                    <th scope="col" class="text-center font-weight-bold col-sm-3">Zonas</th>
+                    <th scope="col" class="text-center font-weight-bold col-sm-2">Observaciones</th>
+                    <th scope="col" class="text-center font-weight-bold col-sm-2">Cantidad</th>
+                    <th scope="col" class="text-center font-weight-bold col-sm-1">%</th>
+                    <th scope="col" class="text-center font-weight-bold col-sm-2">Tolerancia</th>
+                    <th scope="col" class="text-center font-weight-bold col-sm-2">Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr [formGroup]="buenAspecto">
+                    <td class="text-center">
+                      ALAMBRE/AGUJRO
+                    </td>
+                    <td class="text-center">
+                      Buen Aspecto
+                    </td>
+                    <td class="text-center">
+                      <input type="number" class="form-control form-control-sm" style="font-size: 14px" formControlName="cantidad"/>
+                    </td>
+                    <td class="text-center">
+                      {{ buenAspecto.get('porcentaje').value }}
+                    </td>
+                    <td class="text-center ">
+                      {{ buenAspecto.get('tolerancia').value }} %
+                    </td>
+                    <td rowSpan="10" class="text-center">
+                      <span *ngIf="buenAspecto.get('estado').value == 'A'"> <i class="fas fa-check text-success"></i> Aprobado</span>
+                      <span *ngIf="buenAspecto.get('estado').value == 'R'"> <i class="fas fa-times text-danger"></i> Rechazado</span>
+                      <span *ngIf="buenAspecto.get('estado').value == ''" class="text-info" style="font-size: 14px;">La suma no debe ser mayor a la cantidad de muestra ({{cantidadMuestra}})</span>
+                    </td>
+                  </tr>
+                  <tr [formGroup]="marcas">
+                    <td rowSpan="6" class="text-center">
+                      ASPECTO DEL ALAMBRE
+                    </td>
+                    <td class="text-center">
+                      Marcas
+                    </td>
+                    <td class="text-center">
+                      <input type="number" class="form-control form-control-sm" style="font-size: 14px" formControlName="cantidad"/>
+                    </td>
+                    <td class="text-center">
+                      {{ marcas.get('porcentaje').value }}
+                    </td>
+                    <td rowSpan="9"  class="text-center">
+                      {{ marcas.get('tolerancia').value }} %
+                    </td>
+                  </tr>
+                  <tr [formGroup]="porosidad">
+                    <td class="text-center">
+                      Porosidad/Huecos
+                    </td>
+                    <td class="text-center">
+                      <input type="number" class="form-control form-control-sm" style="font-size: 14px" formControlName="cantidad"/>
+                    </td>
+                    <td class="text-center">
+                      {{ porosidad.get('porcentaje').value }}
+                    </td>
+                  </tr>
+                  <tr [formGroup]="malPulido">
+                    <td class="text-center">
+                      Mal pulido/Manchas
+                    </td>
+                    <td class="text-center">
+                      <input type="number" class="form-control form-control-sm" style="font-size: 14px" formControlName="cantidad"/>
+                    </td>
+                    <td class="text-center">
+                      {{ malPulido.get('porcentaje').value }}
+                    </td>
+                  </tr>
+                  <tr [formGroup]="puntaGato">
+                    <td class="text-center">
+                      Punta uña de gato
+                    </td>
+                    <td class="text-center">
+                      <input type="number" class="form-control form-control-sm" style="font-size: 14px" formControlName="cantidad"/>
+                    </td>
+                    <td class="text-center">
+                      {{ puntaGato.get('porcentaje').value }}
+                    </td>
+                  </tr>
+                  <tr [formGroup]="pocaPunta">
+                    <td class="text-center">
+                      Poca punta/Punta aguda
+                    </td>
+                    <td class="text-center">
+                      <input type="number" class="form-control form-control-sm" style="font-size: 14px" formControlName="cantidad"/>
+                    </td>
+                    <td class="text-center">
+                      {{ pocaPunta.get('porcentaje').value }}
+                    </td>
+                  </tr>
+                  <tr [formGroup]="malFormada">
+                    <td class="text-center">
+                      Mal formada
+                    </td>
+                    <td class="text-center">
+                      <input type="number" class="form-control form-control-sm" style="font-size: 14px" formControlName="cantidad"/>
+                    </td>
+                    <td class="text-center">
+                      {{ malFormada.get('porcentaje').value }}
+                    </td>
+                  </tr>
+                  <tr [formGroup]="rebabas">
+                    <td rowSpan="2" class="text-center">
+                      ASPECTO DEL AGUJERO
+                    </td>
+                    <td class="text-center">
+                      Rebabas
+                    </td>
+                    <td class="text-center">
+                      <input type="number" class="form-control form-control-sm" style="font-size: 14px" formControlName="cantidad"/>
+                    </td>
+                    <td class="text-center">
+                      {{ rebabas.get('porcentaje').value }}
+                    </td>
+                  </tr>
+                  <tr [formGroup]="sinAgujero">
+                    <td class="text-center">
+                      Sin agujero
+                    </td>
+                    <td class="text-center">
+                      <input type="number" class="form-control form-control-sm" style="font-size: 14px" formControlName="cantidad"/>
+                    </td>
+                    <td class="text-center">
+                      {{ sinAgujero.get('porcentaje').value }}
+                    </td>
+                  </tr>
+                  <tr [formGroup]="total">
+                    <td class="text-center">
+                    </td>
+                    <td class="text-center">
+                      TOTAL:
+                    </td>
+                    <td class="text-center">
+                      {{ total.get('cantidad').value }}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <div class="card border-left border-info">
+        <div class="card-body">
+          <div class="form-group">
+            <label class="text-info font-weight-bold" >Observaciones</label>
+            <textarea class="form-control" formControlName="observaciones" rows="4"></textarea>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="card-body m-2 p-0">
+      <div class="form-group row">
+        <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 text-left">
+          <button type="button" class="btn btn-dark waves-effect waves-light" (click)="paginaAnterior()">
+            <i class="fas fa-angle-left" aria-hidden="true"></i>&nbsp;&nbsp; Atrás
+          </button>
+        </div>
+        <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 text-center">
+
+          <button type="submit" class="btn btn-info waves-effect waves-light">
+            <span *ngIf="!botonGuardarDisabled">
+              <i class="fas fa-save" aria-hidden="true"></i>&nbsp;&nbsp;Guardar
+            </span>
+            <span *ngIf="botonGuardarDisabled">
+              <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+              Guardan..
+            </span>
+          </button>
+
+        </div>
+        <!-- <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 text-right">
+          <button type="button" class="btn btn-dark waves-effect waves-light">
+            Siguiente&nbsp;&nbsp;<i class="fas fa-angle-right" aria-hidden="true"></i>
+          </button>
+        </div> -->
+
+      </div>
+    </div>
+  </div>
+
+ </form>

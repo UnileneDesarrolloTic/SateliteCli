@@ -1,6 +1,6 @@
-import { debounceTime, filter } from 'rxjs/operators';
+import { debounceTime } from 'rxjs/operators';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
-import { ActivatedRoute, Router, UrlTree } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { AnalisisAgujaService } from '@data/services/backEnd/pages/analisis-aguja.service';
 import { ToastrService } from 'ngx-toastr';
@@ -12,7 +12,8 @@ import { OnExit } from '@guard/confirm-exit.guard'
 
 @Component({
   selector: 'app-prueba-flexion',
-  templateUrl: './prueba-flexion.component.html'
+  templateUrl: './prueba-flexion.component.html',
+  styleUrls: ['./prueba-flexion.component.css']
 })
 export class PruebaFlexionComponent implements OnInit , OnExit
 {
@@ -23,17 +24,19 @@ export class PruebaFlexionComponent implements OnInit , OnExit
   resultAnalisis: FormGroup
   listaGruposCiclos: number[]
   botonGuardarDisabled: boolean = false
-  flagGuardarAnalisis:boolean = false
 
   constructor(private _activatedRoute : ActivatedRoute, private _analisisAgujaServices : AnalisisAgujaService, private _toastr: ToastrService,
       private _router: Router, private _fb: FormBuilder, private _genericoService : GenericoService, private _usuarioSesion: SesionService)
   {
-    this._activatedRoute.params.subscribe( param => this.codigoAnalisis = param['codAnalisis'])
+    this._activatedRoute.params.subscribe( param => {
+      this.codigoAnalisis = param['codAnalisis']
+    })
+  }
+
+  ngOnInit(): void {
     this.InicializarFormulario()
     this.ObtenerDatosDelAnalisis(this.codigoAnalisis)
   }
-
-  ngOnInit(): void {}
 
   InicializarFormulario(){
     this.datosAnalisisForm = this._fb.group({
@@ -67,7 +70,7 @@ export class PruebaFlexionComponent implements OnInit , OnExit
 
       const groupCicloForm = this._fb.group({
         posicion: [i],
-        valor: [valorCiclo, [Validators.min(0)]]
+        valor: [valorCiclo, [Validators.minLength(4)]]
       });
 
       groupCicloForm.valueChanges.pipe(debounceTime(500)).pipe(startWith(null), pairwise()).subscribe
@@ -136,7 +139,6 @@ export class PruebaFlexionComponent implements OnInit , OnExit
         this.CrearResumenForm(result.detalle)
 
       }, err => {
-        this._toastr.error("Error al obtener datos del análisis", "Error en el servidor!!", {timeOut: 3000, closeButton: true, tapToDismiss: true})
         this._router.navigate(['ControlCalidad','analisis-agujas','registrar-analisis']);
       }
     )
@@ -151,9 +153,6 @@ export class PruebaFlexionComponent implements OnInit , OnExit
 
     for(let i= 10; i <= numero; i += 10)
       lista.push(i)
-
-    console.log(lista);
-
 
     return lista
   }
@@ -229,15 +228,31 @@ export class PruebaFlexionComponent implements OnInit , OnExit
   GuardarAnalisisAguja()
   {
 
-    const resultCiclos = this.resultAnalisis.value['ciclosFlexion'].filter(x => x['valor'] != '' && x['valor'] != undefined && x['valor'] != null && x['valor'] != 0)
-
-
-    if(!this.resultAnalisis.dirty || resultCiclos.length < 1 )
+    if(this.botonGuardarDisabled)
     {
-      this._toastr.warning("No se ha realizado ningun cambio", "Aviso !!", {timeOut: 3000, closeButton: true, tapToDismiss: true})
+      this._toastr.warning('Los datos del formulario se estan guardando','Advertencia !!', {timeOut: 3000, closeButton: true, tapToDismiss: true})
       return
     }
 
+    if (this.resultAnalisis.pristine)
+    {
+      this._toastr.warning("No se ha realizado ninguna modificación en el formulario", "Aviso !!", {timeOut: 5000, closeButton: true, tapToDismiss: true})
+      return
+    }
+
+    if (this.resultAnalisis.invalid)
+    {
+      this._toastr.warning("Los datos del formulario no son válidos", "Aviso !!", {timeOut: 5000, closeButton: true, tapToDismiss: true})
+      return
+    }
+
+    const resultCiclos = this.resultAnalisis.value['ciclosFlexion'].filter(x => x['valor'] != '' && x['valor'] != undefined && x['valor'] != null && x['valor'] != 0)
+
+    if(resultCiclos.length < 1)
+    {
+      this._toastr.warning("Debe debe de contrar con registrar, para continuar con las pruebas", "Aviso !!", {timeOut: 5000, closeButton: true, tapToDismiss: true})
+      return
+    }
 
     this.botonGuardarDisabled = true;
 
@@ -279,16 +294,15 @@ export class PruebaFlexionComponent implements OnInit , OnExit
     this._analisisAgujaServices.GuardarEditarPruebaFlexionAguja(objetoGuardarBD).subscribe(
       result => {
         this._toastr.success(result['content'],'Éxito !!', {timeOut: 4000, closeButton: true, tapToDismiss: true})
-        this.botonGuardarDisabled = false
-        this.flagGuardarAnalisis = true
-        this._router.navigate(['ControlCalidad', 'analisis-agujas', 'registrar-analisis']);
+        this.resultAnalisis.markAsPristine()
       },
-      err => this._toastr.error("Error al guardar los datos de la prueba de flexión", "Error en el servidor!!", {timeOut: 4000, closeButton: true, tapToDismiss: true})
+      err => {},
+      () => this.botonGuardarDisabled = false
     );
 
   }
 
-  Cancelar()
+  cancelar()
   {
     if(this.botonGuardarDisabled)
     {
@@ -299,9 +313,27 @@ export class PruebaFlexionComponent implements OnInit , OnExit
     this._router.navigate(['ControlCalidad', 'analisis-agujas', 'registrar-analisis']);
   }
 
+  siguienteFormulario()
+  {
+    if(this.botonGuardarDisabled)
+    {
+      this._toastr.warning('No se pudo cancelar la transacción','Advertencia !!', {timeOut: 3000, closeButton: true, tapToDismiss: true})
+      return
+    }
+
+    this._router.navigate(['ControlCalidad/analisis-agujas/pruebas-agujas', this.codigoAnalisis, 'DatosGenerales', this.codigoAnalisis], { skipLocationChange: true });
+
+  }
+
   onExit() {
 
-    if(this.resultAnalisis.dirty && !this.flagGuardarAnalisis){
+    if(this.botonGuardarDisabled)
+    {
+      this._toastr.warning('Los datos del formulario se estan guardando','Advertencia !!', {timeOut: 3000, closeButton: true, tapToDismiss: true})
+      return false
+    }
+
+    if(this.resultAnalisis.dirty){
       const rpta = confirm("¿Está seguro de salir del formulario sin guardar?");
       return rpta;
     }

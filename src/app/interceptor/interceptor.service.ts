@@ -81,7 +81,17 @@ export class InterceptorService implements HttpInterceptor {
       'AnalisisAguja/AnalisisAgujaFlexion',
       'AnalisisAguja/GuardarEditarPruebaFlexionAguja',
       'AnalisisAguja/ReporteAnalisisFlexion',
-
+      'Common/ObtenerConfiguracionesSistema',
+      'AnalisisAguja/ObtenerDatosGenerales',
+      'AnalisisAguja/ObtenerPlanMuestreo',
+      'AnalisisAguja/GuardarPlanMuestreo',
+      'AnalisisAguja/ObtenerPruebaDimensional',
+      'AnalisisAguja/GuardarPruebaDimensional',
+      'AnalisisAguja/ObtenerPruebaElasticidadPerforacion',
+      'AnalisisAguja/GuardarPruebaElasticidadPerforacion',
+      'AnalisisAguja/ObtenerPruebaAspecto',
+      'AnalisisAguja/GuardarPruebaAspecto',
+      'AnalisisAguja/ReporteAnalisisAguja'
     ];
     const data = this.sesionService.datosPersonales();
 

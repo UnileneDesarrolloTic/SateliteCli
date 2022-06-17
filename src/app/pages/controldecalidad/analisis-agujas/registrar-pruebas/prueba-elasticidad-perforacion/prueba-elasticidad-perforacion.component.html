@@ -1,0 +1,144 @@
+<form [noValidate]="true" [formGroup]="formulario" (submit)="guardarPruebas()">
+  <div class="row">
+    <div class="col-12">
+      <div class="card border-left border-info">
+        <div class="card-header bg-info text-white" style="font-weight: bold">
+          PRUEBA DE ELASTICIDAD Y PERFORACIÓN
+        </div>
+        <div class="card-body" formArrayName="pruebasAguja">
+          <br>
+          <h6 style="font-weight: bold;" class="text-info">% DE INCREMENTO DE LA LONGITUD DE LA AGUJA:</h6>
+          <div class="row">
+            <div class="table-responsive">
+              <table class="table table-bordered table-sm">
+                <thead>
+                  <tr style="font-size: 14px">
+                    <th scope="col" class="text-center font-weight-bold col-sm-2"></th>
+                    <th scope="col" class="text-center font-weight-bold col-sm-1">1</th>
+                    <th scope="col" class="text-center font-weight-bold col-sm-1">2</th>
+                    <th scope="col" class="text-center font-weight-bold col-sm-1">3</th>
+                    <th scope="col" class="text-center font-weight-bold col-sm-1">4</th>
+                    <th scope="col" class="text-center font-weight-bold col-sm-1">5</th>
+                    <th scope="col" class="text-center font-weight-bold col-sm-2">Promedio</th>
+                    <th scope="col" class="text-center font-weight-bold col-sm-2">status</th>
+                  </tr>
+                </thead>
+                <tbody [formGroup]="pruebaElasticidad">
+                  <tr>
+                    <td class="text-center">
+                      Resultado (N)
+                    </td>
+                    <td class="text-center">
+                      <input type="number" class="form-control form-control-sm" style="font-size: 14px" formControlName="uno"/>
+                    </td>
+                    <td class="text-center">
+                      <input type="number" class="form-control form-control-sm" style="font-size: 14px" formControlName="dos"/>
+                    </td>
+                    <td class="text-center">
+                      <input type="number" class="form-control form-control-sm" style="font-size: 14px" formControlName="tres"/>
+                    </td>
+                    <td class="text-center">
+                      <input type="number" class="form-control form-control-sm" style="font-size: 14px" formControlName="cuatro"/>
+                    </td>
+                    <td class="text-center">
+                      <input type="number" class="form-control form-control-sm" style="font-size: 14px" formControlName="cinco"/>
+                    </td>
+                    <td class="text-center">
+                      {{pruebaElasticidad.controls['promedio'].value}} %
+                    </td>
+                    <td class="text-center">
+                      <select class="form-control form-control-sm" id="status" formControlName="estado">
+                        <option value="">Seleccione..</option>
+                        <option value="A">ACEPTADO</option>
+                        <option value="R">RECHAZADO</option>
+                      </select>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <br>
+          <h6 style="font-weight: bold;" class="text-info">FUERZA DE PERFORACIÓN DE LA AGUJA (NEWTON):</h6>
+          <div class="row">
+            <div class="table-responsive">
+              <table class="table table-bordered table-sm">
+                <thead>
+                  <tr style="font-size: 14px">
+                    <th scope="col" class="text-center font-weight-bold col-sm-2"></th>
+                    <th scope="col" class="text-center font-weight-bold col-sm-1">1</th>
+                    <th scope="col" class="text-center font-weight-bold col-sm-1">2</th>
+                    <th scope="col" class="text-center font-weight-bold col-sm-1">3</th>
+                    <th scope="col" class="text-center font-weight-bold col-sm-1">4</th>
+                    <th scope="col" class="text-center font-weight-bold col-sm-1">5</th>
+                    <th scope="col" class="text-center font-weight-bold col-sm-2">Promedio</th>
+                    <th scope="col" class="text-center font-weight-bold col-sm-2">status</th>
+                  </tr>
+                </thead>
+                <tbody [formGroup]="pruebaPerforacion">
+                  <tr>
+                    <td class="text-center">
+                      Resultado (N)
+                    </td>
+                    <td class="text-center">
+                      <input type="number" class="form-control form-control-sm" style="font-size: 14px" formControlName="uno"/>
+                    </td>
+                    <td class="text-center">
+                      <input type="number" class="form-control form-control-sm" style="font-size: 14px" formControlName="dos"/>
+                    </td>
+                    <td class="text-center">
+                      <input type="number" class="form-control form-control-sm" style="font-size: 14px" formControlName="tres"/>
+                    </td>
+                    <td class="text-center">
+                      <input type="number" class="form-control form-control-sm" style="font-size: 14px" formControlName="cuatro"/>
+                    </td>
+                    <td class="text-center">
+                      <input type="number" class="form-control form-control-sm" style="font-size: 14px" formControlName="cinco"/>
+                    </td>
+                    <td class="text-center">
+                      {{pruebaPerforacion.controls['promedio'].value}} %
+                    </td>
+                    <td class="text-center">
+                      <span *ngIf="pruebaPerforacion.get('estado').value == 'A'"> <i class="fas fa-check text-success"></i> Aprobado</span>
+                      <span *ngIf="pruebaPerforacion.get('estado').value == 'R'"> <i class="fas fa-times text-danger"></i> Rechazado</span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="card-body m-2 p-0">
+      <div class="form-group row">
+        <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 text-left">
+          <button type="button" class="btn btn-dark waves-effect waves-light" (click)="paginaAnterior()">
+            <i class="fas fa-angle-left" aria-hidden="true"></i>&nbsp;&nbsp; Atrás
+          </button>
+        </div>
+        <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 text-center">
+
+          <button type="submit" class="btn btn-info waves-effect waves-light">
+            <span *ngIf="!botonGuardarDisabled">
+              <i class="fas fa-save" aria-hidden="true"></i>&nbsp;&nbsp;Guardar
+            </span>
+            <span *ngIf="botonGuardarDisabled">
+              <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+              Guardan..
+            </span>
+          </button>
+
+        </div>
+        <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 text-right">
+          <button type="button" class="btn btn-dark waves-effect waves-light" (click)="paginaSiguiente()">
+            Siguiente&nbsp;&nbsp;<i class="fas fa-angle-right" aria-hidden="true"></i>
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</form>

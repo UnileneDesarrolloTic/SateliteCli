@@ -53,7 +53,7 @@
                 <th class="text-center">Cantidad</th>
                 <th class="text-center">F. Analisis</th>
                 <th class="text-center">Cnt. Pruebas</th>
-                <th class="text-center">Imprimir</th>
+                <th class="text-center">Reporte</th>
               </tr>
             </thead>
             <tbody>
@@ -67,8 +67,8 @@
                 <td class="text-center">{{ e.fechaRegistro | date:"dd/MM/yyyy hh:mm"}}</td>
                 <td class="text-center">{{ e.cantidadPruebas | number }}</td>
                 <td class="text-center">
-                  <a type="button" (click)="ObtenerReporteAnalisis(e.lote)">
-                    <i class="fa fa-print text-dark"></i>
+                  <a type="button" (click)="ObtenerReporteAnalisis(modalReporteSelect, e.lote)">
+                    <i class="fas fa-download"></i>
                   </a>
                 </td>
               </tr>
@@ -80,3 +80,44 @@
     </div>
   </div>
 </div>
+
+<ng-template #modalReporteSelect let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">
+         Seleccione los reportes
+    </h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">
+            &times;
+        </span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="form-group row">
+        <div class="col-12 ml-3" >
+            <div class="custom-control custom-radio mb-2">
+                <input type="radio" class="custom-control-input" id="reporteFlexion" name="reporteAnalisisAguja" value="f" [(ngModel)]="reporteSeleccionado" required>
+                <label class="custom-control-label" for="reporteFlexion"> Reporte de flexión</label>
+            </div>
+            <div class="custom-control custom-radio">
+                <input type="radio" class="custom-control-input" id="reporteAguja" name="reporteAnalisisAguja" value="a" [(ngModel)]="reporteSeleccionado" required>
+                <label class="custom-control-label" for="reporteAguja"> Reporte de aguja</label>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <div class="col-12 text-center">
+      <button class="btn btn-info" (click)="descargarReporte()">
+        <span *ngIf="!flagDescargandoReporte">
+          <i class="fas fa-download" aria-hidden="true"></i>&nbsp;&nbsp;Descargar
+        </span>
+        <span *ngIf="flagDescargandoReporte">
+          <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>&nbsp;Descargando..
+        </span>
+      </button>
+    </div>
+  </div>
+</ng-template>

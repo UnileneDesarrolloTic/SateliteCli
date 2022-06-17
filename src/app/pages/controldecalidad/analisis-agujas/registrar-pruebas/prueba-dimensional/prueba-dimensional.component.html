@@ -1,0 +1,202 @@
+
+<form autocomplete="off" [formGroup]="pruebaDimensional" (submit)="guardarPruebasDimensionales()">
+  <div class="row">
+    <div class="col-12">
+      <div class="card border-left border-info">
+        <div class="card-header bg-info text-white font-weight-bold" >
+          ANÁLISIS DE ACEPTABILIDAD DE PRUEBAS DIMENSIONALES Y CORROSIÓN
+        </div>
+        <div class="card-body" formArrayName="pruebasAguja">
+          <br>
+          <h6 class="font-weight-bold text-info">LONGITUD DE AGUJA - D/CDC-004:</h6>
+
+          <div class="row">
+            <div class="table-responsive" [formGroup]="pruebasAguja.controls[0]">
+              <table class="table table-bordered table-sm">
+                <thead>
+                  <tr style="font-size: 14px">
+                    <th scope="col" class="text-center font-weight-bold col-sm-3">Longitud solicitada</th>
+                    <th scope="col" class="text-center font-weight-bold col-sm-2">Cantidad</th>
+                    <th scope="col" class="text-center font-weight-bold col-sm-2">%</th>
+                    <th scope="col" class="text-center font-weight-bold col-sm-2">Tolerancia </th>
+                    <th scope="col" class="text-center font-weight-bold col-sm-2">Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="text-center">
+                      {{ pruebaLongitud.get('descripcion').value }}
+                    </td>
+                    <td class="text-center">
+                      <input type="number" class="form-control form-control-sm" style="font-size: 14px" placeholder="Cantidad" formControlName="cantidad"/>
+                    </td>
+                    <td class="text-center">
+                      {{ pruebaLongitud.get('porciento').value | number }}
+                    </td>
+                    <td class="text-center">
+                      {{ pruebaLongitud.get('tolerancia').value | number }}
+                    </td>
+                    <td class="text-center">
+                      <span *ngIf="pruebaLongitud.get('estado').value == 'A'"> <i class="fas fa-check text-success"></i> Aprobado</span>
+                      <span *ngIf="pruebaLongitud.get('estado').value == 'R'"> <i class="fas fa-times text-danger"></i> Rechazado</span>
+                      <span *ngIf="pruebaLongitud.get('estado').value == ''"  class="text-info" style="font-size: 14px;">La cantidad no debe ser mayor a la muestra ({{baseCalculoProcentajeLongitud}})</span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <br>
+          <h6 class="font-weight-bold text-info">DIAMETRO DEL AGUJERO (BROCA):</h6>
+
+          <div class="row">
+            <div class="table-responsive" [formGroup]="pruebasAguja.controls[1]">
+              <table class="table table-bordered table-sm">
+                <thead>
+                  <tr style="font-size: 14px">
+                    <th scope="col" class="text-center font-weight-bold col-sm-3">Diametro solicitado</th>
+                    <th scope="col" class="text-center font-weight-bold col-sm-2">Cantidad</th>
+                    <th scope="col" class="text-center font-weight-bold col-sm-2">%</th>
+                    <th scope="col" class="text-center font-weight-bold col-sm-2">Tolerancia </th>
+                    <th scope="col" class="text-center font-weight-bold col-sm-2">Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="text-center">
+                      {{ pruebaDiametroBroca.get('descripcion').value }}
+                    </td>
+                    <td class="text-center">
+                      <input type="number" class="form-control form-control-sm" style="font-size: 14px" placeholder="Cantidad" formControlName="cantidad"/>
+                    </td>
+                    <td class="text-center">
+                      {{ pruebaDiametroBroca.get('porciento').value | number }}
+                    </td>
+                    <td class="text-center">
+                      {{ pruebaDiametroBroca.get('tolerancia').value | number }}
+                    </td>
+                    <td class="text-center">
+                      <span *ngIf="pruebaDiametroBroca.get('estado').value == 'A'"> <i class="fas fa-check text-success"></i> Aprobado</span>
+                      <span *ngIf="pruebaDiametroBroca.get('estado').value == 'R'"> <i class="fas fa-times text-danger"></i> Rechazado</span>
+                      <span *ngIf="pruebaDiametroBroca.get('estado').value == ''"  class="text-info" style="font-size: 14px;">La cantidad no debe ser mayor a la muestra ({{baseCalculoProcentajeDiametro}})</span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <br>
+          <h6 class="font-weight-bold text-info">DIAMETRO DEL ALAMBRE:</h6>
+
+          <div class="row">
+            <div class="table-responsive" [formGroup]="pruebasAguja.controls[2]">
+              <table class="table table-bordered table-sm">
+                <thead>
+                  <tr style="font-size: 14px">
+                    <th scope="col" class="text-center font-weight-bold col-sm-3">Alambre solicitado</th>
+                    <th scope="col" class="text-center font-weight-bold col-sm-2">Cantidad</th>
+                    <th scope="col" class="text-center font-weight-bold col-sm-2">%</th>
+                    <th scope="col" class="text-center font-weight-bold col-sm-2">Tolerancia </th>
+                    <th scope="col" class="text-center font-weight-bold col-sm-2">Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="text-center">
+                      {{ pruebaDiametroAlambre.get('descripcion').value }}
+                    </td>
+                    <td class="text-center">
+                      <input type="number" class="form-control form-control-sm" style="font-size: 14px" placeholder="Cantidad" formControlName="cantidad"/>
+                    </td>
+                    <td class="text-center">
+                      {{ pruebaDiametroAlambre.get('porciento').value | number }}
+                    </td>
+                    <td class="text-center">
+                      {{ pruebaDiametroAlambre.get('tolerancia').value | number }}
+                    </td>
+                    <td class="text-center">
+                      <span *ngIf="pruebaDiametroAlambre.get('estado').value == 'A'"> <i class="fas fa-check text-success"></i> Aprobado</span>
+                      <span *ngIf="pruebaDiametroAlambre.get('estado').value == 'R'"> <i class="fas fa-times text-danger"></i> Rechazado</span>
+                      <span *ngIf="pruebaDiametroAlambre.get('estado').value == ''"  class="text-info" style="font-size: 14px;">La cantidad no debe ser mayor a la muestra ({{baseCalculoProcentajeDiametro}})</span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <br>
+          <h6 class="font-weight-bold text-info">PRUEBA CORROSIÓN:</h6>
+
+          <div class="row">
+            <div class="table-responsive" [formGroup]="pruebasAguja.controls[3]">
+              <table class="table table-bordered table-sm">
+                <thead>
+                  <tr style="font-size: 14px">
+                    <th scope="col" class="text-center font-weight-bold col-sm-3">Especificación</th>
+                    <th scope="col" class="text-center font-weight-bold col-sm-2">Cantidad</th>
+                    <th scope="col" class="text-center font-weight-bold col-sm-2">%</th>
+                    <th scope="col" class="text-center font-weight-bold col-sm-2">Tolerancia </th>
+                    <th scope="col" class="text-center font-weight-bold col-sm-2">Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="text-center">
+                      {{ pruebaCorrosion.get('descripcion').value }}
+                    </td>
+                    <td class="text-center">
+                      <input type="number" class="form-control form-control-sm" style="font-size: 14px" placeholder="Cantidad" formControlName="cantidad"/>
+                    </td>
+                    <td class="text-center">
+                      {{ pruebaCorrosion.get('porciento').value | number }}
+                    </td>
+                    <td class="text-center">
+                      {{ pruebaCorrosion.get('tolerancia').value | number }}
+                    </td>
+                    <td class="text-center">
+                      <span *ngIf="pruebaCorrosion.get('estado').value == 'A'"> <i class="fas fa-check text-success"></i> Aprobado</span>
+                      <span *ngIf="pruebaCorrosion.get('estado').value == 'R'"> <i class="fas fa-times text-danger"></i> Rechazado</span>
+                      <span *ngIf="pruebaCorrosion.get('estado').value == ''"  class="text-info" style="font-size: 14px;">La cantidad no debe ser mayor a la muestra ({{baseCalculoProcentajeLongitud}})</span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="card-body m-2 p-0">
+      <div class="form-group row">
+        <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 text-left">
+          <button type="button" class="btn btn-dark waves-effect waves-light" (click)="paginaAnterior()">
+            <i class="fas fa-angle-left" aria-hidden="true"></i>&nbsp;&nbsp; Atrás
+          </button>
+        </div>
+        <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 text-center">
+
+          <button type="submit" class="btn btn-info waves-effect waves-light">
+            <span *ngIf="!botonGuardarDisabled">
+              <i class="fas fa-save" aria-hidden="true"></i>&nbsp;&nbsp;Guardar
+            </span>
+            <span *ngIf="botonGuardarDisabled">
+              <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+              Guardan..
+            </span>
+          </button>
+
+        </div>
+        <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 text-right">
+          <button type="button" class="btn btn-dark waves-effect waves-light" (click)="paginaSiguiente()">
+            Siguiente&nbsp;&nbsp;<i class="fas fa-angle-right" aria-hidden="true"></i>
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+ </form>
