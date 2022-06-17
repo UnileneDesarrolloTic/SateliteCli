@@ -17,7 +17,6 @@ export class ConfirmExitGuard implements CanDeactivate<unknown> {
     currentState: RouterStateSnapshot,
     nextState?: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree
   {
-
     return component.onExit ? component.onExit() : true;
   }
 

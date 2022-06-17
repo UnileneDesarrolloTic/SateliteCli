@@ -22,7 +22,6 @@ export class RegistrarAnalisisComponent {
     this.InicializarFormulario();
   }
 
-
   InicializarFormulario(){
 
     this.filtroOrdenCompra = this._fb.group({
@@ -153,7 +152,7 @@ export class RegistrarAnalisisComponent {
   }
 
   AbrirModuloPruebaFlexion(codigoAnalisis: string){
-    this._router.navigate(['ControlCalidad', 'analisis-agujas', 'prueba-flexion', codigoAnalisis]);
+    this._router.navigate(['ControlCalidad', 'analisis-agujas', 'pruebas-agujas', codigoAnalisis]);
   }
 
   CerrarModal() {

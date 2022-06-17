@@ -1,0 +1,44 @@
+<ul class="wizard-navbar">
+  <div class="liner"></div>
+
+  <li class="active flex-fill">
+    <a [ngClass]="(page==='Flexión')?'nav-link active':'nav-link'" uiSrefActive="active" uiSref="flexión" data-toggle="tab" title="flexión">
+        <span class="round-tabs">
+          &nbsp;&nbsp;1&nbsp;&nbsp;
+        </span>
+    </a>
+  </li>
+
+  <li class="flex-fill">
+    <a [ngClass]="(page==='DatosGenerales')?'nav-link active':'nav-link'" uiSrefActive="active" uiSref="corroción" data-toggle="tab" title="datosgeneral">
+      <span class="round-tabs">
+        &nbsp;2&nbsp;
+      </span>
+    </a>
+  </li>
+
+  <li class="flex-fill">
+    <a [ngClass]="(page==='PruebaDimensional')?'nav-link active':'nav-link'" uiSrefActive="active" uiSref="datos" data-toggle="tab" title="dimensional">
+      <span class="round-tabs">
+        &nbsp;3&nbsp;
+      </span>
+    </a>
+  </li>
+
+  <li class="flex-fill">
+    <a [ngClass]="(page==='PruebaElasticidadPerforacion')?'nav-link active':'nav-link'" uiSrefActive="active" uiSref="datos" data-toggle="tab" title="elasticidad">
+      <span class="round-tabs">
+        &nbsp;4&nbsp;
+      </span>
+    </a>
+  </li>
+
+  <li class="flex-fill">
+    <a [ngClass]="(page==='PruebaDefectos')?'nav-link active':'nav-link'" uiSrefActive="active" uiSref="datos" data-toggle="tab" title="elasticidad">
+      <span class="round-tabs">
+        &nbsp;5&nbsp;
+      </span>
+    </a>
+  </li>
+
+</ul>

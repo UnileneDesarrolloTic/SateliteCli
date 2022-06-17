@@ -1,0 +1,196 @@
+<form autocomplete="off" [formGroup]="datosGeneralesForm" (submit)="guardarDatosGenerales()">
+  <div class="row">
+    <div class="col-12">
+      <div class="card border-left border-info">
+        <div class="card-header bg-info text-white" style="font-weight: bold">
+          ANÁLISIS DE ACEPTABILIDAD DE EFECTOS DE FUNCIONALIDAD Y FLEXIÓN
+        </div>
+        <div class="card-body">
+
+          <div class="row mt-2">
+            <div class="table-responsive">
+              <table class="table table-bordered table-sm">
+                <thead>
+                  <tr style="font-size: 14px">
+                    <th scope="col" class="text-center font-weight-bold col-sm-4">TIPO</th>
+                    <th scope="col" class="text-center font-weight-bold col-sm-2">LONGITUD</th>
+                    <th scope="col" class="text-center font-weight-bold col-sm-2">BROCA</th>
+                    <th scope="col" class="text-center font-weight-bold col-sm-2">ALAMBRE</th>
+                    <th scope="col" class="text-center font-weight-bold col-sm-2">SERIE</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr style="font-size: 13px;">
+                    <td class="text-center">
+                      {{tipo}}
+                    </td>
+                    <td class="text-center">
+                      {{longitud}}
+                    </td>
+                    <td class="text-center">
+                      {{broca}}
+                    </td>
+                    <td class="text-center">
+                      {{alambre}}
+                    </td>
+                    <td class="text-center">
+                      {{serie}}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-12 col-sm-12 col-md-4 col-lg-5 col-xl-5">
+              <div class="table-responsive">
+                <table class="table table-bordered table-sm">
+                  <thead>
+                    <tr>
+                      <th colspan="2" class="text-center font-weight-bold" style="font-size: 14px">Dato</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="text-left" style="font-size: 14px">FOR:</td>
+                      <td class="text-left" style="font-size: 14px">
+                        {{ordenCompra}}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="text-left" style="font-size: 14px">Nº Control:</td>
+                      <td class="text-left" style="font-size: 14px">
+                        {{controlNumero}}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="text-left" style="font-size: 14px">Proveedor:</td>
+                      <td class="text-left" style="font-size: 14px">
+                        {{proveedor}}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="text-left" style="font-size: 14px">Cnt. Ingresada:</td>
+                      <td class="text-left" style="font-size: 14px">
+                        {{cantidad}}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="col-12 col-sm-12 col-md-8 col-lg-7 col-xl-7">
+              <div class="table-responsive">
+                <table class="table table-bordered table-sm">
+                  <thead>
+                    <tr>
+                      <th colspan="3" class="text-center font-weight-bold" style="font-size: 14px">PLAN DE MUESTREO</th>
+                    </tr>
+                  </thead>
+                  <tbody style="font-size: 14px">
+                    <tr>
+                      <td class="text-left">Pruebas de funcionalidad:</td>
+                      <td class="text-left">Nº unid. a muestrear:</td>
+                      <td class="text-center">
+                        <input type="number" class="form-control form-control-sm" placeholder="undMuestrear" formControlName="undMuestrear">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="text-left">Pruebas dimencionales longitud:</td>
+                      <td class="text-left">Nº unid. a muestrear (I):</td>
+                      <td class="text-center">
+                        <input type="number" class="form-control form-control-sm" placeholder="undMuestrear I" formControlName="undMuestrearI">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="text-left">Otras pruebas adicionales:</td>
+                      <td class="text-left">Nº unid. a muestrear (III):</td>
+                      <td class="text-center">
+                        <input type="number" class="form-control form-control-sm" placeholder="undMuestrear III" formControlName="undMuestrearIII">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td></td>
+                      <td class="text-left">Nº cajas a muestrear:</td>
+                      <td class="text-center">
+                        <input type="number" class="form-control form-control-sm" placeholder="Cajas a muestrear" formControlName="cajasMuestrear">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td></td>
+                      <td class="text-left">Nº unidades por caja:</td>
+                      <td class="text-center">
+                        <input type="number" class="form-control form-control-sm" placeholder="UnidadesPorCaja" formControlName="undPorCaja">
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <h6 class="mt-4 font-weight-bold">Prueba de Flexión - % POR CICLOS:</h6>
+          <br>
+          <div class="row">
+            <div class="col-12 col-sm-12 col-md-10 col-lg-10 col-xl-10" >
+              <div class="row" formArrayName="resumenFlexion">
+                <ng-container *ngFor="let resumen of resumenFlexion.controls">
+                  <div class="col-12 col-sm-4 col-md-3 col-lg-3 col-xl-2" [formGroup]="resumen">
+                    <div class="form-group">
+                      <label class="control-label col-form-label col-form-label-sm" style="font-weight: bold;" >{{ resumen.value['ciclo'] }} ciclo (%)</label>
+                      <input type="number" class="form-control form-control-sm" formControlName="porcentaje" >
+                    </div>
+                  </div>
+                </ng-container>
+              </div>
+            </div>
+            <div class="col-12 col-sm-12 col-md-2 col-lg-2 col-xl-2">
+              <div class="form-group row">
+                <div class="col-12 text-center">
+                  <label for="status" class="col-form-label col-form-label-sm">STATUS</label>
+                  <select class="form-control form-control-sm" id="status" formControlName="statusFlexion">
+                    <option value="">Seleccione..</option>
+                    <option value="A">ACEPTADO</option>
+                    <option value="R">RECHAZADO</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="card-body m-2 p-0">
+      <div class="form-group row">
+        <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 text-left">
+          <button type="button" class="btn btn-dark waves-effect waves-light" (click)="paginaAnterior()">
+            <i class="fas fa-angle-left" aria-hidden="true"></i>&nbsp;&nbsp; Atrás
+          </button>
+        </div>
+        <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 text-center">
+
+          <button type="submit" class="btn btn-info waves-effect waves-light">
+            <span *ngIf="!botonGuardarDisabled">
+              <i class="fas fa-save" aria-hidden="true"></i>&nbsp;&nbsp;Guardar
+            </span>
+            <span *ngIf="botonGuardarDisabled">
+              <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+              Guardan..
+            </span>
+          </button>
+
+        </div>
+        <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 text-right">
+          <button type="button" class="btn btn-dark waves-effect waves-light" (click)="paginaSiguiente()">
+            Siguiente&nbsp;&nbsp;<i class="fas fa-angle-right" aria-hidden="true"></i>
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+ </form>

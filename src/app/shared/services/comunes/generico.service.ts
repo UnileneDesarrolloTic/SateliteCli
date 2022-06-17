@@ -6,7 +6,7 @@ import { RolData } from '@data/interface/Response/RolData.interface';
 import { SubFamilia } from '@data/interface/Response/SubFamilia.Interface';
 import { environment } from 'environments/environment';
 import { throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -53,6 +53,17 @@ export class GenericoService {
     };
 
     return new Intl.NumberFormat((usarComa ? "es" : "en"), opciones).format(numero);
+  }
+
+  ObtenerConfiguracion (idConfiguracion:number, grupo:string)
+  {
+    const params =  new HttpParams().set('idConfiguracion', idConfiguracion.toString()).set('grupo', grupo);
+
+    return this._http.get<RolData[]>(this.url + "/api/Common/ObtenerConfiguracionesSistema", {'params': params})
+    .pipe(
+      map( result => result['content'])
+      ,catchError( () => throwError("Error al obtener los roles") )
+    );
   }
 
 }

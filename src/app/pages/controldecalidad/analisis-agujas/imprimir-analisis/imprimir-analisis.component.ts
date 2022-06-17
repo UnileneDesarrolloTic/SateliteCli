@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AnalisisAgujaService } from '@data/services/backEnd/pages/analisis-aguja.service';
 import { ToastrService } from 'ngx-toastr';
 import { debounceTime } from 'rxjs/operators';
@@ -13,8 +14,11 @@ export class ImprimirAnalisisComponent implements OnInit {
   listarAnalisisAguja: object[] = []
   paginaAnalisisAguja: number = 1
   filroAnalisisAguja: FormGroup;
+  loteAnalisis: string = ""
+  reporteSeleccionado: string = ""
+  flagDescargandoReporte: boolean = false
 
-  constructor( private _analisisAgujaService: AnalisisAgujaService, private _fb: FormBuilder, private _toastr: ToastrService,)
+  constructor( private _analisisAgujaService: AnalisisAgujaService, private _fb: FormBuilder, private _toastr: ToastrService, private _modalService: NgbModal)
   {
     this.InicializarFormulario();
   }
@@ -65,53 +69,99 @@ export class ImprimirAnalisisComponent implements OnInit {
     this.ListarAnalisisAgujas(filtro, pagina)
   }
 
-  ObtenerReporteAnalisis(loteAnalisis: string){
+  ObtenerReporteAnalisis(modal: NgbModal, loteAnalisis: string){
 
-    this._analisisAgujaService.ObtenerReporteFlexionAguja(loteAnalisis).subscribe(
-      response => {
-        if(response['success'] == false)
-        {
-          this._toastr.warning(response['message'], "Adventencia !!",{timeOut: 5000, closeButton: true});
-          return
-        }
+    this.loteAnalisis = loteAnalisis;
 
-        this.file(response, loteAnalisis)
-      }
-    );
+    this.abrirModalReporte(modal);
 
   }
 
-  file(fileContent, loteAnalisis){
-		const fileBlob = new Blob(
-		  [this.base64ToUint8Array(fileContent['content'])],
-		  { type: "application/pdf" }
-		);
+  descargarReporte(){
 
-		var objectURL = URL.createObjectURL(fileBlob);
-		const exportLinkElement = document.createElement('a');
+      if(this.flagDescargandoReporte)
+      {
+        this._toastr.warning("Se esta generando el reporte en este momento", "Aviso !!", {timeOut: 3000, closeButton: true, progressBar: true, tapToDismiss: true})
+        return
+      }
 
-		exportLinkElement.hidden = true;
-		exportLinkElement.download = loteAnalisis + ".pdf";
-		exportLinkElement.href = objectURL;
-		exportLinkElement.text = "downloading...";
+      if(this.reporteSeleccionado != "f" && this.reporteSeleccionado != "a")
+      {
+        this._toastr.warning("Seleccione un reporte, para la descarga", "Aviso !!", {timeOut: 3000, closeButton: true, progressBar:true, tapToDismiss:true})
+        return
+      }
 
-		document.body.appendChild(exportLinkElement);
-		exportLinkElement.click();
+      if(this.reporteSeleccionado == "f")
+      {
+        this.flagDescargandoReporte = true
 
-		URL.revokeObjectURL(objectURL);
+        this._analisisAgujaService.ObtenerReporteFlexionAguja(this.loteAnalisis).subscribe(
+          response => {
 
-		exportLinkElement.remove();
+            if(response['success'] == false)
+            {
+              this._toastr.warning(response['message'], "Adventencia !!",{timeOut: 5000, closeButton: true});
+              this.flagDescargandoReporte = false
+              return
+            }
 
-	};
+            this.downloadPDF(response['content'], this.loteAnalisis + " - Reporte Flexión")
 
-  base64ToUint8Array(string) {
-		var raw = atob(string);
-		var rawLength = raw.length;
-		var array = new Uint8Array(new ArrayBuffer(rawLength));
-		for (var i = 0; i < rawLength; i += 1) {
-		  array[i] = raw.charCodeAt(i);
-		}
-		return array;
-	}
+            setTimeout( () => this.flagDescargandoReporte = false, 1500)
+
+          },
+          err => {
+            this.flagDescargandoReporte = false
+          }
+        );
+      }
+
+      if(this.reporteSeleccionado == "a")
+      {
+        this.flagDescargandoReporte = true
+
+        this._analisisAgujaService.ObtenerReporteAnalisisAguja(this.loteAnalisis).subscribe(
+          response => {
+
+            if(response['success'] == false)
+            {
+              this._toastr.warning(response['content'], "Adventencia !!",{timeOut: 5000, closeButton: true, tapToDismiss:true});
+              this.flagDescargandoReporte = false
+              return
+            }
+
+            this.downloadPDF(response['content'], this.loteAnalisis + " - Reporte de análisis de aguja")
+
+            setTimeout( () => this.flagDescargandoReporte = false, 1500)
+
+          },
+          err => this.flagDescargandoReporte = false
+        )
+      }
+
+  }
+
+  downloadPDF(pdf:string, nameFile: string)
+  {
+    const downloadLink = document.createElement("a")
+    downloadLink.href = `data:application/pdf;base64,${pdf}`
+    downloadLink.download = `${nameFile}.pdf`
+    downloadLink.click()
+    downloadLink.remove()
+  }
+
+  cerrarModal() {
+    this._modalService.dismissAll();
+  }
+
+  abrirModalReporte(modal:NgbModal)
+  {
+    this._modalService.open(modal, {
+      centered: true,
+      backdrop: 'static',
+      size: 'sm',
+      scrollable: true
+    });
+  }
 
 }
