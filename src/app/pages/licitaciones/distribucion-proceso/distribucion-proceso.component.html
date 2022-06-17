@@ -1,32 +1,122 @@
 <div class="row">
-    <div class="col-lg-12">
-        <div class="card">
-          <div class="card-body">
-            <div class="row justify-content-start">
-                <div class="col-md-3">
-                  <label for="cliente" class="text-right control-label col-form-label">N° Proceso</label>
-                      <div class="input-group mb-3">
-                        <input type="text" name='pedido' class="form-control form-control-sm"  placeholder="Proceso" aria-label="" aria-describedby="basic-addon1">
-                          <div class="input-group-append">
-                              <button class="btn mr-0 btn-dark btn-sm" type="button">
-                                  <i class="fas fa-search"></i>
-                              </button>
-                          </div>
-                      </div> 
+  <div class="col-lg-12">
+    <div class="card">
+      <form autocomplete="off"  [formGroup]="form" (submit)="Filtrar()">
+        <div class="card-body">
+          <div class="row justify-content-start">
+            <div class="col-md-3">
+              <div class="form-group m-b-30">
+                <label class="mr-sm-2 text-right control-label col-form-label" for="inlineFormCustomSelect ">Proceso</label>
+                <select class="custom-select mr-sm-2" formControlName="NumeroProceso">
+                  <option *ngFor="let proceso of ListarProceso" [value]="proceso.idProceso" >
+                  {{proceso.descripcionProceso}}
+                  </option>
+                 
+                </select>
+            </div>
+            </div>        
+            <div class="col-md-3">
+              <label for="Item" class="text-right control-label col-form-label">Item</label>
+              <div class="input-group">
+                <input type="text" class="form-control"  formControlName="Item" placeholder="Ingrese el Item">
               </div>
-                <div class="col-md-3">
-                    <div class="form-group m-b-30">
-                        <label class="mr-sm-2 text-white" for="inlineFormCustomSelect ">.</label>
-                        <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
-                            <option selected>Seleccione el meses</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
-                        </select>
-                    </div>
-                </div>
-            </div>    
+            </div>
+            
+            <div class="col-md-2">
+              <div class="form-group m-b-30">
+                <label class="mr-sm-2 text-right control-label col-form-label" for="inlineFormCustomSelect ">N°Entrega</label>
+                <select class="custom-select mr-sm-2" formControlName="Mes"  id="inlineFormCustomSelect">
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                  <option value="7">7</option>
+                  <option value="8">8</option>
+                  <option value="9">9</option>
+                  <option value="10">10</option>
+                  <option value="11">11</option>
+                  <option value="12">12</option>
+                </select>
+              </div>
+            </div>
+            
+            <div class="col-md-3">
+              <label for="Item" class="text-right control-label col-form-label">.</label>
+              <div class="input-group">
+                <button class="btn mr-0 btn-info" type="submit">
+                  <i class="fas fa-search"></i> Buscar
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="d-flex">
+          <div class="p-2">
+            <input class="form-control ml-2" placeholder="Buscar" type="text" [formControl]= 'textFilterCtrl' />
+          </div>
+          <div class="ml-auto p-2">
+            <button type="button" class="btn btn-info btn-rounded" (click)="procesar()"> <i class="fa fa-save"></i> Guardar</button>
+          </div>
+        </div>
+  
+          <div  class="d-flex no-block align-items-center">
+            <div class="table-responsive table-hover table-responsive table-bordered" style="font-size: 11px;overflow-y: auto; height:  20rem">
+              <table class="table table-striped no-wrap border " >
+                <thead class="bg-info text-white">
+                  <tr>
+                    <th class="text-center">#</th>
+                    <th class="text-center">Nombre Diresa</th>
+                    <th class="text-center">D.Proceso</th>
+                    <th class="text-center">CodAlmacen</th>
+                    <th class="text-center">P.Entrega</th>
+                    <th class="text-center">T.Usuario</th>
+                    <th class="text-center">N.Item</th>
+                    <th class="text-center">CodItem</th>
+                    <th class="text-center">CodSISMED</th>
+                    <th class="text-center">Descripcion</th>
+                    <th class="text-center">P.Unit</th>
+                    <th class="text-center">Cant.Req</th>
+                    <th class="text-center">Cant</th>
+                    <th class="text-center">OrdenCompra</th>
+                    <th class="text-center">Pecosa</th>
+
+                  </tr>
+                  
+                </thead>
+                <tbody id="tbodyDetalle"  class="border border-info" style="font-size: 11px;">
+                  <tr *ngFor="let lp of TempListarDistribuccion;let i=index ; trackBy:trackbyFn">
+                    <td class="text-center"> <ngb-highlight [result]="lp.idEntrega" [term]="searchTerm" id="idEntrega"></ngb-highlight></td>  
+                    <td> <ngb-highlight [result]="lp.nombreDiresa" [term]="searchTerm" id="nombreDiresa"></ngb-highlight></td>                 
+                    <td> <ngb-highlight [result]="lp.descripcionProceso" [term]="searchTerm" id="descripcionProceso"></ngb-highlight></td>
+                    <td class="text-center" > <ngb-highlight [result]="lp.codigoAlmacen" [term]="searchTerm" id="codigoAlmacen"></ngb-highlight></td>
+                    <td> <ngb-highlight [result]="lp.puntosdeEntrega" [term]="searchTerm" id="puntosdeEntrega"></ngb-highlight></td>
+                    <td class="text-center"> <ngb-highlight [result]="lp.tipodeusuario"  [term]="searchTerm" id="tipodeusuario"></ngb-highlight></td>
+                    <td class="text-center"> <ngb-highlight [result]="lp.numeroItem" [term]="searchTerm" id="numeroItem"></ngb-highlight></td>
+                    <td class="text-center"> <ngb-highlight [result]="lp.codItem" [term]="searchTerm" id="codItem"></ngb-highlight></td>
+                    <td class="text-center"> <ngb-highlight [result]="lp.codigoSISMED" [term]="searchTerm" id="codigoSISMED"></ngb-highlight></td>
+                    <td class="text-center"> <ngb-highlight [result]="lp.descripcionItem" [term]="searchTerm" id="descripcionItem"></ngb-highlight></td>
+                    <td class="text-center"> <ngb-highlight [result]="lp.precioUnitario" [term]="searchTerm" id="precioUnitario"></ngb-highlight></td>
+                    <td class="text-center"> <ngb-highlight [result]="lp.cantidadRequerida" [term]="searchTerm" id="cantidadRequerida"></ngb-highlight></td>
+                    <td class="text-center"> <ngb-highlight [result]="lp.cantidad" [term]="searchTerm" id="cantidad"></ngb-highlight></td>
+                    <td class="text-center" contenteditable="true"> <ngb-highlight [result]="lp.ordenCompra" [term]="searchTerm" id="ordenCompra"></ngb-highlight></td>
+                    <td class="text-center" contenteditable="true" > <ngb-highlight [result]="lp.pecosa" [term]="searchTerm" id="pecosa"></ngb-highlight></td>
+				          </tr>
+                </tbody>
+              </table>
+          </div>
+      </div>
+      </div>
     </div>
   </div>
 </div>

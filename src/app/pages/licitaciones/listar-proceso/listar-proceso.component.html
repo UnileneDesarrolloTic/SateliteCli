@@ -17,32 +17,31 @@
           <div class="d-flex no-block align-items-center">
             <div class="table-hover table-responsive table-bordered">
               <table class="table table-striped border table-hover table-inf">
-                <thead style="font-size: 13px" class="bg-info text-white" >
+                <thead style="font-size: 13px" class="thead-light" >
                   <tr>
-                    <th class="text-center" scope="col">Proceso</th>
-                    <th class="text-center" scope="col">Monto</th>
-                    <th class="text-center" scope="col">Estado</th>
+                    <th class="text-center" scope="col">Descripción Proceso</th>
+                    <th class="text-center" scope="col">Descripción Comercial</th>
+                    <th class="text-center" scope="col">Descripción Comercial Detalle</th>
+                    <th class="text-center" scope="col">CantItem</th>
                     <th class="text-center" scope="col">Avance</th>
-                    <th class="text-center" scope="col">Dist.</th>
-                    <th class="text-center" scope="col">Detalle</th>
-                  
-                   
+                    <th class="text-center" scope="col">Muestra</th>
+                    <th class="text-center" scope="col">Guias</th>
                   </tr>
                 </thead>
                 <tbody style="font-size: 13px" id="tbodyDetalle" >
                   <tr *ngFor="let proceso of ListarProceso; let i = index">
-                    <td class="text-center" >{{proceso.proceso}}</td>
-                    <td class="text-center" >{{proceso.Monto}}</td>
-                    <td class="text-center" >{{proceso.Estado}}</td>
-                    <td class="text-center" >{{proceso.Avance}}</td>
+                    <td class="text-center" >{{proceso.descripcionProceso}}</td>
+                    <td class="text-center" >{{proceso.descripcionComercial}}</td>
+                    <td class="text-center" >{{proceso.descripcionComercialDetalle}}</td>
+                    <td class="text-center" >{{proceso.cantItems}}</td>
                     <td class="text-center" >
-                        <span *ngIf="proceso.Dist=='S'">{{proceso.Dist}}</span>
-                        <span *ngIf="proceso.Dist=='N'">
-                          <button type="button"   style="font-size: 12px" class="btn btn-info" >{{proceso.Dist}} </button>
-                        </span>
+                      <button type="button"   style="font-size: 10px;background-color: #FED520;border: none;"  class="btn btn-warning text-dark"><i class="fas fa-signal"></i></button>
                     </td>
                     <td class="text-center">
-                      <button type="button" class="btn btn-info"  style="font-size: 10px" (click)="DetalleProceso()" ><i class="fas fa-ellipsis-h" ></i> </button>
+                      <button type="button" class="btn btn-info"  style="font-size: 10px;background-color: #4596DA;border: none;" (click)="AbrirModuloMuestrayEnsayo(proceso.idProceso)"><i class="fas fa-list-alt"></i></button>
+                    </td>
+                    <td class="text-center">
+                      <button type="button" class="btn btn-primary"  style="font-size: 10px;background-color: #2CB820;border: none;" (click)="AbrirModuloGuias(proceso.idProceso)"><i class="fas fa-paste"></i></button>
                     </td>
                   </tr>
                 </tbody>

@@ -22,6 +22,7 @@ export class AuthGuard implements CanActivateChild {
   }
   canActivateChild( childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot):Observable<boolean> | boolean
   {
+    // return true;
     let ruta = state.url;
 
     const codigoAnalisis: string = childRoute['params']['codAnalisis'];

@@ -9,12 +9,14 @@ import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { NuevoProcesoComponent } from './listar-proceso/nuevo-proceso/nuevo-proceso.component';
 import { ListarProcesoComponent } from "./listar-proceso/listar-proceso.component";
-import { DetalleProcesoComponent } from './listar-proceso/detalle-proceso/detalle-proceso.component';
+
 import { DistribucionProcesoComponent } from './distribucion-proceso/distribucion-proceso.component';
+import { ProgramacionProcesoComponent } from './listar-proceso/programacion-proceso/programacion-proceso.component';
+import { ProcesoMuestraEnsayoComponent } from './listar-proceso/proceso-muestra-ensayo/proceso-muestra-ensayo.component';
 
 
 @NgModule({
-  declarations: [NuevoProcesoComponent,ListarProcesoComponent, DetalleProcesoComponent, DistribucionProcesoComponent],
+  declarations: [NuevoProcesoComponent, ListarProcesoComponent, DistribucionProcesoComponent, ProgramacionProcesoComponent, ProcesoMuestraEnsayoComponent],
   imports: [
     RouterModule.forChild(LicitacionesRoutes),
     CommonModule,
@@ -25,6 +27,6 @@ import { DistribucionProcesoComponent } from './distribucion-proceso/distribucio
     ReactiveFormsModule,
     NgxDatatableModule,
   ],
-  exports: [NuevoProcesoComponent,ListarProcesoComponent,DetalleProcesoComponent,DistribucionProcesoComponent],
+  exports: [NuevoProcesoComponent, ListarProcesoComponent, DistribucionProcesoComponent, ProcesoMuestraEnsayoComponent],
 })
 export class LicitacionesModule { }
