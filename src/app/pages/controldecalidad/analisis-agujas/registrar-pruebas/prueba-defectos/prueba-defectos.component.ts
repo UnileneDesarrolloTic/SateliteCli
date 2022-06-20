@@ -258,7 +258,7 @@ export class PruebaDefectosComponent implements OnInit, OnDestroy, OnExit {
       result => {
 
         if (this.cantidadMuestra < 1)
-          this.cantidadMuestra = result['undMuestrearI']
+          this.cantidadMuestra = result['undMuestrearIII']
 
         this.formulario.patchValue({
           observaciones: result['observaciones']
