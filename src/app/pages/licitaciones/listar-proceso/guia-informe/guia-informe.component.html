@@ -1,0 +1,148 @@
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <form  [formGroup]="Formulario" (submit)="Filtrar()">
+                    <div class="row justify-content-start">
+                        <div class="col-md-2">
+                            <div class="form-group m-b-30">
+                              <label class="mr-sm-2 text-right control-label col-form-label" for="inlineFormCustomSelect ">N°Entrega</label>
+                              <select class="custom-select mr-sm-2" formControlName="NumeroEntrega"  id="inlineFormCustomSelect">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                              </select>
+                            </div>
+                        </div>
+    
+                        <div class="col-md-3">
+                            <label for="NumeroEntrega" class="text-right control-label col-form-label">N° Orden Compra
+                            </label>
+                            <div class="input-group">
+                                <input type="text" class="form-control form-control-sm" formControlName="OrdenCompra"  placeholder="N° Orden Compra">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="btondeFiltrar" class="text-right control-label col-form-label text-white">.</label>
+                            <div class="input-group">
+                                <button class="btn mr-0 btn-info btn-sm"  type="submit">
+                                    <i class="fas fa-search"></i> Buscar
+                                </button>
+                            </div>
+                        </div>
+                       
+                    </div>
+                </form>
+              
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<ngb-tabset #t="ngbTabset">
+    <ngb-tab id="tab-selectbyid1" title="Tabla">
+      <ng-template ngbTabContent>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead class="thead-light" style="font-size: 11px;">
+                                    <tr>
+                                        <th class="text-center" scope="col">Orden Compra</th>
+                                        <th class="text-center" scope="col">Pecosa</th>
+                                        <th class="text-center" scope="col">N° Guia</th>
+                                        <th class="text-center" scope="col">E.Logistica</th>
+                                        <th class="text-center" scope="col">Comentario</th>
+                                        <th class="text-center" scope="col">ComentarioSalida</th>
+                                        <th class="text-center" scope="col">F.Documento</th>
+        
+                                        <!-- <th class="text-center" scope="col">Opcion</th> -->
+                                    </tr>
+                                </thead>
+                                <tbody style="font-size: 10px;">
+                                      <ng-container>
+                                        <tr *ngFor="let rowControl of ListarGuiaNumeroLP.controls; let i = index" [formGroup]="rowControl">
+                                            <td class="text-center">
+                                                <b>{{rowControl.value.ordenCompra}}</b>
+                                              </td>
+                                            <td class="text-center">
+                                                <b>{{rowControl.value.entregaPecosa}}</b>
+                                            </td>
+                                            <td class="text-left">
+                                                <b>{{rowControl.value.serieNumero}} - {{rowControl.value.guiaNumero}}</b>
+                                            </td>
+                                            <td class="text-center">
+                                                <b [ngStyle]="{'color': this.EstadoColor(rowControl.value.estadoLogistica) }">{{rowControl.value.estadoLogistica}} </b>
+                                            </td>
+                                        
+                                            <td class="text-center">
+                                                <b>{{rowControl.value.comentario}}</b>
+                                            </td>
+                                            <td class="text-center">
+                                                <b>{{rowControl.value.comentarioSalida}}</b>
+                                            </td>
+                                            <td class="text-center">
+                                                <b>{{rowControl.value.fechadocumento | date:'dd/MM/yyyy'}}</b>
+                                            </td>
+                                            <!-- <td>
+                                                <button class="btn" (click)="ModalEditarGuia(ItemGuia)" style="background-color:#4DB3ED;font-size: 10px;"><i class="fas fa-edit text-white"></i></button>
+                                            </td> -->
+                                        </tr>
+                                      </ng-container>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+      </ng-template>
+    </ngb-tab>
+    <ngb-tab id="tab-selectbyid2">
+      <ng-template ngbTabTitle>Grafico</ng-template>
+      <ng-template ngbTabContent>
+        <div class="card" *ngIf="ListarInformeGuia.length>0">
+            <div class="card-body">
+                <h4 class="card-title"><span class="lstick"></span>Estado OC-{{Formulario.controls.OrdenCompra.value}} de la Entrega N° {{Formulario.controls.NumeroEntrega.value}} </h4>
+                <div style="height: 220px">
+                    <apx-chart [series]="visitseparationChartOptions.series" [chart]="visitseparationChartOptions.chart"
+                        [dataLabels]="visitseparationChartOptions.dataLabels" [legend]="visitseparationChartOptions.legends"
+                        [colors]="visitseparationChartOptions.colors" [stroke]="visitseparationChartOptions.stroke"
+                        [labels]="visitseparationChartOptions.labels" [tooltip]="visitseparationChartOptions.tooltip"
+                        [plotOptions]="visitseparationChartOptions.plotOptions"></apx-chart>
+                </div>
+                <table class="table vm font-14 m-b-0">
+                    <tr>
+                        <td class="border-0">OK</td>
+                        <td class="text-right font-medium border-0">{{EstadoGrafico('OK')}}</td>
+                    </tr>
+                    <tr>
+                        <td>SIN RETORNO</td>
+                        <td class="text-right font-medium">{{EstadoGrafico('SIN RETORNO')}}</td>
+                    </tr>
+                    <tr>
+                        <td>SIN ORDEN DE SERVICIO</td>
+                        <td class="text-right font-medium">{{EstadoGrafico('SIN ORDEN DE SERVICIO')}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+      </ng-template>
+    </ngb-tab>
+  </ngb-tabset>
+
+
+

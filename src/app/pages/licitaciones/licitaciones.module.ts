@@ -9,14 +9,16 @@ import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { NuevoProcesoComponent } from './listar-proceso/nuevo-proceso/nuevo-proceso.component';
 import { ListarProcesoComponent } from "./listar-proceso/listar-proceso.component";
-
+import { NgApexchartsModule } from "ng-apexcharts";
 import { DistribucionProcesoComponent } from './distribucion-proceso/distribucion-proceso.component';
 import { ProgramacionProcesoComponent } from './listar-proceso/programacion-proceso/programacion-proceso.component';
 import { ProcesoMuestraEnsayoComponent } from './listar-proceso/proceso-muestra-ensayo/proceso-muestra-ensayo.component';
+import { GuiaInformeComponent } from './listar-proceso/guia-informe/guia-informe.component';
+import { ModalEditaGuiainformeComponent } from './listar-proceso/modal-edita-guiainforme/modal-edita-guiainforme.component';
 
 
 @NgModule({
-  declarations: [NuevoProcesoComponent, ListarProcesoComponent, DistribucionProcesoComponent, ProgramacionProcesoComponent, ProcesoMuestraEnsayoComponent],
+  declarations: [NuevoProcesoComponent, ListarProcesoComponent, DistribucionProcesoComponent, ProgramacionProcesoComponent, ProcesoMuestraEnsayoComponent, GuiaInformeComponent, ModalEditaGuiainformeComponent],
   imports: [
     RouterModule.forChild(LicitacionesRoutes),
     CommonModule,
@@ -26,7 +28,8 @@ import { ProcesoMuestraEnsayoComponent } from './listar-proceso/proceso-muestra-
     FormsModule,
     ReactiveFormsModule,
     NgxDatatableModule,
+    NgApexchartsModule
   ],
-  exports: [NuevoProcesoComponent, ListarProcesoComponent, DistribucionProcesoComponent, ProcesoMuestraEnsayoComponent],
+  exports: [NuevoProcesoComponent, ListarProcesoComponent, DistribucionProcesoComponent, ProcesoMuestraEnsayoComponent,GuiaInformeComponent,ModalEditaGuiainformeComponent],
 })
 export class LicitacionesModule { }
