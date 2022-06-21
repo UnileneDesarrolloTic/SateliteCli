@@ -32,7 +32,6 @@ export class ListarProcesoComponent implements OnInit {
     this._router.navigate(['Licitaciones','proceso','programacion-proceso']);
   }
 
-
   AbrirModuloMuestrayEnsayo(idproceso: number){
     this._ServiceGenerico.idParams.emit({
         data:idproceso
