@@ -38,5 +38,6 @@ export interface CertificadoData {
   iBExpuestosResultado: boolean,
   iBNoExpuestos: number,
   iBNoExpuestosResultado: boolean,
-  conformeIB: string
+  conformeIB: string,
+  busqueda:string
 }

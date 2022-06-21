@@ -61,25 +61,27 @@
         <div class="d-flex no-block align-items-center">
           <div class="table-responsive">
             <table class="table table-hover">
-              <thead class="bg-info text-white">
+              <thead class="bg-info text-white" style="font-size: 12px;">
                 <tr>
                   <th scope="col">#</th>
                   <th scope="col">Orden de Servicio</th>
-                  <th scope="col">Fecha</th>
+                  <th scope="col">Fecha Emision</th>
                   <th scope="col">Cliente</th>
                   <th scope="col">Lote</th>
                   <th scope="col">Producto</th>
+                  <th scope="col">Usuario</th>
                   <th scope="col">Opciones</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody style="font-size: 12px;">
                 <tr *ngFor="let certificado of listaCertificados">
-                  <td>{{ certificado.id }}</td>
-                  <td>{{ certificado.ordenServicio }}</td>
-                  <td>{{ certificado.fechaEmision | date: "shortDate" }}</td>
-                  <td>{{ certificado.cliente }}</td>
-                  <td>{{ certificado.lote }}</td>
-                  <td>{{ certificado.producto }}</td>
+                  <td><b>{{ certificado.id }}</b></td>
+                  <td><b>{{ certificado.ordenServicio }}</b></td>
+                  <td><b>{{ certificado.fechaEmision | date: 'dd/MM/yyyy' }}</b></td>
+                  <td><b>{{ certificado.cliente }}</b></td>
+                  <td><b>{{ certificado.lote }}</b></td>
+                  <td><b>{{ certificado.producto }}</b></td>
+                  <td><b>{{ certificado.busqueda }}</b></td>
                   <td style="text-align: center">
                     <!-- <a href="javascript: void(0);" (click)="abrirModal(modalDetalleUsuario, user)" class="link mr-2"
                       placement="top" ngbTooltip="Editar" >
