@@ -56,4 +56,12 @@ export class LicitacionesService {
     );
   }
 
+
+  ListarGuiaInfomeLP(ItemBusqueda){
+    const params = new HttpParams().set('NumeroEntrega',ItemBusqueda.NumeroEntrega).set('OrdenCompra',ItemBusqueda.OrdenCompra);
+    return this._http.get<DetallePedido[]>(this.url+"/api/Licitaciones/ListarGuiaInformacion", {'params': params}).pipe(
+      catchError (() => throwError("Error al obtener Detalle de Pedido"))
+    );
+  }
+
 }

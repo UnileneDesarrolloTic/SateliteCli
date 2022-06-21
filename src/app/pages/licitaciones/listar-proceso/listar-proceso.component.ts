@@ -43,9 +43,9 @@ export class ListarProcesoComponent implements OnInit {
   }
 
   AbrirModuloGuias(idproceso:number){
-    // this._router.navigate(['Licitaciones', 'proceso', 'guia-informe', ':idproceso'],
-    //                       { state: { idproceso: idproceso } }
-    //                        );
+    this._router.navigate(['Licitaciones', 'proceso', 'estado-guia', ':idproceso'],
+                          { state: { idproceso: idproceso } }
+                           );
   }
   
 
