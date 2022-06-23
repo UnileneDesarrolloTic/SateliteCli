@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { visitseparationChartOptions } from '@data/interface/Request/DatosGraficos.interface';
 import { ListarGuiaInformeModel } from '@data/interface/Response/ListarGuiaInforme.interface';
 import { LicitacionesService } from '@data/services/backEnd/pages/licitaciones.service';
@@ -15,25 +16,23 @@ import { ModalEditaGuiainformeComponent } from '../modal-edita-guiainforme/modal
 export class GuiaInformeComponent implements OnInit {
 
 	ListarInformeGuia: ListarGuiaInformeModel[] = [];
+	TempListarInformeGuia:ListarGuiaInformeModel[] = [];
 	Formulario: FormGroup;
 	ListarGuia: FormGroup;
 	ContarGrafico:number;
-
-	
 	public visitseparationChartOptions: Partial<visitseparationChartOptions>;
+
+	ComboFiltro = new FormControl('TODOS');
 
 	constructor(private modalService: NgbModal,
 		private toastr: ToastrService,
 		private _fb: FormBuilder,
-		private _LicitacionesServices: LicitacionesService) { 
-			
-		
-}
+		private _LicitacionesServices: LicitacionesService,
+		private _router: Router,) { }
 
 	EstadoGrafico(Estado){
-			let ArrayGrafico=this.ListarInformeGuia.filter((element)=>element.estadoLogistica==Estado);
-			return ArrayGrafico.length;
-			
+			let ArrayGrafico=this.TempListarInformeGuia.filter((element)=>element.estadoLogistica==Estado);
+			return ArrayGrafico.length;	
 	}
 
 
@@ -59,10 +58,14 @@ export class GuiaInformeComponent implements OnInit {
 			(resp: any) => {
 				if (resp["success"]) {
 					this.ListarInformeGuia = resp["content"];
+					this.TempListarInformeGuia= resp["content"];
+					this.ComboFiltro.setValue('TODOS');
 					this.CuiaInformeFormArray(this.ListarInformeGuia);
 					this.Graficos();
 				} else {
 					this.ListarInformeGuia = [];
+					this.TempListarInformeGuia= [];
+					this.ComboFiltro.setValue('TODOS');
 					this.CuiaInformeFormArray(this.ListarInformeGuia);
 					this.Graficos();
 				}
@@ -101,6 +104,11 @@ export class GuiaInformeComponent implements OnInit {
 		
 	}
 
+	CambiarEstado(){
+		
+		this.ListarInformeGuia= this.ComboFiltro.value=='TODOS' ? this.TempListarInformeGuia : this.TempListarInformeGuia.filter((elementoFila)=> elementoFila.estadoLogistica==this.ComboFiltro.value)
+		this.CuiaInformeFormArray(this.ListarInformeGuia)
+	}
 
 	EstadoColor(Estado){
 		let Color='';
@@ -113,7 +121,9 @@ export class GuiaInformeComponent implements OnInit {
 				break;
 			case 'SIN ORDEN DE SERVICIO':
 				Color='blue';
-			default:
+				break;
+			case 'TODOS':
+				Color:'black';
 				break;
 		}
 		return Color;
@@ -184,4 +194,7 @@ export class GuiaInformeComponent implements OnInit {
 
 	}
 
+	Salir(){
+		this._router.navigate(['Licitaciones', 'proceso','listar-proceso'])
+	}
 }

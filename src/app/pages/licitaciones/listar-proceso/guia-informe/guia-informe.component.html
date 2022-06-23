@@ -36,11 +36,14 @@
                             <div class="input-group">
                                 <button class="btn mr-0 btn-info btn-sm"  type="submit">
                                     <i class="fas fa-search"></i> Buscar
-                                </button>
+                                </button> 
+                                <button class="btn mr-0 btn-secondary btn-sm ml-2" (click)="Salir()"  type="button">
+                                    <i class="fas fa-reply"></i> Regresar
+                                </button> 
                             </div>
-                        </div>
-                       
+                        </div> 
                     </div>
+                    
                 </form>
               
             </div>
@@ -56,6 +59,16 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
+                        <div class="row justify-content-end">
+                            <div class="col-md-3">
+                            <select class="form-control custom-select"  (change)="CambiarEstado()" [formControl]="ComboFiltro" data-placeholder="Elige un género" tabindex="1">
+                            <option value="OK">OK</option>
+                            <option value="SIN RETORNO" >SIN RETORNO</option>
+                            <option value="SIN ORDEN DE SERVICIO">SIN ORDEN DE SERVICIO</option>
+                            <option value="TODOS">TODOS</option>
+                            </select>
+                            </div>
+                        </div>
                         <div class="table-responsive">
                             <table class="table">
                                 <thead class="thead-light" style="font-size: 11px;">
@@ -114,30 +127,32 @@
     <ngb-tab id="tab-selectbyid2">
       <ng-template ngbTabTitle>Grafico</ng-template>
       <ng-template ngbTabContent>
-        <div class="card" *ngIf="ListarInformeGuia.length>0">
-            <div class="card-body">
-                <h4 class="card-title"><span class="lstick"></span>Estado OC-{{Formulario.controls.OrdenCompra.value}} de la Entrega N° {{Formulario.controls.NumeroEntrega.value}} </h4>
-                <div style="height: 220px">
-                    <apx-chart [series]="visitseparationChartOptions.series" [chart]="visitseparationChartOptions.chart"
-                        [dataLabels]="visitseparationChartOptions.dataLabels" [legend]="visitseparationChartOptions.legends"
-                        [colors]="visitseparationChartOptions.colors" [stroke]="visitseparationChartOptions.stroke"
-                        [labels]="visitseparationChartOptions.labels" [tooltip]="visitseparationChartOptions.tooltip"
-                        [plotOptions]="visitseparationChartOptions.plotOptions"></apx-chart>
+        <div class="container">
+            <div class="card" *ngIf="ListarInformeGuia.length>0">
+                <div class="card-body">
+                    <h4 class="card-title"><span class="lstick"></span>Estado OC-{{Formulario.controls.OrdenCompra.value}} de la Entrega N° {{Formulario.controls.NumeroEntrega.value}} </h4>
+                    <div style="height: 220px">
+                        <apx-chart [series]="visitseparationChartOptions.series" [chart]="visitseparationChartOptions.chart"
+                            [dataLabels]="visitseparationChartOptions.dataLabels" [legend]="visitseparationChartOptions.legends"
+                            [colors]="visitseparationChartOptions.colors" [stroke]="visitseparationChartOptions.stroke"
+                            [labels]="visitseparationChartOptions.labels" [tooltip]="visitseparationChartOptions.tooltip"
+                            [plotOptions]="visitseparationChartOptions.plotOptions"></apx-chart>
+                    </div>
+                    <table class="table vm font-14 m-b-0">
+                        <tr>
+                            <td class="border-0">OK</td>
+                            <td class="text-right font-medium border-0">{{EstadoGrafico('OK')}}</td>
+                        </tr>
+                        <tr>
+                            <td>SIN RETORNO</td>
+                            <td class="text-right font-medium">{{EstadoGrafico('SIN RETORNO')}}</td>
+                        </tr>
+                        <tr>
+                            <td>SIN ORDEN DE SERVICIO</td>
+                            <td class="text-right font-medium">{{EstadoGrafico('SIN ORDEN DE SERVICIO')}}</td>
+                        </tr>
+                    </table>
                 </div>
-                <table class="table vm font-14 m-b-0">
-                    <tr>
-                        <td class="border-0">OK</td>
-                        <td class="text-right font-medium border-0">{{EstadoGrafico('OK')}}</td>
-                    </tr>
-                    <tr>
-                        <td>SIN RETORNO</td>
-                        <td class="text-right font-medium">{{EstadoGrafico('SIN RETORNO')}}</td>
-                    </tr>
-                    <tr>
-                        <td>SIN ORDEN DE SERVICIO</td>
-                        <td class="text-right font-medium">{{EstadoGrafico('SIN ORDEN DE SERVICIO')}}</td>
-                    </tr>
-                </table>
             </div>
         </div>
       </ng-template>

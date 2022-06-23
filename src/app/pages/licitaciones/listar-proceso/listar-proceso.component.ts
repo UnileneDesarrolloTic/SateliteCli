@@ -2,8 +2,6 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DatosListarProceso } from '@data/interface/Response/DatoListarProceso.interface';
 import { LicitacionesService } from '@data/services/backEnd/pages/licitaciones.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { GenericoService } from '@shared/services/comunes/generico.service';
 
 @Component({
   selector: 'app-listar-proceso',
@@ -17,7 +15,6 @@ export class ListarProcesoComponent implements OnInit {
   constructor(private _activatedRoute : ActivatedRoute,
               private _router: Router,
               private _licitacionesServices:LicitacionesService,
-              private _ServiceGenerico:GenericoService
               ) { }
 
   ngOnInit(): void {
@@ -33,12 +30,8 @@ export class ListarProcesoComponent implements OnInit {
   }
 
   AbrirModuloMuestrayEnsayo(idproceso: number){
-    this._ServiceGenerico.idParams.emit({
-        data:idproceso
-    });
-    this._router.navigate(['Licitaciones', 'proceso', 'muestra-ensayo-proceso', ':idproceso'],
-                          { state: { idproceso: idproceso } }
-                           );
+    
+    this._router.navigate(['Licitaciones', 'proceso', 'muestra-ensayo-proceso', idproceso]);
   }
 
   AbrirModuloGuias(idproceso:number){

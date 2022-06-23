@@ -12,7 +12,7 @@ import { catchError, map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class GenericoService {
-  @Output() idParams: EventEmitter<any> = new EventEmitter();
+  
 
   private url = environment.urlApiSatelliteCore;
 
