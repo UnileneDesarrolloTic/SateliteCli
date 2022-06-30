@@ -39,8 +39,11 @@ export class GenericoService {
     );
   }
 
-  ListarFamiliaMateriaP(){
-    return this._http.get<SubFamilia[]>(this.url + "/api/Common/ListarFamiliaMP").pipe(
+  ListarFamiliaMateriaP(tipo){
+
+    const params =  new HttpParams().set('tipo', tipo);
+
+    return this._http.get<SubFamilia[]>(this.url + "/api/Common/ListarFamiliaMP",{'params': params}).pipe(
       catchError ((ex)=> throwError('Ocurrio un error al obtener los pedidos'))
     );
 

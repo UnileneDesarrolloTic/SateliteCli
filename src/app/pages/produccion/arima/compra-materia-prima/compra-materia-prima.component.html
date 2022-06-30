@@ -55,8 +55,6 @@
                                 <div class="col-12 col-sm-7 col-md-7">
                                     <select class="custom-select" formControlName="familia">
                                         <option value="TD">Todas las Familias</option>
-                                        <!-- <option value="CJ">Cajas</option> -->
-                                        <!-- <option value="EM">Empaque</option> -->
                                         <option value="EE">Envases y Embalajes</option>
                                         <option value="ET">Etiqueta</option>
                                         <option value="HE">Hebras</option>
@@ -71,7 +69,7 @@
                             <div class="form-group row d-flex">
                                 <label class="col-12 col-sm-4 col-md-4 control-label col-form-label">Linea</label>
                                 <div class="col-12 col-sm-7 col-md-7">
-                                    <select class="custom-select" formControlName="linea">
+                                    <select class="custom-select" (change)="cambiarlinea()"  formControlName="linea">
                                         <option value="MI">Material Importación</option>
                                         <option value="MN">Material Nacional</option>
                                     </select>
@@ -81,12 +79,12 @@
                         </div>
                         <div class="m-0 col-12 col-sm-12 col-md-12 col-lg-6 col-xl-3">
                             <div class="form-group row d-flex">
-                                <label class="col-12 col-sm-4 col-md-4 control-label col-form-label">Familia MP</label>
+                                <label class="col-12 col-sm-4 col-md-4 control-label col-form-label">Tipo</label>
                                 <div class="col-12 col-sm-7 col-md-7">
-                                    <select  class="custom-select"  formControlName="familiaMP">
-                                        <option *ngFor="let subfa of ListarArraySubFamilia" [value]="subfa.codigo">
-                                          {{subfa.valor1}}
-                                        </option>
+                                    <select class="custom-select"  (change)="CargarFamiliaMP()" formControlName="tipo">
+                                        <option value="AB">Absorbibles</option>
+                                        <option value="NAB">No Absorbibles</option>
+                                        <option value="O">Otros</option>
                                     </select>
                                 </div>
                                 <!--   -->
@@ -95,13 +93,12 @@
                         
                         <div class="m-0 col-12 col-sm-12 col-md-12 col-lg-6 col-xl-3">
                             <div class="form-group row d-flex">
-                                <label class="col-12 col-sm-4 col-md-4 control-label col-form-label">Filtros</label>
+                                <label class="col-12 col-sm-4 col-md-4 control-label col-form-label">Familia MP</label>
                                 <div class="col-12 col-sm-7 col-md-7">
-                                    <select class="custom-select" [disabled]="DisabledCampo" formControlName="FiltrarAlerta"
-                                        (change)="CambiodeFiltroAlerta($event)" >
-                                        <option value="TD">Todos</option>
-                                        <option value="FAL">Productos con alerta</option>
-                                        <option value="FSA">Productos sin alerta</option>
+                                    <select  class="custom-select"  formControlName="familiaMP">
+                                        <option *ngFor="let subfa of ListarArraySubFamilia"   [value]="subfa.codigo">
+                                          {{subfa.valor1}}
+                                        </option>
                                     </select>
                                 </div>
                             </div>
@@ -121,16 +118,27 @@
     <div class="col-12">
         <div class="card border-left border-dark">
             <div class="card-body">
-                <div class="row mb-2">
+                <div class="row mb-2 justify-content-between">
                     <div class="col-4">
                         <input type="text" style="float: right" placeholder="Buscar Item O Descripcion"
                             class="form-control rounded-pill" [formControl]='textFilterCtrl'>
                     </div>
                     <div class="col-2 col-md-4">
-                    </div>
-                    <!--  -->
-                </div>
 
+                        <div class="form-group row d-flex">
+                            <label class="col-12 col-sm-4 col-md-4 control-label col-form-label">Filtros</label>
+                            <div class="col-12 col-sm-7 col-md-7">
+                                <select class="custom-select" [disabled]="DisabledCampo" [formControl]="FiltrarAlerta"
+                                    (change)="CambiodeFiltroAlerta($event)" >
+                                    <option value="TD">Todos</option>
+                                    <option value="FAL">Productos con alerta</option>
+                                    <option value="FSA">Productos sin alerta</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
                 <div class="row">
                     <div class="col-12" style="height: 75vh;">
                         <ngx-datatable class="material" [rows]="ListaCompraMaterial" [columnMode]="'force'"
@@ -141,7 +149,7 @@
                             <!-- Item -->
                             <ngx-datatable-column name="Item" prop="item" [width]="120">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
-                                    {{row.item}}
+                                    <span style="font-size: 11px !important"> {{row.item}} </span>
                                 </ng-template>
                             </ngx-datatable-column>
     
@@ -149,8 +157,8 @@
                             <!-- Descripcion -->
                             <ngx-datatable-column name="Descripcion" prop="descripcion" text-align="center"
                                 [width]="220">
-                                <ng-template  style="font-size: 5px !important" let-row="row" ngx-datatable-cell-template>
-                                    {{row.descripcion}}
+                                <ng-template   let-row="row" ngx-datatable-cell-template>
+                                    <span style="font-size: 11px !important">{{row.descripcion}}</span>
                                 </ng-template>
                             </ngx-datatable-column>
 
@@ -158,7 +166,7 @@
                             <!-- Promedio anual -->
                             <ngx-datatable-column name="P.12Meses" prop="promedioanual" [width]="100">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
-                                    {{row.promedioanual | number }}
+                                    <span style="font-size: 11px !important">{{row.promedioanual | number }}</span>
                                 </ng-template>
                              </ngx-datatable-column>
 
@@ -166,14 +174,14 @@
                             <!-- MesesDuracion  -->
                             <ngx-datatable-column name="MesesDuracion" prop="duracion" [width]="80">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
-                                    {{row.duracion | number:'1.1-1' }}
+                                    <span style="font-size: 11px !important"> {{row.duracion | number:'1.1-1' }}</span>
                                 </ng-template>
                             </ngx-datatable-column>
                              
                             <!-- Promedio Alerta -->
                             <ngx-datatable-column name="Alerta" isFixedRow="true" prop="alerta" [width]="80">
                                 <ng-template let-row="row" text-align="center" ngx-datatable-cell-template>
-                                    {{row.alerta | number}}
+                                    <span style="font-size: 11px !important">{{row.alerta | number}}</span>
                                 </ng-template>
                             </ngx-datatable-column>
 
@@ -182,7 +190,7 @@
                             <!-- Promedio Stock Disponible -->
                             <ngx-datatable-column name="Disponible" prop="stockDisponible" [width]="100">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
-                                    {{row.stockDisponible | number }}
+                                    <span style="font-size: 11px !important">{{row.stockDisponible | number }}</span>
                                 </ng-template>
                             </ngx-datatable-column>
 
@@ -204,7 +212,7 @@
                             <!-- Promedio Adunas -->
                             <ngx-datatable-column name="Aduanas" prop="aduanas" [width]="100">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
-                                    {{row.aduanas | number }}
+                                    <span style="font-size: 11px !important">{{row.aduanas | number }} </span>
                                 </ng-template>
                             </ngx-datatable-column>
 
@@ -227,29 +235,29 @@
                             <ngx-datatable-column  name="Familia" prop="familiaMP" 
                                 [width]="220">
                                 <ng-template let-row="row" text-align="center"  ngx-datatable-cell-template>
-                                    {{row.familiaMP}}
+                                    <span style="font-size: 11px !important"> {{row.familiaMP}} </span>
                                 </ng-template>
                             </ngx-datatable-column>
 
 
                             <!-- Kraljic -->
-                            <ngx-datatable-column name="Kraljic" prop="kraljic" [width]="150">
+                            <ngx-datatable-column name="Kraljic" prop="kraljic"  [width]="150">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
-                                    {{row.kraljic}}
+                                    <span style="font-size: 11px !important">  {{row.kraljic}} </span>
                                 </ng-template>
                             </ngx-datatable-column>
 
                               <!-- MesesDuracion  -->
                               <ngx-datatable-column name="Meses" prop="meses" [width]="80">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
-                                    {{row.meses | number:'1.1-2' }}
+                                    <span style="font-size: 11px !important">  {{row.meses | number:'1.1-2' }} </span>
                                 </ng-template>
                             </ngx-datatable-column>
 
                             <!-- coeficiente Variacion -->
                             <ngx-datatable-column name="Variacion" prop="coeficienteVariacion" [width]="100">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
-                                    {{row.coeficienteVariacion}}
+                                    <span style="font-size: 11px !important">   {{row.coeficienteVariacion}} </span>
                                 </ng-template>
                             </ngx-datatable-column>
 
@@ -257,7 +265,7 @@
                             <!-- Promedio Historico -->
                             <ngx-datatable-column name="Historico" prop="promedioHist" [width]="100">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
-                                    {{row.promedioHist | number }}
+                                    <span style="font-size: 11px !important"> {{row.promedioHist | number }} </span>
                                 </ng-template>
                             </ngx-datatable-column>
 
@@ -266,21 +274,21 @@
                             <!-- Pronostico -->
                             <ngx-datatable-column name="Pronostico" prop="pronostico" [width]="100">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
-                                    {{row.pronostico | number }}
+                                    <span style="font-size: 11px !important"> {{row.pronostico | number }} </span>
                                 </ng-template>
                             </ngx-datatable-column>
 
                             <!--  limiteSuperior -->
                             <ngx-datatable-column name="L.Superior" prop="limiteSuperior" [width]="100">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
-                                    {{row.limiteSuperior | number }}
+                                    <span style="font-size: 11px !important"> {{row.limiteSuperior | number }} </span> 
                                 </ng-template>
                             </ngx-datatable-column>
 
                             <!-- Promedio Punto de Control -->
                             <ngx-datatable-column name="P.Control" prop="puntoControl" [width]="100">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
-                                    {{row.puntoControl | number }}
+                                    <span style="font-size: 11px !important"> {{row.puntoControl | number }} </span> 
                                 </ng-template>
                             </ngx-datatable-column>
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Paginado } from '@data/interface/Comodin/Paginado.interface';
 import { ComprasMateriaPrimaArima } from '@data/interface/Response/CompraMateriaPrimaArima';
@@ -8,7 +8,9 @@ import { SubFamilia } from '@data/interface/Response/SubFamilia.Interface';
 import { ProduccionService } from '@data/services/backEnd/pages/produccion.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { GenericoService } from '@shared/services/comunes/generico.service';
-import { debounceTime } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
+import { debounceTime, pairwise, startWith } from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-compra-mprima',
@@ -26,9 +28,12 @@ export class CompraMateriaPrimaComponent implements OnInit {
   pagina: number = 0
 
 
+
   private _periodoActual = new Date().toISOString().substring(0, 7)
   periodoCtrl = new FormControl(this._periodoActual);
+  FiltrarAlerta = new FormControl('TD');
   textFilterCtrl = new FormControl('');
+  subcripcion : Subscription
   isSubmitted = false;
 
   messagerNgxTable = {
@@ -48,21 +53,21 @@ export class CompraMateriaPrimaComponent implements OnInit {
   };
 
 
-  constructor(private _modalService: NgbModal, private _fb: FormBuilder, private _produccionService: ProduccionService, private _commonService: GenericoService ) {
+  constructor(private _modalService: NgbModal, private _fb: FormBuilder, 
+              private _produccionService: ProduccionService, private _commonService: GenericoService) {
+  
     this.inicializarFormulario();
+    
     this.instanciarObservadoresFilter();
-    this.listarFamiliaMateriaPrima();
+    this.CargarFamiliaMP();
   }
 
 
 
   ngOnInit(): void {
     this.BuscarProducto();
-
+    this.cambiarlinea();
   }
-
-
-
 
   inicializarFormulario() {
     //new Date().toLocaleString("es-Cl").substring(3,10);  '03-2022'\
@@ -74,18 +79,10 @@ export class CompraMateriaPrimaComponent implements OnInit {
       familia: ["TD", Validators.required],
       familiaMP:["TD",Validators.required],
       linea: ["MI"],
-      FiltrarAlerta: [{ value: "TD", disabled: true }]
+      tipo:['AB']
+      // FiltrarAlerta: [{ value: "TD", disabled: true }]
     })
 
-    this.filtrosForm.reset({
-      periodo: this.CambioFormato(new Date().toLocaleString("es-Cl").substring(3,10)),
-      regla: 'TD',
-      agrupador: 'TD',
-      familia: 'TD',
-      familiaMP:"TD",
-      linea: 'MI',
-      FiltrarAlerta: "TD"
-    })
   }
 
   CambioFormato(fecha){
@@ -104,6 +101,9 @@ export class CompraMateriaPrimaComponent implements OnInit {
 
     this.flagLoading = false
   }
+
+
+
 
   getObtenerLimit() {
     return this.filtrosForm.get('registroPorPagina').value * 1
@@ -142,12 +142,16 @@ export class CompraMateriaPrimaComponent implements OnInit {
         this.ListaTemporalCompraMaterial = resp;
 
         if(parametros.Periodo==this._periodoActual.replace("-","")){
-          this.filtrosForm.controls['FiltrarAlerta'].setValue('TD');
-          this.filtrosForm.controls['FiltrarAlerta'].enable();
+          // this.filtrosForm.controls['FiltrarAlerta'].setValue('TD');
+          // this.filtrosForm.controls['FiltrarAlerta'].enable();
+          this.FiltrarAlerta.setValue('TD');
+          this.FiltrarAlerta.enable;
 
         }else{
 
-          this.filtrosForm.controls['FiltrarAlerta'].setValue('TD');
+          // this.filtrosForm.controls['FiltrarAlerta'].setValue('TD');
+          this.FiltrarAlerta.setValue('TD');
+
         }
 
         this.textFilterCtrl.patchValue("");
@@ -160,18 +164,7 @@ export class CompraMateriaPrimaComponent implements OnInit {
     )
   }
 
-  listarFamiliaMateriaPrima(){
-    this._commonService.ListarFamiliaMateriaP().subscribe(
-        resp=>{
-            this.ListarArraySubFamilia=resp
-            this.ListarArraySubFamilia.push({codigo:"TD",valor1:"Todos"});
-
-        },
-        catchError => {
-          this.messagerNgxTable.emptyMessage = "Ocurrio un error al obtener lista de producto"
-        }
-    );
-  }
+ 
 
 
 
@@ -181,12 +174,15 @@ export class CompraMateriaPrimaComponent implements OnInit {
     this.filtrosForm.get("periodo").valueChanges.subscribe( valor => {
 
       if(valor==this._periodoActual){
-        this.filtrosForm.controls['FiltrarAlerta'].setValue('TD');
-        this.filtrosForm.controls['FiltrarAlerta'].enable();
-
+        // this.filtrosForm.controls['FiltrarAlerta'].setValue('TD');
+        // this.filtrosForm.controls['FiltrarAlerta'].enable();
+          this.FiltrarAlerta.setValue('TD');
+          this.FiltrarAlerta.enable();
       }else{
-        this.filtrosForm.controls['FiltrarAlerta'].setValue('TD');
-        this.filtrosForm.controls['FiltrarAlerta'].disable();
+        // this.filtrosForm.controls['FiltrarAlerta'].setValue('TD');
+        // this.filtrosForm.controls['FiltrarAlerta'].disable();
+        this.FiltrarAlerta.setValue('TD');
+        this.FiltrarAlerta.disable();
       }
     })
 
@@ -227,7 +223,7 @@ export class CompraMateriaPrimaComponent implements OnInit {
   abrirModalCalidad(modal:NgbModal,detalle){
       this.DetalleCalidad=[];
       this.DetalleCalidad=detalle;
-      console.log(this.DetalleCalidad);
+
       this._modalService.open(modal, {
         centered: true,
         backdrop: 'static',
@@ -239,7 +235,40 @@ export class CompraMateriaPrimaComponent implements OnInit {
   get f() {
     return this.filtrosForm.controls;
   }
+  
+  CargarFamiliaMP(){
+    this.cambioTipo(this.filtrosForm.controls.tipo.value)
+    this._commonService.ListarFamiliaMateriaP(this.filtrosForm.controls.tipo.value).subscribe(
+     async resp=>{
+          this.ListarArraySubFamilia= await resp ;
+          this.filtrosForm.get("familiaMP").patchValue('TD');
+      },
+      catchError => {
+        this.messagerNgxTable.emptyMessage = "Ocurrio un error al obtener lista de producto"
+      }
+    );  
+  }
 
+  cambiarlinea(){
+    this.filtrosForm.get("linea").valueChanges.subscribe(
+        valor=>{
+            if(valor=='MN'){
+                this.filtrosForm.get("tipo").patchValue('O');
+            }else{
+                this.filtrosForm.get("tipo").patchValue('AB');
+            }            
+        }
+    )
+    this.CargarFamiliaMP();
+  }
 
+  cambioTipo(valortipo){
+        if(valortipo=='AB' || valortipo=='NAB'){
+          this.filtrosForm.get("linea").patchValue('MI');
+        }else{
+          this.filtrosForm.get("linea").patchValue('MN');
+        }
+  }
 
+  
 }
