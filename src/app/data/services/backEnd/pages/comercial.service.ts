@@ -54,4 +54,25 @@ export class ComercialService {
       .pipe(catchError(() => throwError("Error al registrar el reporte")));
   }
 
+
+  ListarGuiaPorFacturar(body){
+    return this._http
+    .post(this.url + "ListarGuiaporFacturar", body)
+    .pipe(catchError(() => throwError("Error al registrar el reporte")));
+  }
+
+  ListarGuiaporFacturarExportar(body){
+    return this._http
+    .post(this.url + "ListarGuiaporFacturarExportar", body)
+    .pipe(catchError(() => throwError("Error al registrar el reporte")));
+  }
+
+
+  
+  RegistrarGuiaPorFacturar(body){
+    return this._http
+    .post(this.url + "RegistrarGuiaporFacturar", body)
+    .pipe(catchError(() => throwError("Error al registrar el reporte")));
+  }
+
 }

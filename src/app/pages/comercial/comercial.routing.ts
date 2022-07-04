@@ -3,6 +3,7 @@ import { AuthGuard } from "@guard/auth.guard";
 import { CotizacionComponent } from "./cotizacion/cotizacion.component";
 import { GeneracionFormatosComponent } from './cotizaciones/generacionformatos/generacionformatos.component';
 import { DocumentoLicitacionesComponent } from "./documento-licitaciones/documento-licitaciones.component";
+import { GuiasPorFacturarComponent } from "./guias-por-facturar/guias-por-facturar.component";
 import { ProtocoloAnalisisComponent } from './protocoloanalisis/protocoloanalisis.component';
 import { RotuladoPEDComponent } from "./rotulado-ped/rotulado-ped.component";
 
@@ -88,5 +89,21 @@ export const ComercialRoutes: Routes = [
       },
     ]
   },
+  {
+    path: '',
+    canActivateChild: [AuthGuard],
+    children : [
+      {
+        path: 'guiaporfacturar',
+        component: GuiasPorFacturarComponent,
+        data: {
+          title: "Guia por Facturar",
+          urls: [
+            {title: 'Guia por Facturar' }
+          ]
+        }
+      },
+    ]
+  }
 
 ]
