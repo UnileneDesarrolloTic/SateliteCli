@@ -39,7 +39,7 @@ export class GuiasPorFacturarComponent implements OnInit {
 
 
   onSelect({ selected }) {
-    console.log('Select Event', selected);
+   
 
 }
 
@@ -105,7 +105,7 @@ export class GuiasPorFacturarComponent implements OnInit {
 
 
   CheckSeleccion(itemrow:DatosGuiaPorFacturarModel) {
-      console.log(itemrow);
+      
       this.ListarGuiasPorFacturar.forEach((a:DatosGuiaPorFacturarModel)=>{
             if(a.serieNumero==itemrow.serieNumero  && a.guiaNumero==itemrow.guiaNumero){
                 a.comentariosEntrega= !itemrow.comentariosEntrega
@@ -120,13 +120,13 @@ export class GuiasPorFacturarComponent implements OnInit {
 
       this._comercialService.RegistrarGuiaPorFacturar(ItemGuia).subscribe(
           (resp:any)=>{
-              console.log(resp)
+              
           }
       );
   }
 
   Exportar(){
-    console.log("wqew")
+    
     const ModalCarga = this.modalService.open(ModalCargarComponent, {
       centered: true,
       backdrop: 'static',
