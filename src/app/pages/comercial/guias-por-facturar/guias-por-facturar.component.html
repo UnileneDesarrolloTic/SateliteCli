@@ -26,15 +26,16 @@
 
                         <div class="col-md-2">
                             <label for="fechainicio" class="text-right control-label col-form-label">Inicio</label>
+                            <button class="btn btn-success btn-sm side-badge badge badge-success ml-4" type="button" (click)="ActivaDesactivaFechas()"  >Activar </button>
                             <div class="form-group">
-                                <input type="date" formControlName="FechaInicio" class="form-control"
+                                <input type="date"  [readonly]="activarFecha" formControlName="FechaInicio" class="form-control"
                                     placeholder="Fecha Inicio">
                             </div>
                         </div>                      
                         <div class="col-md-2">
                             <label for="fechafinal" class="text-right control-label col-form-label">Final</label>
                             <div class="form-group">
-                                <input type="date" formControlName="FechaFin" class="form-control"
+                                <input type="date"  [readonly]="activarFecha" formControlName="FechaFin" class="form-control"
                                     placeholder="Fecha Fin">
                             </div>
                         </div>
@@ -43,8 +44,8 @@
                             <label for="fechainicio" class="text-right control-label col-form-label">Tipo</label>
                             <div class="form-group">
                                 <select class="custom-select" formControlName="Tipo">
-                                    <option value="GF">P. por facturar</option>
-                                    <option value="F">Facturada</option>
+                                    <option value="GF">G. por facturar</option>
+                                    <option value="FA">Facturada</option>
                                 </select>
                             </div>
                         </div>

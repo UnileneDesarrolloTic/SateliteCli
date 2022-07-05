@@ -27,6 +27,7 @@ export class GuiasPorFacturarComponent implements OnInit {
   botonestado:boolean=true;
   textFilterCtrl = new FormControl('');
   selected :any=[];
+  activarFecha:boolean=true;
 
 
   constructor(private _comercialService:ComercialService,
@@ -47,17 +48,45 @@ export class GuiasPorFacturarComponent implements OnInit {
      'row-color': row.comentariosEntrega
    };
   }
-
+  // formatDate(new Date(Date.now()), 'yyyy-MM-dd', 'en')
   crearFormulario(){
     this.form = new FormGroup({
       destinatario: new FormControl('',Validators.required),
       cliente: new FormControl('',Validators.required),
       Territorio: new  FormControl('N',Validators.required),
-      FechaInicio: new FormControl(formatDate(new Date(Date.now()), 'yyyy-MM-dd', 'en'),Validators.required),
-      FechaFin: new FormControl(formatDate(new Date(Date.now()), 'yyyy-MM-dd', 'en'),Validators.required),
+      FechaInicio: new FormControl('',),
+      FechaFin: new FormControl('',),
       Tipo: new FormControl('GF',Validators.required)
     })
   }
+
+  
+  ActivaDesactivaFechas(){
+    
+    this.activarFecha=!this.activarFecha;
+    console.log(this.activarFecha);
+    if(this.activarFecha){
+      this.form.get("FechaInicio").patchValue('');
+      this.form.get("FechaFin").patchValue('');
+
+      this.form.controls.FechaInicio.setValidators(null);
+      this.form.controls.FechaFin.setValidators(null);
+      this.form.controls.FechaInicio.updateValueAndValidity();
+      this.form.controls.FechaFin.updateValueAndValidity();
+    }else{
+      this.form.get("FechaInicio").patchValue(formatDate(new Date(Date.now()), 'yyyy-MM-dd', 'en'));
+      this.form.get("FechaFin").patchValue(formatDate(new Date(Date.now()), 'yyyy-MM-dd', 'en'));
+  
+      this.form.controls.FechaInicio.updateValueAndValidity();
+      this.form.controls.FechaInicio.setValidators(Validators.required);
+      this.form.controls.FechaFin.updateValueAndValidity();
+      this.form.controls.FechaFin.setValidators(Validators.required);
+    }
+
+
+  
+  }
+
 
   instanciarObservadoresFilter(){
     this.textFilterCtrl.valueChanges.pipe( debounceTime(900) ).subscribe( _ => {
@@ -84,7 +113,9 @@ export class GuiasPorFacturarComponent implements OnInit {
     this._comercialService.ListarClientes(body).subscribe((resp) => {
       resp["success"]==true ? this.listarcliente=resp["content"] : this.listarcliente=[];
     });
-  }
+  } 
+
+
 
   openModalConsultaClientes(){
     const modalBusquedaCliente = this.modalService.open(ModalClienteComponent, {
