@@ -67,7 +67,7 @@ export class GuiasPorFacturarComponent implements OnInit {
         const texto = this.textFilterCtrl.value.toLowerCase();
 
         this.TempListarGuiasPorFacturar=this.ListarGuiasPorFacturar;
-        console.log("vacio")
+        
       }
 
       if(this.textFilterCtrl.value != '')
