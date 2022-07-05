@@ -8,6 +8,7 @@ import { ModalCargarComponent } from '@shared/components/modal-cargar/modal-carg
 import { ModalClienteComponent } from '@shared/components/modal-cliente/modal-cliente.component';
 import { Cargarbase64Service } from '@shared/services/comunes/cargarbase64.service';
 import { ToastrService } from 'ngx-toastr';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-guias-por-facturar',
@@ -19,17 +20,21 @@ export class GuiasPorFacturarComponent implements OnInit {
   listarcliente:object[]=[];
   flagLoading: boolean =  false;
   ListarGuiasPorFacturar: DatosGuiaPorFacturarModel[]=[];
+  TempListarGuiasPorFacturar:DatosGuiaPorFacturarModel[]=[];
   SeleccionArrayListar:object[]=[];
   form:FormGroup;
   MaestroSeleccion: boolean;
   botonestado:boolean=true;
+  textFilterCtrl = new FormControl('');
   selected :any=[];
 
 
   constructor(private _comercialService:ComercialService,
     private toastr: ToastrService,
     private modalService: NgbModal,
-    private _Cargarbase64Service:Cargarbase64Service) { }
+    private _Cargarbase64Service:Cargarbase64Service) {
+      this.instanciarObservadoresFilter();
+     }
 
   ngOnInit(): void {
     this.ListarCliente();
@@ -37,14 +42,11 @@ export class GuiasPorFacturarComponent implements OnInit {
   }
   
 
-
-  onSelect({ selected }) {
-   
-
-}
-
-
-
+  getRowClass = (row) => {
+   return {
+     'row-color': row.comentariosEntrega
+   };
+  }
 
   crearFormulario(){
     this.form = new FormGroup({
@@ -57,6 +59,25 @@ export class GuiasPorFacturarComponent implements OnInit {
     })
   }
 
+  instanciarObservadoresFilter(){
+    this.textFilterCtrl.valueChanges.pipe( debounceTime(900) ).subscribe( _ => {
+      // console.log(this._Cargarbase64Service.zfill(this.textFilterCtrl.value,10));
+      if(this.textFilterCtrl.value.trim() == '')
+      {
+        const texto = this.textFilterCtrl.value.toLowerCase();
+
+        this.TempListarGuiasPorFacturar=this.ListarGuiasPorFacturar;
+        console.log("vacio")
+      }
+
+      if(this.textFilterCtrl.value != '')
+      {
+        const texto = this.textFilterCtrl.value.toLowerCase();
+
+        this.TempListarGuiasPorFacturar = this.ListarGuiasPorFacturar.filter( x => x.guiaNumero?.toLowerCase().indexOf(texto) !== -1);
+      }
+    })
+  }
 
   ListarCliente(){
     const body = {};
@@ -98,6 +119,7 @@ export class GuiasPorFacturarComponent implements OnInit {
       this._comercialService.ListarGuiaPorFacturar(dato).subscribe(
           (resp:any)=>{
              this.ListarGuiasPorFacturar=resp;
+             this.TempListarGuiasPorFacturar=resp;
           }
       )
   }
