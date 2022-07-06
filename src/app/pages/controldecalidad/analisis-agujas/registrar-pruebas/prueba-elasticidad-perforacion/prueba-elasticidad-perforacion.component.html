@@ -7,7 +7,7 @@
         </div>
         <div class="card-body" formArrayName="pruebasAguja">
           <br>
-          <h6 style="font-weight: bold;" class="text-info">% DE INCREMENTO DE LA LONGITUD DE LA AGUJA:</h6>
+          <h6 style="font-weight: bold;" class="text-info">% DE DEFORMACIÓN EN RETORNO DE LA AGUJA:</h6>
           <div class="row">
             <div class="table-responsive">
               <table class="table table-bordered table-sm">
@@ -51,6 +51,7 @@
                         <option value="">Seleccione..</option>
                         <option value="A">ACEPTADO</option>
                         <option value="R">RECHAZADO</option>
+                        <option value="N">NO APLICA</option>
                       </select>
                     </td>
                   </tr>
@@ -99,8 +100,15 @@
                       {{pruebaPerforacion.controls['promedio'].value}} %
                     </td>
                     <td class="text-center">
-                      <span *ngIf="pruebaPerforacion.get('estado').value == 'A'"> <i class="fas fa-check text-success"></i> Aprobado</span>
-                      <span *ngIf="pruebaPerforacion.get('estado').value == 'R'"> <i class="fas fa-times text-danger"></i> Rechazado</span>
+                      <select class="form-control form-control-sm" id="status" formControlName="estado">
+                        <option value="">Seleccione..</option>
+                        <option value="A">ACEPTADO</option>
+                        <option value="R">RECHAZADO</option>
+                        <option value="N">NO APLICA</option>
+                      </select>
+
+                      <!-- <span *ngIf="pruebaPerforacion.get('estado').value == 'A'"> <i class="fas fa-check text-success"></i> Aprobado</span>
+                      <span *ngIf="pruebaPerforacion.get('estado').value == 'R'"> <i class="fas fa-times text-danger"></i> Rechazado</span> -->
                     </td>
                   </tr>
                 </tbody>
