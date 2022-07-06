@@ -179,17 +179,26 @@ export class GuiasPorFacturarComponent implements OnInit {
   }
 
   Exportar(){
-    
+
+    const dato={
+      FechaFin: this.form.controls.FechaFin.value,
+      FechaInicio: this.form.controls.FechaInicio.value,
+      Territorio: this.form.controls.Territorio.value,
+      destinatario: parseInt(this.form.controls.destinatario.value),
+      Tipo:this.form.controls.Tipo.value,
+    }
+
     const ModalCarga = this.modalService.open(ModalCargarComponent, {
       centered: true,
       backdrop: 'static',
       size: 'sm',
       scrollable: true
     });
+    
     ModalCarga.componentInstance.fromParent = "Generando el Formato Excel";
-    this._comercialService.ListarGuiaporFacturarExportar(this.ListarGuiasPorFacturar).subscribe(
+    this._comercialService.ListarGuiaporFacturarExportar(dato).subscribe(
       (resp:any)=>{
-        
+
           this._Cargarbase64Service.file(resp,'ExportarListar','xlsx',ModalCarga);
       }
     )

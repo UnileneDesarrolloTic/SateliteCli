@@ -16,6 +16,7 @@ export interface DatosGuiaPorFacturarModel {
     reprogramacionPuntoPartida: string,
     estadoLogistica: string,
     licitacionNumeroProceso: string,
-    comentariosEntrega:boolean; // ENTREGA
+    comentariosEntrega:boolean; 
+    usuComercial:string;// ENTREGA
   }
   

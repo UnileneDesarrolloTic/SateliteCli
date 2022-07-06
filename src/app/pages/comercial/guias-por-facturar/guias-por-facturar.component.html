@@ -43,7 +43,7 @@
                         <div class="col-md-2">
                             <label for="fechainicio" class="text-right control-label col-form-label">Tipo</label>
                             <div class="form-group">
-                                <select class="custom-select" formControlName="Tipo">
+                                <select class="custom-select" (change)="Filtrar()" formControlName="Tipo">
                                     <option value="GF">G. por facturar</option>
                                     <option value="FA">Facturada</option>
                                 </select>
@@ -53,7 +53,7 @@
                         <div class="col-md-2">
                             <label for="fechainicio" class="text-right control-label col-form-label">Territorio</label>
                             <div class="form-group">
-                                <select class="custom-select" formControlName="Territorio">
+                                <select class="custom-select" (change)="Filtrar()" formControlName="Territorio">
                                     <option value="N">Nacional</option>
                                     <option value="E">Exportacion</option>
                                 </select>
