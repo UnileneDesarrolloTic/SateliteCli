@@ -48,7 +48,6 @@ export class GuiasPorFacturarComponent implements OnInit {
      'row-color': row.comentariosEntrega
    };
   }
-  // formatDate(new Date(Date.now()), 'yyyy-MM-dd', 'en')
   crearFormulario(){
     this.form = new FormGroup({
       destinatario: new FormControl('',Validators.required),
