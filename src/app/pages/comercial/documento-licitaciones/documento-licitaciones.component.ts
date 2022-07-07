@@ -54,14 +54,14 @@ export class DocumentoLicitacionesComponent implements OnInit {
 
   crearFormulario(){ 
     this.form = this._fb.group({
-      idcliente:[ ,Validators.required],
-      cliente: [ ,Validators.required],
+      idcliente:[2317,Validators.required],
+      cliente: [ 2317,Validators.required],
       fechainicio: [, Validators.required],
       fechafinal: [, Validators.required],
     })
     this.form.reset({
-      idcliente:'',
-      cliente: '',
+      idcliente:'2317',
+      cliente: '2317',
       fechainicio : formatDate(new Date(Date.now()), 'yyyy-MM-dd', 'en') ,
       fechafinal: formatDate(new Date(Date.now()), 'yyyy-MM-dd', 'en') 
     })
@@ -117,10 +117,12 @@ export class DocumentoLicitacionesComponent implements OnInit {
                     isSelected:false}
                 ));
                 this.TemporalListarLicitaciones= this.listarLicitaciones;
+                this.SeleccionArrayListar=[];
               }else{
                 this.toastr.info("No se ha encontrado informacion");
                 this.listarLicitaciones=[];
                 this.TemporalListarLicitaciones=[];
+                this.SeleccionArrayListar=[];
               }
               this.buscarnumeroguia="";
               this.MaestroSeleccion=false;
@@ -139,25 +141,57 @@ export class DocumentoLicitacionesComponent implements OnInit {
     for (var i = 0; i < this.listarLicitaciones.length; i++) {
         this.listarLicitaciones[i].isSelected=this.MaestroSeleccion;
     }
-    this.SeleccionItem();
+    this.SeleccionaTodo();
   }
 
   CheckSeleccion() {
     this.MaestroSeleccion = this.listarLicitaciones.every(function (item: any) {
+        
       return item.isSelected == true;
     })
-    this.SeleccionItem();
+    
+    console.log(this.MaestroSeleccion)
+
+
+    this.SeleccionaTodo();
   }
 
-  SeleccionItem() {
+  SeleccionaTodo() {
     this.SeleccionArrayListar=[];
     for (var i = 0; i < this.listarLicitaciones.length; i++) {
-      if (this.listarLicitaciones[i].isSelected)
+     
+      if (this.listarLicitaciones[i].isSelected){
+        console.log(this.listarLicitaciones[i])
         this.SeleccionArrayListar.push({ GuiasNumero :`${this.listarLicitaciones[i].serieNumero}-${this.listarLicitaciones[i].guiaNumero}`});
+      }
+        
      }
      this.SeleccionArrayListar.length > 0 ? this.botonestado=false : this.botonestado=true;
          
+     console.log(this.SeleccionArrayListar);
   }
+
+
+  SeleccionaItem(rowItem:DatosFormatoListarLicitaciones){
+    this.SeleccionArrayListar=[];
+
+    for (var i = 0; i < this.TemporalListarLicitaciones.length; i++) {
+        if(this.TemporalListarLicitaciones[i].guiaNumero==rowItem.guiaNumero && this.TemporalListarLicitaciones[i].serieNumero==rowItem.serieNumero){
+          this.TemporalListarLicitaciones[i].isSelected=rowItem.isSelected;
+        }
+    }
+
+    for (var i = 0; i < this.TemporalListarLicitaciones.length; i++) {
+      if (this.TemporalListarLicitaciones[i].isSelected){
+        this.SeleccionArrayListar.push({ GuiasNumero :`${this.TemporalListarLicitaciones[i].serieNumero}-${this.TemporalListarLicitaciones[i].guiaNumero}`});
+      }
+    }
+
+    this.SeleccionArrayListar.length > 0 ? this.botonestado=false : this.botonestado=true;
+
+    
+  }
+
 
   Imprimir(){
       const ModalCarga = this.modalService.open(ModalCargarComponent, {

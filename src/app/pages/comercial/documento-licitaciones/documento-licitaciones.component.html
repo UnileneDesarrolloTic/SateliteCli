@@ -84,7 +84,7 @@
                     <td class="text-center">{{licitacion.comentarios}}</td>
                     <td class="text-center">
                       <input type="checkbox" [(ngModel)]="licitacion.isSelected" name="list_name" 
-                            (change)="CheckSeleccion()" value="{{ licitacion.serieNumero }}-{{licitacion.guiaNumero}}" />
+                            (change)="SeleccionaItem(licitacion)" value="{{ licitacion.serieNumero }}-{{licitacion.guiaNumero}}" />
 
                     </td>
                   </tr>
