@@ -12,6 +12,7 @@ import { EstadosFinancierosComponent } from '@pages/dashboard/comercial/estados-
 import { RentabilidadEstrategicoComponent } from './comercial/rentabilidad-estrategico/rentabilidad-estrategico.component';
 import { DrogueriaComponent } from "./comercial/drogueria/drogueria.component";
 import { SeguimientoOperacionesComponent } from "./produccion/seguimiento-operaciones/seguimiento-operaciones.component";
+import { SegProcesosComponent } from "./comercial/seg-procesos/seg-procesos.component";
 
 export const DashboardRoutes: Routes = [
     {
@@ -39,6 +40,13 @@ export const DashboardRoutes: Routes = [
                   title: "Dashboard comercial exportación"
                 }
             },
+            {
+              path: 'procesos',
+              component: SegProcesosComponent ,
+              data: {
+                title: "Dashboard Seguimiento de procesos"
+              }
+           },
             {
                 path: 'ventasInretail',
                 component: InretailComponent ,
