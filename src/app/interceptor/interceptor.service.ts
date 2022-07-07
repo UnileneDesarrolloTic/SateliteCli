@@ -101,7 +101,9 @@ export class InterceptorService implements HttpInterceptor {
       'Licitaciones/ListarProceso',
       'Licitaciones/ListarProgramaMuestraLIP',
       'Licitaciones/RegistrarProgramacionMuestreo',
-      'Licitaciones/ListarGuiaInformacion'
+      'Licitaciones/ListarGuiaInformacion',
+      'Licitaciones/ListarContratoProceso',
+      'Licitaciones/RegistrarContratoProceso'
     ];
     const data = this.sesionService.datosPersonales();
 

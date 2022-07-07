@@ -13,6 +13,7 @@ import { SeguimientoOperacionesComponent } from './produccion/seguimiento-operac
 import { SegUnishopB2cComponent } from './comercial/seg-unishop-b2c/seg-unishop-b2c.component';
 import { SegOperacionesComercialComponent } from './comercial/seg-operaciones-comercial/seg-operaciones-comercial.component';
 import { EstadosFinancierosComponent } from './comercial/estados-financieros/estados-financieros.component';
+import { SegProcesosComponent } from './comercial/seg-procesos/seg-procesos.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { EstadosFinancierosComponent } from './comercial/estados-financieros/est
     SeguimientoOperacionesComponent,
     SegUnishopB2cComponent,
     SegOperacionesComercialComponent,
-    EstadosFinancierosComponent
+    EstadosFinancierosComponent,
+    SegProcesosComponent
   ],
   imports: [
     RouterModule.forChild(DashboardRoutes)

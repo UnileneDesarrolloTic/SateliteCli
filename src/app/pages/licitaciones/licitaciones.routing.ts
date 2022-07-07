@@ -7,6 +7,7 @@ import { NuevoProcesoComponent } from "./listar-proceso/nuevo-proceso/nuevo-proc
 import { ProgramacionProcesoComponent } from "./listar-proceso/programacion-proceso/programacion-proceso.component";
 import { ProcesoMuestraEnsayoComponent } from "./listar-proceso/proceso-muestra-ensayo/proceso-muestra-ensayo.component";
 import { GuiaInformeComponent } from "./listar-proceso/guia-informe/guia-informe.component";
+import { ContratoProcesoComponent } from "./listar-proceso/contrato-proceso/contrato-proceso.component";
 
 export const LicitacionesRoutes: Routes = [
   
@@ -45,6 +46,18 @@ export const LicitacionesRoutes: Routes = [
           urls: [
             { title: 'Proceso Muestra y Ensayo', url: '/Licitaciones/proceso/listar-proceso'},
             { title: 'Muestra y Ensayo' }
+          ]
+        },
+      },
+      {
+        path: 'contrato/:idproceso',
+        canDeactivate: [ConfirmExitGuard],
+        component: ContratoProcesoComponent,
+        data: {
+          title: "Contrato Proceso",
+          urls: [
+            { title: 'Contrato Proceso', url: '/Licitaciones/proceso/listar-proceso'},
+            { title: 'Contrato Proceso' }
           ]
         },
       },

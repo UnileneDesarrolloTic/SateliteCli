@@ -12,13 +12,17 @@ export class ListarProcesoComponent implements OnInit {
   @Input() idProceso:number;
 
   ListarProceso:DatosListarProceso[]=[];
+  nombreProceso:string;
   constructor(private _activatedRoute : ActivatedRoute,
               private _router: Router,
               private _licitacionesServices:LicitacionesService,
-              ) { }
+              ) { 
+               
+              }
 
   ngOnInit(): void {
     this.ListarProcesoTabla()
+    
   }
 
   NuevoProceso(){
@@ -29,10 +33,16 @@ export class ListarProcesoComponent implements OnInit {
     this._router.navigate(['Licitaciones','proceso','programacion-proceso']);
   }
 
-  AbrirModuloMuestrayEnsayo(idproceso: number){
-    
-    this._router.navigate(['Licitaciones', 'proceso', 'muestra-ensayo-proceso', idproceso]);
+  AbrirModuloMuestrayEnsayo(proceso: any){
+    this.nombreProceso=proceso.descripcionProceso;
+    this._router.navigate(['Licitaciones', 'proceso', 'muestra-ensayo-proceso', proceso.idProceso]);
   }
+
+  AbrirModuloContrato(idproceso: number){
+    
+    this._router.navigate(['Licitaciones', 'proceso', 'contrato', idproceso]);
+  }
+
 
   AbrirModuloGuias(idproceso:number){
     this._router.navigate(['Licitaciones', 'proceso', 'estado-guia', ':idproceso'],

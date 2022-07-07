@@ -6,6 +6,9 @@ export interface DatosListarProgramacionMuestraLIP {
     codItem:string,
     numeroMuestreo:string,
     numeroEnsayo:string,
-    idProceso:number
+    idProceso:number,
+    protocolo:string,
+    registroSanitario:string,
+    temperatura:string
     }
     

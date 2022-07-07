@@ -64,4 +64,17 @@ export class LicitacionesService {
     );
   }
 
+  ListarContratoProceso(proceso){
+    const params = new HttpParams().set('proceso',proceso);
+    return this._http.get<DetallePedido[]>(this.url+"/api/Licitaciones/ListarContratoProceso", {'params': params}).pipe(
+      catchError (() => throwError("Error al obtener Detalle de Pedido"))
+    );
+  }
+
+  RegistrarContratoProceso(body){
+    return this._http.post(this.url+"/api/Licitaciones/RegistrarContratoProceso", body).pipe(
+      catchError (() => throwError("Error al obtener Detalle de Pedido"))
+    );
+  }
+
 }

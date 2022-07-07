@@ -1,0 +1,51 @@
+<div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="container">
+            <div class="d-flex no-block justify-content-end p-1">
+              <button type="button" class="btn btn-primary" [disabled]="DeshabilitarBoton" (click)="Guardar()"> <i
+                  class="fa fa-save"></i> Guardar</button>
+              <button type="button" class="btn btn-secondary" (click)="Salir()"> <i
+                class=" fas fa-reply"></i> Regresar</button>
+            </div>
+            <div class="d-flex no-block align-items-center">
+              <div class="table-responsive" style="font-size: 11px; height:  20rem">
+                <table class="table table-striped">
+                  <thead class="bg-info text-white">
+                    <tr>
+                      <th class="text-center">Tipo Usuario</th>
+                      <th class="text-center">Numero Items</th>
+                      <th class="text-center">Descripcion</th>
+                      <th class="text-center">Numero Contrato</th>                
+                    </tr>
+  
+                  </thead>
+                  <tbody id="tbodyDetalle" class="border" style="font-size: 11px;">
+                    <tr *ngFor="let lessonForm of Programacioncontrato.controls; let i = index">
+                      <ng-container [formGroup]="lessonForm">
+                        <td class="text-center">
+                          <b>{{lessonForm.value.tipodeusuario}}</b>
+                        </td>
+                        <td class="text-center">
+                          <b>{{lessonForm.value.numeroitem}}</b>
+                        </td>
+                        <td class="text-center">
+                          <b>{{lessonForm.value.descripcionitem}}</b>
+                        </td>
+                        <td class="text-center">
+                          <div class="input-group input-group-sm" style='width:7rem'>
+                            <input type="text" class="form-control form-control-sm" formControlName="numeroContrato" />
+                          </div>
+                        </td>
+                      </ng-container>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

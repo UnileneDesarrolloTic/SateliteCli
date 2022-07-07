@@ -15,10 +15,11 @@ import { ProgramacionProcesoComponent } from './listar-proceso/programacion-proc
 import { ProcesoMuestraEnsayoComponent } from './listar-proceso/proceso-muestra-ensayo/proceso-muestra-ensayo.component';
 import { GuiaInformeComponent } from './listar-proceso/guia-informe/guia-informe.component';
 import { ModalEditaGuiainformeComponent } from './listar-proceso/modal-edita-guiainforme/modal-edita-guiainforme.component';
+import { ContratoProcesoComponent } from './listar-proceso/contrato-proceso/contrato-proceso.component';
 
 
 @NgModule({
-  declarations: [NuevoProcesoComponent, ListarProcesoComponent, DistribucionProcesoComponent, ProgramacionProcesoComponent, ProcesoMuestraEnsayoComponent, GuiaInformeComponent, ModalEditaGuiainformeComponent],
+  declarations: [NuevoProcesoComponent, ListarProcesoComponent, DistribucionProcesoComponent, ProgramacionProcesoComponent, ProcesoMuestraEnsayoComponent, GuiaInformeComponent, ModalEditaGuiainformeComponent, ContratoProcesoComponent],
   imports: [
     RouterModule.forChild(LicitacionesRoutes),
     CommonModule,
