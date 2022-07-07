@@ -54,14 +54,14 @@ export class DocumentoLicitacionesComponent implements OnInit {
 
   crearFormulario(){ 
     this.form = this._fb.group({
-      idcliente:[2317,Validators.required],
-      cliente: [ 2317,Validators.required],
+      idcliente:[,Validators.required],
+      cliente: [,Validators.required],
       fechainicio: [, Validators.required],
       fechafinal: [, Validators.required],
     })
     this.form.reset({
-      idcliente:'2317',
-      cliente: '2317',
+      idcliente:'',
+      cliente: '',
       fechainicio : formatDate(new Date(Date.now()), 'yyyy-MM-dd', 'en') ,
       fechafinal: formatDate(new Date(Date.now()), 'yyyy-MM-dd', 'en') 
     })
