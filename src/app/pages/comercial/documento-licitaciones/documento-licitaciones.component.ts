@@ -161,7 +161,6 @@ export class DocumentoLicitacionesComponent implements OnInit {
     for (var i = 0; i < this.listarLicitaciones.length; i++) {
      
       if (this.listarLicitaciones[i].isSelected){
-        console.log(this.listarLicitaciones[i])
         this.SeleccionArrayListar.push({ GuiasNumero :`${this.listarLicitaciones[i].serieNumero}-${this.listarLicitaciones[i].guiaNumero}`});
       }
         
