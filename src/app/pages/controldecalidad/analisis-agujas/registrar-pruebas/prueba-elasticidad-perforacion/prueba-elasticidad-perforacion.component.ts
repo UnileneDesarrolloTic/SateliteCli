@@ -43,7 +43,6 @@ export class PruebaElasticidadPerforacionComponent implements OnInit, OnExit, On
           cuatro: new FormControl('', [Validators.required, Validators.min(0)]),
           cinco: new FormControl('', [Validators.required, Validators.min(0)]),
           promedio: new FormControl(0, [Validators.required, Validators.min(0)]),
-          fuerzaPerforacion: new FormControl(null),
           estado: new FormControl('', [Validators.required, Validators.min(0)])
         }),
         new FormGroup({
@@ -55,7 +54,6 @@ export class PruebaElasticidadPerforacionComponent implements OnInit, OnExit, On
           cuatro: new FormControl('', [Validators.required, Validators.min(0)]),
           cinco: new FormControl('', [Validators.required, Validators.min(0)]),
           promedio: new FormControl(0, [Validators.required, Validators.min(0)]),
-          fuerzaPerforacion: new FormControl(0, [Validators.required, Validators.min(0)]),
           estado: new FormControl('', [Validators.required, Validators.min(0)])
         })
       ])
@@ -80,50 +78,111 @@ export class PruebaElasticidadPerforacionComponent implements OnInit, OnExit, On
     this.pruebaElasticidad.controls['tres'].valueChanges.pipe(debounceTime(200)).subscribe( () => this.cambioCantidadPruebaElasticidad())
     this.pruebaElasticidad.controls['cuatro'].valueChanges.pipe(debounceTime(200)).subscribe( () => this.cambioCantidadPruebaElasticidad())
     this.pruebaElasticidad.controls['cinco'].valueChanges.pipe(debounceTime(200)).subscribe( () => this.cambioCantidadPruebaElasticidad())
+    this.pruebaElasticidad.controls['estado'].valueChanges.pipe(debounceTime(200)).subscribe( (event) => this.cambioEstadoElasticidad(event))
 
     this.pruebaPerforacion.controls['uno'].valueChanges.pipe(debounceTime(200)).subscribe( () => this.cambioCantidadPruebaPerforacion())
     this.pruebaPerforacion.controls['dos'].valueChanges.pipe(debounceTime(200)).subscribe( () => this.cambioCantidadPruebaPerforacion())
     this.pruebaPerforacion.controls['tres'].valueChanges.pipe(debounceTime(200)).subscribe( () => this.cambioCantidadPruebaPerforacion())
     this.pruebaPerforacion.controls['cuatro'].valueChanges.pipe(debounceTime(200)).subscribe( () => this.cambioCantidadPruebaPerforacion())
     this.pruebaPerforacion.controls['cinco'].valueChanges.pipe(debounceTime(200)).subscribe( () => this.cambioCantidadPruebaPerforacion())
+    this.pruebaPerforacion.controls['estado'].valueChanges.pipe(debounceTime(200)).subscribe( (event) => this.cambioEstadoPerforacion(event))
+  }
+
+  cambioEstadoElasticidad(nuevoEstado: string)
+  {
+    if(nuevoEstado == 'N')
+    {
+      this.pruebaElasticidad.get('uno').disable()
+      this.pruebaElasticidad.get('dos').disable()
+      this.pruebaElasticidad.get('tres').disable()
+      this.pruebaElasticidad.get('cuatro').disable()
+      this.pruebaElasticidad.get('cinco').disable()
+
+      this.pruebaElasticidad.patchValue({
+        uno: 0,
+        dos: 0,
+        tres: 0,
+        cuatro: 0,
+        cinco: 0,
+      })
+    }
+    else{
+      this.pruebaElasticidad.get('uno').enable()
+      this.pruebaElasticidad.get('dos').enable()
+      this.pruebaElasticidad.get('tres').enable()
+      this.pruebaElasticidad.get('cuatro').enable()
+      this.pruebaElasticidad.get('cinco').enable()
+    }
+  }
+
+  cambioEstadoPerforacion(nuevoEstado: string)
+  {
+    this.pruebaPerforacion.get('uno').disable()
+    this.pruebaPerforacion.get('dos').disable()
+    this.pruebaPerforacion.get('tres').disable()
+    this.pruebaPerforacion.get('cuatro').disable()
+    this.pruebaPerforacion.get('cinco').disable()
+
+    if(nuevoEstado == 'N')
+    {
+        this.pruebaPerforacion.patchValue({
+          uno: 0,
+          dos: 0,
+          tres: 0,
+          cuatro: 0,
+          cinco: 0,
+        })
+    }
+    else
+    {
+      this.pruebaPerforacion.get('uno').enable()
+      this.pruebaPerforacion.get('dos').enable()
+      this.pruebaPerforacion.get('tres').enable()
+      this.pruebaPerforacion.get('cuatro').enable()
+      this.pruebaPerforacion.get('cinco').enable()
+    }
   }
 
   guardarPruebas(){
 
     if(this.botonGuardarDisabled)
     {
-      this._toastr.warning('Los datos del formulario se estan guardando.', 'Advertencia !!', {timeOut: 3000, closeButton: true, tapToDismiss: true})
+      this._toastr.warning('Los datos del formulario se estan guardando.', 'Advertencia !!', {timeOut: 3000, closeButton: true, tapToDismiss: true, progressBar: true})
       return
     }
 
     if(this.pruebasAguja.invalid)
     {
-      this._toastr.warning('Los datos del formulario no son válidos.', 'Advertencia !!', {timeOut: 3000, closeButton: true, tapToDismiss: true})
+      this._toastr.warning('Los datos del formulario no son válidos.', 'Advertencia !!', {timeOut: 3000, closeButton: true, tapToDismiss: true, progressBar: true})
       return
     }
 
     if(this.pruebasAguja.pristine)
     {
-      this._toastr.warning('No se ha realizado ningun cambio en el formulario', 'Advertencia !!', {timeOut: 3000, closeButton: true, tapToDismiss: true})
+      this._toastr.warning('No se ha realizado ningun cambio en el formulario', 'Advertencia !!', {timeOut: 3000, closeButton: true, tapToDismiss: true, progressBar: true})
       return
     }
 
     this.botonGuardarDisabled = true
 
-    const body = this.pruebasAguja.value
+    const body = this.pruebasAguja.getRawValue()
 
     this._analisisAgujaService.GuardarPruebaElasticidadPerforacion(body).subscribe(
       result => {
-        this._toastr.success(result['content'], 'Éxito !!', {timeOut: 3000, closeButton: true, tapToDismiss: true})
+        this._toastr.success(result['content'], 'Éxito !!', {timeOut: 3000, closeButton: true, tapToDismiss: true, progressBar: true})
         this.formulario.markAsPristine()
+        this.botonGuardarDisabled = false
       },
-      err => {},
-      () => this.botonGuardarDisabled = false
+      err => {
+        this.botonGuardarDisabled = false
+      },
     )
 
   }
 
-  obtenerPruebaElasticidadPerforacion (loteAnalisis: string){
+  obtenerPruebaElasticidadPerforacion (loteAnalisis: string)
+  {
+
     this._analisisAgujaService.ObtenerPruebaElasticidadPerforacion(loteAnalisis).subscribe( response => {
 
       if(response['success'] == true){
@@ -140,21 +199,7 @@ export class PruebaElasticidadPerforacionComponent implements OnInit, OnExit, On
         })
 
       }
-      else{
-        this.obtenerDatosGeneralesAnalisis(this.codigoAnalisis);
-      }
     })
-  }
-
-  obtenerDatosGeneralesAnalisis(loteAnalisis: string){
-
-    this._analisisAgujaService.ObtenerDatosGenerales(loteAnalisis).subscribe(
-      result => {
-        this.pruebaPerforacion.patchValue({
-          fuerzaPerforacion: result['fuerzaPerforacion']
-        })
-      }
-    )
   }
 
   cambioCantidadPruebaElasticidad(){
@@ -172,20 +217,17 @@ export class PruebaElasticidadPerforacionComponent implements OnInit, OnExit, On
 
   }
 
-  cambioCantidadPruebaPerforacion(){
+  cambioCantidadPruebaPerforacion()
+  {
     const uno = this.pruebaPerforacion.get('uno').value ?? 0
     const dos = this.pruebaPerforacion.get('dos').value ?? 0
     const tres = this.pruebaPerforacion.get('tres').value ?? 0
     const cuatro = this.pruebaPerforacion.get('cuatro').value ?? 0
     const cinco = this.pruebaPerforacion.get('cinco').value ?? 0
     const promedio: number = (uno + dos + tres + cuatro + cinco) / 5
-    const fuerzaPerforacion= this.pruebaPerforacion.get('fuerzaPerforacion').value
-
-    const estado: string = promedio >= fuerzaPerforacion? 'A' : 'R'
 
     this.pruebaPerforacion.patchValue({
       promedio: promedio,
-      estado: estado
     })
 
   }
@@ -194,7 +236,7 @@ export class PruebaElasticidadPerforacionComponent implements OnInit, OnExit, On
 
     if(this.botonGuardarDisabled)
     {
-      this._toastr.warning('Los datos del formulario se estan guardando.', 'Advertencia !!', {timeOut: 3000, closeButton: true, tapToDismiss: true})
+      this._toastr.warning('Los datos del formulario se estan guardando.', 'Advertencia !!', {timeOut: 3000, closeButton: true, tapToDismiss: true, progressBar: true})
       return false
     }
 
