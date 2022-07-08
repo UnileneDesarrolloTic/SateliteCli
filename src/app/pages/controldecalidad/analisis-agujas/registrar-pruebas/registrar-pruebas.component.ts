@@ -18,7 +18,7 @@ export class RegistrarPruebasComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.router.navigate(['ControlCalidad/analisis-agujas/pruebas-agujas', this.codAnalisis, 'PruebaDimensional', this.codAnalisis], { skipLocationChange: true });
+    this.router.navigate(['ControlCalidad/analisis-agujas/pruebas-agujas', this.codAnalisis, 'PruebaFlexion', this.codAnalisis], { skipLocationChange: true });
 
   }
 
