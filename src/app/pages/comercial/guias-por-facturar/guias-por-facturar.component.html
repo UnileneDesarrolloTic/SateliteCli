@@ -45,7 +45,8 @@
                             <div class="form-group">
                                 <select class="custom-select" (change)="Filtrar()" formControlName="Tipo">
                                     <option value="GF">G. por facturar</option>
-                                    <option value="FA">Facturada</option>
+                                    <option value="FA">G.Facturada</option>
+                                    <option value="G">General</option>
                                 </select>
                             </div>
                         </div>
@@ -78,11 +79,14 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-body">
-                <div class="row mb-2">
-                    <div class="col-4">
-                      <input type="text" placeholder="Buscar Numero Guia" class="form-control rounded-pill" [formControl]= 'textFilterCtrl'>
+                <div class="d-flex">
+                    <div class="p-2 col-md-4">
+                        <input type="text" placeholder="Buscar Numero Guia" class="form-control rounded-pill" [formControl]= 'textFilterCtrl'>
                     </div>
-                  </div>
+                    <div class="ml-auto p-2">
+                        <!-- <button type="button" class="btn btn-rounded" (click)="disablecheckou=!disablecheckou"   style="background-color:#2499c7; color: #FFF;"><span *ngIf="disablecheckou"> Deshactivar</span>  <span *ngIf="!disablecheckou"> Activar</span> </button> -->
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-12" style="height: 78vh;">
                       <ngx-datatable style="height: 100%;"
@@ -90,6 +94,7 @@
                         [loadingIndicator]="flagLoading"
                         [rows]="TempListarGuiasPorFacturar"
                         [columnMode]="'force'"
+                        [trackByProp]="'updated'"
                         [headerHeight]="50"
                         [footerHeight]="50"
                         [rowHeight]="50"
@@ -101,7 +106,7 @@
                       >
                       <ngx-datatable-column name="Entrega"  *ngIf="form.controls.Tipo.value=='GF'"  [headerCheckboxable]="false" prop='comentariosEntrega' [width]="20">
                         <ng-template let-row="row"  let-value="value" let-allRowsSelected="allRowsSelected"  ngx-datatable-cell-template>
-                            <input type="checkbox"  [checked]="value"  (change)="CheckSeleccion(row)"/>
+                            <input type="checkbox" id="prueba" [checked]="value" (change)="CheckSeleccion(row)"/>
                         </ng-template>
                      
 
@@ -129,7 +134,7 @@
                         <ngx-datatable-column name="Usuario" prop='ultimoUsuario' [width]="100"></ngx-datatable-column>
                       </ngx-datatable>
                     </div>
-                  </div>
+                </div>
             </div>
         </div>
     </div>
