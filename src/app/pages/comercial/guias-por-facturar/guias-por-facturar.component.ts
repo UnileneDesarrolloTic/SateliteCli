@@ -244,7 +244,6 @@ export class GuiasPorFacturarComponent implements OnInit {
 
       this._comercialService.RegistrarGuiaPorFacturar(ItemGuia).subscribe(
           (resp:any)=>{
-              
           }
       );
     }, (reason) => { //false
