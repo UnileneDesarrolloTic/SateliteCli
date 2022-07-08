@@ -254,9 +254,7 @@ export class CompraMateriaPrimaComponent implements OnInit {
         valor=>{
             if(valor=='MN'){
                 this.filtrosForm.get("tipo").patchValue('O');
-            }else{
-                this.filtrosForm.get("tipo").patchValue('AB');
-            }            
+            }           
         }
     )
     this.CargarFamiliaMP();

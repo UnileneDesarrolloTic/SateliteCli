@@ -5,6 +5,7 @@ import { PaginadorComponent } from '@shared/components/paginador/paginador.compo
 import { ModalClienteComponent } from './modal-cliente/modal-cliente.component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { ModalCargarComponent } from './modal-cargar/modal-cargar.component';
+import { MensajeAdvertenciaComponent } from './mensaje-advertencia/mensaje-advertencia.component';
 
 
 @NgModule({
@@ -12,6 +13,7 @@ import { ModalCargarComponent } from './modal-cargar/modal-cargar.component';
     PaginadorComponent,
     ModalClienteComponent,
     ModalCargarComponent,
+    MensajeAdvertenciaComponent,
   ],
   imports: [
     CommonModule,
