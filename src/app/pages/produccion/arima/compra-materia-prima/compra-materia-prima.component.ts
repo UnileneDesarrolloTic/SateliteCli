@@ -250,8 +250,7 @@ export class CompraMateriaPrimaComponent implements OnInit {
 
   cambiarlinea(){
     this.filtrosForm.get("linea").valueChanges.subscribe(
-        valor=>{
-                
+        valor=>{    
         }
     )
     this.CargarFamiliaMP();
