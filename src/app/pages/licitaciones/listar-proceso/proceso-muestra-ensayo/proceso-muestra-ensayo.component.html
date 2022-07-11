@@ -60,7 +60,6 @@
                   <th class="text-center">Muestra</th>
                   <th class="text-center">Ensayo</th>
                 </tr>
-
               </thead>
               <tbody id="tbodyDetalle" class="border" style="font-size: 11px;">
                 <tr *ngFor="let lessonForm of ProgramacionMuestreo.controls; let i = index">
@@ -69,13 +68,13 @@
                       <b>{{lessonForm.value.numeroItem}}</b>
                     </td>
                     <td class="text-center">
-                      <b>{{lessonForm.value.codItem}}</b>
+                      <b style="font-size: 10px;">{{lessonForm.value.codItem}}</b>
                     </td>
                     <td class="text-left">
-                      <b>{{lessonForm.value.descripcionItem}}</b>
+                      <b style="font-size: 10px;">{{lessonForm.value.descripcionItem}}</b>
                     </td>
                     <td class="text-center">
-                      <div class="input-group input-group-sm" style='width:7rem'>
+                      <div class="input-group input-group-sm" style='width:10rem'>
                         <input type="text" class="form-control form-control-sm" formControlName="temperatura" />
                       </div>
                     </td>
