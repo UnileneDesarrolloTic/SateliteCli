@@ -237,7 +237,6 @@ export class CompraMateriaPrimaComponent implements OnInit {
   }
   
   CargarFamiliaMP(){
-    this.cambioTipo(this.filtrosForm.controls.tipo.value)
     this._commonService.ListarFamiliaMateriaP(this.filtrosForm.controls.tipo.value).subscribe(
      async resp=>{
           this.ListarArraySubFamilia= await resp ;
@@ -252,21 +251,13 @@ export class CompraMateriaPrimaComponent implements OnInit {
   cambiarlinea(){
     this.filtrosForm.get("linea").valueChanges.subscribe(
         valor=>{
-            if(valor=='MN'){
-                this.filtrosForm.get("tipo").patchValue('O');
-            }           
+                
         }
     )
     this.CargarFamiliaMP();
   }
 
-  cambioTipo(valortipo){
-        if(valortipo=='AB' || valortipo=='NAB'){
-          this.filtrosForm.get("linea").patchValue('MI');
-        }else{
-          this.filtrosForm.get("linea").patchValue('MN');
-        }
-  }
+
 
   
 }
