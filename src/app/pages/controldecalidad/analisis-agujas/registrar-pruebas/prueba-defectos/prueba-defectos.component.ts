@@ -309,9 +309,11 @@ export class PruebaDefectosComponent implements OnInit, OnDestroy, OnExit {
     this._analisisAgujaService.GuardarPruebaAspecto(body).subscribe( response => {
       this._toastr.success(response['content'], 'Éxito !!', {timeOut: 3000, closeButton: true, tapToDismiss: true})
       this.formulario.markAsPristine()
+      this.botonGuardarDisabled = false
     },
-    err => {},
-    () => this.botonGuardarDisabled = false
+    err => {
+      this.botonGuardarDisabled = false
+    }
     )
 
   }
