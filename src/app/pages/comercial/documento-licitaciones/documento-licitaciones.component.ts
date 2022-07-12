@@ -167,7 +167,6 @@ export class DocumentoLicitacionesComponent implements OnInit {
      }
      this.SeleccionArrayListar.length > 0 ? this.botonestado=false : this.botonestado=true;
          
-     console.log(this.SeleccionArrayListar);
   }
 
 

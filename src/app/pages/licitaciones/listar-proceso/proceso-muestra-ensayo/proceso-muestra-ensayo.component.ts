@@ -77,6 +77,7 @@ export class ProcesoMuestraEnsayoComponent implements OnInit,OnDestroy {
             descripcionItem:[itemRow.descripcionItem],
             codItem: [itemRow.codItem],
             numeroEnsayo: [itemRow.numeroEnsayo],
+            presentacion: [itemRow.presentacion],
             numeroMuestreo: [itemRow.numeroMuestreo],
             protocolo: [itemRow.protocolo],
             registroSanitario:[itemRow.registroSanitario],

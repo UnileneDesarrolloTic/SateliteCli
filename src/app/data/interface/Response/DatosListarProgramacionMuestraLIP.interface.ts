@@ -4,6 +4,7 @@ export interface DatosListarProgramacionMuestraLIP {
     numeroItem:number,
     descripcionItem:string,
     codItem:string,
+    presentacion:string,
     numeroMuestreo:string,
     numeroEnsayo:string,
     idProceso:number,

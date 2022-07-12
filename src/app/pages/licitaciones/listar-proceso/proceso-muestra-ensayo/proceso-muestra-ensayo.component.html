@@ -54,6 +54,7 @@
                   <th class="text-center">N°Item</th>
                   <th class="text-center">Codigo de Items</th>
                   <th class="text-center">Descripción Items</th>
+                  <th class="text-center">Presentacion</th>
                   <th class="text-center">Temperatura</th>
                   <th class="text-center">Registro Sanitario</th>
                   <th class="text-center">Protocolo</th>
@@ -72,6 +73,11 @@
                     </td>
                     <td class="text-left">
                       <b style="font-size: 10px;">{{lessonForm.value.descripcionItem}}</b>
+                    </td>
+                    <td class="text-center">
+                      <div class="input-group input-group-sm" style='width:10rem'>
+                        <textarea type="text"  style="font-size: 10px;" class="form-control form-control-sm" formControlName="presentacion" ></textarea>
+                      </div>
                     </td>
                     <td class="text-center">
                       <div class="input-group input-group-sm" style='width:10rem'>
