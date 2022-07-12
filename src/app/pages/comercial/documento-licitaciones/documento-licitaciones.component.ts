@@ -150,9 +150,6 @@ export class DocumentoLicitacionesComponent implements OnInit {
       return item.isSelected == true;
     })
     
-    console.log(this.MaestroSeleccion)
-
-
     this.SeleccionaTodo();
   }
 
