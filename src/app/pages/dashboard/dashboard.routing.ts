@@ -44,7 +44,7 @@ export const DashboardRoutes: Routes = [
               path: 'procesos',
               component: SegProcesosComponent ,
               data: {
-                title: "Dashboard Seguimiento de procesos"
+                title: "Dashboard Seguimiento de Licitaciones"
               }
            },
             {
