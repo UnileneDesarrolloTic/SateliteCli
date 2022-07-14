@@ -9,7 +9,7 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FeatherModule } from 'angular-feather';
-import { Home, Edit2, Trash2, BarChart2, TrendingUp, Tool, Server, Cpu, CheckSquare, ShoppingCart, Users,Layers ,Book } from 'angular-feather/icons';
+import { Home, Edit2, Trash2, BarChart2, TrendingUp, Tool, Server, Cpu, Box,CheckSquare, ShoppingCart, Users,Layers ,Book } from 'angular-feather/icons';
 import { AppComponent } from './app.component';
 import { ToastrModule } from 'ngx-toastr';
 import { InterceptorService } from './interceptor/interceptor.service';
@@ -30,7 +30,7 @@ import { VerticalNavigationComponent } from '@layout/vertical-header/vertical-na
 import { AuthGuard } from '@guard/auth.guard';
 
 // Select some icons (use an object, not an array)
-const icons = { Home, Edit2, Trash2, BarChart2, TrendingUp, Tool, Server, Cpu, CheckSquare, ShoppingCart, Users, Layers, Book };
+const icons = { Home, Edit2, Trash2, BarChart2, TrendingUp, Tool, Server, Cpu,Box, CheckSquare, ShoppingCart, Users, Layers, Book };
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,

@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { EventEmitter, Injectable , Output} from '@angular/core';
 import { Pais } from '@data/interface/Request/Pais.interface';
 import { TipoDocumentoIdentidad } from '@data/interface/Request/TipoDocumentoIdentidad.interface';
+import { ListaFamiliaMaestroItem } from '@data/interface/Response/FamiliaMaestroItem.interface';
 import { RolData } from '@data/interface/Response/RolData.interface';
 import { SubFamilia } from '@data/interface/Response/SubFamilia.Interface';
 import { environment } from 'environments/environment';
@@ -48,6 +49,46 @@ export class GenericoService {
     );
 
   }
+
+
+  ListarAgrupador(){
+    return this._http.get<any>(this.url + "/api/Common/ListarAgrupador").pipe(
+      catchError ((ex)=> throwError('Ocurrio un error al obtener los pedidos'))
+    );
+  }
+
+
+  ListarSubAgrupador(idAgrupador){
+    const params =  new HttpParams().set('idAgrupador', idAgrupador);
+
+    return this._http.get<any>(this.url + "/api/Common/ListarSubAgrupador",{'params': params}).pipe(
+      catchError ((ex)=> throwError('Ocurrio un error al obtener los pedidos'))
+    );
+  }
+
+  ListarLinea(){
+    return this._http.get<any>(this.url + "/api/Common/ListarLinea").pipe(
+      catchError ((ex)=> throwError('Ocurrio un error al obtener los pedidos'))
+    );
+  }
+
+  
+  ListarFamiliaMaestroItem(idlinea){
+    const params =  new HttpParams().set('idlinea', idlinea);
+    return this._http.get<any[]>(this.url + "/api/Common/ListarFamilia",{'params': params}).pipe(
+      catchError ((ex)=> throwError('Ocurrio un error al obtener los pedidos'))
+    );
+  }
+
+  ListarSubFamilia(idlinea,idfamilia){
+    const params =  new HttpParams().set('idlinea', idlinea).set('idfamilia',idfamilia);
+    return this._http.get<any[]>(this.url + "/api/Common/ListarSubFamilia",{'params': params}).pipe(
+      catchError ((ex)=> throwError('Ocurrio un error al obtener los pedidos'))
+    );
+  }
+
+  
+
 
   RedondearDecimales(numero, decimales = 2, usarComa = false) {
 

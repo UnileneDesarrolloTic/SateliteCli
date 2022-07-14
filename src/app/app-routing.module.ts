@@ -47,6 +47,10 @@ export const AppRoutes: Routes = [
       {
         path:'Licitaciones',
         loadChildren:() => import('@pages/licitaciones/licitaciones.module').then(m => m.LicitacionesModule)
+      },
+      {
+        path:'Logistica',
+        loadChildren:() => import('@pages/logistica/logistica.module').then(m => m.LogisticaModule)
       }
     ]
   },

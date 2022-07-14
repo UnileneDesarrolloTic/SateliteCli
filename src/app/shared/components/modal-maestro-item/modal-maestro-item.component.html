@@ -1,0 +1,51 @@
+<div class="row">
+
+    <div class="card-body">
+        <form [formGroup]="form" (submit)="Guardar()">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-basic-title">Nuevo Maestro Item</h4>
+                <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body justify-content-center">
+                <img src="./assets/images/codigocodsut.png" width="100%" />
+                <div class="container">
+                    <div class="row pt-3">
+                        <div class="col-md-2">
+                            <label for="CodSut" class="text-right control-label col-form-label">CodSut:</label>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <input type="type"  formControlName="codsut" class="form-control form-control-sm" placeholder="Ingrese el CodSut">
+                                <small class="form-control-feedback"> Caracteres: {{form.controls.codsut.value.length}}/21 </small>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <div class="row">
+                        <div class="col-md-2">
+                            <label for="CodSut" class="text-right control-label col-form-label">Familia:</label>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <select class="form-control  form-control-sm"  formControlName="familia">
+                                    <option  value="null" selected disabled>Seleccione Familia</option>
+                                    <option *ngFor="let familia of ListarArraySubFamilia"   [value]="familia.familia">
+                                      {{familia.descripcionLocal}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit"   [disabled]="!form.valid" style="background-color: #4CAF50; border: none;"
+                    class="btn btn-rounded btn-success"> <i class="fas fa-save"></i> Grabar</button>
+            </div>
+
+        </form>
+
+    </div>
+</div>
