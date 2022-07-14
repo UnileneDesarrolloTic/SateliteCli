@@ -86,7 +86,6 @@ export class ProcesoMuestraEnsayoComponent implements OnInit,OnDestroy {
       this.ProgramacionMuestreo.push(ItemFilaForm);
     })    
   }
-
   get ProgramacionMuestreo(){
     return this.ListadoProgramacionMuestras.controls['MuestrasArray'] as FormArray;
   }
