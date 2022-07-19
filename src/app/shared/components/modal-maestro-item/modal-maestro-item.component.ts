@@ -1,7 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { RespuestaMaestroItemModel } from '@data/interface/Response/DatosRespuestaMaestroItem.interface';
 import { ListaFamiliaMaestroItem } from '@data/interface/Response/FamiliaMaestroItem.interface';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { GenericoService } from '@shared/services/comunes/generico.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-modal-maestro-item',
@@ -12,9 +15,12 @@ export class ModalMaestroItemComponent implements OnInit {
   @Input() fromParent;
   form:FormGroup;
   ListarArraySubFamilia:ListaFamiliaMaestroItem[]=[];
+  Respuesta:RespuestaMaestroItemModel;
 
   constructor(private modalService: NgbModal,
-    public activeModal: NgbActiveModal) { }
+    public activeModal: NgbActiveModal,
+    private _GenericoService:GenericoService,
+    private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.ListarArraySubFamilia=this.fromParent["Familia"];
@@ -29,6 +35,21 @@ export class ModalMaestroItemComponent implements OnInit {
   }
 
   Guardar(){
-    console.log(this.form.value)
+    const RequestRegistro={
+      ...this.form.value,
+      codsut: this.form.controls.codsut.value.toUpperCase()
+      
+    }
+
+    this._GenericoService.RegistarMaestroItem(RequestRegistro).subscribe(
+      (resp:any)=>{
+        if(resp["success"]){
+            this.Respuesta=resp.content.response;            
+            this.Respuesta.respuesta==false  && this.toastr.warning(this.Respuesta.descripcionLocal,this.Respuesta.comentario);
+
+        }
+      }
+    )
   }
+  
 }

@@ -87,11 +87,27 @@ export class GenericoService {
     );
   }
 
-  
 
+  ListarMarca(){    
+    return this._http.get<any[]>(this.url + "/api/Common/ListarMarca").pipe(
+      catchError ((ex)=> throwError('Ocurrio un error al obtener los pedidos'))
+    );
+  }
+
+  ListarMaestroItem(body){
+    return this._http.post(this.url + "/api/Common/ListarMaestroItem", body).pipe(
+        catchError(() => throwError("Error al registrar el reporte"))
+    )
+  }
+
+
+  RegistarMaestroItem(body){
+    return this._http.post(this.url + "/api/Common/RegistrarMaestroItem", body).pipe(
+        catchError(() => throwError("Error al registrar el reporte"))
+    )
+  }
 
   RedondearDecimales(numero, decimales = 2, usarComa = false) {
-
     var opciones = {
         maximumFractionDigits: decimales,
         useGrouping: false

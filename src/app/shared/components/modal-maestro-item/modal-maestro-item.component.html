@@ -32,19 +32,29 @@
                                 <select class="form-control  form-control-sm"  formControlName="familia">
                                     <option  value="null" selected disabled>Seleccione Familia</option>
                                     <option *ngFor="let familia of ListarArraySubFamilia"   [value]="familia.familia">
-                                      {{familia.descripcionLocal}}
+                                      {{familia.familia}}-{{familia.descripcionLocal}}
                                     </option>
                                 </select>
                             </div>
                         </div>
                     </div>
                 </div>
+                <div class="container" *ngIf="Respuesta?.respuesta" >
+                    <div class="alert" [ngStyle]="{'background-color':  '#77dd77'}">
+                        <span class="closebtn"></span> 
+                        <strong>{{Respuesta?.comentario}}</strong> 
+                        <p><strong>Descripcion:</strong> <span [ngStyle]="{'font-size': '14px'}"> {{Respuesta?.descripcionLocal}} </span></p>
+                        <p> <strong>Item: </strong> {{Respuesta?.item}}</p>
+                        <p> <strong>Estado: </strong>  <span [ngStyle]="{'color':  Respuesta?.estado=='INACTIVO' ? '#F66359' : '#FFF'}"  >{{Respuesta?.estado}}</span></p>
+                      </div>
+                </div>
             </div>
+            
+
             <div class="modal-footer">
-                <button type="submit"   [disabled]="!form.valid" style="background-color: #4CAF50; border: none;"
+                <button type="submit" [disabled]="!form.valid" style="background-color: #4CAF50; border: none;"
                     class="btn btn-rounded btn-success"> <i class="fas fa-save"></i> Grabar</button>
             </div>
-
         </form>
 
     </div>
