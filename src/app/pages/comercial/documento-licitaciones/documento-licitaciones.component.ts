@@ -1,6 +1,6 @@
 import { formatDate } from '@angular/common';
 import {Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DatosFormatoListarLicitaciones } from '@data/interface/Response/DatosFormatoListarLicitaciones.interface';
 import { ComercialService } from '@data/services/backEnd/pages/comercial.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -18,13 +18,18 @@ import { debounceTime } from 'rxjs/operators';
   styleUrls: ['./documento-licitaciones.component.css'],
 })
 export class DocumentoLicitacionesComponent implements OnInit {
-  hoy = new Date()
+  hoy = new Date().toLocaleDateString();
   listarcliente:object[]=[];
   MaestroSeleccion: boolean;
   SeleccionArrayListar: any;
   listarLicitaciones:DatosFormatoListarLicitaciones[];
   TemporalListarLicitaciones:DatosFormatoListarLicitaciones[]=[];
   botonestado:boolean=true;
+
+  Acta = new FormControl(true);
+  condicion = new FormControl(true);
+  Protocolo = new FormControl(true);
+  Carta = new FormControl(true);
 
   buscarnumeroguia:string="";
   buscarnumeroguiaCambio = new Subject<string>();
@@ -49,8 +54,6 @@ export class DocumentoLicitacionesComponent implements OnInit {
   ngOnInit(): void {
     this.ListarCliente();
   }
-
-  
 
   crearFormulario(){ 
     this.form = this._fb.group({
@@ -189,6 +192,13 @@ export class DocumentoLicitacionesComponent implements OnInit {
 
 
   Imprimir(){
+    const ImprimirConst={
+      Acta:this.Acta.value,
+      condicion:this.condicion.value,
+      Protocolo:this.Protocolo.value,
+      Carta:this.Carta.value,
+      ListaGuias:this.SeleccionArrayListar
+    }
       const ModalCarga = this.modalService.open(ModalCargarComponent, {
         centered: true,
         backdrop: 'static',
@@ -197,10 +207,10 @@ export class DocumentoLicitacionesComponent implements OnInit {
       });
       ModalCarga.componentInstance.fromParent = "Generando el Formato pdf";
 
-      this._comercialService.GenerarPdfNumeroGuias(this.SeleccionArrayListar).subscribe(
+      this._comercialService.GenerarPdfNumeroGuias(ImprimirConst).subscribe(
         (resp:any)=>{
             if(resp.success){
-              this.servicebase64.file(resp.content,'ListaLicitaciones','pdf',ModalCarga);
+              this.servicebase64.file(resp.content,`ListaLicitaciones-${this.hoy}`,'pdf',ModalCarga);
             }else{
               ModalCarga.close();
               this.toastr.info(resp.message);
