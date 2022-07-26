@@ -65,7 +65,7 @@
                         <div class="col-md-4">
                             <button type="submit" [disabled]="!form.valid" class="btn btn-info"> <i
                                     class=" fas fa-search"></i> Buscar </button>
-                            <button type="button" [disabled]="!form.valid" class="btn" (click)="Exportar()"   style="background-color:#1A8E1E; color: #FFF;"> <i
+                            <button type="button" class="btn" (click)="Exportar()"  [disabled]="!form.valid"  style="background-color:#1A8E1E; color: #FFF;"> <i
                                         class="fas fa-file-excel"></i> Exportar </button>
                         </div>
                     </div>
@@ -114,6 +114,8 @@
                         <ngx-datatable-column name="serie" prop='serieNumero' [width]="50"></ngx-datatable-column>
                         <ngx-datatable-column name="Numero" prop='guiaNumero' [width]="120"></ngx-datatable-column>
                         <ngx-datatable-column name="Factura" prop='facturaNumero' [width]="100"></ngx-datatable-column>
+                        <ngx-datatable-column name="Factura" prop='facturaNumero' [width]="100"></ngx-datatable-column>
+
                         <ngx-datatable-column name="F.Factura" prop='facturaFecha' [width]="100">
                             <ng-template let-row="row" let-value="value"  ngx-datatable-cell-template>
                                 {{ value | date:'dd/MM/yyy' }}
@@ -131,6 +133,8 @@
                         <ngx-datatable-column name="E.Guia" prop='estadoGuia' [width]="25"></ngx-datatable-column>
                         <ngx-datatable-column name="Comentario" prop='comentarioGuia' [width]="250"></ngx-datatable-column>
                         <ngx-datatable-column name="E.Pecosa" prop='reprogramacionPuntoPartida' [width]="110"></ngx-datatable-column>
+                        <ngx-datatable-column name="F.Salida" prop='FechaRecepcion' [width]="100"></ngx-datatable-column>
+                        <ngx-datatable-column name="F.Retorno" prop='Retorno' [width]="100"></ngx-datatable-column>
                         <ngx-datatable-column name="Usuario" prop='ultimoUsuario' [width]="100"></ngx-datatable-column>
                       </ngx-datatable>
                     </div>

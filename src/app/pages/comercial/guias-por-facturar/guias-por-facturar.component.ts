@@ -54,8 +54,8 @@ export class GuiasPorFacturarComponent implements OnInit {
   }
   crearFormulario(){
     this.form = new FormGroup({
-      destinatario: new FormControl('',Validators.required),
-      cliente: new FormControl('',Validators.required),
+      destinatario: new FormControl(''),
+      cliente: new FormControl(''),
       Territorio: new  FormControl('N',Validators.required),
       FechaInicio: new FormControl('',),
       FechaFin: new FormControl('',),
@@ -142,22 +142,38 @@ export class GuiasPorFacturarComponent implements OnInit {
   Filtrar(){
     this.ListarGuiasPorFacturar=[];
     this.TempListarGuiasPorFacturar=[];
+
+    console.log(isNaN(parseInt(this.form.controls.destinatario.value)),this.activarFecha);
+
+    if(isNaN(parseInt(this.form.controls.destinatario.value)) && this.activarFecha){
+      return this.toastr.warning("Debe Seleccionar un Cliente o en caso un rango de fecha");
+    }
+
+    const dato={
+      FechaFin: this.form.controls.FechaFin.value,
+      FechaInicio: this.form.controls.FechaInicio.value,
+      Territorio: this.form.controls.Territorio.value,
+      destinatario: isNaN(parseInt(this.form.controls.destinatario.value)) ? 0 : parseInt(this.form.controls.destinatario.value),
+      Tipo:this.form.controls.Tipo.value,
+    }
       if(this.form.controls.Tipo.value!='G'){
-        // if(!isNaN(parseInt(this.form.controls.destinatario.value))){
+        
           const dato={
             FechaFin: this.form.controls.FechaFin.value,
             FechaInicio: this.form.controls.FechaInicio.value,
             Territorio: this.form.controls.Territorio.value,
-            destinatario: parseInt(this.form.controls.destinatario.value),
+            destinatario: isNaN(parseInt(this.form.controls.destinatario.value))? 0 : parseInt(this.form.controls.destinatario.value),
             Tipo:this.form.controls.Tipo.value,
           }
+          this.flagLoading=true;
           this._comercialService.ListarGuiaPorFacturar(dato).subscribe(
               (resp:any)=>{
                  this.ListarGuiasPorFacturar=resp;
                  this.TempListarGuiasPorFacturar=resp;
+                 this.flagLoading=false;
               }
           )
-        // }
+      
       }else{
                  this.ListarGuiasPorFacturar=[];
                  this.TempListarGuiasPorFacturar=[];
@@ -195,6 +211,11 @@ export class GuiasPorFacturarComponent implements OnInit {
   }
 
   Exportar(){
+
+    if(isNaN(parseInt(this.form.controls.destinatario.value)) && this.activarFecha){
+      return this.toastr.warning("Debe Seleccionar un Cliente o en caso un rango de fecha");
+    }
+
     const dato={
       FechaFin: this.form.controls.FechaFin.value,
       FechaInicio: this.form.controls.FechaInicio.value,
@@ -213,7 +234,6 @@ export class GuiasPorFacturarComponent implements OnInit {
     ModalCarga.componentInstance.fromParent = "Generando el Formato Excel";
     this._comercialService.ListarGuiaporFacturarExportar(dato).subscribe(
       (resp:any)=>{
-
           this._Cargarbase64Service.file(resp,'ExportarListar','xlsx',ModalCarga);
       }
     )

@@ -107,6 +107,12 @@ export class GenericoService {
     )
   }
 
+  ListarMaestroAlmacen(){
+    return this._http.get(this.url + "/api/Common/ListarMaestroAlmacen").pipe(
+        catchError(() => throwError("Error al registrar el reporte"))
+    )
+  }
+
   RedondearDecimales(numero, decimales = 2, usarComa = false) {
     var opciones = {
         maximumFractionDigits: decimales,

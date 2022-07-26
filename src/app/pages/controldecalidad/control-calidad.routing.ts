@@ -5,6 +5,7 @@ import { ImprimirAnalisisComponent } from '@pages/controldecalidad/analisis-aguj
 import { RegistrarAnalisisComponent } from '@pages/controldecalidad/analisis-agujas/registrar-analisis/registrar-analisis.component';
 import { PruebaFlexionComponent } from '@pages/controldecalidad/analisis-agujas/registrar-pruebas/prueba-flexion/prueba-flexion.component';
 import { ConfirmExitGuard } from '@guard/confirm-exit.guard';
+import { GestionContraMuestraComponent } from './gestion-contra-muestra/gestion-contra-muestra.component';
 
 export const ControlCalidadRoutes: Routes = [
   {
@@ -46,5 +47,21 @@ export const ControlCalidadRoutes: Routes = [
         loadChildren: () => import('@pages/controldecalidad/analisis-agujas/registrar-pruebas/registrar-pruebas.module').then(m => m.RegistrarPruebasModule)
       }
     ],
+  },
+  {
+    path: 'Gestion',
+    canActivateChild: [AuthGuard],
+    children : [
+      {
+        path: 'Contramuestra',
+        component: GestionContraMuestraComponent,
+        data: {
+          title: "Gestión contra muestra",
+          urls: [
+            {title: 'Gestión contra muestra' }
+          ]
+        }
+      },
+    ]
   },
 ]
