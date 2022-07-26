@@ -138,7 +138,7 @@ export class GestionContraMuestraComponent implements OnInit {
     this._ServiceControlCalidad.ExportarOrdenFabricacionCaja().subscribe(
       (resp)=>{
         if(resp.success){
-          this.servicebase64.file(resp.content,`ListaLicitaciones-${this.hoy}`,'xlsx',ModalCarga);
+          this.servicebase64.file(resp.content,`ContraMuestra-${this.hoy}`,'xlsx',ModalCarga);
         }else{
           ModalCarga.close();
           this.toastr.info(resp.message);
