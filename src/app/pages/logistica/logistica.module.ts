@@ -8,11 +8,12 @@ import { ComponenteModule } from "@shared/components/componente.module";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { MaestroItemComponent } from './maestro-item/maestro-item.component';
+import { GestionGuiasComponent } from './gestion-guias/gestion-guias.component';
 
 
 @NgModule({
   declarations:
-  [ MaestroItemComponent],
+  [ MaestroItemComponent, GestionGuiasComponent],
   imports:
   [
     RouterModule.forChild(LogisticaRoutes),
@@ -26,7 +27,8 @@ import { MaestroItemComponent } from './maestro-item/maestro-item.component';
   ],
   exports:
   [
-    MaestroItemComponent
+    MaestroItemComponent,
+    GestionGuiasComponent
   ],
 })
 export class LogisticaModule { }
