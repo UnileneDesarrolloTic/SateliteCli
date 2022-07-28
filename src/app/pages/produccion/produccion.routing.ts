@@ -4,6 +4,7 @@ import { ProductoTerminadoComponent } from '@pages/produccion/arima/producto-ter
 import { MateriaPrimaComponent } from '@pages/produccion/arima/materia-prima/materia-prima.component'
 import { LogPedidosAutomaticosComponent } from '@pages/produccion/arima/log-pedidos-automaticos/log-pedidos-automaticos.component';
 import { CompraMateriaPrimaComponent } from "./arima/compra-materia-prima/compra-materia-prima.component";
+import { EtiquetasComponent } from "./gestion/etiquetas/etiquetas.component";
 
 export const ProduccionRoutes: Routes = [
   {
@@ -40,5 +41,21 @@ export const ProduccionRoutes: Routes = [
       },
     ]
   },
+
+  {
+    path: 'Gestion',
+    canActivateChild: [AuthGuard],
+    children : [
+      {
+        path: 'Etiquetas',
+        component: EtiquetasComponent,
+        data: {
+          title: "Etiquetas"
+        }
+      },
+     
+    ]
+  },
+
 
 ]

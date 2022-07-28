@@ -57,6 +57,34 @@ export class ProduccionService {
       catchError (() => throwError("Error al obtener el seguimiento de candidatos"))
     );
   }
+
+
+  LoteFabricacionEtiquetas(OrdenFabricacion){
+    const params =  new HttpParams().set('NumeroLote', OrdenFabricacion);
+
+    return this._http.get<any[]>(this.url+"/api/Produccion/LoteFabricacionEtiquetas", {'params': params}).pipe(
+      catchError (() => throwError("Error al obtener el seguimiento de candidatos"))
+    );
+  }
+
+  RegistrarLoteFabricacionEtiquetas(body){
+    return this._http.post<any[]>(this.url+"/api/Produccion/RegistrarLoteFabricacionEtiquetas",body).pipe(
+      catchError (() => throwError("Error al obtener el seguimiento de candidatos"))
+    );
+  }
+
+  ListarLoteEstado(){
+    return this._http.get<any[]>(this.url+"/api/Produccion/ListarLoteEstado").pipe(
+      catchError (() => throwError("Error al obtener el seguimiento de candidatos"))
+    );
+  }
+
+
+  ModificarLoteEstado(body){
+    return this._http.post<any[]>(this.url+"/api/Produccion/ModificarLoteEstado",body).pipe(
+      catchError (() => throwError("Error al obtener el seguimiento de candidatos"))
+    );
+  }
   
 
 }

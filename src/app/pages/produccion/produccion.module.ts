@@ -11,13 +11,15 @@ import { LogPedidosAutomaticosComponent } from './arima/log-pedidos-automaticos/
 import { ProductoTerminadoComponent } from './arima/producto-terminado/producto-terminado.component';
 import { CompraMateriaPrimaComponent } from './arima/compra-materia-prima/compra-materia-prima.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { EtiquetasComponent } from './gestion/etiquetas/etiquetas.component';
 
 @NgModule({
   declarations: [
     MateriaPrimaComponent,
     LogPedidosAutomaticosComponent,
     ProductoTerminadoComponent,
-    CompraMateriaPrimaComponent
+    CompraMateriaPrimaComponent,
+    EtiquetasComponent
   ],
   imports: [
     RouterModule.forChild(ProduccionRoutes),

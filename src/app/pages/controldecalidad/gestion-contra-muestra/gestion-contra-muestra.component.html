@@ -9,7 +9,7 @@
                         <div class="form-group">
                             <div class="input-group mb-3">
                                 <input type="text" name='LoteFabricacion' [(ngModel)]="CodloteFabricacion" #ctrl="ngModel"  class="form-control form-control-sm"
-                                    placeholder="Buscar orden fabricacion" aria-label=""
+                                    placeholder="Buscar Numero Lote" aria-label=""
                                     aria-describedby="basic-addon1">
                                 <div class="input-group-append">
                                     <button class="btn mr-0 btn-info btn-sm" (click)="Buscar()"
@@ -43,7 +43,7 @@
                                     <th class="text-center" scope="col">Item</th>
                                     <th class="text-center" scope="col">Código</th>
                                     <th class="text-center" scope="col">Descripción</th>
-                                    <th class="text-center" scope="col">Número Lote</th>
+                                    <th class="text-center" scope="col">Orden Fabricación</th>
                                     <th class="text-center" scope="col">Cliente</th>
                                     <th class="text-center" scope="col">Marca</th>
                                     <th class="text-center" scope="col">C.Muestra</th>
@@ -79,7 +79,7 @@
                                           </td>
                                           <td class="text-center">
                                             <div class="input-group input-group-sm" style='width:7rem'>
-                                                <input type="number" class="form-control form-control-sm" formControlName="numeroCaja" />
+                                                <input type="text" maxlength="10" class="form-control form-control-sm" formControlName="numeroCaja" />
                                               </div>
                                           </td>
                                         </ng-container>
