@@ -14,14 +14,14 @@ export class ControlcalidadService {
   }
 
   ObtenerOrdenFabricacion(OrdenFabricacion){
-    const params =  new HttpParams().set('NumeroLote', OrdenFabricacion)
+    const params =  new HttpParams().set('OrdenFabricacion', OrdenFabricacion)
     return this._http.get<any>(this.url+"/api/ControlCalidad/OrdenFabricacion", {'params': params}).pipe(
       catchError (() => throwError("Error al obtener Detalle de Orden Fabicacion"))
     );
   }
 
-  ObtenerTransaccion(NumeroLote,codAlmacen){
-    const params =  new HttpParams().set('NumeroLote', NumeroLote).set('codAlmacen',codAlmacen);
+  ObtenerTransaccion(OrdenFabricacion,codAlmacen){
+    const params =  new HttpParams().set('OrdenFabricacion', OrdenFabricacion).set('codAlmacen',codAlmacen);
     return this._http.get<any>(this.url+"/api/ControlCalidad/ListarTransaccionItem", {'params': params}).pipe(
       catchError (() => throwError("Error al obtener Detalle de Transaccion"))
     );
