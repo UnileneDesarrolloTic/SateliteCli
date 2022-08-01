@@ -60,7 +60,12 @@ export class GestionGuiasComponent implements OnInit {
 
 
   GuardarServicios(){
-    console.log(this.Planservicios.controls['ListadoNumeroGuias'].value)
+
+    this._ServiceLogistica.RegistarFechaRetorno(this.Planservicios.controls['ListadoNumeroGuias'].value).subscribe(
+      (resp:any)=>{
+              resp["success"] ? this.toastr.success(resp["content"]) : this.toastr.info(resp["content"]);
+      }
+    );
   }
 
 }

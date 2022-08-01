@@ -22,4 +22,10 @@ export class LogisticaService {
       catchError (() => throwError("Error al obtener Numeros de guia"))
     );
   }
+
+  RegistarFechaRetorno(body){
+    return this._http.post<any[]>(this.url+"/api/Logistica/RegistrarRetornoGuia", body).pipe(
+      catchError (() => throwError("Error al obtener Numeros de guia"))
+    );
+  }
 }
