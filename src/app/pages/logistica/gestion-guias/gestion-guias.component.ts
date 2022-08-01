@@ -41,14 +41,17 @@ export class GestionGuiasComponent implements OnInit {
   ConstruirFormArray(formArrayResp:DatosFormatoPlanOrdenServicosDModel[]){
     const ArrayItem = this.Planservicios.controls.ListadoNumeroGuias as FormArray;
     ArrayItem.controls = [];
-
+    
     formArrayResp.forEach((itemRow:DatosFormatoPlanOrdenServicosDModel)=>{
+
+        let separarFecha=itemRow.fechaRetorno.split("T");
+        
           const ItemFilaForm = this._fb.group({
             numeroGuia: [itemRow.numeroGuia],
             fechaDocumento: [itemRow.fechaDocumento],
             cliente: [itemRow.cliente],
             ordenServicios: [itemRow.ordenServicios],
-            fechaRetorno:[itemRow.fechaRetorno]
+            fechaRetorno:[separarFecha[0]]
           });
           this.ListadoServicios.push(ItemFilaForm);
       })

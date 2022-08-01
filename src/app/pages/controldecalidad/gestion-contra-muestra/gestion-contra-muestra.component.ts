@@ -97,19 +97,24 @@ export class GestionContraMuestraComponent implements OnInit {
     const ArrayItem = this.ListadoOrdenFabricacion.controls.Muestras as FormArray;
     ArrayItem.controls = [];
 
-    const ItemFilaForm = this._fb.group({
-      fechaProduccion: [item.fechaProduccion],
-      item: [item.item],
-      numeroParte: [item.numeroParte],
-      marca: [item.marca],
-      descripcionLocal:[item.descripcionLocal],
-      cliente: [item.cliente],
-      lote: [item.lote],
-      contraMuestra: [item.contraMuestra],
-      numeroCaja: [item.numeroCaja],
-    });
+
+    if(item.lote!=null){
+      const ItemFilaForm = this._fb.group({
+        fechaProduccion: [item.fechaProduccion],
+        item: [item.item],
+        numeroParte: [item.numeroParte],
+        marca: [item.marca],
+        descripcionLocal:[item.descripcionLocal],
+        cliente: [item.cliente],
+        lote: [item.lote],
+        contraMuestra: [item.contraMuestra],
+        numeroCaja: [item.numeroCaja],
+      });
+      
+      this.Muestreo.push(ItemFilaForm);
+    }
+
     
-    this.Muestreo.push(ItemFilaForm);
 
   }
 

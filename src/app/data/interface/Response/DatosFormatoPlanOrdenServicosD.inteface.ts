@@ -3,6 +3,6 @@ export interface DatosFormatoPlanOrdenServicosDModel {
     fechaDocumento: Date,
     cliente: string,
     ordenServicios:string;
-    fechaRetorno:Date,
+    fechaRetorno:string,
   }
   
