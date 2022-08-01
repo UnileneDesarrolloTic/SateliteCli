@@ -1,0 +1,77 @@
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row justify-content-start">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <div class="input-group mb-3">
+                                <input type="text" name='LoteFabricacion' [(ngModel)]="NumeroGuia" #ctrl="ngModel"
+                                    class="form-control form-control-sm" autocomplete="off" placeholder="Buscar Numero Guia" aria-label=""
+                                    aria-describedby="basic-addon1">
+                                <div class="input-group-append">
+                                    <button class="btn mr-0 btn-info btn-sm" type="button" (click)="Buscar()">
+                                        <i class="ti-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex">
+                    <div class="ml-auto">
+                        <div class="form-group">
+                            <button type="button" class="btn btn-info btn-sm" (click)="GuardarServicios()"> <i class="fas fa-save"></i> Guardar </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="align-items-center">
+                    <div class="table-hover table-responsive table-bordered">
+                        <table class="table table-striped border table-hover table-inf">
+                            <thead style="font-size: 13px">
+                                <tr>
+                                    <th class="text-center" scope="col">Guia</th>
+                                    <th class="text-center" scope="col">Fecha Doc.</th>
+                                    <th class="text-center" scope="col">Cliente</th>
+                                    <th class="text-center" scope="col">Orden. Servicio</th>
+                                    <th class="text-center" scope="col">F.Retorno</th>
+                                </tr>
+                            </thead>
+                            <tbody style="font-size: 11px" id="tbodyDetalle">
+                                <tr *ngFor="let lessonForm of ListadoServicios.controls; let i = index">
+                                    <ng-container [formGroup]="lessonForm">
+                                      <td class="text-center">
+                                        <b>{{lessonForm.value.numeroGuia}}</b>
+                                      </td>
+                                      <td class="text-center">
+                                        <b style="font-size: 10px;">{{lessonForm.value.fechaDocumento}}</b>
+                                      </td>
+                                      <td class="text-left">
+                                        <b style="font-size: 10px;">{{lessonForm.value.cliente}}</b>
+                                      </td>
+                                      <td class="text-left">
+                                        <b style="font-size: 10px;">{{lessonForm.value.ordenServicios}}</b>
+                                      </td>
+                                      <td class="text-center">
+                                        <div class="input-group input-group-sm" style='width:10rem'>
+                                          <input type="date" class="form-control form-control-sm" formControlName="fechaRetorno" />
+                                        </div>
+                                      </td>
+                                    </ng-container>
+                                  </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
