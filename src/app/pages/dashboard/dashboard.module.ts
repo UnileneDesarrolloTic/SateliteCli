@@ -14,6 +14,7 @@ import { SegUnishopB2cComponent } from './comercial/seg-unishop-b2c/seg-unishop-
 import { SegOperacionesComercialComponent } from './comercial/seg-operaciones-comercial/seg-operaciones-comercial.component';
 import { EstadosFinancierosComponent } from './comercial/estados-financieros/estados-financieros.component';
 import { SegProcesosComponent } from './comercial/seg-procesos/seg-procesos.component';
+import { DesempenioArimaComponent } from './produccion/desempenio-arima/desempenio-arima.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { SegProcesosComponent } from './comercial/seg-procesos/seg-procesos.comp
     SegUnishopB2cComponent,
     SegOperacionesComercialComponent,
     EstadosFinancierosComponent,
-    SegProcesosComponent
+    SegProcesosComponent,
+    DesempenioArimaComponent
   ],
   imports: [
     RouterModule.forChild(DashboardRoutes)

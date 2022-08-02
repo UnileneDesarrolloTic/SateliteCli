@@ -13,6 +13,7 @@ import { RentabilidadEstrategicoComponent } from './comercial/rentabilidad-estra
 import { DrogueriaComponent } from "./comercial/drogueria/drogueria.component";
 import { SeguimientoOperacionesComponent } from "./produccion/seguimiento-operaciones/seguimiento-operaciones.component";
 import { SegProcesosComponent } from "./comercial/seg-procesos/seg-procesos.component";
+import { DesempenioArimaComponent } from "./produccion/desempenio-arima/desempenio-arima.component";
 
 export const DashboardRoutes: Routes = [
     {
@@ -108,6 +109,13 @@ export const DashboardRoutes: Routes = [
                 data: {
                   title: "Dashboard producción pedidos arima"
                 }
+            },
+            {
+              path: 'desempenioarima',
+              component: DesempenioArimaComponent ,
+              data: {
+                title: "Desempeño arima y stocks"
+              }
             },
             {
               path: 'seguimiento-operaciones',
