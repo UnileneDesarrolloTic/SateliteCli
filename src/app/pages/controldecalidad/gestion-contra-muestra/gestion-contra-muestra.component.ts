@@ -57,7 +57,7 @@ export class GestionContraMuestraComponent implements OnInit {
 
   BuscarProducto(){
     if(this.CodloteFabricacion=='' || this.CodloteFabricacion==null){
-      return this.toastr.warning("Debe colocar el lote de fabricación");
+      return this.toastr.warning("Debe colocar el numero de lote");
     }
       this._ServiceControlCalidad.ObtenerOrdenFabricacion(this.CodloteFabricacion).subscribe(
           (resp)=>{
@@ -69,7 +69,7 @@ export class GestionContraMuestraComponent implements OnInit {
 
   BuscarTransaccion(){
     if(this.CodloteFabricacion=='' || this.CodloteFabricacion==null){
-        return this.toastr.warning("Debe colocar el lote de fabricación");
+        return this.toastr.warning("Debe colocar el numero de lote");
     }
 
     this._ServiceControlCalidad.ObtenerTransaccion(this.CodloteFabricacion,this.codAlmacen.value).subscribe(
