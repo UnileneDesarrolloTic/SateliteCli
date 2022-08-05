@@ -7,7 +7,10 @@ import { DetalleOrdenCompraMP } from '@data/interface/Response/DetalleordenCompr
 import { SubFamilia } from '@data/interface/Response/SubFamilia.Interface';
 import { ProduccionService } from '@data/services/backEnd/pages/produccion.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ModalCargarComponent } from '@shared/components/modal-cargar/modal-cargar.component';
+import { Cargarbase64Service } from '@shared/services/comunes/cargarbase64.service';
 import { GenericoService } from '@shared/services/comunes/generico.service';
+import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { debounceTime, pairwise, startWith } from 'rxjs/operators';
 
@@ -17,6 +20,7 @@ import { debounceTime, pairwise, startWith } from 'rxjs/operators';
   templateUrl: './compra-materia-prima.component.html'
 })
 export class CompraMateriaPrimaComponent implements OnInit {
+  hoy = new Date().toLocaleDateString();
   filtrosForm: FormGroup;
   ListaCompraMaterial: ComprasMateriaPrimaArima[] = [];
   ListaTemporalCompraMaterial: ComprasMateriaPrimaArima[] = [];
@@ -53,7 +57,9 @@ export class CompraMateriaPrimaComponent implements OnInit {
   };
 
 
-  constructor(private _modalService: NgbModal, private _fb: FormBuilder, 
+  constructor(private _modalService: NgbModal,
+              private toastr: ToastrService,
+              private servicebase64:Cargarbase64Service, private _fb: FormBuilder, 
               private _produccionService: ProduccionService, private _commonService: GenericoService) {
   
     this.inicializarFormulario();
@@ -256,6 +262,38 @@ export class CompraMateriaPrimaComponent implements OnInit {
     this.CargarFamiliaMP();
   }
 
+
+  exportarExcel(){
+
+    const ConstParametros = {
+      Periodo: this.filtrosForm.controls.periodo.value.replace("-", ""),
+      Regla: this.filtrosForm.controls.regla.value,
+      Agrupador: this.filtrosForm.controls.agrupador.value,
+      Familia: this.filtrosForm.controls.familia.value,
+      Linea: this.filtrosForm.controls.linea.value,
+      FamiliaMP:this.filtrosForm.controls.familiaMP.value,
+    }
+
+
+    const ModalCarga = this._modalService.open(ModalCargarComponent, {
+      centered: true,
+      backdrop: 'static',
+      size: 'sm',
+      scrollable: true
+    });
+    ModalCarga.componentInstance.fromParent = "Generando el Formato Excel";
+    this._produccionService.ExportarCompraArima(ConstParametros).subscribe(
+      (resp:any)=>{
+        if(resp.success){
+          this.servicebase64.file(resp.content,`CompraArima-${this.hoy}`,'xlsx',ModalCarga);
+        }else{
+          ModalCarga.close();
+          this.toastr.info(resp.message);
+        }
+      }
+    );
+
+  }
 
 
   

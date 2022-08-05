@@ -44,6 +44,12 @@ export class ProduccionService {
     );
   }
 
+  ExportarCompraArima(CompraMp){
+    return this._http.post<any[]>(this.url + "/api/Produccion/CompraMateriaPrimaExportar", CompraMp).pipe(
+      catchError ((ex)=> throwError('Ocurrio un error al obtener los pedidos'))
+    );
+  }
+
   DetalleControlCalidadMP(Item){
     const params =  new HttpParams().set('Item', Item)
 

@@ -108,6 +108,9 @@
                     <div class="row justify-content-center">
                         <button type="submit" [disabled]="!filtrosForm.valid"
                             class="btn btn-rounded btn-dark">Buscar</button>
+                        <button class="btn btn-success btn-rounded btn-outline-white" type="button" style="background-color: #77dd77; border:none" type="button" (click)="exportarExcel()">
+                            <i class="fas fa-file-excel"></i>  Excel
+                            </button>
                     </div>
                 </form>
             </div>
@@ -188,11 +191,20 @@
 
                         
                             <!-- Promedio Stock Disponible -->
-                            <ngx-datatable-column name="Disponible" prop="stockDisponible" [width]="100">
+                            <ngx-datatable-column name="Disp - Planta" prop="stockDisponible" [width]="100">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
                                     <span style="font-size: 11px !important">{{row.stockDisponible | number }}</span>
                                 </ng-template>
                             </ngx-datatable-column>
+
+
+                            <!--Stock Real -->
+                            <ngx-datatable-column name="Disponible" prop="stockReal" [width]="100">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <span style="font-size: 11px !important">{{row.stockReal | number }}</span>
+                                </ng-template>
+                            </ngx-datatable-column>
+
 
 
                              <!-- Promedio Orden de compra -->

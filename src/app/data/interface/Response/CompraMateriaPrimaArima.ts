@@ -20,6 +20,7 @@ export interface ComprasMateriaPrimaArima {
     aduanas: number,
     pendienteOC: number,
     stockDisponible: number,
+    stockReal: number,
     alerta: number,
     duracion:number,
     detalleCompra:DetalleOrdenCompraMP[],
