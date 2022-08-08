@@ -77,4 +77,10 @@ export class LicitacionesService {
     );
   }
 
+
+  ExportarDashboardLicitaciones(){
+    return this._http.get(this.url+"/api/Licitaciones/DashboardLicitacionesExportar").pipe(
+      catchError (() => throwError("Error al obtener Detalle de Pedido"))
+    );
+  }
 }

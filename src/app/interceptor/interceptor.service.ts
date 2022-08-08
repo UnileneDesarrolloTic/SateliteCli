@@ -122,6 +122,7 @@ export class InterceptorService implements HttpInterceptor {
       'Licitaciones/ListarGuiaInformacion',
       'Licitaciones/ListarContratoProceso',
       'Licitaciones/RegistrarContratoProceso',
+      'Licitaciones/DashboardLicitacionesExportar',
       'Logistica/ObtenerNumeroGuias',
       'Logistica/RegistrarRetornoGuia'
     ];
