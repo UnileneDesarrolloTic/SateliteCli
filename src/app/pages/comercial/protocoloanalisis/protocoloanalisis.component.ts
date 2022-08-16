@@ -24,6 +24,7 @@ export class ProtocoloAnalisisComponent {
   modalCargaReporte: any;
   modalBusquedaCliente: any;
   listaProtocoloAnalisis: ProtocoloAnalisisData[] = [];
+  listaProtocoloAnalisisTemporal: ProtocoloAnalisisData[] = [];
   pagina: Number = 1;
   pageSize: Number = 1000;
   page: Number = 1;
@@ -233,6 +234,7 @@ export class ProtocoloAnalisisComponent {
     };
 
     this._comercialService.ListarProtocoloAnalisis(body).subscribe((resp) => {
+      this.listaProtocoloAnalisisTemporal = resp["contenido"];
       this.listaProtocoloAnalisis = resp["contenido"];
       this.paginador = resp["paginado"];
       this.listaProtocoloAnalisis.length==0 && this.toastr.info("No se encontraron resultados");
@@ -399,5 +401,21 @@ export class ProtocoloAnalisisComponent {
       idCliente: "",
       nombreCliente: "",
     });
+  }
+
+
+  CambioEstadoTiene(event: any) {
+    this.listaProtocoloAnalisis = []
+    let TextFiltro = event.target.value;
+
+    this.listaProtocoloAnalisis = this.listaProtocoloAnalisisTemporal
+
+    if (TextFiltro == "S") { // Productos con alerta
+      this.listaProtocoloAnalisis = this.listaProtocoloAnalisisTemporal.filter((element:any) => element.protocoloFlag == 'S');
+    } else if (TextFiltro == "N") { //Productos sin alerta
+      this.listaProtocoloAnalisis = this.listaProtocoloAnalisisTemporal.filter(element => element.protocoloFlag == 'N');
+    } else {//Ambas
+      this.listaProtocoloAnalisis = this.listaProtocoloAnalisisTemporal
+    }
   }
 }

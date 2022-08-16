@@ -28,4 +28,42 @@ export class LogisticaService {
       catchError (() => throwError("Error al obtener Numeros de guia"))
     );
   }
+
+
+  ListarItemVentas(body){
+    return this._http.post<any[]>(this.url+"/api/Logistica/ListarItemVentas",body).pipe(
+      catchError (() => throwError("Error al obtener Listar Item Ventas"))
+    );
+  }
+
+  BuscarItemVentas(Item){
+    const params = new HttpParams().set('Item',Item);
+    return this._http.get<any[]>(this.url+"/api/Logistica/BuscarItemVentas", {'params': params}).pipe(
+      catchError (() => throwError("Error al obtener Buscar Item Ventas"))
+    );
+  }
+
+  ListarItemVentasExportar(body){
+    return this._http.post<any[]>(this.url+"/api/Logistica/ListarItemVentasExportar",body).pipe(
+      catchError (() => throwError("Error al obtener Buscar Item Ventas"))
+    );
+  }
+
+  ListarItemVentasDetalle(){
+    return this._http.get<any[]>(this.url+"/api/Logistica/ListarItemVentasDetalle").pipe(
+      catchError (() => throwError("Error al obtener Buscar Item Ventas Detalle"))
+    );
+  }
+
+  DetalleComprometidoItem(body){
+    return this._http.post<any[]>(this.url+"/api/Logistica/DetalleComprometidoItem",body).pipe(
+      catchError (() => throwError("Error al obtener Buscar Item Ventas Detalle Comprometido"))
+    );
+  }
+
+  ListarItemVentasDetalleExportar(){
+    return this._http.get<any[]>(this.url+"/api/Logistica/ListarItemVentasDetalleExportar").pipe(
+      catchError (() => throwError("Error al obtener Buscar Item Ventas Detalle Comprometido Export"))
+    );
+  }
 }

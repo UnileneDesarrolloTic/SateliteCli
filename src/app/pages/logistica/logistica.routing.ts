@@ -1,5 +1,6 @@
 import { Routes } from "@angular/router";
 import { AuthGuard } from "@guard/auth.guard";
+import { ConsultarStockVentasComponent } from "./consultar-stock-ventas/consultar-stock-ventas.component";
 import { GestionGuiasComponent } from "./gestion-guias/gestion-guias.component";
 import { MaestroItemComponent } from "./maestro-item/maestro-item.component";
 
@@ -42,6 +43,26 @@ export const LogisticaRoutes: Routes = [
       
     ]
   },
+  {
+    path: '',
+    canActivateChild: [AuthGuard],
+    children : [
+      {
+        path: 'stockventas',
+        component: ConsultarStockVentasComponent,
+        data: {
+          title: "Consultar stock para ventas",
+          urls: [
+            { title: 'Consultar stock para ventas' },
+            { title: 'Logistica' }
+            
+          ]
+        }
+      },
+      
+    ]
+  },
+
 
 
 ]

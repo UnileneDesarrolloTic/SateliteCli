@@ -167,27 +167,21 @@
             </div>
             
           </div>
-          <div class="row justify-content-end">
-            <div class="mt-auto mb-3 ml-auto mr-0">
-              <button
-                type="button"
-                class="btn btn-primary"
-                (click)="filtrarProtocoloAnalisis()"
-              >
-                <i class="fa fa-search"></i>
-                Buscar
-              </button>
+          <div class="row pl-2">
+            <div class=" form-group pl-2 col-sm-2 col-md-2">
+              <select class="custom-select" (change)="CambioEstadoTiene($event)" >
+                  <option value="TD">Todos</option>
+                  <option value="S">S</option>
+                  <option value="N">N</option>
+              </select>
             </div>
-            <div class="mt-auto mb-3 mr-0">
-              <button
-                type="button"
-                class="btn btn-info"
-                (click)="imprimirProtocoloAnalisis(modalGeneracion)"
-                [disabled]="!frmBusqueda.valid"
-              >
-                <i class="fa fa-print"></i>
-                Imprimir
-              </button>
+            <div class="ml-auto p-1">
+                <button type="button" class="btn btn-primary" (click)="filtrarProtocoloAnalisis()" >
+                    <i class="fa fa-search"></i> Buscar
+                </button>
+                <button type="button"  class="btn btn-info" (click)="imprimirProtocoloAnalisis(modalGeneracion)" [disabled]="!frmBusqueda.valid" >
+                  <i class="fa fa-print"></i> Imprimir
+                </button>
             </div>
           </div>
         </form>

@@ -1,0 +1,54 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+        Item: {{this.fromParent.item}}
+    </h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">
+            &times;
+        </span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="table-responsive table-sm">
+        <table class="table table-striped no-wrap border mt-4" style="font-size: 13px;">
+            <thead>
+                <tr>
+                    <th class="text-center">#</th>
+                    <th class="text-center">Nombre </th>
+                    <th class="text-center">Documento</th>
+                    <th class="text-center">Cant.Pedida</th>
+                    <th class="text-center">F.Documento </th>
+                    <th class="text-center">F.Vencimiento</th>
+                    <th class="text-center">T.Venta</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of ListarComprometido; let i = index">
+                    <td class="text-center">
+                        {{ i + 1 }}
+                    </td>
+                    <td class="text-center">
+                        {{ item.clienteNombre }}
+                    </td>
+                    <td class="text-center">
+                        {{ item.tipoDocumento }} - {{ item.numeroDocumento }}
+                    </td>
+                    <td class="text-center">
+                        {{ item.cantidadPedida | number}}
+                    </td>
+                    <td class="text-center">
+                        {{ item.fechaDocumento | date:'dd/MM/YYYY'}}
+                    </td>
+                    <td class="text-center">
+                        {{ item.fechaVencimiento | date:'dd/MM/YYYY' }}
+                    </td>
+                    <td class="text-center">
+                        {{ item.tipoVenta }}
+                    </td>
+                   
+
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

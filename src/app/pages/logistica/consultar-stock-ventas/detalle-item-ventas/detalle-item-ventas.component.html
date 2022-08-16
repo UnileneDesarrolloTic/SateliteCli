@@ -1,0 +1,56 @@
+<div class="modal-header">
+    <h4 class="modal-title">
+         Item: {{this.fromParent.item}}
+    </h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">
+            &times;
+        </span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="table-responsive table-sm">
+        <table class="table table-striped no-wrap border mt-4" style="font-size: 13px;">
+            <thead>
+                <tr>
+                    <th class="text-center">#</th>
+                    <th class="text-center">Cod. Almacen </th>
+                    <th class="text-center">Descripcion</th>
+                    <th class="text-center">Lote</th>
+                    <th class="text-center">Fabricacion</th>
+                    <th class="text-center">Actual</th>
+                    <th class="text-center">Comprometido</th>
+                    <th class="text-center">Disponible</th>
+                </tr>
+            </thead>
+            <tbody >
+                <tr *ngFor="let item of ListarDetalleItem; let i = index">
+                   <td class="text-center">
+                       {{ i + 1 }}
+                   </td>
+                   <td class="text-center">
+                       {{ item.almacenCodigo }}
+                   </td>
+                   <td class="text-center">
+                       {{ item.descripcionLocal  }}
+                   </td>
+                   <td class="text-center">
+                    {{ item.lote }}
+                    </td>
+                   <td class="text-center">
+                    {{ item.fabricacion }}
+                   </td>
+                   <td class="text-center">
+                       {{ item.stockActual | number}}
+                   </td>
+                   <td class="text-center">
+                        {{ item.stockComprometido | number}}
+                    </td>
+                    <td class="text-center">
+                        {{ item.stockDisponible | number}}
+                    </td>
+               </tr>
+           </tbody>
+        </table>
+    </div>
+</div>
