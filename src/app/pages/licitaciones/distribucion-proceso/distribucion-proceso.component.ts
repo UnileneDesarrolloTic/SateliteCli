@@ -97,12 +97,11 @@ export class DistribucionProcesoComponent implements OnInit  {
     for (let index = 0; index <= infordatelle.childNodes.length -2; index++) {
         var obj = Object();
         obj.idEntrega= parseInt((infordatelle.rows[index])?.cells.item(0).innerText);
-        obj.OrdenCompra =(infordatelle.rows[index])?.cells.item(13).innerText;
-        obj.Pecosa =(infordatelle.rows[index])?.cells.item(14).innerText;
+        obj.OrdenCompra =(infordatelle.rows[index])?.cells.item(13).innerText.trim();
+        obj.Pecosa =(infordatelle.rows[index])?.cells.item(14).innerText.trim();
         ArrayProceso.push(obj);
     }
       
-     
       this._licitacionesServices.RegistrarDistribuccionLP(ArrayProceso).subscribe(
         ((resp:any)=>{
             if(resp["success"]){

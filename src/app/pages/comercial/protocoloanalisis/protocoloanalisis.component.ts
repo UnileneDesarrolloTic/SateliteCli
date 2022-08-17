@@ -9,6 +9,8 @@ import { formatDate } from "@angular/common";
 import { PDFDocument } from "pdf-lib";
 import { saveAs } from "file-saver";
 import { ToastrService } from "ngx-toastr";
+import { ModalCargarComponent } from "@shared/components/modal-cargar/modal-cargar.component";
+import { Cargarbase64Service } from "@shared/services/comunes/cargarbase64.service";
 
 @Component({
   selector: "app-protocoloanalisis",
@@ -64,7 +66,8 @@ export class ProtocoloAnalisisComponent {
     private modalService: NgbModal,
     private _comercialService: ComercialService,
     private _sesionService: SesionService,
-    private _fb: FormBuilder
+    private _fb: FormBuilder,
+    private servicebase64:Cargarbase64Service,
   ) {
     this.crearFormularioBusqueda();
     this.filtrarClientes();
@@ -402,6 +405,11 @@ export class ProtocoloAnalisisComponent {
       nombreCliente: "",
     });
   }
+  
+
+  get CantidadObtenida(){
+      return this.listaProtocoloAnalisis.length;
+  }
 
 
   CambioEstadoTiene(event: any) {
@@ -417,5 +425,85 @@ export class ProtocoloAnalisisComponent {
     } else {//Ambas
       this.listaProtocoloAnalisis = this.listaProtocoloAnalisisTemporal
     }
+  }
+
+
+  ExportarExcel(){
+
+       
+    let checkbox = <HTMLInputElement>(
+      document.getElementById("alternaSeleccion")
+    );
+    checkbox.checked = false;
+    let fecIni = "";
+    let fecFin = "";
+    let date = new Date();
+    let day = date.getDate();
+    let dayS = day < 10 ? "0" + day : day;
+    let month = date.getMonth() + 1;
+    let monthS = month < 10 ? "0" + month : month;
+    let year = date.getFullYear();
+    let now = `${year}-${monthS}-${dayS}`;
+
+    if (this.frmBusqueda.get("fechaInicio").value === "") {
+      fecIni = now;
+      fecFin = now;
+    } else {
+      fecIni = formatDate(
+        this.frmBusqueda.get("fechaInicio").value,
+        "dd/MM/yyyy",
+        "en"
+      );
+      fecFin = formatDate(
+        this.frmBusqueda.get("fechaFin").value,
+        "dd/MM/yyyy",
+        "en"
+      );
+      if (
+        this.frmBusqueda.get("fechaInicio").value >
+        this.frmBusqueda.get("fechaFin").value
+      ) {
+        this.toastr.error("La Fecha Inicio no puede ser mayor a la Fecha Fin");
+      }
+    }
+
+    if(this.frmBusqueda.controls.tipoDocu.value=="N"){
+        if(this.frmBusqueda.controls.ordenFabricacion.value.trim()=="" && this.frmBusqueda.controls.lote.value.trim()==""){
+            return this.toastr.info("Debe Ingresar la Orden de fabricación o Lote");
+        }
+
+        
+        
+    }
+
+    const body = {
+      FechaInicio: fecIni,
+      FechaFinal: fecFin,
+      NumeroDocumento: this.frmBusqueda.get("numeroDocumento").value,
+      Lote: this.frmBusqueda.get("lote").value,
+      OrdenFabricacion: this.frmBusqueda.get("ordenFabricacion").value,
+      IdCliente: this.frmBusqueda.get("idCliente").value,
+      TipoDoc: this.frmBusqueda.get("tipoDocu").value,
+      Pagina: this.pagina,
+      RegistrosPorPagina: 1000,
+    };
+
+    const ModalCarga = this.modalService.open(ModalCargarComponent, {
+      centered: true,
+      backdrop: 'static',
+      size: 'sm',
+      scrollable: true
+    });
+    ModalCarga.componentInstance.fromParent = "Generando el Formato Excel";
+    this._comercialService.ExportarExcelProtocoloAnalisis(body).subscribe(
+      (resp:any)=>{
+        if(resp.success){
+          this.servicebase64.file(resp.content,`ProtocoloAnalisis`,'xlsx',ModalCarga);
+        }else{
+          ModalCarga.close();
+          this.toastr.info(resp.message);
+        }
+      }
+    );
   }
 }

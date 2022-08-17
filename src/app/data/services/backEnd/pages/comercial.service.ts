@@ -67,11 +67,15 @@ export class ComercialService {
     .pipe(catchError(() => throwError("Error al registrar el reporte")));
   }
 
-
-  
   RegistrarGuiaPorFacturar(body){
     return this._http
     .post(this.url + "RegistrarGuiaporFacturar", body)
+    .pipe(catchError(() => throwError("Error al registrar el reporte")));
+  }
+
+  ExportarExcelProtocoloAnalisis(body){
+    return this._http
+    .post(this.url + "ListarProtocoloAnalisisExportar", body)
     .pipe(catchError(() => throwError("Error al registrar el reporte")));
   }
 

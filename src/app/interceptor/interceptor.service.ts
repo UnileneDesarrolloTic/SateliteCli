@@ -63,6 +63,7 @@ export class InterceptorService implements HttpInterceptor {
       'Comercial/ListarProtocoloAnalisis',
       'Comercial/ListarClientes',
       'Comercial/GenerarReporteProtocoloAnalisis',
+      'Comercial/ListarProtocoloAnalisisExportar',
       'Comercial/ListarDocumentoLicitacion',
       'Comercial/NumerodeGuiaLicitacion',
       'Comercial/NumeroPedido',
