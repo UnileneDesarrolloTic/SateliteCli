@@ -4,25 +4,35 @@
             <div class="card-body">
                 <form [formGroup]="filtrosForm" (submit)="BuscarProducto()">
                     <div class="row justify-content-start">
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <div class="form-group">
                               <label class="control-label">Item:</label>
-                              <input type="text"  formControlName="Item" class="form-control form-control-sm" placeholder="Ingrese el Item">
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                              <label class="control-label">Número Parte:</label>
-                              <input type="text"  formControlName="Codsut" class="form-control form-control-sm" placeholder="Ingrese el Número Parte">
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                              <label class="control-label">Descripción</label>
-                              <input type="text"  formControlName="Descripcion" class="form-control form-control-sm" placeholder="Ingrese la Descripción">
+                              <input type="text"  formControlName="Item" class="form-control form-control-sm" placeholder="Item">
                             </div>
                         </div>
                         <div class="col-md-2">
+                            <div class="form-group">
+                              <label class="control-label">Número Parte:</label>
+                              <input type="text"  formControlName="Codsut" class="form-control form-control-sm" placeholder="Número Parte">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                              <label class="control-label">Descripción:</label>
+                              <input type="text"  formControlName="Descripcion" class="form-control form-control-sm" placeholder="Descripción">
+                            </div>
+                        </div>
+                        <!-- <div class="col-md-2">
+                            <div class="form-group">
+                              <label class="control-label TamanoLetra">Origen: </label>
+                              <select class="form-control  form-control-sm"  formControlName="Origen">
+                                <option [value]="null">TODOS</option>
+                                <option value="P">NACIONAL</option>
+                                <option value="DMI">EXTRANJERO</option>
+                              </select>
+                            </div>
+                          </div> -->
+                          <div class="col-md-2">
                             <div class="form-group">
                               <label class="control-label TamanoLetra">Marca:</label>
                               <select class="form-control  form-control-sm"  formControlName="idmarca">

@@ -39,6 +39,7 @@ export class ConsultarStockVentasComponent implements OnInit {
       Item: new FormControl(''),
       Codsut:new FormControl(''),
       Descripcion:new FormControl(''),
+      //Origen: new FormControl(null),
       idmarca:new FormControl(null),
     })
 

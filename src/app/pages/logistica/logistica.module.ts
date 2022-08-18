@@ -14,6 +14,7 @@ import { DetalleItemVentasComponent } from './consultar-stock-ventas/detalle-ite
 import { TagResumenComponent } from './consultar-stock-ventas/tag-resumen/tag-resumen.component';
 import { TagDetalleComponent } from './consultar-stock-ventas/tag-detalle/tag-detalle.component';
 import { ModalDetalleComprometidoComponent } from './consultar-stock-ventas/modal-detalle-comprometido/modal-detalle-comprometido.component';
+import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
 
 
 @NgModule({
@@ -28,6 +29,7 @@ import { ModalDetalleComprometidoComponent } from './consultar-stock-ventas/moda
     NgbModule,
     FormsModule,
     ReactiveFormsModule,
+    NgMultiSelectDropDownModule,
     NgxDatatableModule,
   ],
   exports:

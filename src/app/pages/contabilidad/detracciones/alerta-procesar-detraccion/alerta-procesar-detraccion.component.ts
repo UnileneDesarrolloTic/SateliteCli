@@ -26,7 +26,7 @@ export class AlertaProcesarDetraccionComponent implements OnInit {
             ) {
 
               this.form = this.fb.group({
-                periodo : ['',[Validators.required,Validators.maxLength(6)]],
+                periodo : ['',[Validators.required]],
               })
              
     }
@@ -43,7 +43,7 @@ export class AlertaProcesarDetraccionComponent implements OnInit {
         const ConstDetraccion={
           periodo:this.form.controls.periodo.value,
           proceso:this.fromParent.detalle,
-          totalimporte: this.fromParent.totalimporte
+          totalimporte: this.fromParent.totalimporte.toFixed(2).replace('.','')
         }
         
        this.ModalCarga(modalGeneracion,ConstDetraccion)
@@ -94,7 +94,7 @@ export class AlertaProcesarDetraccionComponent implements OnInit {
     const exportLinkElement = document.createElement('a');
 
     exportLinkElement.hidden = true;
-    exportLinkElement.download = "D20197705249"+".txt";
+    exportLinkElement.download = "D20197705249"+periodo+".txt";
     exportLinkElement.href = objectURL;
     exportLinkElement.text = "downloading...";
 

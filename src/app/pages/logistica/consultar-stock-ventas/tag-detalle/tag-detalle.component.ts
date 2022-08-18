@@ -41,7 +41,7 @@ export class TagDetalleComponent implements OnInit {
   filtroItem(){
     if (this.textFilterCtrl.value != '') {
       const TextFiltro = this.textFilterCtrl.value.toLowerCase().trim();
-      this.ListarItemDetalle = this.ListarItemDetalleTemporal.filter(element => element.item.toLowerCase().indexOf(TextFiltro) !== -1 );
+      this.ListarItemDetalle = this.ListarItemDetalleTemporal.filter(element => element.item.toLowerCase().indexOf(TextFiltro) !== -1 || element.descripcionItem?.toLowerCase().indexOf(TextFiltro) !== -1 );
     } else {
       this.ListarItemDetalle = this.ListarItemDetalleTemporal;
     }
