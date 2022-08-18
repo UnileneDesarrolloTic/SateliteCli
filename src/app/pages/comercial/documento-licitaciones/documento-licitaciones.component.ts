@@ -30,6 +30,8 @@ export class DocumentoLicitacionesComponent implements OnInit {
   condicion = new FormControl(true);
   Protocolo = new FormControl(true);
   Carta = new FormControl(true);
+  practicas=new FormControl(true);
+  Manufactura=new FormControl(true);
 
   buscarnumeroguia:string="";
   buscarnumeroguiaCambio = new Subject<string>();
@@ -197,6 +199,8 @@ export class DocumentoLicitacionesComponent implements OnInit {
       condicion:this.condicion.value,
       Protocolo:this.Protocolo.value,
       Carta:this.Carta.value,
+      practicas:this.practicas.value,
+      Manufactura:this.Manufactura.value,
       ListaGuias:this.SeleccionArrayListar
     }
       const ModalCarga = this.modalService.open(ModalCargarComponent, {
