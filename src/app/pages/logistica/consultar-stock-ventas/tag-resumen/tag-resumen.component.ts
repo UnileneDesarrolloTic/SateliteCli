@@ -42,7 +42,7 @@ export class TagResumenComponent implements OnInit {
   filtroItem(){
     if (this.textFilterResumen.value != '') {
       const TextFiltro = this.textFilterResumen.value.toLowerCase().trim();
-      this.ListarItem = this.ListarItemTemporal.filter(element => element.item.toLowerCase().indexOf(TextFiltro) !== -1 || element.descripcionLocal?.toLowerCase().indexOf(TextFiltro) !== -1 );
+      this.ListarItem = this.ListarItemTemporal.filter(element => element.item.toLowerCase().indexOf(TextFiltro) !== -1 || element.descripcionLocal?.toLowerCase().indexOf(TextFiltro) !== -1 || element.numeroDeParte?.toLowerCase().indexOf(TextFiltro) !== -1);
     } else {
       this.ListarItem = this.ListarItemTemporal;
     }
