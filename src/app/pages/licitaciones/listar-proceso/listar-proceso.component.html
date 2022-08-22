@@ -24,7 +24,7 @@
                     <th class="text-center" scope="col">Descripción Comercial Detalle</th>
                     <th class="text-center" scope="col">CantItem</th>
                     <th class="text-center" scope="col">Contrato</th>
-                    <th class="text-center" scope="col">Avance</th>
+                    <th class="text-center" scope="col">Orden Compra</th>
                     <th class="text-center" scope="col">Inasa</th>
                     <th class="text-center" scope="col">Guias</th>
                   </tr>
@@ -39,7 +39,7 @@
                       <button type="button"   style="font-size: 10px;background-color: #c763d4;border: none;"  (click)="AbrirModuloContrato(proceso.idProceso)"  class="btn btn-warning text-white"><i class="fas fa-file-alt"></i></button>
                     </td>
                     <td class="text-center" >
-                      <button type="button"   style="font-size: 10px;background-color: #FED520;border: none;"  class="btn btn-warning text-dark"><i class="fas fa-signal"></i></button>
+                      <button type="button"   style="font-size: 10px;background-color: #c57291;border: none;"  (click)="AbrirOrdenCompra(proceso)" class="btn btn-danger"><i class="far fa-edit"></i></button>
                     </td>
                     <td class="text-center">
                       <button type="button" class="btn btn-info"  style="font-size: 10px;background-color: #4596DA;border: none;" (click)="AbrirModuloMuestrayEnsayo(proceso)"><i class="fas fa-list-alt"></i></button>

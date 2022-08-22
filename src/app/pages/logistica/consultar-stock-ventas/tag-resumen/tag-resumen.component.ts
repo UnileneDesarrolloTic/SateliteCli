@@ -30,7 +30,6 @@ export class TagResumenComponent implements OnInit {
   ngOnInit(): void {
     this.ListarItemTemporal=this.ListarItem;
     this.instanciarObservadoresFilter();
-    console.log(this.ObjectBusqueda);
   }
 
   instanciarObservadoresFilter(){

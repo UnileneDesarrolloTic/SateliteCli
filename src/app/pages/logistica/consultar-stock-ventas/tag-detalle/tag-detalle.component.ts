@@ -63,13 +63,12 @@ export class TagDetalleComponent implements OnInit {
     modalRef.result.then((result) => {
       
     }, (reason) => {
-      // console.log("salir2", reason)
+      
     });
   }
 
 
   ExportExcel(){
-    console.log(this.periodo);
     const ModalCarga = this._modalService.open(ModalCargarComponent, {
       centered: true,
       backdrop: 'static',

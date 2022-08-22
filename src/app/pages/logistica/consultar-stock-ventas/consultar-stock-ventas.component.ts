@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ItemVentasModel } from '@data/interface/Response/DatosFormatoItemsVentas.interfaces';
 import { LogisticaService } from '@data/services/backEnd/pages/logistica.service';
 import { NgbTabChangeEvent } from '@ng-bootstrap/ng-bootstrap';
@@ -6,6 +6,7 @@ import { DetalleItemVentasModel } from '@data/interface/Response/DatosFormatosIt
 import { FormControl, FormGroup } from '@angular/forms';
 import { GenericoService } from '@shared/services/comunes/generico.service';
 import { MarcarModel } from '@data/interface/Response/DatosMarca.interface';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 
 
@@ -22,7 +23,16 @@ export class ConsultarStockVentasComponent implements OnInit {
   ListarItemDetalleTemporal:ItemVentasModel[]=[];
   ListarItemDetalle:DetalleItemVentasModel[]=[];
   flagLoading: boolean = false;
+  opcionMarcar:string ='';
+  dato={}
 
+
+  dropdownList = [];
+  selectedItems = [];
+  dropdownSettings = {};
+
+
+  
   constructor(private _LogisticaService: LogisticaService,
               private _GenericoService:GenericoService) { }
 
@@ -31,6 +41,18 @@ export class ConsultarStockVentasComponent implements OnInit {
     this.ListarItemVentasResumen();
     this.ListarItemVentasDetalle();
     this.ListarMarca();
+
+
+
+    this.dropdownSettings = {
+      singleSelection: false,
+      idField: 'marcaCodigo',
+      textField: 'descripcionLocal',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 0,
+      allowSearchFilter: true,
+      maxHeight:150
+    };
   
   }
 
@@ -39,7 +61,7 @@ export class ConsultarStockVentasComponent implements OnInit {
       Item: new FormControl(''),
       Codsut:new FormControl(''),
       Descripcion:new FormControl(''),
-      //Origen: new FormControl(null),
+      Origen: new FormControl(0),
       idmarca:new FormControl(null),
     })
 
@@ -56,7 +78,19 @@ export class ConsultarStockVentasComponent implements OnInit {
 
   ListarItemVentasResumen(){
     this.flagLoading=true;
-    this._LogisticaService.ListarItemVentas(this.filtrosForm.value).subscribe(
+    this.opcionMarcar="";
+    this.filtrosForm.controls.idmarca.value?.forEach(element => {
+      this.opcionMarcar+=element.marcaCodigo+","
+    });
+
+    this.dato={
+      ...this.filtrosForm.value,
+      Origen:parseInt(this.filtrosForm.controls.Origen.value),
+      idmarca:this.opcionMarcar
+    }
+
+    //CAMBIAMOS EL FORMATO 
+    this._LogisticaService.ListarItemVentas(this.dato).subscribe(
       (resp:any)=>{
             this.ListarItem = resp;
             this.ListarItemDetalleTemporal=resp;
@@ -78,6 +112,7 @@ export class ConsultarStockVentasComponent implements OnInit {
       (resp:any)=>{
         if(resp["success"]){
           this.Marcas=resp["content"];
+          this.filtrosForm.get("idmarca").patchValue(this.Marcas);
         }
       }
     )

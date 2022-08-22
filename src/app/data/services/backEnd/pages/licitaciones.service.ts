@@ -43,6 +43,27 @@ export class LicitacionesService {
     );
   }
 
+  ListarTipoUsuario(itemBusqueda){
+    const params = new HttpParams().set('NumeroProceso',itemBusqueda.IdProceso).set('Item',itemBusqueda.Item).set('Mes',itemBusqueda.NumeroEntrega);
+    return this._http.get(this.url+"/api/Licitaciones/ObtenerTipoUsuario", {'params': params}).pipe(
+      catchError (() => throwError("Error al obtener Detalle de Pedido"))
+    );
+  }
+
+  BuscarOrdenCompraLicitaciones(itemBusqueda){
+
+    const params = new HttpParams().set('NumeroProceso',itemBusqueda.IdProceso).set('NumeroEntrega',itemBusqueda.NumeroEntrega).set('Item',itemBusqueda.Item).set('TipoUsuario',itemBusqueda.TipoUsuario);
+    return this._http.get(this.url+"/api/Licitaciones/BuscarOrdenCompraLicitaciones", {'params': params}).pipe(
+      catchError (() => throwError("Error al obtener Registrar Orden Compra"))
+    );
+  }
+
+  RegistrarOrdenCompra(body){
+    return this._http.post(this.url+"/api/Licitaciones/RegistrarOrdenCompra", body).pipe(
+      catchError (() => throwError("Error al obtener Registrar Orden Compra"))
+    );
+  }
+
   ListarProgramacionMuestrasLIP(itemBusqueda){
     const params = new HttpParams().set('IdProceso',itemBusqueda.IdProceso).set('NumeroEntrega',itemBusqueda.NumeroEntrega);
     return this._http.get<DetallePedido[]>(this.url+"/api/Licitaciones/ListarProgramaMuestraLIP", {'params': params}).pipe(

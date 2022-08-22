@@ -1,76 +1,77 @@
 <div class="row">
-    <div class="col-lg-12">
-        <div class="card">
-            <div class="card-body">
-                <form [formGroup]="filtrosForm" (submit)="BuscarProducto()">
-                    <div class="row justify-content-start">
-                        <div class="col-md-2">
-                            <div class="form-group">
-                              <label class="control-label">Item:</label>
-                              <input type="text"  formControlName="Item" class="form-control form-control-sm" placeholder="Item">
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-group">
-                              <label class="control-label">Número Parte:</label>
-                              <input type="text"  formControlName="Codsut" class="form-control form-control-sm" placeholder="Número Parte">
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                              <label class="control-label">Descripción:</label>
-                              <input type="text"  formControlName="Descripcion" class="form-control form-control-sm" placeholder="Descripción">
-                            </div>
-                        </div>
-                        <!-- <div class="col-md-2">
-                            <div class="form-group">
-                              <label class="control-label TamanoLetra">Origen: </label>
-                              <select class="form-control  form-control-sm"  formControlName="Origen">
-                                <option [value]="null">TODOS</option>
-                                <option value="P">NACIONAL</option>
-                                <option value="DMI">EXTRANJERO</option>
-                              </select>
-                            </div>
-                          </div> -->
-                          <div class="col-md-2">
-                            <div class="form-group">
-                              <label class="control-label TamanoLetra">Marca:</label>
-                              <select class="form-control  form-control-sm"  formControlName="idmarca">
-                                <option [value]="null">TODOS</option>
-                                <option *ngFor="let marca of Marcas"   [value]="marca.marcaCodigo">
-                                  {{marca.marcaCodigo}}-{{marca.descripcionLocal}}
-                                </option>
-                              </select>
-                            </div>
-                          </div>
-                    </div>
-                    <div class="row justify-content-start">
-                        <div class="ml-auto p-2">
-                            <button class="btn btn-primary btn-sm " type="submit" style="background-color: #0275D8; border: none;"> <i
-                                    class=" fas fa-search"></i> Buscar</button>
-                        </div>
-                    </div>
-                </form>
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-body">
+        <form [formGroup]="filtrosForm" (submit)="BuscarProducto()">
+          <div class="row justify-content-start">
+            <div class="col-md-2">
+              <div class="form-group">
+                <label class="control-label">Item:</label>
+                <input type="text" formControlName="Item" class="form-control form-control-sm" placeholder="Item">
+              </div>
             </div>
-        </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                <label class="control-label">Número Parte:</label>
+                <input type="text" formControlName="Codsut" class="form-control form-control-sm"
+                  placeholder="Número Parte">
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group">
+                <label class="control-label">Descripción:</label>
+                <input type="text" formControlName="Descripcion" class="form-control form-control-sm"
+                  placeholder="Descripción">
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                <label  class="control-label TamanoLetra">Marca:</label>
+                <ng-multiselect-dropdown #multiSelect style="font-size: 12px;" placeholder="Marca" [settings]="dropdownSettings"
+                  [data]="Marcas" formControlName="idmarca"> 
+                </ng-multiselect-dropdown>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                <label class="control-label TamanoLetra">Origen: </label>
+                <select class="form-control  form-control-sm"  formControlName="Origen">
+                  <option [value]="0">TODOS</option>
+                  <option [value]="1">NACIONAL</option>
+                  <option [value]="2">IMPORTACION</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="row justify-content-start">
+            <div class="ml-auto p-2">
+              <button class="btn btn-primary btn-sm " type="submit" 
+                      style="background-color: #0275D8; border: none;"> <i
+                  class=" fas fa-search"></i> Buscar</button>
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
+  </div>
 </div>
 
 
 <div class="card">
-    <div class="card-body">
-        <ngb-tabset>
-          <ngb-tab title="Resumen">
-            <ng-template ngbTabContent>
-                <app-tag-resumen *ngIf="ListarItem.length>0"  [ObjectBusqueda]="filtrosForm.value"  [ListarItem]="ListarItem" [ListarItemDetalleTemporal]="ListarItemDetalleTemporal" [flagLoading]="flagLoading" ></app-tag-resumen>
-            </ng-template>
-          </ngb-tab>
-          <ngb-tab>
-            <ng-template ngbTabTitle><b>Detalle</b></ng-template>
-            <ng-template ngbTabContent>
-                <app-tag-detalle *ngIf="ListarItemDetalle.length>0"  [ListarItemDetalle]="ListarItemDetalle" ></app-tag-detalle>
-            </ng-template>
-          </ngb-tab>
-        </ngb-tabset>
-      </div>
+  <div class="card-body">
+    <ngb-tabset>
+      <ngb-tab title="Resumen">
+        <ng-template ngbTabContent>
+          <app-tag-resumen *ngIf="ListarItem.length>0" [ObjectBusqueda]="dato" [ListarItem]="ListarItem"
+            [ListarItemDetalleTemporal]="ListarItemDetalleTemporal" [flagLoading]="flagLoading"></app-tag-resumen>
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab>
+        <ng-template ngbTabTitle><b>Detalle</b></ng-template>
+        <ng-template ngbTabContent>
+          <app-tag-detalle *ngIf="ListarItemDetalle.length>0" [ListarItemDetalle]="ListarItemDetalle"></app-tag-detalle>
+        </ng-template>
+      </ngb-tab>
+    </ngb-tabset>
+  </div>
 </div>
