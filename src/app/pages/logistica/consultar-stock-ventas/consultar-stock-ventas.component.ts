@@ -94,7 +94,7 @@ export class ConsultarStockVentasComponent implements OnInit {
       idmarca:this.opcionMarcar
     }
 
-    //CAMBIAMOS EL FORMATO 
+    
     this._LogisticaService.ListarItemVentas(this.dato).subscribe(
       (resp:any)=>{
             this.ListarItem = resp;
