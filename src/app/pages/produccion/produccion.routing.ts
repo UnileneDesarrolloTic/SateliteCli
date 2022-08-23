@@ -5,6 +5,8 @@ import { MateriaPrimaComponent } from '@pages/produccion/arima/materia-prima/mat
 import { LogPedidosAutomaticosComponent } from '@pages/produccion/arima/log-pedidos-automaticos/log-pedidos-automaticos.component';
 import { CompraMateriaPrimaComponent } from "./arima/compra-materia-prima/compra-materia-prima.component";
 import { EtiquetasComponent } from "./gestion/etiquetas/etiquetas.component";
+import { SeguimientoOperacionesComponent } from "@pages/dashboard/produccion/seguimiento-operaciones/seguimiento-operaciones.component";
+import { SeguimientoOrdenCompraComponent } from "./gestion/seguimiento-orden-compra/seguimiento-orden-compra.component";
 
 export const ProduccionRoutes: Routes = [
   {
@@ -51,6 +53,14 @@ export const ProduccionRoutes: Routes = [
         component: EtiquetasComponent,
         data: {
           title: "Reimpresión de Etiquetas"
+        }
+      },
+
+      {
+        path: 'seguimientoOC',
+        component: SeguimientoOrdenCompraComponent,
+        data: {
+          title: "Seguimiento de la orden de compra"
         }
       },
      

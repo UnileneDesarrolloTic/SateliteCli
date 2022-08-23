@@ -1,9 +1,12 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule,registerLocaleData } from '@angular/common';
+import localeEs from '@angular/common/locales/es';
 import { RouterModule } from '@angular/router';
 import { ProduccionRoutes } from './produccion.routing';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NotifierModule } from 'angular-notifier';
 import { MateriaPrimaComponent } from './arima/materia-prima/materia-prima.component';
@@ -12,6 +15,11 @@ import { ProductoTerminadoComponent } from './arima/producto-terminado/producto-
 import { CompraMateriaPrimaComponent } from './arima/compra-materia-prima/compra-materia-prima.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { EtiquetasComponent } from './gestion/etiquetas/etiquetas.component';
+import { SeguimientoOrdenCompraComponent } from './gestion/seguimiento-orden-compra/seguimiento-orden-compra.component';
+
+
+registerLocaleData(localeEs);
+
 
 @NgModule({
   declarations: [
@@ -19,10 +27,15 @@ import { EtiquetasComponent } from './gestion/etiquetas/etiquetas.component';
     LogPedidosAutomaticosComponent,
     ProductoTerminadoComponent,
     CompraMateriaPrimaComponent,
-    EtiquetasComponent
+    EtiquetasComponent,
+    SeguimientoOrdenCompraComponent
   ],
   imports: [
     RouterModule.forChild(ProduccionRoutes),
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory
+  }),
     CommonModule,
     NgxDatatableModule,
     FormsModule,
