@@ -43,35 +43,35 @@
 
 
                             <!-- numeroDeParte -->
-                            <ngx-datatable-column name="Codsut" prop="numeroDeParte" [width]="80">
+                            <ngx-datatable-column name="Codsut" prop="numeroDeParte" [width]="120">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
                                     <span style="font-size: 11px !important"> {{row.numeroDeParte}} </span>
                                 </ng-template>
                             </ngx-datatable-column>
 
                             <!-- subFamilia -->
-                            <ngx-datatable-column name="SubFamilia" prop="subFamilia" [width]="40">
+                            <ngx-datatable-column name="SubFamilia" prop="subFamilia" [width]="100">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
                                     <span style="font-size: 11px !important"> {{row.subFamilia}} </span>
                                 </ng-template>
                             </ngx-datatable-column>
 
                             <!-- subFamilia -->
-                            <ngx-datatable-column name="Marca" prop="nombreMarca" [width]="80">
+                            <ngx-datatable-column name="Marca" prop="nombreMarca" [width]="120">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
                                     <span style="font-size: 11px !important"> {{row.nombreMarca}} </span>
                                 </ng-template>
                             </ngx-datatable-column>
 
                             <!-- presentacion -->
-                            <ngx-datatable-column name="Presentacion" prop="presentacion" [width]="50">
+                            <ngx-datatable-column name="Presentacion" prop="presentacion" [width]="120">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
                                     <span style="font-size: 11px !important"> {{row.presentacion}} </span>
                                 </ng-template>
                             </ngx-datatable-column>
 
                             <!-- stockActual -->
-                            <ngx-datatable-column name="Actual" prop="stockActual" [width]="50">
+                            <ngx-datatable-column name="Actual" prop="stockActual" [width]="80">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
                                     <span style="font-size: 11px !important" *ngIf="row.stockActual < 1" >
                                         {{row.stockActual | number }}
@@ -84,14 +84,14 @@
                             </ngx-datatable-column>
 
                             <!-- stockComprometido -->
-                            <ngx-datatable-column name="Comprometido" prop="stockComprometido" [width]="50">
+                            <ngx-datatable-column name="Comprometido" prop="stockComprometido" [width]="80">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
                                     <span style="font-size: 11px !important"> {{row.stockComprometido}} </span>
                                 </ng-template>
                             </ngx-datatable-column>
     
                              <!-- stockComprometido -->
-                             <ngx-datatable-column name="Disponible" prop="stockDisponible" [width]="50">
+                             <ngx-datatable-column name="Disponible" prop="stockDisponible" [width]="80">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
                                     <span style="font-size: 11px !important"> {{row.stockDisponible}} </span>
                                 </ng-template>
