@@ -7,6 +7,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { GenericoService } from '@shared/services/comunes/generico.service';
 import { MarcarModel } from '@data/interface/Response/DatosMarca.interface';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { AgrupadorModel } from '@data/interface/Response/DatosAgrupador.interface';
 
 
 
@@ -18,7 +19,9 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 export class ConsultarStockVentasComponent implements OnInit {
   hoy = new Date().toLocaleDateString();
   ListarItem:ItemVentasModel[]=[];
-  Marcas:MarcarModel[]=[]
+  Marcas:MarcarModel[]=[];
+  ListarAgrupador:AgrupadorModel[]=[];
+
   filtrosForm: FormGroup;
   ListarItemDetalleTemporal:ItemVentasModel[]=[];
   ListarItemDetalle:DetalleItemVentasModel[]=[];
@@ -41,6 +44,7 @@ export class ConsultarStockVentasComponent implements OnInit {
     this.ListarItemVentasResumen();
     this.ListarItemVentasDetalle();
     this.ListarMarca();
+    this.Agrupador();
 
 
 
@@ -62,6 +66,7 @@ export class ConsultarStockVentasComponent implements OnInit {
       Codsut:new FormControl(''),
       Descripcion:new FormControl(''),
       Origen: new FormControl(0),
+      idAgrupador:new FormControl(null),
       idmarca:new FormControl(null),
     })
 
@@ -89,7 +94,7 @@ export class ConsultarStockVentasComponent implements OnInit {
       idmarca:this.opcionMarcar
     }
 
-    //CAMBIAMOS EL FORMATO 
+    
     this._LogisticaService.ListarItemVentas(this.dato).subscribe(
       (resp:any)=>{
             this.ListarItem = resp;
@@ -113,6 +118,16 @@ export class ConsultarStockVentasComponent implements OnInit {
         if(resp["success"]){
           this.Marcas=resp["content"];
           this.filtrosForm.get("idmarca").patchValue(this.Marcas);
+        }
+      }
+    )
+  }
+
+  Agrupador(){
+    this._GenericoService.ListarAgrupador().subscribe(
+      (resp:any)=>{
+        if(resp["success"]){
+          this.ListarAgrupador=resp["content"];
         }
       }
     )
