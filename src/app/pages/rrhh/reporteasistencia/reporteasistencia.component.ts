@@ -1,14 +1,9 @@
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { RRHHService } from '@data/services/backEnd/pages/rrhh.service';
 import { Component, OnInit } from '@angular/core';
-import { Paginado } from '@data/interface/Comodin/Paginado.interface';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { GenericoService } from '@shared/services/comunes/generico.service';
-import { DatePipe } from '@angular/common';
-import { CryptoService } from '@shared/services/comunes/crypto.service';
+import { formatDate } from '@angular/common';
 import { saveAs } from 'file-saver';
-import { SesionService } from '@shared/services/comunes/sesion.service';
-import { UsuarioSesionData } from '@data/interface/Response/UsuarioSesionDara.interface';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-reporteasistencia',
@@ -18,11 +13,10 @@ import { UsuarioSesionData } from '@data/interface/Response/UsuarioSesionDara.in
 export class ReporteAsistenciaComponent implements OnInit {
 
   modalCargaReporte: any;
-  constructor(private _fb: FormBuilder, private modalService: NgbModal, private _RRHHService: RRHHService,
-      private genericoServices: GenericoService, private datePipe: DatePipe, private _cryptoService: CryptoService, private _sesionService: SesionService)
-  {
+  listaAsistencia: any[] = [];
 
-  }
+  fechaForm: Date;
+  constructor(private modalService: NgbModal, private _RRHHService: RRHHService, private _toastrService: ToastrService) {}
 
   ngOnInit(): void {
     var fecha = (<HTMLInputElement>document.getElementById("FechaReporte"))
@@ -81,5 +75,27 @@ export class ReporteAsistenciaComponent implements OnInit {
       this.downloadFile(base64, "ReporteDiario_" + fecha.toString() + ".xls");
       this.modalCargaReporte.close();
     });
+
+    console.log(body);
+    
+  }
+
+  VistaPreviaAsistencia()
+  {    
+
+    if(this.fechaForm == undefined || this.fechaForm == null || !this.fechaForm )
+    {
+      this._toastrService.warning("La fecha no es válida", "Advertencia !!", {timeOut: 3000, closeButton: true, tapToDismiss: true, progressBar: true})
+      return
+    }
+
+    this.listaAsistencia = []
+
+    const fechaDate: Date = new Date(formatDate(this.fechaForm, 'MM-dd-yyyy', 'en-US'));
+    
+    this._RRHHService.ObtenerListaAsistencia(fechaDate).subscribe(
+      asistencia => this.listaAsistencia = asistencia
+    );
+    
   }
 }
