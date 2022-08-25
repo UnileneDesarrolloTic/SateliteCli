@@ -80,6 +80,13 @@ export class GenericoService {
     );
   }
 
+  ListarGenerar(idlinea){
+    const params =  new HttpParams().set('idlinea', idlinea);
+    return this._http.get<any[]>(this.url + "/api/Common/ListarFamiliaGeneral",{'params': params}).pipe(
+      catchError ((ex)=> throwError('Ocurrio un error al obtener los pedidos'))
+    );
+  }
+
   ListarSubFamilia(idlinea,idfamilia){
     const params =  new HttpParams().set('idlinea', idlinea).set('idfamilia',idfamilia);
     return this._http.get<any[]>(this.url + "/api/Common/ListarSubFamilia",{'params': params}).pipe(

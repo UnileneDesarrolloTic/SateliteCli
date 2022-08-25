@@ -33,6 +33,7 @@ export class InterceptorService implements HttpInterceptor {
       'Common/listarRoles',
       'Common/ListarFamiliaMP',
       'Common/ListarFamilia',
+      'Common/ListarFamiliaGeneral',
       'Common/ListarAgrupador',
       'Common/ListarSubAgrupador',
       'Common/ListarLinea',

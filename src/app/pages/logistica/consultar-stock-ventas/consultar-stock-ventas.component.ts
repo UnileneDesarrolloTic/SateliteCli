@@ -8,6 +8,11 @@ import { GenericoService } from '@shared/services/comunes/generico.service';
 import { MarcarModel } from '@data/interface/Response/DatosMarca.interface';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { AgrupadorModel } from '@data/interface/Response/DatosAgrupador.interface';
+import { SubAgrupadorModel } from '@data/interface/Response/DatosSubAgrupador.interface';
+import { LineaModel } from '@data/interface/Response/DatosLinea.interface';
+import { ListaFamiliaMaestroItem } from '@data/interface/Response/FamiliaMaestroItem.interface';
+import { SubFamiliaModel } from '@data/interface/Response/DatosSubFamilia.interface';
+import { ToastrService } from 'ngx-toastr';
 
 
 
@@ -18,9 +23,15 @@ import { AgrupadorModel } from '@data/interface/Response/DatosAgrupador.interfac
 })
 export class ConsultarStockVentasComponent implements OnInit {
   hoy = new Date().toLocaleDateString();
+ 
+  ListarAgrupador:AgrupadorModel[]=[];
+  ListarSubAgrupador:SubAgrupadorModel[]=[];
+  ListarLinea:LineaModel[]=[];
+  FamiliaMaestro:ListaFamiliaMaestroItem[]=[];
+  SubFamilias:SubFamiliaModel[]=[];
+
   ListarItem:ItemVentasModel[]=[];
   Marcas:MarcarModel[]=[];
-  ListarAgrupador:AgrupadorModel[]=[];
 
   filtrosForm: FormGroup;
   ListarItemDetalleTemporal:ItemVentasModel[]=[];
@@ -37,15 +48,19 @@ export class ConsultarStockVentasComponent implements OnInit {
 
   
   constructor(private _LogisticaService: LogisticaService,
-              private _GenericoService:GenericoService) { }
+              private _GenericoService:GenericoService,
+              private toastr: ToastrService,) { }
 
   ngOnInit(): void {
     this.inicializarFormulario();
-    this.ListarItemVentasResumen();
-    this.ListarItemVentasDetalle();
-    this.ListarMarca();
     this.Agrupador();
-
+    this.Linea();
+    this.ListarMarca();
+    this.instanciarObservadoresAgrupador();
+    this.instanciarObservadoresLinea();
+    this.instanciarObservadoresfamilia();
+    // this.ListarItemVentasResumen();
+    // this.ListarItemVentasDetalle();
 
 
     this.dropdownSettings = {
@@ -62,12 +77,17 @@ export class ConsultarStockVentasComponent implements OnInit {
 
   inicializarFormulario() {
     this.filtrosForm = new FormGroup({
+      idAgrupador:new FormControl(1),
+      idSubAgrupador: new FormControl(),
+      idLinea:  new FormControl("P"),
+      idfamilia: new FormControl("MC"),
+      idSubFamilia: new FormControl(),
+      idmarca:new FormControl(null),
       Item: new FormControl(''),
       Codsut:new FormControl(''),
       Descripcion:new FormControl(''),
       Origen: new FormControl(0),
-      idAgrupador:new FormControl(null),
-      idmarca:new FormControl(null),
+      
     })
 
   }
@@ -91,15 +111,17 @@ export class ConsultarStockVentasComponent implements OnInit {
     this.dato={
       ...this.filtrosForm.value,
       Origen:parseInt(this.filtrosForm.controls.Origen.value),
+      idAgrupador:parseInt(this.filtrosForm.controls.idAgrupador.value),
+      idSubAgrupador:parseInt(this.filtrosForm.controls.idSubAgrupador.value),
       idmarca:this.opcionMarcar
     }
 
-    
     this._LogisticaService.ListarItemVentas(this.dato).subscribe(
       (resp:any)=>{
             this.ListarItem = resp;
             this.ListarItemDetalleTemporal=resp;
             this.flagLoading=false;
+            this.ListarItem.length == 0 && this.toastr.info("No hay Elementos")
       }
     )
   }
@@ -108,6 +130,62 @@ export class ConsultarStockVentasComponent implements OnInit {
     this._LogisticaService.ListarItemVentasDetalle().subscribe(
       (resp:any)=>{
             this.ListarItemDetalle = resp;
+      }
+    )
+  }
+
+  Agrupador(){
+    this._GenericoService.ListarAgrupador().subscribe(
+      (resp:any)=>{
+        if(resp["success"]){
+          this.ListarAgrupador=resp["content"];
+          this.SubAgrupador(1);
+        }
+      }
+    )
+  }
+
+  SubAgrupador(idAgrupador){
+    this._GenericoService.ListarSubAgrupador(idAgrupador).subscribe(
+      (resp:any)=>{
+        if(resp["success"]){
+          this.ListarSubAgrupador=resp["content"];
+          this.filtrosForm.get("idSubAgrupador").patchValue(this.ListarSubAgrupador[0].codSubAgrupador)
+        }
+      }
+    )
+  }
+
+  Linea(){
+    this._GenericoService.ListarLinea().subscribe(
+      (resp:any)=>{
+        if(resp["success"]){
+          this.ListarLinea=resp["content"];
+          this.Familias('P');
+        }
+      }
+    )
+  }
+  
+  Familias(idlinea){
+    this._GenericoService.ListarGenerar(idlinea).subscribe(
+      (resp:any)=>{
+
+        if(resp["success"]){
+          this.FamiliaMaestro=resp["content"];
+          this.SubFamilia(this.filtrosForm.controls.idLinea.value,this.FamiliaMaestro[0]?.familia)
+        }
+      }
+    )
+  }
+
+  SubFamilia(idlinea,idFamilia){
+    this._GenericoService.ListarSubFamilia(idlinea,idFamilia).subscribe(
+      (resp:any)=>{
+        if(resp["success"]){
+          this.SubFamilias=resp["content"];
+          this.filtrosForm.get("idSubFamilia").patchValue(this.SubFamilias[0]?.subFamilia)
+        }
       }
     )
   }
@@ -123,18 +201,35 @@ export class ConsultarStockVentasComponent implements OnInit {
     )
   }
 
-  Agrupador(){
-    this._GenericoService.ListarAgrupador().subscribe(
-      (resp:any)=>{
-        if(resp["success"]){
-          this.ListarAgrupador=resp["content"];
-        }
-      }
-    )
+
+  instanciarObservadoresAgrupador(){
+    this.filtrosForm.get("idAgrupador").valueChanges.subscribe( idAgrupador => {
+         this.SubAgrupador(idAgrupador)
+    })
   }
 
+  instanciarObservadoresLinea(){
+    this.filtrosForm.get("idLinea").valueChanges.subscribe(idlinea=>{
+        this.Familias(idlinea);
+    })
+  }
+
+instanciarObservadoresfamilia(){
+    this.filtrosForm.get("idfamilia").valueChanges.subscribe(idfamilia=>{
+        this.SubFamilia(this.filtrosForm.controls.idLinea.value,idfamilia);
+    })
+}
+
+
+
+
+ 
+
+  
+
   BuscarProducto(){
-      this.ListarItemVentasResumen();
+    this.ListarItemVentasResumen();
+    this.ListarItemVentasDetalle();
   }
 
   
