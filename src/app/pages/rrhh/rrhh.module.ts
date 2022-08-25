@@ -8,10 +8,10 @@ import { RRHHRoutes } from './rrhh.routing';
 import { ComponenteModule } from '@shared/components/componente.module';
 
 import { ReporteAsistenciaComponent } from '@pages/rrhh/reporteasistencia/reporteasistencia.component';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
 @NgModule({
   declarations: [
@@ -22,10 +22,9 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
     CommonModule,
     FeatherModule,
     ComponenteModule,
-    ReactiveFormsModule,
     NgbModule,
-    NgMultiSelectDropDownModule,
     FormsModule,
+    NgxDatatableModule
   ],
   providers:[
     DatePipe

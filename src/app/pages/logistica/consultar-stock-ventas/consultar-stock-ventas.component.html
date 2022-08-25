@@ -6,37 +6,78 @@
           <div class="row justify-content-start">
             <div class="col-md-2">
               <div class="form-group">
-                <label class="control-label">Item:</label>
-                <input type="text" formControlName="Item" class="form-control form-control-sm" placeholder="Item">
-              </div>
-            </div>
-            <div class="col-md-2">
-              <div class="form-group">
-                <label class="control-label">Número Parte:</label>
-                <input type="text" formControlName="Codsut" class="form-control form-control-sm"
-                  placeholder="Número Parte">
-              </div>
-            </div>
-            <div class="col-md-3">
-              <div class="form-group">
-                <label class="control-label">Descripción:</label>
-                <input type="text" formControlName="Descripcion" class="form-control form-control-sm"
-                  placeholder="Descripción">
-              </div>
-            </div>
-            <div class="col-md-2">
-              <div class="form-group">
                 <label class="control-label TamanoLetra">Agrupador:</label>
                 <select class="form-control  form-control-sm"  formControlName="idAgrupador">
-                  <option [value]="null">
-                    TODOS
-                  </option>
                   <option *ngFor="let agrupador of ListarAgrupador"   [value]="agrupador.codigoAgrupador">
                     {{agrupador.descripcionCompleta}}
                   </option>
                 </select>
               </div>
             </div>
+            <div class="col-md-3">
+              <div class="form-group">
+                <label class="control-label TamanoLetra">Seleccionar Sub Agrupador:</label>
+                <select class="form-control  form-control-sm"  formControlName="idSubAgrupador">
+                  <option *ngFor="let SubAgrupador of ListarSubAgrupador"   [value]="SubAgrupador.codSubAgrupador">
+                    {{SubAgrupador.nombreSubAgrupador}}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group">
+                <label class="control-label TamanoLetra">Seleccionar Linea:</label>
+                <select class="form-control  form-control-sm"  formControlName="idLinea">
+                  <option *ngFor="let linea of ListarLinea"   [value]="linea.linea">
+                    {{linea.descripcionLocal}}
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-md-2">
+              <div class="form-group">
+                <label class="control-label TamanoLetra">Seleccionar Familia:</label>
+                <select class="form-control  form-control-sm"  formControlName="idfamilia">
+                  <option *ngFor="let familia of FamiliaMaestro"   [value]="familia.familia">
+                    {{familia.familia}}-{{familia.descripcionLocal}}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                <label class="control-label TamanoLetra">Seleccionar Sub Familia:</label>
+                <select class="form-control  form-control-sm"  formControlName="idSubFamilia">
+                  <option *ngFor="let subfamilia of SubFamilias"   [value]="subfamilia.subFamilia">
+                    {{subfamilia.subFamilia}}-{{subfamilia.descripcionLocal}}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="row justify-content-start">
+            <div class="col-md-2">
+              <div class="form-group">
+                <label class="control-label TamanoLetra">Item:</label>
+                <input type="text" formControlName="Item" class="form-control form-control-sm" placeholder="Item">
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group">
+                <label class="control-label TamanoLetra">Número Parte:</label>
+                <input type="text" formControlName="Codsut" class="form-control form-control-sm"
+                  placeholder="Número Parte">
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group">
+                <label class="control-label TamanoLetra">Descripción:</label>
+                <input type="text" formControlName="Descripcion" class="form-control form-control-sm"
+                  placeholder="Descripción">
+              </div>
+            </div>
+           
             <div class="col-md-2">
               <div class="form-group">
                 <label  class="control-label TamanoLetra">Marca:</label>
@@ -62,7 +103,7 @@
                       style="background-color: #0275D8; border: none;"> <i
                   class=" fas fa-search"></i> Buscar</button>
             </div>
-          </div>
+          </div>    
         </form>
       </div>
     </div>

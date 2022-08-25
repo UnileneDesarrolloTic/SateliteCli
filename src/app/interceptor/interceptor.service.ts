@@ -33,6 +33,7 @@ export class InterceptorService implements HttpInterceptor {
       'Common/listarRoles',
       'Common/ListarFamiliaMP',
       'Common/ListarFamilia',
+      'Common/ListarFamiliaGeneral',
       'Common/ListarAgrupador',
       'Common/ListarSubAgrupador',
       'Common/ListarLinea',
@@ -83,6 +84,7 @@ export class InterceptorService implements HttpInterceptor {
       'ControlCalidad/RegistrarOrdenFabricacionCaja',
       'ControlCalidad/ExportarOrdenFabricacionCaja',
       'RRHH/GenerarReporteAsistencia',
+      'RRHH/ListarAsistencia',
       'Cotizacion/Listar',
       'Cotizacion/FormatosPorCliente',
       'Cotizacion/FormatoEstructura',
@@ -137,8 +139,8 @@ export class InterceptorService implements HttpInterceptor {
       'Logistica/ListarItemVentasDetalle',
       'Logistica/DetalleComprometidoItem',
       'Logistica/ListarItemVentasDetalleExportar'
-      
     ];
+    
     const data = this.sesionService.datosPersonales();
 
     if(metodosAuth.indexOf(metodoActual)==-1){
