@@ -1,0 +1,84 @@
+
+.scrollvertical{
+    height: 30rem;
+    width: 100%;
+    overflow-y: scroll;
+}
+
+.table-container{
+	max-width: 100%;
+	overflow-x: scroll;
+	border-left: solid 1px #ccc;
+	border-right: solid 1px #ccc;
+}
+
+.table-cebra{
+	border-top: solid 1px #1475f6;
+	border-spacing: 0;
+}
+
+.table-cebra thead th{
+	background: #1475f6;
+	color: white;
+	border: 1px solid #1475f6;
+}
+
+.table-cebra th,
+.table-cebra td{
+	border-right: 1px solid #ccc;
+	min-width: 100px;
+	border-bottom: 1px solid #333;
+}
+
+
+.table-cebra tbody tr:nth-child(2n){
+	background-color: #f2f2f2;
+}
+
+.table-cebra tbody tr{
+	background-color: white;
+}
+
+.table-cebra .sticky{
+	position: sticky;
+	left: 0;
+	
+}
+
+.table-cebra tbody tr .sticky{
+	background: white;
+}
+
+.table-cebra tbody tr:nth-child(2n) .sticky{
+	background: #f2f2f2;
+}
+
+
+.table-cebra .sticky-2{
+	position: sticky;
+	left: 145.64px;
+	
+}
+
+.table-cebra tbody tr .sticky-2{
+	background: white;
+	
+}
+
+.table-cebra tbody tr:nth-child(2n) .sticky-2{
+	background: #f2f2f2;
+}
+
+
+.table-cebra .sticky-3{
+	position: sticky;
+	left: 289.11px;
+}
+
+.table-cebra tbody tr .sticky-3{
+	background: white;
+}
+
+.table-cebra tbody tr:nth-child(2n) .sticky-3{
+	background: #f2f2f2;
+}

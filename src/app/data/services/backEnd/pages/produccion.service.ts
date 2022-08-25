@@ -91,6 +91,21 @@ export class ProduccionService {
       catchError (() => throwError("Error al obtener el seguimiento de candidatos"))
     );
   }
+
+  //SEGUIMIENTO DE LA ORDEN DE COMPRA
+  ListarItemOrdenCompra(Origen){
+    const params =  new HttpParams().set('Origen', Origen);
+    return this._http.get<any[]>(this.url+"/api/Produccion/ListarItemOrdenCompra", {'params': params}).pipe(
+      catchError (() => throwError("Error al obtener el seguimiento de candidatos"))
+    );
+  }
+
+  BuscarItemOrdenCompra(Item){
+    const params =  new HttpParams().set('Item', Item);
+    return this._http.get<any[]>(this.url+"/api/Produccion/BuscarItemOrdenCompra", {'params': params}).pipe(
+      catchError (() => throwError("Error al obtener el seguimiento de candidatos"))
+    );
+  }
   
 
 }

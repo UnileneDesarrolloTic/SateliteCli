@@ -56,6 +56,8 @@ export class InterceptorService implements HttpInterceptor {
       'Produccion/RegistrarLoteFabricacionEtiquetas',
       'Produccion/ListarLoteEstado',
       'Produccion/ModificarLoteEstado',
+      'Produccion/ListarItemOrdenCompra',
+      'Produccion/BuscarItemOrdenCompra',
       'Comercial/ListarCotizaciones',
       'Comercial/GenerarReporteCotizacion',
       'Comercial/ObtenerEstructuraFormato',

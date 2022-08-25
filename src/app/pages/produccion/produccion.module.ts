@@ -16,6 +16,8 @@ import { CompraMateriaPrimaComponent } from './arima/compra-materia-prima/compra
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { EtiquetasComponent } from './gestion/etiquetas/etiquetas.component';
 import { SeguimientoOrdenCompraComponent } from './gestion/seguimiento-orden-compra/seguimiento-orden-compra.component';
+import { ModalInformacionItemComponent } from './gestion/seguimiento-orden-compra/modal-informacion-item/modal-informacion-item.component';
+import { TagResumenComponent } from './gestion/seguimiento-orden-compra/tag-resumen/tag-resumen.component';
 
 
 registerLocaleData(localeEs);
@@ -28,7 +30,9 @@ registerLocaleData(localeEs);
     ProductoTerminadoComponent,
     CompraMateriaPrimaComponent,
     EtiquetasComponent,
-    SeguimientoOrdenCompraComponent
+    SeguimientoOrdenCompraComponent,
+    ModalInformacionItemComponent,
+    TagResumenComponent
   ],
   imports: [
     RouterModule.forChild(ProduccionRoutes),

@@ -1,0 +1,44 @@
+<div class="table-responsive m-t-20 scrollvertical table-container" >
+    <table class="table table-bordered table-responsive-lg  table-cebra">
+        <thead>
+            <tr>
+                <!-- <th scope="col">#</th> -->
+                <th scope="col" class="sticky">Item</th>
+                <th scope="col" class="sticky-2">Descripción</th>
+                <th scope="col" class="sticky-3">UNID</th>
+                <th scope="col">Enero</th>
+                <th scope="col">Febrero</th>
+                <th scope="col">Marzo</th>
+                <th scope="col">Abril</th>
+                <th scope="col">Mayo</th>
+                <th scope="col">Junio</th>
+                <th scope="col">Julio</th>
+                <th scope="col">Agosto</th>
+                <th scope="col">Septiembre</th>
+                <th scope="col">Octubre</th>
+                <th scope="col">Noviembre</th>
+                <th scope="col">Diciembre</th>
+            </tr>
+        </thead>
+        <tbody style="font-size: 12px" id="tbodyDetalle">
+            <tr *ngFor="let item of ListarSeguimientoItemOC; let i = index">
+                <!-- <td class="text-center"><strong>{{i+1}</strong></td> -->
+                <td class="text-center sticky"><button (click)="AbrirModalItem(item)" class="btn  btn-sm btn-outline-info ">{{item.Item}}</button></td>
+                <td class="text-center sticky-2"><strong>{{item.DescripcionLocal}}</strong></td>
+                <td class="text-center sticky-3"><strong>{{item.UnidadCodigo}}</strong></td>
+                <td>{{item.January}}</td>
+                <td>{{item.February}}</td>
+                <td>{{item.March}}</td>
+                <td>{{item.April}}</td>
+                <td>{{item.May}}</td>
+                <td>{{item.June}}</td>
+                <td>{{item.July}}</td>
+                <td>{{item.August}}</td>
+                <td>{{item.September}}</td>
+                <td>{{item.October}}</td>
+                <td>{{item.November}}</td>
+                <td>{{item.December}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
