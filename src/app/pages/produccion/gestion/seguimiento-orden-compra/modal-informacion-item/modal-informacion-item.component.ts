@@ -4,6 +4,7 @@ import { DatoFormatoInformacionItemOC } from '@data/interface/Response/DatosForm
 import { DatoFormatoOrdenCompraItem } from '@data/interface/Response/DatosFormatoOrdenCompraItem.interface';
 import { ProduccionService } from '@data/services/backEnd/pages/produccion.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-modal-informacion-item',
@@ -17,11 +18,11 @@ export class ModalInformacionItemComponent implements OnInit {
   ListarInformacionItem:DatoFormatoInformacionItemOC[]=[];
   constructor(public activeModal: NgbActiveModal,
               private _fb:FormBuilder,
+              private toastr: ToastrService,
               private _ProduccionService:ProduccionService) { }
 
   ngOnInit(): void {
-    console.log(this.fromParent);
-    this.InformacionOrdenCompra(this.fromParent.Item);
+    this.InformacionOrdenCompra(this.fromParent.item);
     this.crearFormulario();
   }
 
@@ -67,8 +68,14 @@ export class ModalInformacionItemComponent implements OnInit {
   }
 
   GuardarFechaPrometida(filaOrdenCompra){
-
-      console.log(filaOrdenCompra);
+      this._ProduccionService.ActualizarFechaPrometida(filaOrdenCompra).subscribe(
+          (resp:any)=>{
+                if(resp["success"]){
+                    this.toastr.success(resp["message"]);
+                    this.activeModal.close(resp["success"]); 
+                }
+          },
+      )
   }
 
 

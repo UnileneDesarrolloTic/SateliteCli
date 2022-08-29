@@ -14,6 +14,7 @@ import { NgbTabChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 export class SeguimientoOrdenCompraComponent implements OnInit {
   filtrosForm: FormGroup;
   ListarSeguimientoItemOC:any[]=[];
+  ListarDetalleSeguimientoItemOC:any[]=[];
   constructor(private _ProductoServices: ProduccionService) {
 
   }
@@ -35,16 +36,23 @@ export class SeguimientoOrdenCompraComponent implements OnInit {
   inicializarFormulario() {
     this.filtrosForm = new FormGroup({
       Origen: new FormControl('TD'),
+      Anio:new FormControl('2022')
     })
 
   }
 
   BuscarPedido(){
-    this._ProductoServices.ListarItemOrdenCompra(this.filtrosForm.controls.Origen.value).subscribe(
+    this._ProductoServices.ListarItemOrdenCompra(this.filtrosForm.value).subscribe(
       resp=>{
-          this.ListarSeguimientoItemOC=resp;
+          this.ListarSeguimientoItemOC=resp["calendario"];
+          this.ListarDetalleSeguimientoItemOC=resp["detalleCalendario"];
       }
     );
+  }
+
+  Refrescar(valor:boolean){
+    console.log("Se refresco");
+    this.BuscarPedido();
   }
 
  

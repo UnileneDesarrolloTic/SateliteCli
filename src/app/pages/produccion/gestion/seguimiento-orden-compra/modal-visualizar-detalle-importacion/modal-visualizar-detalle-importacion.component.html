@@ -1,0 +1,97 @@
+<div class="row">
+    <div class="card-body">
+        <form [formGroup]="OrdenCompraForm" (ngSubmit)="Actualizar()" >
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-basic-title">Visualizar Detalle de Importación</h4>
+                <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                
+                <div class="row">
+                    <label class="col-md-2 text-right tamanoLabel"> DOCUMENTO: </label>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <input type="text" class="form-control form-control-sm" placeholder="col-md-4" formControlName="Documento">
+                        </div>
+                    </div>
+                    <label class="col-md-2 text-right tamanoLabel">ESTADO: </label>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <input type="text" class="form-control form-control-sm" placeholder="col-md-4" formControlName="Estado">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-md-2 text-right tamanoLabel" >PROVEEDOR: </label>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <input type="text" class="form-control form-control-sm" placeholder="col-md-4" formControlName="Proveedor">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-md-2 text-right tamanoLabel">FECHA PREP.: </label>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <input type="date" class="form-control form-control-sm" placeholder="col-md-4" formControlName="FechaPreparacion">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-md-2 text-right tamanoLabel">FECHA ENTREGA: </label>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <input type="date" class="form-control form-control-sm" placeholder="col-md-4" formControlName="FechaPrometida" >
+                        </div>
+                    </div>
+                    <label class="col-md-2 text-right tamanoLabel">FECHA LLEGADA: </label>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <input type="text" class="form-control form-control-sm" placeholder="col-md-4">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-sm medir-tabla">
+                                <thead style="font-size: 13px">
+                                    <tr>
+                                        <th scope="col">Item</th>
+                                        <th scope="col">Descripción</th>
+                                        <th scope="col">UM</th>
+                                        <th scope="col">Cantidad</th>
+                                        <th scope="col">Estado</th>
+                                        <th scope="col">Fecha</th>
+                                    </tr>
+                                </thead>
+                                <tbody style="font-size: 13px">
+                                    <tr  *ngFor="let DetalleForm of DetalleOC.controls; let i = index">
+                                        <ng-container [formGroup]="DetalleForm">
+                                            <td>{{DetalleForm.value.Item}}</td>
+                                            <td>{{DetalleForm.value.Descripcion}}</td>
+                                            <td>{{DetalleForm.value.UnidadCodigo}}</td>
+                                            <td>{{DetalleForm.value.CantidadPedida | number}}</td>
+                                            <td>{{DetalleForm.value.Estado}}</td>
+                                            <td class="text-center">
+                                                <div class="input-group input-group-sm" style='width:10rem'>
+                                                    <input type="date"  class="form-control form-control-sm" formControlName="FechaPrometida" />
+                                                </div>
+                                            </td>
+                                        </ng-container>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>            
+            </div>
+            <div class="modal-footer">
+                <!--  [disabled]="!form.valid" -->
+                <button type="submit" class="btn btn-rounded btn-info">Actualizar</button>
+            </div>
+        </form>
+    </div>
+</div>

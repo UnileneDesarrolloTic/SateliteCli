@@ -26,8 +26,9 @@
 .table-cebra th,
 .table-cebra td{
 	border-right: 1px solid #ccc;
-	min-width: 100px;
+	min-width: 50px ;
 	border-bottom: 1px solid #333;
+	/* white-space: nowrap; */
 }
 
 
@@ -70,6 +71,8 @@
 }
 
 
+
+/*
 .table-cebra .sticky-3{
 	position: sticky;
 	left: 289.11px;
@@ -81,4 +84,4 @@
 
 .table-cebra tbody tr:nth-child(2n) .sticky-3{
 	background: #f2f2f2;
-}
+}*/

@@ -93,8 +93,8 @@ export class ProduccionService {
   }
 
   //SEGUIMIENTO DE LA ORDEN DE COMPRA
-  ListarItemOrdenCompra(Origen){
-    const params =  new HttpParams().set('Origen', Origen);
+  ListarItemOrdenCompra(FiltroElemento){
+    const params =  new HttpParams().set('Origen', FiltroElemento.Origen).set('Anio',FiltroElemento.Anio);
     return this._http.get<any[]>(this.url+"/api/Produccion/ListarItemOrdenCompra", {'params': params}).pipe(
       catchError (() => throwError("Error al obtener el seguimiento de candidatos"))
     );
@@ -104,6 +104,25 @@ export class ProduccionService {
     const params =  new HttpParams().set('Item', Item);
     return this._http.get<any[]>(this.url+"/api/Produccion/BuscarItemOrdenCompra", {'params': params}).pipe(
       catchError (() => throwError("Error al obtener el seguimiento de candidatos"))
+    );
+  }
+
+  ActualizarFechaPrometida(body){
+    return this._http.post<any[]>(this.url+"/api/Produccion/ActualizarFechaPrometida", body).pipe(
+      catchError (() => throwError("Error al obtener el seguimiento de candidatos"))
+    );
+  }
+
+  VisualizarOrdenCompra(OrdenCompra){
+    const params =  new HttpParams().set('OrdenCompra', OrdenCompra);
+    return this._http.get<any[]>(this.url+"/api/Produccion/VisualizarOrdenCompra", {'params': params}).pipe(
+      catchError (() => throwError("Error al obtener el seguimiento de candidatos"))
+    );
+  }
+
+  ActualizarOrdenCompraMasiva(body){
+    return this._http.post<any[]>(this.url+"/api/Produccion/ActualizarFechaPrometidaMasiva", body).pipe(
+      catchError (() => throwError("Error al obtener el Actualizar Fecha Comprometida masiva"))
     );
   }
   

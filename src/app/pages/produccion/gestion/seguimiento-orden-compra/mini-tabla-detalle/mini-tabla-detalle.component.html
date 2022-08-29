@@ -1,0 +1,5 @@
+<table>
+    <tr *ngFor="let detalle of TempListarDetalleSeguimientoItemOC; let i = index">
+        <td class="EstiloDetalle" (click)="ModalDetalleOrdenCompra(detalle)" >{{detalle.descripcionCompleta}}</td>
+    </tr> 
+</table>

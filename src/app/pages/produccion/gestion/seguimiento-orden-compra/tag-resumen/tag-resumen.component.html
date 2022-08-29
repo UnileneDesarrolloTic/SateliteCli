@@ -2,43 +2,51 @@
     <table class="table table-bordered table-responsive-lg  table-cebra">
         <thead>
             <tr>
-                <!-- <th scope="col">#</th> -->
-                <th scope="col" class="sticky">Item</th>
-                <th scope="col" class="sticky-2">Descripción</th>
-                <th scope="col" class="sticky-3">UNID</th>
-                <th scope="col">Enero</th>
-                <th scope="col">Febrero</th>
-                <th scope="col">Marzo</th>
-                <th scope="col">Abril</th>
-                <th scope="col">Mayo</th>
-                <th scope="col">Junio</th>
-                <th scope="col">Julio</th>
-                <th scope="col">Agosto</th>
-                <th scope="col">Septiembre</th>
-                <th scope="col">Octubre</th>
-                <th scope="col">Noviembre</th>
-                <th scope="col">Diciembre</th>
+                <!-- <th >#</th> -->
+                <th class="sticky">Item</th>
+                <th class="sticky-2">Descripción</th>
+                <th>UNID</th>
+                <th>Enero</th>
+                <th >Febrero</th>
+                <th >Marzo</th>
+                <th >Abril</th>
+                <th >Mayo</th>
+                <th >Junio</th>
+                <th >Julio</th>
+                <th >Agosto</th>
+                <th >Septiembre</th>
+                <th >Octubre</th>
+                <th >Noviembre</th>
+                <th >Diciembre</th>
             </tr>
         </thead>
-        <tbody style="font-size: 12px" id="tbodyDetalle">
+        <tbody style="font-size: 10px" id="tbodyDetalle">
             <tr *ngFor="let item of ListarSeguimientoItemOC; let i = index">
-                <!-- <td class="text-center"><strong>{{i+1}</strong></td> -->
-                <td class="text-center sticky"><button (click)="AbrirModalItem(item)" class="btn  btn-sm btn-outline-info ">{{item.Item}}</button></td>
-                <td class="text-center sticky-2"><strong>{{item.DescripcionLocal}}</strong></td>
-                <td class="text-center sticky-3"><strong>{{item.UnidadCodigo}}</strong></td>
-                <td>{{item.January}}</td>
-                <td>{{item.February}}</td>
-                <td>{{item.March}}</td>
-                <td>{{item.April}}</td>
-                <td>{{item.May}}</td>
-                <td>{{item.June}}</td>
-                <td>{{item.July}}</td>
-                <td>{{item.August}}</td>
-                <td>{{item.September}}</td>
-                <td>{{item.October}}</td>
-                <td>{{item.November}}</td>
-                <td>{{item.December}}</td>
+                <td class="text-center sticky"><button (click)="AbrirModalItem(item)" class="btn  btn-sm btn-outline-info ">{{item.item}}</button></td>
+                <td class="text-center sticky-2" style="width:145px"><strong>{{item.descripcionLocal}}</strong></td>
+                <td class="text-center"><strong>{{item.unidadCodigo}}</strong></td>
+                <td><app-mini-tabla-detalle *ngIf="item.january!=null"   [item]="item.item"  [mes]="'January'"  [ListarDetalleSeguimientoItemOC]="ListarDetalleSeguimientoItemOC"  (ItemEvent)="SalirModalMinitabla($event)" ></app-mini-tabla-detalle></td>
+                <td><app-mini-tabla-detalle *ngIf="item.february!=null"   [item]="item.item"  [mes]="'February'"  [ListarDetalleSeguimientoItemOC]="ListarDetalleSeguimientoItemOC" (ItemEvent)="SalirModalMinitabla($event)" ></app-mini-tabla-detalle></td>
+                <td><app-mini-tabla-detalle *ngIf="item.march!=null"   [item]="item.item"  [mes]="'March'"  [ListarDetalleSeguimientoItemOC]="ListarDetalleSeguimientoItemOC" (ItemEvent)="SalirModalMinitabla($event)" ></app-mini-tabla-detalle></td>
+                <td><app-mini-tabla-detalle *ngIf="item.april!=null"   [item]="item.item"  [mes]="'April'"  [ListarDetalleSeguimientoItemOC]="ListarDetalleSeguimientoItemOC" (ItemEvent)="SalirModalMinitabla($event)" ></app-mini-tabla-detalle></td>
+                <td><app-mini-tabla-detalle *ngIf="item.may!=null"   [item]="item.item"  [mes]="'May'"  [ListarDetalleSeguimientoItemOC]="ListarDetalleSeguimientoItemOC" (ItemEvent)="SalirModalMinitabla($event)" ></app-mini-tabla-detalle></td>
+                <td><app-mini-tabla-detalle *ngIf="item.june!=null"   [item]="item.item"  [mes]="'June'"  [ListarDetalleSeguimientoItemOC]="ListarDetalleSeguimientoItemOC"  (ItemEvent)="SalirModalMinitabla($event)" ></app-mini-tabla-detalle></td>
+                <td><app-mini-tabla-detalle *ngIf="item.july!=null"   [item]="item.item"  [mes]="'July'"  [ListarDetalleSeguimientoItemOC]="ListarDetalleSeguimientoItemOC" (ItemEvent)="SalirModalMinitabla($event)" ></app-mini-tabla-detalle></td>
+                <td><app-mini-tabla-detalle *ngIf="item.august!=null"   [item]="item.item"  [mes]="'August'"  [ListarDetalleSeguimientoItemOC]="ListarDetalleSeguimientoItemOC" (ItemEvent)="SalirModalMinitabla($event)" ></app-mini-tabla-detalle></td>
+                <td><app-mini-tabla-detalle *ngIf="item.september!=null"   [item]="item.item"  [mes]="'September'"  [ListarDetalleSeguimientoItemOC]="ListarDetalleSeguimientoItemOC" (ItemEvent)="SalirModalMinitabla($event)" ></app-mini-tabla-detalle> </td>
+                <td><app-mini-tabla-detalle *ngIf="item.october!=null"   [item]="item.item"  [mes]="'October'"  [ListarDetalleSeguimientoItemOC]="ListarDetalleSeguimientoItemOC" (ItemEvent)="SalirModalMinitabla($event)"></app-mini-tabla-detalle></td>
+                <td><app-mini-tabla-detalle *ngIf="item.november!=null"   [item]="item.item"  [mes]="'November'"  [ListarDetalleSeguimientoItemOC]="ListarDetalleSeguimientoItemOC" (ItemEvent)="SalirModalMinitabla($event)" ></app-mini-tabla-detalle></td>
+                <td><app-mini-tabla-detalle *ngIf="item.december!=null"   [item]="item.item"  [mes]="'December'"  [ListarDetalleSeguimientoItemOC]="ListarDetalleSeguimientoItemOC" (ItemEvent)="SalirModalMinitabla($event)" ></app-mini-tabla-detalle></td>
             </tr>
         </tbody>
     </table>
 </div>
+
+
+   <!-- <ng-container *ngIf="item.july!=null">
+                            <table>
+                                <tr *ngFor="let detalle of this.FiltrarOrdenCompra(item.item,'July'); let i = index">
+                                    <td (click)="Edimir(detalle)" >{{detalle.descripcionCompleta}}</td>
+                                </tr> 
+                            </table>
+                        </ng-container> -->

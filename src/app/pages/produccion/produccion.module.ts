@@ -18,6 +18,8 @@ import { EtiquetasComponent } from './gestion/etiquetas/etiquetas.component';
 import { SeguimientoOrdenCompraComponent } from './gestion/seguimiento-orden-compra/seguimiento-orden-compra.component';
 import { ModalInformacionItemComponent } from './gestion/seguimiento-orden-compra/modal-informacion-item/modal-informacion-item.component';
 import { TagResumenComponent } from './gestion/seguimiento-orden-compra/tag-resumen/tag-resumen.component';
+import { MiniTablaDetalleComponent } from './gestion/seguimiento-orden-compra/mini-tabla-detalle/mini-tabla-detalle.component';
+import { ModalVisualizarDetalleImportacionComponent } from './gestion/seguimiento-orden-compra/modal-visualizar-detalle-importacion/modal-visualizar-detalle-importacion.component';
 
 
 registerLocaleData(localeEs);
@@ -32,7 +34,9 @@ registerLocaleData(localeEs);
     EtiquetasComponent,
     SeguimientoOrdenCompraComponent,
     ModalInformacionItemComponent,
-    TagResumenComponent
+    TagResumenComponent,
+    MiniTablaDetalleComponent,
+    ModalVisualizarDetalleImportacionComponent,
   ],
   imports: [
     RouterModule.forChild(ProduccionRoutes),
