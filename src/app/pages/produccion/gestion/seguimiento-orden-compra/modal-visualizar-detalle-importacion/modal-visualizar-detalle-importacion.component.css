@@ -5,3 +5,8 @@
 .medir-tabla{
     width: 100%;
 }
+
+.scroll-group {
+    overflow-y: auto;
+    height: 220px;
+  }

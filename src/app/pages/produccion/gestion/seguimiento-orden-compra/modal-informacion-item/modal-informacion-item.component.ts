@@ -16,13 +16,15 @@ export class ModalInformacionItemComponent implements OnInit {
   @Input() fromParent;
   FormTableItem:FormGroup;
   ListarInformacionItem:DatoFormatoInformacionItemOC[]=[];
+  ListarDetalle:any[]=[];
   constructor(public activeModal: NgbActiveModal,
               private _fb:FormBuilder,
               private toastr: ToastrService,
               private _ProduccionService:ProduccionService) { }
 
   ngOnInit(): void {
-    this.InformacionOrdenCompra(this.fromParent.item);
+ 
+    this.InformacionOrdenCompra(this.fromParent.item.item,this.fromParent.Anio);
     this.crearFormulario();
   }
 
@@ -32,10 +34,12 @@ export class ModalInformacionItemComponent implements OnInit {
     })
   }
   
-  InformacionOrdenCompra(Item){
-    this._ProduccionService.BuscarItemOrdenCompra(Item).subscribe(
+  InformacionOrdenCompra(Item,Anio){
+    this._ProduccionService.BuscarItemOrdenCompra(Item,Anio).subscribe(
       resp=>{
-          this.ListarInformacionItem=resp["informacionItem"]
+          console.log(resp);
+          this.ListarInformacionItem=resp["informacionItem"];
+          this.ListarDetalle=resp["detalle"];
           this.ConstruirFormArray(resp["listaOrdenCompra"]);
       }
     );
@@ -71,7 +75,7 @@ export class ModalInformacionItemComponent implements OnInit {
       this._ProduccionService.ActualizarFechaPrometida(filaOrdenCompra).subscribe(
           (resp:any)=>{
                 if(resp["success"]){
-                    this.toastr.success(resp["message"]);
+                    this.toastr.success(resp["content"]);
                     this.activeModal.close(resp["success"]); 
                 }
           },

@@ -2,75 +2,109 @@
     <div class="card-body">
         <form >
             <div class="modal-header">
-                <h4 class="modal-title" id="modal-basic-title">Item: {{fromParent.item}}</h4>
+                <h4 class="modal-title" id="modal-basic-title">Item: {{fromParent.item.item}}</h4>
                 <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <div class="row">
-                    
-                    <div class="col-md-12">
-                        <div class="table-responsive">
-                            <table class="table table-striped table-sm">
-                                <thead style="font-size: 13px" >
-                                    <tr>
-                                        <th scope="col">Item</th>
-                                        <th scope="col">Descripcion </th>
-                                        <th scope="col">Disponible</th>
-                                        <th scope="col">Adunas</th>
-                                        <th scope="col">Stock Meses</th>
-                                    </tr>
-                                </thead>
-                                <tbody style="font-size: 13px">
-                                    <tr *ngFor="let item of ListarInformacionItem; let i = index">
-                                        <td>{{item.item}}</td>
-                                        <td>{{item.descripcion}}</td>
-                                        <td>{{item.almacen| number}}</td>
-                                        <td>{{item.aduanas | number}}</td>
-                                        <td>0</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+
+                <ngb-tabset>
+                    <ngb-tab title="Información">
+                      <ng-template ngbTabContent>
+                        <div class="row">
+                            
+                            <div class="col-md-12">
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-sm">
+                                        <thead style="font-size: 13px" >
+                                            <tr>
+                                                <th scope="col">Item</th>
+                                                <th scope="col">Descripcion </th>
+                                                <th scope="col">Disponible</th>
+                                                <th scope="col">Adunas</th>
+                                                <th scope="col">Stock Meses</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody style="font-size: 13px">
+                                            <tr *ngFor="let item of ListarInformacionItem; let i = index">
+                                                <td>{{item.item}}</td>
+                                                <td>{{item.descripcion}}</td>
+                                                <td>{{item.almacen| number}}</td>
+                                                <td>{{item.aduanas | number}}</td>
+                                                <td>0</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="row pt-3">
-                    <h5>Lista de Orden Compra con el Item: {{fromParent.item}}</h5>
-                    <div class="col-md-12">
-                        <div class="table-responsive">
-                            <table class="table table-striped table-sm">
-                                <thead style="font-size: 13px">
-                                    <tr>
-                                        <th scope="col">Pedido</th>
-                                        <th scope="col">Cliente</th>
-                                        <th scope="col">Cantidad</th>
-                                        <th scope="col">Fecha</th>
-                                        <th scope="col">Opcion</th>
-                                    </tr>
-                                </thead>
-                                <tbody style="font-size: 13px">
-                                    <tr  *ngFor="let PedidoForm of ListadoOC.controls; let i = index">
-                                        <ng-container [formGroup]="PedidoForm">
-                                            <td>{{PedidoForm.value.numeroOrden}}</td>
-                                            <td>{{PedidoForm.value.nombreCompleto}}</td>
-                                            <td>{{PedidoForm.value.cantidadPedida | number}}</td>
-                                            
-                                            <td class="text-center">
-                                                <div class="input-group input-group-sm" style='width:10rem'>
-                                                    <input type="date"  class="form-control form-control-sm" formControlName="fechaPrometida" />
-                                                </div>
-                                            </td>
-                                            <td class="text-center">
-                                                <button type="button" class="btn btn-info btn-sm" (click)="GuardarFechaPrometida(PedidoForm.value)" > <i class="fas fa-save"></i>  </button>
-                                            </td>
-                                        </ng-container>
-                                    </tr>
-                                </tbody>
-                            </table>
+                        <div class="row pt-3">
+                            <h5>Lista de Orden Compra con el Item: {{fromParent.item.item}}</h5>
+                            <div class="col-md-12">
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-sm">
+                                        <thead style="font-size: 13px">
+                                            <tr>
+                                                <th scope="col">Pedido</th>
+                                                <th scope="col">Cliente</th>
+                                                <th scope="col">Cantidad</th>
+                                                <th scope="col">Fecha</th>
+                                                <th scope="col">Opcion</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody style="font-size: 13px">
+                                            <tr  *ngFor="let PedidoForm of ListadoOC.controls; let i = index">
+                                                <ng-container [formGroup]="PedidoForm">
+                                                    <td>{{PedidoForm.value.numeroOrden}}</td>
+                                                    <td>{{PedidoForm.value.nombreCompleto}}</td>
+                                                    <td>{{PedidoForm.value.cantidadPedida | number}}</td>
+                                                    
+                                                    <td class="text-center">
+                                                        <div class="input-group input-group-sm" style='width:10rem'>
+                                                            <input type="date"  class="form-control form-control-sm" formControlName="fechaPrometida" />
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <button type="button" class="btn btn-info btn-sm" (click)="GuardarFechaPrometida(PedidoForm.value)" > <i class="fas fa-save"></i>  </button>
+                                                    </td>
+                                                </ng-container>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
+                      </ng-template>
+                    </ngb-tab>
+                    <ngb-tab>
+                      <ng-template ngbTabTitle><b>Detalle</b></ng-template>
+                      <ng-template ngbTabContent>
+                        <div class="row pt-3">
+                            <h5> Cantidad en el año {{fromParent.Anio}}</h5>
+                            <div class="col-md-12">
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-sm">
+                                        <thead style="font-size: 13px" >
+                                            <tr>
+                                                <th scope="col">Mes</th>
+                                                <th scope="col">Cantidad </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody style="font-size: 13px">
+                                            <tr *ngFor="let detalle of ListarDetalle; let i = index">
+                                                <td>{{detalle.Mes}}</td>
+                                                <td>{{detalle.Cantidad | number}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                      </ng-template>
+                    </ngb-tab>
+                  </ngb-tabset>
+
                 
            
 

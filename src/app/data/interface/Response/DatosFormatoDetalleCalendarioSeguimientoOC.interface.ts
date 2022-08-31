@@ -5,5 +5,6 @@ export interface CalendarioDetalleSeguimiento {
     descripcionLocal: string,
     numeroOrden: string,
     descripcionCompleta: string
+    cantidad:number;
 }
   

@@ -100,8 +100,8 @@ export class ProduccionService {
     );
   }
 
-  BuscarItemOrdenCompra(Item){
-    const params =  new HttpParams().set('Item', Item);
+  BuscarItemOrdenCompra(Item,Anio){
+    const params =  new HttpParams().set('Item', Item).set('Anio',Anio);
     return this._http.get<any[]>(this.url+"/api/Produccion/BuscarItemOrdenCompra", {'params': params}).pipe(
       catchError (() => throwError("Error al obtener el seguimiento de candidatos"))
     );

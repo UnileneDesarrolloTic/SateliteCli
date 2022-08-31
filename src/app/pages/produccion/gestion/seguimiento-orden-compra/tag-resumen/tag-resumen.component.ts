@@ -1,9 +1,10 @@
 import { Component, Input, OnInit, Output , EventEmitter} from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { CalendarioCabeceraSeguimiento } from '@data/interface/Response/DatosFormatoCabeceraCalendarioSeguimiento.interfaces';
 import { CalendarioDetalleSeguimiento } from '@data/interface/Response/DatosFormatoDetalleCalendarioSeguimientoOC.interface';
 import { ProduccionService } from '@data/services/backEnd/pages/produccion.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { debounceTime } from 'rxjs/operators';
 import { ModalInformacionItemComponent } from '../modal-informacion-item/modal-informacion-item.component';
 
 @Component({
@@ -14,14 +15,20 @@ import { ModalInformacionItemComponent } from '../modal-informacion-item/modal-i
 export class TagResumenComponent implements OnInit {
   @Input() ListarSeguimientoItemOC:CalendarioCabeceraSeguimiento[]=[];
   @Input() ListarDetalleSeguimientoItemOC:CalendarioDetalleSeguimiento[]=[];
+  @Input()TempListarSeguimientoItemOC:CalendarioCabeceraSeguimiento[]=[];
+  @Input() Anio:string;
   @Output() ItemEventMinitabla = new EventEmitter<boolean>();
-  ListadoOrdenCompra:FormGroup;
 
+  ListadoOrdenCompra:FormGroup;
+  
+  textFilterCtrl = new FormControl('');
   constructor(private _modalService: NgbModal,
               private _fb:FormBuilder,) { }
 
   ngOnInit(): void {
-    console.log("refrescar");
+    console.log("refrescar",this.Anio);
+    this.TempListarSeguimientoItemOC=this.ListarSeguimientoItemOC;
+    this.instanciarObservadoresFilter();
   }
 
 
@@ -36,20 +43,47 @@ export class TagResumenComponent implements OnInit {
       size: 'xl',
     });
 
-    modalRef.componentInstance.fromParent = item;
+    const datoEntrada={
+      item:item,
+      Anio:this.Anio
+    }
+    
+    modalRef.componentInstance.fromParent = datoEntrada;
     modalRef.result.then((result) => {
-      this.SalirModalMinitabla(result)
+      this.SalirModalMinitabla(result);
     }, (reason) => {
-       console.log("salir2", reason)
+       console.log("salir2", reason);
     });
   }
 
   SalirModalMinitabla(valor){
+      this.textFilterCtrl.patchValue('');
       this.ItemEventMinitabla.emit(valor)
   }
 
   FiltrarOrdenCompra(itemCalendario,mes){
       return  this.ListarDetalleSeguimientoItemOC.filter((elemento:CalendarioDetalleSeguimiento)=> elemento.item == itemCalendario && elemento.fecha==mes )
+  }
+
+  instanciarObservadoresFilter(){
+
+  this.textFilterCtrl.valueChanges.pipe( debounceTime(900) ).subscribe( valor => {
+    this.filtroSeleccion();
+  })
+   
+  }
+
+  filtroSeleccion(){
+    if(this.textFilterCtrl.value != '')
+    {
+      const texto = this.textFilterCtrl.value.toLowerCase();
+
+      this.TempListarSeguimientoItemOC = this.ListarSeguimientoItemOC.filter( (x:CalendarioCabeceraSeguimiento) => x.item?.toLowerCase().indexOf(texto) !== -1
+          || x.descripcionLocal?.toLowerCase().indexOf(texto) !== -1
+      );
+    }else{
+      this.TempListarSeguimientoItemOC = this.ListarSeguimientoItemOC;
+    }
   }
  
 }

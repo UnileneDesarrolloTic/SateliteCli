@@ -32,11 +32,6 @@
                 </div>
               </div>
             </div>
-            <!-- <div class="row justify-content-start">
-              <div class="ml-auto p-2">
-             
-              </div>
-            </div> -->
           </form>
         </div>
       </div>
@@ -46,10 +41,19 @@
   
   <div class="card">
     <div class="card-body">
+
+      <app-tag-resumen  *ngIf="ListarDetalleSeguimientoItemOC.length>0" [ListarSeguimientoItemOC]="ListarSeguimientoItemOC"
+        [TempListarSeguimientoItemOC]="ListarSeguimientoItemOC" 
+        [Anio]="this.filtrosForm.controls.Anio.value" [ListarDetalleSeguimientoItemOC]="ListarDetalleSeguimientoItemOC" (ItemEventMinitabla)="Refrescar($event)" >
+      </app-tag-resumen>
+<!--       
       <ngb-tabset>
         <ngb-tab title="Resumen">
           <ng-template ngbTabContent>
-           <app-tag-resumen  *ngIf="ListarDetalleSeguimientoItemOC.length>0" [ListarSeguimientoItemOC]="ListarSeguimientoItemOC" [ListarDetalleSeguimientoItemOC]="ListarDetalleSeguimientoItemOC" (ItemEventMinitabla)="Refrescar($event)" ></app-tag-resumen>
+           <app-tag-resumen  *ngIf="ListarDetalleSeguimientoItemOC.length>0" [ListarSeguimientoItemOC]="ListarSeguimientoItemOC"
+              [TempListarSeguimientoItemOC]="ListarSeguimientoItemOC" 
+              [Anio]="this.filtrosForm.controls.Anio.value" [ListarDetalleSeguimientoItemOC]="ListarDetalleSeguimientoItemOC" (ItemEventMinitabla)="Refrescar($event)" >
+            </app-tag-resumen>
           </ng-template>
         </ngb-tab>
         <ngb-tab>
@@ -58,6 +62,6 @@
            
           </ng-template>
         </ngb-tab>
-      </ngb-tabset>
+      </ngb-tabset> -->
     </div>
   </div>

@@ -1,52 +1,112 @@
-<div class="table-responsive m-t-20 scrollvertical table-container" >
-    <table class="table table-bordered table-responsive-lg  table-cebra">
-        <thead>
-            <tr>
-                <!-- <th >#</th> -->
-                <th class="sticky">Item</th>
-                <th class="sticky-2">Descripción</th>
-                <th>UNID</th>
-                <th>Enero</th>
-                <th >Febrero</th>
-                <th >Marzo</th>
-                <th >Abril</th>
-                <th >Mayo</th>
-                <th >Junio</th>
-                <th >Julio</th>
-                <th >Agosto</th>
-                <th >Septiembre</th>
-                <th >Octubre</th>
-                <th >Noviembre</th>
-                <th >Diciembre</th>
-            </tr>
-        </thead>
-        <tbody style="font-size: 10px" id="tbodyDetalle">
-            <tr *ngFor="let item of ListarSeguimientoItemOC; let i = index">
-                <td class="text-center sticky"><button (click)="AbrirModalItem(item)" class="btn  btn-sm btn-outline-info ">{{item.item}}</button></td>
-                <td class="text-center sticky-2" style="width:145px"><strong>{{item.descripcionLocal}}</strong></td>
-                <td class="text-center"><strong>{{item.unidadCodigo}}</strong></td>
-                <td><app-mini-tabla-detalle *ngIf="item.january!=null"   [item]="item.item"  [mes]="'January'"  [ListarDetalleSeguimientoItemOC]="ListarDetalleSeguimientoItemOC"  (ItemEvent)="SalirModalMinitabla($event)" ></app-mini-tabla-detalle></td>
-                <td><app-mini-tabla-detalle *ngIf="item.february!=null"   [item]="item.item"  [mes]="'February'"  [ListarDetalleSeguimientoItemOC]="ListarDetalleSeguimientoItemOC" (ItemEvent)="SalirModalMinitabla($event)" ></app-mini-tabla-detalle></td>
-                <td><app-mini-tabla-detalle *ngIf="item.march!=null"   [item]="item.item"  [mes]="'March'"  [ListarDetalleSeguimientoItemOC]="ListarDetalleSeguimientoItemOC" (ItemEvent)="SalirModalMinitabla($event)" ></app-mini-tabla-detalle></td>
-                <td><app-mini-tabla-detalle *ngIf="item.april!=null"   [item]="item.item"  [mes]="'April'"  [ListarDetalleSeguimientoItemOC]="ListarDetalleSeguimientoItemOC" (ItemEvent)="SalirModalMinitabla($event)" ></app-mini-tabla-detalle></td>
-                <td><app-mini-tabla-detalle *ngIf="item.may!=null"   [item]="item.item"  [mes]="'May'"  [ListarDetalleSeguimientoItemOC]="ListarDetalleSeguimientoItemOC" (ItemEvent)="SalirModalMinitabla($event)" ></app-mini-tabla-detalle></td>
-                <td><app-mini-tabla-detalle *ngIf="item.june!=null"   [item]="item.item"  [mes]="'June'"  [ListarDetalleSeguimientoItemOC]="ListarDetalleSeguimientoItemOC"  (ItemEvent)="SalirModalMinitabla($event)" ></app-mini-tabla-detalle></td>
-                <td><app-mini-tabla-detalle *ngIf="item.july!=null"   [item]="item.item"  [mes]="'July'"  [ListarDetalleSeguimientoItemOC]="ListarDetalleSeguimientoItemOC" (ItemEvent)="SalirModalMinitabla($event)" ></app-mini-tabla-detalle></td>
-                <td><app-mini-tabla-detalle *ngIf="item.august!=null"   [item]="item.item"  [mes]="'August'"  [ListarDetalleSeguimientoItemOC]="ListarDetalleSeguimientoItemOC" (ItemEvent)="SalirModalMinitabla($event)" ></app-mini-tabla-detalle></td>
-                <td><app-mini-tabla-detalle *ngIf="item.september!=null"   [item]="item.item"  [mes]="'September'"  [ListarDetalleSeguimientoItemOC]="ListarDetalleSeguimientoItemOC" (ItemEvent)="SalirModalMinitabla($event)" ></app-mini-tabla-detalle> </td>
-                <td><app-mini-tabla-detalle *ngIf="item.october!=null"   [item]="item.item"  [mes]="'October'"  [ListarDetalleSeguimientoItemOC]="ListarDetalleSeguimientoItemOC" (ItemEvent)="SalirModalMinitabla($event)"></app-mini-tabla-detalle></td>
-                <td><app-mini-tabla-detalle *ngIf="item.november!=null"   [item]="item.item"  [mes]="'November'"  [ListarDetalleSeguimientoItemOC]="ListarDetalleSeguimientoItemOC" (ItemEvent)="SalirModalMinitabla($event)" ></app-mini-tabla-detalle></td>
-                <td><app-mini-tabla-detalle *ngIf="item.december!=null"   [item]="item.item"  [mes]="'December'"  [ListarDetalleSeguimientoItemOC]="ListarDetalleSeguimientoItemOC" (ItemEvent)="SalirModalMinitabla($event)" ></app-mini-tabla-detalle></td>
-            </tr>
-        </tbody>
-    </table>
+<div class="row p-1">
+    <div class="col-4">
+        <input type="text" placeholder="Buscar Item o Descripción." class="form-control rounded-pill"
+            [formControl]='textFilterCtrl'>
+    </div>
+</div>
+<div class="table-responsive scrollvertical table-container">
+    <div class="row">
+        <table class="table table-bordered table-responsive-lg  table-cebra">
+            <thead>
+                <tr>
+                    <!-- <th >#</th> -->
+                    <th class="sticky">Item</th>
+                    <th class="sticky-2">Descripción</th>
+                    <th>UM</th>
+                    <th>Enero</th>
+                    <th>Febrero</th>
+                    <th>Marzo</th>
+                    <th>Abril</th>
+                    <th>Mayo</th>
+                    <th>Junio</th>
+                    <th>Julio</th>
+                    <th>Agosto</th>
+                    <th>Septiembre</th>
+                    <th>Octubre</th>
+                    <th>Noviembre</th>
+                    <th>Diciembre</th>
+                </tr>
+            </thead>
+            <tbody style="font-size: 10px" id="tbodyDetalle">
+                <tr *ngFor="let item of TempListarSeguimientoItemOC; let i = index">
+                    <td class="text-center sticky">
+                        <button (click)="AbrirModalItem(item)"
+                            class="btn  btn-sm btn-outline-info ">{{item.item}}</button>
+                    </td>
+                    <td class="text-center sticky-2" style="width:145px;font-size: 14px;">
+                        <strong>{{item.descripcionLocal}}</strong></td>
+                    <td class="text-center" style="font-size: 14px;" ><strong>{{item.unidadCodigo}}</strong></td>
+                    <td>
+                        <app-mini-tabla-detalle *ngIf="item.january!=null" [item]="item.item" [mes]="'January'"
+                            [ListarDetalleSeguimientoItemOC]="ListarDetalleSeguimientoItemOC"
+                            (ItemEvent)="SalirModalMinitabla($event)"></app-mini-tabla-detalle>
+                    </td>
+                    <td>
+                        <app-mini-tabla-detalle *ngIf="item.february!=null" [item]="item.item" [mes]="'February'"
+                            [ListarDetalleSeguimientoItemOC]="ListarDetalleSeguimientoItemOC"
+                            (ItemEvent)="SalirModalMinitabla($event)"></app-mini-tabla-detalle>
+                    </td>
+                    <td>
+                        <app-mini-tabla-detalle *ngIf="item.march!=null" [item]="item.item" [mes]="'March'"
+                            [ListarDetalleSeguimientoItemOC]="ListarDetalleSeguimientoItemOC"
+                            (ItemEvent)="SalirModalMinitabla($event)"></app-mini-tabla-detalle>
+                    </td>
+                    <td>
+                        <app-mini-tabla-detalle *ngIf="item.april!=null" [item]="item.item" [mes]="'April'"
+                            [ListarDetalleSeguimientoItemOC]="ListarDetalleSeguimientoItemOC"
+                            (ItemEvent)="SalirModalMinitabla($event)"></app-mini-tabla-detalle>
+                    </td>
+                    <td>
+                        <app-mini-tabla-detalle *ngIf="item.may!=null" [item]="item.item" [mes]="'May'"
+                            [ListarDetalleSeguimientoItemOC]="ListarDetalleSeguimientoItemOC"
+                            (ItemEvent)="SalirModalMinitabla($event)"></app-mini-tabla-detalle>
+                    </td>
+                    <td>
+                        <app-mini-tabla-detalle *ngIf="item.june!=null" [item]="item.item" [mes]="'June'"
+                            [ListarDetalleSeguimientoItemOC]="ListarDetalleSeguimientoItemOC"
+                            (ItemEvent)="SalirModalMinitabla($event)"></app-mini-tabla-detalle>
+                    </td>
+                    <td>
+                        <app-mini-tabla-detalle *ngIf="item.july!=null" [item]="item.item" [mes]="'July'"
+                            [ListarDetalleSeguimientoItemOC]="ListarDetalleSeguimientoItemOC"
+                            (ItemEvent)="SalirModalMinitabla($event)"></app-mini-tabla-detalle>
+                    </td>
+                    <td>
+                        <app-mini-tabla-detalle *ngIf="item.august!=null" [item]="item.item" [mes]="'August'"
+                            [ListarDetalleSeguimientoItemOC]="ListarDetalleSeguimientoItemOC"
+                            (ItemEvent)="SalirModalMinitabla($event)"></app-mini-tabla-detalle>
+                    </td>
+                    <td>
+                        <app-mini-tabla-detalle *ngIf="item.september!=null" [item]="item.item" [mes]="'September'"
+                            [ListarDetalleSeguimientoItemOC]="ListarDetalleSeguimientoItemOC"
+                            (ItemEvent)="SalirModalMinitabla($event)"></app-mini-tabla-detalle>
+                    </td>
+                    <td>
+                        <app-mini-tabla-detalle *ngIf="item.october!=null" [item]="item.item" [mes]="'October'"
+                            [ListarDetalleSeguimientoItemOC]="ListarDetalleSeguimientoItemOC"
+                            (ItemEvent)="SalirModalMinitabla($event)"></app-mini-tabla-detalle>
+                    </td>
+                    <td>
+                        <app-mini-tabla-detalle *ngIf="item.november!=null" [item]="item.item" [mes]="'November'"
+                            [ListarDetalleSeguimientoItemOC]="ListarDetalleSeguimientoItemOC"
+                            (ItemEvent)="SalirModalMinitabla($event)"></app-mini-tabla-detalle>
+                    </td>
+                    <td>
+                        <app-mini-tabla-detalle *ngIf="item.december!=null" [item]="item.item" [mes]="'December'"
+                            [ListarDetalleSeguimientoItemOC]="ListarDetalleSeguimientoItemOC"
+                            (ItemEvent)="SalirModalMinitabla($event)"></app-mini-tabla-detalle>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 
 
-   <!-- <ng-container *ngIf="item.july!=null">
-                            <table>
-                                <tr *ngFor="let detalle of this.FiltrarOrdenCompra(item.item,'July'); let i = index">
-                                    <td (click)="Edimir(detalle)" >{{detalle.descripcionCompleta}}</td>
-                                </tr> 
-                            </table>
-                        </ng-container> -->
+<!-- <ng-container *ngIf="item.july!=null">
+        <table>
+            <tr *ngFor="let detalle of this.FiltrarOrdenCompra(item.item,'July'); let i = index">
+                <td (click)="Edimir(detalle)" >{{detalle.descripcionCompleta}}</td>
+            </tr> 
+        </table>
+    </ng-container> -->
