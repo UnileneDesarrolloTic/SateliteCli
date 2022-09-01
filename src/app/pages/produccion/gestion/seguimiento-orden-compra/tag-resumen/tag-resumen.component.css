@@ -26,7 +26,7 @@
 .table-cebra th,
 .table-cebra td{
 	border-right: 1px solid #ccc;
-	min-width: 50px ;
+	min-width: 170px ;
 	border-bottom: 1px solid #333;
 	/* white-space: nowrap; */
 }

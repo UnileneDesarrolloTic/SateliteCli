@@ -21,18 +21,22 @@
                                             <tr>
                                                 <th scope="col">Item</th>
                                                 <th scope="col">Descripcion </th>
+                                                <th scope="col">Pendiente</th>
                                                 <th scope="col">Disponible</th>
                                                 <th scope="col">Adunas</th>
-                                                <th scope="col">Stock Meses</th>
+                                                <th scope="col">C.Calidad</th>
+                                                <th scope="col">Alerta</th>
                                             </tr>
                                         </thead>
                                         <tbody style="font-size: 13px">
                                             <tr *ngFor="let item of ListarInformacionItem; let i = index">
                                                 <td>{{item.item}}</td>
                                                 <td>{{item.descripcion}}</td>
-                                                <td>{{item.almacen| number}}</td>
+                                                <td>{{item.pendienteOC | number}}</td>
+                                                <td>{{item.stockDisponible| number}}</td>
                                                 <td>{{item.aduanas | number}}</td>
-                                                <td>0</td>
+                                                <td>{{item.transporteCC | number}}</td>
+                                                <td>{{item.cantPedir | number}}</td>
                                             </tr>
                                         </tbody>
                                     </table>
