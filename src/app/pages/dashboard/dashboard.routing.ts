@@ -111,7 +111,7 @@ export const DashboardRoutes: Routes = [
                 }
             },
             {
-              path: 'desempenioarima',
+              path: 'DesempenioArima',
               component: DesempenioArimaComponent ,
               data: {
                 title: "Desempeño arima y stocks"

@@ -29,7 +29,7 @@ export const LogisticaRoutes: Routes = [
     canActivateChild: [AuthGuard],
     children : [
       {
-        path: 'guias',
+        path: 'Guias',
         component: GestionGuiasComponent,
         data: {
           title: "Gestión de guias",
@@ -48,7 +48,7 @@ export const LogisticaRoutes: Routes = [
     canActivateChild: [AuthGuard],
     children : [
       {
-        path: 'stockventas',
+        path: 'StockVentas',
         component: ConsultarStockVentasComponent,
         data: {
           title: "Consultar stock para ventas",

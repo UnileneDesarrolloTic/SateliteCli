@@ -53,7 +53,7 @@ export const ControlCalidadRoutes: Routes = [
     canActivateChild: [AuthGuard],
     children : [
       {
-        path: 'Contramuestra',
+        path: 'ContraMuestra',
         component: GestionContraMuestraComponent,
         data: {
           title: "Gestión contra muestra",
