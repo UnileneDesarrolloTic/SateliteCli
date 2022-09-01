@@ -49,7 +49,7 @@ export const ProduccionRoutes: Routes = [
     canActivateChild: [AuthGuard],
     children : [
       {
-        path: 'reimpresionetiquetas',
+        path: 'ReimpresionEtiquetas',
         component: EtiquetasComponent,
         data: {
           title: "Reimpresión de Etiquetas"
