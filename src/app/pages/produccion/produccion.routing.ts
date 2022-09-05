@@ -57,7 +57,7 @@ export const ProduccionRoutes: Routes = [
       },
 
       {
-        path: 'seguimientoOC',
+        path: 'SeguimientoOC',
         component: SeguimientoOrdenCompraComponent,
         data: {
           title: "Seguimiento de la orden de compra"

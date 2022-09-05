@@ -42,6 +42,7 @@ export class InterceptorService implements HttpInterceptor {
       'Common/ListarMaestroItem',
       'Common/RegistrarMaestroItem',
       'Common/ListarMaestroAlmacen',
+      'Common/ValidacionPermisoAccesso',
       'usuario/ObtenerUsuario',
       'usuario/ListarUsuarios',
       'ValidacionAccesos/ValidarAccesoRuta',

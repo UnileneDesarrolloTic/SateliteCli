@@ -7,8 +7,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                
+            <div class="modal-body">   
                 <div class="row">
                     <label class="col-md-2 tamanoLabel"> DOCUMENTO: </label>
                     <div class="col-md-4 col-4">
@@ -16,8 +15,8 @@
                             <input type="text" class="form-control form-control-sm" placeholder="col-md-4" formControlName="Documento">
                         </div>
                     </div>
-                    <label class="col-md-2 tamanoLabel">ESTADO: </label>
-                    <div class="col-md-4 col-4">
+                    <label class="col-2 tamanoLabel">ESTADO: </label>
+                    <div class="col-md-2 col-2">
                         <div class="form-group">
                             <input type="text" class="form-control form-control-sm" placeholder="col-md-4" formControlName="Estado">
                         </div>
@@ -46,17 +45,17 @@
                             <input type="date" class="form-control form-control-sm" placeholder="col-md-4" formControlName="FechaPrometida" >
                         </div>
                     </div>
-                    <label class="col-md-2 tamanoLabel">FECHA LLEGADA: </label>
-                    <div class="col-md-4 col-4">
+                    <label class="col-2 tamanoLabel">FECHA LLEGADA: </label>
+                    <div class="col-md-3 col-2">
                         <div class="form-group">
-                            <input type="text" class="form-control form-control-sm" placeholder="col-md-4">
+                            <input type="date" class="form-control form-control-sm" formControlName="FechaLlegada"  placeholder="col-md-4">
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-12 scroll-group">
-                        <div class="table-responsive">
-                            <table class="table table-responsive table-striped table-sm medir-tabla">
+                    <div class="col-sm-12 scroll-group">
+                     
+                            <table class="table table-responsive table-striped table-sm ">
                                 <thead style="font-size: 13px">
                                     <tr>
                                         <th scope="col">Item</th>
@@ -76,7 +75,7 @@
                                             <td>{{DetalleForm.value.CantidadPedida | number}}</td>
                                             <td>{{DetalleForm.value.Estado}}</td>
                                             <td class="text-center">
-                                                <div class="input-group input-group-sm" style='width:10rem'>
+                                                <div class="input-group input-group-sm">
                                                     <input type="date"  class="form-control form-control-sm" formControlName="FechaPrometida" />
                                                 </div>
                                             </td>
@@ -84,13 +83,13 @@
                                     </tr>
                                 </tbody>
                             </table>
-                        </div>
+                       
                     </div>
                 </div>            
             </div>
             <div class="modal-footer">
                 <!--  [disabled]="!form.valid" -->
-                <button type="submit" class="btn btn-rounded btn-info">Actualizar</button>
+                <button type="submit" [disabled]="this.fromParent.Permiso" class="btn btn-rounded btn-info">Actualizar</button>
             </div>
         </form>
     </div>

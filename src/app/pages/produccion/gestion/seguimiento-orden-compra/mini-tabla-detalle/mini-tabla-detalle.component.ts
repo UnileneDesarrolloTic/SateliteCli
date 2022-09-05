@@ -13,6 +13,7 @@ export class MiniTablaDetalleComponent implements OnInit {
   @Input() ListarDetalleSeguimientoItemOC:CalendarioDetalleSeguimiento[]=[];
   @Input() item:string="";
   @Input() mes:string="";
+  @Input() PermisoAcceso:boolean;
   @Output() ItemEvent = new EventEmitter<boolean>();
 
   TempListarDetalleSeguimientoItemOC:CalendarioDetalleSeguimiento[]=[];
@@ -21,6 +22,7 @@ export class MiniTablaDetalleComponent implements OnInit {
   ngOnInit(): void {
     this.TempListarDetalleSeguimientoItemOC=this.ListarDetalleSeguimientoItemOC;
     this.FiltrarOrdenCompra(this.item,this.mes)
+    
   }
 
   FiltrarOrdenCompra(itemCalendario,mes){
@@ -39,7 +41,12 @@ export class MiniTablaDetalleComponent implements OnInit {
       size: 'xl',
     });
 
-    modalRef.componentInstance.fromParent = Detalle;
+    const Datos={
+      Detalle: Detalle,
+      Permiso :  this.PermisoAcceso
+    }
+
+    modalRef.componentInstance.fromParent = Datos;
     modalRef.result.then((result) => {
           this.SalirModal(result);
     }, (reason) => {

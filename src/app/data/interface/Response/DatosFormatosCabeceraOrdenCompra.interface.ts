@@ -3,6 +3,7 @@ export interface CabeceraOrdenCompra {
     Proveedor: string,
     FechaPrometida: string,
     FechaPreparacion: string,
+    FechaEnvioProveedor:string,
     Estado: string
 }
   

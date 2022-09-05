@@ -120,6 +120,14 @@ export class GenericoService {
     )
   }
 
+  AccesosPermiso(Permiso){
+    const params =  new HttpParams().set('Permiso', Permiso);
+
+    return this._http.get(this.url + "/api/Common/ValidacionPermisoAccesso",{'params': params}).pipe(
+      catchError(() => throwError("Error Acceder al permiso"))
+    )
+  }
+
   RedondearDecimales(numero, decimales = 2, usarComa = false) {
     var opciones = {
         maximumFractionDigits: decimales,

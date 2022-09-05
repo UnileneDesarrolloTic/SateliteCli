@@ -44,7 +44,7 @@
 
       <app-tag-resumen  *ngIf="ListarDetalleSeguimientoItemOC.length>0" [ListarSeguimientoItemOC]="ListarSeguimientoItemOC"
         [TempListarSeguimientoItemOC]="ListarSeguimientoItemOC" 
-        [Anio]="this.filtrosForm.controls.Anio.value" [ListarDetalleSeguimientoItemOC]="ListarDetalleSeguimientoItemOC" (ItemEventMinitabla)="Refrescar($event)" >
+        [Anio]="this.filtrosForm.controls.Anio.value" [PermisoAcceso]="PermisoAcceso" [ListarDetalleSeguimientoItemOC]="ListarDetalleSeguimientoItemOC" (ItemEventMinitabla)="Refrescar($event)" >
       </app-tag-resumen>
 <!--       
       <ngb-tabset>

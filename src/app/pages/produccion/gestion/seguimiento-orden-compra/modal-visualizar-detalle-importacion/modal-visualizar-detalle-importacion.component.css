@@ -9,4 +9,5 @@
 .scroll-group {
     overflow-y: auto;
     height: 220px;
+    width: 100%;
   }

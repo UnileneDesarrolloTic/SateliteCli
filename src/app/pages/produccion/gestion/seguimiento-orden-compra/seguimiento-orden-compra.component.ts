@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ProduccionService } from '@data/services/backEnd/pages/produccion.service';
 import { NgbTabChangeEvent } from '@ng-bootstrap/ng-bootstrap';
+import { GenericoService } from '@shared/services/comunes/generico.service';
 
 
 
@@ -15,13 +16,16 @@ export class SeguimientoOrdenCompraComponent implements OnInit {
   filtrosForm: FormGroup;
   ListarSeguimientoItemOC:any[]=[];
   ListarDetalleSeguimientoItemOC:any[]=[];
-  constructor(private _ProductoServices: ProduccionService) {
+  PermisoAcceso:boolean=false;
+  constructor(private _ProductoServices: ProduccionService,
+              private _GenericoService : GenericoService) {
 
   }
 
   ngOnInit(): void {
     this.inicializarFormulario();
     this.BuscarPedido();
+    this.AccesosPermiso();
   }
 
   currentJustify = 'start';
@@ -50,8 +54,15 @@ export class SeguimientoOrdenCompraComponent implements OnInit {
     );
   }
 
+  AccesosPermiso(){
+    this._GenericoService.AccesosPermiso('BTN0001').subscribe(
+      (resp:any)=>{
+          this.PermisoAcceso=resp["content"];
+      }
+    );
+  }
+
   Refrescar(valor:boolean){
-    console.log("Se refresco");
     this.BuscarPedido();
   }
 

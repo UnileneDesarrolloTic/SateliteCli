@@ -23,7 +23,8 @@ export class ModalVisualizarDetalleImportacionComponent implements OnInit {
     private toastr: ToastrService) { }
 
   ngOnInit(): void {
-    this.VisualizarOrdenCompra(this.fromParent.numeroOrden);
+
+    this.VisualizarOrdenCompra(this.fromParent.Detalle.numeroOrden);
     this.inicializarFormulario();
   }
 
@@ -34,6 +35,7 @@ export class ModalVisualizarDetalleImportacionComponent implements OnInit {
       Proveedor: new FormControl({value:'',disabled:true}),
       FechaPreparacion: new FormControl({value:'',disabled:true}),
       FechaPrometida: new FormControl({value:'',disabled:true}),
+      FechaLlegada:new FormControl({value:'', disabled:this.fromParent.Permiso}),
       Detalle: this._fb.array([]),
     })
 
@@ -46,10 +48,13 @@ export class ModalVisualizarDetalleImportacionComponent implements OnInit {
           this.ConstruirFormArray(resp["detalle"]);
           let separadorFechaPreparacion = this.CabeceraOrdenCompra.FechaPreparacion.split('T');
           let separadorFechaPrometida = this.CabeceraOrdenCompra.FechaPrometida.split('T');
+          let separadorFechaLlegada= this.CabeceraOrdenCompra.FechaEnvioProveedor == null ?  null : this.CabeceraOrdenCompra.FechaEnvioProveedor.split('T');
+
           this.OrdenCompraForm.get("Documento").patchValue(this.CabeceraOrdenCompra.NumeroOrden)
           this.OrdenCompraForm.get("Proveedor").patchValue(this.CabeceraOrdenCompra.Proveedor)
           this.OrdenCompraForm.get("FechaPreparacion").patchValue(separadorFechaPreparacion[0]);
           this.OrdenCompraForm.get("FechaPrometida").patchValue(separadorFechaPrometida[0]);
+          this.OrdenCompraForm.get("FechaLlegada").patchValue(separadorFechaLlegada == null ? null : separadorFechaLlegada[0]);
           this.OrdenCompraForm.get("Estado").patchValue(this.CabeceraOrdenCompra.Estado);
 
           
@@ -70,7 +75,7 @@ export class ModalVisualizarDetalleImportacionComponent implements OnInit {
         UnidadCodigo:[item.UnidadCodigo],
         CantidadPedida:[item.CantidadPedida],
         Estado:[item.Estado],
-        FechaPrometida:[separarFecha[0]],
+        FechaPrometida:[{value: separarFecha[0], disabled: this.fromParent.Permiso}],
         Item:[item.Item],
       });
 
@@ -78,7 +83,7 @@ export class ModalVisualizarDetalleImportacionComponent implements OnInit {
 
     });
 
-    console.log(this.OrdenCompraForm.controls['Detalle'].value)
+    
   }
 
   get DetalleOC(){
@@ -87,7 +92,13 @@ export class ModalVisualizarDetalleImportacionComponent implements OnInit {
 
 
   Actualizar(){
-      this._ProduccionService.ActualizarOrdenCompraMasiva(this.DetalleOC.value).subscribe(
+      
+      const Dato = {
+        ...this.OrdenCompraForm.value,
+        Documento:this.OrdenCompraForm.controls.Documento.value
+      }
+
+      this._ProduccionService.ActualizarOrdenCompraMasiva(Dato).subscribe(
         (resp:any)=>{
           if(resp["success"]){
             this.toastr.success(resp["content"])

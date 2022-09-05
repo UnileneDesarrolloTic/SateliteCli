@@ -17,6 +17,7 @@ export class TagResumenComponent implements OnInit {
   @Input() ListarDetalleSeguimientoItemOC:CalendarioDetalleSeguimiento[]=[];
   @Input()TempListarSeguimientoItemOC:CalendarioCabeceraSeguimiento[]=[];
   @Input() Anio:string;
+  @Input() PermisoAcceso:boolean;
   @Output() ItemEventMinitabla = new EventEmitter<boolean>();
 
   ListadoOrdenCompra:FormGroup;
@@ -26,7 +27,6 @@ export class TagResumenComponent implements OnInit {
               private _fb:FormBuilder,) { }
 
   ngOnInit(): void {
-    console.log("refrescar",this.Anio);
     this.TempListarSeguimientoItemOC=this.ListarSeguimientoItemOC;
     this.instanciarObservadoresFilter();
   }
@@ -45,7 +45,8 @@ export class TagResumenComponent implements OnInit {
 
     const datoEntrada={
       item:item,
-      Anio:this.Anio
+      Anio:this.Anio,
+      Permiso:this.PermisoAcceso
     }
     
     modalRef.componentInstance.fromParent = datoEntrada;

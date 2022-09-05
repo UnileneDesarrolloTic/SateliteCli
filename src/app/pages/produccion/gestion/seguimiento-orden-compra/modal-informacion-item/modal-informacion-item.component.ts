@@ -37,7 +37,6 @@ export class ModalInformacionItemComponent implements OnInit {
   InformacionOrdenCompra(Item,Anio){
     this._ProduccionService.BuscarItemOrdenCompra(Item,Anio).subscribe(
       resp=>{
-          console.log(resp);
           this.ListarInformacionItem=resp["informacionItem"];
           this.ListarDetalle=resp["detalle"];
           this.ConstruirFormArray(resp["listaOrdenCompra"]);
@@ -57,7 +56,7 @@ export class ModalInformacionItemComponent implements OnInit {
           nombreCompleto:[pedido.nombreCompleto],
           documento:[pedido.documento],
           cantidadPedida:[pedido.cantidadPedida],
-          fechaPrometida:[separarFecha[0]],
+          fechaPrometida:[{value:separarFecha[0],disabled:this.fromParent.Permiso}],
           item:[pedido.item],
         });
 
