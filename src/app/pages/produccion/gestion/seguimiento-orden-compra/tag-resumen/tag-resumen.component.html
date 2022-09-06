@@ -27,16 +27,16 @@
                     <th class="text-center">Diciembre</th>
                 </tr>
             </thead>
-            <tbody style="font-size: 10px" id="tbodyDetalle">
+            <tbody style="font-size: 9px" id="tbodyDetalle">
                 <tr *ngFor="let item of TempListarSeguimientoItemOC; let i = index">
                     <td class="text-center sticky">
                         <button (click)="AbrirModalItem(item)"
                             class="btn  btn-sm btn-outline-info ">{{item.item}}</button>
                     </td>
-                    <td class="text-center sticky-2" style="width:145px;font-size: 14px;">
+                    <td class="text-center sticky-2" style="width:145px;font-size: 12px;">
                         <strong>{{item.descripcionLocal}}</strong></td>
-                    <td class="text-center" style="font-size: 14px;" ><strong>{{item.unidadCodigo}}</strong></td>
-                    <td>
+                    <td class="text-center" style="width:10px;font-size: 12px;" ><strong>{{item.unidadCodigo}}</strong></td>
+                    <td class="text-center">
                         <app-mini-tabla-detalle *ngIf="item.january!=null" [item]="item.item" [mes]="'January'"
                             [ListarDetalleSeguimientoItemOC]="ListarDetalleSeguimientoItemOC"
                             [PermisoAcceso]="PermisoAcceso"
