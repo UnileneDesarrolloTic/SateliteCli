@@ -94,7 +94,7 @@ export class ProduccionService {
 
   //SEGUIMIENTO DE LA ORDEN DE COMPRA
   ListarItemOrdenCompra(FiltroElemento){
-    const params =  new HttpParams().set('Origen', FiltroElemento.Origen).set('Anio',FiltroElemento.Anio);
+    const params =  new HttpParams().set('Origen', FiltroElemento.Origen).set('Anio',FiltroElemento.Anio).set('Regla',FiltroElemento.regla);
     return this._http.get<any[]>(this.url+"/api/Produccion/ListarItemOrdenCompra", {'params': params}).pipe(
       catchError (() => throwError("Error al obtener el seguimiento de candidatos"))
     );

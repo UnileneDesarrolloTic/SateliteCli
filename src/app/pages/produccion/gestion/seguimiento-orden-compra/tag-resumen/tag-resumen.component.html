@@ -13,6 +13,18 @@
                     <th class="sticky">Item</th>
                     <th class="sticky-2">Descripción</th>
                     <th class="text-center">UM</th>
+                    <th class="text-center">Pronostico</th>
+                    <th class="text-center">C.Variacion</th>
+                    <th class="text-center">L.Superior</th>
+                    <th class="text-center">P.Control</th>
+                    <th class="text-center">Maximo</th>
+                    <th class="text-center">Aduanas</th>
+                    <th class="text-center">P.OC</th>
+                    <th class="text-center">C.Calidad</th>
+                    <th class="text-center">Actual</th>
+                    <th class="text-center">Comprometido</th>
+                    <th class="text-center">Disponible</th>
+                    <th class="text-center">Alerta</th>
                     <th class="text-center">Enero</th>
                     <th class="text-center">Febrero</th>
                     <th class="text-center">Marzo</th>
@@ -27,15 +39,28 @@
                     <th class="text-center">Diciembre</th>
                 </tr>
             </thead>
-            <tbody style="font-size: 9px" id="tbodyDetalle">
+            <tbody style="font-size: 12px" id="tbodyDetalle">
                 <tr *ngFor="let item of TempListarSeguimientoItemOC; let i = index">
                     <td class="text-center sticky">
                         <button (click)="AbrirModalItem(item)"
                             class="btn  btn-sm btn-outline-info ">{{item.item}}</button>
                     </td>
                     <td class="text-center sticky-2" style="width:145px;font-size: 12px;">
-                        <strong>{{item.descripcionLocal}}</strong></td>
-                    <td class="text-center" style="width:10px;font-size: 12px;" ><strong>{{item.unidadCodigo}}</strong></td>
+                        <strong>{{item.descripcionLocal}}</strong>
+                    </td>
+                    <td class="text-center"><strong>{{item.unidadCodigo}}</strong></td>
+                    <td class="text-center"><strong>{{item.pronostico | number}}</strong></td>
+                    <td class="text-center"><strong>{{item.coeficienteVariacion | number}}</strong></td>
+                    <td class="text-center"><strong>{{item.limiteSuperior | number}}</strong></td>
+                    <td class="text-center"><strong>{{item.puntoControl | number}}</strong></td>
+                    <td class="text-center"><strong>{{item.maximo | number}}</strong></td>
+                    <td class="text-center"><strong>{{item.aduanas | number}}</strong></td>
+                    <td class="text-center"><strong>{{item.pendienteOC | number}}</strong></td>
+                    <td class="text-center"><strong>{{item.transporteCC | number}}</strong></td>
+                    <td class="text-center"><strong>{{item.stockActual | number}}</strong></td>
+                    <td class="text-center"><strong>{{item.stockComprometido | number}}</strong></td>
+                    <td class="text-center"><strong>{{item.stockDisponible | number}}</strong></td>
+                    <td class="text-center"><strong>{{item.cantPedir | number }}</strong></td>
                     <td class="text-center">
                         <app-mini-tabla-detalle *ngIf="item.january!=null" [item]="item.item" [mes]="'January'"
                             [ListarDetalleSeguimientoItemOC]="ListarDetalleSeguimientoItemOC"

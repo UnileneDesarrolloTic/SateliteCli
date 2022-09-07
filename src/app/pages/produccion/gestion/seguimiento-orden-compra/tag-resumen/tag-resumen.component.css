@@ -5,6 +5,12 @@
     overflow-y: scroll;
 }
 
+.table-cebra th{
+	position: fixed;
+	padding: auto;
+	left: 30%;
+}
+
 .table-container{
 	max-width: 100%;
 	overflow-x: scroll;

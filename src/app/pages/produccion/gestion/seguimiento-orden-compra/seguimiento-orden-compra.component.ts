@@ -40,7 +40,8 @@ export class SeguimientoOrdenCompraComponent implements OnInit {
   inicializarFormulario() {
     this.filtrosForm = new FormGroup({
       Origen: new FormControl('TD'),
-      Anio:new FormControl('2022')
+      Anio:new FormControl('2022'),
+      regla:new FormControl('MPAGAR1'),
     })
 
   }
