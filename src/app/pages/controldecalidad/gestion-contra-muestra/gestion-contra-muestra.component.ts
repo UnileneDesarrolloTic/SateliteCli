@@ -9,6 +9,7 @@ import { ModalCargarComponent } from '@shared/components/modal-cargar/modal-carg
 import { Cargarbase64Service } from '@shared/services/comunes/cargarbase64.service';
 import { GenericoService } from '@shared/services/comunes/generico.service';
 import { ToastrService } from 'ngx-toastr';
+import { ModalKardexInternoComponent } from './modal-kardex-interno/modal-kardex-interno.component';
 
 @Component({
   selector: 'app-gestion-contra-muestra',
@@ -17,9 +18,9 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class GestionContraMuestraComponent implements OnInit {
   hoy = new Date().toLocaleDateString();
-  CodloteFabricacion: string = '';
+  Codlote: string = '20112641';
   ListarOrdenFabricacion:DatosFormatoOrdenFabricacionModel[]=[];
-  ObjectOrdenFabricacion:DatosFormatoOrdenFabricacionModel;
+  ListInformacionLote:DatosFormatoOrdenFabricacionModel[]=[];
   ListarAlmancen:MaestroAlmacenModel[]=[];
   ListarTransaccion: TransaccionModel[]=[];
   ListadoOrdenFabricacion:FormGroup;
@@ -44,7 +45,7 @@ export class GestionContraMuestraComponent implements OnInit {
   ListarMaestroAlmacen(){
     this._ServiceGenericoService.ListarMaestroAlmacen().subscribe(
       (resp:any)=>{
-          resp["success"] ? this.ListarAlmancen=resp["content"] :  this.ListarAlmancen=[];
+        resp["success"] ? this.ListarAlmancen=resp["content"] :  this.ListarAlmancen=[];
       }
     );
   }
@@ -56,23 +57,23 @@ export class GestionContraMuestraComponent implements OnInit {
   }
 
   BuscarProducto(){
-    if(this.CodloteFabricacion=='' || this.CodloteFabricacion==null){
+    if(this.Codlote=='' || this.Codlote==null){
       return this.toastr.warning("Debe colocar el numero de lote");
     }
-      this._ServiceControlCalidad.ObtenerOrdenFabricacion(this.CodloteFabricacion).subscribe(
-          (resp)=>{
-              resp["success"] ? this.ObjectOrdenFabricacion = resp["content"]: {};
-              this.MuestraArray(this.ObjectOrdenFabricacion);
-          }
-      );
+    this._ServiceControlCalidad.ObtenerInformacionLote(this.Codlote).subscribe(
+        (resp)=>{
+            this.ListInformacionLote = resp;
+            this.MuestraArray(this.ListInformacionLote);
+        }
+    );
   }
 
   BuscarTransaccion(){
-    if(this.CodloteFabricacion=='' || this.CodloteFabricacion==null){
+    if(this.Codlote=='' || this.Codlote==null){
         return this.toastr.warning("Debe colocar el numero de lote");
     }
 
-    this._ServiceControlCalidad.ObtenerTransaccion(this.CodloteFabricacion,this.codAlmacen.value).subscribe(
+    this._ServiceControlCalidad.ObtenerTransaccion(this.Codlote,this.codAlmacen.value).subscribe(
       (resp)=>{
           this.ListarTransaccion = resp;
       }
@@ -93,29 +94,27 @@ export class GestionContraMuestraComponent implements OnInit {
     });
   }
 
-  MuestraArray(item:DatosFormatoOrdenFabricacionModel){
+  MuestraArray(formArrayResp:DatosFormatoOrdenFabricacionModel[]){
     const ArrayItem = this.ListadoOrdenFabricacion.controls.Muestras as FormArray;
     ArrayItem.controls = [];
 
 
-    if(item.lote!=null){
-      const ItemFilaForm = this._fb.group({
-        fechaProduccion: [item.fechaProduccion],
-        item: [item.item],
-        numeroParte: [item.numeroParte],
-        marca: [item.marca],
-        descripcionLocal:[item.descripcionLocal],
-        cliente: [item.cliente],
-        lote: [item.lote],
-        contraMuestra: [item.contraMuestra],
-        numeroCaja: [item.numeroCaja],
-      });
-      
-      this.Muestreo.push(ItemFilaForm);
-    }
-
-    
-
+    formArrayResp.forEach((itemRow:DatosFormatoOrdenFabricacionModel)=>{
+        const ItemFilaForm = this._fb.group({
+          fechaProduccion: [itemRow.fechaProduccion],
+          item: [itemRow.item],
+          numeroParte: [itemRow.numeroParte],
+          marca: [itemRow.marca],
+          descripcionLocal:[itemRow.descripcionLocal],
+          ordenFabricacion:[itemRow.ordenFabricacion],
+          lote:[itemRow.lote],
+          cliente:[itemRow.cliente],
+          auditableFlag:[itemRow.auditableFlag],
+          contraMuestra:[itemRow.contraMuestra],
+          numeroCaja: [itemRow.numeroCaja],
+        });
+        this.Muestreo.push(ItemFilaForm);
+    })
   }
 
   get Muestreo(){
@@ -123,8 +122,8 @@ export class GestionContraMuestraComponent implements OnInit {
   }
 
 
-  GuardarOrdenFabricacion(){
-      this._ServiceControlCalidad.RegistrarOrdenFabricacionCaja(this.ListadoOrdenFabricacion.controls['Muestras'].value).subscribe(
+  GuardarOrdenFabricacion(FilaLote){
+      this._ServiceControlCalidad.RegistrarLoteNumeroCaja(FilaLote).subscribe(
         (resp)=>{
            resp["success"] ? this.toastr.success(resp["content"]) : this.toastr.info(resp["content"]);
         }
@@ -152,7 +151,31 @@ export class GestionContraMuestraComponent implements OnInit {
     );
   }
 
-  
+  get CantodadTotal():number{
+    let totalAcumulado=0;
+     this.ListarTransaccion.forEach(element=>totalAcumulado=totalAcumulado+element.cantidad)
+
+     return totalAcumulado
+  }
+
+  ModalKardexInterno(fila){
+    const modalRefKardexInterno = this.modalService.open(ModalKardexInternoComponent, {
+			ariaLabelledBy: 'modal-basic-title',
+			centered: true,
+			backdropClass: 'light-blue-backdrop',
+			backdrop: 'static',
+			size: 'lg',
+			scrollable: true,
+			keyboard: false
+		});
+
+		modalRefKardexInterno.componentInstance.fromParent = fila;
+		modalRefKardexInterno.result.then((result) => {
+		
+		}, (reason) => {
+		
+		});
+  }
 
  
 

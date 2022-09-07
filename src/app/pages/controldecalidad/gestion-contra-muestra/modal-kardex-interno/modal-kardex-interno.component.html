@@ -1,0 +1,56 @@
+<div class="row">
+
+    <div class="card-body"   >
+    <form (ngSubmit)="save()"  [formGroup]="form" >
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Kardex interno Numero de Lote : {{this.fromParent.lote}} </h4>
+            <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="d-flex">
+                        <div class="mr-auto p-2">
+                        </div>
+                        <div class="p-2">
+                          <button type="button" class="btn btn-info btn-sm"  ><i class="fas fa-plus"></i> Agregar </button>
+                         </div>
+                    </div>
+                </div>
+            </div> 
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="align-items-center">
+                        <div class="table-hover table-responsive table-bordered">
+                          <table class="table table-striped border table-hover table-inf">
+                            <thead style="font-size: 13px" >
+                              <tr>
+                                <th class="text-center" scope="col">Id</th>
+                                <th class="text-center" scope="col">Lote</th>
+                                <th class="text-center" scope="col">O.F</th>
+                                <th class="text-center" scope="col">Transaccion</th>
+                                <th class="text-center" scope="col">Cantidad</th>
+                                <th class="text-center" scope="col">Usuario</th>
+                                <th class="text-center" scope="col">Comentario</th>
+                                <th class="text-center" scope="col">Estado</th>
+                              </tr>
+                            </thead>
+                            <tbody style="font-size: 11px" id="tbodyDetalle" >
+                               
+                            </tbody>
+                          </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="submit"  [disabled]="!form.valid" class="btn btn-rounded btn-success">Aceptar</button>
+        </div>
+
+    </form>
+        
+    </div>
+</div>
