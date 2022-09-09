@@ -53,7 +53,7 @@ export class TagResumenComponent implements OnInit {
     modalRef.result.then((result) => {
       this.SalirModalMinitabla(result);
     }, (reason) => {
-       console.log("salir2", reason);
+      
     });
   }
 

@@ -40,7 +40,6 @@ export class ModalInformacionItemComponent implements OnInit {
           this.ListarInformacionItem=resp["informacionItem"];
           this.ListarDetalle=resp["detalle"];
           this.ConstruirFormArray(resp["listaOrdenCompra"]);
-          console.log(this.ListarInformacionItem);
       }
     );
   }
