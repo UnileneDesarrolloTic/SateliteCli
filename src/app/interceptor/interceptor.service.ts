@@ -80,6 +80,7 @@ export class InterceptorService implements HttpInterceptor {
       'ControlCalidad/ObtenerInformacionLote',
       'ControlCalidad/ListarTransaccionItem',
       'ControlCalidad/RegistrarLoteNumeroCaja',
+      'ControlCalidad/ListarKardexInternoNumeroLote',
       'ControlCalidad/ExportarOrdenFabricacionCaja',
       'RRHH/GenerarReporteAsistencia',
       'RRHH/ListarAsistencia',

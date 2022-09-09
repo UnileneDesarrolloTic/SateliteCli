@@ -33,6 +33,15 @@ export class ControlcalidadService {
     );
   }
 
+
+  ListarKardexInternoGCM(NumeroLote){
+    const params =  new HttpParams().set('NumeroLote', NumeroLote);
+    return this._http.get<any>(this.url+"/api/ControlCalidad/ListarKardexInternoNumeroLote", {'params':params}).pipe(
+      catchError (() => throwError("Error al obtener Detalle de Transaccion"))
+    );
+  }
+
+
   ExportarOrdenFabricacionCaja(){
     return this._http.get<any>(this.url+"/api/ControlCalidad/ExportarOrdenFabricacionCaja").pipe(
       catchError (() => throwError("Error al obtener Datos Exportar Caja"))
