@@ -1,56 +1,124 @@
 <div class="row">
 
-    <div class="card-body"   >
-    <form (ngSubmit)="save()"  [formGroup]="form" >
+    <div class="card-body">
+
         <div class="modal-header">
-            <h4 class="modal-title" id="modal-basic-title">Kardex interno Numero de Lote : {{this.fromParent.lote}} </h4>
+            <h4 class="modal-title" id="modal-basic-title">Kardex interno Numero de Lote : {{this.fromParent.lote}}
+            </h4>
             <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
         <div class="modal-body">
-            <div class="row">
-                <div class="col-md-12">
+            <form [formGroup]="FormularioKardexInterno" (ngSubmit)="RegistrarKardexInternoGCM()">
+                <div class="row">
+                    <div class="col-md-4">
+                        <label class="control-label text-rigth">Lote</label>
+
+                        <input type="text"  formControlName="Lote" class="form-control form-control-sm" placeholder="Lote">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="control-label text-rigth">Orde Fabricacion</label>
+                        <input type="text" formControlName="OrdenFabricacion" class="form-control form-control-sm" placeholder="Orden Fabricacion">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="control-label text-rigth">Transacción</label>
+                        <select formControlName="Transaccion" class="form-control form-control-sm">
+                            <option value="NS"> NS-Nota Salida</option>
+                            <option value="NE"> NE-Nota Entrada</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <label class="control-label text-rigth">Cantidad</label>
+                        <input type="number" class="form-control form-control-sm" placeholder="Ing. Cantidad" formControlName="Cantidad" >
+                    </div>
+                    <div class="col-md-4">
+                        <label class="control-label text-rigth">Comentario</label>
+                        <textarea type="text" class="form-control form-control-sm" formControlName="Comentario"></textarea>
+                    </div>
+                    <div class="col-md-4">
+                    </div>
+                </div>
+                <div class="row">
                     <div class="d-flex">
                         <div class="mr-auto p-2">
                         </div>
                         <div class="p-2">
-                          <button type="button" class="btn btn-info btn-sm"  ><i class="fas fa-plus"></i> Agregar </button>
-                         </div>
-                    </div>
-                </div>
-            </div> 
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="align-items-center">
-                        <div class="table-hover table-responsive table-bordered">
-                          <table class="table table-striped border table-hover table-inf">
-                            <thead style="font-size: 13px" >
-                              <tr>
-                                <th class="text-center" scope="col">Id</th>
-                                <th class="text-center" scope="col">Lote</th>
-                                <th class="text-center" scope="col">O.F</th>
-                                <th class="text-center" scope="col">Transaccion</th>
-                                <th class="text-center" scope="col">Cantidad</th>
-                                <th class="text-center" scope="col">Usuario</th>
-                                <th class="text-center" scope="col">Comentario</th>
-                                <th class="text-center" scope="col">Estado</th>
-                              </tr>
-                            </thead>
-                            <tbody style="font-size: 11px" id="tbodyDetalle" >
-                               
-                            </tbody>
-                          </table>
+                            <button type="submit"  [disabled]="!this.FormularioKardexInterno.valid" class="btn btn-info btn-sm"><i class="fas fa-plus"></i> Agregar </button>
                         </div>
                     </div>
                 </div>
+                
+            </form>
+        
+            <div class="row">
+                <form [formGroup]="KardexInterno">
+                    <div class="col-md-12">
+                        <div class="align-items-center">
+                            <div class="table-hover table-responsive table-bordered scroll-group">
+                                <table class="table table-striped border table-hover">
+                                    <thead style="font-size: 11px">
+                                        <tr>
+                                            <th class="text-center" scope="col">Id</th>
+                                            <th class="text-center" scope="col">Lote</th>
+                                            <th class="text-center" scope="col">O.F</th>
+                                            <th class="text-center" scope="col">Transaccion</th>
+                                            <th class="text-center" scope="col">Cantidad</th>
+                                            <th class="text-center" scope="col">Usuario</th>
+                                            <th class="text-center" scope="col">Comentario</th>
+                                            <th class="text-center" scope="col">Estado</th>
+                                            <th class="text-center" scope="col">Opcion</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody style="font-size: 11px" id="tbodyDetalle">
+                                        <tr *ngFor="let lessonForm of ListadoKardex.controls; let i = index">
+                                            <ng-container [formGroup]="lessonForm">
+                                                <td class="text-center">
+                                                    <b>{{lessonForm.value.idKardex}}</b>
+                                                </td>
+                                                <td class="text-center">
+                                                    <b>{{lessonForm.value.numeroLote}}</b>
+                                                </td>
+                                                <td class="text-center">
+                                                    <b>{{lessonForm.value.ordenFabricacion}}</b>
+                                                </td>
+                                                <td class="text-center">
+                                                    <b>{{lessonForm.value.tipoTransaccion}}</b>
+                                                </td>
+                                                <td class="text-center">
+                                                    <b>{{lessonForm.value.cantidad}}</b>
+                                                </td>
+                                                <td class="text-center">
+                                                    <b>{{lessonForm.value.usuario}}</b>
+                                                </td>
+                                                <td class="text-center">
+                                                    <textarea type="text" maxlength="10"
+                                                        class="form-control form-control-sm"
+                                                        formControlName="comentarios">
+                                            </textarea>
+                                                </td>
+                                                <td class="text-center">
+                                                    <b>{{lessonForm.value.estado}}</b>
+                                                </td>
+                                                <td class="text-center">
+                                                    <a class="cursor-pointer mr-2"
+                                                        (click)="Actualizar(lessonForm.value)">
+                                                        <i style="font-size: 16px;color: #1475f6;"
+                                                            class="fas fa-save"></i>
+                                                    </a>
+                                                </td>
+                                            </ng-container>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
-        <div class="modal-footer">
-            <button type="submit"  [disabled]="!form.valid" class="btn btn-rounded btn-success">Aceptar</button>
-        </div>
-
-    </form>
-        
+      
     </div>
 </div>

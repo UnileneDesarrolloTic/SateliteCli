@@ -41,6 +41,21 @@ export class ControlcalidadService {
     );
   }
 
+  RegistrarKardexInternoGCM(body){
+    return this._http.post<any>(this.url+"/api/ControlCalidad/RegistrarKardexInternoGCM", body).pipe(
+      catchError (() => throwError("Error al obtener Detalle de Transaccion"))
+    );
+  }
+
+  ActualizarKardexInternoGCM(idKardex,comentarios){
+    const params =  new HttpParams().set('idKardex', idKardex).set('comentarios',comentarios);
+    return this._http.get<any>(this.url+"/api/ControlCalidad/ActualizarKardexInternoGCM", {'params':params}).pipe(
+      catchError (() => throwError("Error al obtener Detalle de Transaccion"))
+    );
+  }
+
+
+
 
   ExportarOrdenFabricacionCaja(){
     return this._http.get<any>(this.url+"/api/ControlCalidad/ExportarOrdenFabricacionCaja").pipe(

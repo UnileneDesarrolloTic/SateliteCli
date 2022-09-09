@@ -24,8 +24,7 @@ export class GestionContraMuestraComponent implements OnInit {
   ListarAlmancen:MaestroAlmacenModel[]=[];
   ListarTransaccion: TransaccionModel[]=[];
   ListadoOrdenFabricacion:FormGroup;
-  
-  Form:FormGroup;
+
 
   codAlmacen = new FormControl('ALMCMPT');
   constructor(private modalService: NgbModal,
@@ -89,6 +88,7 @@ export class GestionContraMuestraComponent implements OnInit {
 
 
   crearFormulario(){
+
     this.ListadoOrdenFabricacion = this._fb.group({
       Muestras: this._fb.array([]),
     });
