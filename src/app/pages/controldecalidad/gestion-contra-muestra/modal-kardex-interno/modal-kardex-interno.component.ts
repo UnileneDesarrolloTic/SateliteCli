@@ -25,7 +25,7 @@ export class ModalKardexInternoComponent implements OnInit {
                     Lote:new FormControl('',Validators.required),
                     OrdenFabricacion:new FormControl('',Validators.required),
                     Transaccion:new FormControl('NS',Validators.required),
-                    Cantidad:new FormControl('',Validators.required),
+                    Cantidad:new FormControl('',[Validators.required,Validators.pattern('^[0-9]+')]),
                     Comentario:new FormControl(''),
                   });
                   this.KardexInterno = this._fb.group({
@@ -34,7 +34,6 @@ export class ModalKardexInternoComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    console.log(this.fromParent);
     this.FormularioKardexInterno.get("Lote").patchValue(this.fromParent.lote);
     this.FormularioKardexInterno.get("OrdenFabricacion").patchValue(this.fromParent.ordenFabricacion);
     this.FormularioKardexInterno.controls.Lote.disable();
@@ -50,13 +49,17 @@ export class ModalKardexInternoComponent implements OnInit {
       }
     )
   }
+  
+
 
   RegistrarKardexInternoGCM(){
+
     const dato={
       ...this.FormularioKardexInterno.value,
       Lote:this.FormularioKardexInterno.controls.Lote.value,
       OrdenFabricacion:this.FormularioKardexInterno.controls.OrdenFabricacion.value
-    }
+    } 
+
 
     this._ControlcalidadService.RegistrarKardexInternoGCM(dato).subscribe(
       (resp:any)=>{
@@ -100,4 +103,9 @@ export class ModalKardexInternoComponent implements OnInit {
       }
     )
   }
+
+  
+
+
+
 }

@@ -81,7 +81,7 @@
                                           </td>
                                           <td class="text-center">
                                             <div class="input-group input-group-sm" style='width:7rem'>
-                                              <input type="number" class="form-control form-control-sm" formControlName="contraMuestra" />
+                                              <input type="number" [readonly]="lessonForm.value.permitir" class="form-control form-control-sm" formControlName="contraMuestra" />
                                             </div>
                                           </td>
                                           <td class="text-center">
@@ -92,8 +92,8 @@
                                           </td>
                                           <td class="text-center">
 
-                                            <a class="cursor-pointer mr-2" (click)="GuardarOrdenFabricacion(lessonForm.value)">
-                                                <i  style="font-size: 16px;color: #1475f6;" class="fas fa-save" ></i>
+                                            <a class="cursor-pointer mr-2"  (click)="GuardarOrdenFabricacion(lessonForm.value)">
+                                                <i  style="font-size: 16px;color: #1475f6;"  class="fas fa-save" ></i>
                                             </a>
                                             <a  class="cursor-pointer" (click)="ModalKardexInterno(lessonForm.value)">
                                                 <i  style="font-size: 16px;color: #7460ee;" class="fas fa-file" ></i>

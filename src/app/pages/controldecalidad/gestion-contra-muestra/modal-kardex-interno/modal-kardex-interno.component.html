@@ -25,7 +25,7 @@
                         <label class="control-label text-rigth">Transacción</label>
                         <select formControlName="Transaccion" class="form-control form-control-sm">
                             <option value="NS"> NS-Nota Salida</option>
-                            <option value="NE"> NE-Nota Entrada</option>
+                            <option value="NI"> NI-Nota Ingreso</option>
                         </select>
                     </div>
                 </div>
@@ -53,7 +53,7 @@
                 
             </form>
         
-            <div class="row">
+            <div class="row" *ngIf="ListadoKardex.length>0">
                 <form [formGroup]="KardexInterno">
                     <div class="col-md-12">
                         <div class="align-items-center">

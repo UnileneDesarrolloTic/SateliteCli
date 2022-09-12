@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { DatosFormatoOrdenFabricacionModel } from '@data/interface/Response/DatosFormatoOrdenFabricacion.interface';
 import { TransaccionModel } from '@data/interface/Response/DatoTransaccion.interface';
+import { KardexInternoCantidadGCM } from '@data/interface/Response/FormatoDetalleCantidadOrdenCompraGCM.interface';
 import { MaestroAlmacenModel } from '@data/interface/Response/MaestroAlmacen.interface';
 import { ControlcalidadService } from '@data/services/backEnd/pages/controlcalidad.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -18,8 +19,8 @@ import { ModalKardexInternoComponent } from './modal-kardex-interno/modal-kardex
 })
 export class GestionContraMuestraComponent implements OnInit {
   hoy = new Date().toLocaleDateString();
-  Codlote: string = '20112641';
-  ListarOrdenFabricacion:DatosFormatoOrdenFabricacionModel[]=[];
+  Codlote: string = '';
+  ListarDetalleKardexinterno:KardexInternoCantidadGCM[]=[];
   ListInformacionLote:DatosFormatoOrdenFabricacionModel[]=[];
   ListarAlmancen:MaestroAlmacenModel[]=[];
   ListarTransaccion: TransaccionModel[]=[];
@@ -61,7 +62,8 @@ export class GestionContraMuestraComponent implements OnInit {
     }
     this._ServiceControlCalidad.ObtenerInformacionLote(this.Codlote).subscribe(
         (resp)=>{
-            this.ListInformacionLote = resp;
+            this.ListInformacionLote = resp["informacionLote"];
+            this.ListarDetalleKardexinterno = resp["detalle"];
             this.MuestraArray(this.ListInformacionLote);
         }
     );
@@ -100,6 +102,8 @@ export class GestionContraMuestraComponent implements OnInit {
 
 
     formArrayResp.forEach((itemRow:DatosFormatoOrdenFabricacionModel)=>{
+        let valor:KardexInternoCantidadGCM = this.Permitir(itemRow.lote);
+        console.log(valor)
         const ItemFilaForm = this._fb.group({
           fechaProduccion: [itemRow.fechaProduccion],
           item: [itemRow.item],
@@ -110,8 +114,9 @@ export class GestionContraMuestraComponent implements OnInit {
           lote:[itemRow.lote],
           cliente:[itemRow.cliente],
           auditableFlag:[itemRow.auditableFlag],
-          contraMuestra:[itemRow.contraMuestra],
+          contraMuestra:[valor==undefined? itemRow.contraMuestra : valor.calculo ],
           numeroCaja: [itemRow.numeroCaja],
+          permitir:[valor==undefined? false : valor.permitir ],
         });
         this.Muestreo.push(ItemFilaForm);
     })
@@ -121,11 +126,24 @@ export class GestionContraMuestraComponent implements OnInit {
     return this.ListadoOrdenFabricacion.controls['Muestras'] as FormArray;
   }
 
+  Permitir(NumeroLote){
+    return this.ListarDetalleKardexinterno.find((x:KardexInternoCantidadGCM)=> x.numeroLote==NumeroLote)
+  }
+
 
   GuardarOrdenFabricacion(FilaLote){
+      if(FilaLote.contraMuestra>0 && FilaLote.permitir){
+        return ;
+      }
+
       this._ServiceControlCalidad.RegistrarLoteNumeroCaja(FilaLote).subscribe(
         (resp)=>{
-           resp["success"] ? this.toastr.success(resp["content"]) : this.toastr.info(resp["content"]);
+           if (resp["success"])  {
+              this.toastr.success(resp["content"]); 
+              this.BuscarProducto();
+           }else{
+              this.toastr.info(resp["content"]);
+           } 
         }
       );
   }
@@ -171,9 +189,9 @@ export class GestionContraMuestraComponent implements OnInit {
 
 		modalRefKardexInterno.componentInstance.fromParent = fila;
 		modalRefKardexInterno.result.then((result) => {
-		
+       this.BuscarProducto();
 		}, (reason) => {
-		
+       this.BuscarProducto();
 		});
   }
 
