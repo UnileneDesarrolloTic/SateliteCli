@@ -29,7 +29,7 @@ export class ControlLotesComponent implements OnInit {
   paginador: Paginado = {
     paginaActual: 1,
     totalPaginas: 1,
-    registroPorPagina: 10,
+    registroPorPagina: 20,
     totalRegistros: 1,
     siguiente:true,
     anterior: false,
@@ -83,7 +83,7 @@ export class ControlLotesComponent implements OnInit {
       FechaFinal:this.FormControlLotes.controls.FechaFinal.value,
       OrdenFabricacion:this.FormControlLotes.controls.OrdenFabricacion.value,
       Pagina: this.pagina,
-			RegistrosPorPagina: 10,
+			RegistrosPorPagina: 20,
     }
 
     this._ControlcalidadService.ListarControlLotes(DatosCabecera).subscribe(
