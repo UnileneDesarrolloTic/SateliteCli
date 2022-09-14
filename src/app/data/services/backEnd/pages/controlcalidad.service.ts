@@ -54,13 +54,22 @@ export class ControlcalidadService {
     );
   }
 
-
-
-
   ExportarOrdenFabricacionCaja(){
     return this._http.get<any>(this.url+"/api/ControlCalidad/ExportarOrdenFabricacionCaja").pipe(
       catchError (() => throwError("Error al obtener Datos Exportar Caja"))
     );
   }
 
+
+  ListarControlLotes(body){
+    return this._http.post<any>(this.url+"/api/ControlCalidad/ListarControlLotes", body).pipe(
+      catchError (() => throwError("Error al obtener Detalle de listar de control lote "))
+    );
+  }
+
+  ActualizarControlLotes(body){
+    return this._http.post<any>(this.url+"/api/ControlCalidad/ActualizarControlLotes", body).pipe(
+      catchError (() => throwError("Error al obtener Detalle de listar de control lote "))
+    );
+  }
 }

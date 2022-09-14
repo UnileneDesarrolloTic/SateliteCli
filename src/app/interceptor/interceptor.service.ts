@@ -84,6 +84,8 @@ export class InterceptorService implements HttpInterceptor {
       'ControlCalidad/ExportarOrdenFabricacionCaja',
       'ControlCalidad/ActualizarKardexInternoGCM',
       'ControlCalidad/RegistrarKardexInternoGCM',
+      'ControlCalidad/ListarControlLotes',
+      'ControlCalidad/ActualizarControlLotes',
       'RRHH/GenerarReporteAsistencia',
       'RRHH/ListarAsistencia',
       'Cotizacion/Listar',
