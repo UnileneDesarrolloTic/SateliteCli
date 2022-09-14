@@ -6,7 +6,7 @@
 
           <div class="row justify-content-start">
             <div class="col-md-3">
-              <label for="fechainicio" class="text-right control-label col-form-label">Orde Fabricación</label>
+              <label for="fechainicio" class="text-right control-label col-form-label">Orden Fabricación</label>
               <div class="form-group">
                 <input type="text" formControlName="OrdenFabricacion" class="form-control form-control-sm"
                   placeholder="Orden Fabricación">
@@ -89,7 +89,7 @@
                       <td class="text-center sticky-3">
                           <b>{{ControlLoteForm.value.ordenFabricacion}}</b>
                       </td>
-                      <td class="text-center" [ngStyle]="{'background': ControlLoteForm.value.aprobado=='AP' ? '#77dd77' : 'white' }">
+                      <td class="text-center" [ngStyle]="{'background': ControlLoteForm.value.aprobado=='AP' || ControlLoteForm.value.aprobado=='GE' ? '#77dd77' : 'white' }">
                           <b>{{ControlLoteForm.value.lote}}</b>
                       </td>
                       <td class="text-center" style="width:2% !important;">

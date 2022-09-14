@@ -83,7 +83,7 @@ export class ControlLotesComponent implements OnInit {
       FechaFinal:this.FormControlLotes.controls.FechaFinal.value,
       OrdenFabricacion:this.FormControlLotes.controls.OrdenFabricacion.value,
       Pagina: this.pagina,
-			RegistrosPorPagina: 5,
+			RegistrosPorPagina: 10,
     }
 
     this._ControlcalidadService.ListarControlLotes(DatosCabecera).subscribe(
