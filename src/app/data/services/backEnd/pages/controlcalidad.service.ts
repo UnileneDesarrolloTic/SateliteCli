@@ -13,9 +13,9 @@ export class ControlcalidadService {
   constructor(private _http: HttpClient) { 
   }
 
-  ObtenerOrdenFabricacion(OrdenFabricacion){
-    const params =  new HttpParams().set('NumeroLote', OrdenFabricacion)
-    return this._http.get<any>(this.url+"/api/ControlCalidad/OrdenFabricacion", {'params': params}).pipe(
+  ObtenerInformacionLote(NumeroLote){
+    const params =  new HttpParams().set('NumeroLote', NumeroLote)
+    return this._http.get<any>(this.url+"/api/ControlCalidad/ObtenerInformacionLote", {'params': params}).pipe(
       catchError (() => throwError("Error al obtener Detalle de Orden Fabicacion"))
     );
   }
@@ -27,8 +27,29 @@ export class ControlcalidadService {
     );
   }
 
-  RegistrarOrdenFabricacionCaja(body){
-    return this._http.post<any>(this.url+"/api/ControlCalidad/RegistrarOrdenFabricacionCaja", body).pipe(
+  RegistrarLoteNumeroCaja(body){
+    return this._http.post<any>(this.url+"/api/ControlCalidad/RegistrarLoteNumeroCaja", body).pipe(
+      catchError (() => throwError("Error al obtener Detalle de Transaccion"))
+    );
+  }
+
+
+  ListarKardexInternoGCM(NumeroLote){
+    const params =  new HttpParams().set('NumeroLote', NumeroLote);
+    return this._http.get<any>(this.url+"/api/ControlCalidad/ListarKardexInternoNumeroLote", {'params':params}).pipe(
+      catchError (() => throwError("Error al obtener Detalle de Transaccion"))
+    );
+  }
+
+  RegistrarKardexInternoGCM(body){
+    return this._http.post<any>(this.url+"/api/ControlCalidad/RegistrarKardexInternoGCM", body).pipe(
+      catchError (() => throwError("Error al obtener Detalle de Transaccion"))
+    );
+  }
+
+  ActualizarKardexInternoGCM(idKardex,comentarios){
+    const params =  new HttpParams().set('idKardex', idKardex).set('comentarios',comentarios);
+    return this._http.get<any>(this.url+"/api/ControlCalidad/ActualizarKardexInternoGCM", {'params':params}).pipe(
       catchError (() => throwError("Error al obtener Detalle de Transaccion"))
     );
   }
@@ -39,4 +60,16 @@ export class ControlcalidadService {
     );
   }
 
+
+  ListarControlLotes(body){
+    return this._http.post<any>(this.url+"/api/ControlCalidad/ListarControlLotes", body).pipe(
+      catchError (() => throwError("Error al obtener Detalle de listar de control lote "))
+    );
+  }
+
+  ActualizarControlLotes(body){
+    return this._http.post<any>(this.url+"/api/ControlCalidad/ActualizarControlLotes", body).pipe(
+      catchError (() => throwError("Error al obtener Detalle de listar de control lote "))
+    );
+  }
 }

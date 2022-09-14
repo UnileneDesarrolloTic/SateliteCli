@@ -7,5 +7,7 @@ export interface DatosFormatoOrdenFabricacionModel {
     cliente:number,
     lote:string,
     contraMuestra:number,
-    numeroCaja:number
+    numeroCaja:number,
+    ordenFabricacion:string,
+    auditableFlag:string,
   }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { DatosFormatoOrdenFabricacionModel } from '@data/interface/Response/DatosFormatoOrdenFabricacion.interface';
 import { TransaccionModel } from '@data/interface/Response/DatoTransaccion.interface';
+import { KardexInternoCantidadGCM } from '@data/interface/Response/FormatoDetalleCantidadOrdenCompraGCM.interface';
 import { MaestroAlmacenModel } from '@data/interface/Response/MaestroAlmacen.interface';
 import { ControlcalidadService } from '@data/services/backEnd/pages/controlcalidad.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -9,6 +10,7 @@ import { ModalCargarComponent } from '@shared/components/modal-cargar/modal-carg
 import { Cargarbase64Service } from '@shared/services/comunes/cargarbase64.service';
 import { GenericoService } from '@shared/services/comunes/generico.service';
 import { ToastrService } from 'ngx-toastr';
+import { ModalKardexInternoComponent } from './modal-kardex-interno/modal-kardex-interno.component';
 
 @Component({
   selector: 'app-gestion-contra-muestra',
@@ -17,14 +19,13 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class GestionContraMuestraComponent implements OnInit {
   hoy = new Date().toLocaleDateString();
-  CodloteFabricacion: string = '';
-  ListarOrdenFabricacion:DatosFormatoOrdenFabricacionModel[]=[];
-  ObjectOrdenFabricacion:DatosFormatoOrdenFabricacionModel;
+  Codlote: string = '';
+  ListarDetalleKardexinterno:KardexInternoCantidadGCM[]=[];
+  ListInformacionLote:DatosFormatoOrdenFabricacionModel[]=[];
   ListarAlmancen:MaestroAlmacenModel[]=[];
   ListarTransaccion: TransaccionModel[]=[];
   ListadoOrdenFabricacion:FormGroup;
-  
-  Form:FormGroup;
+
 
   codAlmacen = new FormControl('ALMCMPT');
   constructor(private modalService: NgbModal,
@@ -44,7 +45,7 @@ export class GestionContraMuestraComponent implements OnInit {
   ListarMaestroAlmacen(){
     this._ServiceGenericoService.ListarMaestroAlmacen().subscribe(
       (resp:any)=>{
-          resp["success"] ? this.ListarAlmancen=resp["content"] :  this.ListarAlmancen=[];
+        resp["success"] ? this.ListarAlmancen=resp["content"] :  this.ListarAlmancen=[];
       }
     );
   }
@@ -56,23 +57,24 @@ export class GestionContraMuestraComponent implements OnInit {
   }
 
   BuscarProducto(){
-    if(this.CodloteFabricacion=='' || this.CodloteFabricacion==null){
+    if(this.Codlote=='' || this.Codlote==null){
       return this.toastr.warning("Debe colocar el numero de lote");
     }
-      this._ServiceControlCalidad.ObtenerOrdenFabricacion(this.CodloteFabricacion).subscribe(
-          (resp)=>{
-              resp["success"] ? this.ObjectOrdenFabricacion = resp["content"]: {};
-              this.MuestraArray(this.ObjectOrdenFabricacion);
-          }
-      );
+    this._ServiceControlCalidad.ObtenerInformacionLote(this.Codlote).subscribe(
+        (resp)=>{
+            this.ListInformacionLote = resp["informacionLote"];
+            this.ListarDetalleKardexinterno = resp["detalle"];
+            this.MuestraArray(this.ListInformacionLote);
+        }
+    );
   }
 
   BuscarTransaccion(){
-    if(this.CodloteFabricacion=='' || this.CodloteFabricacion==null){
+    if(this.Codlote=='' || this.Codlote==null){
         return this.toastr.warning("Debe colocar el numero de lote");
     }
 
-    this._ServiceControlCalidad.ObtenerTransaccion(this.CodloteFabricacion,this.codAlmacen.value).subscribe(
+    this._ServiceControlCalidad.ObtenerTransaccion(this.Codlote,this.codAlmacen.value).subscribe(
       (resp)=>{
           this.ListarTransaccion = resp;
       }
@@ -88,45 +90,60 @@ export class GestionContraMuestraComponent implements OnInit {
 
 
   crearFormulario(){
+
     this.ListadoOrdenFabricacion = this._fb.group({
       Muestras: this._fb.array([]),
     });
   }
 
-  MuestraArray(item:DatosFormatoOrdenFabricacionModel){
+  MuestraArray(formArrayResp:DatosFormatoOrdenFabricacionModel[]){
     const ArrayItem = this.ListadoOrdenFabricacion.controls.Muestras as FormArray;
     ArrayItem.controls = [];
 
 
-    if(item.lote!=null){
-      const ItemFilaForm = this._fb.group({
-        fechaProduccion: [item.fechaProduccion],
-        item: [item.item],
-        numeroParte: [item.numeroParte],
-        marca: [item.marca],
-        descripcionLocal:[item.descripcionLocal],
-        cliente: [item.cliente],
-        lote: [item.lote],
-        contraMuestra: [item.contraMuestra],
-        numeroCaja: [item.numeroCaja],
-      });
-      
-      this.Muestreo.push(ItemFilaForm);
-    }
-
-    
-
+    formArrayResp.forEach((itemRow:DatosFormatoOrdenFabricacionModel)=>{
+        let valor:KardexInternoCantidadGCM = this.Permitir(itemRow.lote);
+        console.log(valor)
+        const ItemFilaForm = this._fb.group({
+          fechaProduccion: [itemRow.fechaProduccion],
+          item: [itemRow.item],
+          numeroParte: [itemRow.numeroParte],
+          marca: [itemRow.marca],
+          descripcionLocal:[itemRow.descripcionLocal],
+          ordenFabricacion:[itemRow.ordenFabricacion],
+          lote:[itemRow.lote],
+          cliente:[itemRow.cliente],
+          auditableFlag:[itemRow.auditableFlag],
+          contraMuestra:[valor==undefined? itemRow.contraMuestra : valor.calculo ],
+          numeroCaja: [itemRow.numeroCaja],
+          permitir:[valor==undefined? false : valor.permitir ],
+        });
+        this.Muestreo.push(ItemFilaForm);
+    })
   }
 
   get Muestreo(){
     return this.ListadoOrdenFabricacion.controls['Muestras'] as FormArray;
   }
 
+  Permitir(NumeroLote){
+    return this.ListarDetalleKardexinterno.find((x:KardexInternoCantidadGCM)=> x.numeroLote==NumeroLote)
+  }
 
-  GuardarOrdenFabricacion(){
-      this._ServiceControlCalidad.RegistrarOrdenFabricacionCaja(this.ListadoOrdenFabricacion.controls['Muestras'].value).subscribe(
+
+  GuardarOrdenFabricacion(FilaLote){
+      if(FilaLote.contraMuestra>0 && FilaLote.permitir){
+        return ;
+      }
+
+      this._ServiceControlCalidad.RegistrarLoteNumeroCaja(FilaLote).subscribe(
         (resp)=>{
-           resp["success"] ? this.toastr.success(resp["content"]) : this.toastr.info(resp["content"]);
+           if (resp["success"])  {
+              this.toastr.success(resp["content"]); 
+              this.BuscarProducto();
+           }else{
+              this.toastr.info(resp["content"]);
+           } 
         }
       );
   }
@@ -152,7 +169,31 @@ export class GestionContraMuestraComponent implements OnInit {
     );
   }
 
-  
+  get CantodadTotal():number{
+    let totalAcumulado=0;
+     this.ListarTransaccion.forEach(element=>totalAcumulado=totalAcumulado+element.cantidad)
+
+     return totalAcumulado
+  }
+
+  ModalKardexInterno(fila){
+    const modalRefKardexInterno = this.modalService.open(ModalKardexInternoComponent, {
+			ariaLabelledBy: 'modal-basic-title',
+			centered: true,
+			backdropClass: 'light-blue-backdrop',
+			backdrop: 'static',
+			size: 'lg',
+			scrollable: true,
+			keyboard: false
+		});
+
+		modalRefKardexInterno.componentInstance.fromParent = fila;
+		modalRefKardexInterno.result.then((result) => {
+       this.BuscarProducto();
+		}, (reason) => {
+       this.BuscarProducto();
+		});
+  }
 
  
 

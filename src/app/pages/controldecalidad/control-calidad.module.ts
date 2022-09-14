@@ -11,6 +11,8 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { ImprimirAnalisisComponent } from './analisis-agujas/imprimir-analisis/imprimir-analisis.component';
 import { RegistrarAnalisisComponent } from './analisis-agujas/registrar-analisis/registrar-analisis.component';
 import { GestionContraMuestraComponent } from './gestion-contra-muestra/gestion-contra-muestra.component';
+import { ModalKardexInternoComponent } from './gestion-contra-muestra/modal-kardex-interno/modal-kardex-interno.component';
+import { ControlLotesComponent } from './control-lotes/control-lotes.component';
 
 
 
@@ -19,7 +21,9 @@ import { GestionContraMuestraComponent } from './gestion-contra-muestra/gestion-
     CertificadoComponent,
     ImprimirAnalisisComponent,
     RegistrarAnalisisComponent,
-    GestionContraMuestraComponent
+    GestionContraMuestraComponent,
+    ModalKardexInternoComponent,
+    ControlLotesComponent
   ],
   imports: [
     RouterModule.forChild(ControlCalidadRoutes),

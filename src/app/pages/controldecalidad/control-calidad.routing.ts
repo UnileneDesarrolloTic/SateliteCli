@@ -6,6 +6,7 @@ import { RegistrarAnalisisComponent } from '@pages/controldecalidad/analisis-agu
 import { PruebaFlexionComponent } from '@pages/controldecalidad/analisis-agujas/registrar-pruebas/prueba-flexion/prueba-flexion.component';
 import { ConfirmExitGuard } from '@guard/confirm-exit.guard';
 import { GestionContraMuestraComponent } from './gestion-contra-muestra/gestion-contra-muestra.component';
+import { ControlLotesComponent } from './control-lotes/control-lotes.component';
 
 export const ControlCalidadRoutes: Routes = [
   {
@@ -59,6 +60,16 @@ export const ControlCalidadRoutes: Routes = [
           title: "Gestión contra muestra",
           urls: [
             {title: 'Gestión contra muestra' }
+          ]
+        }
+      },
+      {
+        path: 'ControlLotes',
+        component: ControlLotesComponent,
+        data: {
+          title: "Control de lotes",
+          urls: [
+            {title: 'Control de lotes' }
           ]
         }
       },

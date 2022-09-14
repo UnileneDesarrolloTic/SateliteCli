@@ -8,7 +8,7 @@
                             class="col-sm-3 text-right control-label col-form-label text-white">.</label>
                         <div class="form-group">
                             <div class="input-group mb-3">
-                                <input type="text" name='LoteFabricacion' [(ngModel)]="CodloteFabricacion" #ctrl="ngModel"  class="form-control form-control-sm"
+                                <input type="text" name='LoteFabricacion' [(ngModel)]="Codlote" #ctrl="ngModel"  class="form-control form-control-sm"
                                     placeholder="Buscar Numero Lote" autocomplete="off" aria-label=""
                                     aria-describedby="basic-addon1">
                                 <div class="input-group-append">
@@ -21,7 +21,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
+                <!-- <div class="row">
                     <div class="col-md-12">
                         <div class="d-flex">
                             <div class="ml-auto">
@@ -31,7 +31,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <div class="row">
                     <div class="col-md-12">
                         <div class="align-items-center">
@@ -39,22 +39,24 @@
                               <table class="table table-striped border table-hover table-inf">
                                 <thead style="font-size: 13px" >
                                   <tr>
-                                    <th class="text-center" scope="col">F.Producción</th>
+                                    <th class="text-center" scope="col">F.P</th>
                                     <th class="text-center" scope="col">Item</th>
-                                    <th class="text-center" scope="col">Código</th>
+                                    <th class="text-center" scope="col">CodSut</th>
                                     <th class="text-center" scope="col">Descripción</th>
-                                    <th class="text-center" scope="col">Orden Fabricación</th>
+                                    <th class="text-center" scope="col">O.F</th>
+                                    <th class="text-center" scope="col">Lote</th>
                                     <th class="text-center" scope="col">Cliente</th>
-                                    <th class="text-center" scope="col">Marca</th>
+                                    <th class="text-center" scope="col">Au</th>
                                     <th class="text-center" scope="col">C.Muestra</th>
                                     <th class="text-center" scope="col">N° de caja</th>
+                                    <th class="text-center" scope="col">Opcion</th>
                                   </tr>
                                 </thead>
                                 <tbody style="font-size: 11px" id="tbodyDetalle" >
                                     <tr *ngFor="let lessonForm of Muestreo.controls; let i = index">
                                         <ng-container [formGroup]="lessonForm">
                                           <td class="text-center">
-                                            <b>{{lessonForm.value.fechaProduccion | date}}</b>
+                                            <b>{{lessonForm.value.fechaProduccion | date:'dd/MM/yyyy'}}</b>
                                           </td>
                                           <td class="text-center">
                                             <b>{{lessonForm.value.item}}</b>
@@ -66,21 +68,36 @@
                                             <b>{{lessonForm.value.descripcionLocal}}</b>
                                           </td>
                                           <td class="text-center">
+                                            <b>{{lessonForm.value.ordenFabricacion}}</b>
+                                          </td>
+                                          <td class="text-center">
                                             <b>{{lessonForm.value.lote}}</b>
                                           </td>
                                           <td class="text-center">
                                             <b>{{lessonForm.value.cliente}}</b>
                                           </td>
                                           <td class="text-center">
-                                            <b>{{lessonForm.value.marca}}</b>
-                                          </td>
-                                          <td class="text-center">
-                                            <b>{{lessonForm.value.contraMuestra | number :  '1.2-2'}}</b>
+                                            <b>{{lessonForm.value.auditableFlag}}</b>
                                           </td>
                                           <td class="text-center">
                                             <div class="input-group input-group-sm" style='width:7rem'>
+                                              <input type="number" [readonly]="lessonForm.value.permitir" class="form-control form-control-sm" formControlName="contraMuestra" />
+                                            </div>
+                                          </td>
+                                          <td class="text-center">
+                                            <div class="input-group input-group-sm" style='width:7rem;align-items: baseline;'>
                                                 <input type="text" maxlength="10" class="form-control form-control-sm" formControlName="numeroCaja" />
+                                                <b style="font-size: 14px">-{{lessonForm.value.fechaProduccion | date:'yyyy'}}</b>
                                               </div>
+                                          </td>
+                                          <td class="text-center">
+
+                                            <a class="cursor-pointer mr-2"  (click)="GuardarOrdenFabricacion(lessonForm.value)">
+                                                <i  style="font-size: 16px;color: #1475f6;"  class="fas fa-save" ></i>
+                                            </a>
+                                            <a  class="cursor-pointer" (click)="ModalKardexInterno(lessonForm.value)">
+                                                <i  style="font-size: 16px;color: #7460ee;" class="fas fa-file" ></i>
+                                            </a>
                                           </td>
                                         </ng-container>
                                       </tr>
@@ -111,12 +128,18 @@
                               </div>
                             </div>
                             <div class="p-2">
+                              <div class="form-group">
+                                Cantidad Total : {{CantodadTotal}}
+                              </div>
+                            </div>
+                            <div class="p-2">
                               <button type="button" class="btn btn-info btn-sm" (click)="ExportarExcel()" ><i class="fas fa-download"></i> Exportar </button>
                              </div>
                         </div>
+                       
                         
                     </div>
-                </div>
+                </div>  
                 <div class="row">
                     <div class="col-md-12">
                         <div class="d-flex no-block align-items-center">
