@@ -54,8 +54,8 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-12  table-responsive scroll-group">
-                            <table class="table  table-striped">
-                                <thead>
+                            <table class="table  table-striped table-sm">
+                                <thead style="font-size: 11px" >
                                     <tr>
                                         <th scope="col">Item</th>
                                         <th scope="col">Descripción</th>
@@ -66,7 +66,7 @@
                                         <th scope="col">Fecha Prometida</th>
                                     </tr>
                                 </thead>
-                                <tbody style="font-size: 13px">
+                                <tbody style="font-size: 11px">
                                     <tr  *ngFor="let DetalleForm of DetalleOC.controls; let i = index">
                                         <ng-container [formGroup]="DetalleForm">
                                             <td>{{DetalleForm.value.Item}}</td>

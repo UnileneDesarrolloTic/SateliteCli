@@ -1,6 +1,6 @@
 
 .scrollvertical{
-    height: 30rem;
+    height: 32rem;
     width: 100%;
     overflow-y: scroll;
 }
@@ -27,7 +27,7 @@
 .table-cebra th,
 .table-cebra td{
 	border-right: 1px solid #ccc;
-	min-width: 120px ;
+	min-width: 122px ;
 	border-bottom: 1px solid #333;
 	/* white-space: nowrap; */
 }
