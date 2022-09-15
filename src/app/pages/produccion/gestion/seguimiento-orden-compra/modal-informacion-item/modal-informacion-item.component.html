@@ -56,7 +56,8 @@
                                             <tr>
                                                 <th scope="col">Pedido</th>
                                                 <th scope="col">Cliente</th>
-                                                <th scope="col">Cantidad</th>
+                                                <th scope="col">Cant.Pedida</th>
+                                                <th scope="col">Cant.Recibida</th>
                                                 <th scope="col">Fecha Prometida</th>
                                                 <th scope="col">Opcion</th>
                                             </tr>
@@ -67,6 +68,7 @@
                                                     <td>{{PedidoForm.value.numeroOrden}}</td>
                                                     <td>{{PedidoForm.value.nombreCompleto}}</td>
                                                     <td>{{PedidoForm.value.cantidadPedida | number}}</td>
+                                                    <td>{{PedidoForm.value.cantidadRecibida | number}}</td>
                                                     
                                                     <td class="text-center">
                                                         <div class="input-group input-group-sm" style='width:10rem'>

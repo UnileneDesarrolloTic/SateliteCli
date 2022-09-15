@@ -4,6 +4,7 @@ export interface DetalleOrdenCompra {
     Descripcion: string,
     UnidadCodigo: string,
     CantidadPedida:Number,
+    CantidadRecibida:Number,
     Estado: string,
     FechaPrometida: string
 }

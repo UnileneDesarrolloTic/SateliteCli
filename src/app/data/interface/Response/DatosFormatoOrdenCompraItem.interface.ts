@@ -3,6 +3,7 @@ export interface DatoFormatoOrdenCompraItem {
     nombreCompleto: string,
     documento: string,
     cantidadPedida:number,
+    cantidadRecibida:number,
     fechaPrometida:string;
     item:string,
   }

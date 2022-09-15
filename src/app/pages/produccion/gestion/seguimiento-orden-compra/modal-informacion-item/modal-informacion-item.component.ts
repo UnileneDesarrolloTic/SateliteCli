@@ -56,6 +56,7 @@ export class ModalInformacionItemComponent implements OnInit {
           nombreCompleto:[pedido.nombreCompleto],
           documento:[pedido.documento],
           cantidadPedida:[pedido.cantidadPedida],
+          cantidadRecibida:[pedido.cantidadRecibida],
           fechaPrometida:[{value:separarFecha[0],disabled:this.fromParent.Permiso}],
           item:[pedido.item],
         });

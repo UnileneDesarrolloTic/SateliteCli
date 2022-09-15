@@ -41,7 +41,8 @@ export class ControlLotesComponent implements OnInit {
 
   constructor(private _fb: FormBuilder,
               private  _ControlcalidadService:ControlcalidadService,
-              private toastr: ToastrService,) { 
+              private toastr: ToastrService,
+              private modalService: NgbModal,) { 
               }
 
   ngOnInit(): void {
@@ -78,22 +79,35 @@ export class ControlLotesComponent implements OnInit {
 
 
   Filtrar(){
+    if(this.FormControlLotes.controls.FechaInicio.value>this.FormControlLotes.controls.FechaFinal.value){
+        return this.toastr.warning("La fecha de inicio no debe de ser mayor a la fecha final")
+    }
+
+    const ModalCarga = this.modalService.open(ModalCargarComponent, {
+      centered: true,
+      backdrop: 'static',
+      size: 'sm',
+      scrollable: true
+    });
+    ModalCarga.componentInstance.fromParent = "Obteniendo Información";
+
     const DatosCabecera={
       FechaInicio:this.FormControlLotes.controls.FechaInicio.value,
       FechaFinal:this.FormControlLotes.controls.FechaFinal.value,
       OrdenFabricacion:this.FormControlLotes.controls.OrdenFabricacion.value,
       Pagina: this.pagina,
-			RegistrosPorPagina: 20,
+			RegistrosPorPagina: 7,
     }
 
     this._ControlcalidadService.ListarControlLotes(DatosCabecera).subscribe(
       resp=>{
           this.ControlLotesArray=resp["contenido"];
-          this.TempControlLotesArray=resp["contenido"];;
+          this.TempControlLotesArray=resp["contenido"];
           this.ConstruirTabla(this.ControlLotesArray);
+          ModalCarga.close();
       },
       error=>{
-          // ModalCarga.close();
+          ModalCarga.close();
           this.toastr.info("Comuniquese con sistemas");
       }
     )

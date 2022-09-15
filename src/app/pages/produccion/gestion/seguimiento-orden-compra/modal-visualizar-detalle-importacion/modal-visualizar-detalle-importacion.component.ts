@@ -74,6 +74,7 @@ export class ModalVisualizarDetalleImportacionComponent implements OnInit {
         Descripcion:[item.Descripcion],
         UnidadCodigo:[item.UnidadCodigo],
         CantidadPedida:[item.CantidadPedida],
+        CantidadRecibida:[item.CantidadRecibida],
         Estado:[item.Estado],
         FechaPrometida:[{value: separarFecha[0], disabled: this.fromParent.Permiso}],
         Item:[item.Item],

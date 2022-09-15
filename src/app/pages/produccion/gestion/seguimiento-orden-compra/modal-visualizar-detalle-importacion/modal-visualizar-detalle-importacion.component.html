@@ -60,7 +60,8 @@
                                         <th scope="col">Item</th>
                                         <th scope="col">Descripción</th>
                                         <th scope="col">UM</th>
-                                        <th scope="col">Cantidad</th>
+                                        <th scope="col">Cant.Pedida</th>
+                                        <th scope="col">Cant.Recibida</th>
                                         <th scope="col">Estado</th>
                                         <th scope="col">Fecha Prometida</th>
                                     </tr>
@@ -72,6 +73,7 @@
                                             <td>{{DetalleForm.value.Descripcion}}</td>
                                             <td>{{DetalleForm.value.UnidadCodigo}}</td>
                                             <td>{{DetalleForm.value.CantidadPedida | number}}</td>
+                                            <td>{{DetalleForm.value.CantidadRecibida | number}}</td>
                                             <td>{{DetalleForm.value.Estado}}</td>
                                             <td class="text-center">
                                                 <div class="input-group input-group-sm">
