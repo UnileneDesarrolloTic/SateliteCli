@@ -15,6 +15,7 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { EditarUsuarioComponent } from './usuario/editar-usuario/editar-usuario.component';
 import { ConfigCotizacionComponent } from './config-cotizacion/config-cotizacion.component';
 import { EditarConfigCotizacionComponent } from './config-cotizacion/editar-config-cotizacion/editar-config-cotizacion.component';
+import { AsignacionPersonalLaboralComponent } from './asignacion-personal-laboral/asignacion-personal-laboral.component';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { EditarConfigCotizacionComponent } from './config-cotizacion/editar-conf
     ListarUsuarioComponent,
     EditarUsuarioComponent,
     ConfigCotizacionComponent,
-    EditarConfigCotizacionComponent
+    EditarConfigCotizacionComponent,
+    AsignacionPersonalLaboralComponent
   ],
   imports: [
     RouterModule.forChild(AdministracionRoutes),

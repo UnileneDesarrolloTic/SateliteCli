@@ -1,0 +1,125 @@
+<div class="row">
+    <!-- Column BLOQUE 1 -->
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                        <select [(ngModel)]="idAreaPersonal" class="form-control" class="form-control form-control-sm">
+                            <option disabled selected [value]="0" >Seleccione un formato</option>
+                            <option *ngFor="let area of ListarArea" [value]="area.idArea">
+                                {{area.descripcion}}
+                            </option>
+                        </select>
+                </div>
+                <div class="row justify-content-between pb-1 pt-1">
+                    <input type="text" name='filtro'  autocomplete="off" [(ngModel)]="buscarNombre"  (ngModelChange)="filtroNombreCompleto()" class="form-control col-md-6 form-control-sm" placeholder="Buscar Nombre">
+                     <h6>Total: {{this.ListarPersonaLaboral.length}}</h6>
+                    <button type="button"  [disabled]="botonestado"  (click)="Guardar()" class="btn btn-info btn-sm rounded"><i class="fas fa-file-alt"></i> Guardar </button>
+                </div>
+                <div class="row">
+                    <div class="table-hover table-responsive table-bordered scrollvertical">
+                        <table class=" table table-striped border table-sm table-hover">
+                            <thead style="font-size: 12px" class="bg-info text-white table-bordered">
+                                <tr>
+                                    <th class="text-center">
+                                        <input type="checkbox" [(ngModel)]="MaestroSeleccion" name="list_name" value="h1"
+                                        (change)="checkTodo()" />
+                                    </th>
+                                    <th class="text-center">Id</th>
+                                    <th class="text-center">Apellido y Nombre</th>
+                                    <th class="text-center">Hora</th>
+                                   
+                                </tr>
+                            </thead>
+                            <tbody  style="font-size: 13px">
+                                <tr  *ngFor="let persona of ListarPersonaLaboral; let i = index">
+                                    <td  class="text-center">
+                                        <input type="checkbox" [(ngModel)]="persona.isSelected" name="list_name" (change)="SeleccionaItem(persona)" value="{{ persona.idEmpleado}}" />
+                                    </td>
+                                    <td class="text-center">{{persona.idEmpleado }}</td>
+                                    <td class="text-center">{{persona.nombreCompleto}}</td>
+                                    <td class="text-center">{{persona.hora}}</td>
+                                  </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+               
+            </div>
+        </div>
+    </div>
+    <!-- Column BLOQUE 2 -->
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body">
+                <ngb-tabset>
+                    <ngb-tab title="Informacion">
+                      <ng-template ngbTabContent>
+                        <div class="row">
+                            <div class="table-hover table-responsive table-bordered">
+                                <table class=" table table-striped border table-sm table-hover">
+                                    <thead style="font-size: 12px" class="bg-info text-white table-bordered">
+                                        <tr>
+                                            <th class="text-center">Area</th>
+                                            <th class="text-center">Cantidad</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody  style="font-size: 13px">
+                                        <tr  *ngFor="let area of ListarAreaContar; let i = index">
+                                            <td class="text-center">{{area.descripcion }}</td>
+                                            <td class="text-center">{{area.total}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                      </ng-template>
+                    </ngb-tab>
+                    <ngb-tab>
+                      <ng-template ngbTabTitle><b>Detalle</b></ng-template>
+                      <ng-template ngbTabContent>
+                        <div class="row pt-1">
+                            <select [(ngModel)]="idAreaPersonalFiltrada" (change)="filtrarArea()" class="form-control" class="form-control form-control-sm">
+                                <option disabled selected [value]="0" >Seleccione un formato</option>
+                                <option *ngFor="let area of ListarArea" [value]="area.idArea" >
+                                {{area.descripcion}}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="row justify-content-between pb-1 pt-1 ">
+                            <input type="text" name='filtro' autocomplete="off" [(ngModel)]="buscarpersonaArea"  (ngModelChange)="filtroNombreCompletoAgregado()" class="form-control col-md-6 form-control-sm" placeholder="Buscar Nombre">
+                            <h6>Total: {{this.ListarFiltrarAreaPersona.length}}</h6>
+                        </div>
+                        <div class="row">
+                            <div class="table-hover table-responsive table-bordered scrollvertical">
+                                <table class=" table table-striped border table-sm table-hover">
+                                    <thead style="font-size: 12px" class="bg-info text-white table-bordered">
+                                        <tr>
+                                            <th class="text-center">Opcion</th>
+                                            <th class="text-center">Id</th>
+                                            <th class="text-center">Apellido y Nombre</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody  style="font-size: 13px">
+                                        <tr  *ngFor="let persona of ListarFiltrarAreaPersona; let i = index">
+                                            <td  class="text-center">
+                                                <a class="cursor-pointer"  (click)="LiberalPersona(persona)">
+                                                    <i  style="font-size: 16px;color: #ff6961;"  class=" fas fa-trash-alt" ></i>
+                                                </a>
+                                            </td>
+                                            <td class="text-center">{{persona.idAsignacion }}</td>
+                                            <td class="text-center">{{persona.nombreCompleto}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                   
+                      </ng-template>
+                    </ngb-tab>
+                  </ngb-tabset>
+            
+            </div>
+        </div>
+    </div>
+</div>

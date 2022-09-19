@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UsuarioData } from '@data/interface/Request/Usuario.interface';
 import { environment } from 'environments/environment';
@@ -29,6 +29,38 @@ export class UsuarioService {
   cambiarClave(body){
     return this._http.post(this.url + "/api/Usuario/CambioClave", body).pipe(
       catchError(() => throwError("Error al cambiar la contraseña del usuario"))
+    )
+  }
+
+  ListarPersonalLaboral(){
+    return this._http.get(this.url + "/api/usuario/ListarAsignacionPersonal").pipe(
+      catchError(() => throwError("Error al Listar Persona laboral"))
+    )
+  }
+
+  ListarPersonalArea(){
+    return this._http.get(this.url + "/api/usuario/ListarAreaPersonaLaboral").pipe(
+      catchError(() => throwError("Error al Listar Persona laboral"))
+    )
+  }
+
+  RegistrarPersonaMasiva(body){
+    return this._http.post(this.url + "/api/usuario/RegistrarPersonaMasiva", body).pipe(
+      catchError(() => throwError("Error al Registra Persona Masiva"))
+    )
+  }
+
+  FiltrarAreaPersona(idArea){
+    const params =  new HttpParams().set('idArea', idArea);
+    return this._http.get(this.url + "/api/usuario/FiltrarAreaPersona",{'params': params}).pipe(
+      catchError(() => throwError("Error al Registra Persona Masiva"))
+    )
+  }
+
+  LiberalPersona(IdAsignacion){
+    const params =  new HttpParams().set('IdAsignacion', IdAsignacion);
+    return this._http.get(this.url + "/api/usuario/LiberalPersona",{'params': params}).pipe(
+      catchError(() => throwError("Error al Liberar Personal"))
     )
   }
 }
