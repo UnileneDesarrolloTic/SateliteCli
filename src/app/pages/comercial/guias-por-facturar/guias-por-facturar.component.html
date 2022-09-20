@@ -133,8 +133,16 @@
                         <ngx-datatable-column name="E.Guia" prop='estadoGuia' [width]="25"></ngx-datatable-column>
                         <ngx-datatable-column name="Comentario" prop='comentarioGuia' [width]="250"></ngx-datatable-column>
                         <ngx-datatable-column name="E.Pecosa" prop='reprogramacionPuntoPartida' [width]="110"></ngx-datatable-column>
-                        <ngx-datatable-column name="F.Salida" prop='FechaRecepcion' [width]="100"></ngx-datatable-column>
-                        <ngx-datatable-column name="F.Retorno" prop='Retorno' [width]="100"></ngx-datatable-column>
+                        <ngx-datatable-column name="F.Salida" prop='fechaRecepcion' [width]="100">
+                            <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                                {{ value | date:'dd/MM/yyy' }}
+                              </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="F.Retorno" prop='fechaRetorno' [width]="100">
+                            <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                                {{ value | date:'dd/MM/yyy' }}
+                              </ng-template>
+                        </ngx-datatable-column>
                         <ngx-datatable-column name="Usuario" prop='ultimoUsuario' [width]="100"></ngx-datatable-column>
                       </ngx-datatable>
                     </div>
