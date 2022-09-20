@@ -18,5 +18,7 @@ export interface DatosGuiaPorFacturarModel {
     licitacionNumeroProceso: string,
     comentariosEntrega:boolean; 
     usuComercial:string;// ENTREGA
+    fechaRecepcion:string,
+    fechaRetorno:string,
   }
   
