@@ -5,7 +5,7 @@ import { TransaccionModel } from '@data/interface/Response/DatoTransaccion.inter
 import { KardexInternoCantidadGCM } from '@data/interface/Response/FormatoDetalleCantidadOrdenCompraGCM.interface';
 import { MaestroAlmacenModel } from '@data/interface/Response/MaestroAlmacen.interface';
 import { ControlcalidadService } from '@data/services/backEnd/pages/controlcalidad.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDatepickerNavigateEvent, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalCargarComponent } from '@shared/components/modal-cargar/modal-cargar.component';
 import { Cargarbase64Service } from '@shared/services/comunes/cargarbase64.service';
 import { GenericoService } from '@shared/services/comunes/generico.service';
@@ -20,7 +20,7 @@ import { ModalKardexInternoComponent } from './modal-kardex-interno/modal-kardex
 export class GestionContraMuestraComponent implements OnInit {
   hoy = new Date().toLocaleDateString();
   Codlote: string = '';
-  AnoProduccion:string="";
+  AnioProduccion:string="";
   ListarDetalleKardexinterno:KardexInternoCantidadGCM[]=[];
   ListInformacionLote:DatosFormatoOrdenFabricacionModel[]=[];
   ListarAlmancen:MaestroAlmacenModel[]=[];
@@ -39,6 +39,13 @@ export class GestionContraMuestraComponent implements OnInit {
   ngOnInit(): void {
     this.crearFormulario();
     this.ListarMaestroAlmacen();
+    
+  }
+
+
+  dateNavigate($event: NgbDatepickerNavigateEvent) {
+    console.log($event.next.month);
+    console.log($event.next.year);
   }
 
   ListarMaestroAlmacen(){
@@ -59,14 +66,14 @@ export class GestionContraMuestraComponent implements OnInit {
     if(this.Codlote=='' || this.Codlote==null){
       return this.toastr.warning("Debe colocar el numero de lote");
     }
-    console.log(this.AnoProduccion);
-    // this._ServiceControlCalidad.ObtenerInformacionLote(this.Codlote).subscribe(
-    //     (resp)=>{
-    //         this.ListInformacionLote = resp["informacionLote"];
-    //         this.ListarDetalleKardexinterno = resp["detalle"];
-    //         this.MuestraArray(this.ListInformacionLote);
-    //     }
-    // );
+    // console.log(this.AnioProduccion);
+    this._ServiceControlCalidad.ObtenerInformacionLote(this.Codlote).subscribe(
+        (resp)=>{
+            this.ListInformacionLote = resp["informacionLote"];
+            this.ListarDetalleKardexinterno = resp["detalle"];
+            this.MuestraArray(this.ListInformacionLote);
+        }
+    );
   }
 
   BuscarTransaccion(){
@@ -149,6 +156,10 @@ export class GestionContraMuestraComponent implements OnInit {
 
   ExportarExcel(){
     
+    if(this.AnioProduccion==""){
+      return this.toastr.warning("Debe ingresar el año de produccion")
+    }
+
     const ModalCarga = this.modalService.open(ModalCargarComponent, {
       centered: true,
       backdrop: 'static',
@@ -156,7 +167,7 @@ export class GestionContraMuestraComponent implements OnInit {
       scrollable: true
     });
     ModalCarga.componentInstance.fromParent = "Generando el Formato Excel";
-    this._ServiceControlCalidad.ExportarOrdenFabricacionCaja().subscribe(
+    this._ServiceControlCalidad.ExportarOrdenFabricacionCaja(this.AnioProduccion).subscribe(
       (resp)=>{
         if(resp.success){
           this.servicebase64.file(resp.content,`ContraMuestra-${this.hoy}`,'xlsx',ModalCarga);

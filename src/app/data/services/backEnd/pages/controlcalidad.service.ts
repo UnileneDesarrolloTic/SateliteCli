@@ -54,8 +54,9 @@ export class ControlcalidadService {
     );
   }
 
-  ExportarOrdenFabricacionCaja(){
-    return this._http.get<any>(this.url+"/api/ControlCalidad/ExportarOrdenFabricacionCaja").pipe(
+  ExportarOrdenFabricacionCaja(anioProduccion){
+    const params =  new HttpParams().set('anioProduccion', anioProduccion);
+    return this._http.get<any>(this.url+"/api/ControlCalidad/ExportarOrdenFabricacionCaja",{'params':params}).pipe(
       catchError (() => throwError("Error al obtener Datos Exportar Caja"))
     );
   }

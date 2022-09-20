@@ -1,36 +1,25 @@
 <div class="row">
-    <div class="col-lg-12">
-        <div class="card">
-            <div class="card-body">
-                <div class="row justify-content-start">
-                    <div class="col-md-3">
-                        <label for="cliente"
-                            class="col-sm-3 text-right control-label col-form-label text-white">.</label>
-                        <div class="form-group">
-                            <div class="input-group mb-3">
-                                <input type="text" name='LoteFabricacion' [(ngModel)]="Codlote" #ctrl="ngModel"  class="form-control form-control-sm"
-                                    placeholder="Buscar Numero Lote" autocomplete="off" aria-label=""
-                                    aria-describedby="basic-addon1">
-                                <div class="input-group-append">
-                                    <button class="btn mr-0 btn-info btn-sm" (click)="Buscar()"
-                                        type="button">
-                                        <i class="ti-search"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                      <label for="cliente"
-                          class="col-sm-3 text-right control-label col-form-label text-white">.</label>
-                      <div class="form-group">
-                          <div class="input-group mb-3">
-                              <input type="month"   [(ngModel)]="AnoProduccion" #ctrl="ngModel"  class="form-control form-control-sm"  autocomplete="off" aria-label="" aria-describedby="basic-addon1">
-                          </div>
-                      </div>
-                  </div>
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="row justify-content-start">
+          <div class="col-md-3">
+            <label for="cliente" class="col-sm-3 text-right control-label col-form-label text-white">.</label>
+            <div class="form-group">
+              <div class="input-group mb-3">
+                <input type="text" name='LoteFabricacion' [(ngModel)]="Codlote" #ctrl="ngModel"
+                  class="form-control form-control-sm" placeholder="Buscar Numero Lote" autocomplete="off" aria-label=""
+                  aria-describedby="basic-addon1">
+                <div class="input-group-append">
+                  <button class="btn mr-0 btn-info btn-sm" (click)="Buscar()" type="button">
+                    <i class="ti-search"></i>
+                  </button>
                 </div>
-                <!-- <div class="row">
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- <div class="row">
                     <div class="col-md-12">
                         <div class="d-flex">
                             <div class="ml-auto">
@@ -41,161 +30,175 @@
                         </div>
                     </div>
                 </div> -->
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="align-items-center">
-                            <div class="table-hover table-responsive table-bordered">
-                              <table class="table table-striped border table-hover table-inf">
-                                <thead style="font-size: 13px" >
-                                  <tr>
-                                    <th class="text-center" scope="col">F.P</th>
-                                    <th class="text-center" scope="col">Item</th>
-                                    <th class="text-center" scope="col">CodSut</th>
-                                    <th class="text-center" scope="col">Descripción</th>
-                                    <th class="text-center" scope="col">O.F</th>
-                                    <th class="text-center" scope="col">Lote</th>
-                                    <th class="text-center" scope="col">Cliente</th>
-                                    <th class="text-center" scope="col">Au</th>
-                                    <th class="text-center" scope="col">Cant.Stock</th>
-                                    <th class="text-center" scope="col">N° de caja</th>
-                                    <th class="text-center" scope="col">Opcion</th>
-                                  </tr>
-                                </thead>
-                                <tbody style="font-size: 11px" id="tbodyDetalle" >
-                                    <tr *ngFor="let lessonForm of Muestreo.controls; let i = index">
-                                        <ng-container [formGroup]="lessonForm">
-                                          <td class="text-center">
-                                            <b>{{lessonForm.value.fechaProduccion | date:'dd/MM/yyyy'}}</b>
-                                          </td>
-                                          <td class="text-center">
-                                            <b>{{lessonForm.value.item}}</b>
-                                          </td>
-                                          <td class="text-center">
-                                            <b>{{lessonForm.value.numeroParte}}</b>
-                                          </td>
-                                          <td class="text-center">
-                                            <b>{{lessonForm.value.descripcionLocal}}</b>
-                                          </td>
-                                          <td class="text-center">
-                                            <b>{{lessonForm.value.ordenFabricacion}}</b>
-                                          </td>
-                                          <td class="text-center">
-                                            <b>{{lessonForm.value.lote}}</b>
-                                          </td>
-                                          <td class="text-center">
-                                            <b>{{lessonForm.value.cliente}}</b>
-                                          </td>
-                                          <td class="text-center">
-                                            <b>{{lessonForm.value.auditableFlag}}</b>
-                                          </td>
-                                          <td class="text-center">
-                                            <div class="input-group input-group-sm" style='width:7rem'>
-                                              <input type="number" [readonly]="lessonForm.value.permitir" class="form-control form-control-sm" formControlName="contraMuestra" />
-                                            </div>
-                                          </td>
-                                          <td class="text-center">
-                                            <div class="input-group input-group-sm" style='width:7rem;align-items: baseline;'>
-                                                <input type="text" [readonly]="lessonForm.value.permitir" maxlength="10" class="form-control form-control-sm" formControlName="numeroCaja" />
-                                                <b style="font-size: 14px">-{{lessonForm.value.fechaProduccion | date:'yyyy'}}</b>
-                                              </div>
-                                          </td>
-                                          <td class="text-center">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="align-items-center">
+              <div class="table-hover table-responsive table-bordered">
+                <table class="table table-striped border table-sm table-hover table-inf">
+                  <thead style="font-size: 13px">
+                    <tr>
+                      <th class="text-center" scope="col">F.P</th>
+                      <th class="text-center" scope="col">Item</th>
+                      <th class="text-center" scope="col">CodSut</th>
+                      <th class="text-center" scope="col">Descripción</th>
+                      <th class="text-center" scope="col">O.F</th>
+                      <th class="text-center" scope="col">Lote</th>
+                      <th class="text-center" scope="col">Cliente</th>
+                      <th class="text-center" scope="col">Au</th>
+                      <th class="text-center" scope="col">Punto Fisico</th>
+                      <th class="text-center" scope="col">N° de caja</th>
+                      <th class="text-center" scope="col">Opcion</th>
+                    </tr>
+                  </thead>
+                  <tbody style="font-size: 11px" id="tbodyDetalle">
+                    <tr *ngFor="let lessonForm of Muestreo.controls; let i = index">
+                      <ng-container [formGroup]="lessonForm">
+                        <td class="text-center">
+                          <b>{{lessonForm.value.fechaProduccion | date:'dd/MM/yyyy'}}</b>
+                        </td>
+                        <td class="text-center">
+                          <b>{{lessonForm.value.item}}</b>
+                        </td>
+                        <td class="text-center">
+                          <b>{{lessonForm.value.numeroParte}}</b>
+                        </td>
+                        <td class="text-center">
+                          <b>{{lessonForm.value.descripcionLocal}}</b>
+                        </td>
+                        <td class="text-center">
+                          <b>{{lessonForm.value.ordenFabricacion}}</b>
+                        </td>
+                        <td class="text-center">
+                          <b>{{lessonForm.value.lote}}</b>
+                        </td>
+                        <td class="text-center">
+                          <b>{{lessonForm.value.cliente}}</b>
+                        </td>
+                        <td class="text-center">
+                          <b>{{lessonForm.value.auditableFlag}}</b>
+                        </td>
+                        <td class="text-center">
+                          <div class="input-group input-group-sm" style='width:7rem'>
+                            <input type="number" [readonly]="lessonForm.value.permitir"
+                              class="form-control form-control-sm" formControlName="contraMuestra" />
+                          </div>
+                        </td>
+                        <td class="text-center">
+                          <div class="input-group input-group-sm" style='width:7rem;align-items: baseline;'>
+                            <input type="text" [readonly]="lessonForm.value.permitir" maxlength="10"
+                              class="form-control form-control-sm" formControlName="numeroCaja" />
+                            <b style="font-size: 14px">-{{lessonForm.value.fechaProduccion | date:'yyyy'}}</b>
+                          </div>
+                        </td>
+                        <td class="text-center">
 
-                                            <a class="cursor-pointer mr-2"  (click)="GuardarOrdenFabricacion(lessonForm.value)">
-                                                <i  style="font-size: 16px;color: #1475f6;"  class="fas fa-save" ></i>
-                                            </a>
-                                            <a  class="cursor-pointer" (click)="ModalKardexInterno(lessonForm.value)">
-                                                <i  style="font-size: 16px;color: #7460ee;" class="fas fa-file" ></i>
-                                            </a>
-                                          </td>
-                                        </ng-container>
-                                      </tr>
-                                </tbody>
-                              </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                          <a class="cursor-pointer mr-2" (click)="GuardarOrdenFabricacion(lessonForm.value)">
+                            <i style="font-size: 16px;color: #1475f6;" class="fas fa-save"></i>
+                          </a>
+                          <a class="cursor-pointer" (click)="ModalKardexInterno(lessonForm.value)">
+                            <i style="font-size: 16px;color: #7460ee;" class="fas fa-file"></i>
+                          </a>
+                        </td>
+                      </ng-container>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </div>
 <div class="row">
-    <div class="col-lg-12">
-        <div class="card">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="d-flex">
-                            <div class="mr-auto p-2">
-                              <div class="form-group">
-                                <select class="form-control  form-control-sm"   [formControl]="codAlmacen" >
-                                  <option *ngFor="let almacen of ListarAlmancen"   [value]="almacen.almacenCodigo">
-                                    {{almacen.descripcionLocal}}
-                                  </option>
-                                </select>
-                              </div>
-                            </div>
-                            <div class="p-2">
-                              <div class="form-group">
-                                Cantidad Total : {{CantodadTotal}}
-                              </div>
-                            </div>
-                            <div class="p-2">
-                              <button type="button" class="btn btn-info btn-sm" (click)="ExportarExcel()" ><i class="fas fa-download"></i> Exportar </button>
-                             </div>
-                        </div>
-                       
-                        
-                    </div>
-                </div>  
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="d-flex no-block align-items-center">
-                            <div class="table-hover table-responsive table-bordered">
-                              <table class="table table-striped border table-hover table-inf">
-                                <thead style="font-size: 13px" >
-                                  <tr>
-                                    <th class="text-center" scope="col">Lote</th>
-                                    <th class="text-center" scope="col">Periodo</th>
-                                    <th class="text-center" scope="col">Documento</th>
-                                    <th class="text-center" scope="col">Cantidad</th>
-                                    <th class="text-center" scope="col">Almacen</th>
-                                    <th class="text-center" scope="col">Transacción</th>
-                                  </tr>
-                                </thead>
-                                <tbody style="font-size: 12px">
-                                  <tr *ngFor="let transaccion of ListarTransaccion">
-                                    <td class="text-center">
-                                      <b>{{transaccion.lote}}</b>
-                                    </td>
-                                    <td class="text-center">
-                                      <b>{{transaccion.periodo}}</b>
-                                    </td>
-                                    <td class="text-center">
-                                      <b>{{transaccion.documento}}</b>
-                                    </td>
-                                    <td class="text-center">
-                                      <b>{{transaccion.cantidad | number:'1.2-2'}}</b>
-                                    </td>
-
-                                    <td class="text-center">
-                                      <b>{{transaccion.almacenCodigo}}</b>
-                                    </td>
-                                    <td class="text-center">
-                                      <b>{{transaccion.documentoTransaccion}}</b>
-                                    </td>
-                                    
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </div>
-                        </div>
-                    </div>
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="d-flex">
+              <div class="mr-auto p-2">
+                <div class="form-group">
+                  <select class="form-control  form-control-sm" [formControl]="codAlmacen">
+                    <option *ngFor="let almacen of ListarAlmancen" [value]="almacen.almacenCodigo">
+                      {{almacen.descripcionLocal}}
+                    </option>
+                  </select>
                 </div>
+              </div>
+              <div class="p-2">
+                <div class="form-group">
+                  Cantidad Total : {{CantodadTotal}}
+                </div>
+              </div>
+              <div class="p-2">
 
+                <div class="form-group">
+                  <div class="input-group">
+                    <input type="number" [(ngModel)]="AnioProduccion" #ctrl="ngModel"
+                      class="form-control form-control-sm" autocomplete="off" aria-label=""
+                      aria-describedby="basic-addon1" placeholder="Ingrese el año">
+                  </div>
 
+                </div>
+              </div>
+              <div class="p-2">
+                <button type="button" class="btn btn-info btn-sm" (click)="ExportarExcel()"><i
+                    class="fas fa-download"></i> Exportar </button>
+              </div>
             </div>
+
+
+          </div>
         </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="d-flex no-block align-items-center">
+              <div class="table-hover table-responsive table-bordered">
+                <table class="table table-striped table-sm border table-hover table-inf">
+                  <thead style="font-size: 13px">
+                    <tr>
+                      <th class="text-center" scope="col">Lote</th>
+                      <th class="text-center" scope="col">Periodo</th>
+                      <th class="text-center" scope="col">Documento</th>
+                      <th class="text-center" scope="col">Cantidad</th>
+                      <th class="text-center" scope="col">Almacen</th>
+                      <th class="text-center" scope="col">Transacción</th>
+                    </tr>
+                  </thead>
+                  <tbody style="font-size: 12px">
+                    <tr *ngFor="let transaccion of ListarTransaccion">
+                      <td class="text-center">
+                        <b>{{transaccion.lote}}</b>
+                      </td>
+                      <td class="text-center">
+                        <b>{{transaccion.periodo}}</b>
+                      </td>
+                      <td class="text-center">
+                        <b>{{transaccion.documento}}</b>
+                      </td>
+                      <td class="text-center">
+                        <b>{{transaccion.cantidad | number:'1.2-2'}}</b>
+                      </td>
+
+                      <td class="text-center">
+                        <b>{{transaccion.almacenCodigo}}</b>
+                      </td>
+                      <td class="text-center">
+                        <b>{{transaccion.documentoTransaccion}}</b>
+                      </td>
+
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
     </div>
+  </div>
 </div>

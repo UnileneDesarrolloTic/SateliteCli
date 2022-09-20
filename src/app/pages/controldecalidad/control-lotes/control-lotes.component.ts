@@ -21,6 +21,10 @@ export class ControlLotesComponent implements OnInit {
   ControlLotesArray:DetalleControlLotes[]=[];
   TempControlLotesArray:DetalleControlLotes[]=[];
 
+  CantidadVisualizar:number[]=[5,10,15,20]
+  RegistrosPaginas:number=5;
+  disabledFecha:boolean=false;
+
   pagina: Number = 1
 	pageSize: Number = 10;
 	page: Number = 1;
@@ -29,7 +33,7 @@ export class ControlLotesComponent implements OnInit {
   paginador: Paginado = {
     paginaActual: 1,
     totalPaginas: 1,
-    registroPorPagina: 20,
+    registroPorPagina: 5,
     totalRegistros: 1,
     siguiente:true,
     anterior: false,
@@ -38,7 +42,7 @@ export class ControlLotesComponent implements OnInit {
   }
 
   
-
+ 
   constructor(private _fb: FormBuilder,
               private  _ControlcalidadService:ControlcalidadService,
               private toastr: ToastrService,
@@ -49,7 +53,7 @@ export class ControlLotesComponent implements OnInit {
     this.paginador = {
 			paginaActual: 1,
 			totalPaginas: 1919,
-			registroPorPagina: 7,
+			registroPorPagina: this.RegistrosPaginas,
 			totalRegistros: 19185,
 			siguiente: true,
 			anterior: false,
@@ -58,6 +62,7 @@ export class ControlLotesComponent implements OnInit {
 		};
 
     this.CreacionFormulario();
+    this.observableVisualizarlacantidadFilas();
   }
 
   cambioPagina(paginaCambiada: Number) {
@@ -70,16 +75,23 @@ export class ControlLotesComponent implements OnInit {
       this.FormControlLotes = new FormGroup({
         FechaInicio: new FormControl(formatDate(new Date(Date.now()), 'yyyy-MM-dd', 'en'),Validators.required),
         FechaFinal: new FormControl(formatDate(new Date(Date.now()), 'yyyy-MM-dd', 'en'),Validators.required),
-        OrdenFabricacion: new FormControl(''),
+        Lote: new FormControl(''),
+        NumeroFilas: new FormControl(5)
       });
       this.ListarControlLotes=new FormGroup({
         DetalleControlLotes:this._fb.array([])
       })
   }
 
+  observableVisualizarlacantidadFilas(){
+      this.FormControlLotes.controls.NumeroFilas.valueChanges.subscribe(valor=>{
+          this.RegistrosPaginas=parseInt(valor);
+      })
+  }
+
 
   Filtrar(){
-    if(this.FormControlLotes.controls.FechaInicio.value>this.FormControlLotes.controls.FechaFinal.value){
+    if(this.FormControlLotes.controls.FechaInicio.value>this.FormControlLotes.controls.FechaFinal.value && this.disabledFecha==false){
         return this.toastr.warning("La fecha de inicio no debe de ser mayor a la fecha final")
     }
 
@@ -94,11 +106,12 @@ export class ControlLotesComponent implements OnInit {
     const DatosCabecera={
       FechaInicio:this.FormControlLotes.controls.FechaInicio.value,
       FechaFinal:this.FormControlLotes.controls.FechaFinal.value,
-      OrdenFabricacion:this.FormControlLotes.controls.OrdenFabricacion.value,
+      Lote:this.FormControlLotes.controls.Lote.value,
       Pagina: this.pagina,
-			RegistrosPorPagina: 7,
+			RegistrosPorPagina: this.RegistrosPaginas,
     }
 
+    console.log(DatosCabecera);
     this._ControlcalidadService.ListarControlLotes(DatosCabecera).subscribe(
       resp=>{
           this.ControlLotesArray=resp["contenido"];
@@ -173,6 +186,22 @@ export class ControlLotesComponent implements OnInit {
             this.toastr.warning(error["menssage"]);
           }
       )
+  }
+
+  ActivarFecha(){
+    this.disabledFecha=!this.disabledFecha;
+     if(this.disabledFecha){
+      this.FormControlLotes.get("FechaInicio").patchValue(null);
+      this.FormControlLotes.get("FechaFinal").patchValue(null);
+      this.FormControlLotes.controls.FechaInicio.disable();
+      this.FormControlLotes.controls.FechaFinal.disable();
+      
+     }else{
+      this.FormControlLotes.get("FechaInicio").patchValue(formatDate(new Date(Date.now()), 'yyyy-MM-dd', 'en'));
+      this.FormControlLotes.get("FechaFinal").patchValue(formatDate(new Date(Date.now()), 'yyyy-MM-dd', 'en'));
+      this.FormControlLotes.controls.FechaInicio.enable();
+      this.FormControlLotes.controls.FechaFinal.enable();
+    }
   }
 
 }
