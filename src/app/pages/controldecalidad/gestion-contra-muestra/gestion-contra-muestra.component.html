@@ -20,6 +20,15 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-md-3">
+                      <label for="cliente"
+                          class="col-sm-3 text-right control-label col-form-label text-white">.</label>
+                      <div class="form-group">
+                          <div class="input-group mb-3">
+                              <input type="month"   [(ngModel)]="AnoProduccion" #ctrl="ngModel"  class="form-control form-control-sm"  autocomplete="off" aria-label="" aria-describedby="basic-addon1">
+                          </div>
+                      </div>
+                  </div>
                 </div>
                 <!-- <div class="row">
                     <div class="col-md-12">
@@ -47,7 +56,7 @@
                                     <th class="text-center" scope="col">Lote</th>
                                     <th class="text-center" scope="col">Cliente</th>
                                     <th class="text-center" scope="col">Au</th>
-                                    <th class="text-center" scope="col">C.Muestra</th>
+                                    <th class="text-center" scope="col">Cant.Stock</th>
                                     <th class="text-center" scope="col">N° de caja</th>
                                     <th class="text-center" scope="col">Opcion</th>
                                   </tr>
