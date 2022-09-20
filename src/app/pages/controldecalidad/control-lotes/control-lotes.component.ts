@@ -22,8 +22,8 @@ export class ControlLotesComponent implements OnInit {
   TempControlLotesArray:DetalleControlLotes[]=[];
 
   CantidadVisualizar:number[]=[5,10,15,20]
-  RegistrosPaginas:number=5;
-  disabledFecha:boolean=false;
+  RegistrosPaginas:number=10;
+  disabledFecha:boolean=true;
 
   pagina: Number = 1
 	pageSize: Number = 10;
@@ -33,7 +33,7 @@ export class ControlLotesComponent implements OnInit {
   paginador: Paginado = {
     paginaActual: 1,
     totalPaginas: 1,
-    registroPorPagina: 5,
+    registroPorPagina: 10,
     totalRegistros: 1,
     siguiente:true,
     anterior: false,
@@ -71,28 +71,32 @@ export class ControlLotesComponent implements OnInit {
 	}
 
   CreacionFormulario(){
-      
       this.FormControlLotes = new FormGroup({
-        FechaInicio: new FormControl(formatDate(new Date(Date.now()), 'yyyy-MM-dd', 'en'),Validators.required),
-        FechaFinal: new FormControl(formatDate(new Date(Date.now()), 'yyyy-MM-dd', 'en'),Validators.required),
+        FechaInicio: new FormControl(null),
+        FechaFinal: new FormControl(null),
         Lote: new FormControl(''),
-        NumeroFilas: new FormControl(5)
+        NumeroFilas: new FormControl(this.RegistrosPaginas)
       });
       this.ListarControlLotes=new FormGroup({
         DetalleControlLotes:this._fb.array([])
       })
+
+      this.FormControlLotes.controls.FechaInicio.disable();
+      this.FormControlLotes.controls.FechaFinal.disable();
   }
 
   observableVisualizarlacantidadFilas(){
       this.FormControlLotes.controls.NumeroFilas.valueChanges.subscribe(valor=>{
           this.RegistrosPaginas=parseInt(valor);
+         // this.Filtrar();
       })
   }
 
 
   Filtrar(){
+    
     if(this.FormControlLotes.controls.FechaInicio.value>this.FormControlLotes.controls.FechaFinal.value && this.disabledFecha==false){
-        return this.toastr.warning("La fecha de inicio no debe de ser mayor a la fecha final")
+        return this.toastr.warning("La fecha de inicio no debe de ser mayor a la fecha final");
     }
 
     const ModalCarga = this.modalService.open(ModalCargarComponent, {

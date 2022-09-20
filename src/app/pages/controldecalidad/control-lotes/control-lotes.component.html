@@ -14,8 +14,8 @@
             </div>
             <div class="col-md-3">
               <label for="fechainicio" class="text-right control-label col-form-label">Inicio </label>
-              <button  type="button" *ngIf="disabledFecha" class="btn btn-success btn-sm ml-1" (click)="ActivarFecha()" > Activar </button>
-              <button  type="button" *ngIf="!disabledFecha" class="btn btn-danger btn-sm ml-1" (click)="ActivarFecha()" > Desactivar </button>
+              <button  type="button" *ngIf="disabledFecha" class="btn btn-success btn-sm side-badge badge badge-success ml-4" (click)="ActivarFecha()" > Activar </button>
+              <button  type="button" *ngIf="!disabledFecha" class="btn btn-danger btn-sm side-badge badge badge-danger ml-4" (click)="ActivarFecha()" > Desactivar </button>
               <div class="form-group">
                 <input type="date"  formControlName="FechaInicio" class="form-control form-control-sm"
                   placeholder="Fecha Inicio">
@@ -49,15 +49,18 @@
     <form autocomplete="off" [formGroup]="FormControlLotes">
       <div class="card">
         <div class="card-body">
-          <div class="d-flex">
-            <div class="mr-auto">
-                <select class="form-control  form-control-sm" formControlName="NumeroFilas">
-                  <option *ngFor="let numero of CantidadVisualizar" [value]="numero">
-                    {{numero}}
-                  </option>
-                </select>
+          <div class="d-flex justify-content-end">
+            <div class="d-flex">
+              <div class="mr-auto">
+                  <select class="form-control  form-control-sm" formControlName="NumeroFilas">
+                    <option *ngFor="let numero of CantidadVisualizar" [value]="numero">
+                      {{numero}}
+                    </option>
+                  </select>
+              </div>
             </div>
           </div>
+         
           <div class="table table-hover">
               <table class="table-responsive  table-sm table-cebra table-striped border mt-4 table-info" style="font-size: 12px">
                 <thead class="no-wrap">
