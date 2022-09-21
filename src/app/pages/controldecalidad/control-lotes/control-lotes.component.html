@@ -49,21 +49,10 @@
     <form autocomplete="off" [formGroup]="FormControlLotes">
       <div class="card">
         <div class="card-body">
-          <div class="d-flex justify-content-end">
-            <div class="d-flex">
-              <div class="mr-auto">
-                  <select class="form-control  form-control-sm" formControlName="NumeroFilas">
-                    <option *ngFor="let numero of CantidadVisualizar" [value]="numero">
-                      {{numero}}
-                    </option>
-                  </select>
-              </div>
-            </div>
-          </div>
-         
-          <div class="table table-hover">
-              <table class="table-responsive  table-sm table-cebra table-striped border mt-4 table-info" style="font-size: 12px">
-                <thead class="no-wrap">
+          <div class="table table-hover scroll-group">
+              <table class="table-responsive-lg  table-sm table-cebra  table-info" style="font-size: 12px">
+                <!-- table table-bordered table-responsive-lg  table-cebra table-sm -->
+                <thead >
                   <tr>
                     <th class="text-center sticky" scope="col">Opcion</th>
                     <th class="text-center sticky-2 width-column-header" scope="col">F.Entrega</th>
@@ -161,13 +150,6 @@
                   </tr>
                 </tbody>
               </table>
-            </div>
-
-            <div class="d-flex justify-content-center p-2">
-              <ngb-pagination *ngIf="paginador.totalPaginas > 1" [collectionSize]="paginador.totalRegistros"
-                [(page)]="page" [pageSize]="pageSize"  [boundaryLinks]="true" (pageChange)="cambioPagina($event)"
-                [ellipses]="false" [maxSize]=5 [rotate]="true">
-              </ngb-pagination>
             </div>
           </div>
         </div>

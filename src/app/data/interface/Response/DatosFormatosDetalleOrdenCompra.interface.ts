@@ -6,6 +6,7 @@ export interface DetalleOrdenCompra {
     CantidadPedida:Number,
     CantidadRecibida:Number,
     Estado: string,
-    FechaPrometida: string
+    FechaPrometida: Date,
+    isSelected:boolean,
 }
   

@@ -1,3 +1,4 @@
+import { formatDate } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { CabeceraOrdenCompra } from '@data/interface/Response/DatosFormatosCabeceraOrdenCompra.interface';
@@ -13,8 +14,12 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class ModalVisualizarDetalleImportacionComponent implements OnInit {
   @Input() fromParent;
+  MaestroSeleccion: boolean;
+  botonestado:boolean=true;
   CabeceraOrdenCompra:CabeceraOrdenCompra;
   DetalleOrdenCompra:DetalleOrdenCompra []=[];
+  // TempDetalleOrdenCompra:DetalleOrdenCompra[]=[];
+  SeleccionArrayListar:any[]=[];
   OrdenCompraForm:FormGroup;
 
   constructor(public activeModal: NgbActiveModal,
@@ -36,7 +41,6 @@ export class ModalVisualizarDetalleImportacionComponent implements OnInit {
       FechaPreparacion: new FormControl({value:'',disabled:true}),
       FechaPrometida: new FormControl({value:'',disabled:true}),
       FechaLlegada:new FormControl({value:'', disabled:this.fromParent.Permiso}),
-      Detalle: this._fb.array([]),
     })
 
   }
@@ -45,46 +49,63 @@ export class ModalVisualizarDetalleImportacionComponent implements OnInit {
     this._ProduccionService.VisualizarOrdenCompra(OrdenCompra).subscribe(
       (resp:any)=>{
           this.CabeceraOrdenCompra=resp["cabecera"];
-          this.ConstruirFormArray(resp["detalle"]);
+          this.DetalleOrdenCompra=resp["detalle"];
+          // this.TempDetalleOrdenCompra=resp["detalle"];
+
           let separadorFechaPreparacion = this.CabeceraOrdenCompra.FechaPreparacion.split('T');
           let separadorFechaPrometida = this.CabeceraOrdenCompra.FechaPrometida.split('T');
-          let separadorFechaLlegada= this.CabeceraOrdenCompra.FechaEnvioProveedor == null ?  null : this.CabeceraOrdenCompra.FechaEnvioProveedor.split('T');
+          // let separadorFechaLlegada= this.CabeceraOrdenCompra.FechaEnvioProveedor == null ?  null : this.CabeceraOrdenCompra.FechaEnvioProveedor.split('T');
 
           this.OrdenCompraForm.get("Documento").patchValue(this.CabeceraOrdenCompra.NumeroOrden)
           this.OrdenCompraForm.get("Proveedor").patchValue(this.CabeceraOrdenCompra.Proveedor)
           this.OrdenCompraForm.get("FechaPreparacion").patchValue(separadorFechaPreparacion[0]);
           this.OrdenCompraForm.get("FechaPrometida").patchValue(separadorFechaPrometida[0]);
-          this.OrdenCompraForm.get("FechaLlegada").patchValue(separadorFechaLlegada == null ? null : separadorFechaLlegada[0]);
-          this.OrdenCompraForm.get("Estado").patchValue(this.CabeceraOrdenCompra.Estado);
-
-          
+          this.OrdenCompraForm.get("FechaLlegada").patchValue(formatDate(new Date(Date.now()), 'yyyy-MM-dd', 'en'));
+          this.OrdenCompraForm.get("Estado").patchValue(this.CabeceraOrdenCompra.Estado);          
       }
     )
   }
 
-  ConstruirFormArray(formArrayResp:DetalleOrdenCompra[]){
-    const ArrayItem = this.OrdenCompraForm.controls.Detalle as FormArray;
-    ArrayItem.controls=[];
+  
 
-    formArrayResp.forEach((item:DetalleOrdenCompra)=>{
-      let separarFecha=item.FechaPrometida.split("T");
+  checkTodo() {
+    for (var i = 0; i < this.DetalleOrdenCompra.length; i++) {
+        this.DetalleOrdenCompra[i].isSelected=this.MaestroSeleccion;
+    }
+    this.SeleccionaTodo();
+  }
 
-      const FileForm= this._fb.group({
-        NumeroOrden:[item.NumeroOrden],
-        Descripcion:[item.Descripcion],
-        UnidadCodigo:[item.UnidadCodigo],
-        CantidadPedida:[item.CantidadPedida],
-        CantidadRecibida:[item.CantidadRecibida],
-        Estado:[item.Estado],
-        FechaPrometida:[{value: separarFecha[0], disabled: this.fromParent.Permiso}],
-        Item:[item.Item],
-      });
 
-      this.DetalleOC.push(FileForm);
+  SeleccionaTodo() {
+    this.SeleccionArrayListar=[];
+    for (var i = 0; i < this.DetalleOrdenCompra.length; i++) {
+     
+      if (this.DetalleOrdenCompra[i].isSelected){
+        this.SeleccionArrayListar.push(this.DetalleOrdenCompra[i]);
+      }
+        
+     }
+     this.SeleccionArrayListar.length > 0 ? this.botonestado=false : this.botonestado=true;
+         
+  }
 
-    });
 
-    
+  SeleccionaItem(rowItem:DetalleOrdenCompra){
+    this.SeleccionArrayListar=[];
+
+    // for (var i = 0; i < this.DetalleOrdenCompra.length; i++) {
+    //     if(this.DetalleOrdenCompra[i].Item==rowItem.Item){
+    //       this.DetalleOrdenCompra[i].isSelected=rowItem.isSelected;
+    //     }
+    // }
+
+    for (var i = 0; i < this.DetalleOrdenCompra.length; i++) {
+      if (this.DetalleOrdenCompra[i].isSelected){
+        this.SeleccionArrayListar.push(this.DetalleOrdenCompra[i]);
+      }
+    }
+
+    this.SeleccionArrayListar.length > 0 ? this.botonestado=false : this.botonestado=true;
   }
 
   get DetalleOC(){
@@ -93,10 +114,14 @@ export class ModalVisualizarDetalleImportacionComponent implements OnInit {
 
 
   Actualizar(){
-      
+      if(this.OrdenCompraForm.controls.FechaLlegada.value==null){
+          return this.toastr.warning("Debe Ingresar la fecha de llegada");
+      }
+
       const Dato = {
-        ...this.OrdenCompraForm.value,
-        Documento:this.OrdenCompraForm.controls.Documento.value
+        Document:this.OrdenCompraForm.controls.Documento.value,
+        FechaLlegada:this.OrdenCompraForm.controls.FechaLlegada.value,
+        Detalle:this.SeleccionArrayListar,
       }
 
       this._ProduccionService.ActualizarOrdenCompraMasiva(Dato).subscribe(

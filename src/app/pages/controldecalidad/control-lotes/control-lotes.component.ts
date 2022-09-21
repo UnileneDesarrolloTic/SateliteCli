@@ -20,26 +20,9 @@ export class ControlLotesComponent implements OnInit {
   ListarControlLotes:FormGroup;
   ControlLotesArray:DetalleControlLotes[]=[];
   TempControlLotesArray:DetalleControlLotes[]=[];
-
-  CantidadVisualizar:number[]=[5,10,15,20]
-  RegistrosPaginas:number=10;
   disabledFecha:boolean=true;
 
-  pagina: Number = 1
-	pageSize: Number = 10;
-	page: Number = 1;
-	dropdownSettings = {};
 
-  paginador: Paginado = {
-    paginaActual: 1,
-    totalPaginas: 1,
-    registroPorPagina: 10,
-    totalRegistros: 1,
-    siguiente:true,
-    anterior: false,
-    primeraPagina: true,
-    ultimaPagina: false
-  }
 
   
  
@@ -50,32 +33,18 @@ export class ControlLotesComponent implements OnInit {
               }
 
   ngOnInit(): void {
-    this.paginador = {
-			paginaActual: 1,
-			totalPaginas: 1919,
-			registroPorPagina: this.RegistrosPaginas,
-			totalRegistros: 19185,
-			siguiente: true,
-			anterior: false,
-			primeraPagina: false,
-			ultimaPagina: true
-		};
-
+    
     this.CreacionFormulario();
-    this.observableVisualizarlacantidadFilas();
   }
 
-  cambioPagina(paginaCambiada: Number) {
-		this.pagina = paginaCambiada
-		this.Filtrar();
-	}
+ 
 
   CreacionFormulario(){
       this.FormControlLotes = new FormGroup({
         FechaInicio: new FormControl(null),
         FechaFinal: new FormControl(null),
         Lote: new FormControl(''),
-        NumeroFilas: new FormControl(this.RegistrosPaginas)
+      
       });
       this.ListarControlLotes=new FormGroup({
         DetalleControlLotes:this._fb.array([])
@@ -85,13 +54,7 @@ export class ControlLotesComponent implements OnInit {
       this.FormControlLotes.controls.FechaFinal.disable();
   }
 
-  observableVisualizarlacantidadFilas(){
-      this.FormControlLotes.controls.NumeroFilas.valueChanges.subscribe(valor=>{
-          this.RegistrosPaginas=parseInt(valor);
-         // this.Filtrar();
-      })
-  }
-
+  
 
   Filtrar(){
     
@@ -111,15 +74,11 @@ export class ControlLotesComponent implements OnInit {
       FechaInicio:this.FormControlLotes.controls.FechaInicio.value,
       FechaFinal:this.FormControlLotes.controls.FechaFinal.value,
       Lote:this.FormControlLotes.controls.Lote.value,
-      Pagina: this.pagina,
-			RegistrosPorPagina: this.RegistrosPaginas,
     }
-
-    console.log(DatosCabecera);
     this._ControlcalidadService.ListarControlLotes(DatosCabecera).subscribe(
       resp=>{
-          this.ControlLotesArray=resp["contenido"];
-          this.TempControlLotesArray=resp["contenido"];
+          this.ControlLotesArray=resp;
+          this.TempControlLotesArray=resp;
           this.ConstruirTabla(this.ControlLotesArray);
           ModalCarga.close();
       },
