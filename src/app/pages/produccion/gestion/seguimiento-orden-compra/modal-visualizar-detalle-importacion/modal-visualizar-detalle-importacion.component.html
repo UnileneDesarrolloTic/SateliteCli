@@ -1,32 +1,36 @@
 <div class="row">
     <div class="card-body">
-        <form [formGroup]="OrdenCompraForm" (ngSubmit)="Actualizar()" >
-            <div class="modal-header">
-                <h4 class="modal-title" id="modal-basic-title">Visualizar Detalle de Importación</h4>
-                <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">   
+
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Visualizar Detalle de Importación</h4>
+            <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form [formGroup]="OrdenCompraForm" >
                 <div class="row">
                     <label class="col-md-2 tamanoLabel"> DOCUMENTO: </label>
                     <div class="col-md-4 col-4">
                         <div class="form-group">
-                            <input type="text" class="form-control form-control-sm" placeholder="col-md-4" formControlName="Documento">
+                            <input type="text" class="form-control form-control-sm" placeholder="col-md-4"
+                                formControlName="Documento">
                         </div>
                     </div>
                     <label class="col-2 tamanoLabel">ESTADO: </label>
                     <div class="col-md-2 col-2">
                         <div class="form-group">
-                            <input type="text" class="form-control form-control-sm" placeholder="col-md-4" formControlName="Estado">
+                            <input type="text" class="form-control form-control-sm" placeholder="col-md-4"
+                                formControlName="Estado">
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                    <label class="col-md-2 tamanoLabel" >PROVEEDOR: </label>
+                    <label class="col-md-2 tamanoLabel">PROVEEDOR: </label>
                     <div class="col-md-4 col-4">
                         <div class="form-group">
-                            <input type="text" class="form-control form-control-sm" placeholder="col-md-4" formControlName="Proveedor">
+                            <input type="text" class="form-control form-control-sm" placeholder="col-md-4"
+                                formControlName="Proveedor">
                         </div>
                     </div>
                 </div>
@@ -34,7 +38,8 @@
                     <label class="col-md-2 tamanoLabel">FECHA PREP.: </label>
                     <div class="col-md-4 col-4">
                         <div class="form-group">
-                            <input type="date" class="form-control form-control-sm" placeholder="col-md-4" formControlName="FechaPreparacion">
+                            <input type="date" class="form-control form-control-sm" placeholder="col-md-4"
+                                formControlName="FechaPreparacion">
                         </div>
                     </div>
                 </div>
@@ -42,56 +47,61 @@
                     <label class="col-md-2 tamanoLabel">FECHA ENTREGA: </label>
                     <div class="col-md-4 col-4">
                         <div class="form-group">
-                            <input type="date" class="form-control form-control-sm" placeholder="col-md-4" formControlName="FechaPrometida" >
+                            <input type="date" class="form-control form-control-sm" placeholder="col-md-4"
+                                formControlName="FechaPrometida">
                         </div>
                     </div>
                     <label class="col-2 tamanoLabel">FECHA LLEGADA: </label>
                     <div class="col-md-3 col-2">
                         <div class="form-group">
-                            <input type="date" class="form-control form-control-sm" formControlName="FechaLlegada"  placeholder="col-md-4">
+                            <input type="date" class="form-control form-control-sm" formControlName="FechaLlegada"
+                                placeholder="col-md-4">
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-sm-12  table-responsive scroll-group">
-                            <table class="table  table-striped table-sm">
-                                <thead style="font-size: 11px" >
-                                    <tr>
-                                        <th scope="col">Item</th>
-                                        <th scope="col">Descripción</th>
-                                        <th scope="col">UM</th>
-                                        <th scope="col">Cant.Pedida</th>
-                                        <th scope="col">Cant.Recibida</th>
-                                        <th scope="col">Estado</th>
-                                        <th scope="col">Fecha Prometida</th>
-                                    </tr>
-                                </thead>
-                                <tbody style="font-size: 11px">
-                                    <tr  *ngFor="let DetalleForm of DetalleOC.controls; let i = index">
-                                        <ng-container [formGroup]="DetalleForm">
-                                            <td>{{DetalleForm.value.Item}}</td>
-                                            <td>{{DetalleForm.value.Descripcion}}</td>
-                                            <td>{{DetalleForm.value.UnidadCodigo}}</td>
-                                            <td>{{DetalleForm.value.CantidadPedida | number}}</td>
-                                            <td>{{DetalleForm.value.CantidadRecibida | number}}</td>
-                                            <td>{{DetalleForm.value.Estado}}</td>
-                                            <td class="text-center">
-                                                <div class="input-group input-group-sm">
-                                                    <input type="date"  class="form-control form-control-sm" formControlName="FechaPrometida" />
-                                                </div>
-                                            </td>
-                                        </ng-container>
-                                    </tr>
-                                </tbody>
-                            </table>
-                       
-                    </div>
-                </div>            
+            </form>
+            <div class="row">
+                <div class="col-sm-12  table-responsive scroll-group">
+                    <table class="table  table-striped table-sm">
+                        <thead style="font-size: 11px">
+                            <tr>
+                                <th class="text-center">
+                                    <input type="checkbox" [disabled]="this.fromParent.Permiso" [(ngModel)]="MaestroSeleccion" name="list_name" value="h1"
+                                        (change)="checkTodo()" />
+                                </th>
+                                <th scope="col">Item</th>
+                                <th scope="col">Descripción</th>
+                                <th scope="col">UM</th>
+                                <th scope="col">Cant.Pedida</th>
+                                <th scope="col">Cant.Recibida</th>
+                                <th scope="col">Estado</th>
+                                <th scope="col">Fecha Prometida</th>
+                            </tr>
+                        </thead>
+                        <tbody style="font-size: 11px">
+                            <tr *ngFor="let Detalle of DetalleOrdenCompra; let i = index">
+                                <td class="text-center">
+                                    <input type="checkbox" [disabled]="this.fromParent.Permiso" [(ngModel)]="Detalle.isSelected" name="list_name"
+                                        (change)="SeleccionaItem(Detalle)" value="{{ Detalle.Item}}" />
+                                </td>
+                                <td>{{Detalle.Item }}</td>
+                                <td>{{Detalle.Descripcion}}</td>
+                                <td>{{Detalle.UnidadCodigo}}</td>
+                                <td>{{Detalle.CantidadPedida | number}}</td>
+                                <td>{{Detalle.CantidadRecibida | number }}</td>
+                                <td>{{Detalle.Estado}}</td>
+                                <td>{{Detalle.FechaPrometida | date:'dd/MM/yyyy'}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
             </div>
-            <div class="modal-footer">
-                <!--  [disabled]="!form.valid" -->
-                <button type="submit" [disabled]="this.fromParent.Permiso" class="btn btn-rounded btn-info">Actualizar</button>
-            </div>
-        </form>
+        </div>
+        <div class="modal-footer">
+            <!--  [disabled]="!form.valid" -->
+            <button type="button" [disabled]="botonestado" (click)="Actualizar()" class="btn btn-rounded btn-info">Actualizar</button>
+        </div>
+
     </div>
 </div>
