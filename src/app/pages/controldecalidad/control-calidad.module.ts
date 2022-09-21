@@ -13,6 +13,9 @@ import { RegistrarAnalisisComponent } from './analisis-agujas/registrar-analisis
 import { GestionContraMuestraComponent } from './gestion-contra-muestra/gestion-contra-muestra.component';
 import { ModalKardexInternoComponent } from './gestion-contra-muestra/modal-kardex-interno/modal-kardex-interno.component';
 import { ControlLotesComponent } from './control-lotes/control-lotes.component';
+import { AdministracionProtocoloComponent } from './administracion-protocolo/administracion-protocolo.component';
+import { NumeroParteComponent } from './administracion-protocolo/numero-parte/numero-parte.component';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
 
 
@@ -23,7 +26,9 @@ import { ControlLotesComponent } from './control-lotes/control-lotes.component';
     RegistrarAnalisisComponent,
     GestionContraMuestraComponent,
     ModalKardexInternoComponent,
-    ControlLotesComponent
+    ControlLotesComponent,
+    AdministracionProtocoloComponent,
+    NumeroParteComponent
   ],
   imports: [
     RouterModule.forChild(ControlCalidadRoutes),
@@ -34,6 +39,7 @@ import { ControlLotesComponent } from './control-lotes/control-lotes.component';
     ReactiveFormsModule,
     NgbModule,
     NgMultiSelectDropDownModule,
+    NgxDatatableModule,
   ],
   exports: [
     CertificadoComponent,

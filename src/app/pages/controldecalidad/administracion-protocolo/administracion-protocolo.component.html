@@ -1,0 +1,39 @@
+<div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-body">
+            <ngb-tabset>
+                <ngb-tab title="Numero de Parte">
+                  <ng-template ngbTabContent>
+                    <app-numero-parte *ngIf="ListarGrupo.length > 0" [ListarGrupo]="ListarGrupo"></app-numero-parte>
+                  </ng-template>
+                </ngb-tab>
+                <ngb-tab>
+                  <ng-template ngbTabTitle><b>Atributos</b></ng-template>
+                  <ng-template ngbTabContent>
+               
+                  </ng-template>
+                </ngb-tab>
+                <ngb-tab>
+                    <ng-template ngbTabTitle><b>Descripción</b></ng-template>
+                    <ng-template ngbTabContent>
+                 
+                    </ng-template>
+                  </ngb-tab>
+                  <ngb-tab>
+                    <ng-template ngbTabTitle><b>Leyenda</b></ng-template>
+                    <ng-template ngbTabContent>
+                 
+                    </ng-template>
+                  </ngb-tab>
+                  <ngb-tab>
+                    <ng-template ngbTabTitle><b>Pruebas</b></ng-template>
+                    <ng-template ngbTabContent>
+                 
+                    </ng-template>
+                  </ngb-tab>
+              </ngb-tabset>
+        </div>
+      </div>
+    </div>
+  </div>

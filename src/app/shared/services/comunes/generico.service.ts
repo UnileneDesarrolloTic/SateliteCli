@@ -128,6 +128,19 @@ export class GenericoService {
     )
   }
 
+  ListarGrupo(){
+    return this._http.get(this.url + "/api/Common/ListarGrupo",).pipe(
+      catchError(() => throwError("Error Acceder Listar Grupo"))
+    )
+  }
+
+  ListarTabla(Grupo){
+    const params = new HttpParams().set('Grupo',Grupo);
+    return this._http.get(this.url + "/api/Common/ListarTabla",{'params': params}).pipe(
+      catchError(() => throwError("Error Acceder Listar Tabla"))
+    )
+  }
+
   RedondearDecimales(numero, decimales = 2, usarComa = false) {
     var opciones = {
         maximumFractionDigits: decimales,

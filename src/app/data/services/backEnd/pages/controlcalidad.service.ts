@@ -68,6 +68,14 @@ export class ControlcalidadService {
     );
   }
 
+
+  ListarTablaNumeroParte(Grupo,Tabla){
+    const params =  new HttpParams().set('Grupo', Grupo).set('Tabla',Tabla);
+    return this._http.get<any>(this.url+"/api/ControlCalidad/ListarMaestroNumeroParte",{'params':params}).pipe(
+      catchError (() => throwError("Error al obtener Tabla de  Numero de Parte"))
+    );
+  }
+
   ActualizarControlLotes(body){
     return this._http.post<any>(this.url+"/api/ControlCalidad/ActualizarControlLotes", body).pipe(
       catchError (() => throwError("Error al obtener Detalle de listar de control lote "))
