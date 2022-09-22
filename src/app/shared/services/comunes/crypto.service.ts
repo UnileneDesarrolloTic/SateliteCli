@@ -5,19 +5,40 @@ import * as CryptoJS from 'crypto-js';
 @Injectable({
   providedIn: 'root'
 })
-export class CryptoService {
+export class CryptoService 
+{
 
-  private secretKey = environment.secretKeyEncryption;
   private secretKeyHmac = environment.secretKeyHMAC;
 
   constructor() { }
 
-  encriptar(value : string) : string{
-    return CryptoJS.AES.encrypt(value, this.secretKey).toString();
+  encriptar(value : string, clave: string) : string
+  {    
+    return CryptoJS.AES.encrypt(value, clave).toString();
   }
 
-  desencriptar(textToDecrypt : string){
-    return CryptoJS.AES.decrypt(textToDecrypt, this.secretKey).toString(CryptoJS.enc.Utf8);
+  encriptarBack(value : string) : string
+  {
+    const keyCifrado: string = environment.keyCifradoBack;
+    const ivCifrado: string = environment.IvCifradoBack;
+
+    const key = CryptoJS.enc.Utf8.parse(keyCifrado);
+    const iv = CryptoJS.enc.Utf8.parse(ivCifrado);
+    const valueUtf = CryptoJS.enc.Utf8.parse(value);
+
+    return CryptoJS.AES.encrypt(valueUtf, key,
+      {
+        keySize: 128 / 8,
+        iv: iv,
+        mode: CryptoJS.mode.CBC,
+        padding: CryptoJS.pad.Pkcs7,
+        iterations: 990
+      }
+    ).toString();
+  }
+
+  desencriptar(textToDecrypt : string, clave: string){
+    return CryptoJS.AES.decrypt(textToDecrypt, clave).toString(CryptoJS.enc.Utf8);
   }
 
   encriptarHmacSha512(texto: string): string{

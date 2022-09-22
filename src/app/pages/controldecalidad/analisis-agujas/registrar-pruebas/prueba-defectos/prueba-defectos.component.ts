@@ -314,7 +314,7 @@ export class PruebaDefectosComponent implements OnInit, OnDestroy, OnExit {
     err => {
       this.botonGuardarDisabled = false
     }
-    )
+    ) 
 
   }
 
