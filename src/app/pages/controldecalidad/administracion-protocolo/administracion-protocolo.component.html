@@ -11,25 +11,27 @@
                 <ngb-tab>
                   <ng-template ngbTabTitle><b>Atributos</b></ng-template>
                   <ng-template ngbTabContent>
-               
+                    <app-atributos ></app-atributos>
                   </ng-template>
                 </ngb-tab>
                 <ngb-tab>
                     <ng-template ngbTabTitle><b>Descripción</b></ng-template>
                     <ng-template ngbTabContent>
-                 
+                      <app-descripcion  *ngIf="Listarmarcaprotocolo.length > 0 || Listarhebraprotocolo.length>0 " [Listarmarcaprotocolo]="Listarmarcaprotocolo"
+                      [Listarhebraprotocolo]="Listarhebraprotocolo"  ></app-descripcion>
                     </ng-template>
                   </ngb-tab>
                   <ngb-tab>
                     <ng-template ngbTabTitle><b>Leyenda</b></ng-template>
                     <ng-template ngbTabContent>
-                 
+                      <app-leyenda *ngIf="Listarmarcaprotocolo.length > 0 || Listarhebraprotocolo.length>0 " [Listarmarcaprotocolo]="Listarmarcaprotocolo"
+                        [Listarhebraprotocolo]="Listarhebraprotocolo" ></app-leyenda>
                     </ng-template>
                   </ngb-tab>
                   <ngb-tab>
                     <ng-template ngbTabTitle><b>Pruebas</b></ng-template>
                     <ng-template ngbTabContent>
-                 
+                      <app-pruebas></app-pruebas>
                     </ng-template>
                   </ngb-tab>
               </ngb-tabset>

@@ -141,6 +141,20 @@ export class GenericoService {
     )
   }
 
+  ListarMarcaProtocolo(Grupo, Campo){
+    const params = new HttpParams().set('Grupo',Grupo).set('Campo',Campo);
+    return this._http.get(this.url + "/api/Common/ListarMarcaProtocolo",{'params': params}).pipe(
+      catchError(() => throwError("Error Listar de Marca Protocolo"))
+    )
+  }
+
+  
+  ListarMetodologia(){
+    return this._http.get<any>(this.url+"/api/Common/ListarMetodologiaProtocolo").pipe(
+      catchError (() => throwError("Error al obtener Tabla de Protocolo"))
+    );
+  }
+
   RedondearDecimales(numero, decimales = 2, usarComa = false) {
     var opciones = {
         maximumFractionDigits: decimales,

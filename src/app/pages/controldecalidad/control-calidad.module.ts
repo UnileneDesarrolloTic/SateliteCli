@@ -16,6 +16,10 @@ import { ControlLotesComponent } from './control-lotes/control-lotes.component';
 import { AdministracionProtocoloComponent } from './administracion-protocolo/administracion-protocolo.component';
 import { NumeroParteComponent } from './administracion-protocolo/numero-parte/numero-parte.component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { AtributosComponent } from './administracion-protocolo/atributos/atributos.component';
+import { DescripcionComponent } from './administracion-protocolo/descripcion/descripcion.component';
+import { LeyendaComponent } from './administracion-protocolo/leyenda/leyenda.component';
+import { PruebasComponent } from './administracion-protocolo/pruebas/pruebas.component';
 
 
 
@@ -28,7 +32,11 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
     ModalKardexInternoComponent,
     ControlLotesComponent,
     AdministracionProtocoloComponent,
-    NumeroParteComponent
+    NumeroParteComponent,
+    AtributosComponent,
+    DescripcionComponent,
+    LeyendaComponent,
+    PruebasComponent
   ],
   imports: [
     RouterModule.forChild(ControlCalidadRoutes),

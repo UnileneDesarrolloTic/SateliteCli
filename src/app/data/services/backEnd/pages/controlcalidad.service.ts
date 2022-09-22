@@ -76,6 +76,27 @@ export class ControlcalidadService {
     );
   }
 
+  ListarTablaAtributo(){
+    return this._http.get<any>(this.url+"/api/ControlCalidad/ListarAtributos").pipe(
+      catchError (() => throwError("Error al obtener Tabla de Atributo"))
+    );
+  }
+
+  ListarTablaDescripcion(Marca,Hebra){
+    const params =  new HttpParams().set('Marca', Marca).set('Hebra',Hebra);
+    return this._http.get<any>(this.url+"/api/ControlCalidad/ListarDescripcion",{'params':params}).pipe(
+      catchError (() => throwError("Error al obtener Tabla de Atributo"))
+    );
+  }
+
+  ListarTablaLeyenda(Marca,Hebra){
+    const params =  new HttpParams().set('Marca', Marca).set('Hebra',Hebra);
+    return this._http.get<any>(this.url+"/api/ControlCalidad/ListarLeyenda",{'params':params}).pipe(
+      catchError (() => throwError("Error al obtener Tabla de Atributo"))
+    );
+  }
+
+
   ActualizarControlLotes(body){
     return this._http.post<any>(this.url+"/api/ControlCalidad/ActualizarControlLotes", body).pipe(
       catchError (() => throwError("Error al obtener Detalle de listar de control lote "))

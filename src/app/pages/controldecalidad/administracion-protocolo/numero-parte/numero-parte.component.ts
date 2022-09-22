@@ -76,7 +76,7 @@ export class NumeroParteComponent implements OnInit {
             this.ListarTablaNumeroParte=resp;
             this.TempListarTablaNumeroParte=resp;
             this.flagLoading=false;
-            console.log(this.ListarTablaNumeroParte);
+           
         }
       )
   }

@@ -1,0 +1,31 @@
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <h3>Lista de Distribución Agujas</h3>
+                <div class="table-responsive">
+                    <table class="table table-hover table-info">
+                        <thead class="bg-info text-white">
+                            <tr>
+                                <th scope="col">N°ID</th>
+                                <th scope="col">Nomeclatura</th>
+                                <th scope="col">Descripción Local</th>
+                                <th scope="col">Descripcion Ingles</th>
+                                <th scope="col">Dependencia</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let Atributo of ListarTablaAtributos; let i = index" >
+                                <td >{{Atributo.iD_AGUJA}}</td>
+                                <td>{{Atributo.nomenclatura}}</td>
+                                <td>{{Atributo.descripcionlocal}}</td>
+                                <td>{{Atributo.descripcioningles}}</td>
+                                <td>{{Atributo.dependencia}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

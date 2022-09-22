@@ -1,0 +1,81 @@
+<div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <form autocomplete="off" [formGroup]="FiltrarDescripcion" (submit)="Filtrar()">
+  
+            <div class="row justify-content-start">
+              <div class="col-md-3">
+                <label for="fechainicio" class="text-right control-label col-form-label">Marca</label>
+                <div class="form-group">
+                    <select class="form-control  form-control-sm" formControlName="Marca">
+                        <option selected [value]="'%'" >.::SELECCIONAR::.</option>
+                        <option *ngFor="let marca of Listarmarcaprotocolo" [value]="marca.codigo">
+                          {{marca.codigo}}-{{marca.descripcionLocal}}
+                        </option>
+                    </select>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <label for="fechainicio" class="text-right control-label col-form-label">Hebra</label>
+                <div class="form-group">
+                    <select class="form-control  form-control-sm" formControlName="Hebra">
+                        <option  selected [value]="'%'" >.::SELECCIONAR::.</option>
+                        <option *ngFor="let hebra of Listarhebraprotocolo" [value]="hebra.codigo">
+                          {{hebra.codigo}}-{{hebra.descripcionLocal}}
+                        </option>
+                    </select>
+                </div>
+              </div>
+            
+              <div class="col-md-6">
+                <label for="btnbuscarGeneral"
+                  class="col-sm-3 text-right control-label col-form-label text-white">.</label>
+                <div class="form-group">
+                  <button type="submit" [disabled]="!FiltrarDescripcion.valid" class="btn btn-success btn-sm" [style]="'background-color:#77dd77;border:none'"> <i class="fas fa-search text-white"></i> Buscar </button>
+                  <button type="button" class="btn btn-info btn-sm" [style]="'background-color:#5086c1;border:none'"> <i class="fas fa-check"></i> Nuevo </button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-sm">
+                        <thead class="bg-info text-white" style="font-size: 13px;">
+                            <tr>
+                                <th scope="col">N° ID</th>
+                                <th scope="col">Marca</th>
+                                <th scope="col">Hebra</th>
+                                <!-- <th scope="col">Calibre</th> -->
+                                <th scope="col">Descripción</th>
+                                <th scope="col">Opcion</th>
+                            </tr>
+                        </thead>
+                        <tbody style="font-size: 12px;">
+                            <tr *ngFor="let descripcion of ListarTablaDescripcion; let i = index" >
+                                <td ><b>{{descripcion.iD_DESCRIPCION}}</b></td>
+                                <td><b>{{descripcion.descripcionmarca}}</b></td>
+                                <td><b>{{descripcion.descripcionhebra}}</b></td>
+                                <td><b>{{descripcion.descripcionlocal}}</b></td>
+                                <td style="width: 10%;">
+                                    <button  (click)="ModalActualizar()" class="btn btn-info btn-xs"><i class="fas fa-file-alt"></i></button>
+                                    <button class="btn btn-danger btn-xs" ><i class="fas fa-trash-alt"></i></button>
+                                </td>
+                            </tr>
+                        
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
