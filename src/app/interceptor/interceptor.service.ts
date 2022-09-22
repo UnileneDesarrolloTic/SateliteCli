@@ -24,7 +24,7 @@ export class InterceptorService implements HttpInterceptor {
     else
       metodoActual = req.url.substring(( req.url.indexOf('/api/') + 5 ), finTextServicio )
 
-    let reqClone:any;
+    let reqClone: HttpRequest<any>;
 
     const metodosAuth = [
       'Common/ListarTipoDocumentoIdentidad',
@@ -152,22 +152,35 @@ export class InterceptorService implements HttpInterceptor {
       'Logistica/ListarItemVentasExportar',
       'Logistica/ListarItemVentasDetalle',
       'Logistica/DetalleComprometidoItem',
-      'Logistica/ListarItemVentasDetalleExportar'
+      'Logistica/ListarItemVentasDetalleExportar',
+      'FirmaDigital/ListarSolicitudes',
+      'FirmaDigital/CrearSolicitud',
+      'FirmaDigital/ObtenerDetalleSolicitudPorId',
+      'FirmaDigital/ListarDocumentosPorSolicitud',
+      'FirmaDigital/SolicitarFirmarDocumentos',
+      'FirmaDigital/SubirDocumentos',
+      'FirmaDigital/ObtenerTiposDocumentos',
+      'FirmaDigital/SolicitudesPendientesFirma',
+      'FirmaDigital/DocumentosPendientesFirma',
+      'FirmaDigital/FirmarDocumentos',
+      'FirmaDigital/RechazarDocumentos'
     ];
     
     const data = this.sesionService.datosPersonales();
-
+    
     if(metodosAuth.indexOf(metodoActual)==-1){
       let headers = new HttpHeaders({
         contentType:"application/json; charset=utf-8"
       });
       reqClone = req.clone({headers});
     }else {
+
       const headers = new HttpHeaders({
-        Authorization: 'Bearer '+data['token'],
-        contentType:"application/json; charset=utf-8"
+        Authorization: 'Bearer ' + data['token'],
+        contentType:"application/json; charset=utf-8",
       });
-      reqClone = req.clone({headers});
+
+      reqClone = req.clone({ headers });
     }
 
     return next.handle(reqClone).pipe(

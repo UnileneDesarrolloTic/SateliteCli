@@ -16,6 +16,7 @@ import { ToastrService } from 'ngx-toastr';
 export class AuthService {
 
   private url = environment.urlApiSatelliteCore;
+  private claveEncryp = environment.secretKeyEncryption;
 
   constructor(private _http: HttpClient, private router:Router, private sesionService: SesionService,
         private crypto: CryptoService, private toastr: ToastrService) { }
@@ -34,9 +35,6 @@ export class AuthService {
       var  firma: string = this.sesionService.datosPersonales().token.split('.',2)[1];
       var {exp} = JSON.parse(this.crypto.descodificarBase64(firma))
 
-      console.log('Vencimiento de token')
-      console.log(new Date(exp * 1000) <= new Date())
-
       if (new Date(exp * 1000) <= new Date())
         return true
       else
@@ -51,7 +49,7 @@ export class AuthService {
 
     try {
 
-      const data=JSON.parse(this.crypto.desencriptar(localStorage.getItem('datos')));
+      const data=JSON.parse(this.crypto.desencriptar(localStorage.getItem('datos'), this.claveEncryp));
       var token_access = data['access_token'];
 
     } catch (error) {

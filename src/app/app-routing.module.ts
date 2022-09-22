@@ -51,6 +51,10 @@ export const AppRoutes: Routes = [
       {
         path:'Logistica',
         loadChildren:() => import('@pages/logistica/logistica.module').then(m => m.LogisticaModule)
+      },
+      {
+        path:'FirmaDigital',
+        loadChildren:() => import('@pages/firma-digital/firma-digital.module').then(m => m.FirmaDigitalModule)
       }
     ]
   },

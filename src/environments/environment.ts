@@ -4,8 +4,11 @@
 
 export const environment = {
   production: false,
-  urlApiSatelliteCore : 'http://localhost:56659',
-  //urlApiSatelliteCore : 'http://172.168.10.22:81/SatelliteCore',
+  urlApiSatelliteCore : 'http://172.168.10.22:81/SatelliteCore',//'http://localhost:56659',
+  urlApiSisDoc : 'http://localhost:25939',
+  urlRespositorioDocumentos: 'http://localhost:25939/documentos',
   secretKeyEncryption: 'NY@vkxvME8xB*%5v1j84QxCVHNeDKcnuo$j84*T',
-  secretKeyHMAC: 'hV#RobuI6fsHRv&^!VJxdO1sa4ZhCdhsnHlR@lm'
+  secretKeyHMAC: 'hV#RobuI6fsHRv&^!VJxdO1sa4ZhCdhsnHlR@lm',
+  keyCifradoBack: 'BNjI0k7NFNrOZrLi',
+  IvCifradoBack: '2osKzp4MUaBF5Guv'
 };

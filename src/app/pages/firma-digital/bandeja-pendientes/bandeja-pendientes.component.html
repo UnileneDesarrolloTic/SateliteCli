@@ -1,0 +1,112 @@
+<div class="row">
+    <div class="col-12">
+      <div class="card border-left border-info">
+        <div class="card-header bg-info text-white" style="font-weight: bold">
+          Filtros de búsqueda
+        </div>
+        <div class="card-body">
+          <form autocomplete="off" [formGroup]="formFiltro">
+            <div class="row" style="font-size: 13px;">
+                <div class="col-sm-12 col-md-4 col-lg-4">
+                    <div class="form-group row">
+                        <label for="fname2" class="col-sm-3 text-left control-label col-form-label">Flujo</label>
+                        <div class="col-sm-9">
+                            <select class="form-control form-control-sm" id="status" formControlName="flujo">
+                                <option [ngValue]="0">Seleccione..</option>
+                                <option *ngFor="let flujo of listaFlujos" [ngValue]="flujo.id">{{flujo.valorTexto1}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-4 col-lg-4">
+                    <div class="form-group row">
+                        <label for="lname2" class="col-sm-3 text-left control-label col-form-label">Asunto</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" placeholder="asunto solicitud" formControlName="asunto">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-4 col-lg-4">
+                    <div class="form-group row">
+                        <label for="lname2" class="col-sm-3 text-left control-label col-form-label">Usuario</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" placeholder="usuario creación" formControlName="usuario">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-4 col-lg-4">
+                    <div class="form-group row">
+                        <label for="lname2" class="col-sm-3 text-left control-label col-form-label">Fecha</label>
+                        <div class="col-sm-9">
+                            <input type="date" class="form-control" placeholder="fecha solicitud" formControlName="fecha">
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="card border-left border-info">
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class = "col-sm-12 col-md-3">
+                        <select class="form-control form-control-sm" [(ngModel)]="registrosPorPagina" (ngModelChange)="cambioRegistroPorPagina()">
+                            <option [ngValue]="20">20 registros</option>
+                            <option [ngValue]="40">40 registros</option>
+                            <option [ngValue]="60">60 registros</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="table-responsive" >
+                    <table class="table table-bordered table-sm">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="text-center font-weight-bold">Código</th>
+                                <th scope="col" class="text-center font-weight-bold">Flujo</th>
+                                <th scope="col" class="text-center font-weight-bold">Usuario</th>
+                                <th scope="col" class="text-center font-weight-bold">Asunto</th>
+                                <th scope="col" class="text-center font-weight-bold">Fecha</th>
+                                <th scope="col" class="text-center font-weight-bold">...</th>
+                            </tr>
+                        </thead>
+                        <tbody style="font-size: 14px">
+                            <tr *ngFor="let solicitud of listaSolicitudes">
+                                <td class="text-center">
+                                    {{ solicitud.id | number: '3.0' }}
+                                </td>
+                                <td class="text-center">
+                                    {{ solicitud.flujo }}
+                                </td>
+                                <td class="text-center">
+                                    {{ solicitud.usuario }}
+                                </td>
+                                <td class="pl-2">
+                                    {{ solicitud.asunto }}
+                                </td>
+                                <td class="text-center">
+                                    {{ solicitud.fecha | date: 'dd/MM/yyyy hh:mm'}}
+                                </td>
+                                <td class="text-center">
+                                    <a type="button" (click)="abrirFormularioParaFirmar(solicitud.id)">
+                                        <i class="far fa-folder-open"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row d-flex justify-content-center mt-4">
+                    <ngb-pagination 
+                        [collectionSize]="paginado.totalPaginas" [(page)]="pagina" [pageSize]="registrosPorPagina" [boundaryLinks]="true"
+                        (pageChange)="cambioPagina()" [ellipses] ="false" [maxSize] = 5 [rotate] = "true">
+                    </ngb-pagination>
+                </div>
+               
+            </div>
+        </div>
+    </div>
+</div>
