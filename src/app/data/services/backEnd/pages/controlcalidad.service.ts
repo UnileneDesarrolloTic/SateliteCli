@@ -96,6 +96,14 @@ export class ControlcalidadService {
     );
   }
 
+  ListarTablaPrueba(Metodologia){
+    const params =  new HttpParams().set('Metodologia', Metodologia);
+    return this._http.get<any>(this.url+"/api/ControlCalidad/ListarTablaPrueba",{'params':params}).pipe(
+      catchError (() => throwError("Error al obtener Tabla de Prueba"))
+    );
+  }
+
+
 
   ActualizarControlLotes(body){
     return this._http.post<any>(this.url+"/api/ControlCalidad/ActualizarControlLotes", body).pipe(

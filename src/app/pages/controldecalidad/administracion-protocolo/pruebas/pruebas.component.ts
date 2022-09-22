@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ProtocoloMetodologiaModel } from '@data/interface/Response/DatosFormatoMetodologiaProtocolo.interfaces';
+import { TablaPruebasModel } from '@data/interface/Response/DatosFormatoTablaPruebas.interfaces';
+import { ControlcalidadService } from '@data/services/backEnd/pages/controlcalidad.service';
 import { GenericoService } from '@shared/services/comunes/generico.service';
 
 @Component({
@@ -10,8 +12,9 @@ import { GenericoService } from '@shared/services/comunes/generico.service';
 })
 export class PruebasComponent implements OnInit {
   Listarmetodologia:ProtocoloMetodologiaModel[]=[];
+  ListarTablaPrueba:TablaPruebasModel[]=[];
   FiltrarPruebas:FormGroup;
-  constructor(private _GenericoService:GenericoService) { }
+  constructor(private _GenericoService:GenericoService,private _ControlcalidadService: ControlcalidadService) { }
 
   ngOnInit(): void {
     this.crearformulario();
@@ -20,7 +23,7 @@ export class PruebasComponent implements OnInit {
 
   crearformulario(){
     this.FiltrarPruebas = new FormGroup({
-      Metodologia:new FormControl('%')
+      Metodologia:new FormControl(1)
     })
   }
   ListarMetodologia(){
@@ -36,7 +39,11 @@ export class PruebasComponent implements OnInit {
   }
 
   Filtrar(){
-
+    this._ControlcalidadService.ListarTablaPrueba(this.FiltrarPruebas.controls.Metodologia.value).subscribe(
+        (resp:any)=>{
+              this.ListarTablaPrueba=resp
+        }
+    )
   }
 
 }

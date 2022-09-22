@@ -9,7 +9,6 @@
                 <label for="fechainicio" class="text-right control-label col-form-label">Marca</label>
                 <div class="form-group">
                     <select class="form-control  form-control-sm" formControlName="Metodologia">
-                        <option selected [value]="'%'" >.::SELECCIONAR::.</option>
                         <option *ngFor="let metologia of Listarmetodologia" [value]="metologia.iD_METODOLOGIA">
                           {{metologia.nombrE_METODOLOGIA}}
                         </option>
@@ -44,24 +43,31 @@
                         <thead class="bg-info text-white" style="font-size: 13px;">
                             <tr>
                                 <th scope="col">N° ID</th>
-                                <th scope="col">N° Registro Sanitario</th>
-                                <th scope="col">Marca</th>
-                                <!-- <th scope="col">Calibre</th> -->
-                                <th scope="col">Hebra</th>
+                                <th scope="col">Metodologia</th>
+                                <th scope="col">Agrupador</th>
+                                <th scope="col">Calibre</th>
+                                <th scope="col">Descripción</th>
+                                <th scope="col">Especificacion</th>
+                                <th scope="col">Valor</th>
+                                <th scope="col">Versión</th>
                                 <th scope="col">Opcion</th>
                             </tr>
                         </thead>
                         <tbody style="font-size: 12px;">
-                            <!-- <tr *ngFor="let leyenda of ListarTablaLeyenda; let i = index" >
-                                <td ><b>{{leyenda.iD_LEYENDA}}</b></td>
-                                <td><b>{{leyenda.nuM_REGISTRO}}</b></td>
-                                <td><b>{{leyenda.descripcionmarca}}</b></td>
-                                <td><b>{{leyenda.descripcionhebra}}</b></td>
+                            <tr *ngFor="let prueba of ListarTablaPrueba; let i = index" >
+                                <td ><b>{{prueba.iD_PRUEBA}}</b></td>
+                                <td><b>{{prueba.descripcionMetodologia}}</b></td>
+                                <td><b>{{prueba.descripcionAgrupador}}</b></td>
+                                <td><b>{{prueba.descripcionCalibre}}</b></td>
+                                <td><b>{{prueba.descripcionlocal}}</b></td>
+                                <td><b>{{prueba.especifficacionlocal}}</b></td>
+                                <td><b>{{prueba.valor}}</b></td>
+                                <td><b>{{prueba.version}}</b></td>
                                 <td style="width: 10%;">
                                     <button  (click)="ModalActualizar()" class="btn btn-info btn-xs"><i class="fas fa-file-alt"></i></button>
                                     <button class="btn btn-danger btn-xs" ><i class="fas fa-trash-alt"></i></button>
                                 </td>
-                            </tr> -->
+                            </tr>
                         
                         </tbody>
                     </table>
