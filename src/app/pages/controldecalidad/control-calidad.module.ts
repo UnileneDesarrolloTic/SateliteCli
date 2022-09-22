@@ -20,6 +20,7 @@ import { AtributosComponent } from './administracion-protocolo/atributos/atribut
 import { DescripcionComponent } from './administracion-protocolo/descripcion/descripcion.component';
 import { LeyendaComponent } from './administracion-protocolo/leyenda/leyenda.component';
 import { PruebasComponent } from './administracion-protocolo/pruebas/pruebas.component';
+import { DescripcionNuevoEditarComponent } from './administracion-protocolo/descripcion/descripcion-nuevo-editar/descripcion-nuevo-editar.component';
 
 
 
@@ -36,7 +37,8 @@ import { PruebasComponent } from './administracion-protocolo/pruebas/pruebas.com
     AtributosComponent,
     DescripcionComponent,
     LeyendaComponent,
-    PruebasComponent
+    PruebasComponent,
+    DescripcionNuevoEditarComponent
   ],
   imports: [
     RouterModule.forChild(ControlCalidadRoutes),
