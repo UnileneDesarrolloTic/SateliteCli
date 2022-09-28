@@ -1,6 +1,7 @@
 .scroll-group {
-    overflow-y: auto;
-    height: 380px;
+    overflow-x: auto;
+	/* overscroll-behavior-inline: initial; */
+    /* height: 380px; */
   }
 
 
