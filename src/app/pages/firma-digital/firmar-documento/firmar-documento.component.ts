@@ -37,7 +37,7 @@ export class FirmarDocumentoComponent implements OnInit, OnDestroy {
   loadingFirmar: boolean = false;
   loadingRechazar: boolean = false;
 
-  private url = environment.urlRespositorioDocumentos + "/FirmaDigital/pendientes";
+  private url = environment.urlRespositorioDocumentos + "/FirmaDigital/Pendientes";
 
   constructor(private _firmaDigitalService: FirmaDigitalService, private _activateRoute: ActivatedRoute, public sanitizer: DomSanitizer, 
     private _modalService: NgbModal, private _genericoService: GenericoService, private _session: SesionService, 
