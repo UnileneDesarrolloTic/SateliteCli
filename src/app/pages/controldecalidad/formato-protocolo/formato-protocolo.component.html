@@ -1,0 +1,137 @@
+<form [formGroup]="FormProtocolo">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row justify-content-start">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input type="text" name="Numerolote" formControlName="Numerolote" 
+                                        class="form-control form-control-sm" placeholder="Buscar Numero Lote"
+                                        autocomplete="off" aria-label="" aria-describedby="basic-addon1">
+                                    <div class="input-group-append">
+                                        <button class="btn mr-0 btn-info btn-sm"
+                                            (click)="BuscarinformacionProductoProtocolo()" type="button">
+                                            <i class="ti-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row justify-content-start">
+                        <div class="col-md-4">
+                            <label for="producto" class="text-right control-label col-form-label">Producto:</label>
+                            <div class="form-group">
+                                <b [style]="'font-size:13px;color:#3c8dbc;font-weight:800'">{{this.FormProtocolo.controls.itemdescripcion.value}}</b>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="numerodeparte" class="text-right control-label col-form-label">Numero de
+                                Parte:</label>
+                            <div class="form-group">
+                                <b [style]="'font-size:13px;color:#3c8dbc;font-weight:800'">{{this.FormProtocolo.controls.numerodeparte.value}}</b>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="fechaanalisis" class="text-right control-label col-form-label height-2">Fecha de
+                                Análisis:</label>
+                            <div class="form-group">
+                                <input type="date" formControlName="fechaanalisis" class="form-control form-control-sm"
+                                    placeholder="Fecha Fin">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <ngb-accordion #a="ngbAccordion" activeIds="custom-panel-1">
+                                <ngb-panel id="custom-panel-1">
+                                    <ng-template ngbPanelHeader let-opened="opened">
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <h5 class="m-0">Más Datos...</h5>
+                                            <button ngbPanelToggle class="btn btn-link p-0"><i
+                                                    class="fas fa-window-minimize"></i></button>
+                                        </div>
+                                    </ng-template>
+                                    <ng-template ngbPanelContent>
+                                        <div class="row justify-content-start">
+                                            <div class="col-md-4">
+                                                <label for="producto" class="text-right control-label col-form-label">Presentación:</label>
+                                                <div class="form-group">
+                                                    <p [style]="'font-size:13px;color:#3c8dbc;font-weight:800'">{{this.FormProtocolo.controls.presentacion.value}}</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label for="numerodeparte" class="text-right control-label col-form-label">Fecha de Fabricación</label>
+                                                <div class="form-group">
+                                                    <b [style]="'font-size:13px;color:#3c8dbc;font-weight:800'">{{this.FormProtocolo.controls.fechaproduccion.value | date:'dd/MM/yyyy'}}</b>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label for="fechaanalisis" class="text-right control-label col-form-label">N°Lote</label>
+                                                <div class="form-group">
+                                                    <b [style]="'font-size:13px;color:#3c8dbc;font-weight:800'">{{this.FormProtocolo.controls.Numerolote.value}}</b>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row justify-content-start">
+                                            <div class="col-md-4">
+                                                <label for="producto" class="text-right control-label col-form-label">Tamaño de Lote:</label>
+                                                <div class="form-group">
+                                                    <b [style]="'font-size:13px;color:#3c8dbc;font-weight:800'">{{this.FormProtocolo.controls.cantidadproducida.value | number}}</b>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label for="numerodeparte" class="text-right control-label col-form-label">Fecha de Expira</label>
+                                                <div class="form-group">
+                                                    <b [style]="'font-size:13px;color:#3c8dbc;font-weight:800'">{{this.FormProtocolo.controls.fechaexpiracion.value | date:'dd/MM/yyyy'}}</b>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label for="fechaanalisis" class="text-right control-label col-form-label">Marca</label>
+                                                <div class="form-group">
+                                                    <b [style]="'font-size:13px;color:#3c8dbc;font-weight:800'">{{this.FormProtocolo.controls.marca.value}}</b>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                </ngb-panel>
+                            </ngb-accordion>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <!-- <button type="button" (click)="Edimir()">asdsad</button> -->
+            <div class="card-body">
+                <ngb-tabset>
+                    <ngb-tab>
+                      <ng-template ngbTabTitle><b>Control de Pruebas- interno</b></ng-template>
+                      <ng-template ngbTabContent>
+                            <app-tag-control-proceso [Form]="this.FormProtocolo" [Tabla]="TablaControlProceso"></app-tag-control-proceso>
+                      </ng-template>
+                    </ngb-tab>
+                    <ngb-tab>
+                        <ng-template ngbTabTitle><b>Control de Pruebas-PT</b></ng-template>
+                        <ng-template ngbTabContent>
+                            <app-tag-control-producto-terminado [Form]="this.FormProtocolo" [Tabla]="TablaControlProducto" ></app-tag-control-producto-terminado>
+                        </ng-template>
+                      </ngb-tab>
+                      <ngb-tab>
+                        <ng-template ngbTabTitle><b>Formato</b></ng-template>
+                        <ng-template ngbTabContent>
+
+                        </ng-template>
+                      </ngb-tab>
+                  </ngb-tabset>
+            </div>
+        </div>
+    </div>
+</div>
+</form>

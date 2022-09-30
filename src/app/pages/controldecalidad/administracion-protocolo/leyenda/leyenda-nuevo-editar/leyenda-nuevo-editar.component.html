@@ -1,0 +1,98 @@
+<div class="row">
+
+    <div class="card-body">
+        <form (ngSubmit)="save()" [formGroup]="FormularioLeyenda">
+            <div class="modal-header" [style]="'background-color:#75c2f9'">
+                <h4 class="modal-title" id="modal-basic-title">{{Titulo}}</h4>
+                <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body scroll-group">
+                <div class="row justify-content-start">
+                    <div class="col-md-4">
+                        <label for="fechainicio" class="text-right control-label col-form-label">N° Registro Sanitario</label>
+                        <div class="form-group">
+                          <input  formControlName="RegistroSanitario"  class="form-control form-control-sm" />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="fechainicio" class="text-right control-label col-form-label">Marca</label>
+                        <div class="form-group">
+                            <select class="form-control  form-control-sm" formControlName="Marca">
+                                <option  disabled selected [value]="null" >.::SELECCIONAR::.</option>
+                                <option *ngFor="let marca of ListarMarca" [value]="marca.codigo">
+                                    {{marca.codigo}}-{{marca.descripcionLocal}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="fechainicio" class="text-right control-label col-form-label">Hebra</label>
+                        <div class="form-group">
+                            <select class="form-control  form-control-sm" formControlName="Hebra">
+                                <option  disabled selected [value]="null" >.::SELECCIONAR::.</option>
+                                <option *ngFor="let hebra of ListarHebra" [value]="hebra.codigo">
+                                    {{hebra.codigo}}-{{hebra.descripcionLocal}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-start">
+                    <div class="col-md-6">
+                        <label class="text-right control-label col-form-label">Técnica:</label>
+                        <div class="form-group">
+                            <textarea formControlName="TecnicaEspaniol"  class="form-control form-control-sm" cols="30" rows="3"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="fechainicio" class="text-right control-label col-form-label">Técnica(ingles):</label>
+                        <div class="form-group">
+                            <textarea formControlName="TecnicaIngles"  class="form-control form-control-sm" cols="30" rows="3"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row justify-content-start">
+                    <div class="col-md-6">
+                        <label class="text-right control-label col-form-label">Método:</label>
+                        <div class="form-group">
+                            <textarea formControlName="MetodoEspaniol"  class="form-control form-control-sm" cols="30" rows="3"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="fechainicio" class="text-right control-label col-form-label">Método(ingles):</label>
+                        <div class="form-group">
+                            <textarea formControlName="MetodoIngles"  class="form-control form-control-sm" cols="30" rows="3"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row justify-content-start">
+                    <div class="col-md-6">
+                        <label class="text-right control-label col-form-label">Detalle:</label>
+                        <div class="form-group">
+                            <textarea formControlName="DetalleEspaniol"  class="form-control form-control-sm" cols="30" rows="3"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="fechainicio" class="text-right control-label col-form-label">Detalle(ingles):</label>
+                        <div class="form-group">
+                            <textarea formControlName="DetalleIngles"  class="form-control form-control-sm" cols="30" rows="3"></textarea>
+                        </div>
+                    </div>
+                </div>
+               
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="submit" *ngIf="Tipo" [disabled]="!FormularioLeyenda.valid" class="btn  btn-info btn-sm">Guardar</button>
+                <button type="submit" *ngIf="!Tipo" [disabled]="!FormularioLeyenda.valid" class="btn  btn-info btn-sm">Actualizar</button>
+            </div>
+
+        </form>
+
+    </div>
+</div>

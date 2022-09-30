@@ -6,7 +6,8 @@ export interface TablaLeyendaModel {
   tecnica:string;
   metodo:string;
   detalle:string;
-  tecnicA_INGLES:string
+  detallE_INGLES:string;
+  tecnicA_INGLES:string;
   metodO_INGLES:string;
   estado:string;
   fechA_REGISTRO:Date;

@@ -1,0 +1,179 @@
+<form [formGroup]="Form">
+    <div class="row p-1">
+        <div class="d-flex justify-content-start">
+                <button type="button" (click)="save()" class="btn btn-success btn-sm">Guardar</button>
+                <button type="button" class="btn btn-info btn-sm">Imprimir</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6 col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5>Control Producto Terminado</h5>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead class="table-sm ">
+                                <tr>
+                                    <th colspan="2">Longitud</th>
+                                    <th colspan="2">Diametro Promedio(mm)</th>
+                                </tr>
+                                <tr>
+                                    <th colspan="2" class="center">
+                                        <!-- <table> -->
+                                        <input type="number" formControlName="longitud"
+                                            class="form-control form-control-sm">
+
+                                        <!-- </table> -->
+                                    </th>
+                                    <th colspan="2">
+                                        <!-- <table [style]="'border-color:white'">  -->
+                                        Minimo:<input type="number" formControlName="dMinimo"
+                                            class="form-control form-control-sm">
+                                        Maximo:<input type="number" formControlName="dMaximo"
+                                            class="form-control form-control-sm">
+                                        <!-- </table> -->
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let Tabla1 of ListTabla1.controls; let i = index; trackBy:trackFn">
+                                    <ng-container [formGroup]="Tabla1">
+                                        <td>{{i+1}}</td>
+                                        <td class="text-center">
+                                            <div class="input-group input-group-sm" style='width:10rem'>
+                                                <input type="number" 
+                                                [ngStyle]="{'border-color':  Tabla1.value.LongitudD > this.Form.controls.longitud.value || Tabla1.value.LongitudD==null  ?  '#67757c' : 'red' }" 
+                                                class="form-control form-control-sm"
+                                                formControlName="LongitudD" (keyup)="PromedioLongitud2(i)" />
+                                            </div>
+                                        </td>
+                                        <td class="text-center" colspan="2">
+                                            <div class="input-group input-group-sm" style='width:10rem'>
+                                                <input type="number"  
+                                                    [ngStyle]="{'border-color': Tabla1.value.DiametroD==null  ?  '#67757c' : Tabla1.value.DiametroD < this.Form.controls.dMinimo.value || Tabla1.value.DiametroD > this.Form.controls.dMaximo.value ?  'red' : '#67757c'}" 
+                                                    class="form-control form-control-sm"
+                                                    formControlName="DiametroD" (keyup)="PromedioDiametro2(i)" />
+                                            </div>
+                                        </td>
+                                    </ng-container>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">
+                                        Prom.<input type="number" [readonly]="true" class="form-control form-control-sm"
+                                                    formControlName="PromLongitud" />
+                                    </td>
+                                    <td colspan="3">
+                                        <span class="text-white">.</span>
+                                        <input type="number" [readonly]="true" class="form-control form-control-sm"
+                                                    formControlName="CampoVacio1Longitud" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">
+                                        O.<input type="number" class="form-control form-control-sm" [readonly]="true"
+                                                    formControlName="CampoVacio2Longitud" />
+                                    </td>
+                                    <td colspan="3">
+                                        <span class="text-white">.</span>
+                                        <input type="number" class="form-control form-control-sm" [readonly]="true"
+                                                    formControlName="CampoVacio3Longitud" />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6  col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead class="table-sm ">
+                                <tr>
+                                    <th colspan="2">Resistencia a la Tensión (Newtons)</th>
+                                    <th colspan="2">Unión Hebra - Aguja (Newtons)</th>
+                                </tr>
+                                <tr>
+                                    <th colspan="2" class="center">
+                                        Prom. Min:<input type="number" formControlName="r_PromedioMinimo" class="form-control form-control-sm">
+                                        Indi. Min:<input type="number" formControlName="r_individualMinimo" class="form-control form-control-sm">
+                                    </th>
+                                    <th colspan="2">
+                                        Prom. Min:<input type="number" formControlName="s_PromedioMinimo" class="form-control form-control-sm">
+                                        Indi. Min:<input type="number" formControlName="s_individualMinimo" class="form-control form-control-sm">
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let Tabla2 of ListTabla2.controls; let i = index">
+                                    <ng-container [formGroup]="Tabla2">
+                                        <td>{{i+1}}</td>
+                                        <td class="text-center">
+                                            <div class="input-group input-group-sm" style='width:7rem'>
+                                                <input type="number" 
+                                                [ngStyle]="{'border-color': Tabla2.value.TensionNewtons==null ? '#67757c' 
+                                                                            : this.Form.controls.r_individualMinimo.value == 0 ? 
+                                                                                    Tabla2.value.TensionNewtons < this.Form.controls.r_PromedioMinimo.value ?  'red': '#67757c'
+                                                                                    :Tabla2.value.TensionNewtons < this.Form.controls.r_individualMinimo.value ? 'red': '#67757c'
+                                                                                }" 
+                                                    class="form-control form-control-sm"
+                                                    (keyup)="PromedioResistencia2(i)"
+                                                    formControlName="TensionNewtons" />
+                                            </div>
+                                        </td>
+                                        <td class="text-center" colspan="2">
+                                            <div class="input-group input-group-sm" style='width:10rem'>
+                                                <input type="number"   
+                                                    [ngStyle]="{'border-color': Tabla2.value.AgujasNewtons==null ? '#67757c' : Tabla2.value.AgujasNewtons < this.Form.controls.s_individualMinimo.value ? 'red': '#67757c'}"  
+                                                    class="form-control form-control-sm"
+                                                    (keyup)="PromedioUnion2(i)"
+                                                    formControlName="AgujasNewtons" />
+                                            </div>
+                                        </td>
+                                    </ng-container>
+                                </tr>
+
+                                <tr>
+                                    <td colspan="3">
+                                        Prom.<input type="number"  [readonly]="true" class="form-control form-control-sm"
+                                                    formControlName="PromResistencia" />
+                                    </td>
+                                    <td colspan="1">
+                                        <span class="text-white">.</span>
+                                        <input type="number" [readonly]="true"  class="form-control form-control-sm"
+                                                    formControlName="CampoVacio1Resistencia" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">
+                                        Invididual<input type="number" [readonly]="true" class="form-control form-control-sm"
+                                                    formControlName="CampoVacio2Resistencia" />
+                                    </td>
+                                    <td colspan="1">
+                                        <span class="text-white">.</span>
+                                        <input type="number"  class="form-control form-control-sm"
+                                                    formControlName="CampoVacio3Resistencia" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">
+                                        O.<input type="number" [readonly]="true" class="form-control form-control-sm"
+                                                    formControlName="CampoVacio4Resistencia" />
+                                    </td>
+                                    <td colspan="1">
+                                        <span class="text-white">.</span>
+                                        <input type="number"  [readonly]="true" class="form-control form-control-sm"
+                                                    formControlName="CampoVacio5Resistencia" />
+                                    </td>
+                                </tr>
+                            
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

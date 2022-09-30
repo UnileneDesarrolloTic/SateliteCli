@@ -5,6 +5,7 @@
           <form autocomplete="off" [formGroup]="FiltrarLeyenda" (submit)="Filtrar()">
   
             <div class="row justify-content-start">
+              
               <div class="col-md-3">
                 <label for="fechainicio" class="text-right control-label col-form-label">Marca</label>
                 <div class="form-group">
@@ -32,8 +33,8 @@
                 <label for="btnbuscarGeneral"
                   class="col-sm-3 text-right control-label col-form-label text-white">.</label>
                 <div class="form-group">
-                  <button type="submit" [disabled]="!FiltrarLeyenda.valid" class="btn btn-success btn-sm" [style]="'background-color:#77dd77;border:none'"> <i class="fas fa-search text-white"></i> Buscar </button>
-                  <button type="button" class="btn btn-info btn-sm" [style]="'background-color:#5086c1;border:none'"> <i class="fas fa-check"></i> Nuevo </button>
+                  <button type="submit" [disabled]="!FiltrarLeyenda.valid" class="btn btn-success btn-sm" [style]="'background-color:#038554;border:none'"> <i class="fas fa-search text-white"></i> Buscar </button>
+                  <button type="button" class="btn btn-info btn-sm" (click)="AbrirModal(null,true)" [style]="'background-color:#2196f3;border:none'"> <i class="fas fa-check"></i> Nuevo </button>
                 </div>
               </div>
             </div>
@@ -67,8 +68,8 @@
                                 <td><b>{{leyenda.descripcionmarca}}</b></td>
                                 <td><b>{{leyenda.descripcionhebra}}</b></td>
                                 <td style="width: 10%;">
-                                    <button  (click)="ModalActualizar()" class="btn btn-info btn-xs"><i class="fas fa-file-alt"></i></button>
-                                    <button class="btn btn-danger btn-xs" ><i class="fas fa-trash-alt"></i></button>
+                                    <button  (click)="AbrirModal(leyenda,false)" class="btn btn-info btn-xs"><i class="fas fa-file-alt"></i></button>
+                                    <button (click)="EliminarModal(leyenda,i)" class="btn btn-danger btn-xs" ><i class="fas fa-trash-alt"></i></button>
                                 </td>
                             </tr>
                         

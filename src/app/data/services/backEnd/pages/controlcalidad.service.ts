@@ -68,6 +68,12 @@ export class ControlcalidadService {
     );
   }
 
+  ActualizarControlLotes(body){
+    return this._http.post<any>(this.url+"/api/ControlCalidad/ActualizarControlLotes", body).pipe(
+      catchError (() => throwError("Error al obtener Detalle de listar de control lote "))
+    );
+  }
+
 
   ListarTablaNumeroParte(Grupo,Tabla){
     const params =  new HttpParams().set('Grupo', Grupo).set('Tabla',Tabla);
@@ -103,11 +109,71 @@ export class ControlcalidadService {
     );
   }
 
-
-
-  ActualizarControlLotes(body){
-    return this._http.post<any>(this.url+"/api/ControlCalidad/ActualizarControlLotes", body).pipe(
-      catchError (() => throwError("Error al obtener Detalle de listar de control lote "))
+  ListarObtenerListadoAgujasDescripcion(idDescripcion){
+    const params =  new HttpParams().set('IdDescripcion', idDescripcion);
+    return this._http.get<any>(this.url+"/api/ControlCalidad/ListarObtenerAgujasDescripcionActualizar",{'params':params}).pipe(
+      catchError (() => throwError("Error al obtener Tabla Descripcion"))
     );
   }
+
+  ListarObtenerAgujasDescripcionNuevo(){  
+    return this._http.get<any>(this.url+"/api/ControlCalidad/ListarObtenerAgujasDescripcionNuevo").pipe(
+      catchError (() => throwError("Error al obtener Tabla Descripcion"))
+    );
+  }
+
+  NuevoDescripcionDT(body){  
+    return this._http.post<any>(this.url+"/api/ControlCalidad/NuevoDescripcionDT",body).pipe(
+      catchError (() => throwError("Error al obtener Registrar Nueva DescripcionDT"))
+    );
+  }
+
+  ActualizarDescripcionDT(body){
+    return this._http.post<any>(this.url+"/api/ControlCalidad/ActualizarDescripcionDT",body).pipe(
+      catchError (() => throwError("Error al obtener Actualizar Nueva DescripcionDT"))
+    );
+  }
+
+
+  EliminarDescripcionDT(idDescripcion){
+    const params =  new HttpParams().set('IdDescripcion', idDescripcion);
+    return this._http.get<any>(this.url+"/api/ControlCalidad/EliminarDescripcionDT",{'params':params}).pipe(
+      catchError (() => throwError("Error al Eliminar Descripcion"))
+    );
+  }
+
+
+  RegistrarLeyendaDT(body){
+    return this._http.post<any>(this.url+"/api/ControlCalidad/RegistrarActualizarLeyendaDT",body).pipe(
+      catchError (() => throwError("Error al obtener Registrar Leyendas"))
+    );
+  }
+
+  
+  EliminarLeyendaDT(idLeyenda){
+    const params =  new HttpParams().set('IdLeyenda', idLeyenda);
+    return this._http.get<any>(this.url+"/api/ControlCalidad/EliminarLeyendaDT",{'params':params}).pipe(
+      catchError (() => throwError("Error al obtener Eliminar Leyenda"))
+    );
+  }
+
+
+  EliminarPueba(IdPrueba){
+    const params =  new HttpParams().set('IdPrueba', IdPrueba);
+    return this._http.get<any>(this.url+"/api/ControlCalidad/EliminarPruebaDT",{'params':params}).pipe(
+      catchError (() => throwError("Error al obtener Eliminar Leyenda"))
+    );
+  }
+
+
+  //FORMATO DE PROTOCOLO
+
+  BuscarNumeroLoteProtocolo(NumeroLote){
+    const params =  new HttpParams().set('NumeroLote', NumeroLote);
+    return this._http.get<any>(this.url+"/api/ControlCalidad/BuscarNumeroLoteProtocolo",{'params':params}).pipe(
+      catchError (() => throwError("Error al buscar Número de lote protocolo"))
+    );
+  }
+ 
+
 }

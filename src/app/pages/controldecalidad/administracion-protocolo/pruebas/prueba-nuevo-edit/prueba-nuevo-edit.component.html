@@ -1,0 +1,108 @@
+<div class="row">
+
+    <div class="card-body">
+        <form (ngSubmit)="save()" [formGroup]="CrearFormularioPrueba">
+            <div class="modal-header" [style]="'background-color:#75c2f9'">
+                <h4 class="modal-title" id="modal-basic-title">{{Titulo}}</h4>
+                <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body scroll-group">
+                <div class="row justify-content-start">
+                    <div class="col-md-4">
+                        <label for="Marca" class="text-right control-label col-form-label">Metodologia</label>
+                        <div class="form-group">
+                            <select class="form-control  form-control-sm" formControlName="IdMedologia">
+                                <option  disabled selected [value]="null" >.::SELECCIONAR::.</option>
+                                <option *ngFor="let metodo of Listarmetodologia" [value]="metodo.iD_METODOLOGIA">
+                                    {{metodo.nombrE_METODOLOGIA}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="Hebra" class="text-right control-label col-form-label">Agrupado Hebra</label>
+                        <div class="form-group">
+                            <select class="form-control  form-control-sm" formControlName="IdAgrupadoHebra">
+                                <option  disabled selected [value]="null" >.::SELECCIONAR::.</option>
+                                <option *ngFor="let Agrupador of ListarAgrupadorHebras" [value]="Agrupador.iD_AGRUPADOR">
+                                    {{Agrupador.descripcionlocal}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="Calibre" class="text-right control-label col-form-label">Calibre</label>
+                        <div class="form-group">
+                            <select class="form-control  form-control-sm" formControlName="IdCalibre">
+                                <option  disabled selected [value]="'0'" >.::SELECCIONAR::.</option>
+                                <option *ngFor="let calibre of ListarCalibrePrueba" [value]="calibre.codigo">
+                                    {{calibre.descripcionLocal}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-start">   
+                    <div class="col-md-4">
+                        <label for="UnidadMedida" class="text-right control-label col-form-label">Unidad de Medida</label>
+                        <div class="form-group">
+                            <select class="form-control  form-control-sm" formControlName="IdUnidadMedida">
+                                <option  selected [value]="'0'" >.:Ninguno:.</option>
+                                <option value="Kgf">Kgf </option>
+                                <option value="N">N - Newton </option>
+                                <option value="mm">mm - Milimetros </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="fechainicio" class="text-right control-label col-form-label">Valor</label>
+                        <div class="form-group">
+                            <input formControlName="valor"  class="form-control form-control-sm" >
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-start">
+                    <div class="col-md-6">
+                        <label for="EspecificacionLocal" class="text-right control-label col-form-label">Descripción Local:</label>
+                        <div class="form-group">
+                            <input formControlName="DescripcionLocal"  class="form-control form-control-sm">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="EspecificacionLocal" class="text-right control-label col-form-label">Descripción Ingles:</label>
+                        <div class="form-group">
+                            <input formControlName="DescripcionIngle"  class="form-control form-control-sm">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row justify-content-start">
+                    <div class="col-md-6">
+                        <label for="EspecificacionLocal" class="text-right control-label col-form-label">Especificación Local:</label>
+                        <div class="form-group">
+                            <input formControlName="EspecificacionLocal"  class="form-control form-control-sm">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="Especificacioningles" class="text-right control-label col-form-label">Especificación Ingles:</label>
+                        <div class="form-group">
+                            <input formControlName="EspecificacionIngles"  class="form-control form-control-sm">
+                        </div>
+                    </div>
+                </div>
+
+               
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="submit" *ngIf="Tipo" [disabled]="!CrearFormularioPrueba.valid" class="btn  btn-info btn-sm">Guardar</button>
+                <button type="submit" *ngIf="!Tipo" [disabled]="!CrearFormularioPrueba.valid" class="btn  btn-info btn-sm">Actualizar</button>
+            </div>
+
+        </form>
+
+    </div>
+</div>

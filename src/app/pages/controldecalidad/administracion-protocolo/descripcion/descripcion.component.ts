@@ -1,10 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ProtocoloDescripcionModel } from '@data/interface/Response/DatosFormatoDescripcionProtocolo.interface';
-import { TablaDescripcionModel } from '@data/interface/Response/DatosFormatoTablaDescripcion.interfaces copy';
+import { TablaDescripcionModel } from '@data/interface/Response/DatosFormatoTablaDescripcion.interfaces';
 import { ControlcalidadService } from '@data/services/backEnd/pages/controlcalidad.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { MensajeAdvertenciaComponent } from '@shared/components/mensaje-advertencia/mensaje-advertencia.component';
 import { GenericoService } from '@shared/services/comunes/generico.service';
+import { ToastrService } from 'ngx-toastr';
 import { DescripcionNuevoEditarComponent } from './descripcion-nuevo-editar/descripcion-nuevo-editar.component';
 
 @Component({
@@ -19,6 +21,7 @@ export class DescripcionComponent implements OnInit {
   FiltrarDescripcion:FormGroup;
   constructor(private _GenericoService:GenericoService,
               private modalService: NgbModal,
+              private toastr: ToastrService,
               private _ControlcalidadService: ControlcalidadService) { }
 
   ngOnInit(): void {
@@ -43,26 +46,62 @@ export class DescripcionComponent implements OnInit {
 
  
 
-  ModalActualizar(filaDescripcion){
+  ModalAbrir(filaDescripcion,Tipo:boolean){
     const modalDescripcion = this.modalService.open(DescripcionNuevoEditarComponent, {
-			ariaLabelledBy: 'modal-basic-title',
-			centered: true,
-			backdropClass: 'light-blue-backdrop',
+			// ariaLabelledBy: 'modal-basic-title',
+			// backdropClass: 'light-blue-backdrop',
 			backdrop: 'static',
-			size: 'lg',
+			size: 'xl',
 			scrollable: true,
 			keyboard: false
 		});
     
 
-		modalDescripcion.componentInstance.Marca = this.Listarmarcaprotocolo;
-    modalDescripcion.componentInstance.Hebra = this.Listarhebraprotocolo;
+		modalDescripcion.componentInstance.ListarMarca = this.Listarmarcaprotocolo;
+    modalDescripcion.componentInstance.ListarHebra = this.Listarhebraprotocolo;
     modalDescripcion.componentInstance.formulario = filaDescripcion;
+    modalDescripcion.componentInstance.Tipo = Tipo;
 		modalDescripcion.result.then((result) => {
-   
+        if(result){
+          this.Filtrar();
+        }
 		}, (reason) => {
       
 		});
+  }
+
+  ModalEliminar(filaDescripcion:TablaDescripcionModel,index:number){
+    const modalAdvertencia = this.modalService.open(MensajeAdvertenciaComponent, {
+      centered:true,
+			backdrop: 'static',
+			size: 'sm',
+			scrollable: true,
+			keyboard: false
+		});
+    
+    modalAdvertencia.componentInstance.fromParent= `¿Desea Eliminar la Descripción N°${filaDescripcion.iD_DESCRIPCION}?`
+    modalAdvertencia.result.then((result) => {
+        if(result){
+            this.Eliminar(filaDescripcion,index);
+        }
+    }, (reason) => {
+      
+    });
+
+  }
+
+
+  Eliminar(Descripcion:TablaDescripcionModel,index:number){
+    this._ControlcalidadService.EliminarDescripcionDT(Descripcion.iD_DESCRIPCION).subscribe(
+      (resp:any)=>{
+        if (resp["success"]){
+          this.toastr.success(resp["content"]);
+          this.ListarTablaDescripcion.splice(index,1)
+        }else{
+          this.toastr.info(resp["content"]);
+        } 
+      }
+    )
   }
   
 

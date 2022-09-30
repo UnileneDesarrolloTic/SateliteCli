@@ -8,6 +8,7 @@ import { ConfirmExitGuard } from '@guard/confirm-exit.guard';
 import { GestionContraMuestraComponent } from './gestion-contra-muestra/gestion-contra-muestra.component';
 import { ControlLotesComponent } from './control-lotes/control-lotes.component';
 import { AdministracionProtocoloComponent } from './administracion-protocolo/administracion-protocolo.component';
+import { FormatoProtocoloComponent } from './formato-protocolo/formato-protocolo.component';
 
 export const ControlCalidadRoutes: Routes = [
   {
@@ -78,9 +79,19 @@ export const ControlCalidadRoutes: Routes = [
         path: 'AdministracionProtocolo',
         component: AdministracionProtocoloComponent,
         data: {
-          title: "Administracion de Protocolo",
+          title: "Administración de Protocolo",
           urls: [
-            {title: 'Administracion de Protocolo' }
+            {title: 'Administración de Protocolo' }
+          ]
+        }
+      },
+      {
+        path: 'FormatoProtocolo',
+        component: FormatoProtocoloComponent,
+        data: {
+          title: "Formato de Protocolo",
+          urls: [
+            {title: 'Formato de Protocolo' }
           ]
         }
       },

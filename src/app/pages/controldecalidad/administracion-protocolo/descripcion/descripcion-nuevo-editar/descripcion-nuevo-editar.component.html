@@ -1,24 +1,82 @@
 <div class="row">
 
-    <!-- <div class="card-body"   >
-    <form (ngSubmit)="save()"  [formGroup]="form" >
-        <div class="modal-header">
-            <h4 class="modal-title" id="modal-basic-title">Documento a Elegir</h4>
-            <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="modal-body">
-            
-           
-          
-           
-        </div>
-        <div class="modal-footer">
-            <button type="submit"  [disabled]="!form.valid" class="btn btn-rounded btn-success">Aceptar</button>
-        </div>
+    <div class="card-body">
+        <form (ngSubmit)="save()" [formGroup]="FormDescripcion">
+            <div class="modal-header" [style]="'background-color:#75c2f9'">
+                <h4 class="modal-title" id="modal-basic-title">{{Titulo}}</h4>
+                <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body scroll-group">
+                <div class="row justify-content-start">
+                    <div class="col-md-4">
+                        <label for="fechainicio" class="text-right control-label col-form-label">Marca</label>
+                        <div class="form-group">
+                            <select class="form-control  form-control-sm" formControlName="Marca">
+                                <option  disabled selected [value]="null" >.::SELECCIONAR::.</option>
+                                <option *ngFor="let marca of ListarMarca" [value]="marca.codigo">
+                                    {{marca.codigo}}-{{marca.descripcionLocal}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="fechainicio" class="text-right control-label col-form-label">Hebra</label>
+                        <div class="form-group">
+                            <select class="form-control  form-control-sm" formControlName="Hebra">
+                                <option  disabled selected [value]="null" >.::SELECCIONAR::.</option>
+                                <option *ngFor="let hebra of ListarHebra" [value]="hebra.codigo">
+                                    {{hebra.codigo}}-{{hebra.descripcionLocal}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-start">
+                    <div class="col-md-12">
+                        <label for="fechainicio" class="text-right control-label col-form-label">Descripción Local:</label>
+                        <div class="form-group">
+                            <textarea formControlName="DescripcionLocal"  class="form-control form-control-sm" cols="30" rows="3"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <label for="fechainicio" class="text-right control-label col-form-label">Descripción Ingles:</label>
+                        <div class="form-group">
+                            <textarea formControlName="DescripcionIngles"  class="form-control form-control-sm" cols="30" rows="3"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <table class="table table-bordered" formArrayName="DetalleAgujas" [style]="'font-size:13px'">
+                    <tr>
+                      <th>ID</th>
+                      <th>Cant.Agujas</th>
+                      <th>Caracteristica Local</th>
+                      <th>Caracteristica Ingles</th>
+                    </tr>
+                    <tr *ngFor="let aguja of DetalleTablaAguja().controls; let i=index" [formGroupName]="i">
+                        <td>
+                           {{aguja.value.iD_AGUJA}}
+                        </td>
+                        <td>
+                            {{aguja.value.descripcionaguja}}
+                        </td>
+                        <td>
+                            <textarea type="text" row="4" formControlName="descripcionlocal" class="form-control"></textarea>
+                        </td>
+                        <td>
+                            <textarea type="text" row="4" formControlName="descripcioningles" class="form-control"></textarea>
+                        </td>
+                    
+                    </tr>
+                  </table>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" *ngIf="Tipo" [disabled]="!FormDescripcion.valid" class="btn  btn-info btn-sm">Guardar</button>
+                <button type="submit" *ngIf="!Tipo" [disabled]="!FormDescripcion.valid" class="btn  btn-info  btn-sm">Actualizar</button>
+            </div>
 
-    </form>
-        
-    </div> -->
+        </form>
+
+    </div>
 </div>

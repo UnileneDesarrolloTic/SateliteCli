@@ -19,6 +19,11 @@ export class GenericoService {
 
   constructor(private _http: HttpClient) { }
 
+  NumberTwoDecimal(num: number, places: number) {
+    const factor = 10 ** places;
+    return Math.round(num * factor) / factor;
+  };
+
   listarTipoDocumentoIdentidad(){
     return this._http.get<TipoDocumentoIdentidad[]>(this.url+"/api/Common/ListarTipoDocumentoIdentidad").pipe(
       catchError( () => throwError("Error al obtener los tipos de documentos") )
@@ -154,6 +159,21 @@ export class GenericoService {
       catchError (() => throwError("Error al obtener Tabla de Protocolo"))
     );
   }
+
+
+  ListarAgrupadorHebras(){
+    return this._http.get<any>(this.url+"/api/common/ListarAgrupadoHebra").pipe(
+      catchError (() => throwError("Error al obtener Listar Agrupador  Hebra"))
+    );
+  }
+
+
+  ListarCalibrePrueba(){
+    return this._http.get<any>(this.url+"/api/common/ListarCalibrePrueba").pipe(
+      catchError (() => throwError("Error al obtener Listar Calibre Prueba"))
+    );
+  }
+
 
   RedondearDecimales(numero, decimales = 2, usarComa = false) {
     var opciones = {
