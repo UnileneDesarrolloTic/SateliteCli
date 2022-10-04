@@ -391,6 +391,9 @@ export class ControlProcesoComponent implements OnInit,OnDestroy {
     console.log(this.FormProtocolo.value);
   }
 
+  Cancelar(){
+    this._router.navigate(['ControlCalidad', 'Protocolo','principal'])
+  }
 
 
   trackFn(index) {

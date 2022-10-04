@@ -89,6 +89,9 @@ export class PruebasEfectuadasComponent implements OnInit , OnDestroy{
       console.log(rowtabla)
   }
 
+  Cancelar(){
+    this._router.navigate(['ControlCalidad', 'Protocolo','principal'])
+  }
   
   trackFn(index) {
     return index;

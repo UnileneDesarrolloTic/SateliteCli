@@ -92,10 +92,6 @@ export class FormatoProtocoloComponent implements OnInit {
   }
 
 
-  RegistrarFechaAnalisis(){
-      console.log(this.FormProtocolo.controls.fechaanalisis.value);
-      console.log(this.FormProtocolo.controls.Numerolote.value);
-  }
- 
+
 
 }

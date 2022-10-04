@@ -1,14 +1,35 @@
 
 <form [formGroup]="FormProtocolo">
-    <div class="row p-1">
-        <div class="d-flex justify-content-start">
-                <button type="button" (click)="save()" class="btn btn-success btn-sm"> <i class="fas fa-save"> </i> Guardar</button>
-                <button type="button" class="btn btn-info btn-sm"> <i class="fas fa-file-alt"></i> Imprimir</button>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card border-bottom border-info">
+                <div class="card-body">
+                    <div class="d-flex no-block align-items-center">
+                        <div>
+                            <h4>Fecha de
+                                Análisis:</h4>
+                                <input type="date" formControlName="fechaanalisis" class="form-control form-control-sm"
+                                placeholder="Fecha Fin">
+                        </div>
+                        <div class="ml-auto">
+                            <span class="text-info display-6">
+                                <button type="button" (click)="save()" class="btn btn-success btn-sm"> <i class="fas fa-save"> </i> Guardar</button>
+                            </span>
+                            <span class="text-info display-6">
+                                <button type="button" class="btn btn-info btn-sm"> <i class="fas fa-print"></i> Imprimir</button>
+                            </span>
+                            <span class="text-info display-6">
+                                <button  (click)="Cancelar()" type="button" class="btn btn-danger btn-sm"> <i class="fas fa-ban"></i> Cancelar</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <div class="row">
         <div class="col-lg-6 col-md-6">
-            <div class="card">
+            <div class="card border-left border-info">
                 <div class="card-body">
                     <h5>Control Producto Terminado</h5>
                     <div class="table-responsive">
@@ -87,7 +108,7 @@
             </div>
         </div>
         <div class="col-lg-6  col-md-6">
-            <div class="card">
+            <div class="card border-left border-info">
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table">

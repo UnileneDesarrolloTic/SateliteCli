@@ -10,6 +10,7 @@ import { FormatoProtocoloComponent } from './formato-protocolo/formato-protocolo
 import { ControlProcesoComponent } from './formato-protocolo/control-proceso/control-proceso.component';
 import { ControlProductoTerminadoComponent } from './formato-protocolo/control-producto-terminado/control-producto-terminado.component';
 import { PruebasEfectuadasComponent } from './formato-protocolo/pruebas-efectuadas/pruebas-efectuadas.component';
+import { ConfirmExitGuard } from '@guard/confirm-exit.guard';
 
 export const ControlCalidadRoutes: Routes = [
   {
@@ -129,7 +130,7 @@ export const ControlCalidadRoutes: Routes = [
         canDeactivate: [ConfirmExitGuard],
         component: PruebasEfectuadasComponent,
         data: {
-          title: "Formato Pruebas Efectuadas",
+          title: "",
           urls: [
             { title: 'Formato Pruebas Efectuadas'},
             { title: 'Protocolo' }

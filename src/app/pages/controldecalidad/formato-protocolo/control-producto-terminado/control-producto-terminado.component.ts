@@ -384,6 +384,12 @@ export class ControlProductoTerminadoComponent implements OnInit {
 
 
   }
+
+
+  Cancelar(){
+    this._router.navigate(['ControlCalidad', 'Protocolo','principal'])
+  }
+
   // FIN DE TABLA 
 
 
