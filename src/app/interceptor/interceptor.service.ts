@@ -117,6 +117,7 @@ export class InterceptorService implements HttpInterceptor {
       'ControlCalidad/EliminarLeyendaDT',
       'ControlCalidad/EliminarPruebaDT',
       'ControlCalidad/BuscarNumeroLoteProtocolo',
+      'ControlCalidad/BuscarPruebaFormatoProtocolo',
       'RRHH/GenerarReporteAsistencia',
       'RRHH/ListarAsistencia',
       'Cotizacion/Listar',

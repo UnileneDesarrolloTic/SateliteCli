@@ -4,6 +4,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="row justify-content-start">
+             
                         <div class="col-md-3">
                             <div class="form-group">
                                 <div class="input-group">
@@ -18,6 +19,10 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                        <div class="col-md-6"></div>
+                        <div class="col-md-3">
+                            <button type="button"  (click)="RegistrarFechaAnalisis()" class="btn btn-info btn-sm" style="background-color: #40cfff;border: none;" > Guardar Fecha de Análisis </button>
                         </div>
                     </div>
                     <div class="row justify-content-start">
@@ -50,11 +55,10 @@
                                     <ng-template ngbPanelHeader let-opened="opened">
                                         <div class="d-flex align-items-center justify-content-between">
                                             <h5 class="m-0">Más Datos...</h5>
-                                            <button ngbPanelToggle class="btn btn-link p-0"><i
-                                                    class="fas fa-window-minimize"></i></button>
+                                            <button ngbPanelToggle  class="btn btn-link p-0"><i class="fas fa-window-minimize"></i></button>
                                         </div>
                                     </ng-template>
-                                    <ng-template ngbPanelContent>
+                                    <ng-template ngbPanelContent >
                                         <div class="row justify-content-start">
                                             <div class="col-md-4">
                                                 <label for="producto" class="text-right control-label col-form-label">Presentación:</label>
@@ -98,6 +102,8 @@
                                     </ng-template>
                                 </ngb-panel>
                             </ngb-accordion>
+
+                            
                         </div>
                     </div>
                 </div>
@@ -108,28 +114,12 @@
 <div class="row">
     <div class="col-lg-12">
         <div class="card">
-            <!-- <button type="button" (click)="Edimir()">asdsad</button> -->
             <div class="card-body">
-                <ngb-tabset>
-                    <ngb-tab>
-                      <ng-template ngbTabTitle><b>Control de Pruebas- interno</b></ng-template>
-                      <ng-template ngbTabContent>
-                            <app-tag-control-proceso [Form]="this.FormProtocolo" [Tabla]="TablaControlProceso"></app-tag-control-proceso>
-                      </ng-template>
-                    </ngb-tab>
-                    <ngb-tab>
-                        <ng-template ngbTabTitle><b>Control de Pruebas-PT</b></ng-template>
-                        <ng-template ngbTabContent>
-                            <app-tag-control-producto-terminado [Form]="this.FormProtocolo" [Tabla]="TablaControlProducto" ></app-tag-control-producto-terminado>
-                        </ng-template>
-                      </ngb-tab>
-                      <ngb-tab>
-                        <ng-template ngbTabTitle><b>Formato</b></ng-template>
-                        <ng-template ngbTabContent>
-
-                        </ng-template>
-                      </ngb-tab>
-                  </ngb-tabset>
+                <div class="d-flex justify-content-around">
+                        <button type="button"  (click)="AbrirInterfaceControlProceso()" class="btn btn-warning btn-sm" > Control de Prueba - Interno </button>
+                        <button type="button" (click)="AbrirInterfaceControlProductoTerminado()" class="btn btn-primary btn-sm" > Control de Prueba - PT </button>
+                        <button type="button" (click)="AbrirPruebaEfectuadas()" class="btn btn-info btn-sm">Formato del Protocolo </button>
+                </div>
             </div>
         </div>
     </div>

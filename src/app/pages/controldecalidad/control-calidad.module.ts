@@ -24,8 +24,9 @@ import { DescripcionNuevoEditarComponent } from './administracion-protocolo/desc
 import { LeyendaNuevoEditarComponent } from './administracion-protocolo/leyenda/leyenda-nuevo-editar/leyenda-nuevo-editar.component';
 import { PruebaNuevoEditComponent } from './administracion-protocolo/pruebas/prueba-nuevo-edit/prueba-nuevo-edit.component';
 import { FormatoProtocoloComponent } from './formato-protocolo/formato-protocolo.component';
-import { TagControlProductoTerminadoComponent } from './formato-protocolo/tag-control-producto-terminado/tag-control-producto-terminado.component';
-import { TagControlProcesoComponent } from './formato-protocolo/tag-control-proceso/tag-control-proceso.component';
+import { ControlProcesoComponent } from './formato-protocolo/control-proceso/control-proceso.component';
+import { ControlProductoTerminadoComponent } from './formato-protocolo/control-producto-terminado/control-producto-terminado.component';
+import { PruebasEfectuadasComponent } from './formato-protocolo/pruebas-efectuadas/pruebas-efectuadas.component';
 
 
 
@@ -47,8 +48,10 @@ import { TagControlProcesoComponent } from './formato-protocolo/tag-control-proc
     LeyendaNuevoEditarComponent,
     PruebaNuevoEditComponent,
     FormatoProtocoloComponent,
-    TagControlProductoTerminadoComponent,
-    TagControlProcesoComponent
+    ControlProcesoComponent,
+    ControlProductoTerminadoComponent,
+    PruebasEfectuadasComponent,
+
   ],
   imports: [
     RouterModule.forChild(ControlCalidadRoutes),

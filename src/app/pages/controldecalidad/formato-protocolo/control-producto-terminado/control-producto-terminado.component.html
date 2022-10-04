@@ -1,8 +1,9 @@
-<form [formGroup]="Form">
+
+<form [formGroup]="FormProtocolo">
     <div class="row p-1">
         <div class="d-flex justify-content-start">
-                <button type="button" (click)="save()" class="btn btn-success btn-sm">Guardar</button>
-                <button type="button" class="btn btn-info btn-sm">Imprimir</button>
+                <button type="button" (click)="save()" class="btn btn-success btn-sm"> <i class="fas fa-save"> </i> Guardar</button>
+                <button type="button" class="btn btn-info btn-sm"> <i class="fas fa-file-alt"></i> Imprimir</button>
         </div>
     </div>
     <div class="row">
@@ -42,7 +43,7 @@
                                         <td class="text-center">
                                             <div class="input-group input-group-sm" style='width:10rem'>
                                                 <input type="number" 
-                                                [ngStyle]="{'border-color':  Tabla1.value.LongitudD > this.Form.controls.longitud.value || Tabla1.value.LongitudD==null  ?  '#67757c' : 'red' }" 
+                                                [ngStyle]="{'border-color':  Tabla1.value.LongitudD > this.FormProtocolo.controls.longitud.value || Tabla1.value.LongitudD==null  ?  '#67757c' : 'red' }" 
                                                 class="form-control form-control-sm"
                                                 formControlName="LongitudD" (keyup)="PromedioLongitud2(i)" />
                                             </div>
@@ -50,7 +51,7 @@
                                         <td class="text-center" colspan="2">
                                             <div class="input-group input-group-sm" style='width:10rem'>
                                                 <input type="number"  
-                                                    [ngStyle]="{'border-color': Tabla1.value.DiametroD==null  ?  '#67757c' : Tabla1.value.DiametroD < this.Form.controls.dMinimo.value || Tabla1.value.DiametroD > this.Form.controls.dMaximo.value ?  'red' : '#67757c'}" 
+                                                    [ngStyle]="{'border-color': Tabla1.value.DiametroD==null  ?  '#67757c' : Tabla1.value.DiametroD < this.FormProtocolo.controls.dMinimo.value || Tabla1.value.DiametroD > this.FormProtocolo.controls.dMaximo.value ?  'red' : '#67757c'}" 
                                                     class="form-control form-control-sm"
                                                     formControlName="DiametroD" (keyup)="PromedioDiametro2(i)" />
                                             </div>
@@ -60,23 +61,23 @@
                                 <tr>
                                     <td colspan="3">
                                         Prom.<input type="number" [readonly]="true" class="form-control form-control-sm"
-                                                    formControlName="PromLongitud" />
+                                                    formControlName="CampoPromvacioCP" />
                                     </td>
                                     <td colspan="3">
                                         <span class="text-white">.</span>
                                         <input type="number" [readonly]="true" class="form-control form-control-sm"
-                                                    formControlName="CampoVacio1Longitud" />
+                                                    formControlName="CampoPromvacio1CP" />
                                     </td>
                                 </tr>
                                 <tr>
                                     <td colspan="3">
                                         O.<input type="number" class="form-control form-control-sm" [readonly]="true"
-                                                    formControlName="CampoVacio2Longitud" />
+                                                    formControlName="CampoPromvacio2CP" />
                                     </td>
                                     <td colspan="3">
                                         <span class="text-white">.</span>
                                         <input type="number" class="form-control form-control-sm" [readonly]="true"
-                                                    formControlName="CampoVacio3Longitud" />
+                                                    formControlName="CampoPromvacio3CP" />
                                     </td>
                                 </tr>
                             </tbody>
@@ -114,9 +115,9 @@
                                             <div class="input-group input-group-sm" style='width:7rem'>
                                                 <input type="number" 
                                                 [ngStyle]="{'border-color': Tabla2.value.TensionNewtons==null ? '#67757c' 
-                                                                            : this.Form.controls.r_individualMinimo.value == 0 ? 
-                                                                                    Tabla2.value.TensionNewtons < this.Form.controls.r_PromedioMinimo.value ?  'red': '#67757c'
-                                                                                    :Tabla2.value.TensionNewtons < this.Form.controls.r_individualMinimo.value ? 'red': '#67757c'
+                                                                            : this.FormProtocolo.controls.r_individualMinimo.value == 0 ? 
+                                                                                    Tabla2.value.TensionNewtons < this.FormProtocolo.controls.r_PromedioMinimo.value ?  'red': '#67757c'
+                                                                                    :Tabla2.value.TensionNewtons < this.FormProtocolo.controls.r_individualMinimo.value ? 'red': '#67757c'
                                                                                 }" 
                                                     class="form-control form-control-sm"
                                                     (keyup)="PromedioResistencia2(i)"
@@ -126,7 +127,7 @@
                                         <td class="text-center" colspan="2">
                                             <div class="input-group input-group-sm" style='width:10rem'>
                                                 <input type="number"   
-                                                    [ngStyle]="{'border-color': Tabla2.value.AgujasNewtons==null ? '#67757c' : Tabla2.value.AgujasNewtons < this.Form.controls.s_individualMinimo.value ? 'red': '#67757c'}"  
+                                                    [ngStyle]="{'border-color': Tabla2.value.AgujasNewtons==null ? '#67757c' : Tabla2.value.AgujasNewtons < this.FormProtocolo.controls.s_individualMinimo.value ? 'red': '#67757c'}"  
                                                     class="form-control form-control-sm"
                                                     (keyup)="PromedioUnion2(i)"
                                                     formControlName="AgujasNewtons" />
@@ -138,34 +139,34 @@
                                 <tr>
                                     <td colspan="3">
                                         Prom.<input type="number"  [readonly]="true" class="form-control form-control-sm"
-                                                    formControlName="PromResistencia" />
+                                                    formControlName="CampoPromvacioRCP" />
                                     </td>
                                     <td colspan="1">
                                         <span class="text-white">.</span>
                                         <input type="number" [readonly]="true"  class="form-control form-control-sm"
-                                                    formControlName="CampoVacio1Resistencia" />
+                                                    formControlName="CampoPromvacio1RCP" />
                                     </td>
                                 </tr>
                                 <tr>
                                     <td colspan="3">
                                         Invididual<input type="number" [readonly]="true" class="form-control form-control-sm"
-                                                    formControlName="CampoVacio2Resistencia" />
+                                                    formControlName="CampoPromvacio2RCP" />
                                     </td>
                                     <td colspan="1">
                                         <span class="text-white">.</span>
                                         <input type="number"  class="form-control form-control-sm"
-                                                    formControlName="CampoVacio3Resistencia" />
+                                                    formControlName="CampoPromvacio3RCP" />
                                     </td>
                                 </tr>
                                 <tr>
                                     <td colspan="3">
                                         O.<input type="number" [readonly]="true" class="form-control form-control-sm"
-                                                    formControlName="CampoVacio4Resistencia" />
+                                                    formControlName="CampoPromvacio4CP" />
                                     </td>
                                     <td colspan="1">
                                         <span class="text-white">.</span>
                                         <input type="number"  [readonly]="true" class="form-control form-control-sm"
-                                                    formControlName="CampoVacio5Resistencia" />
+                                                    formControlName="CampoPromvacio5RCP" />
                                     </td>
                                 </tr>
                             

@@ -9,6 +9,9 @@ import { GestionContraMuestraComponent } from './gestion-contra-muestra/gestion-
 import { ControlLotesComponent } from './control-lotes/control-lotes.component';
 import { AdministracionProtocoloComponent } from './administracion-protocolo/administracion-protocolo.component';
 import { FormatoProtocoloComponent } from './formato-protocolo/formato-protocolo.component';
+import { ControlProcesoComponent } from './formato-protocolo/control-proceso/control-proceso.component';
+import { ControlProductoTerminadoComponent } from './formato-protocolo/control-producto-terminado/control-producto-terminado.component';
+import { PruebasEfectuadasComponent } from './formato-protocolo/pruebas-efectuadas/pruebas-efectuadas.component';
 
 export const ControlCalidadRoutes: Routes = [
   {
@@ -85,16 +88,56 @@ export const ControlCalidadRoutes: Routes = [
           ]
         }
       },
+    ]
+  },
+
+  {
+    path: 'Protocolo',
+    canActivateChild: [AuthGuard],
+    children : [
       {
-        path: 'FormatoProtocolo',
+        path: 'principal',
         component: FormatoProtocoloComponent,
         data: {
-          title: "Formato de Protocolo",
-          urls: [
-            {title: 'Formato de Protocolo' }
-          ]
+          title: "Control de Protocolos"
         }
       },
-    ]
+      {
+        path: 'ControlProceso/:NumeroLote',
+        canDeactivate: [ConfirmExitGuard],
+        component: ControlProcesoComponent,
+        data: {
+          title: "Control en proceso - Interno",
+          urls: [
+            { title: 'Control en proceso - Interno'},
+            { title: 'Protocolo' }
+          ]
+        },
+      },
+      {
+        path: 'ControlProductoTerminado/:NumeroLote',
+        canDeactivate: [ConfirmExitGuard],
+        component: ControlProductoTerminadoComponent,
+        data: {
+          title: "Control Producto Terminado",
+          urls: [
+            { title: 'Control Producto Terminado'},
+            { title: 'Protocolo' }
+          ]
+        },
+      },
+      {
+        path: 'PruebaEfectuadas/:NumeroLote/NumeroParte/:NumeroParte',
+        canDeactivate: [ConfirmExitGuard],
+        component: PruebasEfectuadasComponent,
+        data: {
+          title: "Formato Pruebas Efectuadas",
+          urls: [
+            { title: 'Formato Pruebas Efectuadas'},
+            { title: 'Protocolo' }
+          ]
+        },
+      },
+    ],
   },
 ]
