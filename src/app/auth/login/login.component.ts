@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { MyserviceService } from '@data/services/backEnd/auth/myservice.service';
 import { CryptoService } from '@shared/services/comunes/crypto.service';
 import { ToastrService } from 'ngx-toastr';
+import { environment } from 'environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -14,6 +15,7 @@ import { ToastrService } from 'ngx-toastr';
 export class LoginComponent {
 
   formulario: FormGroup;
+  private secretKey = environment.secretKeyEncryption;
 
   constructor(
       private routes: Router,
@@ -51,7 +53,7 @@ export class LoginComponent {
 
           this.toastr.success('Usuario autenticado.', 'Éxito!', {closeButton:true});
 
-          localStorage.setItem('datos', this.cryptoService.encriptar(JSON.stringify(resp.content)))
+          localStorage.setItem('datos', this.cryptoService.encriptar(JSON.stringify(resp.content), this.secretKey))
 
           this.formulario.reset();
           this.routes.navigate(['/Home']);

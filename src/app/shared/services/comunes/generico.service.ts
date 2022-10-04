@@ -1,8 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { EventEmitter, Injectable , Output} from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Pais } from '@data/interface/Request/Pais.interface';
 import { TipoDocumentoIdentidad } from '@data/interface/Request/TipoDocumentoIdentidad.interface';
-import { ListaFamiliaMaestroItem } from '@data/interface/Response/FamiliaMaestroItem.interface';
 import { RolData } from '@data/interface/Response/RolData.interface';
 import { SubFamilia } from '@data/interface/Response/SubFamilia.Interface';
 import { environment } from 'environments/environment';
@@ -188,7 +187,7 @@ export class GenericoService {
   {
     const params =  new HttpParams().set('idConfiguracion', idConfiguracion.toString()).set('grupo', grupo);
 
-    return this._http.get<RolData[]>(this.url + "/api/Common/ObtenerConfiguracionesSistema", {'params': params})
+    return this._http.get(this.url + "/api/Common/ObtenerConfiguracionesSistema", {'params': params})
     .pipe(
       map( result => result['content'])
       ,catchError( () => throwError("Error al obtener los roles") )

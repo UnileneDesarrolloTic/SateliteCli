@@ -3,8 +3,6 @@ import { Routes } from "@angular/router";
 import { AuthGuard } from "@guard/auth.guard";
 import { ImprimirAnalisisComponent } from '@pages/controldecalidad/analisis-agujas/imprimir-analisis/imprimir-analisis.component';
 import { RegistrarAnalisisComponent } from '@pages/controldecalidad/analisis-agujas/registrar-analisis/registrar-analisis.component';
-import { PruebaFlexionComponent } from '@pages/controldecalidad/analisis-agujas/registrar-pruebas/prueba-flexion/prueba-flexion.component';
-import { ConfirmExitGuard } from '@guard/confirm-exit.guard';
 import { GestionContraMuestraComponent } from './gestion-contra-muestra/gestion-contra-muestra.component';
 import { ControlLotesComponent } from './control-lotes/control-lotes.component';
 import { AdministracionProtocoloComponent } from './administracion-protocolo/administracion-protocolo.component';

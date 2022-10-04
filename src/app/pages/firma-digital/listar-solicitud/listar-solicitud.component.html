@@ -1,0 +1,179 @@
+<div class="row">
+    <div class="col-12">
+      <div class="card border-left border-info">
+        <div class="card-header bg-info text-white" style="font-weight: bold">
+          Filtros de búsqueda
+        </div>
+        <div class="card-body">
+          <form autocomplete="off" [formGroup]="formFiltro">
+            <div class="row">
+                <div class="col-12 text-right">
+                    <button class="btn btn-success font-weight-bold" (click)="abrirModalNuevaSolicitud(modalNuevaSolicitud)"><i class="fas fa-plus"></i>&nbsp;&nbsp;Nueva Solicitud</button>
+                </div>
+            </div>
+            &nbsp;
+            <div class="row" style="font-size: 13px;">
+              <div class="col-sm-12 col-md-4 col-lg-4">
+                  <div class="form-group row">
+                      <label for="fname2" class="col-sm-3 text-left control-label col-form-label">Flujo</label>
+                      <div class="col-sm-9">
+                        <select class="form-control form-control-sm" id="status" formControlName="flujo">
+                            <option value="">Seleccione..</option>
+                            <option *ngFor="let flujo of listaFlujos" value="{{flujo.id}}">{{flujo.valorTexto1}}</option>
+                          </select>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-sm-12 col-md-4 col-lg-4">
+                  <div class="form-group row">
+                      <label for="lname2" class="col-sm-3 text-left control-label col-form-label">Estado</label>
+                      <div class="col-sm-9">
+                        <select class="form-control form-control-sm" id="status" formControlName="estado">
+                            <option value="">Seleccione..</option>
+                            <option value="S">Solicitado</option>
+                            <option value="C">Completado</option>
+                            <option value="R">Rechazado</option>
+                          </select>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-sm-12 col-md-4 col-lg-4">
+                <div class="form-group row">
+                    <label for="lname2" class="col-sm-3 text-left control-label col-form-label">Asunto</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" placeholder="asunto solicitud" formControlName="asunto">
+                    </div>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-4 col-lg-4">
+                <div class="form-group row">
+                    <label for="lname2" class="col-sm-3 text-left control-label col-form-label">Fecha</label>
+                    <div class="col-sm-9">
+                        <input type="date" class="form-control" placeholder="fecha solicitud" formControlName="fecha">
+                    </div>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-4 col-lg-4">
+                <div class="form-group row">
+                    <label for="lname2" class="col-sm-3 text-left control-label col-form-label">Usuario</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" placeholder="usuario creador" formControlName="usuario">
+                    </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="card border-left border-info">
+            <div class="card-body">
+                <form autocomplete="off" [formGroup]="formPaginado">
+                    <div class="row mb-3">
+                        <div class = "col-sm-12 col-md-3">
+                            <select class="form-control form-control-sm" formControlName="registrosPorPagina">
+                                <option value="20">20 registros</option>
+                                <option value="40">40 registros</option>
+                                <option value="60">60 registros</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="table-responsive" >
+                        <table class="table table-bordered table-sm">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="text-center font-weight-bold col-1">Código</th>
+                                    <th scope="col" class="text-center font-weight-bold col-2">Flujo</th>
+                                    <th scope="col" class="text-center font-weight-bold col-4">Asunto</th>
+                                    <th scope="col" class="text-center font-weight-bold col-1">Usuario</th>
+                                    <th scope="col" class="text-center font-weight-bold col-1">Estado</th>
+                                    <th scope="col" class="text-center font-weight-bold col-2">Fecha</th>
+                                    <th scope="col" class="text-center font-weight-bold col-1">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody style="font-size: 14px">
+                                <tr *ngFor="let solicitud of listaSolicitudes">
+                                    <td class="text-center">
+                                        {{ solicitud.id | number: '3.0'}}
+                                    </td>
+                                    <td class="text-center">
+                                        {{ solicitud.flujo }}
+                                    </td>
+                                    <td class="pl-2">
+                                        {{ solicitud.asunto }}
+                                    </td>
+                                    <td class="text-center">
+                                        {{ solicitud.usuario }}
+                                    </td>
+                                    <td class="text-center">
+                                        {{ solicitud.estadoDes }}
+                                    </td>
+                                    <td class="text-center">
+                                        {{ solicitud.fecha | date: 'dd/MM/yyyy hh:mm'}}
+                                    </td>
+                                    <td class="text-center">
+                                        <a type="button" (click)="mostrarDocumentosPorSolicitud(solicitud.id)">
+                                            <i class="far fa-folder-open"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="row d-flex justify-content-center mt-4">
+                        <ngb-pagination 
+                            [collectionSize]="paginadoModel.totalPaginas" [(page)]="page" [pageSize]="registrosPorPagina" [boundaryLinks]="true"
+                            (pageChange)="cambioPagina($event)" [ellipses] ="false" [maxSize] = 5 [rotate] = "true">
+                        </ngb-pagination>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+  <ng-template #modalNuevaSolicitud let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title font-weight-bold">
+          Nueva Solicitud 
+      </h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <span aria-hidden="true">
+              &times;
+          </span>
+      </button>
+    </div>
+    <form autocomplete="off" [formGroup]="formNuevaSolicitud" (submit)="registrarNuevaSolicitud()">
+        <div class="modal-body">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <label>Flujo</label>
+                    <select class="form-control form-control-sm" id="status" formControlName="flujo">
+                        <option value="">Seleccione..</option>
+                        <option *ngFor="let flujo of listaFlujos" value="{{flujo.id}}">{{flujo.valorTexto1}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label col-form-label-sm">Asunto</label>
+                    <input type="email" id="example-email" name="example-email" class="form-control form-control-sm" placeholder="Asunto solicitud" formControlName="asunto">
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label col-form-label-sm">Estado</label>
+                    <input type="email" id="example-email" name="example-email" class="form-control form-control-sm" placeholder="Estado solicitud" value="Solicitado" disabled>
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label col-form-label-sm">Usuario</label>
+                    <input type="email" id="example-email" name="example-email" class="form-control form-control-sm" placeholder="Usuario sessión" [value]="nombreUsuarioSesio" disabled>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <div class="col-12">
+                <button class="btn btn-success col-12" type="submit">Registrar Solicitud</button>
+            </div>
+        </div>
+    </form>
+  </ng-template>

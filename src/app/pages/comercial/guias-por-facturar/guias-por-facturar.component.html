@@ -12,10 +12,10 @@
                                 <!-- <input type="text"  name='cliente' formControlName="cliente" readonly class="form-control" placeholder="Buscar Cliente"> -->
                                 <div class="input-group mb-3">
                                     <input type="text" name='cliente' formControlName="cliente" readonly
-                                        class="form-control" placeholder="Buscar Cliente" aria-label=""
+                                        class="form-control form-control-sm" placeholder="Buscar Cliente" aria-label=""
                                         aria-describedby="basic-addon1">
                                     <div class="input-group-append">
-                                        <button class="btn mr-0 btn-info" (click)="openModalConsultaClientes()"
+                                        <button class="btn mr-0 btn-info btn-sm" (click)="openModalConsultaClientes()"
                                             type="button">
                                             <i class="ti-search"></i>
                                         </button>
@@ -28,14 +28,14 @@
                             <label for="fechainicio" class="text-right control-label col-form-label">Inicio</label>
                             <button class="btn btn-success btn-sm side-badge badge badge-success ml-4" type="button" (click)="ActivaDesactivaFechas()"  >Activar </button>
                             <div class="form-group">
-                                <input type="date"  [readonly]="activarFecha" formControlName="FechaInicio" class="form-control"
+                                <input type="date"  [readonly]="activarFecha" formControlName="FechaInicio" class="form-control form-control-sm"
                                     placeholder="Fecha Inicio">
                             </div>
                         </div>                      
                         <div class="col-md-2">
                             <label for="fechafinal" class="text-right control-label col-form-label">Final</label>
                             <div class="form-group">
-                                <input type="date"  [readonly]="activarFecha" formControlName="FechaFin" class="form-control"
+                                <input type="date"  [readonly]="activarFecha" formControlName="FechaFin" class="form-control form-control-sm"
                                     placeholder="Fecha Fin">
                             </div>
                         </div>
@@ -43,7 +43,7 @@
                         <div class="col-md-2">
                             <label for="fechainicio" class="text-right control-label col-form-label">Tipo</label>
                             <div class="form-group">
-                                <select class="custom-select" (change)="Filtrar()" formControlName="Tipo">
+                                <select class="custom-select custom-select-sm" (change)="Filtrar()" formControlName="Tipo">
                                     <option value="GF">G. por facturar</option>
                                     <option value="FA">G.Facturada</option>
                                     <option value="G">General</option>
@@ -54,7 +54,7 @@
                         <div class="col-md-2">
                             <label for="fechainicio" class="text-right control-label col-form-label">Territorio</label>
                             <div class="form-group">
-                                <select class="custom-select" (change)="Filtrar()" formControlName="Territorio">
+                                <select class="custom-select custom-select-sm"  (change)="Filtrar()" formControlName="Territorio">
                                     <option value="N">Nacional</option>
                                     <option value="E">Exportacion</option>
                                 </select>
@@ -63,9 +63,9 @@
                     </div>
                     <div class="row justify-content-end">
                         <div class="col-md-4">
-                            <button type="submit" [disabled]="!form.valid" class="btn btn-info"> <i
+                            <button type="submit" [disabled]="!form.valid" class="btn btn-info btn-sm"> <i
                                     class=" fas fa-search"></i> Buscar </button>
-                            <button type="button" class="btn" (click)="Exportar()"  [disabled]="!form.valid"  style="background-color:#1A8E1E; color: #FFF;"> <i
+                            <button type="button" class="btn btn-sm" (click)="Exportar()"  [disabled]="!form.valid"  style="background-color:#1A8E1E; color: #FFF;"> <i
                                         class="fas fa-file-excel"></i> Exportar </button>
                         </div>
                     </div>
@@ -104,7 +104,7 @@
                         [selectionType]="'checkbox'"
                         [rowClass]="getRowClass"
                       >
-                      <ngx-datatable-column name="Entrega"  *ngIf="form.controls.Tipo.value=='GF'"  [headerCheckboxable]="false" prop='comentariosEntrega' [width]="20">
+                      <ngx-datatable-column name="Entrega"  *ngIf="form.controls.Tipo.value=='GF' ||  form.controls.Tipo.value=='FA' "  [headerCheckboxable]="false" prop='comentariosEntrega' [width]="20">
                         <ng-template let-row="row"  let-value="value" let-allRowsSelected="allRowsSelected"  ngx-datatable-cell-template>
                             <input type="checkbox" id="prueba" [checked]="value" (change)="CheckSeleccion(row)"/>
                         </ng-template>

@@ -135,7 +135,7 @@
                   <ng-template let-column="column" let-sort="sortFn" ngx-datatable-header-template>
                     <span *ngIf="selectRegla.value == 'MPAGAR1'">Pronostico</span>
                     <span *ngIf="selectRegla.value == 'MPAG0R2' || selectRegla.value == 'MPAG0R3'">Pro. Mensual</span>
-                    <span *ngIf="selectRegla.value == 'MPAG0R4'">Pro. 20y21</span>
+                    <span *ngIf="selectRegla.value == 'MPAG0R4'">Prom.12meses</span>
                   </ng-template>
                   <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                     {{ value | number }}

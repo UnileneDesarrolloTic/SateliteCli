@@ -1,0 +1,185 @@
+<div class="row">
+    <div class="col-12">
+      <div class="card border-left border-info">
+        <div class="card-header bg-info text-white" style="font-weight: bold">
+          Filtros de búsqueda
+        </div>
+        <div class="card-body">
+          <form autocomplete="off" [formGroup]="formFiltro">
+            <div class="row" style="font-size: 13px;">
+                <div class="col-sm-12 col-md-4 col-lg-4">
+                    <div class="form-group row">
+                        <label for="lname2" class="col-sm-3 text-left control-label col-form-label">Código</label>
+                        <div class="col-sm-9">
+                            <input type="number" class="form-control" placeholder="código documento" formControlName="codigo">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-4 col-lg-4">
+                    <div class="form-group row">
+                        <label for="fname2" class="col-sm-3 text-left control-label col-form-label">Tipo</label>
+                        <div class="col-sm-9">
+                            <select class="form-control form-control-sm" id="status" formControlName="tipoDocumento">
+                                <option [ngValue]="0">Seleccione..</option>
+                                <option *ngFor="let tipoDocumento of listaTiposDocumentos" [ngValue]="tipoDocumento.id">{{tipoDocumento.valorTexto1}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-4 col-lg-4">
+                    <div class="form-group row">
+                        <label for="lname2" class="col-sm-3 text-left control-label col-form-label">Nombre</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" placeholder="Nombre documento" formControlName="nombre">
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="card border-left border-info">
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class = "col-sm-12 d-flex justify-content-between flex-wrap">
+                        <button class="btn btn-danger mb-1 w-auto" (click)="rechazarDocumento()">
+                            <span *ngIf="!loadingRechazar">
+                                <i class="fas fa-ban"></i>&nbsp;&nbsp;Rechazar Selec..
+                            </span>
+                            <span *ngIf="loadingRechazar">
+                                <i class="fas fa-spinner fa-spin"></i>&nbsp;&nbsp;Procesando...
+                            </span>
+                        </button>
+                        <button class="btn btn-success mb-1 w-auto" (click)="firmarSeleccionados(modalCertificado)">
+                            <i class="fas fa-edit"></i>&nbsp;&nbsp;Firmar Selec..
+                        </button>
+                    </div>
+                </div>
+                <div class="table-responsive" >
+                    <table class="table table-bordered table-sm">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="text-center font-weight-bold">-</th>
+                                <th scope="col" class="text-center font-weight-bold">Código</th>
+                                <th scope="col" class="text-center font-weight-bold">Tipo</th>
+                                <th scope="col" class="text-center font-weight-bold">Nombre Documento</th>
+                                <th scope="col" class="text-center font-weight-bold">Solicitante</th>
+                                <th scope="col" class="text-center font-weight-bold">Fecha</th>
+                                <th scope="col" class="text-center font-weight-bold">...</th>
+                            </tr>
+                        </thead>
+                        <tbody style="font-size: 14px">
+                            <tr *ngFor="let documento of listaDocumetosPendientes">
+                                <td class="text-center">
+                                    <input type="checkbox" [value]="documento.flagSelect" (change)="documento.flagSelect = !documento.flagSelect" >
+                                </td>
+                                <td class="text-center">
+                                    {{ documento.idDocumento | number: '3.0-1' }}
+                                </td>
+                                <td class="text-center">
+                                    {{ documento.tipoDocumento }}
+                                </td>
+                                <td>
+                                    {{ documento.nombreDocumento }}
+                                </td>
+                                <td class="text-center">
+                                    {{ documento.usuarioSolicitud }}
+                                </td>
+                                <td class="text-center">
+                                    {{ documento.fechaSolicitud | date: 'dd/MM/yyyy hh:mm' }}
+                                </td>
+                                <td class="text-center col-1">
+                                    <a type="button" (click)="abrirModalVistaPrevia(modalVistaPrevia, documento.nombreArchivo, documento.idDocumento)">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #modalVistaPrevia let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title font-weight-bold">
+        Vista previa
+      </h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <span aria-hidden="true">
+              &times;
+          </span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <iframe [src]="rutaVistaPrevia" style="width:100%; height:610px;" frameborder="0" ></iframe>
+    </div>
+    <div class="modal-footer">
+        <div class = "col-sm-12 d-flex justify-content-between flex-wrap">
+            <button class="btn btn-danger col-sm-12 col-md-12 col-lg-2 mb-1" (click)="rechazarDocumento()">
+                <span *ngIf="!loadingRechazar">
+                    <i class="fas fa-ban"></i>&nbsp;&nbsp;Rechazar
+                </span>
+                <span *ngIf="loadingRechazar">
+                    <i class="fas fa-spinner fa-spin"></i>&nbsp;&nbsp;Procesando...
+                </span>
+            </button>
+            <button class="btn btn-success col-sm-12 col-md-12 col-lg-2 mb-1" (click)="firmarDocumento(modalCertificado)">
+                <i class="fas fa-edit"></i>&nbsp;&nbsp;Firmar
+            </button>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #modalCertificado let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title font-weight-bold">
+        Datos del certificado
+      </h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <span aria-hidden="true">
+              &times;
+          </span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <form autocomplete="off" [formGroup]="formCertificado">
+            <div class="col-12" style="font-size: 13px;">
+                <div class="form-group row">
+                    <label for="usuario" class="col-sm-3 text-left control-label label-sm col-form-label">Usuario</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control form-control-sm" placeholder="código documento" id="usuario" formControlName="usuario">
+                    </div>
+                </div>
+            </div>
+            <div class="col-12" style="font-size: 13px;">
+                <div class="form-group row">
+                    <label for="clave" class="col-sm-3 text-left control-label col-form-label">Contraseña</label>
+                    <div class="col-sm-9">
+                        <input type="password" class="form-control form-control-sm" placeholder="código documento" id="clave" formControlName="claveCertificado">
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <div class = "row col-sm-12 d-flex justify-content-between flex-wrap">
+            <button class="btn btn-danger btn-sm col-4">
+                <i class="fas fa-ban" [disabled]="loadingFirmar"></i>&nbsp;&nbsp;Cancelar
+            </button>
+            <button class="btn btn-success btn-sm col-4" type="button" (click)="enviarFirmarDocumentos()">
+                <span *ngIf="!loadingFirmar">
+                    <i class="fas fa-edit"></i>&nbsp;&nbsp;Enviar a firmar
+                </span>
+                <span *ngIf="loadingFirmar">
+                    <i class="fas fa-spinner fa-spin"></i>&nbsp;&nbsp;Firmando...
+                </span>
+            </button>
+        </div>
+    </div>
+</ng-template>
