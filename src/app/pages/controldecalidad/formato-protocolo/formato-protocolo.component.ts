@@ -28,7 +28,7 @@ export class FormatoProtocoloComponent implements OnInit {
 
   crearFormularioProtocolo(){
     this.FormProtocolo = this._fb.group({
-      Numerolote:new FormControl('10225225'),
+      Numerolote:new FormControl('20456592'), //10225225 20456592
       itemdescripcion: new FormControl(''),
       numerodeparte: new FormControl(''),
       fechaanalisis: new FormControl(null),

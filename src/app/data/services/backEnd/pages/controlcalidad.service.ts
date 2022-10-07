@@ -181,6 +181,26 @@ export class ControlcalidadService {
       catchError (() => throwError("Error al buscar Número de lote protocolo"))
     );
   }
- 
+
+  BusquedaInformacionResultado(NumeroLote){
+    const params =  new HttpParams().set('NumeroLote', NumeroLote);
+    return this._http.get<any>(this.url+"/api/ControlCalidad/BuscarInformacionResultadoProtocolo",{'params':params}).pipe(
+      catchError (() => throwError("Error al buscar Resultado Informacion"))
+    );
+  }
+  
+
+  RegistrarControlProcesoProtocolo(body){
+    return this._http.post<any>(this.url+"/api/ControlCalidad/RegistrarControlProcesoProtocolo",body).pipe(
+      catchError (() => throwError("Error al obtener Registrar Control Proceso"))
+    );
+  }
+
+  
+  RegistrarControlPTProtocolo(body){
+    return this._http.post<any>(this.url+"/api/ControlCalidad/RegistrarControlPTProtocolo",body).pipe(
+      catchError (() => throwError("Error al obtener Registrar Control Proceso"))
+    );
+  }
 
 }

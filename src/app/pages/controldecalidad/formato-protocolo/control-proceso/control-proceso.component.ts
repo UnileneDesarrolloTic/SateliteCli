@@ -1,6 +1,7 @@
 import { Component, OnInit,OnDestroy } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { InformacionTablaModel } from '@data/interface/Response/DatosFormatoInformacionResultado.interfaces';
 import { NumeroLoteProtocoloModel } from '@data/interface/Response/DatosFormatoNumeroLoteProtocolo.interface';
 import { ControlcalidadService } from '@data/services/backEnd/pages/controlcalidad.service';
 import { GenericoService } from '@shared/services/comunes/generico.service';
@@ -18,6 +19,8 @@ export class ControlProcesoComponent implements OnInit,OnDestroy {
   FormProtocolo:FormGroup;
   subcripcion : Subscription
   NumeroLote:string;
+  ListarTablaA:InformacionTablaModel[]=[];
+  ListarTablaB:InformacionTablaModel[]=[];
 
   constructor(private _router: Router,
     private toastr: ToastrService,
@@ -31,11 +34,17 @@ export class ControlProcesoComponent implements OnInit,OnDestroy {
 
   }
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.crearFormularioProtocolo();
-    this.BuscarinformacionProductoProtocolo();
-    this.ConstruirTabla1(this.TablaControlProceso);
-    this.ConstruirTabla2(this.TablaControlProceso);
+    
+    const { content } = await this.BuscarinformacionProductoProtocolo(); 
+    await this.ColocarVariableFormulario(content);
+    const tabla= await this.BuscarInformacionRespuesta();
+    this.ListarTablaA = tabla.filter((element:InformacionTablaModel)=> (element.tabla=='A'));
+    this.ListarTablaB = tabla.filter((element:InformacionTablaModel)=> (element.tabla=='B'));
+    await this.ConstruirTabla1(this.TablaControlProceso , this.ListarTablaA );
+    await this.ConstruirTabla2(this.TablaControlProceso , this.ListarTablaB );
+    
   }
 
   crearFormularioProtocolo(){
@@ -82,43 +91,46 @@ export class ControlProcesoComponent implements OnInit,OnDestroy {
     })
   }
 
+
+
   formatoFecha(Fecha){
-    return  Fecha!=null ? Fecha.split("T")[0] : null;
+    return  Fecha!=null ? Fecha.split("T")[0] : '1990-01-01';
   }
   
-
   BuscarinformacionProductoProtocolo(){
-    this._ControlcalidadService.BuscarNumeroLoteProtocolo(this.NumeroLote).subscribe(
-        (resp:any)=>{
-              if(resp["success"]){
-                this.InformacionProducto=resp["content"];
-                this.FormProtocolo.get("itemdescripcion").patchValue(this.InformacionProducto.itemdescripcion);
-                  this.FormProtocolo.get("numerodeparte").patchValue(this.InformacionProducto.numerodeparte);
-                  this.FormProtocolo.get("fechaanalisis").patchValue(this.formatoFecha(this.InformacionProducto.fechaanalisis));
-                  this.FormProtocolo.get("presentacion").patchValue(this.InformacionProducto.presentacion);
-                  this.FormProtocolo.get("fechaproduccion").patchValue(this.InformacionProducto.fechaproduccion);
-                  this.FormProtocolo.get("cantidadproducida").patchValue(this.InformacionProducto.cantidadproducida);
-                  this.FormProtocolo.get("fechaexpiracion").patchValue(this.formatoFecha(this.InformacionProducto.fechaexpiracion));
-                  this.FormProtocolo.get("marca").patchValue(this.InformacionProducto.marca);
+     return this._ControlcalidadService.BuscarNumeroLoteProtocolo(this.NumeroLote).toPromise();
+  }
 
-                  this.FormProtocolo.get("dMinimo").patchValue(this.InformacionProducto.dMinimo);
-                  this.FormProtocolo.get("dMaximo").patchValue(this.InformacionProducto.dMaximo);
-                  this.FormProtocolo.get("r_PromedioMinimo").patchValue(this.InformacionProducto.r_PromedioMinimo);
-                  this.FormProtocolo.get("r_individualMinimo").patchValue(this.InformacionProducto.r_individualMinimo);
-                  this.FormProtocolo.get("s_PromedioMinimo").patchValue(this.InformacionProducto.s_PromedioMinimo);
-                  this.FormProtocolo.get("s_individualMinimo").patchValue(this.InformacionProducto.s_individualMinimo);
-                  this.FormProtocolo.get("deC_DMinimo").patchValue(this.InformacionProducto.deC_DMinimo);
-                  this.FormProtocolo.get("deC_DMaximo").patchValue(this.InformacionProducto.deC_DMaximo);
-                  this.FormProtocolo.get("deC_R_PromedioMinimo").patchValue(this.InformacionProducto.deC_R_PromedioMinimo);
-                  this.FormProtocolo.get("deC_R_IndividualMinimo").patchValue(this.InformacionProducto.deC_R_IndividualMinimo);
-                  this.FormProtocolo.get("deC_S_PromedioMinimo").patchValue(this.InformacionProducto.deC_S_PromedioMinimo);
-                  this.FormProtocolo.get("deC_S_IndividualMinimo").patchValue(this.InformacionProducto.deC_S_IndividualMinimo);
-                  this.FormProtocolo.get("longitud").patchValue(this.CalcularLongitud(this.InformacionProducto.numerodeparte));
-              }else{
-                  this.InformacionProducto=null;
-              }
-        }
-    )
+  ColocarVariableFormulario(InformacionProducto){
+    this.FormProtocolo.get("itemdescripcion").patchValue(InformacionProducto.itemdescripcion);
+    this.FormProtocolo.get("Numerolote").patchValue(this.NumeroLote);
+    this.FormProtocolo.get("numerodeparte").patchValue(InformacionProducto.numerodeparte);
+    this.FormProtocolo.get("fechaanalisis").patchValue(this.formatoFecha(InformacionProducto.fechaanalisis));
+    this.FormProtocolo.get("presentacion").patchValue(InformacionProducto.presentacion);
+    this.FormProtocolo.get("fechaproduccion").patchValue(InformacionProducto.fechaproduccion);
+    this.FormProtocolo.get("cantidadproducida").patchValue(InformacionProducto.cantidadproducida);
+    this.FormProtocolo.get("fechaexpiracion").patchValue(this.formatoFecha(InformacionProducto.fechaexpiracion));
+    this.FormProtocolo.get("marca").patchValue(InformacionProducto.marca);
+
+    this.FormProtocolo.get("dMinimo").patchValue(InformacionProducto.dMinimo);
+    this.FormProtocolo.get("dMaximo").patchValue(InformacionProducto.dMaximo);
+    this.FormProtocolo.get("r_PromedioMinimo").patchValue(InformacionProducto.r_PromedioMinimo);
+    this.FormProtocolo.get("r_individualMinimo").patchValue(InformacionProducto.r_individualMinimo);
+    this.FormProtocolo.get("s_PromedioMinimo").patchValue(InformacionProducto.s_PromedioMinimo);
+    this.FormProtocolo.get("s_individualMinimo").patchValue(InformacionProducto.s_individualMinimo);
+    this.FormProtocolo.get("deC_DMinimo").patchValue(InformacionProducto.deC_DMinimo);
+    this.FormProtocolo.get("deC_DMaximo").patchValue(InformacionProducto.deC_DMaximo);
+    this.FormProtocolo.get("deC_R_PromedioMinimo").patchValue(InformacionProducto.deC_R_PromedioMinimo);
+    this.FormProtocolo.get("deC_R_IndividualMinimo").patchValue(InformacionProducto.deC_R_IndividualMinimo);
+    this.FormProtocolo.get("deC_S_PromedioMinimo").patchValue(InformacionProducto.deC_S_PromedioMinimo);
+    this.FormProtocolo.get("deC_S_IndividualMinimo").patchValue(InformacionProducto.deC_S_IndividualMinimo);
+    this.FormProtocolo.get("longitud").patchValue(this.CalcularLongitud(InformacionProducto.numerodeparte));
+  }
+
+
+  BuscarInformacionRespuesta(){
+    return this._ControlcalidadService.BusquedaInformacionResultado(this.NumeroLote).toPromise();
+    
   }
 
   CalcularLongitud(NumeroParte){
@@ -138,28 +150,70 @@ export class ControlProcesoComponent implements OnInit,OnDestroy {
     this.subcripcion.unsubscribe();
   }
 
-  ConstruirTabla1(Tabla) {
+  ConstruirTabla1(PlantillaTabla,ContenidoTabla:InformacionTablaModel[]) {
+    // console.log(PlantillaTabla,ContenidoTabla)
     const ArrayItem = this.FormProtocolo.controls.TablaLongitud as FormArray;
     ArrayItem.controls = [];
-    Tabla.forEach((itemRow: any) => {
-      const ItemFilaForm = this._fb.group({
-        LongitudD: [],
-        DiametroD: []
-      });
-      this.ListTabla1.push(ItemFilaForm);
-    })
+
+      if(ContenidoTabla.length > 0){
+        ContenidoTabla.forEach((itemrow:InformacionTablaModel)=>{
+              if(itemrow.secuencia<= PlantillaTabla.length){
+                const ItemFilaForm = this._fb.group({
+                  LongitudD: [itemrow.coL_1],
+                  DiametroD: [itemrow.coL_2]
+                });
+                this.ListTabla1.push(ItemFilaForm);
+              }
+        });
+           //Calculos Tabla 1 
+           this.FormProtocolo.get("PromLongitud").patchValue(ContenidoTabla[5].coL_1);
+           this.FormProtocolo.get("CampoVacio1Longitud").patchValue(ContenidoTabla[5].coL_2);
+           this.FormProtocolo.get("CampoVacio2Longitud").patchValue(ContenidoTabla[6].coL_1);
+           this.FormProtocolo.get("CampoVacio3Longitud").patchValue(ContenidoTabla[6].coL_2);
+      }else{
+        PlantillaTabla.forEach((itemRow: any) => {
+          const ItemFilaForm = this._fb.group({
+            LongitudD: [],
+            DiametroD: []
+          });
+          this.ListTabla1.push(ItemFilaForm);
+        });
+      }
+
   }
 
-  ConstruirTabla2(Tabla) {
+  ConstruirTabla2(PlantillaTabla,ContenidoTabla:InformacionTablaModel[]) {
     const ArrayItem = this.FormProtocolo.controls.TablaResistencia as FormArray;
     ArrayItem.controls = [];
-    Tabla.forEach((itemRow: any) => {
-      const ItemFilaForm = this._fb.group({
-        TensionNewtons: [],
-        AgujasNewtons: []
+
+    if(ContenidoTabla.length > 0){
+        ContenidoTabla.forEach((itemrow:InformacionTablaModel)=>{
+          if(itemrow.secuencia<= PlantillaTabla.length){
+            const ItemFilaForm = this._fb.group({
+              TensionNewtons: [itemrow.coL_1],
+              AgujasNewtons: [itemrow.coL_2]
+            });
+            this.ListTabla2.push(ItemFilaForm);
+          }
+        });
+     //Calculos Tabla 1 
+     this.FormProtocolo.get("PromResistencia").patchValue(ContenidoTabla[5].coL_1);
+     this.FormProtocolo.get("CampoVacio1Resistencia").patchValue(ContenidoTabla[5].coL_2);
+     this.FormProtocolo.get("CampoVacio2Resistencia").patchValue(ContenidoTabla[6].coL_1);
+     this.FormProtocolo.get("CampoVacio3Resistencia").patchValue(ContenidoTabla[6].coL_2);
+     this.FormProtocolo.get("CampoVacio4Resistencia").patchValue(ContenidoTabla[7].coL_1);
+     this.FormProtocolo.get("CampoVacio5Resistencia").patchValue(ContenidoTabla[7].coL_2);
+
+    }else{
+      PlantillaTabla.forEach((itemRow: any) => {
+        const ItemFilaForm = this._fb.group({
+          TensionNewtons: [],
+          AgujasNewtons: []
+        });
+        this.ListTabla2.push(ItemFilaForm);
       });
-      this.ListTabla2.push(ItemFilaForm);
-    })
+    }
+   
 
   }
 
@@ -173,8 +227,7 @@ export class ControlProcesoComponent implements OnInit,OnDestroy {
 
   //PRIMERA TABLA
   PromedioLongitud2(index: number) {
-    // const myForm = (<FormArray>this.FormProtocolo.get("TablaLongitud")).at(index);
-    // console.log(myForm)
+
     const myForm = this.FormProtocolo.controls.TablaLongitud.value;
     let PL_Suma = 0;
     let cn = 0;
@@ -233,7 +286,7 @@ export class ControlProcesoComponent implements OnInit,OnDestroy {
       promedio = (PL_Suma / cn);
     });
 
-    this.FormProtocolo.get("CampoVacio1Longitud").patchValue(promedio);
+    this.FormProtocolo.get("CampoVacio1Longitud").patchValue(this._GenericoService.NumberTwoDecimal(isNaN(promedio) ? 0 : promedio,4));
 
     myForm.forEach((element: any) => {
       let valor = (isNaN(element.DiametroD) ? 0 : element.DiametroD) * 1;
@@ -249,7 +302,6 @@ export class ControlProcesoComponent implements OnInit,OnDestroy {
 
     D2 = D1 / (cn - 1);
     desv = Math.pow(D2, 0.5);
-    console.log(desv);
     this.FormProtocolo.get("CampoVacio3Longitud").patchValue(this._GenericoService.NumberTwoDecimal((isNaN(desv) ? 0 : desv), 4));
 
   }
@@ -290,7 +342,7 @@ export class ControlProcesoComponent implements OnInit,OnDestroy {
         }
     });
     
-    this.FormProtocolo.get("CampoVacio2Resistencia").patchValue(this._GenericoService.NumberTwoDecimal(Min, 4));
+    this.FormProtocolo.get("CampoVacio2Resistencia").patchValue(this._GenericoService.NumberTwoDecimal((isNaN(Min) ? 0 : Min), 4));
 
     myForm.forEach((element: any) => {
       let D_Min = this.FormProtocolo.controls.r_individualMinimo.value;
@@ -351,7 +403,7 @@ export class ControlProcesoComponent implements OnInit,OnDestroy {
       promedio = (PL_Suma / cn);
     });
 
-    this.FormProtocolo.get("CampoVacio1Resistencia").patchValue(promedio);
+    this.FormProtocolo.get("CampoVacio1Resistencia").patchValue(this._GenericoService.NumberTwoDecimal(isNaN(promedio) ? 0 : promedio,4));
     
     myForm.forEach((element: any) => {
       let v1 = (isNaN(element.AgujasNewtons) ? 0 : element.AgujasNewtons) * 1;
@@ -363,7 +415,7 @@ export class ControlProcesoComponent implements OnInit,OnDestroy {
           }
         }
     });
-    this.FormProtocolo.get("CampoVacio3Resistencia").patchValue(this._GenericoService.NumberTwoDecimal(Min, 4));
+    this.FormProtocolo.get("CampoVacio3Resistencia").patchValue(this._GenericoService.NumberTwoDecimal((isNaN(Min) ? 0 : Min) , 4));
 
 
     myForm.forEach((element:any) => {
@@ -378,7 +430,7 @@ export class ControlProcesoComponent implements OnInit,OnDestroy {
 
     D2=D1/(cn-1);
     desv= Math.pow(D2,0.5);
-    this.FormProtocolo.get("CampoVacio5Resistencia").patchValue(this._GenericoService.NumberTwoDecimal(desv,4));
+    this.FormProtocolo.get("CampoVacio5Resistencia").patchValue(this._GenericoService.NumberTwoDecimal((isNaN(desv) ? 0 : desv),4));
 
 
 
@@ -388,7 +440,43 @@ export class ControlProcesoComponent implements OnInit,OnDestroy {
 
 
   save() {
-    console.log(this.FormProtocolo.value);
+
+    const ArrayLongitud = this.FormProtocolo.controls.TablaLongitud.value.map((elemen)=>({
+      LongitudD:elemen.LongitudD==null ? 0: elemen.LongitudD,
+      DiametroD:elemen.DiametroD==null ? 0: elemen.DiametroD,
+    }));
+    ArrayLongitud.push({'LongitudD': this.FormProtocolo.controls.PromLongitud.value, 'DiametroD': this.FormProtocolo.controls.CampoVacio1Longitud.value});
+    ArrayLongitud.push({'LongitudD': this.FormProtocolo.controls.CampoVacio2Longitud.value, 'DiametroD': this.FormProtocolo.controls.CampoVacio3Longitud.value});
+    
+    const ArrayResistencia = this.FormProtocolo.controls.TablaResistencia.value.map((elemen)=>({
+      TensionNewtons:elemen.TensionNewtons==null ? 0: elemen.TensionNewtons,
+      AgujasNewtons:elemen.AgujasNewtons==null ? 0: elemen.AgujasNewtons,
+    }));
+
+    ArrayResistencia.push({'TensionNewtons': this.FormProtocolo.controls.PromResistencia.value, 'AgujasNewtons': this.FormProtocolo.controls.CampoVacio1Resistencia.value});
+    ArrayResistencia.push({'TensionNewtons': this.FormProtocolo.controls.CampoVacio2Resistencia.value, 'AgujasNewtons': this.FormProtocolo.controls.CampoVacio3Resistencia.value});
+    ArrayResistencia.push({'TensionNewtons': this.FormProtocolo.controls.CampoVacio4Resistencia.value, 'AgujasNewtons': this.FormProtocolo.controls.CampoVacio5Resistencia.value});
+    
+
+    const Datos={
+      Numerolote: this.FormProtocolo.controls.Numerolote.value,
+      fechaanalisis:this.FormProtocolo.controls.fechaanalisis.value,
+      TablaLongitud:ArrayLongitud,
+      TablaResistencia:ArrayResistencia
+    }
+
+
+    this._ControlcalidadService.RegistrarControlProcesoProtocolo(Datos).subscribe(
+      (resp:any)=>{
+          if(resp["success"]){
+              this.toastr.success(resp["content"]);
+          }
+      },
+      (error)=>{
+          this.toastr.info("Comuniquese con Sistemas");
+      }
+  )
+
   }
 
   Cancelar(){

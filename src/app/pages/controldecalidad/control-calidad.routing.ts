@@ -130,7 +130,7 @@ export const ControlCalidadRoutes: Routes = [
         canDeactivate: [ConfirmExitGuard],
         component: PruebasEfectuadasComponent,
         data: {
-          title: "",
+          title: "Formato Pruebas Efectuadas",
           urls: [
             { title: 'Formato Pruebas Efectuadas'},
             { title: 'Protocolo' }
