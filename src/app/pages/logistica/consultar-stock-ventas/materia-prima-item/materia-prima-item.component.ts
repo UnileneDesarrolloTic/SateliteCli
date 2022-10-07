@@ -22,7 +22,7 @@ export class MateriaPrimaItemComponent implements OnInit {
 
   crearFormulario(){
     this.FormFiltro = new FormGroup({
-      NumeroDocumento:new FormControl('0000022119'),
+      NumeroDocumento:new FormControl(''),
       Tipo:new FormControl('Pedido'),
     })
   }
