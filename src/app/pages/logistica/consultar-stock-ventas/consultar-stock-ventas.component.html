@@ -4,7 +4,7 @@
       <div class="card-body">
         <form [formGroup]="filtrosForm" (submit)="BuscarProducto()">
           <div class="row justify-content-start">
-            <div class="col-md-2">
+            <!-- <div class="col-md-2">
               <div class="form-group">
                 <label class="control-label TamanoLetra">Agrupador:</label>
                 <select class="form-control  form-control-sm"  formControlName="idAgrupador">
@@ -23,12 +23,14 @@
                   </option>
                 </select>
               </div>
-            </div>
+            </div> -->
             <div class="col-md-3">
               <div class="form-group">
                 <label class="control-label TamanoLetra">Seleccionar Linea:</label>
+                 <button class="btn btn-success btn-sm side-badge badge badge-success ml-4" *ngIf="!activarFecha" type="button" (click)="ActivaDesactiva()"  >Activar </button>
+                 <button class="btn btn-danger btn-sm side-badge badge badge-danger ml-4" *ngIf="activarFecha" type="button" (click)="ActivaDesactiva()"  >Desactivar </button>
                 <select class="form-control  form-control-sm"  formControlName="idLinea">
-                  <option *ngFor="let linea of ListarLinea"   [value]="linea.linea">
+                  <option  *ngFor="let linea of ListarLinea"   [value]="linea.linea">
                     {{linea.descripcionLocal}}
                   </option>
                 </select>
@@ -55,8 +57,6 @@
                 </select>
               </div>
             </div>
-          </div>
-          <div class="row justify-content-start">
             <div class="col-md-2">
               <div class="form-group">
                 <label class="control-label TamanoLetra">Item:</label>
@@ -70,6 +70,21 @@
                   placeholder="Número Parte">
               </div>
             </div>
+          </div>
+          <div class="row justify-content-start">
+            <!-- <div class="col-md-2">
+              <div class="form-group">
+                <label class="control-label TamanoLetra">Item:</label>
+                <input type="text" formControlName="Item" class="form-control form-control-sm" placeholder="Item">
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group">
+                <label class="control-label TamanoLetra">Número Parte:</label>
+                <input type="text" formControlName="Codsut" class="form-control form-control-sm"
+                  placeholder="Número Parte">
+              </div>
+            </div> -->
             <div class="col-md-3">
               <div class="form-group">
                 <label class="control-label TamanoLetra">Descripción:</label>
@@ -124,6 +139,12 @@
         <ng-template ngbTabTitle><b>Detalle</b></ng-template>
         <ng-template ngbTabContent>
           <app-tag-detalle *ngIf="ListarItemDetalle.length>0" [ListarItemDetalle]="ListarItemDetalle"></app-tag-detalle>
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab>
+        <ng-template ngbTabTitle><b>MP x Item</b></ng-template>
+        <ng-template ngbTabContent>
+          <app-materia-prima-item ></app-materia-prima-item>
         </ng-template>
       </ngb-tab>
     </ngb-tabset>

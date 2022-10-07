@@ -66,4 +66,18 @@ export class LogisticaService {
       catchError (() => throwError("Error al obtener Buscar Item Ventas Detalle Comprometido Export"))
     );
   }
+
+  ListarNumeroDePedido(NumeroDocumento,Tipo){
+    const params = new HttpParams().set('NumeroDocumento',NumeroDocumento).set('Tipo',Tipo);
+    return this._http.get<any[]>(this.url+"/api/Logistica/BuscarNumeroPedido",{'params': params}).pipe(
+      catchError (() => throwError("Error al obtener Buscar Numero de pedido"))
+    );
+  }
+
+  ListarDetalleReceta(Item,Cantidad){
+    const params = new HttpParams().set('Item',Item).set('Cantidad',Cantidad);
+    return this._http.get<any[]>(this.url+"/api/Logistica/BuscardDetalleRecetaMP",{'params': params}).pipe(
+      catchError (() => throwError("Error al obtener Buscar Numero de pedido"))
+    );
+  }
 }

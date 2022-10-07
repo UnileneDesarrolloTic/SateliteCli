@@ -153,6 +153,8 @@ export class InterceptorService implements HttpInterceptor {
       'Logistica/ListarItemVentasDetalle',
       'Logistica/DetalleComprometidoItem',
       'Logistica/ListarItemVentasDetalleExportar',
+      'Logistica/BuscarNumeroPedido',
+      'Logistica/BuscardDetalleRecetaMP',
       'FirmaDigital/ListarSolicitudes',
       'FirmaDigital/CrearSolicitud',
       'FirmaDigital/ObtenerDetalleSolicitudPorId',
