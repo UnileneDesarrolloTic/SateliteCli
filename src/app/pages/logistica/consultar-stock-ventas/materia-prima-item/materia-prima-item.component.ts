@@ -3,6 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { DatoFormatoNumeroPedidoMateriaPrima } from '@data/interface/Response/DatosFormatoNumeroDocumentoLogisticaContizacion.Interface';
 import { LogisticaService } from '@data/services/backEnd/pages/logistica.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
 import { ModalDetalleRecetaComponent } from '../modal-detalle-receta/modal-detalle-receta.component';
 
 @Component({
@@ -14,7 +15,8 @@ export class MateriaPrimaItemComponent implements OnInit {
   ListarNumerodePedido:DatoFormatoNumeroPedidoMateriaPrima[]=[];
   FormFiltro:FormGroup;
   constructor(private _LogisticaService:LogisticaService,
-               private modalService: NgbModal,) { }
+               private modalService: NgbModal,
+               private toastr: ToastrService,) { }
 
   ngOnInit(): void {
     this.crearFormulario();
@@ -28,11 +30,17 @@ export class MateriaPrimaItemComponent implements OnInit {
   }
 
   BuscarPedido(){
-    console.log(this.FormFiltro.value);
+    if(this.FormFiltro.controls.NumeroDocumento.value==""){
+      return this.toastr.info("Debe Ingresar el Numero de Documento");
+    }
     this._LogisticaService.ListarNumeroDePedido(this.FormFiltro.controls.NumeroDocumento.value, this.FormFiltro.controls.Tipo.value).subscribe(
         (resp:any)=>{
             this.ListarNumerodePedido= resp;
+        },
+        (error)=>{
+            this.toastr.info("Comuniquese con Sistema")
         }
+        
     )
   }
 

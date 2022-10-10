@@ -36,7 +36,7 @@
                                 <td>{{Detalle.cantidadNeta | number: '1.2-2'}}</td>
                                 <td>{{Detalle.stockActual | number : '1.2-2'}}</td>
                                 <td>{{Detalle.stockDisponible | number:'1.2-2'}}</td>
-                                <td>{{Detalle.stockDisponible - Detalle.cantidadNeta | number:'1.2-2'}}</td>
+                                <td [ngStyle]="{'color': Detalle.stockDisponible - Detalle.cantidadNeta <= 0  ? '#FF2D00':'#0061FF' }">{{Detalle.stockDisponible - Detalle.cantidadNeta | number:'1.2-2'}}</td>
                             </tr>
                         </tbody>
                     </table>
