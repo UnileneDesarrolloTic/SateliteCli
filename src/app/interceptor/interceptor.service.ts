@@ -165,7 +165,11 @@ export class InterceptorService implements HttpInterceptor {
       'FirmaDigital/SolicitudesPendientesFirma',
       'FirmaDigital/DocumentosPendientesFirma',
       'FirmaDigital/FirmarDocumentos',
-      'FirmaDigital/RechazarDocumentos'
+      'FirmaDigital/RechazarDocumentos',
+      'GestionCalidad/ListarMateriaPrima',
+      'GestionCalidad/DetalleSeguimientoPorLote',
+      'GestionCalidad/VentasPorCliente',
+      'GestionCalidad/RptVentasPorCliente'
     ];
     
     const data = this.sesionService.datosPersonales();
