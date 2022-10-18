@@ -8,5 +8,8 @@ export interface DatosFormatoRecetaItemComponenteModel {
     cantidad:number,
     costoUnitarioSoles:number,
     material:string,
+    linea:string,
+    familia:string,
+    subfamilia:string
   }
   

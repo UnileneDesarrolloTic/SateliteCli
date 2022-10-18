@@ -76,6 +76,9 @@ export class ModalDetalleMateriaPrimaComponent implements OnInit {
           cantidad: [itemRow.cantidad],
           costoUnitarioSoles: [itemRow.costoUnitarioSoles],
           material: [itemRow.material],
+          linea: [itemRow.linea],
+          familia: [itemRow.familia],
+          subfamilia: [itemRow.subfamilia],
         });
         this.ListadoMateriaPrima.push(ItemFilaForm);
     })
