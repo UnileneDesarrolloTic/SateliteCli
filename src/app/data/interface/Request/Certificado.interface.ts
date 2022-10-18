@@ -1,4 +1,5 @@
-export interface CertificadoData {
+export interface CertificadoData 
+{
   id: number,
   codigoCertificado: string,
   fechaEmision: string,
@@ -30,9 +31,6 @@ export interface CertificadoData {
   conformeTrazasOE: boolean,
   tipoIB: string,
   codigoIB: string,
-  // descripcionIB: string,
-  // loteIB: string,
-  // expiraIB: string,
   idLoteIB: number,
   iBExpuestos: number,
   iBExpuestosResultado: boolean,

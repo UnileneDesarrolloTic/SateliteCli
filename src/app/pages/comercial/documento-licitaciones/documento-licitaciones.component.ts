@@ -8,7 +8,7 @@ import { ModalCargarComponent } from '@shared/components/modal-cargar/modal-carg
 import { ModalClienteComponent } from '@shared/components/modal-cliente/modal-cliente.component';
 import { Cargarbase64Service } from '@shared/services/comunes/cargarbase64.service';
 import { ToastrService } from 'ngx-toastr';
-import { Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
 

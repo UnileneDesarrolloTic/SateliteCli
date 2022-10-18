@@ -244,7 +244,7 @@ export class CertificadoComponent implements OnInit {
   }
 
   nuevoCertificado() {
-    //if(this.formularioCertificado.valid){
+    
     var taUnidadMedida = <HTMLSelectElement>(
       document.getElementById("taUnidadMedida")
     );
@@ -339,7 +339,8 @@ export class CertificadoComponent implements OnInit {
     //}
   }
 
-  filtrarCertificados() {
+  filtrarCertificados() 
+  {
     const body = {
       OrdenServicio: this.formulario.get("ordenServicio").value,
       Codigo: null,
@@ -347,11 +348,12 @@ export class CertificadoComponent implements OnInit {
       RegistrosPorPagina: 10,
     };
 
-    this._esterilizacionService.ListarCertificados(body).subscribe((resp) => {
-      this.listaCertificados = resp["contenido"];
-      this.paginador = resp["paginado"];
-      console.log(this.listaCertificados);
-    });
+    this._esterilizacionService.ListarCertificados(body).subscribe(
+      (resp) => {
+        this.listaCertificados = resp["contenido"];
+        this.paginador = resp["paginado"];
+      }
+    );
   }
 
   GenerarReporte(id) {
@@ -389,18 +391,22 @@ export class CertificadoComponent implements OnInit {
     }
   }
 
-  abrirModalLote(modal: NgbModal, identificador) {
+  abrirModalLote(modal: NgbModal, identificador) 
+  {
     this.formularioLote.reset();
+
     this.formularioLote.patchValue({
       identificador: identificador,
       descripcion: "",
     });
+
     this.modalLote = this.modalService.open(modal, {
       centered: true,
       backdrop: "static",
       size: "lg",
       scrollable: true,
     });
+
     this.FiltrarLotes();
   }
 
@@ -408,25 +414,11 @@ export class CertificadoComponent implements OnInit {
     if (e.value == "C") {
       this.formularioCertificado.patchValue({
         iaCodigo_24: "CCIC-08",
-        // ,descripcion_24 : "Bionova - BT10"
-        // ,descripcion_24 : "Bionova - BT10"
-        // ,descripcion_24 : "Bionova - BT10"
-        // ,descripcion_24 : "Bionova - BT10"
-        // ,descripcion_24 : "Bionova - BT10"
-        // ,descripcion_24 : "Bionova - BT10"
-        // ,descripcion_24 : "Bionova - BT10"
       });
     }
     if (e.value == "L") {
       this.formularioCertificado.patchValue({
         iaCodigo_24: "CCIC-09",
-        //,descripcion_24 : "Bionova - BT110"
-        //,descripcion_24 : "Bionova - BT110"
-        //,descripcion_24 : "Bionova - BT110"
-        //,descripcion_24 : "Bionova - BT110"
-        //,descripcion_24 : "Bionova - BT110"
-        //,descripcion_24 : "Bionova - BT110"
-        //,descripcion_24 : "Bionova - BT110"
       });
     }
   }
@@ -466,7 +458,6 @@ export class CertificadoComponent implements OnInit {
         hrProceso: 55,
       });
 
-      //52 °C ± 6 °C
       tiempoAireacion.readOnly = true;
       tiempoExposicion.readOnly = true;
       taUnidadMedida.value = "horas";
@@ -476,7 +467,8 @@ export class CertificadoComponent implements OnInit {
     }
   }
 
-  FiltrarLotes() {
+  FiltrarLotes() 
+  {
     const body = {
       Descripcion: this.formularioLote.get("descripcion").value,
       Identificador: this.formularioLote.get("identificador").value,
@@ -484,10 +476,13 @@ export class CertificadoComponent implements OnInit {
       RegistrosPorPagina: 10,
     };
 
-    this._esterilizacionService.ListarLotes(body).subscribe((resp) => {
-      this.listaLotes = resp["contenido"];
-      this.paginador = resp["paginado"];
-    });
+    this._esterilizacionService.ListarLotes(body).subscribe(
+      (resp) => 
+      {
+        this.listaLotes = resp["contenido"];
+        this.paginador = resp["paginado"];
+      }
+    );
   }
 
   NuevoLote() {
@@ -545,14 +540,16 @@ export class CertificadoComponent implements OnInit {
     this.modalLote.close();
   }
 
-  abrirModal(modal: NgbModal, usuario: CertificadoData | null) {
+  abrirModal(modal: NgbModal) 
+  {
     this.OpcionesEquipo = false;
     this.OpcionB300 = true;
     this.formularioCertificado.reset();
-    var ultimoCertificado =
-      this.listaCertificados[this.listaCertificados.length - 1];
 
-    if (ultimoCertificado == null || ultimoCertificado == undefined) {
+    var ultimoCertificado = this.listaCertificados[this.listaCertificados.length - 1];
+
+    if (ultimoCertificado == null || ultimoCertificado == undefined) 
+    {
       var descripcion21 = "";
       var lote21 = "";
       var expira21 = "";
@@ -561,48 +558,52 @@ export class CertificadoComponent implements OnInit {
       var lote22 = "";
       var expira22 = "";
 
-      var descripcion24 = "";
       var lote24 = "";
       var expira24 = "";
-    } else {
+    } 
+    else {
+      
       var descripcion21 = this.listaLotes.find(
-        (x) => x.id == ultimoCertificado.idLoteCintaTestigo
-      ).descripcion;
+          (x) => x.id == ultimoCertificado.idLoteCintaTestigo
+        )?.descripcion;
+
       var lote21 = this.listaLotes.find(
-        (x) => x.id == ultimoCertificado.idLoteCintaTestigo
-      ).lote;
+          (x) => x.id == ultimoCertificado.idLoteCintaTestigo
+        )?.lote;
+
       var expira21 = this.listaLotes.find(
-        (x) => x.id == ultimoCertificado.idLoteCintaTestigo
-      ).expira;
+          (x) => x.id == ultimoCertificado.idLoteCintaTestigo
+        )?.expira;
+
       var id21 = this.listaLotes.find(
-        (x) => x.id == ultimoCertificado.idLoteCintaTestigo
-      ).id;
+          (x) => x.id == ultimoCertificado.idLoteCintaTestigo
+        )?.id;
 
       var descripcion22 = this.listaLotes.find(
-        (x) => x.id == ultimoCertificado.idLoteIndicadorQuimico
-      ).descripcion;
-      var lote22 = this.listaLotes.find(
-        (x) => x.id == ultimoCertificado.idLoteIndicadorQuimico
-      ).lote;
-      var expira22 = this.listaLotes.find(
-        (x) => x.id == ultimoCertificado.idLoteIndicadorQuimico
-      ).expira;
-      var id22 = this.listaLotes.find(
-        (x) => x.id == ultimoCertificado.idLoteIndicadorQuimico
-      ).id;
+          (x) => x.id == ultimoCertificado.idLoteIndicadorQuimico
+        )?.descripcion;
 
-      var descripcion24 = this.listaLotes.find(
-        (x) => x.id == ultimoCertificado.idLoteIB
-      ).descripcion;
+      var lote22 = this.listaLotes.find(
+          (x) => x.id == ultimoCertificado.idLoteIndicadorQuimico
+        )?.lote;
+
+      var expira22 = this.listaLotes.find(
+          (x) => x.id == ultimoCertificado.idLoteIndicadorQuimico
+        )?.expira;
+
+      var id22 = this.listaLotes.find(
+          (x) => x.id == ultimoCertificado.idLoteIndicadorQuimico
+        )?.id;
+
       var lote24 = this.listaLotes.find(
         (x) => x.id == ultimoCertificado.idLoteIB
-      ).lote;
+      )?.lote;
       var expira24 = this.listaLotes.find(
         (x) => x.id == ultimoCertificado.idLoteIB
-      ).expira;
+      )?.expira;
       var id24 = this.listaLotes.find(
         (x) => x.id == ultimoCertificado.idLoteIB
-      ).id;
+      )?.id;
     }
 
     this.formularioCertificado.patchValue({
@@ -615,10 +616,10 @@ export class CertificadoComponent implements OnInit {
       descripcion_21: descripcion21,
       lote_21: lote21,
       expira_21: expira21,
-      descripcion_22: descripcion22,
+      descripcion_22: descripcion22,  
       lote_22: lote22,
       expira_22: expira22,
-      descripcion_24: descripcion24,
+      descripcion_24: '',
       lote_24: lote24,
       expira_24: expira24,
       loteId_21: id21,
@@ -626,13 +627,13 @@ export class CertificadoComponent implements OnInit {
       loteId_24: id24,
       tiempoAireacion: 4,
       tiempoExposicion: 12,
-      metodoEsterilizacion:
-        "EXPOSICIÓN AL ÓXIDO DE ETILENO (ETO) A BAJA TEMPERATURA",
+      metodoEsterilizacion: "EXPOSICIÓN AL ÓXIDO DE ETILENO (ETO) A BAJA TEMPERATURA",
       producto: "Material Médico Diverso",
       modelo_23: "GAXT-E-DL",
       codigo_23: "DE-003",
       renombrarBio300: "BIO 300",
     });
+
     this.modalCertificado = this.modalService.open(modal, {
       centered: true,
       backdrop: "static",

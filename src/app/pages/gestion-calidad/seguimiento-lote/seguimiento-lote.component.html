@@ -1,0 +1,458 @@
+<div class="row">
+    <div class="col-12">
+      <div class="card border-left border-info">
+        <div class="card-header bg-info text-white" style="font-weight: bold">
+          Filtros de búsqueda
+        </div>
+        <div class="card-body">
+          <form autocomplete="off" [formGroup]="formFiltros" (submit)="filtrarLote()">
+            <div class="row" style="font-size: 13px;">
+              <div class="col-sm-12 col-md-4 col-lg-4">
+                  <div class="form-group row">
+                      <label for="fname2" class="col-sm-4 text-left control-label col-form-label">Tipo item</label>
+                      <div class="col-sm-8">
+                        <select class="form-control form-control-sm" id="status" formControlName="tipoItem">
+                            <option value="PT">Producto Terminado</option>
+                            <option value="MP">Materia Prima</option>
+                          </select>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-sm-12 col-md-4 col-lg-4">
+                <div class="form-group row">
+                    <label for="lname2" class="col-sm-4 text-left control-label col-form-label">
+                      <span *ngIf="tipoItem == 'PT'">Lote</span>
+                      <span *ngIf="tipoItem == 'MP'">Nro análisis</span>
+                    </label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" placeholder="Número lote" formControlName="lote">
+                    </div>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-3 col-lg-3">
+                <div class="form-group row d-flex justify-content-center">
+                    <button class="btn btn-info btn-rounded" type="submit">Filtrar</button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+</div>
+
+<div class="row" *ngIf="flagPrimeraBusqueda">
+  <div class="col-12">
+    <div class="card border-left border-info">
+      <div class="card-body">
+        <div class="alert alert-warning" role="alert" *ngIf="flagResultItems">
+          No se encontro resultados.
+        </div>
+        <div *ngIf="!flagResultItems">
+          <h4 class="font-weight-bold">Materia prima por lote</h4>
+          <div class="table-responsive text-nowrap" >
+            <table class="table table-hover table-bordered table-sm">
+                <thead>
+                    <tr>
+                      <th scope="col" class="text-center font-weight-bold">...</th>
+                      <th scope="col" class="text-center font-weight-bold">Tipo Doc.</th>
+                      <th scope="col" class="text-center font-weight-bold">Nro Doc.</th>
+                      <th scope="col" class="text-center font-weight-bold">Fecha Doc.</th>
+                      <th scope="col" class="text-center font-weight-bold">Transacción</th>
+                      <th scope="col" class="text-center font-weight-bold">Item</th>
+                      <th scope="col" class="text-center font-weight-bold">Descripción</th>
+                      <th scope="col" class="text-center font-weight-bold">Almacen</th>
+                      <th scope="col" class="text-center font-weight-bold">Ref.</th>
+                      <th scope="col" class="text-center font-weight-bold">Ref. Nro Doc</th>
+                      <th scope="col" class="text-center font-weight-bold">Ord. Fabr.</th>
+                      <th scope="col" class="text-center font-weight-bold">Estado</th>
+                      <th scope="col" class="text-center font-weight-bold">Nro Análisis</th>
+                      <th scope="col" class="text-center font-weight-bold">Cantidad</th>
+                    </tr>
+                </thead>
+                <tbody style="font-size: 14px;">
+                    <tr *ngFor="let materiaPrima of listaMateriaPrima">
+                        <td class="text-center">
+                          <input type="checkbox" [value]="materiaPrima.flagSelect" (change)="materiaPrima.flagSelect = !materiaPrima.flagSelect; seleccionItem()" >
+                        </td>
+                        <td class="text-center">
+                          {{ materiaPrima.tipoDocumento }}
+                        </td>
+                        <td class="text-center">
+                          {{ materiaPrima.numeroDocumento }}
+                        </td>
+                        <td class="text-center">
+                          {{ materiaPrima.fechaDocumento | date: 'dd/MM/yyyy'}}
+                        </td>
+                        <td class="text-center">
+                          {{ materiaPrima.transaccion}}
+                        </td>
+                        <td>
+                          {{ materiaPrima.item }}
+                        </td>
+                        <td>
+                          {{ materiaPrima.descripcion }}
+                        </td>
+                        <td class="text-center">
+                          {{ materiaPrima.almacenCodigo }}
+                        </td>
+                        <td class="text-center">
+                          {{ materiaPrima.referenciaTipoDocumento }}
+                        </td>
+                        <td class="text-center">
+                          {{ materiaPrima.referenciaNumeroDocumento }}
+                        </td>
+                        <td class="text-center">
+                          {{ materiaPrima.ordenFabricacion }}
+                        </td>
+                        <td class="text-center">
+                          {{ materiaPrima.estado }}
+                        </td>
+                        <td class="text-center">
+                          {{ materiaPrima.numeroAnalisis }}
+                        </td>
+                        <td class="text-right">
+                          {{ materiaPrima.cantidad | number: '0.0-2' }}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+          </div>
+        </div>
+
+        <br>
+        <div *ngIf="flagSelectItemMP">
+          <h4 class="font-weight-bold">Ordenes de compra</h4>
+          <div class="alert alert-warning" role="alert" *ngIf="!flagOrdenCompraResult">
+            No se encontro resultados para los lotes seleccionados.
+          </div>
+          <div class="table-responsive text-nowrap" *ngIf="flagOrdenCompraResult">
+            <table class="table table-hover table-bordered table-sm">
+                <thead>
+                    <tr>
+                        <th scope="col" class="text-center font-weight-bold">Orden</th>
+                        <th scope="col" class="text-center font-weight-bold">Ctrl Nro</th>
+                        <th scope="col" class="text-center font-weight-bold">Proveedor</th>
+                        <th scope="col" class="text-center font-weight-bold">Lt Aprobado</th>
+                        <th scope="col" class="text-center font-weight-bold">Item</th>
+                        <th scope="col" class="text-center font-weight-bold">Descripcion</th>
+                        <th scope="col" class="text-center font-weight-bold">Unidad</th>
+                        <th scope="col" class="text-center font-weight-bold">Nro Parte</th>
+                        <th scope="col" class="text-center font-weight-bold">Ref. Tipo</th>
+                        <th scope="col" class="text-center font-weight-bold">Cant. Recibida</th>
+                        <th scope="col" class="text-center font-weight-bold">Cant. Aceptada</th>
+                        <th scope="col" class="text-center font-weight-bold">Cant. Rechazada</th>
+                        <th scope="col" class="text-center font-weight-bold">Cant. Transferida</th>
+                        <th scope="col" class="text-center font-weight-bold">Aprobación</th>
+                        <th scope="col" class="text-center font-weight-bold">Vencimiento</th>
+                        <th scope="col" class="text-center font-weight-bold">Comentario</th>
+                    </tr>
+                </thead>
+                <tbody style="font-size: 14px">
+                    <tr *ngFor="let materiaPrima of ordenesDeCompra">
+                        <td>
+                          {{ materiaPrima.numeroOrden }}
+                        </td>
+                        <td>
+                          {{ materiaPrima.controlNumero }}
+                        </td>
+                        <td>
+                          {{ materiaPrima.proveedor }}
+                        </td>
+                        <td>
+                          {{ materiaPrima.loteAprobado }}
+                        </td>
+                        <td>
+                          {{ materiaPrima.item }}
+                        </td>
+                        <td>
+                          {{ materiaPrima.descripcion }}
+                        </td>
+                        <td class="text-center">
+                          {{ materiaPrima.unidadCodigo }}
+                        </td>
+                        <td class="text-center">
+                          {{ materiaPrima.numeroDeParte }}
+                        </td>
+                        <td class="text-center">
+                          {{ materiaPrima.referenciaTipo }}
+                        </td>
+                        <td class="text-right">
+                          {{ materiaPrima.cantidadRecibida | number: '0.0-2' }}
+                        </td>
+                        <td class="text-right">
+                          {{ materiaPrima.cantidadAceptada | number: '0.0-2' }}
+                        </td>
+                        <td class="text-right">
+                          {{ materiaPrima.cantidadRechazada | number: '0.0-2' }}
+                        </td>
+                        <td class="text-right">
+                          {{ materiaPrima.cantidadTransferida | number: '0.0-2' }}
+                        </td>
+                        <td class="text-center">
+                          {{ materiaPrima.fechaAprobacion | date: 'dd/MM/yyyy hh:mm'}}
+                        </td>
+                        <td class="text-center">
+                          {{ materiaPrima.fechaVencimiento | date: 'dd/MM/yyyy'}}
+                        </td>
+                        <td>
+                          {{ materiaPrima.comentario }}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+          </div>
+          <br>
+          <h4 class="font-weight-bold">Ordenes de fabricación</h4>
+          <div class="alert alert-warning" role="alert" *ngIf="!flagOrdenFabricacionResult">
+            No se encontro resultados para los lotes seleccionados.
+          </div>
+          <div class="table-responsive text-nowrap" *ngIf="flagOrdenFabricacionResult">
+            <table class="table table-hover table-bordered table-sm">
+                <thead>
+                    <tr>
+                        <th scope="col" class="text-center font-weight-bold">Orden</th>
+                        <th scope="col" class="text-center font-weight-bold">Lote</th>
+                        <th scope="col" class="text-center font-weight-bold">Pedido</th>
+                        <th scope="col" class="text-center font-weight-bold">Nro Parte</th>
+                        <th scope="col" class="text-center font-weight-bold">Item</th>
+                        <th scope="col" class="text-center font-weight-bold">Descripción</th>
+                        <th scope="col" class="text-center font-weight-bold">Cliente</th>
+                        <th scope="col" class="text-center font-weight-bold">Und.</th>
+                        <th scope="col" class="text-center font-weight-bold">Cantidad</th>
+                        <th scope="col" class="text-center font-weight-bold">Día Prod.</th>
+                        <th scope="col" class="text-center font-weight-bold">Fec Requerida</th>
+                        <th scope="col" class="text-center font-weight-bold">Producción</th>
+                        <th scope="col" class="text-center font-weight-bold">Expira</th>
+                        <th scope="col" class="text-center font-weight-bold">Estado</th>
+                        <th scope="col" class="text-center font-weight-bold">Referencia</th>
+                        <th scope="col" class="text-center font-weight-bold">Auditable</th>
+                        <th scope="col" class="text-center font-weight-bold">Transferido</th>
+                        <th scope="col" class="text-center font-weight-bold">Multi Pedido</th>
+                        <th scope="col" class="text-center font-weight-bold">Comentario</th>
+                    </tr>
+                </thead>
+                <tbody style="font-size: 14px">
+                    <tr *ngFor="let orden of ordenesDeFabricacion">
+                        <td>
+                          {{ orden.ordenFabricacion }}
+                        </td>
+                        <td class="text-center">
+                          {{ orden.lote }}
+                        </td>
+                        <td class="text-center">
+                          {{ orden.pedidoNumero }}
+                        </td>
+                        <td>
+                          {{ orden.NumeroDeParte }}
+                        </td>
+                        <td>
+                          {{ orden.item }}
+                        </td>
+                        <td>
+                          {{ orden.descripcion }}
+                        </td>
+                        <td>
+                          {{ orden.cliente }}
+                        </td>
+                        <td class="text-center">
+                          {{ orden.unidadCodigo }}
+                        </td>
+                        <td class="text-right">
+                          {{ orden.cantidadProducida | number:'0.0-2'}}
+                        </td>
+                        <td class="text-center">
+                          {{ orden.diaProduccion | number: '0.0'}}
+                        </td>
+                        <td class="text-center">
+                          {{ orden.fechaRequerida | date : 'dd/MM/yyyy'}}
+                        </td>
+                        <td class="text-center">
+                          {{ orden.fechaProduccion | date : 'dd/MM/yyyy'}}
+                        </td>
+                        <td class="text-center">
+                          {{ orden.fechaExpiracion | date : 'dd/MM/yyyy'}}
+                        </td>
+                        <td class="text-center">
+                          {{ orden.estado }}
+                        </td>
+                        <td class="text-center">
+                          {{ orden.referenciaTipo }}
+                        </td>
+                        <td class="text-center">
+                          {{ orden.auditableFlag }}
+                        </td>
+                        <td class="text-center">
+                          {{ orden.transferidoFlag }}
+                        </td>
+                        <td class="text-center">
+                          {{ orden.multiPedido | number: '0.0'}}
+                        </td>
+                        <td>
+                          {{ orden.comentarios }}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+          </div>
+
+          <br>
+          <h4 class="font-weight-bold">Pedidos relacionados</h4>
+          <div class="alert alert-warning" role="alert" *ngIf="!flagDocumentosPedidosResult">
+            No se encontro resultados para los lotes seleccionados.
+          </div>
+          <div class="table-responsive text-nowrap" *ngIf="flagDocumentosPedidosResult">
+            <table class="table table-hover table-bordered table-sm">
+                <thead>
+                    <tr>
+                        <th scope="col" class="text-center font-weight-bold">Nro Doc</th>
+                        <th scope="col" class="text-center font-weight-bold">Tipo Doc</th>
+                        <th scope="col" class="text-center font-weight-bold">Forma Fac.</th>
+                        <th scope="col" class="text-center font-weight-bold">Venta</th>
+                        <th scope="col" class="text-center font-weight-bold">Fecha</th>
+                        <th scope="col" class="text-center font-weight-bold">Ruc</th>
+                        <th scope="col" class="text-center font-weight-bold">Cliente</th>
+                        <th scope="col" class="text-center font-weight-bold">Dirección</th>
+                        <th scope="col" class="text-center font-weight-bold">Lote</th>
+                        <th scope="col" class="text-center font-weight-bold">Ord. Fabr.</th>
+                        <th scope="col" class="text-center font-weight-bold">Almacen</th>
+                        <th scope="col" class="text-center font-weight-bold">Item</th>
+                        <th scope="col" class="text-center font-weight-bold">Descripción</th>
+                        <th scope="col" class="text-center font-weight-bold">Und</th>
+                        <th scope="col" class="text-center font-weight-bold">Entregado</th>
+                        <th scope="col" class="text-center font-weight-bold">Precio Und</th>
+                        <th scope="col" class="text-center font-weight-bold">Monto</th>
+                        <th scope="col" class="text-center font-weight-bold">Total</th>
+                    </tr>
+                </thead>
+                <tbody style="font-size: 14px">
+                    <tr *ngFor="let documento of documentosPedidos">
+                        <td>
+                          {{ documento.numeroDocumento }}
+                        </td>
+                        <td class="text-center">
+                          {{ documento.tipoDocumento }}
+                        </td>
+                        <td class="text-center">
+                          {{ documento.formaFacturacion }}
+                        </td>
+                        <td class="text-center">
+                          {{ documento.tipoVenta }}
+                        </td>
+                        <td class="text-center">
+                          {{ documento.fechaDocumento | date: 'dd/MM/yyyy' }}
+                        </td>
+                        <td class="text-center">
+                          {{ documento.ruc }}
+                        </td>
+                        <td>
+                          {{ documento.clienteNombre }}
+                        </td>
+                        <td>
+                          {{ documento.clienteDireccion }}
+                        </td>
+                        <td class="text-center">
+                          {{ documento.lote }}
+                        </td>
+                        <td class="text-center">
+                          {{ documento.ordenFabricacion }}
+                        </td>
+                        <td class="text-center">
+                          {{ documento.almacenCodigo }}
+                        </td>
+                        <td>
+                          {{ documento.item }}
+                        </td>
+                        <td>
+                          {{ documento.descripcion }}
+                        </td>
+                        <td class="text-center">
+                          {{ documento.unidad }}
+                        </td>
+                        <td class="text-right">
+                          {{ documento.cantidadEntregada | number: '0.0-2' }}
+                        </td>
+                        <td class="text-right">
+                          {{ documento.precioUnitario | number: '0.2'}}
+                        </td>
+                        <td class="text-right">
+                          {{ documento.monto | number: '0.2'}}
+                        </td>
+                        <td class="text-right">
+                          {{ documento.montoTotal | number: '0.2'}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+          </div>
+
+          <br>
+          <h4 class="font-weight-bold">Guias relacionados</h4>
+          <div class="alert alert-warning" role="alert" *ngIf="!flagGuiasRelacionadosResult">
+            No se encontro resultados para los lotes seleccionados.
+          </div>
+          <div class="table-responsive text-nowrap" *ngIf="flagGuiasRelacionadosResult">
+            <table class="table table-hover table-bordered table-sm">
+                <thead>
+                    <tr>
+                        <th scope="col" class="text-center font-weight-bold">Guia</th>
+                        <th scope="col" class="text-center font-weight-bold">Factura</th>
+                        <th scope="col" class="text-center font-weight-bold">Fecha Doc</th>
+                        <th scope="col" class="text-center font-weight-bold">Nro Pedido</th>
+                        <th scope="col" class="text-center font-weight-bold">Ruc</th>
+                        <th scope="col" class="text-center font-weight-bold">Nombre Destino</th>
+                        <th scope="col" class="text-center font-weight-bold">Dirección Destino</th>
+                        <th scope="col" class="text-center font-weight-bold">Lote</th>
+                        <th scope="col" class="text-center font-weight-bold">Item</th>
+                        <th scope="col" class="text-center font-weight-bold">Descripción</th>
+                        <th scope="col" class="text-center font-weight-bold">Cnt Pedida</th>
+                        <th scope="col" class="text-center font-weight-bold">Cnt Recibida</th>
+                    </tr>
+                </thead>
+                <tbody style="font-size: 14px">
+                    <tr *ngFor="let guia of guiasRelacionadas">
+                        <td class="text-center">
+                          {{ guia.guiaNumero }}
+                        </td>
+                        <td class="text-center">
+                          {{ guia.facturaNumero }}
+                        </td>
+                        <td class="text-center">
+                          {{ guia.fechaDocumento | date: 'dd/MM/yyyy'}}
+                        </td>
+                        <td class="text-center">
+                          {{ guia.referenciaNumeroPedido }}
+                        </td>
+                        <td class="text-center">
+                          {{ guia.destinatarioRuc }}
+                        </td>
+                        <td>
+                          {{ guia.destinatarioNombre }}
+                        </td>
+                        <td>
+                          {{ guia.destinatarioDireccion }}
+                        </td>
+                        <td class="text-center">
+                          {{ guia.lote }}
+                        </td>
+                        <td>
+                          {{ guia.itemCodigo }}
+                        </td>
+                        <td>
+                          {{ guia.descripcion }}
+                        </td>
+                        <td class="text-right">
+                          {{ guia.cantidad | number: '0.0'}}
+                        </td>
+                        <td class="text-right">
+                          {{ guia.cantidadRecibida | number: '0.0'}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+          </div>
+        </div> 
+      </div>
+    </div>
+  </div>
+</div>
