@@ -35,6 +35,25 @@ export class ContabilidadService {
       )
   }
 
+  ConsultarProductoCostoBase(body){
+    return this._http.post(this.url+"/api/Contabilidad/ConsultarProductoCostoBase",body).pipe(
+        catchError(() => throwError("Error al Consultar Costo Base Productos"))
+    )
+  }
+
+  ProcesarProductoExcel(body){
+    return this._http.post(this.url+"/api/Contabilidad/ProcesarProductoExcel",body).pipe(
+        catchError(() => throwError("Error al Consultar Costo Base Productos Masivo"))
+    )
+  }
+
+  ConsultarRecetaItemComponente(Item,FechaDocumento){
+    const params =  new HttpParams().set('Item', Item).set('FechaDocumento',FechaDocumento);
+    return this._http.get(this.url+"/api/Contabilidad/ConsultarRecetaProducto",{"params":params}).pipe(
+        catchError(() => throwError("Error al Consultar Receta De Componente Item"))
+    )
+  }
+
   
 
 }

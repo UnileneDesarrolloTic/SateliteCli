@@ -9,13 +9,19 @@ import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { DetraccionesComponent } from './detracciones/detracciones.component';
 import { AlertaProcesarDetraccionComponent } from './detracciones/alerta-procesar-detraccion/alerta-procesar-detraccion.component';
+import { AnalisiscostosListaprecioComponent } from './analisiscostos-listaprecio/analisiscostos-listaprecio.component';
+import { TagResumenComponent } from './analisiscostos-listaprecio/tag-resumen/tag-resumen.component';
+import { ModalDetalleMateriaPrimaComponent } from './analisiscostos-listaprecio/modal-detalle-materia-prima/modal-detalle-materia-prima.component';
 
 
 @NgModule({
   declarations:
   [
     DetraccionesComponent,
-    AlertaProcesarDetraccionComponent
+    AlertaProcesarDetraccionComponent,
+    AnalisiscostosListaprecioComponent,
+    TagResumenComponent,
+    ModalDetalleMateriaPrimaComponent
   ],
   imports:
   [

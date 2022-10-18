@@ -1,0 +1,49 @@
+
+    <div class="row">
+        <!-- Column BLOQUE 1 -->
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5>Cantidad: {{ListarProductoCostoBase.length}}</h5>
+                    <div class="table-responsive scroll-group">
+                        <table class="table table-hover">
+                            <thead class="text-black table-sm" style="font-size: 10px">
+                                <tr>
+                                    <th scope="col">Código</th>
+                                    <th scope="col">Nombre Producto</th>
+                                    <th scope="col">Número de Parte</th>
+                                    <th scope="col">Familia</th>
+                                    <th scope="col">SubFamilia</th>
+                                    <th scope="col">M.Prima</th>
+                                    <th scope="col">M.Obra</th>
+                                    <th scope="col">Fabricación</th>
+                                    <th scope="col">Costo Base</th>
+                                    <th scope="col">Opción</th>
+                                </tr>
+                            </thead>
+                            <tbody *ngFor="let ItemCostobase of ListarProductoCostoBase; let i = index" style="font-size: 11px;">
+                                <tr>
+                                    <th> <b>{{ItemCostobase.codigoItem}}</b></th>
+                                    <td> <b>{{ItemCostobase.item}}</b></td>
+                                    <td> <b>{{ItemCostobase.numeroDeParte}}</b></td>
+                                    <td> <b>{{ItemCostobase.familia}}</b></td>
+                                    <td> <b>{{ItemCostobase.subfamilia}}</b></td>
+                                    <td> <b>{{ItemCostobase.costoMateriaPrima_Soles  | number : '1.2-2'  }}</b></td>
+                                    <td> <b>{{ItemCostobase.costoManoObra_Soles  | number : '1.2-2' }}</b></td>
+                                    <td> <b>{{ItemCostobase.costoIndirectoFab_Soles  | number : '1.2-2'  }}</b></td>
+                                    <td> <b>{{ItemCostobase.mto_CostoBase | number : '1.2-2' }}</b></td>
+                                    <td style="width: 10rem;"> 
+                                        <button class="btn btn-sm btn-success"  sytpe="background-color: #3e8f39;" (click)="OpenModalDetalleMP(ItemCostobase)" > ver Detalle </button>
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
