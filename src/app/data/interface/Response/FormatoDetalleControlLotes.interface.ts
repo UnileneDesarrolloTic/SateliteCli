@@ -32,5 +32,6 @@ export interface DetalleControlLotes {
     busqueda:string,
     fechaExpiracion:Date,
     protocoloFlag:number,
+    destruible:string,
   }
   
