@@ -8,6 +8,7 @@ import { ModalItemCostoComponent } from '@shared/components/modal-item-costo/mod
 import { GenericoService } from '@shared/services/comunes/generico.service';
 import { ToastrService } from 'ngx-toastr';
 
+
 @Component({
   selector: 'app-modal-detalle-materia-prima',
   templateUrl: './modal-detalle-materia-prima.component.html',
@@ -15,7 +16,9 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class ModalDetalleMateriaPrimaComponent implements OnInit {
   ResumenFormulario:FormGroup;
+  FechaItemProductoTerminado:string='';
   @Input()  itemRow : DatosFormatoProductoCostoBaseModel ;
+  ListarPrecioCostoItemComponente:DatosFormatoRecetaItemComponenteModel[]=[];
 
   constructor( public activeModal: NgbActiveModal,
               private _fb : FormBuilder,
@@ -31,27 +34,33 @@ export class ModalDetalleMateriaPrimaComponent implements OnInit {
 
   
   crearFormulario(){
-    this.ResumenFormulario = new FormGroup({
-          ArrayMateriaPrima: this._fb.array([]),
+    this.ResumenFormulario = this._fb.group({
+          // ArrayMateriaPrima: this._fb.array([]),
           CostoTotal: new FormControl(0),
           ManoObra: new FormControl(0),
           Cif: new FormControl(0),
           CostoUnitario : new FormControl(0),
-          RentEsperada : new FormControl(0),
-          PreUnitario : new FormControl(0),
+          // RentEsperada : new FormControl(0),
+          // PreUnitario : new FormControl(0),
     });
   }
 
 
   InformacionItem(item:DatosFormatoProductoCostoBaseModel){
     let FechaDocumento = item.ultFechaDoc.split("T")[0];
+    this.FechaItemProductoTerminado = item.ultFechaDoc.split("T")[0];
     let codigoItem = item.codigoItem;
+    this.ResumenFormulario.get("ManoObra").patchValue(item.costoManoObra);
+    this.ResumenFormulario.get("Cif").patchValue(item.costoCIF);
+
     this._ContabilidadService.ConsultarRecetaItemComponente(codigoItem,FechaDocumento).subscribe(
       (resp:any)=>{
-          if(resp.length>0)
-            this.construirMateriaPrima(resp); 
-          else
-            this.toastr.warning(`Codigo: ${ codigoItem }  - Fecha Documento: ${ FechaDocumento }`,`No hay informacion`);
+          if(resp.length>0){
+            this.ListarPrecioCostoItemComponente=resp;
+            this.SumaTotal();
+          }else{
+            this.toastr.warning(`No hay informacion`);
+          } 
       },
       (error)=>{
           this.toastr.info("Comunicarse con sistemas");
@@ -60,44 +69,20 @@ export class ModalDetalleMateriaPrimaComponent implements OnInit {
   }
 
   
-  construirMateriaPrima(ItemReceta:DatosFormatoRecetaItemComponenteModel[]){
-    const ArrayItem = this.ResumenFormulario.controls.ArrayMateriaPrima as FormArray;
-    ArrayItem.controls = [];
+
+  SumaTotal(){
     var sumar = 0;
-
-    ItemReceta.forEach((itemRow:DatosFormatoRecetaItemComponenteModel)=>{
-        const ItemFilaForm = this._fb.group({
-          periodo: [itemRow.periodo],
-          item: [itemRow.item],
-          nombreProducto: [itemRow.nombreProducto],
-          numeroDeParte: [itemRow.numeroDeParte],
-          secuencia: [itemRow.secuencia],
-          itemcomponente: [itemRow.itemcomponente],
-          cantidad: [itemRow.cantidad],
-          costoUnitarioSoles: [itemRow.costoUnitarioSoles],
-          material: [itemRow.material],
-          linea: [itemRow.linea],
-          familia: [itemRow.familia],
-          subfamilia: [itemRow.subfamilia],
-        });
-        this.ListadoMateriaPrima.push(ItemFilaForm);
-    })
-
-    this.ResumenFormulario.controls.ArrayMateriaPrima.value.forEach((element:DatosFormatoRecetaItemComponenteModel) => {
-      sumar = sumar + element.costoUnitarioSoles
+    let CostoUnitarioBaseGeneral=0;
+    this.ListarPrecioCostoItemComponente.forEach((element:DatosFormatoRecetaItemComponenteModel) => {
+      sumar = sumar + element.costoUnitarioDolares
     });
-    console.log(sumar , "Final");
-
     this.ResumenFormulario.get("CostoTotal").patchValue(this._GenericoService.RedondearDecimales(sumar,2,false) );
+    CostoUnitarioBaseGeneral = parseFloat(this.ResumenFormulario.controls.CostoTotal.value) +  parseFloat(this.ResumenFormulario.controls.ManoObra.value) + parseFloat(this.ResumenFormulario.controls.Cif.value);
+    this.ResumenFormulario.get("CostoUnitario").patchValue(this._GenericoService.RedondearDecimales(CostoUnitarioBaseGeneral,2,false));
   }
-
    
-  get ListadoMateriaPrima(){
-    return this.ResumenFormulario.controls['ArrayMateriaPrima'] as FormArray;
-  }
 
-
-  OpenModalItem(item:DatosFormatoRecetaItemComponenteModel){
+  OpenModalItem(item:DatosFormatoRecetaItemComponenteModel,index){
     const modalRefItem = this.modalService.open(ModalItemCostoComponent, {
 			ariaLabelledBy: 'modal-basic-title',
 			centered: true,
@@ -108,12 +93,27 @@ export class ModalDetalleMateriaPrimaComponent implements OnInit {
 			keyboard: false
 		});
 
-
-		modalRefItem.result.then((result) => {
-         
+    modalRefItem.componentInstance.ItemComponente =item;
+    modalRefItem.componentInstance.FechaItemProductoTerminado =this.FechaItemProductoTerminado;
+		modalRefItem.result.then((result:DatosFormatoRecetaItemComponenteModel) => {
+    
+    this.ListarPrecioCostoItemComponente.forEach((element:DatosFormatoRecetaItemComponenteModel,position)=>{
+          if(index==position){
+            console.log("yes");
+            element.itemComponente=result.itemComponente;
+            element.nombreProducto=result.nombreProducto;
+            element.costoUnitarioSoles=result.costoUnitarioSoles;
+            element.costoUnitarioDolares=result.costoUnitarioDolares;
+            element.costoUnitario=result.costoUnitario;
+          }
+    })
+    
+    this.SumaTotal();
 		}, (reason) => {
-
+      console.log(reason,"sali sadsad")
 		});
+
+    this.ResumenFormulario.value;
   }
 
 

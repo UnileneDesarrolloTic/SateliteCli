@@ -115,6 +115,7 @@ export class InterceptorService implements HttpInterceptor {
       'Contabilidad/ConsultarProductoCostoBase',
       'Contabilidad/ConsultarRecetaProducto',
       'Contabilidad/ProcesarProductoExcel',
+      'Contabilidad/ListarItemComponentePrecio',
       'AnalisisAguja/ListaOrdenesCompra',
       'AnalisisAguja/ListarAnalisisAguja',
       'AnalisisAguja/ListarCiclos',
@@ -168,7 +169,11 @@ export class InterceptorService implements HttpInterceptor {
       'FirmaDigital/SolicitudesPendientesFirma',
       'FirmaDigital/DocumentosPendientesFirma',
       'FirmaDigital/FirmarDocumentos',
-      'FirmaDigital/RechazarDocumentos'
+      'FirmaDigital/RechazarDocumentos',
+      'GestionCalidad/ListarMateriaPrima',
+      'GestionCalidad/DetalleSeguimientoPorLote',
+      'GestionCalidad/VentasPorCliente',
+      'GestionCalidad/RptVentasPorCliente'
     ];
     
     const data = this.sesionService.datosPersonales();

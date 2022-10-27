@@ -1,1 +1,59 @@
-<p>modal-item-costo works!</p>
+<div class="row">
+    <div class="card-body">
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Listar ItemComponente
+            </h4>
+            <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body scroll-group">
+            <div class="row p-1">
+                <div class="col-6">
+                    <input type="text" placeholder="Buscar Item o Descripción." class="form-control form-control-sm"
+                        [formControl]='textFilterCtrl'>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="text-black table-sm" style="font-size: 10px">
+                        <tr>
+                            <th scope="col">Item</th>
+                            <th scope="col">Descripción</th>
+                            <th scope="col">Proveedor</th>
+                            <!-- <th scope="col">P.Unitario(Soles)</th> -->
+                            <th scope="col">P.Unitario(Dolares)</th>
+                            
+                            <th scope="col">Seleccionar</th>
+                        </tr>
+                    </thead>
+                    <tbody *ngFor="let componente of ListarItemComponente; let i = index" style="font-size: 11px">
+                        <tr>
+                            <td><b>{{componente.itemComponente}}</b></td>
+                            <td><b>{{componente.descripcionLocal}}</b></td>
+                            <td><b>{{componente.nombreCompleto}}</b></td>
+                            <!-- <td style="color: #5086c1;font-weight:bold;"><b>{{componente.costoUnitarioSoles | number : '1.2-3'}}</b></td> -->
+                            <td  class="text-center" style="color: #42ab49;font-weight: bold;"><b>{{componente.costoUnitarioDolares | number : '1.2-3'}}</b></td>
+                            
+                            <td class="text-center" >
+                                <button class="btn btn-sm btn-success btn-sm"
+                                    (click)="ElegirItemComponente(componente)"> <i class="fas fa-share"
+                                        style="font-size: 10px"></i> </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div *ngIf="CargandoDatos" class="d-flex justify-content-center">
+                <span class="spinner-border text-info"></span>
+                <br />
+                <span class="text-info">&nbsp; Cargando Información...</span>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn-secondary btn-sm btn-rounded" (click)="activeModal.dismiss('Cross click')">
+                Cancelar
+            </button>
+        </div>
+    </div>
+</div>

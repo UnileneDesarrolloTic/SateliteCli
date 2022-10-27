@@ -22,7 +22,7 @@ export const ContabilidadRoutes: Routes = [
         path: 'AnalisisCosto',
         component: AnalisiscostosListaprecioComponent,
         data: {
-          title: "Analisis de Costo y Lista de Precios",
+          title: "Análisis de Costo y Lista de Precios",
           urls: [
             {title: 'Detracción' }
           ]

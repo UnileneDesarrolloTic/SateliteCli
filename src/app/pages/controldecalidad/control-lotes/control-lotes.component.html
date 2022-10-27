@@ -59,6 +59,7 @@
                     <th class="text-center sticky-3" scope="col">O.Fabricacion</th>
                     <th class="text-center" scope="col">Lote</th>
                     <th class="text-center" scope="col">Protocolo</th>
+                    <th class="text-center" scope="col">Destruible</th>
                     <th class="text-center" scope="col">F.Produccion</th>
                     <th class="text-center" scope="col">F.Expira</th>
                     <th class="text-center" scope="col">Item</th>
@@ -99,6 +100,11 @@
                       <td class="text-center" style="width:2% !important;">
                         <i  *ngIf="ControlLoteForm.value.protocoloFlag==0" style="font-size: 24px;color: #ff6961;" class="fas fa-times-circle"></i>
                         <i  *ngIf="ControlLoteForm.value.protocoloFlag>0" style="font-size: 24px;color: #77dd77;" class="fas fa-check-circle"></i>
+                      </td>
+                      <td class="text-center">
+                        <div class="input-group input-group-sm" style='width:5rem'>
+                          <input type="number" class="form-control form-control-sm" formControlName="destruible" />
+                        </div>
                       </td>
                       <td class="text-center">
                           <b>{{ControlLoteForm.value.fechaProduccion | date:'dd/MM/yyy'}}</b>
@@ -143,7 +149,9 @@
                           <b>{{ControlLoteForm.value.estado}}</b>
                       </td>
                       <td class="text-center">
-                        <b>{{ControlLoteForm.value.comentarios}}</b>
+                        <div class="input-group input-group-sm" style='width:7rem'>
+                          <textarea type="text" class="form-control form-control-sm" formControlName="comentarios"></textarea>
+                        </div>
                       </td>
                      
                     </ng-container>

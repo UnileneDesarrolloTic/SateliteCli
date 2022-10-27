@@ -2,8 +2,11 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { DatosFormatoProductoCostoBaseModel } from '@data/interface/Response/DatosFormatoProductoCostoBase.interface';
 import { ContabilidadService } from '@data/services/backEnd/pages/contabilidad.service';
+import { GenericoService } from '../../../../../src/app/shared/services/comunes/generico.service';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, ReplaySubject } from 'rxjs';
+import { ListaFamiliaMaestroItem } from '@data/interface/Response/FamiliaMaestroItem.interface';
+import { SubFamiliaModel } from '@data/interface/Response/DatosSubFamilia.interface';
 
 @Component({
   selector: 'app-analisiscostos-listaprecio',
@@ -12,6 +15,8 @@ import { Observable, ReplaySubject } from 'rxjs';
 })
 export class AnalisiscostosListaprecioComponent implements OnInit {
   ListarProductoCostoBase:DatosFormatoProductoCostoBaseModel[]=[];
+  FamiliaMaestro:ListaFamiliaMaestroItem[]=[];
+  SubFamilias:SubFamiliaModel[]=[];
   ConsultarForm:FormGroup;
   displayButton:boolean=true;
   base64string:string="";
@@ -23,34 +28,80 @@ export class AnalisiscostosListaprecioComponent implements OnInit {
   archivo: ElementRef;
   
   constructor(private  _ContabilidadService:ContabilidadService,
-              private toastr: ToastrService) { }
+              private toastr: ToastrService,
+              private _GenericoService: GenericoService) { }
 
   ngOnInit(): void {
     this.crearFormulario();
+    this.ListarFamilia();
+    this.instanciarObservadoresfamilia();
+    this.instanciarObservadoresExcel();
+    this.Buscar();
   }
 
   crearFormulario(){
     this.ConsultarForm= new FormGroup({
         CodProducto: new FormControl(''),
         NumeroCotizacion: new FormControl(''),
+        idfamilia: new FormControl('MC'),
+        idSubFamilia: new FormControl(),
         Opcion:new FormControl(true),
-        base64:new FormControl('')
+        base64:new FormControl(''),
+        BusquedaExcel:new FormControl(false),
     });
   }
 
+
   Buscar(){
-    if(this.activarCampo){
-          this.Filtrar();
-    }else{
-          this.FiltrarMasivo();
-         
-    }
+    if(!this.ConsultarForm.controls.BusquedaExcel.value)
+      this.Filtrar();
+    else  
+      this.FiltrarMasivo();
+  }
+
+  ListarFamilia(){
+    this._GenericoService.ListarFamiliaMaestroItem('P').subscribe(
+      (resp:any)=>{
+        if(resp["success"]){
+          this.FamiliaMaestro=resp["content"];
+          console.log("first");
+          this.SubFamilia('P',this.FamiliaMaestro[0].familia)
+        }
+      }
+    )
+  }
+
+  instanciarObservadoresfamilia(){
+    this.ConsultarForm.get("idfamilia").valueChanges.subscribe(idfamilia=>{
+        this.SubFamilia('P',idfamilia);
+    })
+  }
+
+  instanciarObservadoresExcel(){
+    this.ConsultarForm.get("BusquedaExcel").valueChanges.subscribe(check=>{
+          this.ConsultarForm.get("CodProducto").patchValue('');
+          this.ConsultarForm.get("NumeroCotizacion").patchValue('');
+    })
+  }
+
+  SubFamilia(idlinea,idFamilia){
+    this._GenericoService.ListarSubFamilia(idlinea,idFamilia).subscribe(
+      (resp:any)=>{
+        if(resp["success"]){
+          this.SubFamilias=resp["content"];
+          this.ConsultarForm.get("idSubFamilia").patchValue(this.SubFamilias[0].subFamilia)
+        }
+      }
+    );
   }
 
   Filtrar(){
       this._ContabilidadService.ConsultarProductoCostoBase(this.ConsultarForm.value).subscribe(
           (resp:any)=>{
+                if(resp.length>0)
                     this.ListarProductoCostoBase=resp;
+                else
+                    this.toastr.info("No hay elemento");
           },
           (error)=>{
             this.toastr.info("Comunicarse con sistemas");
@@ -59,11 +110,9 @@ export class AnalisiscostosListaprecioComponent implements OnInit {
   }
 
   FiltrarMasivo(){
-
     this.ConsultarForm.get("base64").patchValue(this.base64string);
-    
     this._ContabilidadService.ProcesarProductoExcel(this.ConsultarForm.value).subscribe(
-      (resp:any)=>{
+        (resp:any)=>{
               this.ListarProductoCostoBase=resp;
         },
         (error)=>{
@@ -72,6 +121,7 @@ export class AnalisiscostosListaprecioComponent implements OnInit {
     )
   }
 
+  
   ActivaDesactiva(){
       this.activarCampo=!this.activarCampo;
       this.ConsultarForm.get("Opcion").patchValue(this.activarCampo);
@@ -79,11 +129,9 @@ export class AnalisiscostosListaprecioComponent implements OnInit {
       if(!this.activarCampo){
           this.ConsultarForm.get("CodProducto").patchValue('');
       }else{
-          this.ConsultarForm.get("base64").patchValue('');
-          this.archivo.nativeElement.value="";
+          this.ConsultarForm.get("NumeroCotizacion").patchValue('');
+          // this.archivo.nativeElement.value="";
       }
-
-      console.log(this.ConsultarForm.value);
   }
   
   handleUpload(event) {

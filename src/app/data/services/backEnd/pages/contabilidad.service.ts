@@ -48,12 +48,17 @@ export class ContabilidadService {
   }
 
   ConsultarRecetaItemComponente(Item,FechaDocumento){
-    const params =  new HttpParams().set('Item', Item).set('FechaDocumento',FechaDocumento);
+    const params =  new HttpParams().set('Item', Item);
     return this._http.get(this.url+"/api/Contabilidad/ConsultarRecetaProducto",{"params":params}).pipe(
         catchError(() => throwError("Error al Consultar Receta De Componente Item"))
     )
   }
 
+  ListarItemComponentePrecio(body){
+    return this._http.post<any>(this.url+"/api/Contabilidad/ListarItemComponentePrecio", body).pipe(
+      catchError (() => throwError("Error al obtener Detalle de listar de control lote "))
+    );
+  }
   
 
 }

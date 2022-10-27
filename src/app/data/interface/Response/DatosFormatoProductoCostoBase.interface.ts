@@ -1,13 +1,16 @@
 export interface DatosFormatoProductoCostoBaseModel {
-    ultFechaDoc: string,
+    
     codigoItem: string,
+    descripcionLocal: string,
     numeroDeParte:string,
-    item: string,
+    linea:string;
     familia:string;
     subfamilia:string,
-    costoMateriaPrima_Soles:number;
-    costoManoObra_Soles:number;
-    costoIndirectoFab_Soles:number;
-    mto_CostoBase:number,
+    codMoneda:string,
+    costoMateriaPrima:number;
+    costoManoObra:number;
+    costoCIF:number;
+    costoUnitarioBase:number;
+    ultFechaDoc:string,
   }
   
