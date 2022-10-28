@@ -50,6 +50,7 @@ export class InterceptorService implements HttpInterceptor {
       'usuario/RegistrarPersonaMasiva',
       'usuario/FiltrarAreaPersona',
       'usuario/LiberalPersona',
+      'usuario/ExportarExcelPersonaAsignacion',
       'ValidacionAccesos/ValidarAccesoRuta',
       'ValidacionAccesos/validarToken',
       'Produccion/ProductosArima',

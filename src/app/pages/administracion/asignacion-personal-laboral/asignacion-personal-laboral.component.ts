@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DatosFormatoAreaPersonalModel } from '@data/interface/Response/DatosFormatoContarAreaPersonal.inteface';
 import { DatosFormatoFiltrarAreaPersona } from '@data/interface/Response/DatosFormatoFiltrarAreaPersona.interface';
 import { DatosFormatoListarLicitaciones } from '@data/interface/Response/DatosFormatoListarLicitaciones.interface';
 import { DatosFormatoPersonaLaboralModel } from '@data/interface/Response/DatosFormatoPersonaLaboralModel.interface';
 import { UsuarioService } from '@data/services/backEnd/pages/usuario.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ModalCargarComponent } from '@shared/components/modal-cargar/modal-cargar.component';
+import { Cargarbase64Service } from '@shared/services/comunes/cargarbase64.service';
 import { ToastrService } from 'ngx-toastr';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
@@ -35,11 +38,15 @@ export class AsignacionPersonalLaboralComponent implements OnInit {
   buscarpersonaArea:string="";
   idAreaPersonalFiltrada:string="0";
   
+  FormRangoFechas: FormGroup;
 
   constructor(private _UsuarioService:UsuarioService,
-              private toastr: ToastrService,) { }
+              private toastr: ToastrService,
+              private modalService: NgbModal,
+              private servicebase64:Cargarbase64Service) { }
 
   ngOnInit(): void {
+    this.CrearFormula();
     this.CargarInformacionPersonalLaboral();
     this.CargarInformacionArea();
     this.filtrarArea();
@@ -53,14 +60,14 @@ export class AsignacionPersonalLaboralComponent implements OnInit {
       }
     });
 
-    //Bloque 2 
-    this.buscarPersonaAgregado.pipe(debounceTime(900)).subscribe(() => {
-      if(this.buscarpersonaArea.trim() == ''){
-        this.ListarFiltrarAreaPersona=this.TemporalListarFiltrarAreaPersona;
-      }else{
-        this.ListarFiltrarAreaPersona=this.TemporalListarFiltrarAreaPersona.filter(x=>x.nombreCompleto.toLowerCase().indexOf(this.buscarpersonaArea.toLowerCase().trim()) !== -1);
-      }
-    });
+    // //Bloque 2 
+    // this.buscarPersonaAgregado.pipe(debounceTime(900)).subscribe(() => {
+    //   if(this.buscarpersonaArea.trim() == ''){
+    //     this.ListarFiltrarAreaPersona=this.TemporalListarFiltrarAreaPersona;
+    //   }else{
+    //     this.ListarFiltrarAreaPersona=this.TemporalListarFiltrarAreaPersona.filter(x=>x.nombreCompleto.toLowerCase().indexOf(this.buscarpersonaArea.toLowerCase().trim()) !== -1);
+    //   }
+    // });
   }
 
    //Bloque 1
@@ -69,10 +76,16 @@ export class AsignacionPersonalLaboralComponent implements OnInit {
   }
 
   //Bloque 2
-  filtroNombreCompletoAgregado(){
-    this.buscarPersonaAgregado.next();
-  }
+  // filtroNombreCompletoAgregado(){
+  //   this.buscarPersonaAgregado.next();
+  // }
 
+  CrearFormula(){
+    this.FormRangoFechas = new FormGroup({
+      fechainicio: new FormControl(''),
+      fechafinal: new FormControl('')
+    })
+  }
 
   CargarInformacionPersonalLaboral(){
     this._UsuarioService.ListarPersonalLaboral().subscribe(
@@ -163,14 +176,13 @@ export class AsignacionPersonalLaboralComponent implements OnInit {
   }
 
   filtrarArea(){
-    if(this.idAreaPersonalFiltrada!="0"){
-      this._UsuarioService.FiltrarAreaPersona(this.idAreaPersonalFiltrada).subscribe(
+      this._UsuarioService.FiltrarAreaPersona(this.idAreaPersonalFiltrada,this.buscarpersonaArea).subscribe(
         (resp:any)=>{
             this.ListarFiltrarAreaPersona=resp;
             this.TemporalListarFiltrarAreaPersona=resp; 
         }
       )
-    } 
+    
   }
 
   LiberalPersona(fila){
@@ -185,6 +197,36 @@ export class AsignacionPersonalLaboralComponent implements OnInit {
           } 
         }
       );
+  }
+
+  ExportarExcel(){
+
+      if(this.FormRangoFechas.controls.fechafinal.value < this.FormRangoFechas.controls.fechainicio.value){
+           return this.toastr.warning("La fecha final deber ser mayor que la fecha inicio")
+      }
+
+      const ModalCarga = this.modalService.open(ModalCargarComponent, {
+        centered: true,
+        backdrop: 'static',
+        size: 'sm',
+        scrollable: true
+      });
+      ModalCarga.componentInstance.fromParent = "Generando el Formato Excel";
+
+      this._UsuarioService.ExportarExcelPersonaAsignacion(this.FormRangoFechas.controls.fechainicio.value,this.FormRangoFechas.controls.fechafinal.value)
+      .subscribe( (resp:any)=>{
+        if(resp.success){
+          this.servicebase64.file(resp.content,`ReporteAsignacion ${this.FormRangoFechas.controls.fechainicio.value} - ${this.FormRangoFechas.controls.fechafinal.value}`,'.xlsx',ModalCarga);
+        }else{
+          ModalCarga.close();
+          this.toastr.info(resp.message);
+        }
+      },
+      (error)=>{
+        ModalCarga.close();
+        this.toastr.info("Comuniquese con sistemas");
+      }
+      )
   }
 
 }
