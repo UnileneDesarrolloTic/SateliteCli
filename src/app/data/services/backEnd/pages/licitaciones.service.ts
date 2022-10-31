@@ -16,9 +16,9 @@ export class LicitacionesService {
   constructor(private _http: HttpClient) { 
   }
 
-  ListarProceso(){
-    
-    return this._http.get<DatosListarProceso[]>(this.url+"/api/Licitaciones/ListarProceso").pipe(
+  ListarProceso(idClient){
+    const params =  new HttpParams().set('idClient', idClient)
+    return this._http.get<DatosListarProceso[]>(this.url+"/api/Licitaciones/ListarProceso",{'params': params}).pipe(
       catchError (() => throwError("Error al obtener Detalle de Pedido"))
     );
   }
