@@ -87,6 +87,11 @@
                     {{ value | number }}
                   </ng-template>
                 </ngx-datatable-column>
+                <ngx-datatable-column name="Duración" prop='duracion' [width]="110">
+                  <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    {{ value | number:'1.1-1' }}
+                  </ng-template>
+              </ngx-datatable-column>
                 <ngx-datatable-column name="S Disponible" prop='stockDisponible' [width]="110">
                   <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                     {{ value | number }}

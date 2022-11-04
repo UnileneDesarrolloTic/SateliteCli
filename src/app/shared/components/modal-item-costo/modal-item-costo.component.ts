@@ -13,8 +13,8 @@ import { debounceTime } from 'rxjs/operators';
   styleUrls: ['./modal-item-costo.component.css']
 })
 export class ModalItemCostoComponent implements OnInit {
-  @Input() ItemComponente:DatosFormatoRecetaItemComponenteModel;
-  @Input() FechaItemProductoTerminado: string;
+  @Input() ItemComponente:any;
+  // @Input() FechaItemProductoTerminado: string;
   textFilterCtrl = new FormControl('');
   CargandoDatos:boolean=true;
 
@@ -52,9 +52,9 @@ export class ModalItemCostoComponent implements OnInit {
 
   ListarItemComponenteUnitario(){
     const Datos={
-      Linea:this.ItemComponente.linea,
-      Familia:this.ItemComponente.familia,
-      SubFamilia:this.ItemComponente.subFamilia,
+      Linea:this.ItemComponente.lineaItemComponente,
+      Familia:this.ItemComponente.familiaItemComponente,
+      SubFamilia:this.ItemComponente.subFamiliaItemComponente,
     }
     this._ContabilidadService.ListarItemComponentePrecio(Datos).subscribe(
         (resp:any)=>{
@@ -73,11 +73,12 @@ export class ModalItemCostoComponent implements OnInit {
   }
 
   ElegirItemComponente(itemComponente:ItemComponenteUnitarioModel){
-      this.ItemComponente.itemComponente=itemComponente.itemComponente;
-      this.ItemComponente.nombreProducto=itemComponente.descripcionLocal;
-      this.ItemComponente.costoUnitarioSoles=itemComponente.costoUnitarioSoles;
-      this.ItemComponente.costoUnitarioDolares=itemComponente.costoUnitarioDolares;
-      this.ItemComponente.costoUnitario=itemComponente.costoUnitarioDolares / this.ItemComponente.cantidad
-      this.activeModal.close(this.ItemComponente);
+   
+      // this.ItemComponente.itemComponente=itemComponente.itemComponente;
+      // this.ItemComponente.nombreProducto=itemComponente.descripcionLocal;
+      // this.ItemComponente.costoUnitarioSoles=itemComponente.costoUnitarioSoles;
+      // this.ItemComponente.costoUnitarioDolares=itemComponente.costoUnitarioDolares;
+      // this.ItemComponente.costoUnitario=itemComponente.costoUnitarioDolares / this.ItemComponente.cantidad;
+      this.activeModal.close(itemComponente);
   }
 }

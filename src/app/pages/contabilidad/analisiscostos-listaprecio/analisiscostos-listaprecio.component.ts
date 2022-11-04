@@ -15,6 +15,7 @@ import { SubFamiliaModel } from '@data/interface/Response/DatosSubFamilia.interf
 })
 export class AnalisiscostosListaprecioComponent implements OnInit {
   ListarProductoCostoBase:DatosFormatoProductoCostoBaseModel[]=[];
+  Tmp_ListarProductoCostoBase:any[]=[];
   FamiliaMaestro:ListaFamiliaMaestroItem[]=[];
   SubFamilias:SubFamiliaModel[]=[];
   ConsultarForm:FormGroup;
@@ -44,7 +45,7 @@ export class AnalisiscostosListaprecioComponent implements OnInit {
         CodProducto: new FormControl(''),
         NumeroCotizacion: new FormControl(''),
         idfamilia: new FormControl('MC'),
-        idSubFamilia: new FormControl(),
+        idSubFamilia: new FormControl('NN'),
         Opcion:new FormControl(true),
         base64:new FormControl(''),
         BusquedaExcel:new FormControl(false),
@@ -64,7 +65,6 @@ export class AnalisiscostosListaprecioComponent implements OnInit {
       (resp:any)=>{
         if(resp["success"]){
           this.FamiliaMaestro=resp["content"];
-          console.log("first");
           this.SubFamilia('P',this.FamiliaMaestro[0].familia)
         }
       }
@@ -98,10 +98,12 @@ export class AnalisiscostosListaprecioComponent implements OnInit {
   Filtrar(){
       this._ContabilidadService.ConsultarProductoCostoBase(this.ConsultarForm.value).subscribe(
           (resp:any)=>{
-                if(resp.length>0)
-                    this.ListarProductoCostoBase=resp;
-                else
-                    this.toastr.info("No hay elemento");
+                if(resp.length>0){
+                  this.ListarProductoCostoBase=resp;
+                  this.Tmp_ListarProductoCostoBase=resp;
+                }else{
+                  this.toastr.info("No hay elemento");
+                }
           },
           (error)=>{
             this.toastr.info("Comunicarse con sistemas");
@@ -113,7 +115,12 @@ export class AnalisiscostosListaprecioComponent implements OnInit {
     this.ConsultarForm.get("base64").patchValue(this.base64string);
     this._ContabilidadService.ProcesarProductoExcel(this.ConsultarForm.value).subscribe(
         (resp:any)=>{
-              this.ListarProductoCostoBase=resp;
+          if(resp.length>0){
+            this.ListarProductoCostoBase=resp;
+            this.Tmp_ListarProductoCostoBase=resp;
+          }else{
+            this.toastr.info("No hay elemento");
+          }
         },
         (error)=>{
           this.toastr.info("Comunicarse con sistemas");
@@ -154,4 +161,7 @@ export class AnalisiscostosListaprecioComponent implements OnInit {
     return result;
   }
 
+  Refrescar(valor){
+    this.Buscar();
+  }
 }

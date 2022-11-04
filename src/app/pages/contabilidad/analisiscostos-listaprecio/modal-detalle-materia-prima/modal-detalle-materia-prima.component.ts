@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { ItemComponenteUnitarioModel } from '@data/interface/Response/DatosFormatoItemComponent.interface';
 import { DatosFormatoProductoCostoBaseModel } from '@data/interface/Response/DatosFormatoProductoCostoBase.interface';
 import { DatosFormatoRecetaItemComponenteModel } from '@data/interface/Response/DatosFormatoRecetaItemComponente.interface';
 import { ContabilidadService } from '@data/services/backEnd/pages/contabilidad.service';
@@ -83,6 +84,7 @@ export class ModalDetalleMateriaPrimaComponent implements OnInit {
    
 
   OpenModalItem(item:DatosFormatoRecetaItemComponenteModel,index){
+    // console.log(index);
     const modalRefItem = this.modalService.open(ModalItemCostoComponent, {
 			ariaLabelledBy: 'modal-basic-title',
 			centered: true,
@@ -94,26 +96,25 @@ export class ModalDetalleMateriaPrimaComponent implements OnInit {
 		});
 
     modalRefItem.componentInstance.ItemComponente =item;
-    modalRefItem.componentInstance.FechaItemProductoTerminado =this.FechaItemProductoTerminado;
-		modalRefItem.result.then((result:DatosFormatoRecetaItemComponenteModel) => {
-    
-    this.ListarPrecioCostoItemComponente.forEach((element:DatosFormatoRecetaItemComponenteModel,position)=>{
+    // modalRefItem.componentInstance.FechaItemProductoTerminado =this.FechaItemProductoTerminado;
+		modalRefItem.result.then((result:ItemComponenteUnitarioModel) => {
+     this.ListarPrecioCostoItemComponente.forEach((element:DatosFormatoRecetaItemComponenteModel,position)=>{
           if(index==position){
-            console.log("yes");
-            element.itemComponente=result.itemComponente;
-            element.nombreProducto=result.nombreProducto;
-            element.costoUnitarioSoles=result.costoUnitarioSoles;
-            element.costoUnitarioDolares=result.costoUnitarioDolares;
-            element.costoUnitario=result.costoUnitario;
+               element.itemComponente=result.itemComponente;
+               element.nombreProducto=result.descripcionLocal;
+               element.costoUnitarioSoles=result.costoUnitarioSoles;
+               element.costoUnitarioDolares=result.costoUnitarioDolares;
+               element.costoUnitario=element.cantidad / result.costoUnitarioDolares;
           }
+          
     })
     
     this.SumaTotal();
 		}, (reason) => {
-      console.log(reason,"sali sadsad")
+      // console.log(reason,"sali sadsad")
 		});
 
-    this.ResumenFormulario.value;
+    // this.ResumenFormulario.value;
   }
 
 
