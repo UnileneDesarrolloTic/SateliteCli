@@ -59,6 +59,10 @@ export const AppRoutes: Routes = [
       {
         path:'GestionCalidad',
         loadChildren:() => import('@pages/gestion-calidad/gestion-calidad.module').then(m => m.GestionCalidadModule)
+      },
+      {
+        path:'Exportaciones',
+        loadChildren:() => import('@pages/exportaciones/exportaciones.module').then(m => m.ExportacionesModule)
       }
     ]
   },

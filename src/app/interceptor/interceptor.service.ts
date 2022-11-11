@@ -174,7 +174,11 @@ export class InterceptorService implements HttpInterceptor {
       'GestionCalidad/ListarMateriaPrima',
       'GestionCalidad/DetalleSeguimientoPorLote',
       'GestionCalidad/VentasPorCliente',
-      'GestionCalidad/RptVentasPorCliente'
+      'GestionCalidad/RptVentasPorCliente',
+      'Exportaciones/ListarCotizacionExportaciones',
+      'Exportaciones/BuscarCotizacionExportaciones',
+      'Exportaciones/GuardarCotizacionExportaciones',
+      'Exportaciones/ProcesarExcelExportaciones'
     ];
     
     const data = this.sesionService.datosPersonales();

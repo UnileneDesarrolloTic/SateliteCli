@@ -1,0 +1,221 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card border-left border-info">
+            <div class="card-header bg-info text-white" style="font-weight: bold">
+                Numero de Documento : {{NumeroDocumento =='Nuevo' ? '' : NumeroDocumento}}
+            </div>
+            <div class="card-body">
+                <form autocomplete="off" [formGroup]="formFormulario">
+                    <div class="form-body" style="font-size: 14px;">
+                        <div class="row">
+                            <div class="col-sm-12 col-md-4 col-xl-2">
+                                <div class="form-group">
+                                    <label class="control-label" for="cliente">Cliente :</label>
+                                    <div class="input-group mb-3">
+                                        <input type="text" [attr.disabled]="true" name='cliente'
+                                            formControlName="clienteNombre" id="cliente"
+                                            class="form-control form-control-sm" placeholder="Buscar Cliente"
+                                            aria-label="" aria-describedby="basic-addon1">
+                                        <div class="input-group-append">
+                                            <button class="btn mr-0 btn-info btn-sm" [disabled]="FormularioNuevo"
+                                                type="button" (click)="openModalConsultaClientes()">
+                                                <i class="ti-search"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-4 col-xl-2">
+                                <div class="form-group">
+                                    <label class="control-label" for="Contacto">Contacto: </label>
+                                    <input type="text" class="form-control form-control-sm" id="Contactotext"
+                                        formControlName="Contacto">
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-4 col-xl-2">
+                                <div class="form-group">
+                                    <label class="control-label" for="Contacto">Lugar Entrega: </label>
+                                    <input type="text" class="form-control form-control-sm" id="Contactotext"
+                                        formControlName="LugarEntrega">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 col-md-12 col-xl-12">
+                                <div class="form-group">
+                                    <label class="control-label" for="Comentarios">Comentarios: </label>
+                                    <textarea type="text" class="form-control form-control-sm" id="Comentariostext"
+                                        formControlName="Comentarios"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row d-flex justify-content-end">
+                            <div class="d-flex">
+                                <div class="p-2">
+                                    <button type="button" (click)="Guardar()" class="btn  btn-success btn-sm"><i
+                                            class="fas fa-plus"></i>
+                                        Guardar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row" *ngIf="NumeroDocumento =='Nuevo'">
+    <div class="col-12">
+        <div class="card border-left border-info">
+            <div class="card-body row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <Label><b>RECORDAR </b>La hoja debe llamarse <b class="text-info">UNILENE&nbsp;&nbsp;&nbsp;
+                            </b></Label>
+                        <input type="file" (change)="handleUpload($event)" #archivo id="archivo" class="form-control">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <!-- <label class="control-label text-white">&nbsp;</label>
+                    <div class="form-group">
+                        <button (click)="FiltrarExcel()" type="button" class="btn btn-primary btn-sm">
+                            Cargar Excel
+                        </button>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="card border-left border-info">
+            <div class="card-body">
+                <div class="table-responsive text-nowrap">
+                    <table class="table table-hover table-bordered table-sm">
+                        <thead>
+                            <tr>
+
+                                <th scope="col" class="text-center font-weight-bold">Codsut</th>
+                                <th scope="col" class="text-center font-weight-bold">Item</th>
+                                <th scope="col" class="text-center font-weight-bold">Descripción</th>
+                                <th scope="col" class="text-center font-weight-bold">Cantidad</th>
+                                <th scope="col" class="text-center font-weight-bold">P.Unit</th>
+                                <th scope="col" class="text-center font-weight-bold">Total</th>
+                                <th scope="col" class="text-center font-weight-bold">
+                                    <span>Ex. Imp</span>
+                                    <input type="checkbox" [(ngModel)]="checkboxtotal" (click)="CheckoutTotal()"
+                                        style="font-size: 8px;" class="form-control form-control-sm">
+                                </th>
+                                <th scope="col" class="text-center font-weight-bold">Opción</th>
+                            </tr>
+                        </thead>
+                        <tbody style="font-size: 12px;">
+                            <tr *ngFor="let lessonForm of DetalleCoti.controls; let i = index">
+                                <ng-container [formGroup]="lessonForm">
+                                    <td class="text-center">
+                                        <b>{{lessonForm.value.codSut}}</b>
+                                    </td>
+                                    <td class="text-center">
+                                        <b>{{lessonForm.value.item}}</b>
+                                    </td>
+                                    <td class="text-left">
+                                        <b>{{lessonForm.value.descripcion}}</b>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="input-group input-group-sm"  style='width:7rem'>
+                                            <input type="number" class="form-control form-control-sm"
+                                                formControlName="cantidad" />
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="input-group input-group-sm" style='width:7rem'>
+                                            <input type="number" class="form-control form-control-sm"
+                                                formControlName="precioUnitario" />
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <b>{{lessonForm.value.monto | number: '1.2-2' }}</b>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="input-group input-group-sm">
+                                            <input type="checkbox" style="font-size: 8px;"
+                                                class="form-control form-control-sm"
+                                                formControlName="iGVExoneradoFlag" />
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <button (click)="EliminarItem(lessonForm.value,i)" type="button" class="btn btn-danger btn-sm"> 
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                        <button [disabled]="!lessonForm.value.item ==''" (click)="NuevoItem(lessonForm.value,i)" type="button" class="btn btn-warning btn-sm"> 
+                                            <i class="fas fa-external-link-alt"></i>
+                                        </button>
+                                    </td>
+                                </ng-container>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <form autocomplete="off" [formGroup]="formFormulario">
+
+                <div class="row">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-3"></div>
+                    <div class="col-md-3"></div>
+                    <div class="col-md-3">
+                        <table class="table table-bordered table-sm">
+                            <tbody>
+                                <tr>
+                                    <td class="text-nowrap"> Monto Afecto  </td>
+                                    <td>
+                                        <div class="input-group input-group-sm" style='width:7rem'>
+                                            <input type="number" class="form-control form-control-sm" [attr.readonly]="true"   formControlName="MontoAfecto"  />
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-nowrap"> Monto No Afecto  </td>
+                                    <td>
+                                        <div class="input-group input-group-sm" style='width:7rem'>
+                                            <input type="number" class="form-control form-control-sm" [attr.readonly]="true"  formControlName="MontoNoAfecto"  />
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-nowrap"> (-) descuento </td>
+                                    <td>
+                                        <div class="input-group input-group-sm" style='width:7rem'>
+                                            <input type="number" class="form-control form-control-sm" [attr.readonly]="true"  formControlName="Descuento" />
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-nowrap"> (+) Imp. Vtas </td>
+                                    <td>
+                                        <div class="input-group input-group-sm" style='width:7rem'>
+                                            <input type="number" class="form-control form-control-sm" [attr.readonly]="true"  formControlName="ImpVentas" />
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-nowrap"> Ajuste Redondeo  </td>
+                                    <td>
+                                        <div class="input-group input-group-sm" style='width:7rem'>
+                                            <input type="number" class="form-control form-control-sm" formControlName="AjusteRedondeo" />
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <hr>
+                        <div class="text-right">
+                            <h3><b>Total :</b> {{this.formFormulario.controls.MontoTotal.value | number  : '1.2-2'}}</h3>
+                        </div>
+                    </div>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -107,13 +107,14 @@ export class MaestroItemComponent implements OnInit {
 		});
 
     const ConstDetraccion={
-      Familia:this.FamiliaMaestro
+      Familia:this.FamiliaMaestro,
+      Codsut:''
     }
     modalRefGenerarCotizacion.componentInstance.fromParent =ConstDetraccion;
 		modalRefGenerarCotizacion.result.then((result) => {
          
 		}, (reason) => {
-
+        // console.log(reason);
 		});
   }
 

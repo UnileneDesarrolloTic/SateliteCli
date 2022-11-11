@@ -24,12 +24,12 @@ export class ModalMaestroItemComponent implements OnInit {
 
   ngOnInit(): void {
     this.ListarArraySubFamilia=this.fromParent["Familia"];
-    this.CrearFormulario();
+    this.CrearFormulario(this.fromParent["Codsut"]);
   }
 
-  CrearFormulario(){
+  CrearFormulario(Codsut){
     this.form = new FormGroup({
-      codsut: new FormControl('',[ Validators.required, Validators.minLength(21), Validators.maxLength(21),Validators.pattern("^[a-zA-Z0-9]+$")]),
+      codsut: new FormControl(Codsut,[ Validators.required, Validators.minLength(21), Validators.maxLength(21),Validators.pattern("^[a-zA-Z0-9]+$")]),
       familia:  new FormControl(null, Validators.required),
     })
   }
@@ -51,5 +51,9 @@ export class ModalMaestroItemComponent implements OnInit {
       }
     )
   }
+  CerrarModal(){
+
+    this.activeModal.dismiss(this.Respuesta);
+}
   
 }
