@@ -29,14 +29,14 @@
                         <tbody class="border border-info" style="font-size: 11px" id="tbodyDetalle">
 
                             <tr *ngFor="let Detalle of ListarDetalleReceta; let i = index">
-                                <td>{{Detalle.itemComponente}}</td>
-                                <td>{{Detalle.descripcionLocal}}</td>
-                                <td>{{Detalle.itemTipo}}</td>
-                                <td>{{Detalle.unidadCodigo}}</td>
-                                <td>{{Detalle.cantidadNeta | number: '1.2-2'}}</td>
-                                <td>{{Detalle.stockActual | number : '1.2-2'}}</td>
-                                <td>{{Detalle.stockDisponible | number:'1.2-2'}}</td>
-                                <td [ngStyle]="{'color': Detalle.stockDisponible - Detalle.cantidadNeta <= 0  ? '#FF2D00':'#0061FF' }">{{Detalle.stockDisponible - Detalle.cantidadNeta | number:'1.2-2'}}</td>
+                                <th>{{Detalle.itemComponente}}</th>
+                                <th><b>{{Detalle.descripcionLocal}}</b></th>
+                                <td><b>{{Detalle.itemTipo}}</b></td>
+                                <td><b>{{Detalle.unidadCodigo}}</b></td>
+                                <td><b>{{Detalle.cantidadNeta | number: '1.2-2'}}</b></td>
+                                <td><b>{{Detalle.stockActual | number : '1.2-2'}}</b></td>
+                                <td><b>{{Detalle.stockDisponible | number:'1.2-2'}}</b></td>
+                                <th [ngStyle]="{'color': Detalle.stockDisponible - Detalle.cantidadNeta <= 0  ? '#FF2D00':'#0061FF' }">{{Detalle.stockDisponible - Detalle.cantidadNeta | number:'1.2-2'}}</th>
                             </tr>
                         </tbody>
                     </table>

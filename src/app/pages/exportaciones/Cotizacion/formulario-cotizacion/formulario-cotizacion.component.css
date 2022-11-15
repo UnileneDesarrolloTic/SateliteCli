@@ -1,0 +1,4 @@
+::ng-deep .my-class-modal .modal-dialog { 
+    max-width: 90%;
+    width: 50%;
+}

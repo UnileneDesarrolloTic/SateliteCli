@@ -4,7 +4,7 @@ import { DatoFormatoNumeroPedidoMateriaPrima } from '@data/interface/Response/Da
 import { LogisticaService } from '@data/services/backEnd/pages/logistica.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
-import { ModalDetalleRecetaComponent } from '../modal-detalle-receta/modal-detalle-receta.component';
+import { ModalDetalleRecetaComponent } from '../../../../shared/components/modal-detalle-receta/modal-detalle-receta.component';
 
 @Component({
   selector: 'app-materia-prima-item',

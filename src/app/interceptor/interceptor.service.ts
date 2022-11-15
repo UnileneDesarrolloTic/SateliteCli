@@ -178,7 +178,9 @@ export class InterceptorService implements HttpInterceptor {
       'Exportaciones/ListarCotizacionExportaciones',
       'Exportaciones/BuscarCotizacionExportaciones',
       'Exportaciones/GuardarCotizacionExportaciones',
-      'Exportaciones/ProcesarExcelExportaciones'
+      'Exportaciones/ProcesarExcelExportaciones',
+      'Exportaciones/BuscarItemMast',
+      'Exportaciones/DesactivarItemCotizacionExportacion'
     ];
     
     const data = this.sesionService.datosPersonales();

@@ -8,7 +8,7 @@
                 <form autocomplete="off" [formGroup]="formFormulario">
                     <div class="form-body" style="font-size: 14px;">
                         <div class="row">
-                            <div class="col-sm-12 col-md-4 col-xl-2">
+                            <div class="col-sm-3 col-md-3 col-xl-2">
                                 <div class="form-group">
                                     <label class="control-label" for="cliente">Cliente :</label>
                                     <div class="input-group mb-3">
@@ -25,19 +25,28 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-12 col-md-4 col-xl-2">
+                            <div class="col-sm-3 col-md-3 col-xl-2">
                                 <div class="form-group">
                                     <label class="control-label" for="Contacto">Contacto: </label>
                                     <input type="text" class="form-control form-control-sm" id="Contactotext"
                                         formControlName="Contacto">
                                 </div>
                             </div>
-                            <div class="col-sm-12 col-md-4 col-xl-2">
+                            <div class="col-sm-3 col-md-3 col-xl-2">
                                 <div class="form-group">
                                     <label class="control-label" for="Contacto">Lugar Entrega: </label>
                                     <input type="text" class="form-control form-control-sm" id="Contactotext"
                                         formControlName="LugarEntrega">
                                 </div>
+                            </div>
+                            <div class="col-sm-3 col-md-3 col-xl-2">
+                                <label class="control-label" for="Contacto"> &nbsp; </label>
+                                <div class="form-group">
+                                    
+                                    <button type="button" (click)="Guardar()"  style="background-color: #42ab49; border-color: #42ab49;" class="btn  btn-success btn-sm"><i
+                                        class="fas fa-save"></i> Guardar</button>
+                                </div>
+                                
                             </div>
                         </div>
                         <div class="row">
@@ -49,15 +58,15 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row d-flex justify-content-end">
+                        <!-- <div class="row d-flex justify-content-end">
                             <div class="d-flex">
                                 <div class="p-2">
-                                    <button type="button" (click)="Guardar()" class="btn  btn-success btn-sm"><i
-                                            class="fas fa-plus"></i>
+                                    <button type="button" (click)="Guardar()"  style="background-color: #42ab49; border-color: #42ab49;" class="btn  btn-success btn-sm"><i
+                                            class="fas fa-save"></i>
                                         Guardar</button>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </form>
             </div>
@@ -67,21 +76,18 @@
 <div class="row" *ngIf="NumeroDocumento =='Nuevo'">
     <div class="col-12">
         <div class="card border-left border-info">
-            <div class="card-body row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <Label><b>RECORDAR </b>La hoja debe llamarse <b class="text-info">UNILENE&nbsp;&nbsp;&nbsp;
-                            </b></Label>
-                        <input type="file" (change)="handleUpload($event)" #archivo id="archivo" class="form-control">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group" >
+                            <Label><b>RECORDAR </b>La hoja debe llamarse <b class="text-info">UNILENE&nbsp;&nbsp;&nbsp;
+                                </b></Label>
+                            <input type="file" (change)="handleUpload($event)" #archivo id="archivo" class="form-control">
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-6">
-                    <!-- <label class="control-label text-white">&nbsp;</label>
-                    <div class="form-group">
-                        <button (click)="FiltrarExcel()" type="button" class="btn btn-primary btn-sm">
-                            Cargar Excel
-                        </button>
-                    </div> -->
+                    <div class="col-md-6 d-flex justify-content-end">
+                       
+                    </div>
                 </div>
             </div>
         </div>
@@ -91,6 +97,14 @@
     <div class="col-12">
         <div class="card border-left border-info">
             <div class="card-body">
+                <div class="row justify-content-end">
+                    <div class="form-group">
+                        <button (click)="AgregarItem()" type="button" class="btn btn-primary btn-sm">
+                            <i class="fas fa-plus"></i> Agregar Item
+                        </button>
+                    </div>
+                </div>
+
                 <div class="table-responsive text-nowrap">
                     <table class="table table-hover table-bordered table-sm">
                         <thead>
@@ -148,9 +162,26 @@
                                         <button (click)="EliminarItem(lessonForm.value,i)" type="button" class="btn btn-danger btn-sm"> 
                                             <i class="fas fa-trash-alt"></i>
                                         </button>
-                                        <button [disabled]="!lessonForm.value.item ==''" (click)="NuevoItem(lessonForm.value,i)" type="button" class="btn btn-warning btn-sm"> 
+                                        <button [disabled]="!lessonForm.value.item ==''" (click)="NuevoItem(lessonForm.value,i)" [ngbTooltip]="'Crear Item'" type="button" class="btn btn-warning btn-sm"> 
                                             <i class="fas fa-external-link-alt"></i>
                                         </button>
+                                      
+                                        <div *ngIf="lessonForm.value.receta==0;then content else other_content">here is ignored</div>
+                                        <ng-template #content>
+                                          <button [ngbTooltip]="'Sin receta'" class="btn btn-primary btn-sm"><i class="fas fa-minus-circle"></i></button>
+                                        </ng-template>
+                                        <ng-template #other_content>
+                                            <div *ngIf="lessonForm.value.materiaprima>0;then condicion1 else condicion2"></div>
+                                        </ng-template>
+                                        <ng-template #condicion1>
+                                            <button class="btn btn-danger btn-sm" (click)="AbrirModalMP(lessonForm.value)"> <i class="fa fa-battery-empty"></i> </button>
+                                        </ng-template>
+                                        <ng-template #condicion2>
+                                            <button class="btn btn-success btn-sm" (click)="AbrirModalMP(lessonForm.value)"> <i class="fa fa-battery-full"></i> </button>
+                                        </ng-template>
+
+                                           
+                                        
                                     </td>
                                 </ng-container>
                             </tr>
@@ -160,16 +191,16 @@
                 <form autocomplete="off" [formGroup]="formFormulario">
 
                 <div class="row">
-                    <div class="col-md-3"></div>
-                    <div class="col-md-3"></div>
-                    <div class="col-md-3"></div>
-                    <div class="col-md-3">
+                    <div class="col-md-4"></div>
+                    
+                    <div class="col-md-4"></div>
+                    <div class="col-md-4">
                         <table class="table table-bordered table-sm">
                             <tbody>
                                 <tr>
                                     <td class="text-nowrap"> Monto Afecto  </td>
                                     <td>
-                                        <div class="input-group input-group-sm" style='width:7rem'>
+                                        <div class="input-group input-group-sm" style='width:8rem'>
                                             <input type="number" class="form-control form-control-sm" [attr.readonly]="true"   formControlName="MontoAfecto"  />
                                         </div>
                                     </td>
@@ -177,7 +208,7 @@
                                 <tr>
                                     <td class="text-nowrap"> Monto No Afecto  </td>
                                     <td>
-                                        <div class="input-group input-group-sm" style='width:7rem'>
+                                        <div class="input-group input-group-sm" style='width:8rem'>
                                             <input type="number" class="form-control form-control-sm" [attr.readonly]="true"  formControlName="MontoNoAfecto"  />
                                         </div>
                                     </td>
@@ -185,7 +216,7 @@
                                 <tr>
                                     <td class="text-nowrap"> (-) descuento </td>
                                     <td>
-                                        <div class="input-group input-group-sm" style='width:7rem'>
+                                        <div class="input-group input-group-sm" style='width:8rem'>
                                             <input type="number" class="form-control form-control-sm" [attr.readonly]="true"  formControlName="Descuento" />
                                         </div>
                                     </td>
@@ -193,7 +224,7 @@
                                 <tr>
                                     <td class="text-nowrap"> (+) Imp. Vtas </td>
                                     <td>
-                                        <div class="input-group input-group-sm" style='width:7rem'>
+                                        <div class="input-group input-group-sm" style='width:8rem'>
                                             <input type="number" class="form-control form-control-sm" [attr.readonly]="true"  formControlName="ImpVentas" />
                                         </div>
                                     </td>
@@ -201,7 +232,7 @@
                                 <tr>
                                     <td class="text-nowrap"> Ajuste Redondeo  </td>
                                     <td>
-                                        <div class="input-group input-group-sm" style='width:7rem'>
+                                        <div class="input-group input-group-sm" style='width:8rem'>
                                             <input type="number" class="form-control form-control-sm" formControlName="AjusteRedondeo" />
                                         </div>
                                     </td>

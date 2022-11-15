@@ -16,7 +16,7 @@ import { TagDetalleComponent } from './consultar-stock-ventas/tag-detalle/tag-de
 import { ModalDetalleComprometidoComponent } from './consultar-stock-ventas/modal-detalle-comprometido/modal-detalle-comprometido.component';
 import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
 import { MateriaPrimaItemComponent } from './consultar-stock-ventas/materia-prima-item/materia-prima-item.component';
-import { ModalDetalleRecetaComponent } from './consultar-stock-ventas/modal-detalle-receta/modal-detalle-receta.component';
+import { ModalDetalleRecetaComponent } from '../../shared/components/modal-detalle-receta/modal-detalle-receta.component';
 
 
 @NgModule({
