@@ -8,7 +8,8 @@ export interface DatosAnalisisAgujaFlexion
     descripcionItem:string,
     codProveedor:number,
     proveedor:string,
-    cantidadPruebas:number
+    cantidadPruebas:number,
+    especialidad:string,
   },
   detalle: {
     lote:string,

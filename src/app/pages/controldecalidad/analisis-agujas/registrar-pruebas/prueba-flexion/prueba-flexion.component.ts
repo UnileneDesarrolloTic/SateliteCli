@@ -24,6 +24,7 @@ export class PruebaFlexionComponent implements OnInit , OnExit
   resultAnalisis: FormGroup
   listaGruposCiclos: number[]
   botonGuardarDisabled: boolean = false
+  disabledCampo:boolean=false;
 
   constructor(private _activatedRoute : ActivatedRoute, private _analisisAgujaServices : AnalisisAgujaService, private _toastr: ToastrService,
       private _router: Router, private _fb: FormBuilder, private _genericoService : GenericoService, private _usuarioSesion: SesionService)
@@ -35,7 +36,8 @@ export class PruebaFlexionComponent implements OnInit , OnExit
 
   ngOnInit(): void {
     this.InicializarFormulario()
-    this.ObtenerDatosDelAnalisis(this.codigoAnalisis)
+    this.ObtenerDatosDelAnalisis(this.codigoAnalisis);
+    this.isObservablesEspecialidad();
   }
 
   InicializarFormulario(){
@@ -43,7 +45,8 @@ export class PruebaFlexionComponent implements OnInit , OnExit
       analisis : [{ value: this.codigoAnalisis, disabled : true}, Validators.required],
       pruebas : [{ value: 0, disabled : true}, Validators.required],
       item : [{ value: '', disabled : true}, Validators.required],
-      proveedor: [{ value: '', disabled: true}, Validators.required]
+      proveedor: [{ value: '', disabled: true}, Validators.required],
+      especialidad: ['N', Validators.required]
     })
 
     this.resultAnalisis = this._fb.group({
@@ -51,6 +54,12 @@ export class PruebaFlexionComponent implements OnInit , OnExit
       resumenFlexion: this._fb.array([])
     })
 
+  }
+
+  isObservablesEspecialidad(){
+    this.datosAnalisisForm.controls.especialidad.valueChanges.subscribe(valor=>{
+          valor=='S' ? this.disabledCampo=true : this.disabledCampo=false;
+    })
   }
 
   CrearCicloForm(cantidad:number, detalle:any)
@@ -131,7 +140,8 @@ export class PruebaFlexionComponent implements OnInit , OnExit
           {
             pruebas: cabeceraAnalisis.cantidadPruebas,
             item: cabeceraAnalisis.descripcionItem,
-            proveedor: cabeceraAnalisis.proveedor
+            proveedor: cabeceraAnalisis.proveedor,
+            especialidad:cabeceraAnalisis.especialidad 
           }
         )
 
@@ -233,8 +243,9 @@ export class PruebaFlexionComponent implements OnInit , OnExit
       this._toastr.warning('Los datos del formulario se estan guardando','Advertencia !!', {timeOut: 3000, closeButton: true, tapToDismiss: true})
       return
     }
+  
 
-    if (this.resultAnalisis.pristine)
+    if (this.resultAnalisis.pristine && this.datosAnalisisForm.controls.especialidad.value=='N')
     {
       this._toastr.warning("No se ha realizado ninguna modificación en el formulario", "Aviso !!", {timeOut: 5000, closeButton: true, tapToDismiss: true})
       return
@@ -248,7 +259,7 @@ export class PruebaFlexionComponent implements OnInit , OnExit
 
     const resultCiclos = this.resultAnalisis.value['ciclosFlexion'].filter(x => x['valor'] != '' && x['valor'] != undefined && x['valor'] != null && x['valor'] != 0)
 
-    if(resultCiclos.length < 1)
+    if(resultCiclos.length < 1 && this.datosAnalisisForm.controls.especialidad.value=='N')
     {
       this._toastr.warning("Debe debe de contrar con registrar, para continuar con las pruebas", "Aviso !!", {timeOut: 5000, closeButton: true, tapToDismiss: true})
       return
@@ -261,10 +272,10 @@ export class PruebaFlexionComponent implements OnInit , OnExit
 
     const datosAdicionales =
     {
-      lote: this.datosAnalisisForm.value['analisis'],
+      lote: this.datosAnalisisForm.controls.analisis.value,
       usuarioRegistro: this._usuarioSesion.datosPersonales()['codUsuario']
     }
-
+    
     resultCiclos.forEach(ciclo => {
 
       const obj = {
@@ -291,7 +302,13 @@ export class PruebaFlexionComponent implements OnInit , OnExit
 
     });
 
-    this._analisisAgujaServices.GuardarEditarPruebaFlexionAguja(objetoGuardarBD).subscribe(
+    const DatosGuardar={
+        Especialidad: this.datosAnalisisForm.controls.especialidad.value,
+        Lote: this.datosAnalisisForm.controls.analisis.value,
+        Detalle: objetoGuardarBD
+    }
+
+    this._analisisAgujaServices.GuardarEditarPruebaFlexionAguja(DatosGuardar).subscribe(
       result => {
         this._toastr.success(result['content'],'Éxito !!', {timeOut: 4000, closeButton: true, tapToDismiss: true})
         this.resultAnalisis.markAsPristine()
