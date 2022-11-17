@@ -1,0 +1,77 @@
+<div class="row">
+    <div class="col-12">
+      <div class="card border-left border-info">
+        <div class="card-header bg-info text-white" style="font-weight: bold">
+            <i class="fas fa-search"></i> Filtros de búsqueda
+        </div>
+        <div class="card-body">
+          <form autocomplete="off" [formGroup]="formFormularioFiltros" (submit)="filtrarLote()">
+            <div class="row" style="font-size: 13px;">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label text-black" style="font-size:12px">Codigo:</label>
+                        <input type="text"  formControlName="Codigo" class="form-control form-control-sm" placeholder="Codigo">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label" style="font-size:12px">Tipo Documento:</label>
+                        <select class="form-control  form-control-sm"   formControlName="TipoDocumento">
+                            <option [value]="'T1'">FORMATOS</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <label class="control-label text-white">&nbsp;</label>
+                    <div class="form-group">
+                        <button class="btn btn-info btn-sm" type="submit"><i class="fas fa-search"></i> Buscar</button>
+                        <button class="btn btn-success btn-sm"  type="button" (click)="OpenModal('Nuevo',{})"><i class="fas fa-plus"></i> Nuevo</button>
+                    </div>
+                </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+</div>
+
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="card border-left border-info">
+            <div class="card-body">
+                <div class="table-responsive text-nowrap">
+                    <table class="table table-hover table-bordered table-sm">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="text-center font-weight-bold">Código</th>
+                                <th scope="col" class="text-center font-weight-bold">T.Documento</th>
+                                <th scope="col" class="text-center font-weight-bold">Nombre Documento</th>
+                                <th scope="col" class="text-center font-weight-bold">F.Aprobación</th>
+                                <th scope="col" class="text-center font-weight-bold">F.Revisión</th>
+                                <th scope="col" class="text-center font-weight-bold">F.Publicacion</th>
+                                
+                                <th scope="col" class="text-center font-weight-bold">Estado</th>
+                                <th scope="col" class="text-center font-weight-bold">Opción</th>
+                            </tr>
+                        </thead>
+                        <tbody style="font-size: 11px;">
+                            <tr *ngFor="let documento of ListarDocumento">
+                                <td class="text-center">{{documento.Codigo}}</td>
+                                <td class="text-center">{{documento.Tipo}}</td>
+                                <td class="text-center">{{documento.Nombre}}</td>
+                                <td class="text-center">{{documento.Aprobacion}}</td>
+                                <td class="text-center">{{documento.Revision}}</td>
+                                <td class="text-center">{{documento.Publicacion}}</td>
+                                <td class="text-center">{{documento.Estado}}</td>
+                                <td class="text-center"> <button class="btn btn-info btn-sm" type="button" (click)="OpenModal('editar',documento)"> <i class="fas fa-edit"></i> </button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

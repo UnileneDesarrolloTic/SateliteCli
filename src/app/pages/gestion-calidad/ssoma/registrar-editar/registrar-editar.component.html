@@ -1,0 +1,71 @@
+<div class="row ">
+    <div class="card-body">
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title" stype="font-size: 14px">
+                <h5> {{ Interfaz }} </h5>
+            </h4>
+            <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form [formGroup]="FormFormulario">
+               <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="control-label text-black" style="font-size:12px">Código:</label>
+                            <input type="text"  formControlName="codigo" class="form-control form-control-sm" placeholder="Ingrese el codigo">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label text-black" style="font-size:12px">Nombre Documento:</label>
+                            <input type="text"  formControlName="nombreDocumento" class="form-control form-control-sm" placeholder="Ingrese Número">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="control-label" style="font-size:12px">Tipo Documento:</label>
+                            <select class="form-control  form-control-sm"   formControlName="tipoDocumento">
+                                <option [value]="'T1'">FORMATOS </option>
+                            </select>
+                        </div>
+                    </div>
+               </div>
+               <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label text-black" style="font-size:12px">Versión:</label>
+                        <input type="number"  formControlName="version" class="form-control form-control-sm" placeholder="Ingrese el codigo">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label text-black" style="font-size:12px">Fecha publicación:</label>
+                        <input type="date"  formControlName="fechapublicacion" class="form-control form-control-sm" placeholder="Ingrese Número">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label text-black" style="font-size:12px">Fecha revisión:</label>
+                        <input type="date"  formControlName="fecharevision" class="form-control form-control-sm" placeholder="Ingrese Número">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label" style="font-size:12px">Estado:</label>
+                        <select class="form-control  form-control-sm"   formControlName="estado">
+                            <option [value]="'T1'">FORMATOS </option>
+                        </select>
+                    </div>
+                </div>
+           </div>
+            </form>
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" (click)="Guardar()" class="btn btn-rounded btn-sm btn-info"><i class="fa fa-save"></i> Guardar</button>
+            <button type="button" (click)="activeModal.dismiss('Cross click')" class="btn btn-rounded btn-sm btn-secondary">Cancelar</button>
+        </div>
+    </div>
+</div>
