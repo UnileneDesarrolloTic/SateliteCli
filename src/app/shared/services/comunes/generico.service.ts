@@ -2,10 +2,11 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Pais } from '@data/interface/Request/Pais.interface';
 import { TipoDocumentoIdentidad } from '@data/interface/Request/TipoDocumentoIdentidad.interface';
+import { ConfiguracionSistemaDetalle, DatosClienteResponse } from '@data/interface/Response/Common.interface';
 import { RolData } from '@data/interface/Response/RolData.interface';
 import { SubFamilia } from '@data/interface/Response/SubFamilia.Interface';
 import { environment } from 'environments/environment';
-import { throwError } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
 @Injectable({
@@ -174,14 +175,25 @@ export class GenericoService {
     return new Intl.NumberFormat((usarComa ? "es" : "en"), opciones).format(numero);
   }
 
-  ObtenerConfiguracion (idConfiguracion:number, grupo:string)
+  ObtenerConfiguracion (idConfiguracion:number, grupo:string):Observable<ConfiguracionSistemaDetalle[]>
   {
     const params =  new HttpParams().set('idConfiguracion', idConfiguracion.toString()).set('grupo', grupo);
 
-    return this._http.get(this.url + "/api/Common/ObtenerConfiguracionesSistema", {'params': params})
+    return this._http.get<ConfiguracionSistemaDetalle[]>(this.url + "/api/Common/ObtenerConfiguracionesSistema", {'params': params})
     .pipe(
       map( result => result['content'])
       ,catchError( () => throwError("Error al obtener los roles") )
+    );
+  }
+
+  ObtenerDatosCliente (codioCliente: number): Observable<DatosClienteResponse>
+  {
+    const params =  new HttpParams().set('codigoCliente', codioCliente.toString());
+
+    return this._http.get(this.url + "/api/Common/DatosCliente", {'params': params})
+    .pipe(
+      map( result => result['content'] as DatosClienteResponse),
+      catchError( () => throwError("Error al obtener los roles") )
     );
   }
 
