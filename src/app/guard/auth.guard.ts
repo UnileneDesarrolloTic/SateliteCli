@@ -5,7 +5,6 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivateChild, RouterStateSnapshot} from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, throwError } from 'rxjs';
-
 import { SesionService } from '@shared/services/comunes/sesion.service';
 import { UsuarioSesionData } from '@data/interface/Response/UsuarioSesionDara.interface';
 
@@ -28,7 +27,7 @@ export class AuthGuard implements CanActivateChild {
 
     const parametro = childRoute['params']
     if(Object.keys(parametro).length !== 0)
-    {
+    {      
       Object.entries(childRoute['params']).forEach(([key, value]) => {
         let variableReg = new RegExp(`/${value}`,'g')
         ruta = ruta.replace(variableReg, `/:${key}`)

@@ -169,7 +169,20 @@ export class InterceptorService implements HttpInterceptor {
       'GestionCalidad/ListarMateriaPrima',
       'GestionCalidad/DetalleSeguimientoPorLote',
       'GestionCalidad/VentasPorCliente',
-      'GestionCalidad/RptVentasPorCliente'
+      'GestionCalidad/RptVentasPorCliente',
+      'GestionCalidad/ListaReclamos',
+      'GestionCalidad/RegistrarReclamo',
+      "GestionCalidad/DetalleReclamo",
+      'GestionCalidad/LotesFiltradosReclamo',
+      "GestionCalidad/ObtenerDatosItemLote",
+      'GestionCalidad/GuardarReclamoDetalle',
+      'GestionCalidad/DatosReclamoLote',
+      'GestionCalidad/ActualizarDetalleLoteReclamo',
+      'GestionCalidad/EvidenciasReclamos',
+      'GestionCalidad/EliminarEvidencaciaReclamo',
+      'GestionCalidad/ListaEvidenciasPorIdDetalle',
+      'GestionCalidad/ResponderReclamo',
+      "Common/DatosCliente"
     ];
     
     const data = this.sesionService.datosPersonales();

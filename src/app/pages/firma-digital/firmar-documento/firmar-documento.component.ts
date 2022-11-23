@@ -252,7 +252,7 @@ export class FirmarDocumentoComponent implements OnInit, OnDestroy {
     this.tipoProcesoFirma = "documento";
     this.idDocumentoVistaPrevia = idDocumento
 
-    this.rutaVistaPrevia = this.sanitizer.bypassSecurityTrustResourceUrl(`${this.url}/${this.idSolicitud}/${nombreArchivo}`);;
+    this.rutaVistaPrevia = this.sanitizer.bypassSecurityTrustResourceUrl(`${this.url}/${this.idSolicitud}/${nombreArchivo}`);
 
     this.ngbModalVistaPrevia = this._modalService.open(modal, {
       centered: true,

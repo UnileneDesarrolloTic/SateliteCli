@@ -1,0 +1,152 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card border-left border-info">
+            <div class="card-header bg-info text-white" style="font-weight: bold">
+                Filtros de búsqueda
+            </div>
+            <div class="card-body">
+                <form autocomplete="off" [formGroup]="formFilter" (submit)="obtenerReclamosFiltrados()">
+                    <div class="form-body" style="font-size: 14px;">
+                        <div class="row p-t-20">
+                            <div class="col-sm-12 col-md-4 col-xl-2">
+                                <div class="form-group">
+                                    <label class="control-label" for="fecInicio">Inicio</label>
+                                    <input type="date" class="form-control form-control-sm" id="fecInicio" formControlName="fechaInicio">
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-4 col-xl-2">
+                                <div class="form-group">
+                                    <label class="control-label" for="fecFin">Fin</label>
+                                    <input type="date" class="form-control form-control-sm" id="fecFin" formControlName="fechaFin">
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-4 col-xl-2">
+                                <div class="form-group">
+                                    <label class="control-label" for="cliente">Cliente</label>
+                                    <div class="input-group mb-3">
+                                        <input type="text" id="cliente" class="form-control form-control-sm" placeholder="Buscar Cliente" 
+                                            formControlName="nombreCliente" datetime="yyyy-MM-dd HH:mm:ss">
+                                        <div class="input-group-append">
+                                            <button class="btn mr-0 btn-info btn-sm" type="button" (click)="openModalConsultaClientes()">
+                                                <i class="ti-search"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-4 col-xl-2">
+                                <div class="form-group">
+                                    <label class="control-label" for="codReclamo">Cod. Reclamo</label>
+                                    <input type="text" class="form-control form-control-sm" id="codReclamo" placeholder="Código de reclamo" formControlName="codReclamo">
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-4 col-xl-2">
+                                <div class="form-group">
+                                    <label class="control-label" for="familia">Categoria</label>
+                                    <select class="form-control custom-select custom-select-sm" id="familia">
+                                        <option value="">Seleccione una opción</option>
+                                        <!-- <option  *ngFor="let familia of listaFamilia" [value]="familia.familia">
+                                            {{familia.descripcionLocal}}
+                                        </option> -->
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-4 col-xl-2">
+                                <div class="form-group">
+                                    <label class="control-label">Territorio</label>
+                                    <select class="form-control custom-select custom-select-sm" formControlName="territorio">
+                                        <option value="">Seleccione una opción</option>
+                                        <option value="N">Nacional</option>
+                                        <option value="E">Exportación</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-12 text-center">
+                                <button class="btn btn-info btn-rounded" type="submit"><i class="fas fa-filter"></i>&nbsp;&nbsp;Filtrar</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card border-left border-info">
+            <div class="card-body">
+                <div class = "d-flex justify-content-between mb-3">
+                    <div>
+                        <select class="form-control form-control-sm font-weight-bold" [(ngModel)]="registrosPagina" name="registrosPagina" (ngModelChange)="cambioRegistrosPorPagina()">
+                            <option value="20">20 registros  </option>
+                            <option value="40">40 registros  </option>
+                            <option value="60">60 registros  </option>
+                        </select>
+                    </div>
+                    <div>
+                        <button class="btn btn-success btn-sm font-weight-bold" (click)="redireccionarDetalleReclamo('0')"><i class="fas fa-plus"></i>&nbsp;&nbsp;Nuevo Reclamo </button>
+                    </div>
+                </div>
+                <div class="table-responsive text-nowrap" >
+                    <table class="table table-bordered table-sm table-hover" style="font-size: 14px">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="text-center font-weight-bold">Código</th>
+                                <th scope="col" class="text-center font-weight-bold">Cliente</th>
+                                <th scope="col" class="text-center font-weight-bold">Tipo</th>
+                                <th scope="col" class="text-center font-weight-bold">Nacionalidad</th>
+                                <th scope="col" class="text-center font-weight-bold">Territorio</th>
+                                <th scope="col" class="text-center font-weight-bold">Registrado</th>
+                                <th scope="col" class="text-center font-weight-bold">Usuario Registro</th>
+                                <th scope="col" class="text-center font-weight-bold">Estado</th>
+                                <th scope="col" class="text-center font-weight-bold">...</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let reclamo of listaReclamosQuejas">
+                                <td class="text-center">
+                                    {{ reclamo.codReclamo }}
+                                </td>
+                                <td class="pl-2">
+                                    {{ reclamo.nombreCliente }}
+                                </td>
+                                <td class="text-center">
+                                    {{ reclamo.tipoCliente }}
+                                </td>
+                                <td class="text-center">
+                                    {{ reclamo.nacionalidad }}
+                                </td>
+                                <td class="text-center">
+                                    {{ reclamo.territorio }}
+                                </td>
+                                <td class="text-center">
+                                    {{ reclamo.fechaRegistro | date:'dd/MM/yyyy hh:mm' }}
+                                </td>
+                                <td class="text-center">
+                                    {{ reclamo.usuarioRegistro }}
+                                </td>
+                                <td class="text-center">
+                                    {{ reclamo.estado }}
+                                </td>
+                                <td class="text-center">
+                                    <a type="button" (click)="redireccionarDetalleReclamo(reclamo.codReclamo)">
+                                        <i class=" far fa-file-alt"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row d-flex justify-content-center mt-4">
+                    <ngb-pagination 
+                        [collectionSize]="paginacion.totalPaginas" [(page)]="pagina" [pageSize]="registrosPagina" [boundaryLinks]="true"
+                        [ellipses] ="false" [maxSize] = 5 [rotate] = "true" (pageChange)="cambioPagina($event)">
+                    </ngb-pagination>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
