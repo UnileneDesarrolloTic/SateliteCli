@@ -64,5 +64,38 @@ import { catchError, map } from "rxjs/operators";
             return throwError("Error al descargar el reporte")
           })
       )
-  }
+    }
+
+    ListarSsoma(TipoDocumento,Codigo)
+    {
+      const params =  new HttpParams().set('TipoDocumento', TipoDocumento).set('Codigo',Codigo)
+        return this._http.get(this.url + "/ListarSsoma",{"params":params}).pipe(
+            catchError(() => {
+              this._toastr.error("Error al obtener la lista de Ssoma.", 'ERROR !', { closeButton:true, progressBar:true, timeOut:3000 })
+              return throwError("Error al obtener la lista de Ssoma.")
+            })
+          ) 
+    }
+
+    RegistrarSsoma(body)
+    {
+     
+        return this._http.post(this.url + "/RegistrarSsoma",body).pipe(
+            catchError(() => {
+              this._toastr.error("Error al obtener al Registrar de Ssoma.", 'ERROR !', { closeButton:true, progressBar:true, timeOut:3000 })
+              return throwError("Error al obtener al Registrar de Ssoma.")
+            })
+          ) 
+    }
+
+    EliminarSsoma(idSsoma)
+    {
+      const params =  new HttpParams().set('idSsoma', idSsoma)
+        return this._http.get(this.url + "/EliminarSsoma",{"params":params}).pipe(
+            catchError(() => {
+              this._toastr.error("Error al obtener la Eliminar un Ssoma.", 'ERROR !', { closeButton:true, progressBar:true, timeOut:3000 })
+              return throwError("Error al obtenerla Eliminar un Ssoma.")
+            })
+          ) 
+    }
 }

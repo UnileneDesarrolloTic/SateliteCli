@@ -1,71 +1,175 @@
 <div class="row ">
-    <div class="card-body">
-        <div class="modal-header">
-            <h4 class="modal-title" id="modal-basic-title" stype="font-size: 14px">
-                <h5> {{ Interfaz }} </h5>
-            </h4>
-            <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="modal-body">
-            <form [formGroup]="FormFormulario">
-               <div class="row">
+    <form [formGroup]="FormFormulario">
+        <div class="card-body">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-basic-title" stype="font-size: 14px">
+                    <h5 *ngIf="Interfaz=='Nuevo'"> {{ Interfaz }} </h5>
+                    <h5 *ngIf="Interfaz!='Nuevo'">{{data.codigoDocumento==undefined ? '' : 'Codigo Documento : ' +
+                        data.codigoDocumento }} </h5>
+                </h4>
+                <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="height: 28rem;">
+
+                <div class="row">
                     <div class="col-md-3">
                         <div class="form-group">
                             <label class="control-label text-black" style="font-size:12px">Código:</label>
-                            <input type="text"  formControlName="codigo" class="form-control form-control-sm" placeholder="Ingrese el codigo">
+                            <input type="text" formControlName="codigo" class="form-control form-control-sm"
+                                placeholder="Ingrese el codigo">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label class="control-label text-black" style="font-size:12px">Nombre Documento:</label>
-                            <input type="text"  formControlName="nombreDocumento" class="form-control form-control-sm" placeholder="Ingrese Número">
+                            <label class="control-label" style="font-size:12px">Tipo Documento:</label>
+                            <select class="form-control  form-control-sm" formControlName="tipoDocumento">
+                                <option [value]="null" selected disabled>Seleccione el Tipo Documento </option>
+                                <option *ngFor="let tipo of TipoDocumentoSsoma" [value]="tipo.idTipoDocumento">
+                                    {{tipo.descripcion}}
+                                </option>
+                            </select>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label class="control-label" style="font-size:12px">Tipo Documento:</label>
-                            <select class="form-control  form-control-sm"   formControlName="tipoDocumento">
-                                <option [value]="'T1'">FORMATOS </option>
+                            <label class="control-label text-black" style="font-size:12px">Versión:</label>
+                            <input type="number" formControlName="version" class="form-control form-control-sm"
+                                placeholder="Ingrese el codigo">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="control-label text-black" style="font-size:12px">Nombre Documento:</label>
+                            <input type="text" formControlName="nombreDocumento" class="form-control form-control-sm"
+                                placeholder="Ingrese Número">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="control-label text-black" style="font-size:12px">Fecha publicación:</label>
+                            <input type="date" formControlName="fechapublicacion" class="form-control form-control-sm"
+                                placeholder="Ingrese Número">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="control-label" style="font-size:12px">Vigencia(años):</label>
+                            <input type="number" formControlName="vigencia" class="form-control form-control-sm"
+                                placeholder="Ingrese Vigencia">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="control-label text-black" style="font-size:12px">Fecha Aprobación:</label>
+                            <input type="date" formControlName="fechaAprobacion" class="form-control form-control-sm"
+                                placeholder="Ingrese Número">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="control-label text-black" style="font-size:12px">Fecha revisión:</label>
+                            <input type="date" formControlName="fecharevision" class="form-control form-control-sm"
+                                placeholder="Ingrese Número">
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="control-label" style="font-size:12px">Estado:</label>
+                            <select class="form-control  form-control-sm" formControlName="estado">
+                                <option [value]="null" selected disabled>Seleccione el estado </option>
+                                <option *ngFor="let estado of estadoSsoma" [value]="estado.idEstadoSsoma">
+                                    {{estado.descripcion}}
+                                </option>
                             </select>
                         </div>
                     </div>
-               </div>
-               <div class="row">
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label class="control-label text-black" style="font-size:12px">Versión:</label>
-                        <input type="number"  formControlName="version" class="form-control form-control-sm" placeholder="Ingrese el codigo">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="control-label text-black" style="font-size:12px">Ubicación:</label>
+                            <select class="form-control  form-control-sm" formControlName="Ubicacion">
+                                <option [value]="0" selected disabled>Seleccione el Ubicación </option>
+                                <option *ngFor="let ubicacion of UbicacionSsoma" [value]="ubicacion.idUbicacionSsoma">
+                                    {{ubicacion.descripcion}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="control-label text-black" style="font-size:12px">Almacenamiento:</label>
+                            <select class="form-control  form-control-sm" formControlName="Almacenamiento">
+                                <option [value]="0" selected disabled>Seleccione el Almacenamiento </option>
+                                <option *ngFor="let alma of Almacenamientossoma" [value]="alma.idSsomaAlmacenamiento">
+                                    {{alma.descripcion}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="control-label text-black" style="font-size:12px">Protección</label>
+                            <select class="form-control  form-control-sm" formControlName="proteccion">
+                                <option [value]="0" selected disabled>Seleccione el Protección </option>
+                                <option *ngFor="let proteccion of ListarproteccionSsoma"
+                                    [value]="proteccion.idProteccionSsoma">
+                                    {{proteccion.descripcion}}
+                                </option>
+                            </select>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label class="control-label text-black" style="font-size:12px">Fecha publicación:</label>
-                        <input type="date"  formControlName="fechapublicacion" class="form-control form-control-sm" placeholder="Ingrese Número">
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label class="control-label text-black" style="font-size:12px">Fecha revisión:</label>
-                        <input type="date"  formControlName="fecharevision" class="form-control form-control-sm" placeholder="Ingrese Número">
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label class="control-label" style="font-size:12px">Estado:</label>
-                        <select class="form-control  form-control-sm"   formControlName="estado">
-                            <option [value]="'T1'">FORMATOS </option>
-                        </select>
-                    </div>
-                </div>
-           </div>
-            </form>
-        </div>
+                <div class="row">
 
-        <div class="modal-footer">
-            <button type="button" (click)="Guardar()" class="btn btn-rounded btn-sm btn-info"><i class="fa fa-save"></i> Guardar</button>
-            <button type="button" (click)="activeModal.dismiss('Cross click')" class="btn btn-rounded btn-sm btn-secondary">Cancelar</button>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label" style="font-size:12px">Responsable:</label>
+                            <select class="form-control  form-control-sm" formControlName="responsable">
+                                <option [value]="null" selected disabled>Seleccione el Responsable </option>
+                                <option *ngFor="let responsable of ResponsableSsoma"
+                                    [value]="responsable.idSsomaResponsable">
+                                    {{responsable.descripcion}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="control-label" style="font-size:12px">Tiempo archivo (años):</label>
+                            <input type="number" formControlName="archivopasivo" class="form-control form-control-sm"
+                                placeholder="Ingrese el Tiempo">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="control-label" style="font-size:12px">Comentario:
+                                {{FormFormulario.controls.comentario.value.length}}/300</label>
+                            <textarea type="number" formControlName="comentario"
+                                class="form-control form-control-sm"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" (click)="Guardar()" [disabled]="!FormFormulario.valid" class="btn btn-rounded btn-sm btn-info"><i
+                        class="fa fa-save"></i>
+                    Guardar</button>
+                <button type="button" (click)="activeModal.dismiss('Cross click')"
+                    class="btn btn-rounded btn-sm btn-secondary">Cancelar</button>
+            </div>
         </div>
-    </div>
+    </form>
 </div>

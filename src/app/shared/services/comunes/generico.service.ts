@@ -119,6 +119,44 @@ export class GenericoService {
     )
   }
 
+  ListarTipoDocumentoSsoma(){
+    return this._http.get(this.url + "/api/Common/TipoDocumentoSsoma").pipe(
+        catchError(() => throwError("Error al Listar Tipo Documento ssoma"))
+    )
+  }
+
+  ListarUbicacionSsoma(){
+    return this._http.get(this.url + "/api/Common/UbicacionSsoma").pipe(
+        catchError(() => throwError("Error al Listar Ubicacion ssoma"))
+    )
+  }
+
+  
+  ListarProteccionSsoma(){
+    return this._http.get(this.url + "/api/Common/ProteccionSsoma").pipe(
+        catchError(() => throwError("Error al Listar Proteccion ssoma"))
+    )
+  }
+  
+  ListarEstadoSsoma(){
+    return this._http.get(this.url + "/api/Common/EstadoSsoma").pipe(
+        catchError(() => throwError("Error al Listar Estado ssoma"))
+    )
+  }
+
+  ListarResponsableSsoma(){
+    return this._http.get(this.url + "/api/Common/ResponsableSsoma").pipe(
+        catchError(() => throwError("Error al Listar Responsable ssoma"))
+    )
+  }
+
+  ListarAlmacenamientoSsoma(){
+    return this._http.get(this.url + "/api/Common/AlmacenamientoSsoma").pipe(
+        catchError(() => throwError("Error al Listar Almacenamiento ssoma"))
+    )
+  }
+
+
   AccesosPermiso(Permiso){
     const params =  new HttpParams().set('Permiso', Permiso);
 

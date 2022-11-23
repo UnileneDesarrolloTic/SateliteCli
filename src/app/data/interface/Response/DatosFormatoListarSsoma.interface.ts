@@ -1,0 +1,22 @@
+export interface ListarSsomaModel {
+    idSsoma : number,
+    idTipoDocumento : number,
+    tipoDocumentoDescripcion : string,
+    idUbicacionSsoma:number,
+    idProteccionSsoma:number,
+    idEstadoSsoma:number,
+    estadoDescripcion:string,
+    codigoDocumento:string,
+    nombreDocumento:string,
+    fechaPublicacion:string,
+    versionSsoma:number,
+    vigencia:number,
+    idSsomaAlmacenamiento:number,
+    archivoPasivo:number,
+    responsable:string,
+    fechaAprobacion:string,
+    fechaRevision:string,
+    comentario:string,
+    dias:number,
+  }
+  
