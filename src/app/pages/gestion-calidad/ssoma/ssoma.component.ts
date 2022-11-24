@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ListarSsomaModel } from '@data/interface/Response/DatosFormatoListarSsoma.interface';
+import { EstadoSsoma } from '@data/interface/Response/DatosFormatosEstadosSoma.interfaces';
 import { TipoDocumentoSsoma } from '@data/interface/Response/DatosFormatosTipoDocumentosSoma.interfaces';
 import { GestionCalidadService } from '@data/services/backEnd/pages/gestionCalidad.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -17,7 +18,8 @@ export class SsomaComponent implements OnInit {
 
   formFormularioFiltros:FormGroup;
   TipoDocumentoSsoma:TipoDocumentoSsoma[]=[];
-  listarSsoma: ListarSsomaModel []=[]
+  listarSsoma: ListarSsomaModel []=[];
+  estadoSsoma: EstadoSsoma[]=[];
   
   constructor(
     private _modalService: NgbModal,
@@ -30,17 +32,21 @@ export class SsomaComponent implements OnInit {
    
     this.crearFormulario();
     this.TipoDocumento();
+    this.listarEstadoSsoma();
   }
 
   crearFormulario(){
     this.formFormularioFiltros = new FormGroup({
       tipoDocumento: new FormControl(0),
       Codigo: new FormControl(''),
+      estado: new FormControl(0)
     })
   }
 
+  
   filtrarLote(){
-    this._GestionCalidadService.ListarSsoma(this.formFormularioFiltros.controls.tipoDocumento.value,this.formFormularioFiltros.controls.Codigo.value).subscribe(
+    // console.log(this.formFormularioFiltros.controls.tipoDocumento.value,this.formFormularioFiltros.controls.Codigo.value,this.formFormularioFiltros.controls.estado.value)
+    this._GestionCalidadService.ListarSsoma(this.formFormularioFiltros.controls.tipoDocumento.value,this.formFormularioFiltros.controls.Codigo.value,this.formFormularioFiltros.controls.estado.value).subscribe(
       (resp:any)=>{
           this.listarSsoma=resp;
       }
@@ -57,6 +63,16 @@ export class SsomaComponent implements OnInit {
     )
   }
 
+
+  listarEstadoSsoma(){
+    this._GenericoService.ListarEstadoSsoma().subscribe(
+      (resp:any)=>{
+        if(resp["success"]){
+            this.estadoSsoma=resp["content"];
+        }
+      }
+    )
+  }
 
   OpenModal(intefaz,data){
     const modalRefDetalleReceta = this._modalService.open(RegistrarEditarComponent, {
