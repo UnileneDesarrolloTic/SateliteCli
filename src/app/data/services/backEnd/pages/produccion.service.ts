@@ -125,6 +125,13 @@ export class ProduccionService {
       catchError (() => throwError("Error al obtener el Actualizar Fecha Comprometida masiva"))
     );
   }
+
+  ExcelMateriaPrima(regla){
+    const params =  new HttpParams().set('regla', regla);
+    return this._http.get(this.url+"/api/Produccion/ExportarAgujasMateriaPrima", {"params":params}).pipe(
+      catchError (() => throwError("Error al obtener el Exportacion Materia Prima"))
+    );
+  }
   
 
 }

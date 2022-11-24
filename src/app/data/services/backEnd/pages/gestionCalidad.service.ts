@@ -66,9 +66,9 @@ import { catchError, map } from "rxjs/operators";
       )
     }
 
-    ListarSsoma(TipoDocumento,Codigo)
+    ListarSsoma(TipoDocumento,Codigo,Estado)
     {
-      const params =  new HttpParams().set('TipoDocumento', TipoDocumento).set('Codigo',Codigo)
+      const params =  new HttpParams().set('TipoDocumento', TipoDocumento).set('Codigo',Codigo).set('Estado',Estado)
         return this._http.get(this.url + "/ListarSsoma",{"params":params}).pipe(
             catchError(() => {
               this._toastr.error("Error al obtener la lista de Ssoma.", 'ERROR !', { closeButton:true, progressBar:true, timeOut:3000 })
