@@ -181,7 +181,6 @@ export class InterceptorService implements HttpInterceptor {
       'GestionCalidad/DetalleSeguimientoPorLote',
       'GestionCalidad/VentasPorCliente',
       'GestionCalidad/RptVentasPorCliente',
-<<<<<<< HEAD
       'GestionCalidad/ListarSsoma',
       'GestionCalidad/RegistrarSsoma',
       'GestionCalidad/EliminarSsoma',
@@ -190,8 +189,7 @@ export class InterceptorService implements HttpInterceptor {
       'Exportaciones/GuardarCotizacionExportaciones',
       'Exportaciones/ProcesarExcelExportaciones',
       'Exportaciones/BuscarItemMast',
-      'Exportaciones/DesactivarItemCotizacionExportacion'
-=======
+      'Exportaciones/DesactivarItemCotizacionExportacion',
       'GestionCalidad/ListaReclamos',
       'GestionCalidad/RegistrarReclamo',
       "GestionCalidad/DetalleReclamo",
@@ -205,7 +203,6 @@ export class InterceptorService implements HttpInterceptor {
       'GestionCalidad/ListaEvidenciasPorIdDetalle',
       'GestionCalidad/ResponderReclamo',
       "Common/DatosCliente"
->>>>>>> PPSTI-121
     ];
     
     const data = this.sesionService.datosPersonales();

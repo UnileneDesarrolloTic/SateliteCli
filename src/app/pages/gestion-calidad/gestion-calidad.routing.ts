@@ -2,14 +2,11 @@ import { Routes } from "@angular/router";
 import { AuthGuard } from "@guard/auth.guard";
 import { SeguimientoLoteComponent } from "@pages/gestion-calidad/seguimiento-lote/seguimiento-lote.component";
 import { VentasClientesComponent } from "@pages/gestion-calidad/ventas-clientes/ventas-clientes.component";
-<<<<<<< HEAD
 import { SsomaComponent } from "./ssoma/ssoma.component";
-=======
 import { DetalleComponent } from "@pages/gestion-calidad/reclamos-quejas/detalle/detalle.component";
 import { ListaComponent } from "@pages/gestion-calidad/reclamos-quejas/lista/lista.component";
 import { DetalleLoteComponent } from "@pages/gestion-calidad/reclamos-quejas/detalle-lote/detalle-lote.component";
 import { ConfirmExitGuard } from "@guard/confirm-exit.guard";
->>>>>>> PPSTI-121
 
 export const GestionCalidadRoutes: Routes = [
     {

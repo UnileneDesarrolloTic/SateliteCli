@@ -67,7 +67,6 @@ import { catchError, map } from "rxjs/operators";
             return throwError("Error al descargar el reporte")
           })
       )
-<<<<<<< HEAD
     }
 
     ListarSsoma(TipoDocumento,Codigo)
@@ -101,7 +100,6 @@ import { catchError, map } from "rxjs/operators";
               return throwError("Error al obtenerla Eliminar un Ssoma.")
             })
           ) 
-=======
     } 
 
     listaReclamosQuejas(body: any): Observable<ReclamosQuejasPaginado>
@@ -253,6 +251,6 @@ import { catchError, map } from "rxjs/operators";
           return throwError("Error al registrar la respuesta del reclamado.")
         })
       )
->>>>>>> PPSTI-121
+
     }
 }
