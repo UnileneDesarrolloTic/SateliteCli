@@ -255,11 +255,11 @@ export class DetalleLoteComponent implements OnInit, OnDestroy, OnExit {
 
   obtenerListaComboBox()
   {
-    this._genericoService.ObtenerConfiguracion(13, 'CBX_CLASIFICACION').subscribe(
+    this._genericoService.ObtenerConfiguracion(14, 'CBX_CLASIFICACION').subscribe(
       (resp: ConfiguracionSistemaDetalle[]) => this.listaCbxClasificacion = resp
     );
 
-    this._genericoService.ObtenerConfiguracion(13, 'CBX_AREA_INVOLUCRADA').subscribe(
+    this._genericoService.ObtenerConfiguracion(14, 'CBX_AREA_INVOLUCRADA').subscribe(
       (resp: ConfiguracionSistemaDetalle[]) => this.listaCbxAreaInvolucrada = resp
     );
   }
