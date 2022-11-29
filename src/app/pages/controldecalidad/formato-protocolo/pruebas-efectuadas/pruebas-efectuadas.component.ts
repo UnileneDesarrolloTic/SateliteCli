@@ -50,6 +50,18 @@ export class PruebasEfectuadasComponent implements OnInit , OnDestroy{
 
   save(){
         console.log(this.PruebasFormularioProtocolo.value);
+        this._ControlcalidadService.RegistrarFormatoProtocolo(this.PruebasFormularioProtocolo.value).subscribe(
+          (resp:any)=>{
+              if(resp["success"]){
+                this.toastr.success(resp["content"]);
+              }else{
+                this.toastr.success(resp["content"]);
+              }
+          },
+          (error)=>{
+              this.toastr.info("Comuniquese con sistema")
+          }
+        )
   }
 
   crearDetallePruebaProtocolo(){

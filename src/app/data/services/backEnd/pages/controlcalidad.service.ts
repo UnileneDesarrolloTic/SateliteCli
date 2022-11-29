@@ -203,4 +203,10 @@ export class ControlcalidadService {
     );
   }
 
+  RegistrarFormatoProtocolo(body){
+    return this._http.post<any>(this.url+"/api/ControlCalidad/RegistrarFormatoProtocolo",body).pipe(
+      catchError (() => throwError("Error al obtener Registrar Formato Proceso"))
+    );
+  }
+
 }
