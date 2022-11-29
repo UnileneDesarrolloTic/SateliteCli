@@ -50,8 +50,8 @@ export class UsuarioService {
     )
   }
 
-  FiltrarAreaPersona(idArea){
-    const params =  new HttpParams().set('idArea', idArea);
+  FiltrarAreaPersona(idArea,NombrePersona){
+    const params =  new HttpParams().set('idArea', idArea).set('NombrePersona',NombrePersona);
     return this._http.get(this.url + "/api/usuario/FiltrarAreaPersona",{'params': params}).pipe(
       catchError(() => throwError("Error al Registra Persona Masiva"))
     )
@@ -60,6 +60,13 @@ export class UsuarioService {
   LiberalPersona(IdAsignacion){
     const params =  new HttpParams().set('IdAsignacion', IdAsignacion);
     return this._http.get(this.url + "/api/usuario/LiberalPersona",{'params': params}).pipe(
+      catchError(() => throwError("Error al Liberar Personal"))
+    )
+  }
+
+  ExportarExcelPersonaAsignacion(FechaInicio,FechaFinal){
+    const params =  new HttpParams().set('FechaInicio', FechaInicio).set('FechaFinal',FechaFinal);
+    return this._http.get(this.url + "/api/usuario/ExportarExcelPersonaAsignacion",{'params': params}).pipe(
       catchError(() => throwError("Error al Liberar Personal"))
     )
   }

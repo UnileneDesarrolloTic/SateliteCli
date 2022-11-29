@@ -1,0 +1,100 @@
+<div class="row ">
+    <div class="card-body">
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title" stype="font-size: 14px">
+                <h5>Agregar Item a la Cotización </h5>
+            </h4>
+            <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form [formGroup]="FormFiltro">
+                <div class="row">
+                    <div class="col-md-4">
+                        <select class="form-control  form-control-sm" formControlName="Opcion">
+                            <option value="0"> Descripción </option>
+                            <option value="1"> Número de parte </option>
+                            <option value="2"> Item </option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input-group mb-3">
+                            <input type="text" name='producto' formControlName="Descripcion"
+                                placeholder="Ingrese la información a consultar" class="form-control form-control-sm"
+                                aria-label="" aria-describedby="basic-addon1">
+                            <div class="input-group-append">
+                                <button class="btn mr-0 btn-info btn-sm" type="button"
+                                    (click)="ObtenerInformacionItem()">
+                                    <i class="ti-search"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 scroll-group2">
+                        <div class="table-responsive table-sm">
+                            <table class="table " style="font-size: 12px">
+                                <thead class="bg-dark text-white">
+                                    <tr>
+                                        <th>...</th>
+                                        <th>Item</th>
+                                        <th>Codsut</th>
+                                        <th>Descripción</th>
+                                        
+                                    </tr>
+                                </thead>
+                                <tbody  style="font-size: 11px">
+                                    <tr *ngFor="let item of ListarItemMast; let i = index">
+                                        <td>
+                                            <a (click)="Mover(item)" style="font-size: 13px; margin-right: 0.2rem;" class="cursor-pointer"> <i class="fas fa-arrow-alt-circle-right"></i></a>
+                                        </td>
+                                        <th ><b>{{item.item}}</b></th>
+                                        <td><b>{{item.codSut}}</b></td>
+                                        <td><b>{{item.descripcion}}</b></td>
+                                       
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 scroll-group">
+                        <div class="table-responsive table-sm">
+                            <table class="table" style="font-size: 12px">
+                                <thead class="bg-info text-white">
+                                    <tr>
+                                        <th scope="col">Item</th>
+                                        <th scope="col">Codsut</th>
+                                        <th scope="col">Descripción</th>
+                                        <th scope="col">...</th>
+                                    </tr>
+                                </thead>
+                                <tbody style="font-size: 11px">
+                                    <tr *ngFor="let producto of ListarSeleccionadoItemMast; let y = index"  style="font-size: 11px">
+                                        <th><b>{{producto.item}}</b></th>
+                                        <td><b>{{producto.codSut}}</b></td>
+                                        <td><b>{{producto.descripcion}}</b></td>
+                                        <td>
+                                            <a (click)="Eliminar(producto,y)" style="font-size: 13px; margin-right: 0.2rem;" class="cursor-pointer"> <i class="fas fa-trash-alt text-danger"></i></a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" (click)="GuardarAceptar()" class="btn btn-rounded btn-sm btn-info">Aceptar</button>
+            <button type="button" (click)="activeModal.dismiss('Cross click')" class="btn btn-rounded btn-sm btn-secondary">Cancelar</button>
+        </div>
+    </div>
+</div>

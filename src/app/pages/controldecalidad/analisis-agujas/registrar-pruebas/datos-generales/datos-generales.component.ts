@@ -17,7 +17,8 @@ export class DatosGeneralesComponent implements OnInit, OnExit {
   codigoAnalisis:string = ""
   subscriptionRuta: Subscription
   datosGeneralesForm : FormGroup
-  botonGuardarDisabled: boolean = false
+  botonGuardarDisabled: boolean = false;
+  disabledCampo:boolean=false;
 
   constructor(private _activatedRoute: ActivatedRoute, private _analisisAgujaService: AnalisisAgujaService,
     private _toastr: ToastrService, private _router: Router) {
@@ -48,7 +49,8 @@ export class DatosGeneralesComponent implements OnInit, OnExit {
       cajasMuestrear: new FormControl(null, [Validators.required, Validators.min(1)]),
       undPorCaja: new FormControl({value: 0, disabled: true}, Validators.required),
       resumenFlexion: new FormArray([]),
-      statusFlexion: new FormControl('', Validators.required)
+      statusFlexion: new FormControl({value:'', disabled:false}, Validators.required),
+      especialidad: new FormControl('')
     });
 
     this.datosGeneralesForm.controls['cajasMuestrear'].valueChanges.subscribe((event)=> this.cambioValorCajasMuestrear(event));
@@ -90,16 +92,24 @@ export class DatosGeneralesComponent implements OnInit, OnExit {
       result => {
         this.datosGeneralesForm.patchValue({
           ...result
-        })
+        });   
+       
       }
+     
     )
   }
 
+  
   guardarDatosGenerales(){
 
     if(this.botonGuardarDisabled)
     {
       this._toastr.warning('Los datos del formulario se estan guardando','Advertencia !!', {timeOut: 3000, closeButton: true, tapToDismiss: true})
+      return
+    }
+
+    if(this.datosGeneralesForm.controls.especialidad.value=='S' && this.datosGeneralesForm.controls.statusFlexion.value!='C'){
+      this._toastr.warning('Ya que la especialidad es SI, debe seleccionar el status NO APLICA','Advertencia !!', {timeOut: 3000, closeButton: true, tapToDismiss: true})
       return
     }
 

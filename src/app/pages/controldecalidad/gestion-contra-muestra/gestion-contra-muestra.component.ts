@@ -138,9 +138,6 @@ export class GestionContraMuestraComponent implements OnInit {
 
 
   GuardarOrdenFabricacion(FilaLote){
-      if(FilaLote.contraMuestra>0 && FilaLote.permitir){
-        return ;
-      }
 
       this._ServiceControlCalidad.RegistrarLoteNumeroCaja(FilaLote).subscribe(
         (resp)=>{

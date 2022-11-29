@@ -1,0 +1,487 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card border-left border-info">
+            <div class="card-header bg-info text-white" style="font-weight: bold">
+                DATOS DEL LOTE Y DOCUMENTO
+            </div>
+            <div class="card-body">
+                <div class="form-body" style="font-size: 14px;">
+                    <form autocomplete="off" [formGroup]="formDatosLote">
+                        <div class="row">
+                            <div class="col-sm-12 col-md-4 col-xl-3">
+                                <div class="form-group">
+                                    <label class="control-label" for="nroLote">Nro. Lote</label>
+                                    <div class="input-group">
+                                        <input type="text" id="nroLote" class="form-control form-control-sm" placeholder="Número de lote" formControlName="numeroLote">
+                                        <div class="input-group-append" *ngIf="codigoLote == '0'">
+                                            <button class="btn mr-0 btn-info btn-sm" type="button" (click)="abrirModalSeleccionarLote(modalSeleccionarLote)">
+                                                <i class="fas fa-clipboard"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-4 col-xl-3">
+                                <div class="form-group">
+                                    <label class="control-label" for="ordFabricacion">Ord. Fabricación</label>
+                                    <input type="text" class="form-control form-control-sm" id="ordFabricacion" placeholder="Orden de fabricación" formControlName="ordenFabricacion">
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-4 col-xl-3">
+                                <div class="form-group">
+                                    <label class="control-label" for="fechaDocumento">FechaDocumento</label>
+                                    <input type="text" class="form-control form-control-sm" id="fechaDocumento" placeholder="Orden de fabricación" formControlName="fechaDocumento">
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-4 col-xl-3">
+                                <div class="form-group">
+                                    <label class="control-label" for="tipoDocumento">Tipo Documento</label>
+                                    <input type="text" class="form-control form-control-sm" id="tipoDocumento" placeholder="TipoDocumento" formControlName="tipoDocumento">
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-4 col-xl-3">
+                                <div class="form-group">
+                                    <label class="control-label" for="documento">Documento</label>
+                                    <input type="text" class="form-control form-control-sm" id="documento" placeholder="Orden de fabricación" formControlName="documento">
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-4 col-xl-3">
+                                <div class="form-group">
+                                    <label class="control-label" for="item">Item</label>
+                                    <input type="text" class="form-control form-control-sm" id="docitemCliente" placeholder="Item" formControlName="item">
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-4 col-xl-3">
+                                <div class="form-group">
+                                    <label class="control-label" for="descripcion">Descipción</label>
+                                    <input type="text" class="form-control form-control-sm" id="descripcion" placeholder="Descripción item" formControlName="descripcion">
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-4 col-xl-3">
+                                <div class="form-group">
+                                    <label class="control-label" for="linea">Linea</label>
+                                    <input type="text" class="form-control form-control-sm" id="linea" placeholder="Linea item" formControlName="linea">
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-4 col-xl-3">
+                                <div class="form-group">
+                                    <label class="control-label" for="familia">Familia</label>
+                                    <input type="text" class="form-control form-control-sm" id="familia" placeholder="Familia item" formControlName="familia">
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-4 col-xl-3">
+                                <div class="form-group">
+                                    <label class="control-label" for="subFamilia">Sub Familia</label>
+                                    <input type="text" class="form-control form-control-sm" id="subFamilia" placeholder="Sub Familia item" formControlName="subFamilia">
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-4 col-xl-3">
+                                <div class="form-group">
+                                    <label class="control-label" for="marca">Marca</label>
+                                    <input type="text" class="form-control form-control-sm" id="marca" placeholder="Marca item" formControlName="marca">
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-4 col-xl-3">
+                                <div class="form-group">
+                                    <label class="control-label" for="pedida">Cant. Pedida</label>
+                                    <input type="text" class="form-control form-control-sm" id="pedida" placeholder="Orden de fabricación" formControlName="cantidadPedida">
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-4 col-xl-3">
+                                <div class="form-group">
+                                    <label class="control-label" for="recibida">Cant. Recibida</label>
+                                    <input type="text" class="form-control form-control-sm" id="recibida" placeholder="Orden de fabricación" formControlName="cantidadRecibida">
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-4 col-xl-3">
+                                <div class="form-group">
+                                    <label class="control-label" for="precio">Precio Und.</label>
+                                    <input type="text" class="form-control form-control-sm" id="precio" placeholder="Marca item" formControlName="precioUnitario">
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-4 col-xl-3">
+                                <div class="form-group">
+                                    <label class="control-label" for="monto">Monto Total</label>
+                                    <input type="text" class="form-control form-control-sm" id="monto" placeholder="Marca item" formControlName="montoTotal">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="d-flex justify-content-end"  *ngIf="numeroLote == ''">
+                        <button class="btn btn-danger btn-sm btn-rounded" type="button" (click)="cancelar()">
+                            <i class="fas fa-ban"></i>&nbsp;&nbsp;Cancelar&nbsp;&nbsp;
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row" *ngIf="numeroLote != '' && numeroLote != ' '  && numeroLote != null && numeroLote != undefined">
+    <div class="col-12">
+        <div class="card border-left border-info">
+            <div class="card-header bg-info text-white" style="font-weight: bold">
+                DATOS DEL RECLAMO
+            </div>
+            <div class="card-body" style="font-size: 14px;">
+                <div class="form-body" style="font-size: 14px;">
+                    <form [formGroup]="formReclamoDetalle" autocomplete="off" (submit)="guardarDetalleReclamo()">
+                        <fieldset [disabled]='flagDisabledForms'>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-6 col-xl-6">
+                                    <div class="form-group">
+                                        <label class="control-label" for="motivo">Motivo</label>
+                                        <textarea class="form-control form-control-sm" rows="4" id="motivo" placeholder="Motivo del reclamo" formControlName="motivo"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-6 col-xl-6">
+                                    <div class="form-group">
+                                        <label class="control-label" for="solicitud">Solicitud</label>
+                                        <textarea class="form-control form-control-sm" rows="4" id="solicitud" placeholder="Solicitud del cliente" formControlName="solicitud"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-4 col-xl-3">
+                                    <div class="form-group">
+                                        <label class="control-label" for="fechaIncidencia">Fecha Incidencia</label>
+                                        <input type="date" class="form-control form-control-sm" id="fechaIncidencia" placeholder="Fecha del incidente" formControlName="fechaIncidencia">
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-4 col-xl-3">
+                                    <div class="form-group">
+                                        <label class="control-label" for="remitente">Remitente</label>
+                                        <input type="text" class="form-control form-control-sm" id="remitente" placeholder="Nombre remitente" formControlName="remitente">
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-4 col-xl-3">
+                                    <div class="form-group">
+                                        <label class="control-label">Reingreso Mercaderia</label>
+                                        <div>
+                                            <div class="form-check form-check-inline">
+                                                <div class="custom-control custom-radio">
+                                                    <input type="radio" class="custom-control-input" id="reingresSi" [value]=true name="reingreso" formControlName="reingreso">
+                                                    <label class="custom-control-label" for="reingresSi">Si</label>
+                                                </div>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <div class="custom-control custom-radio">
+                                                    <input type="radio" class="custom-control-input" id="reingresNo" [value]=false name="reingreso" formControlName="reingreso">
+                                                    <label class="custom-control-label" for="reingresNo">No</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-4 col-xl-3">
+                                    <div class="form-group">
+                                        <label class="control-label">Por Carta</label>
+                                        <div>
+                                            <div class="form-check form-check-inline">
+                                                <div class="custom-control custom-radio">
+                                                    <input type="radio" class="custom-control-input" id="cartaSi" [value]=true name="porCarta" formControlName="porCarta">
+                                                    <label class="custom-control-label" for="cartaSi">Si</label>
+                                                </div>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <div class="custom-control custom-radio">
+                                                    <input type="radio" class="custom-control-input" id="cartaNo" [value]=false name="porCarta" formControlName="porCarta">
+                                                    <label class="custom-control-label" for="cartaNo">No</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-4 col-xl-3">
+                                    <div class="form-group">
+                                        <label class="control-label" for="clasificacion">Clasificación</label>
+                                        <select class="form-control form-control-sm" id="clasificacion" formControlName="clasificacion">
+                                            <option value="">Seleccione una opción...</option>
+                                            <option *ngFor="let clasificacion of listaCbxClasificacion" [value]="clasificacion.id">{{clasificacion.valorTexto1}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-4 col-xl-3">
+                                    <div class="form-group">
+                                        <label class="control-label" for="areaInvolucrada">Área Involucrada</label>
+                                        <select class="form-control form-control-sm" id="areaInvolucrada" formControlName="areaInvolucrada">
+                                            <option value="">Seleccione una opción...</option>
+                                            <option *ngFor="let area of listaCbxAreaInvolucrada" [value]="area.id">{{area.valorTexto1}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-4 col-xl-3">
+                                    <div class="form-group">
+                                        <label class="control-label" for="cantidad">Cantidad Reclamada</label>
+                                        <input type="number" class="form-control form-control-sm" id="cantidad" placeholder="Cantidad reclamado" formControlName="cantidad">
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-4 col-xl-3">
+                                    <div class="form-group">
+                                        <label class="control-label" for="fechaIncidente">Obs. Interna</label>
+                                        <textarea class="form-control form-control-sm" rows="2" id="solicitud" placeholder="Solicitud del cliente" formControlName="observaciones"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <div class="d-flex justify-content-end" *ngIf="!flagDisabledForms">
+                            <button class="btn btn-danger btn-sm btn-rounded mr-1" type="button" (click)="cancelar()">
+                                <i class="fas fa-ban"></i>&nbsp;&nbsp;Cancelar&nbsp;&nbsp;
+                            </button>
+                            <button class="btn btn-success btn-sm btn-rounded ml-1" type="submit">
+                                <i class="far fa-save"></i>
+                                <span *ngIf="flagNuevoLote">&nbsp;&nbsp;Guardar&nbsp;&nbsp;</span>
+                                <span *ngIf="!flagNuevoLote">&nbsp;&nbsp;Actualizar&nbsp;&nbsp;</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row" *ngIf="numeroLote != '' && numeroLote != ' ' && numeroLote != null && numeroLote != undefined">
+    <div class="col-12">
+        <div class="card border-left border-info">
+            <div class="card-header bg-info text-white" style="font-weight: bold">
+                ARCHIVOS ADJUNTOS
+            </div>
+            <div class="card-body" style="font-size: 14px;">
+                <div class="d-flex justify-content-center mb-5" *ngIf="!flagDisabledForms">
+                    <div class="form-group">
+                        <div class="custom-file col-12 text-center">
+                            <div class="file-select bg-warning" id="src-file">
+                                <input type="file" name="src-file" aria-label="Archivo" multiple (change)="subirEvidenciaReclamos($event)" >
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-sm" style="font-size: 13px">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="text-center font-weight-bold">Nombre</th>
+                                <th scope="col" class="text-center font-weight-bold">Tamaño</th>
+                                <th scope="col" class="text-center font-weight-bold">Registrado</th>
+                                <th scope="col" class="text-center font-weight-bold">Fecha</th>
+                                <th scope="col" class="text-center font-weight-bold">...</th>
+                            </tr>
+                        </thead>
+                        <tbody *ngFor="let evidencia of listaEvidencias">
+                            <tr>
+                                <td>
+                                    {{evidencia.nombreDocumento}}
+                                </td>
+                                <td class="text-center">
+                                    {{ (evidencia.tamanoDocumento / 1024) | number: '1.1-1' }} KB
+                                </td>
+                                <td class="text-center">
+                                    {{evidencia.usuario}}
+                                </td>
+                                <td class="text-center">
+                                    {{evidencia.fecha | date: 'dd/MM/yyyy HH:mm' }}
+                                </td>
+                                <td class="text-center">
+                                    <a (click)="abrirModalVistaPrevia(modalVistaPreviaEvidencia, evidencia.nombreArchivo)" class="cursor-pointer">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a (click)="eliminarDocumento(evidencia.id, evidencia.nombreDocumento)" class="cursor-pointer ml-3" *ngIf="!flagDisabledForms">
+                                        <i class="fas fa-trash-alt text-danger"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row" *ngIf="numeroLote != '' && numeroLote != ' '  && numeroLote != null && numeroLote != undefined">
+    <div class="col-12">
+        <div class="card border-left border-info">
+            <div class="card-header bg-info text-white" style="font-weight: bold">
+                RESPUESTA RECLAMO
+            </div>
+            <div class="card-body" style="font-size: 14px;">
+                <div class="form-body" style="font-size: 14px;">
+                    <form autocomplete="off" [formGroup]="formRespuesta" (submit)="submitRespuesta()">
+                        <fieldset [disabled]='flagDisabledForms'>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-4 col-xl-3">
+                                    <div class="form-group">
+                                        <label class="control-label" for="estadoRespuesta">Estado</label>
+                                        <select class="form-control form-control-sm" id="estadoRespuesta" formControlName="estado">
+                                            <option value="">Seleccione una opción...</option>
+                                            <option value="A">Aceptado</option>
+                                            <option value="R">Rechazado</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-4 col-xl-3">
+                                    <div class="form-group">
+                                        <label class="control-label" for="tipoRespuesta">Tipo Envío</label>
+                                        <select class="form-control form-control-sm" id="tipoRespuesta" formControlName="tipoEnvio">
+                                            <option value="">Seleccione una opción...</option>
+                                            <option value="C">Correo</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-4 col-xl-3">
+                                    <div class="form-group">
+                                        <label class="control-label" for="destinatario">Destinatario</label>
+                                        <input type="text" class="form-control form-control-sm" id="destinatario" placeholder="destino respuesta" formControlName="destinatario">
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-4 col-xl-3">
+                                    <div class="form-group">
+                                        <label class="control-label" for="loteCanje">Lote Canje</label>
+                                        <input type="text" class="form-control form-control-sm" id="loteCanje" placeholder="Lote canje" formControlName="loteCanje">
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12">
+                                    <div class="form-group">
+                                        <label class="control-label" for="respuesta">Respuesta</label>
+                                        <textarea class="form-control form-control-sm" rows="8" id="respuesta" placeholder="Motivo del reclamo" formControlName="respuesta"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-center" *ngIf="!flagDisabledForms">
+                                <button class="btn btn-danger btn-rounded mr-1" type="button" (click)="cancelar()">
+                                    <i class="fas fa-ban"></i>&nbsp;&nbsp;Cancelar&nbsp;&nbsp;
+                                </button>
+                                <button class="btn btn-success btn-rounded ml-1" type="submit">
+                                <i class="far fa-check-circle"></i>&nbsp;&nbsp;Responder&nbsp;&nbsp;
+                                </button>
+                            </div>
+                        </fieldset>
+                        <div class="d-flex justify-content-center" *ngIf="flagDisabledForms">
+                            <div>
+                                <button class="btn btn-info btn-rounded ml-1" type="button" (click)="cancelar()">
+                                    <i class="fas fa-chevron-left"></i>&nbsp;&nbsp;Volver&nbsp;&nbsp;
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #modalSeleccionarLote let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title font-weight-bold">
+            <i class="fas fa-binoculars"></i>&nbsp;&nbsp;SELECCIONE UN DOCUMENTO
+        </h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">
+                &times;
+            </span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="card">
+            <div class="card-body">
+                <form (ngSubmit)="filtrarLotes()" [formGroup]="formFiltroLote" autocomplete="off" style="font-size: 14px;">
+                    <div class="form-body">
+                        <div class="row">
+                            <div class="col-sm-12 col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label" for="tipoFiltro">TipoFiltro</label>
+                                    <select class="form-control custom-select custom-select-sm" id="tipoFiltro" formControlName="tipoFiltro">
+                                        <option value="L">Lote </option>
+                                        <option value="O">Orden Fabricación </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label" for="valorFiltro">
+                                        <span *ngIf="tipoFiltro == 'L'">Lote</span>
+                                        <span *ngIf="tipoFiltro == 'O'">Ord. Fabricación</span>
+                                    </label>
+                                    <input type="text" class="form-control form-control-sm" id="valorFiltro" formControlName="valorFiltro">
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6" *ngIf="flagExisteRegistrosLotesFiltrados">
+                                <div class="form-group">
+                                    <label class="control-label" for="item">Item</label>
+                                    <input type="text" class="form-control form-control-sm" id="item" placeholder="Item lote" formControlName="item">
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6" *ngIf="flagExisteRegistrosLotesFiltrados">
+                                <div class="form-group">    
+                                    <label class="control-label" for="descripcion">Descripción</label>
+                                    <input type="text" class="form-control form-control-sm" id="descripcion" placeholder="Descripción item" formControlName="descripcion">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="alert alert-warning mt-6" role="alert" *ngIf="!flagExisteRegistrosLotesFiltrados">
+                    No se encontro resultados.
+                </div>
+                <div class="table-responsive mt-6" *ngIf="flagExisteRegistrosLotesFiltrados" >
+                    <table class="table table-bordered table-sm table-hover" style="font-size: 14px">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="text-center font-weight-bold">Fecha Doc.</th>
+                                <th scope="col" class="text-center font-weight-bold">Documento</th>
+                                <th scope="col" class="text-center font-weight-bold">Lote</th>
+                                <th scope="col" class="text-center font-weight-bold">Ord. Fabricacion</th>
+                                <th scope="col" class="text-center font-weight-bold">Pedida</th>
+                                <th scope="col" class="text-center font-weight-bold">Entregado</th>
+                                <th scope="col" class="text-center font-weight-bold">Precio Und.</th>
+                                <th scope="col" class="text-center font-weight-bold">...</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let lote of listaLotesFiltados">
+                                <td class="text-center">
+                                    {{ lote.fechaDocumento | date: 'dd/MM/yyyy HH:mm' }}
+                                </td>
+                                <td class="pl-2">
+                                    {{ lote.numeroDocumento }}
+                                </td>
+                                <td class="text-center">
+                                    {{ lote.lote }}	
+                                </td>
+                                <td class="text-center">
+                                    {{ lote.ordenFabricacion }}
+                                </td>
+                                <td class="text-center">
+                                    {{ lote.cantidadPedida | number }}
+                                </td>
+                                <td class="text-center">
+                                    {{ lote.cantidadEntregada | number }}
+                                </td>
+                                <td class="text-center">
+                                    {{ lote.precioUnitario | number: '0.0-2' }}
+                                </td>
+                                <td class="text-center">
+                                    <a type="button" (click)="loteSeleccionado(lote)">
+                                        <i class="fas fa-angle-double-left"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #modalVistaPreviaEvidencia let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title font-weight-bold">
+        Vista previa
+      </h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <span aria-hidden="true">
+              &times;
+          </span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <iframe [src]="rutaVistaPrevia" style="width:100%; height:710px;"  width="100%" height="100%" scrolling="no" frameborder="0" ></iframe>
+    </div>
+</ng-template>

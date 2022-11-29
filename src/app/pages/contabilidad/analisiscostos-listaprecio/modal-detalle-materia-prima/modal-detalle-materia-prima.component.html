@@ -1,0 +1,149 @@
+<div class="row">
+    <div class="card-body">
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title" stype="font-size: 14px"> <b>ITEM</b><h5>{{this.itemRow.codigoItem}} -  {{this.itemRow.descripcionLocal}} - {{this.itemRow.numeroDeParte}} </h5>
+            </h4>
+            <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body" style="height: 60vh">
+            <form action="" [formGroup]="ResumenFormulario">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row p-1">
+                                    <div class="table-responsive scroll-group2">
+                                        <table class="table" style="font-size: 9px">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Item</th>
+                                                    <th scope="col">Nombre</th>
+                                                    <th scope="col">Cantidad</th>
+                                                    <th scope="col">C.Unitario</th>
+                                                    <th scope="col">C.Unitario(Dolares)</th>
+                                                    <th scope="col">Opción</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody style="font-size: 9px">
+                                                    <tr *ngFor="let ItemComponente of ListarPrecioCostoItemComponente; let i = index">
+                                                    <!-- <ng-container [formGroup]="ItemComponente">   *ngFor="let ItemComponente of ListadoMateriaPrima.controls; let i = index" -->
+                                                        <th>
+                                                            <b>{{ItemComponente.itemComponente}}</b>
+                                                        </th>
+                                                        <td>
+                                                            <b>{{ItemComponente.nombreProducto}}</b>
+                                                        </td>
+                                                        <td  class="text-center" style="color: #070707;font-weight:bold;">
+                                                            <b>{{ItemComponente.cantidad | number : '1.2-3'}}</b>
+                                                        </td>
+                                                        <td class="text-center" style="color: #5086c1;font-weight:bold;">
+                                                            <b>{{ItemComponente.costoUnitario | number: '1.2-3' }}</b>
+                                                            <!-- <b>{{ItemComponente.costoUnitarioSoles | number: '1.2-3' }}</b> -->
+                                                        </td>
+                                                        <td class="text-center"  style="color: #42ab49;font-weight: bold;">
+                                                            <b>{{ItemComponente.costoUnitarioDolares | number : '1.2-3' }}</b>
+                                                        </td>
+                                                        <td>
+                                                            <a  (click)="OpenModalItem(ItemComponente,i)" style="font-size: 15px; margin-right: 0.2rem;" class="cursor-pointer"> <i class="fas fa-search text-info"></i></a>
+                                                        </td>
+                                                    <!-- </ng-container> -->
+                                                    </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="row p-1">
+                                    <div class="col-md-12">
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend input-group-prepend-s">
+                                                <span class="input-group-text">Total Materia Prima</span>
+                                            </div>
+                                            <input type="number"  [attr.disabled]="true" formControlName="CostoTotal" class="form-control form-control-sm">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row p-1">
+                                    <div class="col-md-6">
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend input-group-prepend-s">
+                                                <span class="input-group-text">Mano de obra</span>
+                                            </div>
+                                            <input type="number" [attr.disabled]="true" formControlName="ManoObra" class="form-control form-control-sm">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend input-group-prepend-s">
+                                                <span class="input-group-text">CIF</span>
+                                            </div>
+                                            <input type="number" [attr.disabled]="true" formControlName="Cif" class="form-control form-control-sm">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row p-1">
+                                    <div class="col-md-6">
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend input-group-prepend-s">
+                                                <span class="input-group-text">Costo Unitario</span>
+                                            </div>
+                                            <input type="number" [attr.disabled]="true" formControlName="CostoUnitario" class="form-control form-control-sm">
+                                        </div>
+                                        <!-- <div class="form-group">
+                                            <label class="control-label" style="font-size: 9px;">COSTO UNITARIO
+                                                TOTAL:</label>
+                                            <input type="number" [attr.disabled]="true" class="form-control form-control-sm" formControlName="CostoUnitario">
+                                        </div> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row p-1">
+                                    <h5></h5>
+                                    <table class="table" style="font-size: 9px">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Código</th>
+                                                <th scope="col">T.Cliente</th>
+                                                <th scope="col">Rentabilidad</th>
+                                                <th scope="col">C.UnitarioMinimo</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody style="font-size: 9px">
+                                            <tr>
+                                                <th><b>1</b></th>
+                                                <td><b>ESSALUD</b></td>
+                                                <td><b>0</b></td>
+                                                <td><b>0</b></td>
+                                            </tr>
+                                            <tr>
+                                                <th><b>2</b></th>
+                                                <td><b>HOSPITAL MINSA</b></td>
+                                                <td><b>0</b></td>
+                                                <td><b>0</b></td>
+                                            </tr>
+                                            <tr>
+                                                <th><b>3</b></th>
+                                                <td><b>HOSPITAL FUERZAS ARMADAS</b></td>
+                                                <td><b>0</b></td>
+                                                <td><b>0</b></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -7,6 +7,8 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { ModalCargarComponent } from './modal-cargar/modal-cargar.component';
 import { MensajeAdvertenciaComponent } from './mensaje-advertencia/mensaje-advertencia.component';
 import { ModalMaestroItemComponent } from './modal-maestro-item/modal-maestro-item.component';
+import { ModalItemCostoComponent } from './modal-item-costo/modal-item-costo.component';
+import { ModalItemMastComponent } from './modal-item-mast/modal-item-mast.component';
 
 
 @NgModule({
@@ -16,6 +18,8 @@ import { ModalMaestroItemComponent } from './modal-maestro-item/modal-maestro-it
     ModalCargarComponent,
     MensajeAdvertenciaComponent,
     ModalMaestroItemComponent,
+    ModalItemCostoComponent,
+    ModalItemMastComponent,
   ],
   imports: [
     CommonModule,

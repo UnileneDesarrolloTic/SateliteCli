@@ -1,0 +1,199 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card border-left border-info">
+            <div class="card-header bg-info text-white" style="font-weight: bold">
+                Filtros de búsqueda
+            </div>
+            <div class="card-body">
+                <form autocomplete="off" [formGroup]="formFiltros" (submit)="filtrarVentas()">
+                    <div class="form-body" style="font-size: 14px;">
+                        <div class="row p-t-20">
+                            <div class="col-sm-12 col-md-4 col-xl-2">
+                                <div class="form-group">
+                                    <label class="control-label" for="fecInicio">Inicio</label>
+                                    <input type="date" class="form-control form-control-sm" id="fecInicio" formControlName="fechaInicio">
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-4 col-xl-2">
+                                <div class="form-group">
+                                    <label class="control-label" for="fecFin">Fin</label>
+                                    <input type="date" class="form-control form-control-sm" id="fecFin" formControlName="fechaFin">
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-4 col-xl-2">
+                                <div class="form-group">
+                                    <label class="control-label" for="cliente">Cliente</label>
+                                    <div class="input-group mb-3">
+                                        <input type="text" name='cliente' formControlName="clienteNombre" id="cliente" class="form-control form-control-sm" placeholder="Buscar Cliente" aria-label="" aria-describedby="basic-addon1">
+                                        <div class="input-group-append">
+                                            <button class="btn mr-0 btn-info btn-sm" type="button" (click)="openModalConsultaClientes()">
+                                                <i class="ti-search"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-4 col-xl-2">
+                                <div class="form-group">
+                                    <label class="control-label" for="linea">Linea</label>
+                                    <select class="form-control custom-select custom-select-sm" id="linea" formControlName="linea">
+                                        <option value="">Seleccione una opción</option>
+                                        <option  *ngFor="let linea of listaLinea" [value]="linea.linea">
+                                            {{linea.descripcionLocal}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-4 col-xl-2">
+                                <div class="form-group">
+                                    <label class="control-label" for="familia">Familia</label>
+                                    <select class="form-control custom-select custom-select-sm" id="familia" formControlName="familia">
+                                        <option value="">Seleccione una opción</option>
+                                        <option  *ngFor="let familia of listaFamilia" [value]="familia.familia">
+                                            {{familia.descripcionLocal}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-4 col-xl-2">
+                                <div class="form-group">
+                                    <label class="control-label">Sub Familia</label>
+                                    <select class="form-control custom-select custom-select-sm" formControlName="subFamilia">
+                                        <option value="">Seleccione una opción</option>
+                                        <option  *ngFor="let sub of listaSubFamilia" [value]="sub.subFamilia">
+                                            {{sub.descripcionLocal}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-4 col-xl-2">
+                                <div class="form-group">
+                                    <label class="control-label" for="codItem">Item</label>
+                                    <input type="text" id="firstName" class="form-control form-control-sm" placeholder="código item" id="codItem" formControlName="item">
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-4 col-xl-2">
+                                <div class="form-group">
+                                    <label class="control-label" for="nroParte">Nro parte</label>
+                                    <input type="text" id="firstName" class="form-control form-control-sm" placeholder="número de parte" id="nroParte" formControlName="numeroParte">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                <button class="btn btn-info btn-rounded" type="submit">Filtrar</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="card border-left border-info">
+            <div class="card-body" *ngIf="flagPrimeraConsulta">
+                <div class="d-flex justify-content-between mb-2">
+                    <p class="font-weight-bold" style="font-size: 13px;">Cantidad de ventas: {{ cantidadDeVentas }}</p>
+                    <button class="btn btn-success btn-sm btn-rounded" (click)="descargarReporte()">&nbsp;&nbsp;<i class="far fa-file-excel"></i>&nbsp;&nbsp;Descargar &nbsp;</button>
+                </div>
+                <div class="alert alert-warning" role="alert" *ngIf="!flagResultadosVentas">
+                    No se encontro ventas realizadas.
+                </div>
+                <div class="table-responsive text-nowrap" *ngIf="flagResultadosVentas">
+                    <table class="table table-striped table-hover table-bordered table-sm" style="font-size: 14px">
+                        <thead>
+                            <tr>
+                              <th scope="col" class="text-center font-weight-bold">Tipo Doc.</th>
+                              <th scope="col" class="text-center font-weight-bold">Nro Doc.</th>
+                              <th scope="col" class="text-center font-weight-bold">Fecha Doc.</th>
+                              <th scope="col" class="text-center font-weight-bold">Estado</th>
+                              <th scope="col" class="text-center font-weight-bold">Venta</th>
+                              <th scope="col" class="text-center font-weight-bold">Pedido</th>
+                              <th scope="col" class="text-center font-weight-bold">Item</th>
+                              <th scope="col" class="text-center font-weight-bold">N° Parte</th>
+                              <th scope="col" class="text-center font-weight-bold">Linea</th>
+                              <th scope="col" class="text-center font-weight-bold">Familia</th>
+                              <th scope="col" class="text-center font-weight-bold">Sub Familia</th>
+                              <th scope="col" class="text-center font-weight-bold">Lote</th>
+                              <th scope="col" class="text-center font-weight-bold">Item Serie</th>
+                              <th scope="col" class="text-center font-weight-bold">Descripción</th>
+                              <th scope="col" class="text-center font-weight-bold">Und</th>
+                              <th scope="col" class="text-center font-weight-bold">Cantidad</th>
+                              <th scope="col" class="text-center font-weight-bold">Precio Und</th>
+                              <th scope="col" class="text-center font-weight-bold">Monto</th>
+                              <th scope="col" class="text-center font-weight-bold">Total</th>
+                              <th scope="col" class="text-center font-weight-bold">Comentario</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let venta of listaVentas">
+                                <td class="text-center">
+                                  {{ venta.tipoVenta }}
+                                </td>
+                                <td class="text-center">
+                                  {{ venta.numeroDocumento}}
+                                </td>
+                                <td class="text-center">
+                                    {{ venta.fechaDocumento | date: 'dd/MM/yyyy hh:mm'}}
+                                </td>
+                                <td class="text-center">
+                                    {{ venta.estado}}
+                                </td>
+                                <td class="text-center">
+                                    {{ venta.tipoVenta }}
+                                </td>
+                                <td class="text-center">
+                                    {{ venta.comercialPedidoNumero }}
+                                </td>
+                                <td class="text-center">
+                                    {{ venta.itemCodigo }}
+                                </td>
+                                <td class="text-center">
+                                    {{ venta.numeroDeParte }}
+                                </td>
+                                <td class="text-center">
+                                    {{ venta.linea }}
+                                </td>
+                                <td class="text-center">
+                                    {{ venta.familia }}
+                                </td>
+                                <td class="text-center">
+                                    {{ venta.subFamilia }}
+                                </td>
+                                <td class="text-center">
+                                    {{ venta.lote }}
+                                </td>
+                                <td class="text-center">
+                                    {{ venta.itemSerie }}
+                                </td>
+                                <td>
+                                    {{ venta.descripcion }}
+                                </td>
+                                <td class="text-center">
+                                    {{ venta.unidadCodigo }}
+                                </td>
+                                <td class="text-right">
+                                    {{ venta.cantidadEntregada | number:'0.0'}}
+                                </td>
+                                <td class="text-right">
+                                    {{ venta.precioUnitario | number:'0.2' }}
+                                </td>
+                                <td class="text-right">
+                                    {{ venta.monto | number:'0.2' }}
+                                </td>
+                                <td class="text-right">
+                                    {{ venta.montoTotal | number:'0.2' }}
+                                </td>
+                                <td>
+                                    {{ venta.comentarios }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

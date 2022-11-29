@@ -2,13 +2,15 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ProduccionService } from '@data/services/backEnd/pages/produccion.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-
+import { ModalCargarComponent } from '@shared/components/modal-cargar/modal-cargar.component';
+import  { Cargarbase64Service } from '@shared/services/comunes/cargarbase64.service';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-materia-prima',
   templateUrl: './materia-prima.component.html'
 })
 export class MateriaPrimaComponent {
-
+  hoy = new Date().toLocaleDateString();
   listaCandidatos: any[]
   dataCompleta: any[]
   listaCompletaOCPendientes: any[]
@@ -33,7 +35,10 @@ export class MateriaPrimaComponent {
 
   constructor(private _pronosticoService: ProduccionService, 
               private _modalService: NgbModal, 
-              private _fb: FormBuilder) {
+              private _fb: FormBuilder,
+              private _ProduccionService:ProduccionService,
+              private _Cargarbase64Service:Cargarbase64Service,
+              private toastr:ToastrService) {
     this.MostrarColumnaMateriaPrima();
     this.crearFormulario()
     this.obtenerListaCandidatosMP()
@@ -164,6 +169,31 @@ export class MateriaPrimaComponent {
                   this.TotalPendiente  = element.cantidad;
               }
         });
+  }
+
+  ExportarExcel(){
+   
+  
+      const ModalCarga = this._modalService.open(ModalCargarComponent, {
+        centered: true,
+        backdrop: 'static',
+        size: 'sm',
+        scrollable: true
+      });
+      ModalCarga.componentInstance.fromParent = "Generando el Formato Excel";
+      this._ProduccionService.ExcelMateriaPrima(this.formularioFiltro.controls.regla.value ).subscribe(
+        (resp:any)=>{
+          if(resp.success){
+            this._Cargarbase64Service.file(resp.content,`MarteriaPrima-${this.hoy}`,'xlsx',ModalCarga);
+          }else{
+            ModalCarga.close();
+            this.toastr.info(resp.message);
+          }
+        }
+      );
+  
+  
+  
   }
 
 }

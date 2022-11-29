@@ -15,11 +15,13 @@ import { TagResumenComponent } from './consultar-stock-ventas/tag-resumen/tag-re
 import { TagDetalleComponent } from './consultar-stock-ventas/tag-detalle/tag-detalle.component';
 import { ModalDetalleComprometidoComponent } from './consultar-stock-ventas/modal-detalle-comprometido/modal-detalle-comprometido.component';
 import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
+import { MateriaPrimaItemComponent } from './consultar-stock-ventas/materia-prima-item/materia-prima-item.component';
+import { ModalDetalleRecetaComponent } from '../../shared/components/modal-detalle-receta/modal-detalle-receta.component';
 
 
 @NgModule({
   declarations:
-  [ MaestroItemComponent, GestionGuiasComponent, ConsultarStockVentasComponent, DetalleItemVentasComponent, TagResumenComponent, TagDetalleComponent, ModalDetalleComprometidoComponent],
+  [ MaestroItemComponent, GestionGuiasComponent, ConsultarStockVentasComponent, DetalleItemVentasComponent, TagResumenComponent, TagDetalleComponent, ModalDetalleComprometidoComponent, MateriaPrimaItemComponent, ModalDetalleRecetaComponent],
   imports:
   [
     RouterModule.forChild(LogisticaRoutes),

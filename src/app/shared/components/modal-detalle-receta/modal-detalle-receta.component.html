@@ -1,0 +1,49 @@
+<div class="row">
+
+    <div class="card-body">
+
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Item {{Item}}
+            </h4>
+            <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body " style="font-size: 12px; width: auto;overflow-y: auto; height:  20rem" >
+            <div class="row">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead class="bg-info text-white table-sm" style="font-size: 11px">
+                            <tr>
+                                <th>Item</th>
+                                <th>Descripcion</th>
+                                <th>Tipo</th>
+                                <th>U.M</th>
+                                <th>Cant.Neta</th>
+                                <th>Stock Act.</th>
+                                <th>Stock Disponible</th>
+                                <th>Dif</th>
+
+                            </tr>
+                        </thead>
+                        <tbody class="border border-info" style="font-size: 11px" id="tbodyDetalle">
+
+                            <tr *ngFor="let Detalle of ListarDetalleReceta; let i = index">
+                                <th>{{Detalle.itemComponente}}</th>
+                                <th><b>{{Detalle.descripcionLocal}}</b></th>
+                                <td><b>{{Detalle.itemTipo}}</b></td>
+                                <td><b>{{Detalle.unidadCodigo}}</b></td>
+                                <td><b>{{Detalle.cantidadNeta | number: '1.2-2'}}</b></td>
+                                <td><b>{{Detalle.stockActual | number : '1.2-2'}}</b></td>
+                                <td><b>{{Detalle.stockDisponible | number:'1.2-2'}}</b></td>
+                                <th [ngStyle]="{'color': Detalle.stockDisponible - Detalle.cantidadNeta <= 0  ? '#FF2D00':'#0061FF' }">{{Detalle.stockDisponible - Detalle.cantidadNeta | number:'1.2-2'}}</th>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>

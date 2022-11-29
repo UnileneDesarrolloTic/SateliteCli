@@ -79,7 +79,7 @@ export class AnalisisAgujaService
     )
   }
 
-  GuardarEditarPruebaFlexionAguja(body:{}[]){
+  GuardarEditarPruebaFlexionAguja(body:any){
     return this._http.post(this.url + "GuardarEditarPruebaFlexionAguja", body).pipe(
       catchError(() => {
         this._toastr.error("Error al guardar los datos de la prueba de flexión", "Error en el servidor!!", {timeOut: 4000, closeButton: true, tapToDismiss: true});

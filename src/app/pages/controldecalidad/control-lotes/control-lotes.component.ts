@@ -130,6 +130,7 @@ export class ControlLotesComponent implements OnInit {
           busqueda: [itemRow.busqueda],
           fechaExpiracion: [itemRow.fechaExpiracion],
           protocoloFlag: [itemRow.protocoloFlag],
+          destruible: [itemRow.destruible],
         });
         this.ListControlLotes.push(ItemFilaForm);
     })

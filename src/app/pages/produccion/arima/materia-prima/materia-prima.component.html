@@ -51,11 +51,15 @@
                 <option value="MPAG0R2">MP Agujas Promedio Regla 2</option>
                 <option value="MPAG0R3">MP Agujas Regla 3</option>
                 <option value="MPAG0R4">MP Agujas Regla 4 (serie 300)</option>
+                <option value="PT01STNAE">MP Agujas Especialidad </option>
               </select>
             </div>
             <div class="col-4 text-center">
               <button class="btn btn-rounded btn-outline-primary" type="button" (click)="obtenerListaCandidatosMP()">
-                Actualizar
+                <i class="fas fa-history"></i> Actualizar
+              </button>
+              <button class="btn btn-rounded btn-outline-success" type="button" (click)="ExportarExcel()">
+                 <i class="fas fa-file-excel"></i> Excel
               </button>
             </div>
             <div class="col-4">
@@ -87,6 +91,11 @@
                     {{ value | number }}
                   </ng-template>
                 </ngx-datatable-column>
+                <ngx-datatable-column name="Duración" prop='duracion' [width]="110">
+                  <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    {{ value | number:'1.1-1' }}
+                  </ng-template>
+              </ngx-datatable-column>
                 <ngx-datatable-column name="S Disponible" prop='stockDisponible' [width]="110">
                   <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                     {{ value | number }}
@@ -136,6 +145,7 @@
                     <span *ngIf="selectRegla.value == 'MPAGAR1'">Pronostico</span>
                     <span *ngIf="selectRegla.value == 'MPAG0R2' || selectRegla.value == 'MPAG0R3'">Pro. Mensual</span>
                     <span *ngIf="selectRegla.value == 'MPAG0R4'">Prom.12meses</span>
+                    <span *ngIf="selectRegla.value == 'PT01STNAE'">Prom.4años</span>
                   </ng-template>
                   <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                     {{ value | number }}

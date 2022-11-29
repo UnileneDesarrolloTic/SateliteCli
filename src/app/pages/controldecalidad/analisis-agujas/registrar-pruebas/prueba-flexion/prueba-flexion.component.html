@@ -10,25 +10,34 @@
             <div class="col-sm-12 col-md-6 col-lg-3">
               <div class="form-group">
                   <label for="inputname" class="control-label col-form-label">Análisis</label>
-                  <input type="text" class="form-control" id="NroAnalisis" formControlName="analisis">
+                  <input type="text" class="form-control form-control-sm" id="NroAnalisis" formControlName="analisis">
               </div>
             </div>
             <div class="col-sm-12 col-md-6 col-lg-3">
               <div class="form-group">
                   <label for="inputname" class="control-label col-form-label">Nro Pruebas</label>
-                  <input type="number" class="form-control" id="NroPruebas" formControlName="pruebas">
+                  <input type="number" class="form-control form-control-sm" id="NroPruebas" formControlName="pruebas">
               </div>
             </div>
             <div class="col-sm-12 col-md-6 col-lg-3">
               <div class="form-group">
                   <label for="inputname" class="control-label col-form-label">Item</label>
-                  <input type="text" class="form-control" id="NroItem" formControlName="item">
+                  <input type="text" class="form-control form-control-sm" id="NroItem" formControlName="item">
               </div>
             </div>
             <div class="col-sm-12 col-md-6 col-lg-3">
               <div class="form-group">
                   <label for="inputname" class="control-label col-form-label">Proveedor</label>
-                  <input type="text" class="form-control" id="NroProveedor" formControlName="proveedor">
+                  <input type="text" class="form-control form-control-sm" id="NroProveedor" formControlName="proveedor">
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-3">
+              <div class="form-group">
+                  <label for="inputname" class="control-label col-form-label">¿Especialidad?</label>
+                  <select formControlName="especialidad" class="form-control" class="form-control form-control-sm">
+                    <option [value]="'S'"> SI </option>
+                    <option [value]="'N'"> NO </option>
+                  </select>
               </div>
             </div>
           </div>
@@ -58,7 +67,7 @@
                         {{ grupo + ciclo + 1}}
                       </td>
                       <td class="text-center p-2">
-                        <input onkeydown="return event.keyCode !== 69" type="number" class="form-control form-control-sm" placeholder="0" formControlName="valor" />
+                        <input onkeydown="return event.keyCode !== 69" type="number"  [readonly]="disabledCampo" class="form-control form-control-sm" placeholder="0" formControlName="valor" />
                       </td>
                     </ng-container>
                   </tr>

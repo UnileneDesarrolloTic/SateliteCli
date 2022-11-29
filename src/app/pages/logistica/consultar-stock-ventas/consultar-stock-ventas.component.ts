@@ -44,6 +44,8 @@ export class ConsultarStockVentasComponent implements OnInit {
   selectedItems = [];
   dropdownSettings = {};
 
+  activarFecha:boolean=true;
+
 
   
   constructor(private _LogisticaService: LogisticaService,
@@ -100,6 +102,34 @@ export class ConsultarStockVentasComponent implements OnInit {
     }
   }
 
+  ActivaDesactiva(){
+    this.activarFecha=!this.activarFecha;
+
+    if(this.activarFecha){
+
+
+      this.filtrosForm.get("idLinea").patchValue('P');
+      this.filtrosForm.get("idfamilia").patchValue('MC');
+      this.filtrosForm.get("idSubFamilia").patchValue('AC');
+
+      this.filtrosForm.controls.idLinea.enable();
+      this.filtrosForm.controls.idfamilia.enable();
+      this.filtrosForm.controls.idSubFamilia.enable();
+
+    }else{
+      
+      this.filtrosForm.get("idLinea").patchValue('');
+      this.filtrosForm.get("idfamilia").patchValue('');
+      this.filtrosForm.get("idSubFamilia").patchValue('');
+      
+      this.filtrosForm.controls.idLinea.disable();
+      this.filtrosForm.controls.idfamilia.disable();
+      this.filtrosForm.controls.idSubFamilia.disable();
+  
+     
+    }
+  }
+
   ListarItemVentasResumen(){
     this.flagLoading=true;
     this.opcionMarcar="";
@@ -112,6 +142,9 @@ export class ConsultarStockVentasComponent implements OnInit {
       Origen:parseInt(this.filtrosForm.controls.Origen.value),
       idAgrupador:parseInt(this.filtrosForm.controls.idAgrupador.value),
       idSubAgrupador:parseInt(this.filtrosForm.controls.idSubAgrupador.value),
+      idLinea:this.filtrosForm.controls.idLinea.value,
+      idSubFamilia:this.filtrosForm.controls.idSubFamilia.value,
+      idfamilia:this.filtrosForm.controls.idfamilia.value,
       idmarca:this.opcionMarcar
     }
 

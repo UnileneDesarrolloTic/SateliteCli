@@ -53,7 +53,7 @@ export class DistribucionProcesoComponent implements OnInit  {
   }
 
   ListarProcesoCombox(){
-    this._licitacionesServices.ListarProceso().subscribe(
+    this._licitacionesServices.ListarProceso('').subscribe(
       (resp:any)=>{
         this.ListarProceso=resp;
       }

@@ -1,0 +1,97 @@
+<div class="row">
+    <div class="col-lg-12">
+        <form [formGroup]="ConsultarForm">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="control-label" style="font-size:12px">Código Producto:</label>
+                                <button class="btn btn-warning btn-sm side-badge badge badge-warning ml-4"
+                                    *ngIf="!activarCampo" type="button" (click)="ActivaDesactiva()"> Código </button>
+                                <button class="btn btn-success btn-sm side-badge badge badge-success ml-4"
+                                    *ngIf="activarCampo" type="button" (click)="ActivaDesactiva()"> Cotización </button>
+                                <input type="text" [readonly]="!activarCampo" formControlName="CodProducto"
+                                    class="form-control form-control-sm" placeholder="Código Producto">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="control-label" style="font-size:12px">Familia:</label>
+                                <select class="form-control form-control-sm" [attr.disabled]="!activarCampo ? '' : null"
+                                    formControlName="idfamilia">
+                                    <option *ngFor="let familia of FamiliaMaestro" [value]="familia.familia">
+                                        {{familia.familia}}-{{familia.descripcionLocal}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label" style="font-size:12px">SubFamilia:</label>
+                                <select class="form-control  form-control-sm"
+                                    [attr.disabled]="!activarCampo ? '' : null" formControlName="idSubFamilia">
+                                    <option *ngFor="let subfamilia of SubFamilias" [value]="subfamilia.subFamilia">
+                                        {{subfamilia.subFamilia}}-{{subfamilia.descripcionLocal}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="control-label text-black" style="font-size:12px">N° Cotización</label>
+                                <input type="text" [readonly]="activarCampo" formControlName="NumeroCotizacion"
+                                    class="form-control form-control-sm" placeholder="N° Cotización">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <Label><b>RECORDAR </b>La hoja debe llamarse <b class="text-info">UNILENE&nbsp;&nbsp;&nbsp; </b></Label>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="inlineCheckbox1" formControlName="BusquedaExcel">
+                                    <label class="form-check-label" for="inlineCheckbox1" style="font-size:12px">Filtrar por excel</label>
+                                </div>
+                                <input type="file" (change)="handleUpload($event)" #archivo
+                                    id="archivo" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                        </div>
+                        <div class="col-md-2">
+                            <label class="control-label text-white">&nbsp;</label>
+                            <div class="form-group">
+                                <button (click)="Buscar()" type="button" class="btn btn-primary btn-sm"
+                                    style="background-color: #0275D8; border: none;"> <i class="fas fa-search"></i>
+                                    Buscar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="card">
+    <div class="card-body">
+        <ngb-tabset>
+            <ngb-tab title="Resumen">
+                <ng-template ngbTabContent>
+                    <app-tag-resumen *ngIf="ListarProductoCostoBase.length > 0"
+                        [ListarProductoCostoBase]="ListarProductoCostoBase"
+                        [Tmp_ListarProducto]="Tmp_ListarProductoCostoBase" (ItemEventButtonRefrescar)="Refrescar($event)"></app-tag-resumen>
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab>
+                <!-- <ng-template ngbTabTitle><b>Costo Por Pedido</b></ng-template>
+          <ng-template ngbTabContent>
+
+          </ng-template> -->
+            </ngb-tab>
+        </ngb-tabset>
+    </div>
+</div>

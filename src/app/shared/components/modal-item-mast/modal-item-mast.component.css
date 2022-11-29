@@ -1,0 +1,15 @@
+.scroll-group{
+    overflow-y: auto;
+    overflow-x: auto;
+    height:11rem;
+}
+
+.scroll-group2{
+    overflow-y: auto;
+    overflow-x: auto;
+    height:11rem;
+}
+/* :ng-deep .my-class .modal-dialog { 
+    max-width: 100%;
+    width: 80%;
+} */

@@ -1,0 +1,375 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card border-left border-info">
+            <div class="card-header bg-info text-white" style="font-weight: bold">
+                DATOS GENERALES
+            </div>
+            <div class="card-body">
+                <div class="form-body" style="font-size: 14px;">
+                    <form  [formGroup]="formDatosGenerales" autocomplete="off">
+                        <div class="row">
+                            <div class="col-sm-12 col-md-4 col-xl-3">
+                                <div class="form-group">
+                                    <label class="control-label" for="nroReclamo">Nro. Reclamo</label>
+                                    <div class="input-group" >
+                                        <input type="text" id="cliente" class="form-control form-control-sm" placeholder="Nro reclamo" formControlName="codigoReclamo">
+                                        <div class="input-group-append" *ngIf="codigoReclamo == ''">
+                                            <button class="btn mr-0 btn-info btn-sm" type="button" (click)="abrirModalFiltroCliente()">
+                                                <i class="fas fa-clipboard"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-4 col-xl-3">
+                                <div class="form-group">
+                                    <label class="control-label" for="nroReclamo">Fec. Reclamo</label>
+                                    <input type="text" class="form-control form-control-sm" id="nroReclamo" placeholder="Fecha reclamo" formControlName="fechaReclamo">
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-4 col-xl-3">
+                                <div class="form-group">
+                                    <label class="control-label" for="docCliente">Doc. Cliente</label>
+                                    <input type="text" class="form-control form-control-sm" id="docCliente" placeholder="Documento cliente" formControlName="documentoCliente">
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-4 col-xl-3">
+                                <div class="form-group">
+                                    <label class="control-label" for="razonSocial">Razón Social</label>
+                                    <input type="text" class="form-control form-control-sm" id="razonSocial" placeholder="Razón social" formControlName="razonSocialCliente">
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-4 col-xl-3">
+                                <div class="form-group">
+                                    <label class="control-label" for="territorio">Territorio</label>
+                                    <input type="text" class="form-control form-control-sm" id="territorio" placeholder="Territorio cliente" formControlName="territorioCliente">
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-4 col-xl-3">
+                                <div class="form-group">
+                                    <label class="control-label" for="pais">País</label>
+                                    <input type="text" class="form-control form-control-sm" id="pais" placeholder="País cliente" formControlName="paisCliente">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row" *ngIf="codigoReclamo != ''">
+    <div class="col-12">
+        <div class="card border-left border-info">
+            <div class="card-body">
+                <div class = "d-flex justify-content-end mb-3" *ngIf="estadoReclamo == 'P'">
+                    <div>
+                        <button class="btn btn-success btn-sm" (click)="nuevoLote()">
+                            <i class="fas fa-plus"></i>&nbsp;&nbsp;Agregar lote
+                        </button>
+                    </div>
+                </div>
+                <div class="alert alert-warning mt-6" role="alert" *ngIf="!flagDetalleReclamo">
+                    No se ha registrado ningun lote para este reclamo.
+                </div>
+                <div class="table-responsive" >
+                    <table class="table table-bordered table-sm table-hover" style="font-size: 14px">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="text-center font-weight-bold">Lote</th>
+                                <th scope="col" class="text-center font-weight-bold">Linea</th>
+                                <th scope="col" class="text-center font-weight-bold">Familia</th>
+                                <th scope="col" class="text-center font-weight-bold">Item</th>
+                                <th scope="col" class="text-center font-weight-bold">Descripcion</th>
+                                <th scope="col" class="text-center font-weight-bold">Cantidad</th>
+                                <th scope="col" class="text-center font-weight-bold">Estado</th>
+                                <th scope="col" class="text-center font-weight-bold">Usuario</th>
+                                <th scope="col" class="text-center font-weight-bold">Registro</th>
+                                <th scope="col" class="text-center font-weight-bold">...</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let detalle of listaDetalleReclamo">
+                                <td class="text-center">
+                                    {{ detalle.lote }}
+                                </td>
+                                <td class="text-center">
+                                    {{ detalle.linea }}
+                                </td>
+                                <td class="text-center">
+                                    {{ detalle.familia }}
+                                </td>
+                                <td class="text-center">
+                                    {{ detalle.item }}
+                                </td>
+                                <td>
+                                    {{ detalle.descripcionItem }}
+                                </td>
+                                <td class="text-right mr-2">
+                                    {{ detalle.cantidad | number: '1.0-2'}}
+                                </td>
+                                <td class="text-center">
+                                    {{ detalle.estado }}
+                                </td>
+                                <td class="text-center">
+                                    {{ detalle.usuarioRegistro }}
+                                </td>
+                                <td class="text-center">
+                                    {{ detalle.fechaRegistro | date: 'dd/MM/yyyy HH:mm' }}
+                                </td>
+                                <td class="text-center">
+                                    <a type="button" (click)="mostrarDetalleLote(detalle.lote, detalle.documento)">
+                                        <i class="far fa-folder-open"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- <div class="row">
+    <div class="col-12">
+        <div class="card border-left border-info">
+            <div class="card-header bg-info text-white" style="font-weight: bold">
+                DATOS DEL ITEM Y DOCUMENTOS
+            </div>
+            <div class="card-body">
+                <div class="form-body" style="font-size: 14px;">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-4 col-xl-3">
+                            <div class="form-group">
+                                <label class="control-label" for="nroLote">Nro Lote</label>
+                                <div class="input-group mb-3">
+                                    <input type="text" id="nroLote" class="form-control form-control-sm" placeholder="Ingrese el lote">
+                                    <div class="input-group-append">
+                                        <button class="btn mr-0 btn-info btn-sm" type="button" (click)="abrirModalCargarDocumentos(modalSeleccionarLote)">
+                                            <i class="ti-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-4 col-xl-3">
+                            <div class="form-group">
+                                <label class="control-label" for="nroGuia">Guía</label>
+                                <input type="text" class="form-control form-control-sm" id="nroGuia" placeholder="Número guía">
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-4 col-xl-3">
+                            <div class="form-group">
+                                <label class="control-label" for="documento">Documento</label>
+                                <input type="text" class="form-control form-control-sm" id="documento" placeholder="Documento">
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-4 col-xl-3">
+                            <div class="form-group">
+                                <label class="control-label" for="fechaDocumento">Fecha</label>
+                                <input type="date" class="form-control form-control-sm" id="fechaDocumento" placeholder="Fecha documento">
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-4 col-xl-3">
+                            <div class="form-group">
+                                <label class="control-label" for="codItem">Item</label>
+                                <input type="text" class="form-control form-control-sm" id="codItem" placeholder="Item">
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-4 col-xl-3">
+                            <div class="form-group">
+                                <label class="control-label" for="descripcionItem">Descripción</label>
+                                <input type="text" class="form-control form-control-sm" id="descripcionItem" placeholder="Descipción item">
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-4 col-xl-3">
+                            <div class="form-group">
+                                <label class="control-label" for="lineaItem">Linea</label>
+                                <input type="text" class="form-control form-control-sm" id="codRelineaItemclamo" placeholder="Linea item">
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-4 col-xl-3">
+                            <div class="form-group">
+                                <label class="control-label" for="familiaItem">Familia</label>
+                                <input type="text" class="form-control form-control-sm" id="familiaItem" placeholder="Familia item">
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-4 col-xl-3">
+                            <div class="form-group">
+                                <label class="control-label" for="marcaItem">Marca</label>
+                                <input type="text" class="form-control form-control-sm" id="marcaItem" placeholder="Marca item">
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-4 col-xl-3">
+                            <div class="form-group">
+                                <label class="control-label" for="cantidadItem">Cantidad</label>
+                                <input type="text" class="form-control form-control-sm" id="cantidadItem" placeholder="Cantidad item">
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-4 col-xl-3">
+                            <div class="form-group">
+                                <label class="control-label" for="precioItem">Precio Und</label>
+                                <input type="number" class="form-control form-control-sm" id="precioItem" placeholder="Precio item">
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-4 col-xl-3">
+                            <div class="form-group">
+                                <label class="control-label" for="total">Total</label>
+                                <input type="number" class="form-control form-control-sm" id="total" placeholder="Total item">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->
+<!-- <div class="row">
+    <div class="col-12">
+        <div class="card border-left border-info">
+            <div class="card-header bg-info text-white" style="font-weight: bold">
+                DATOS DEL RECLAMO
+            </div>
+            <div class="card-body">
+                <div class="form-body" style="font-size: 14px;">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6 col-xl-6">
+                            <div class="form-group">
+                                <label class="control-label" for="motivo">Motivo</label>
+                                <textarea class="form-control" rows="4" id="motivo" placeholder="Motivo del reclamo"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-xl-6">
+                            <div class="form-group">
+                                <label class="control-label" for="solicitud">Solicitud</label>
+                                <textarea class="form-control" rows="4" id="solicitud" placeholder="Solicitud del cliente"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-4 col-xl-3">
+                            <div class="form-group">
+                                <label class="control-label" for="fechaIncidente">Fecha Incidente</label>
+                                <input type="date" class="form-control form-control-sm" id="fechaIncidente" placeholder="Fecha del incidente">
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-4 col-xl-3">
+                            <div class="form-group">
+                                <label class="control-label" for="areaInvolucrada">Clasificación</label>
+                                <select class="form-control form-control-sm" name="areaInvolucrada" id="areaInvolucrada">
+                                    <option value="">Seleccione una opción...</option>
+                                    <option value="AG">Aguja</option>
+                                    <option value="ET">Etiqueta</option>
+                                    <option value="HE">Hebra</option>
+                                    <option value="SE">Sello</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-4 col-xl-3">
+                            <div class="form-group">
+                                <label class="control-label" for="areaInvolucrada">Área Involucrada</label>
+                                <select class="form-control form-control-sm" name="areaInvolucrada" id="areaInvolucrada">
+                                    <option value="">Seleccione una opción...</option>
+                                    <option value="PR">Producción</option>
+                                    <option value="CC">Control de calidad</option>
+                                    <option value="ET">Etiquetas</option>
+                                    <option value="CO">Comercial</option>
+                                    <option value="EX">Exportación</option>
+                                    <option value="ES">Esterilización</option>
+                                    <option value="AL">Almacen</option>
+                                    <option value="EM">Empaques</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-4 col-xl-3">
+                            <div class="form-group">
+                                <label class="control-label" for="cantidad">Cantidad</label>
+                                <input type="number" class="form-control form-control-sm" id="cantidad" placeholder="Cantidad reclamado">
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-4 col-xl-3">
+                            <div class="form-group">
+                                <label class="control-label" for="fechaIncidente">Obs. Interna</label>
+                                <textarea class="form-control" rows="2" id="solicitud" placeholder="Solicitud del cliente"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->
+<!-- <div class="row">
+    <div class="col-12">
+        <div class="card border-left border-info">
+            <div class="card-header bg-info text-white" style="font-weight: bold">
+                RESPUESTA RECLAMO
+            </div>
+            <div class="card-body">
+                <div class="form-body">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6 col-xl-6">
+                            <div class="form-group">
+                                <label class="control-label" for="motivo">Motivo</label>
+                                <textarea class="form-control" rows="4" id="motivo" placeholder="Motivo del reclamo"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-xl-6">
+                            <div class="form-group">
+                                <label class="control-label" for="solicitud">Solicitud</label>
+                                <textarea class="form-control" rows="4" id="solicitud" placeholder="Solicitud del cliente"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->
+<!-- <ng-template #modalSeleccionarLote let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title font-weight-bold">
+            <i class="fas fa-binoculars"></i>&nbsp;&nbsp;Buscar lote
+        </h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">
+                &times;
+            </span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="card">
+            <div class="card-body">
+                <form (ngSubmit)="filtrarLotes()" [formGroup]="formFiltroLote">
+                    <div class="form-body">
+                        <div class="row">
+                            <div class="col-sm-12 col-md-5 col-xl-4">
+                                <div class="form-group">
+                                    <label class="control-label" for="cliente">Cliente</label>
+                                    <div class="input-group mb-3">
+                                        <input type="text" id="cliente" class="form-control form-control-sm" placeholder="Cliente" formControlName="nombreCliente">
+                                        <div class="input-group-append">
+                                            <button class="btn mr-0 btn-info btn-sm" type="button" (click)="abrirModalFiltroCliente()">
+                                                <i class="ti-search"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-5 col-xl-4">
+                                <div class="form-group">
+                                    <label class="control-label" for="loteFiltro">Lote</label>
+                                    <input type="text" class="form-control form-control-sm" id="loteFiltro" placeholder="Número lote" formControlName="lote">
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-2 col-xl-2">
+                                <div class="form-group">
+                                    <label class="control-label">&nbsp;&nbsp;</label>
+                                    <button class="form-control form-control-sm btn btn-info btn-sm" type="submit" id="btnFiltro">Filtrar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</ng-template> -->

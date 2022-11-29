@@ -1,0 +1,109 @@
+
+    <div class="row">
+        <!-- Column BLOQUE 1 -->
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row d-flex">
+                        <div class="mr-auto p-2">
+                            <h5>Cantidad: {{ListarProductoCostoBase.length}}</h5>
+                        </div>
+                        <div class="mr-auto p-2">
+                            <h5>Total Materia Prima: {{SumaTotalMateriaPrima | number : '1.2-2' }}</h5>
+                        </div>
+                        <div class="mr-auto p-2">
+                            <h5>Total C.U Base: {{SumaTotalCUBase | number : '1.2-2' }}</h5>
+                        </div>
+                        <!-- <div class="p-2">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="inlineCheckbox2"  [(ngModel)]="Todos" >
+                                <label class="form-check-label" for="inlineCheckbox2" style="font-size:12px">Cambia a todos el costo base </label>
+                            </div>
+                        </div> -->
+                        <div class="p-2">
+                            <div class="form-group"> <!--[(ngModel)]="TipoAguja"-->
+                                <select class="form-control form-control-sm" [attr.disabled]="true" [formControl]="TipoAguja"   >
+                                    <option [value]="null" disabled selected>--Seleccione Tipo Agujas--</option>
+                                    <option [value]="'0.85-300'"> 300 </option>
+                                    <option [value]="'0.95-400'"> 400 </option>
+                                    
+                                </select>
+                            </div>
+                        </div>
+                        <div class="p-2">
+                            <button style="font-size: 10px;" class="btn btn-sm btn-primary" type="button" (click)="RefrescarCostoBase($event)"> <i class="fas fa-redo"></i></button>
+                        </div>
+                    </div>
+                   
+                    <div class="table-responsive scroll-group">
+                        <table class="table table-hover">
+                            <thead class="text-black table-sm" style="font-size: 10px">
+                                <tr>
+                                    <th class="text-center" scope="col"> 
+                                        <input type="checkbox" [(ngModel)]="MaestroSeleccion" name="ItemP" value="h1"
+                                        (change)="checkTodo()" />
+                                    </th>
+                                    <th scope="col">Código</th>
+                                    <th scope="col">Nombre Producto</th>
+                                    <th scope="col">Núm.Parte</th>
+                                    <th scope="col">Moneda</th>
+                                    <th scope="col">Familia</th>
+                                    <th scope="col">SubFamilia</th>
+                                    <th scope="col">M.Prima</th>
+                                    <th scope="col">M.Obra</th>
+                                    <th scope="col">M.CIF</th>
+                                    <th scope="col">C.U.Base</th>
+                                    <th scope="col">Pre.Uni.Minimo</th>
+                                    <th scope="col">Componente</th>
+                                    <th scope="col">T.Aguja</th>
+                                    <th scope="col">C.B.Componente</th>
+                                    <th scope="col" class="text-center">Opción</th>
+                                </tr>
+                            </thead>
+                            <tbody *ngFor="let ItemCostobase of ListarProductoCostoBase; let i = index" style="font-size: 11px;">
+                                <tr>
+                                    <td class="text-center">
+                                        <input type="checkbox" [(ngModel)]="ItemCostobase.isSelected" name="ItemP" 
+                                              (change)="SeleccionaItem(ItemCostobase)" value="{{ ItemCostobase.codigoItem }}" />
+                                    </td>
+                                    <th> <b>{{ItemCostobase.codigoItem}}</b></th>
+                                    <td> <b>{{ItemCostobase.descripcionLocal}}</b></td>
+                                    <td> <b>{{ItemCostobase.numeroDeParte}}</b></td>
+                                    <td> <b>{{ItemCostobase.codMoneda}}</b></td>
+                                    <td> <b>{{ItemCostobase.familia}}</b></td>
+                                    <td> <b>{{ItemCostobase.subfamilia}}</b></td>
+                                    <td class="text-center"> <b>{{ItemCostobase.costoMateriaPrima  | number : '1.2-2'  }}</b></td>
+                                    <td class="text-center"> <b>{{ItemCostobase.costoManoObra  | number : '1.2-2' }}</b></td>
+                                    <td class="text-center"> <b>{{ItemCostobase.costoCIF  | number : '1.2-2'  }}</b></td>
+                                    <td class="text-center"> <b>{{ItemCostobase.costoUnitarioBase  | number : '1.2-2'  }}</b></td>
+                                    <td class="text-center"> <b>{{ItemCostobase.precioVentaMinimo  | number : '1.2-2'  }}</b></td>
+
+                                    <td style="color: #2727db;font-weight: bold;">
+                                        <!-- <button style="font-size: 10px;" class="btn btn-sm btn-outline-primary" type="button" (click)="OpenModalItem(ItemCostobase,i)" > -->
+                                         {{ ItemCostobase.descripcionLocalItemComponente }}
+                                       <!-- </button>  -->
+                                    </td>
+                                    <td>
+                                        <button *ngIf="ItemCostobase.tipoAguja=='300'" style="font-size: 10px;" class="btn btn-sm btn-warning text-black" type="button" >
+                                         {{ ItemCostobase.tipoAguja }}
+                                        </button>
+                                        <button  *ngIf="ItemCostobase.tipoAguja=='400'" style="font-size: 10px;" class="btn btn-sm btn-danger text-black" type="button" >
+                                            {{ ItemCostobase.tipoAguja }}
+                                        </button>
+                                    </td>
+                                    <td class="text-center"> <b>{{ItemCostobase.itemComponenteCostoDolares  | number : '1.2-2'  }}</b></td>
+                                    <td style="width: 10rem;"> 
+                                        <button class="btn btn-sm btn-success"  sytpe="background-color: #3e8f39;" (click)="OpenModalDetalleMP(ItemCostobase)" > ver Detalle </button>
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
