@@ -14,6 +14,7 @@ import { DrogueriaComponent } from "./comercial/drogueria/drogueria.component";
 import { SeguimientoOperacionesComponent } from "./produccion/seguimiento-operaciones/seguimiento-operaciones.component";
 import { SegProcesosComponent } from "./comercial/seg-procesos/seg-procesos.component";
 import { DesempenioArimaComponent } from "./produccion/desempenio-arima/desempenio-arima.component";
+import { ObligacionesFinancierasComponent } from "./comercial/obligaciones-financieras/obligaciones-financieras.component";
 
 export const DashboardRoutes: Routes = [
     {
@@ -95,6 +96,13 @@ export const DashboardRoutes: Routes = [
             component: EstadosFinancierosComponent ,
             data: {
               title: "Estados Financieros"
+            }
+          },
+          {
+            path: 'ObligacionesFinanciera',
+            component: ObligacionesFinancierasComponent ,
+            data: {
+              title: "Obligaciones Financieras"
             }
           },
         ]
