@@ -1,0 +1,31 @@
+<div class="row ">
+    <div class="card-body">
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title" stype="font-size: 14px">
+                <h5>Seleccione un Documento </h5>
+            </h4>
+            <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-sm-9">
+                    <div class="custom-control custom-radio">
+                        <input type="radio" class="custom-control-input" [formControl]="Documento" [value]="true" id="customControlValidation2" name="radio-stacked">
+                        <label class="custom-control-label" for="customControlValidation2">CON FIRMA</label>
+                    </div>
+                    <div class="custom-control custom-radio">
+                        <input type="radio" class="custom-control-input" [formControl]="Documento" [value]="false" id="customControlValidation3" name="radio-stacked">
+                        <label class="custom-control-label" for="customControlValidation3">SIN FIRMA</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" (click)="SeleccionarDocumento()" class="btn  btn-sm btn-info">Aceptar</button>
+            <button type="button" (click)="activeModal.dismiss('Cross click')" class="btn-sm btn-secondary">Cancelar</button>
+        </div>
+    </div>
+</div>

@@ -27,6 +27,7 @@ import { FormatoProtocoloComponent } from './formato-protocolo/formato-protocolo
 import { ControlProcesoComponent } from './formato-protocolo/control-proceso/control-proceso.component';
 import { ControlProductoTerminadoComponent } from './formato-protocolo/control-producto-terminado/control-producto-terminado.component';
 import { PruebasEfectuadasComponent } from './formato-protocolo/pruebas-efectuadas/pruebas-efectuadas.component';
+import { ModalElegirDocumentoComponent } from './formato-protocolo/pruebas-efectuadas/modal-elegir-documento/modal-elegir-documento.component';
 
 
 
@@ -51,6 +52,7 @@ import { PruebasEfectuadasComponent } from './formato-protocolo/pruebas-efectuad
     ControlProcesoComponent,
     ControlProductoTerminadoComponent,
     PruebasEfectuadasComponent,
+    ModalElegirDocumentoComponent,
 
   ],
   imports: [

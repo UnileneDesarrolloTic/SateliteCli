@@ -4,9 +4,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DatosPruebaProtocoloModel } from '@data/interface/Response/DatosCabeceraPruebasProtocolos.interface';
 import { NumeroLoteProtocoloModel } from '@data/interface/Response/DatosFormatoNumeroLoteProtocolo.interface';
 import { ControlcalidadService } from '@data/services/backEnd/pages/controlcalidad.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ModalCargarComponent } from '@shared/components/modal-cargar/modal-cargar.component';
+import { Cargarbase64Service } from '@shared/services/comunes/cargarbase64.service';
 import { GenericoService } from '@shared/services/comunes/generico.service';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
+import { ModalElegirDocumentoComponent } from './modal-elegir-documento/modal-elegir-documento.component';
 
 @Component({
   selector: 'app-pruebas-efectuadas',
@@ -14,6 +18,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./pruebas-efectuadas.component.css']
 })
 export class PruebasEfectuadasComponent implements OnInit , OnDestroy{
+  hoy = new Date().toLocaleDateString();
   PruebasFormularioProtocolo:FormGroup;
   InformacionProducto: NumeroLoteProtocoloModel;
   subcripcion : Subscription;
@@ -25,7 +30,9 @@ export class PruebasEfectuadasComponent implements OnInit , OnDestroy{
     private _fb: FormBuilder,
     private _ControlcalidadService:ControlcalidadService,
     private _GenericoService:GenericoService,
-    private activeroute:ActivatedRoute) { 
+    private activeroute:ActivatedRoute,
+    private _modalService: NgbModal,
+    private servicebase64:Cargarbase64Service,) { 
 
     this.subcripcion=this.activeroute.params.subscribe(params=>{
       this.NumeroLote=params["NumeroLote"];
@@ -83,7 +90,7 @@ export class PruebasEfectuadasComponent implements OnInit , OnDestroy{
         (resp:any)=>{
               if(resp["success"]){
                   this.InformacionProducto=resp["content"];
-                  console.log(this.InformacionProducto);
+                  // console.log(this.InformacionProducto);
                   this.PruebasFormularioProtocolo.get("Tecnica").patchValue(this.InformacionProducto.tecnica);
                   this.PruebasFormularioProtocolo.get("Metodo").patchValue(this.InformacionProducto.metodo);
                   this.PruebasFormularioProtocolo.get("Detalle").patchValue(this.InformacionProducto.detalle);
@@ -107,8 +114,6 @@ export class PruebasEfectuadasComponent implements OnInit , OnDestroy{
   construirFormaArray(ArrayTabla:DatosPruebaProtocoloModel[]){
         const FormTabla = this.PruebasFormularioProtocolo.controls["TablaPrueba"] as FormArray;
         FormTabla.controls=[];
-
-        console.log(ArrayTabla);
 
         ArrayTabla.forEach((element:DatosPruebaProtocoloModel) => {
           const lessForm = this._fb.group({
@@ -160,6 +165,43 @@ export class PruebasEfectuadasComponent implements OnInit , OnDestroy{
   }
   trackFn(index) {
     return index;
+  }
+
+  Imprimir(){
+    const ModalDocumento = this._modalService.open(ModalElegirDocumentoComponent, {
+      centered: true,
+      backdrop: 'static',
+      size: 'sm',
+      scrollable: true
+    });
+    ModalDocumento.result.then((result) => {
+        this.DocumentoImprimir(result);
+      },
+      (reason) => {
+
+      }
+    );
+  }
+
+  DocumentoImprimir(Opcion:boolean){
+    const ModalCarga = this._modalService.open(ModalCargarComponent, {
+      centered: true,
+      backdrop: 'static',
+      size: 'sm',
+      scrollable: true
+    });
+
+    ModalCarga.componentInstance.fromParent = "Generando el Formato pdf";
+    this._ControlcalidadService.ImprimirDocumentoControPruebasProtocolo(this.NumeroLote,Opcion).subscribe(
+      (resp:any)=>{
+        if(resp.success){
+          this.servicebase64.file(resp.content,`Formato-prueba-${this.NumeroLote}-${this.hoy}`,'pdf',ModalCarga);
+        }else{
+          ModalCarga.close();
+          this.toastr.info(resp.message);
+        }
+      }
+    );
   }
 
 

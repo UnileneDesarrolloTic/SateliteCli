@@ -4,6 +4,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { InformacionTablaModel } from '@data/interface/Response/DatosFormatoInformacionResultado.interfaces';
 import { NumeroLoteProtocoloModel } from '@data/interface/Response/DatosFormatoNumeroLoteProtocolo.interface';
 import { ControlcalidadService } from '@data/services/backEnd/pages/controlcalidad.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ModalCargarComponent } from '@shared/components/modal-cargar/modal-cargar.component';
+import { Cargarbase64Service } from '@shared/services/comunes/cargarbase64.service';
 import { GenericoService } from '@shared/services/comunes/generico.service';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
@@ -14,6 +17,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./control-proceso.component.css']
 })
 export class ControlProcesoComponent implements OnInit,OnDestroy {
+  hoy = new Date().toLocaleDateString();
   InformacionProducto: NumeroLoteProtocoloModel;
   TablaControlProceso:Array<number>=[1,2,3,4,5];
   FormProtocolo:FormGroup;
@@ -27,7 +31,9 @@ export class ControlProcesoComponent implements OnInit,OnDestroy {
     private _fb: FormBuilder,
     private _ControlcalidadService:ControlcalidadService,
     private _GenericoService:GenericoService,
-    private activeroute:ActivatedRoute) { 
+    private activeroute:ActivatedRoute,
+    private _modalService: NgbModal,
+    private servicebase64:Cargarbase64Service,) { 
     this.subcripcion=this.activeroute.params.subscribe(params=>{
       this.NumeroLote=params["NumeroLote"];
   });
@@ -488,4 +494,24 @@ export class ControlProcesoComponent implements OnInit,OnDestroy {
     return index;
   }
 
+  Imprimir(){
+    const ModalCarga = this._modalService.open(ModalCargarComponent, {
+      centered: true,
+      backdrop: 'static',
+      size: 'sm',
+      scrollable: true
+    });
+
+    ModalCarga.componentInstance.fromParent = "Generando el Formato pdf";
+    this._ControlcalidadService.ImprimirControlProcesoInterno(this.NumeroLote).subscribe(
+      (resp:any)=>{
+        if(resp.success){
+          this.servicebase64.file(resp.content,`Control-Proceso-Interno-${this.NumeroLote}-${this.hoy}`,'pdf',ModalCarga);
+        }else{
+          ModalCarga.close();
+          this.toastr.info(resp.message);
+        }
+      }
+    );
+  }
 }

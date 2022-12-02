@@ -209,4 +209,24 @@ export class ControlcalidadService {
     );
   }
 
+  ImprimirControlProcesoInterno(NumeroLote){
+    const params =  new HttpParams().set('NumeroLote', NumeroLote);
+    return this._http.get<any>(this.url+"/api/ControlCalidad/ImprimirControlProcesoInterno", {'params':params}).pipe(
+      catchError (() => throwError("Error al obtener Registrar Formato Proceso"))
+    );
+  }
+
+  ImprimirControlPruebas(NumeroLote){
+    const params =  new HttpParams().set('NumeroLote', NumeroLote);
+    return this._http.get<any>(this.url+"/api/ControlCalidad/ImprimirControlPruebas", {'params':params}).pipe(
+      catchError (() => throwError("Error al obtener Registrar Formato Proceso"))
+    );
+  }
+
+  ImprimirDocumentoControPruebasProtocolo(NumeroLote,Opcion){
+    const params =  new HttpParams().set('NumeroLote', NumeroLote).set('Opcion',Opcion);
+    return this._http.get<any>(this.url+"/api/ControlCalidad/ImprimirDocumentoProtocolo", {'params':params}).pipe(
+      catchError (() => throwError("Error al obtener Registrar Formato Proceso"))
+    );
+  }
 }
