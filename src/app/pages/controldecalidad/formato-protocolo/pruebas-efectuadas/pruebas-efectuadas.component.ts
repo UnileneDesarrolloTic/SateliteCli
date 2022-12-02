@@ -43,12 +43,13 @@ export class PruebasEfectuadasComponent implements OnInit , OnDestroy{
   ngOnInit(): void {
     this.crearDetallePruebaProtocolo();
     this.BuscarinformacionProductoProtocolo();
-    this.buscarInformacionPrueba(this.NumeroLote,this.NumeroParte);
+    this.buscarInformacionPrueba(this.NumeroLote,this.NumeroParte,this.PruebasFormularioProtocolo.controls.Idioma.value);
+    this.ObservableIdioma();
   }
 
 
-  buscarInformacionPrueba(NumeroLote,NumeroParte){
-      this._ControlcalidadService.BusquedaPruebaProtocolo(this.NumeroLote,this.NumeroParte).subscribe(
+  buscarInformacionPrueba(NumeroLote,NumeroParte,Idioma){
+      this._ControlcalidadService.BusquedaPruebaProtocolo(this.NumeroLote,this.NumeroParte,Idioma).subscribe(
         (resp:any)=>{
             this.construirFormaArray(resp);
         }
@@ -73,7 +74,7 @@ export class PruebasEfectuadasComponent implements OnInit , OnDestroy{
 
   crearDetallePruebaProtocolo(){
     this.PruebasFormularioProtocolo = this._fb.group({
-      Idioma:new FormControl('1'),
+      Idioma:new FormControl(1),
       fechaanalisis:new FormControl(''),
       NumeroLote: new FormControl(''),
       NumeroParte : new  FormControl(''),
@@ -82,6 +83,12 @@ export class PruebasEfectuadasComponent implements OnInit , OnDestroy{
       Detalle : new FormControl(''),
       TablaPrueba:this._fb.array([])
     });
+  }
+
+  ObservableIdioma(){
+    this.PruebasFormularioProtocolo.controls.Idioma.valueChanges.subscribe(valor=>{
+        this.buscarInformacionPrueba(this.NumeroLote,this.NumeroParte,valor);
+    })
   }
 
   BuscarinformacionProductoProtocolo(){

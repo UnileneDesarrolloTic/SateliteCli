@@ -175,8 +175,8 @@ export class ControlcalidadService {
     );
   }
 
-  BusquedaPruebaProtocolo(NumeroLote,NumeroParte){
-    const params =  new HttpParams().set('NumeroLote', NumeroLote).set('NumeroParte',NumeroParte);
+  BusquedaPruebaProtocolo(NumeroLote,NumeroParte,Idioma){
+    const params =  new HttpParams().set('NumeroLote', NumeroLote).set('NumeroParte',NumeroParte).set('Idioma',Idioma);
     return this._http.get<any>(this.url+"/api/ControlCalidad/BuscarPruebaFormatoProtocolo",{'params':params}).pipe(
       catchError (() => throwError("Error al buscar Número de lote protocolo"))
     );
