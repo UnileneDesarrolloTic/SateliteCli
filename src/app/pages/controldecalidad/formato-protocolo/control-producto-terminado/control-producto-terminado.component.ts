@@ -102,7 +102,7 @@ export class ControlProductoTerminadoComponent implements OnInit {
   
 
   BuscarinformacionProductoProtocolo(){
-    return this._ControlcalidadService.BuscarNumeroLoteProtocolo(this.NumeroLote).toPromise();
+    return this._ControlcalidadService.BuscarNumeroLoteProtocolo(this.NumeroLote,1).toPromise();
   }
 
   BuscarInformacionRespuesta(){

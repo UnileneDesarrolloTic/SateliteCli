@@ -47,7 +47,7 @@ export class FormatoProtocoloComponent implements OnInit {
         return this.toastr.warning("Debe colocar el numero de lote");
     }
     
-    this._ControlcalidadService.BuscarNumeroLoteProtocolo(this.FormProtocolo.controls.Numerolote.value).subscribe(
+    this._ControlcalidadService.BuscarNumeroLoteProtocolo(this.FormProtocolo.controls.Numerolote.value,1).subscribe(
         (resp:any)=>{
               if(resp["success"]){
                   this.InformacionProducto=resp["content"];

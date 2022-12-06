@@ -168,8 +168,8 @@ export class ControlcalidadService {
 
   //FORMATO DE PROTOCOLO
 
-  BuscarNumeroLoteProtocolo(NumeroLote){
-    const params =  new HttpParams().set('NumeroLote', NumeroLote);
+  BuscarNumeroLoteProtocolo(NumeroLote,Idioma){
+    const params =  new HttpParams().set('NumeroLote', NumeroLote).set('Idioma',Idioma);
     return this._http.get<any>(this.url+"/api/ControlCalidad/BuscarNumeroLoteProtocolo",{'params':params}).pipe(
       catchError (() => throwError("Error al buscar Número de lote protocolo"))
     );
@@ -223,8 +223,8 @@ export class ControlcalidadService {
     );
   }
 
-  ImprimirDocumentoControPruebasProtocolo(NumeroLote,Opcion){
-    const params =  new HttpParams().set('NumeroLote', NumeroLote).set('Opcion',Opcion);
+  ImprimirDocumentoControPruebasProtocolo(NumeroLote,Opcion,Idioma){
+    const params =  new HttpParams().set('NumeroLote', NumeroLote).set('Opcion',Opcion).set('Idioma',Idioma);
     return this._http.get<any>(this.url+"/api/ControlCalidad/ImprimirDocumentoProtocolo", {'params':params}).pipe(
       catchError (() => throwError("Error al obtener Registrar Formato Proceso"))
     );

@@ -24,6 +24,7 @@ export class PruebasEfectuadasComponent implements OnInit , OnDestroy{
   subcripcion : Subscription;
   NumeroLote:string;
   NumeroParte:string;
+  buttonDeshabilitar:boolean=false;
 
   constructor(private _router: Router,
     private toastr: ToastrService,
@@ -57,7 +58,8 @@ export class PruebasEfectuadasComponent implements OnInit , OnDestroy{
   }
 
   save(){
-        console.log(this.PruebasFormularioProtocolo.value);
+        this.buttonDeshabilitar=true;
+        
         this._ControlcalidadService.RegistrarFormatoProtocolo(this.PruebasFormularioProtocolo.value).subscribe(
           (resp:any)=>{
               if(resp["success"]){
@@ -65,16 +67,18 @@ export class PruebasEfectuadasComponent implements OnInit , OnDestroy{
               }else{
                 this.toastr.success(resp["content"]);
               }
+              this.buttonDeshabilitar=false;
           },
           (error)=>{
               this.toastr.info("Comuniquese con sistema")
+              this.buttonDeshabilitar=false;
           }
         )
   }
 
   crearDetallePruebaProtocolo(){
     this.PruebasFormularioProtocolo = this._fb.group({
-      Idioma:new FormControl(1),
+      Idioma:new FormControl('1'),
       fechaanalisis:new FormControl(''),
       NumeroLote: new FormControl(''),
       NumeroParte : new  FormControl(''),
@@ -88,12 +92,13 @@ export class PruebasEfectuadasComponent implements OnInit , OnDestroy{
   ObservableIdioma(){
     this.PruebasFormularioProtocolo.controls.Idioma.valueChanges.subscribe(valor=>{
         this.buscarInformacionPrueba(this.NumeroLote,this.NumeroParte,valor);
+        this.BuscarinformacionProductoProtocolo();
     })
   }
 
   BuscarinformacionProductoProtocolo(){
     
-    this._ControlcalidadService.BuscarNumeroLoteProtocolo(this.NumeroLote).subscribe(
+    this._ControlcalidadService.BuscarNumeroLoteProtocolo(this.NumeroLote,this.PruebasFormularioProtocolo.controls.Idioma.value).subscribe(
         (resp:any)=>{
               if(resp["success"]){
                   this.InformacionProducto=resp["content"];
@@ -199,7 +204,7 @@ export class PruebasEfectuadasComponent implements OnInit , OnDestroy{
     });
 
     ModalCarga.componentInstance.fromParent = "Generando el Formato pdf";
-    this._ControlcalidadService.ImprimirDocumentoControPruebasProtocolo(this.NumeroLote,Opcion).subscribe(
+    this._ControlcalidadService.ImprimirDocumentoControPruebasProtocolo(this.NumeroLote,Opcion,this.PruebasFormularioProtocolo.controls.Idioma.value).subscribe(
       (resp:any)=>{
         if(resp.success){
           this.servicebase64.file(resp.content,`Formato-prueba-${this.NumeroLote}-${this.hoy}`,'pdf',ModalCarga);
