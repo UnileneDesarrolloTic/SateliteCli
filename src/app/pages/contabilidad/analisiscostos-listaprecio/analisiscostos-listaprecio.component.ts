@@ -7,6 +7,9 @@ import { ToastrService } from 'ngx-toastr';
 import { Observable, ReplaySubject } from 'rxjs';
 import { ListaFamiliaMaestroItem } from '@data/interface/Response/FamiliaMaestroItem.interface';
 import { SubFamiliaModel } from '@data/interface/Response/DatosSubFamilia.interface';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Cargarbase64Service } from '@shared/services/comunes/cargarbase64.service';
+import { ModalCargarComponent } from '@shared/components/modal-cargar/modal-cargar.component';
 
 @Component({
   selector: 'app-analisiscostos-listaprecio',
@@ -30,7 +33,9 @@ export class AnalisiscostosListaprecioComponent implements OnInit {
   
   constructor(private  _ContabilidadService:ContabilidadService,
               private toastr: ToastrService,
-              private _GenericoService: GenericoService) { }
+              private _GenericoService: GenericoService,
+              private _modalService: NgbModal,
+              private _Cargarbase64Service:Cargarbase64Service) { }
 
   ngOnInit(): void {
     this.crearFormulario();
@@ -89,13 +94,14 @@ export class AnalisiscostosListaprecioComponent implements OnInit {
       (resp:any)=>{
         if(resp["success"]){
           this.SubFamilias=resp["content"];
-          this.ConsultarForm.get("idSubFamilia").patchValue(this.SubFamilias[0].subFamilia)
+          this.ConsultarForm.get("idSubFamilia").patchValue(this.SubFamilias.length>0 ? this.SubFamilias[0].subFamilia : 'TD' )
         }
       }
     );
   }
 
   Filtrar(){
+    
       this._ContabilidadService.ConsultarProductoCostoBase(this.ConsultarForm.value).subscribe(
           (resp:any)=>{
                 if(resp.length>0){
@@ -109,6 +115,7 @@ export class AnalisiscostosListaprecioComponent implements OnInit {
             this.toastr.info("Comunicarse con sistemas");
           }
       )
+      
   }
 
   FiltrarMasivo(){
@@ -126,6 +133,7 @@ export class AnalisiscostosListaprecioComponent implements OnInit {
           this.toastr.info("Comunicarse con sistemas");
         }
     )
+  
   }
 
   
@@ -163,5 +171,25 @@ export class AnalisiscostosListaprecioComponent implements OnInit {
 
   Refrescar(valor){
     this.Buscar();
+  }
+
+  ExportarExcel(){
+     const ModalCarga = this._modalService.open(ModalCargarComponent, {
+        centered: true,
+        backdrop: 'static',
+        size: 'sm',
+        scrollable: true
+      });
+      ModalCarga.componentInstance.fromParent = "Generando el Formato Excel";
+      this._ContabilidadService.ExportarProductoCostoBase(this.ConsultarForm.value).subscribe(
+        (resp:any)=>{
+          if(resp.success){
+            this._Cargarbase64Service.file(resp.content,`AnalisisCosto`,'xlsx',ModalCarga);
+          }else{
+            ModalCarga.close();
+            this.toastr.info(resp.message);
+          }
+        }
+      );
   }
 }

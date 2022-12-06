@@ -59,6 +59,12 @@ export class ContabilidadService {
       catchError (() => throwError("Error al obtener Detalle de listar de control lote "))
     );
   }
+
+  ExportarProductoCostoBase(body){
+    return this._http.post(this.url+"/api/Contabilidad/ExportarExcelProductoCostoBase",body).pipe(
+        catchError(() => throwError("Error al Consultar Costo Base Productos"))
+    )
+  }
   
 
 }
