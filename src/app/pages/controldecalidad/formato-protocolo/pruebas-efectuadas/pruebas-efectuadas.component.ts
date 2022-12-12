@@ -59,7 +59,13 @@ export class PruebasEfectuadasComponent implements OnInit , OnDestroy{
 
   save(){
         this.buttonDeshabilitar=true;
-        
+        if (this.PruebasFormularioProtocolo.controls.fechaanalisis.value=="0001-01-01")
+        {
+          this.buttonDeshabilitar=false;
+          return this.toastr.warning("Debe Seleccionar la fecha");
+        }
+            
+
         this._ControlcalidadService.RegistrarFormatoProtocolo(this.PruebasFormularioProtocolo.value).subscribe(
           (resp:any)=>{
               if(resp["success"]){
@@ -67,13 +73,14 @@ export class PruebasEfectuadasComponent implements OnInit , OnDestroy{
               }else{
                 this.toastr.success(resp["content"]);
               }
-              this.buttonDeshabilitar=false;
+              
           },
           (error)=>{
               this.toastr.info("Comuniquese con sistema")
-              this.buttonDeshabilitar=false;
+              
           }
         )
+        
   }
 
   crearDetallePruebaProtocolo(){

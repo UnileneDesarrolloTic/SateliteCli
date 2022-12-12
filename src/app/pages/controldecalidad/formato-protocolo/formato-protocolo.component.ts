@@ -50,15 +50,20 @@ export class FormatoProtocoloComponent implements OnInit {
     this._ControlcalidadService.BuscarNumeroLoteProtocolo(this.FormProtocolo.controls.Numerolote.value,1).subscribe(
         (resp:any)=>{
               if(resp["success"]){
-                  this.InformacionProducto=resp["content"];
-                  this.FormProtocolo.get("itemdescripcion").patchValue(this.InformacionProducto.itemdescripcion);
-                  this.FormProtocolo.get("numerodeparte").patchValue(this.InformacionProducto.numerodeparte);
-                  this.FormProtocolo.get("fechaanalisis").patchValue(this.formatoFecha(this.InformacionProducto.fechaanalisis));
-                  this.FormProtocolo.get("presentacion").patchValue(this.InformacionProducto.presentacion);
-                  this.FormProtocolo.get("fechaproduccion").patchValue(this.InformacionProducto.fechaproduccion);
-                  this.FormProtocolo.get("cantidadproducida").patchValue(this.InformacionProducto.cantidadproducida);
-                  this.FormProtocolo.get("fechaexpiracion").patchValue(this.formatoFecha(this.InformacionProducto.fechaexpiracion));
-                  this.FormProtocolo.get("marca").patchValue(this.InformacionProducto.marca);
+                  if (resp["content"]["item"]!=null){
+                      this.InformacionProducto=resp["content"];
+                      this.FormProtocolo.get("itemdescripcion").patchValue(this.InformacionProducto.itemdescripcion);
+                      this.FormProtocolo.get("numerodeparte").patchValue(this.InformacionProducto.numerodeparte);
+                      this.FormProtocolo.get("fechaanalisis").patchValue(this.formatoFecha(this.InformacionProducto.fechaanalisis));
+                      this.FormProtocolo.get("presentacion").patchValue(this.InformacionProducto.presentacion);
+                      this.FormProtocolo.get("fechaproduccion").patchValue(this.InformacionProducto.fechaproduccion);
+                      this.FormProtocolo.get("cantidadproducida").patchValue(this.InformacionProducto.cantidadproducida);
+                      this.FormProtocolo.get("fechaexpiracion").patchValue(this.formatoFecha(this.InformacionProducto.fechaexpiracion));
+                      this.FormProtocolo.get("marca").patchValue(this.InformacionProducto.marca);
+                  }else{
+                      this.toastr.warning(`El lote '${this.FormProtocolo.controls.Numerolote.value}' no ha sido encontrado`)
+                  }
+                  
               }else{
                   this.InformacionProducto=null;
               }
