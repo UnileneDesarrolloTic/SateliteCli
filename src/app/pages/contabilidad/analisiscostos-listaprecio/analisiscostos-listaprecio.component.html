@@ -23,6 +23,7 @@
                                     <option *ngFor="let familia of FamiliaMaestro" [value]="familia.familia">
                                         {{familia.familia}}-{{familia.descripcionLocal}}
                                     </option>
+                                    <option [value]="'TD'">TODO</option>
                                 </select>
                             </div>
                         </div>
@@ -34,6 +35,7 @@
                                     <option *ngFor="let subfamilia of SubFamilias" [value]="subfamilia.subFamilia">
                                         {{subfamilia.subFamilia}}-{{subfamilia.descripcionLocal}}
                                     </option>
+                                    <option [value]="'TD'">TODO</option>
                                 </select>
                             </div>
                         </div>
@@ -63,10 +65,14 @@
                         <div class="col-md-2">
                             <label class="control-label text-white">&nbsp;</label>
                             <div class="form-group">
-                                <button (click)="Buscar()" type="button" class="btn btn-primary btn-sm"
-                                    style="background-color: #0275D8; border: none;"> <i class="fas fa-search"></i>
-                                    Buscar
+                                <button (click)="Buscar()" type="button" class="btn btn-info btn-sm" style="background-color: #0275D8; border: none;"> 
+                                        <i  class="fas fa-search"></i>
+                                        <!-- <i  class="fas fa-spinner fa-spin"></i> -->
+                                        Buscar
                                 </button>
+
+                                <button (click)="ExportarExcel()" type="button" class="btn btn-success btn-sm" style="background-color: #3cb838; border: none;"> 
+                                    <i  class="fas fa-file-excel"></i> Excel </button>
                             </div>
                         </div>
                     </div>

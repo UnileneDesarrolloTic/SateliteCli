@@ -15,6 +15,7 @@ import { SeguimientoOperacionesComponent } from "./produccion/seguimiento-operac
 import { SegProcesosComponent } from "./comercial/seg-procesos/seg-procesos.component";
 import { DesempenioArimaComponent } from "./produccion/desempenio-arima/desempenio-arima.component";
 import { ObligacionesFinancierasComponent } from "./comercial/obligaciones-financieras/obligaciones-financieras.component";
+import { GestionCalidadComponent } from "./produccion/gestion-calidad/gestion-calidad.component";
 
 export const DashboardRoutes: Routes = [
     {
@@ -131,7 +132,14 @@ export const DashboardRoutes: Routes = [
               data: {
                 title: "Dashboard seguimiento operaciones"
               }
-          }
+            },
+            {
+              path: 'GestionCalidad',
+              component: GestionCalidadComponent ,
+              data: {
+                title: "Dashboard Gestión de la Calidad"
+              }
+            },
         ]
     }
 ]

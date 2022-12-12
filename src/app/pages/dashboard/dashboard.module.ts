@@ -16,6 +16,7 @@ import { EstadosFinancierosComponent } from './comercial/estados-financieros/est
 import { SegProcesosComponent } from './comercial/seg-procesos/seg-procesos.component';
 import { DesempenioArimaComponent } from './produccion/desempenio-arima/desempenio-arima.component';
 import { ObligacionesFinancierasComponent } from './comercial/obligaciones-financieras/obligaciones-financieras.component';
+import { GestionCalidadComponent } from './produccion/gestion-calidad/gestion-calidad.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { ObligacionesFinancierasComponent } from './comercial/obligaciones-finan
     EstadosFinancierosComponent,
     SegProcesosComponent,
     DesempenioArimaComponent,
-    ObligacionesFinancierasComponent
+    ObligacionesFinancierasComponent,
+    GestionCalidadComponent
   ],
   imports: [
     RouterModule.forChild(DashboardRoutes)
