@@ -42,6 +42,7 @@ export class PruebasEfectuadasComponent implements OnInit , OnDestroy{
   }
 
   ngOnInit(): void {
+    console.log("first")
     this.crearDetallePruebaProtocolo();
     this.BuscarinformacionProductoProtocolo();
     this.buscarInformacionPrueba(this.NumeroLote,this.NumeroParte,this.PruebasFormularioProtocolo.controls.Idioma.value);
@@ -58,10 +59,10 @@ export class PruebasEfectuadasComponent implements OnInit , OnDestroy{
   }
 
   save(){
-        this.buttonDeshabilitar=true;
+        // this.buttonDeshabilitar=true;
         if (this.PruebasFormularioProtocolo.controls.fechaanalisis.value=="0001-01-01")
         {
-          this.buttonDeshabilitar=false;
+          // this.buttonDeshabilitar=false;
           return this.toastr.warning("Debe Seleccionar la fecha");
         }
             
@@ -217,7 +218,7 @@ export class PruebasEfectuadasComponent implements OnInit , OnDestroy{
           this.servicebase64.file(resp.content,`Formato-prueba-${this.NumeroLote}-${this.hoy}`,'pdf',ModalCarga);
         }else{
           ModalCarga.close();
-          this.toastr.info(resp.message);
+          this.toastr.warning(resp.content);
         }
       }
     );
