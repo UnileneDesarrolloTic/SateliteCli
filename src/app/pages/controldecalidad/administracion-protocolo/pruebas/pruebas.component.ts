@@ -85,7 +85,7 @@ export class PruebasComponent implements OnInit {
 
 
   AbrirModal(filaPrueba,Tipo){
-    console.log(filaPrueba);
+   
     const modalDescripcion = this.modalService.open(PruebaNuevoEditComponent, {
 			// ariaLabelledBy: 'modal-basic-title',
 			// backdropClass: 'light-blue-backdrop',
