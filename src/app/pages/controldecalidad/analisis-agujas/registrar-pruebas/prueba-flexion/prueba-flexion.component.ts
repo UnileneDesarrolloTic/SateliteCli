@@ -9,6 +9,7 @@ import { GenericoService } from '@shared/services/comunes/generico.service';
 import { DatosAnalisisAgujaFlexion } from '@data/interface/Response/DatosAnalisisAgujaFlexion.interface';
 import { SesionService } from '@shared/services/comunes/sesion.service';
 import { OnExit } from '@guard/confirm-exit.guard'
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-prueba-flexion',
@@ -25,6 +26,7 @@ export class PruebaFlexionComponent implements OnInit , OnExit
   listaGruposCiclos: number[]
   botonGuardarDisabled: boolean = false
   disabledCampo:boolean=false;
+  especialidaBD: string = 'S';
 
   constructor(private _activatedRoute : ActivatedRoute, private _analisisAgujaServices : AnalisisAgujaService, private _toastr: ToastrService,
       private _router: Router, private _fb: FormBuilder, private _genericoService : GenericoService, private _usuarioSesion: SesionService)
@@ -42,11 +44,12 @@ export class PruebaFlexionComponent implements OnInit , OnExit
 
   InicializarFormulario(){
     this.datosAnalisisForm = this._fb.group({
-      analisis : [{ value: this.codigoAnalisis, disabled : true}, Validators.required],
-      pruebas : [{ value: 0, disabled : true}, Validators.required],
-      item : [{ value: '', disabled : true}, Validators.required],
-      proveedor: [{ value: '', disabled: true}, Validators.required],
-      especialidad: ['N', Validators.required]
+      analisis : [{ value: this.codigoAnalisis, disabled : true}, Validators.required ],
+      pruebas : [{ value: 0, disabled : true}, Validators.required ],
+      item : [{ value: '', disabled : true}, Validators.required ],
+      proveedor: [{ value: '', disabled: true}, Validators.required ],
+      especialidad: ['N', Validators.required ],
+      fechaAnalisis: ['', Validators.required ]
     })
 
     this.resultAnalisis = this._fb.group({
@@ -64,7 +67,6 @@ export class PruebaFlexionComponent implements OnInit , OnExit
 
   CrearCicloForm(cantidad:number, detalle:any)
   {
-
     const ciclos = detalle.filter(x => x['tipoRegistro'] == 1)
     let valorCiclo;
     let cicloBD;
@@ -94,7 +96,6 @@ export class PruebaFlexionComponent implements OnInit , OnExit
 
   CrearResumenForm(detalle:{}[])
   {
-
     const listaResumen = detalle.filter(x => x['tipoRegistro'] == 2)
 
     if (listaResumen.length < 1)
@@ -121,6 +122,10 @@ export class PruebaFlexionComponent implements OnInit , OnExit
     return this.resultAnalisis.controls['resumenFlexion'] as FormArray;
   }
 
+  get fechaAnalisis(){
+    return this.datosAnalisisForm.get('fechaAnalisis');
+  }
+
   ObtenerDatosDelAnalisis(loteAnalisis: string)
   {
 
@@ -136,14 +141,23 @@ export class PruebaFlexionComponent implements OnInit , OnExit
 
         this.listaGruposCiclos = this.CrearDatosArreglo(cabeceraAnalisis.cantidadPruebas)
 
+        const fechaAnalisisBD = new Date(cabeceraAnalisis.fechaAnalisis)
+        
         this.datosAnalisisForm.patchValue(
           {
             pruebas: cabeceraAnalisis.cantidadPruebas,
             item: cabeceraAnalisis.descripcionItem,
             proveedor: cabeceraAnalisis.proveedor,
-            especialidad:cabeceraAnalisis.especialidad 
+            especialidad:cabeceraAnalisis.especialidad,
+            fechaAnalisis: formatDate(fechaAnalisisBD, 'yyyy-MM-dd', 'en')
           }
         )
+
+        this.especialidaBD = cabeceraAnalisis.especialidad;
+        
+        // this.resultAnalisis.controls['ciclosFlexion'] = this._fb.array([])
+        this.limpiarTablaResumen();
+        // this.resultAnalisis.controls['resumenFlexion'] = this._fb.array([])
 
         this.CrearCicloForm(cabeceraAnalisis.cantidadPruebas, result.detalle)
         this.CrearResumenForm(result.detalle)
@@ -153,7 +167,6 @@ export class PruebaFlexionComponent implements OnInit , OnExit
       }
     )
   }
-
 
   CrearDatosArreglo(numero: number):number[]
   {
@@ -243,12 +256,20 @@ export class PruebaFlexionComponent implements OnInit , OnExit
       this._toastr.warning('Los datos del formulario se estan guardando','Advertencia !!', {timeOut: 3000, closeButton: true, tapToDismiss: true})
       return
     }
-  
 
-    if (this.resultAnalisis.pristine && this.datosAnalisisForm.controls.especialidad.value=='N')
+    if (this.resultAnalisis.pristine && this.datosAnalisisForm.get('especialidad').pristine && this.fechaAnalisis.pristine )
     {
       this._toastr.warning("No se ha realizado ninguna modificación en el formulario", "Aviso !!", {timeOut: 5000, closeButton: true, tapToDismiss: true})
       return
+    }
+
+    const especialidadActual = this.datosAnalisisForm.get('especialidad').value
+
+    if(especialidadActual !== this.especialidaBD)
+    {
+      const rpta = confirm("Al cambiar la especialidad se realizará el cálculo de la serie y se borraran los datos dependietes.\n ¿Segúro de querer guardar los cambios?");
+      if(!rpta)
+        return 
     }
 
     if (this.resultAnalisis.invalid)
@@ -261,7 +282,7 @@ export class PruebaFlexionComponent implements OnInit , OnExit
 
     if(resultCiclos.length < 1 && this.datosAnalisisForm.controls.especialidad.value=='N')
     {
-      this._toastr.warning("Debe debe de contrar con registrar, para continuar con las pruebas", "Aviso !!", {timeOut: 5000, closeButton: true, tapToDismiss: true})
+      this._toastr.warning("Al no ser de especialidad, debe de contrar con pruebas de flexión.", "Aviso !!", {timeOut: 3000, closeButton: true, tapToDismiss: true})
       return
     }
 
@@ -305,18 +326,28 @@ export class PruebaFlexionComponent implements OnInit , OnExit
     const DatosGuardar={
         Especialidad: this.datosAnalisisForm.controls.especialidad.value,
         Lote: this.datosAnalisisForm.controls.analisis.value,
+        FechaAnalisis: this.datosAnalisisForm.controls.fechaAnalisis.value,
         Detalle: objetoGuardarBD
     }
 
     this._analisisAgujaServices.GuardarEditarPruebaFlexionAguja(DatosGuardar).subscribe(
       result => {
+        this.ObtenerDatosDelAnalisis(this.codigoAnalisis);
         this._toastr.success(result['content'],'Éxito !!', {timeOut: 4000, closeButton: true, tapToDismiss: true})
         this.resultAnalisis.markAsPristine()
+        this.botonGuardarDisabled = false
       },
-      err => {},
-      () => this.botonGuardarDisabled = false
+      err => {this.botonGuardarDisabled = false}
     );
 
+  }
+
+  limpiarTablaResumen()
+  {
+    while(this.resumenFlexion.length != 0)
+    {
+      this.resumenFlexion.removeAt(0)
+    }
   }
 
   cancelar()
@@ -339,7 +370,6 @@ export class PruebaFlexionComponent implements OnInit , OnExit
     }
 
     this._router.navigate(['ControlCalidad/analisis-agujas/pruebas-agujas', this.codigoAnalisis, 'DatosGenerales', this.codigoAnalisis], { skipLocationChange: true });
-
   }
 
   onExit() {
@@ -350,7 +380,10 @@ export class PruebaFlexionComponent implements OnInit , OnExit
       return false
     }
 
-    if(this.resultAnalisis.dirty){
+    const especialidadActual = this.datosAnalisisForm.get('especialidad').value
+
+    if(this.resultAnalisis.dirty || especialidadActual !== this.especialidaBD || this.fechaAnalisis.dirty)
+    {
       const rpta = confirm("¿Está seguro de salir del formulario sin guardar?");
       return rpta;
     }

@@ -93,7 +93,7 @@
                     <td class="text-center ">
                       {{ buenAspecto.get('tolerancia').value }} %
                     </td>
-                    <td rowSpan="10" class="text-center">
+                    <td rowSpan="11" class="text-center">
                       <span *ngIf="buenAspecto.get('estado').value == 'A'"> <i class="fas fa-check text-success"></i> Aprobado</span>
                       <span *ngIf="buenAspecto.get('estado').value == 'R'"> <i class="fas fa-times text-danger"></i> Rechazado</span>
                       <span *ngIf="buenAspecto.get('estado').value == ''" class="text-info" style="font-size: 14px;">La suma no debe ser mayor a la cantidad de muestra ({{cantidadMuestra}})</span>
@@ -112,7 +112,7 @@
                     <td class="text-center">
                       {{ marcas.get('porcentaje').value }}
                     </td>
-                    <td rowSpan="9"  class="text-center">
+                    <td rowSpan="10"  class="text-center">
                       {{ marcas.get('tolerancia').value }} %
                     </td>
                   </tr>
@@ -172,7 +172,7 @@
                     </td>
                   </tr>
                   <tr [formGroup]="rebabas">
-                    <td rowSpan="2" class="text-center">
+                    <td rowSpan="3" class="text-center">
                       ASPECTO DEL AGUJERO
                     </td>
                     <td class="text-center">
@@ -194,6 +194,17 @@
                     </td>
                     <td class="text-center">
                       {{ sinAgujero.get('porcentaje').value }}
+                    </td>
+                  </tr>
+                  <tr [formGroup]="pocaProfundidad">
+                    <td class="text-center">
+                      Poca profundidad
+                    </td>
+                    <td class="text-center">
+                      <input type="number" class="form-control form-control-sm" style="font-size: 14px" formControlName="cantidad"/>
+                    </td>
+                    <td class="text-center">
+                      {{ pocaProfundidad.get('porcentaje').value }}
                     </td>
                   </tr>
                   <tr [formGroup]="total">

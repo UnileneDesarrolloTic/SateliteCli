@@ -51,7 +51,9 @@ export class PruebaDimensionalComponent implements OnInit, OnDestroy, OnExit {
           tolerancia: new FormControl(0, Validators.required),
           estado: new FormControl('R', Validators.required),
           descripcionAux: new FormControl(null),
-          cantidadAux: new FormControl(null)
+          cantidadAux: new FormControl(null),
+          descripcionAux_2: new FormControl(null),
+          cantidadAux_2: new FormControl(null)
         }),
         new FormGroup({
           tipoRegistro: new FormControl(2, Validators.required),
@@ -61,7 +63,9 @@ export class PruebaDimensionalComponent implements OnInit, OnDestroy, OnExit {
           tolerancia: new FormControl(0, Validators.required),
           estado: new FormControl('R', Validators.required),
           descripcionAux: new FormControl(null),
-          cantidadAux: new FormControl(null)
+          cantidadAux: new FormControl(null),
+          descripcionAux_2: new FormControl(null),
+          cantidadAux_2: new FormControl(null)
         }),
         new FormGroup({
           tipoRegistro: new FormControl(3, Validators.required),
@@ -71,7 +75,9 @@ export class PruebaDimensionalComponent implements OnInit, OnDestroy, OnExit {
           tolerancia: new FormControl(0, Validators.required),
           estado: new FormControl('R', Validators.required),
           descripcionAux: new FormControl(null),
-          cantidadAux: new FormControl(null)
+          cantidadAux: new FormControl(null),
+          descripcionAux_2: new FormControl(null),
+          cantidadAux_2: new FormControl(null)
         }),
         new FormGroup({
           tipoRegistro: new FormControl(4, Validators.required),
@@ -116,6 +122,10 @@ export class PruebaDimensionalComponent implements OnInit, OnDestroy, OnExit {
       () => this.cambioCantidadPruebaLongitud()
     )
 
+    this.pruebaLongitud.get('cantidadAux_2').valueChanges.pipe(debounceTime(250)).subscribe(
+      () => this.cambioCantidadPruebaLongitud()
+    )
+
     this.pruebaDiametroBroca.get('cantidad').valueChanges.pipe(debounceTime(250)).subscribe(
       () => this.cambioCantidadPruebaDiametroBroca()
     )
@@ -124,11 +134,19 @@ export class PruebaDimensionalComponent implements OnInit, OnDestroy, OnExit {
       () => this.cambioCantidadPruebaDiametroBroca()
     )
 
+    this.pruebaDiametroBroca.get('cantidadAux_2').valueChanges.pipe(debounceTime(250)).subscribe(
+      () => this.cambioCantidadPruebaDiametroBroca()
+    )
+
     this.pruebaDiametroAlambre.get('cantidad').valueChanges.pipe(debounceTime(250)).subscribe(
       () => this.cambioCantidadPruebaDiametroAlambre()
     )
 
     this.pruebaDiametroAlambre.get('cantidadAux').valueChanges.pipe(debounceTime(250)).subscribe(
+      () => this.cambioCantidadPruebaDiametroAlambre()
+    )
+
+    this.pruebaDiametroAlambre.get('cantidadAux_2').valueChanges.pipe(debounceTime(250)).subscribe(
       () => this.cambioCantidadPruebaDiametroAlambre()
     )
 
@@ -206,19 +224,19 @@ export class PruebaDimensionalComponent implements OnInit, OnDestroy, OnExit {
       return false
     }
 
-    if (((this.pruebaLongitud.get('cantidad').value ?? 0) + (this.pruebaLongitud.get('cantidadAux').value ?? 0)) !== this.baseCalculoProcentajeLongitud)
+    if (((this.pruebaLongitud.get('cantidad').value ?? 0) + (this.pruebaLongitud.get('cantidadAux').value ?? 0) + (this.pruebaLongitud.get('cantidadAux_2').value ?? 0)) !== this.baseCalculoProcentajeLongitud)
     {
       this._toastr.warning(`Las cantidades de la prueba de longitud deben sumar ${this.baseCalculoProcentajeLongitud} und`, 'Advertencia !!', {timeOut: 3000, closeButton: true, tapToDismiss: true, progressBar: true})
       return false
     }
 
-    if (((this.pruebaDiametroBroca.get('cantidad').value ?? 0) + (this.pruebaDiametroBroca.get('cantidadAux').value ?? 0)) != this.baseCalculoProcentajeDiametro)
+    if (((this.pruebaDiametroBroca.get('cantidad').value ?? 0) + (this.pruebaDiametroBroca.get('cantidadAux').value ?? 0) + (this.pruebaDiametroBroca.get('cantidadAux_2').value ?? 0)) != this.baseCalculoProcentajeDiametro)
     {
       this._toastr.warning(`Las cantidades de la prueba de diametro del agujero deben sumar ${this.baseCalculoProcentajeDiametro} und`, 'Advertencia !!', {timeOut: 3000, closeButton: true, tapToDismiss: true, progressBar: true})
       return false
     }
 
-    if (((this.pruebaDiametroAlambre.get('cantidad').value ?? 0) + (this.pruebaDiametroAlambre.get('cantidadAux').value ?? 0)) != this.baseCalculoProcentajeDiametro)
+    if (((this.pruebaDiametroAlambre.get('cantidad').value ?? 0) + (this.pruebaDiametroAlambre.get('cantidadAux').value ?? 0) + (this.pruebaDiametroAlambre.get('cantidadAux_2').value ?? 0) ) != this.baseCalculoProcentajeDiametro)
     {
       this._toastr.warning(`Las cantidades de la prueba de diametro del alambre deben sumar ${this.baseCalculoProcentajeDiametro} und`, 'Advertencia !!', {timeOut: 3000, closeButton: true, tapToDismiss: true, progressBar: true})
       return false
@@ -268,7 +286,9 @@ export class PruebaDimensionalComponent implements OnInit, OnDestroy, OnExit {
       tolerancia: itemLongitud['tolerancia'],
       cantidad: itemLongitud['cantidad'],
       descripcionAux: itemLongitud['descripcionAux'],
-      cantidadAux: itemLongitud['cantidadAux']
+      cantidadAux: itemLongitud['cantidadAux'],
+      descripcionAux_2: itemLongitud['descripcionAux_2'],
+      cantidadAux_2: itemLongitud['cantidadAux_2']
     })
 
     const itemDiametroBroca = pruebaBD.find(x => x['tipoRegistro'] == 2)
@@ -280,7 +300,9 @@ export class PruebaDimensionalComponent implements OnInit, OnDestroy, OnExit {
       tolerancia: itemDiametroBroca['tolerancia'],
       cantidad: itemDiametroBroca['cantidad'],
       descripcionAux: itemDiametroBroca['descripcionAux'],
-      cantidadAux: itemDiametroBroca['cantidadAux']
+      cantidadAux: itemDiametroBroca['cantidadAux'],
+      descripcionAux_2: itemLongitud['descripcionAux_2'],
+      cantidadAux_2: itemLongitud['cantidadAux_2']
     })
 
     const itemDiametroAlambre = pruebaBD.find(x => x['tipoRegistro'] == 3)
@@ -290,7 +312,9 @@ export class PruebaDimensionalComponent implements OnInit, OnDestroy, OnExit {
       tolerancia: itemDiametroAlambre['tolerancia'],
       cantidad: itemDiametroAlambre['cantidad'],
       descripcionAux: itemDiametroAlambre['descripcionAux'],
-      cantidadAux: itemDiametroAlambre['cantidadAux']
+      cantidadAux: itemDiametroAlambre['cantidadAux'],
+      descripcionAux_2: itemLongitud['descripcionAux_2'],
+      cantidadAux_2: itemLongitud['cantidadAux_2']
     })
 
     const itemCorrosion = pruebaBD.find(x => x['tipoRegistro'] == 4)
@@ -364,8 +388,9 @@ export class PruebaDimensionalComponent implements OnInit, OnDestroy, OnExit {
   {
     const cantidadItemSolicitado = this.pruebaLongitud.get('cantidad').value ?? 0
     const cantidadItemAuxiliar = this.pruebaLongitud.get('cantidadAux').value ?? 0
+    const cantidadItemAuxiliar_2 = this.pruebaLongitud.get('cantidadAux_2').value ?? 0
 
-    if ((cantidadItemSolicitado + cantidadItemAuxiliar) > this.baseCalculoProcentajeLongitud)
+    if ((cantidadItemSolicitado + cantidadItemAuxiliar + cantidadItemAuxiliar_2) > this.baseCalculoProcentajeLongitud)
     {
       this.pruebaLongitud.patchValue({
         porciento: 0,
@@ -375,7 +400,8 @@ export class PruebaDimensionalComponent implements OnInit, OnDestroy, OnExit {
       this.procentajeAuxLongitud = '0'
       return
     }
-    this.procentajeAuxLongitud = this._commonServices.RedondearDecimales((cantidadItemAuxiliar * 100) / this.baseCalculoProcentajeLongitud, 2, false)
+
+    this.procentajeAuxLongitud = this._commonServices.RedondearDecimales(((cantidadItemAuxiliar + cantidadItemAuxiliar_2) * 100) / this.baseCalculoProcentajeLongitud, 2, false)
 
     const calculo = (cantidadItemSolicitado * 100) / this.baseCalculoProcentajeLongitud
     const calculoFormato= this._commonServices.RedondearDecimales(calculo, 2, false)
@@ -395,6 +421,7 @@ export class PruebaDimensionalComponent implements OnInit, OnDestroy, OnExit {
 
     const cantidadItemSolicitado = this.pruebaDiametroBroca.get('cantidad').value ?? 0
     const cantidadItemAuxiliar = this.pruebaDiametroBroca.get('cantidadAux').value ?? 0
+    const cantidadItemAuxiliar_2 = this.pruebaDiametroBroca.get('cantidadAux_2').value ?? 0
 
     if ((cantidadItemSolicitado + cantidadItemAuxiliar) > this.baseCalculoProcentajeDiametro)
     {
@@ -406,7 +433,7 @@ export class PruebaDimensionalComponent implements OnInit, OnDestroy, OnExit {
       return
     }
 
-    this.procentajeAuxDiametro = this._commonServices.RedondearDecimales((cantidadItemAuxiliar * 100) / this.baseCalculoProcentajeDiametro, 2, false)
+    this.procentajeAuxDiametro = this._commonServices.RedondearDecimales(((cantidadItemAuxiliar + cantidadItemAuxiliar_2) * 100) / this.baseCalculoProcentajeDiametro, 2, false)
 
     const calculo = (cantidadItemSolicitado * 100) / this.baseCalculoProcentajeDiametro
     const calculoFormato= this._commonServices.RedondearDecimales(calculo, 2, false)
@@ -425,6 +452,7 @@ export class PruebaDimensionalComponent implements OnInit, OnDestroy, OnExit {
 
     const cantidadItemSolicitado = this.pruebaDiametroAlambre.get('cantidad').value ?? 0
     const cantidadItemAuxiliar = this.pruebaDiametroAlambre.get('cantidadAux').value ?? 0
+    const cantidadItemAuxiliar_2 = this.pruebaDiametroAlambre.get('cantidadAux_2').value ?? 0
 
     if ((cantidadItemSolicitado + cantidadItemAuxiliar) > this.baseCalculoProcentajeDiametro)
     {
@@ -437,7 +465,7 @@ export class PruebaDimensionalComponent implements OnInit, OnDestroy, OnExit {
       return
     }
 
-    this.procentajeAuxAlambre = this._commonServices.RedondearDecimales((cantidadItemAuxiliar * 100) / this.baseCalculoProcentajeDiametro, 2, false)
+    this.procentajeAuxAlambre = this._commonServices.RedondearDecimales(((cantidadItemAuxiliar + cantidadItemAuxiliar_2) * 100) / this.baseCalculoProcentajeDiametro, 2, false)
 
     const calculo = (cantidadItemSolicitado * 100) / this.baseCalculoProcentajeDiametro
     const calculoFormato= this._commonServices.RedondearDecimales(calculo, 2, false)

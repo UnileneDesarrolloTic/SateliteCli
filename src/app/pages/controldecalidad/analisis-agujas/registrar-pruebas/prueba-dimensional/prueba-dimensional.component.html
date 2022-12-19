@@ -36,24 +36,32 @@
                     <td class="text-center">
                       >= {{ pruebaLongitud.get('tolerancia').value | number }} %
                     </td>
-                    <td class="text-center" rowspan="2">
+                    <td class="text-center" rowspan="3">
                       <span *ngIf="pruebaLongitud.get('estado').value == 'A'"> <i class="fas fa-check text-success"></i> Aprobado</span>
-                      <span *ngIf="pruebaLongitud.get('estado').value == 'R'"> <i class="fas fa-times text-danger"></i> Rechazado</span>
+                      <span *ngIf="pruebaLongitud.get('estado').value == 'R'"> <i class="fas fa-recycle text-info"></i> Selección al 100 %</span>
                       <span *ngIf="pruebaLongitud.get('estado').value == ''"  class="text-info" style="font-size: 14px;">La cantidad no debe ser mayor a la muestra ({{baseCalculoProcentajeLongitud}})</span>
                     </td>
                   </tr>
                   <tr>
                     <td class="text-center">
-                      <input type="text" class="form-control form-control-sm" style="font-size: 14px; border-color: rgb(0,0,0,0.2)" placeholder="Longitud" formControlName="descripcionAux"/>
+                      <input type="text" class="form-control form-control-sm" style="font-size: 14px; border-color: rgb(0,0,0,0.2)" placeholder="Longitud 1" formControlName="descripcionAux"/>
                     </td>
                     <td class="text-center">
-                      <input type="number" class="form-control form-control-sm" style="font-size: 14px; border-color: rgb(0,0,0,0.2)" placeholder="Cantidad" formControlName="cantidadAux"/>
+                      <input type="number" class="form-control form-control-sm" style="font-size: 14px; border-color: rgb(0,0,0,0.2)" placeholder="Cantidad 1" formControlName="cantidadAux"/>
                     </td>
-                    <td class="text-center">
+                    <td class="text-center" rowspan="2">
                       {{ procentajeAuxLongitud }}
                     </td>
-                    <td class="text-center">
+                    <td class="text-center" rowspan="2">
                       < {{ 100 - pruebaLongitud.get('tolerancia').value | number }} %
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="text-center">
+                      <input type="text" class="form-control form-control-sm" style="font-size: 14px; border-color: rgb(0,0,0,0.2)" placeholder="Longitud 2" formControlName="descripcionAux_2"/>
+                    </td>
+                    <td class="text-center">
+                      <input type="number" class="form-control form-control-sm" style="font-size: 14px; border-color: rgb(0,0,0,0.2)" placeholder="Cantidad 2" formControlName="cantidadAux_2"/>
                     </td>
                   </tr>
                 </tbody>
@@ -89,9 +97,9 @@
                     <td class="text-center">
                       >= {{ pruebaDiametroBroca.get('tolerancia').value | number }} %
                     </td>
-                    <td class="text-center" rowspan="2">
+                    <td class="text-center" rowspan="3">
                       <span *ngIf="pruebaDiametroBroca.get('estado').value == 'A'"> <i class="fas fa-check text-success"></i> Aprobado</span>
-                      <span *ngIf="pruebaDiametroBroca.get('estado').value == 'R'"> <i class="fas fa-times text-danger"></i> Rechazado</span>
+                      <span *ngIf="pruebaDiametroBroca.get('estado').value == 'R'"> <i class="fas fa-recycle text-info"></i> Selección al 100 %</span>
                       <span *ngIf="pruebaDiametroBroca.get('estado').value == ''"  class="text-info" style="font-size: 14px;">La cantidad no debe ser mayor a la muestra ({{baseCalculoProcentajeDiametro}})</span>
                     </td>
                   </tr>
@@ -102,11 +110,19 @@
                     <td class="text-center">
                       <input type="number" class="form-control form-control-sm" style="font-size: 14px; border-color: rgb(0,0,0,0.2)" placeholder="Cantidad" formControlName="cantidadAux"/>
                     </td>
-                    <td class="text-center">
+                    <td class="text-center" rowspan="2">
                       {{ procentajeAuxDiametro }}
                     </td>
-                    <td class="text-center">
+                    <td class="text-center" rowspan="2">
                       < {{ 100 - pruebaDiametroBroca.get('tolerancia').value | number }} %
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="text-center">
+                      <input type="text" class="form-control form-control-sm" style="font-size: 14px; border-color: rgb(0,0,0,0.2)" placeholder="Diametro 2" formControlName="descripcionAux_2"/>
+                    </td>
+                    <td class="text-center">
+                      <input type="number" class="form-control form-control-sm" style="font-size: 14px; border-color: rgb(0,0,0,0.2)" placeholder="Cantidad 2" formControlName="cantidadAux_2"/>
                     </td>
                   </tr>
                 </tbody>
@@ -142,9 +158,9 @@
                     <td class="text-center">
                       >= {{ pruebaDiametroAlambre.get('tolerancia').value | number }} %
                     </td>
-                    <td class="text-center" rowspan="2">
+                    <td class="text-center" rowspan="3">
                       <span *ngIf="pruebaDiametroAlambre.get('estado').value == 'A'"> <i class="fas fa-check text-success"></i> Aprobado</span>
-                      <span *ngIf="pruebaDiametroAlambre.get('estado').value == 'R'"> <i class="fas fa-times text-danger"></i> Rechazado</span>
+                      <span *ngIf="pruebaDiametroAlambre.get('estado').value == 'R'"> <i class="fas fa-recycle text-info"></i> Selección al 100 %</span>
                       <span *ngIf="pruebaDiametroAlambre.get('estado').value == ''"  class="text-info" style="font-size: 14px;">La cantidad no debe ser mayor a la muestra ({{baseCalculoProcentajeDiametro}})</span>
                     </td>
                   </tr>
@@ -155,11 +171,19 @@
                     <td class="text-center">
                       <input type="number" class="form-control form-control-sm" style="font-size: 14px; border-color: rgb(0,0,0,0.2)" placeholder="Cantidad" formControlName="cantidadAux"/>
                     </td>
-                    <td class="text-center">
+                    <td class="text-center" rowspan="2">
                       {{ procentajeAuxAlambre }}
                     </td>
-                    <td class="text-center">
+                    <td class="text-center" rowspan="2">
                       < {{ 100 - pruebaDiametroAlambre.get('tolerancia').value | number }} %
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="text-center">
+                      <input type="text" class="form-control form-control-sm" style="font-size: 14px; border-color: rgb(0,0,0,0.2)" placeholder="Alambre 2" formControlName="descripcionAux_2"/>
+                    </td>
+                    <td class="text-center">
+                      <input type="number" class="form-control form-control-sm" style="font-size: 14px; border-color: rgb(0,0,0,0.2)" placeholder="Cantidad 2" formControlName="cantidadAux_2"/>
                     </td>
                   </tr>
                 </tbody>
