@@ -33,11 +33,17 @@
             </div>
             <div class="col-sm-12 col-md-6 col-lg-3">
               <div class="form-group">
-                  <label for="inputname" class="control-label col-form-label">¿Especialidad?</label>
-                  <select formControlName="especialidad" class="form-control" class="form-control form-control-sm">
+                  <label for="especialidad" class="control-label col-form-label">¿Especialidad?</label>
+                  <select formControlName="especialidad" class="form-control" class="form-control form-control-sm" id="especialidad">
                     <option [value]="'S'"> SI </option>
                     <option [value]="'N'"> NO </option>
                   </select>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-3">
+              <div class="form-group">
+                  <label for="fechaAnalisis" class="control-label col-form-label">Fec. Análisis</label>
+                  <input type="date" class="form-control form-control-sm" id="fechaAnalisis" formControlName='fechaAnalisis'>
               </div>
             </div>
           </div>

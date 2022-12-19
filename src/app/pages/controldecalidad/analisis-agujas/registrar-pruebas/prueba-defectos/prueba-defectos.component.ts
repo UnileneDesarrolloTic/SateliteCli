@@ -101,6 +101,11 @@ export class PruebaDefectosComponent implements OnInit, OnDestroy, OnExit {
           tipoRegistro : new FormControl(11, [Validators.required, Validators.min(0)]),
           cantidad : new FormControl(0, [Validators.required, Validators.min(0)]),
         }),
+        new FormGroup({ // Poca profundida
+          tipoRegistro : new FormControl(12, [Validators.required, Validators.min(0)]),
+          cantidad : new FormControl(null, [Validators.required, Validators.min(0)]),
+          porcentaje: new FormControl(null, [Validators.required, Validators.min(0)]),
+        }),
       ]),
       observaciones: new FormControl('')
     })
@@ -117,6 +122,7 @@ export class PruebaDefectosComponent implements OnInit, OnDestroy, OnExit {
     this.malFormada.get('cantidad').valueChanges.pipe(debounceTime(300)).subscribe( ()=> this.cambioCantidadSegundaTable())
     this.rebabas.get('cantidad').valueChanges.pipe(debounceTime(300)).subscribe( ()=> this.cambioCantidadSegundaTable())
     this.sinAgujero.get('cantidad').valueChanges.pipe(debounceTime(300)).subscribe( ()=> this.cambioCantidadSegundaTable())
+    this.pocaProfundidad.get('cantidad').valueChanges.pipe(debounceTime(300)).subscribe( ()=> this.cambioCantidadSegundaTable())
   }
 
   obtenerToleranciaConfiguracion(){
@@ -194,9 +200,10 @@ export class PruebaDefectosComponent implements OnInit, OnDestroy, OnExit {
     const cantidadMalFormada = this.malFormada.get('cantidad').value ?? 0
     const cantidadRebabas = this.rebabas.get('cantidad').value ?? 0
     const cantidadSinAgujero = this.sinAgujero.get('cantidad').value ?? 0
+    const cantidadPocaProfundida = this.pocaProfundidad.get('cantidad').value ?? 0
 
     const total = cantidadBuenAspecto + cantidadMarcas + cantidadPorosidad + cantidadMalPulido
-      + cantidadPuntaGato + cantidadPocaPunta + cantidadMalFormada + cantidadRebabas + cantidadSinAgujero
+      + cantidadPuntaGato + cantidadPocaPunta + cantidadMalFormada + cantidadRebabas + cantidadSinAgujero + cantidadPocaProfundida
 
 
     this.buenAspecto.patchValue({
@@ -233,6 +240,10 @@ export class PruebaDefectosComponent implements OnInit, OnDestroy, OnExit {
 
     this.sinAgujero.patchValue({
       porcentaje: this._commonService.RedondearDecimales((cantidadSinAgujero / this.cantidadMuestra) * 100, 2, false) ?? 0
+    })
+
+    this.pocaProfundidad.patchValue({
+      porcentaje: this._commonService.RedondearDecimales((cantidadPocaProfundida / this.cantidadMuestra) * 100, 2, false) ?? 0
     })
 
     this.total.patchValue({
@@ -296,7 +307,7 @@ export class PruebaDefectosComponent implements OnInit, OnDestroy, OnExit {
     this.botonGuardarDisabled = true
 
 
-    const itemPruebaAspecto = this.pruebas.value.filter( item => item['tipoRegistro'] != 12).map( item =>
+    const itemPruebaAspecto = this.pruebas.value.filter( item => item['tipoRegistro'] != 13).map( item =>
     {
       return { ...item, baseCalculoPorcentaje: this.cantidadMuestra, loteAnalisis: this.codigoAnalisis  }
     })
@@ -304,7 +315,7 @@ export class PruebaDefectosComponent implements OnInit, OnDestroy, OnExit {
     const body = {
       pruebas : itemPruebaAspecto,
       observaciones: this.formulario.get('observaciones').value
-    }
+    }    
 
     this._analisisAgujaService.GuardarPruebaAspecto(body).subscribe( response => {
       this._toastr.success(response['content'], 'Éxito !!', {timeOut: 3000, closeButton: true, tapToDismiss: true})
@@ -314,7 +325,7 @@ export class PruebaDefectosComponent implements OnInit, OnDestroy, OnExit {
     err => {
       this.botonGuardarDisabled = false
     }
-    ) 
+    )
 
   }
 
@@ -349,6 +360,7 @@ export class PruebaDefectosComponent implements OnInit, OnDestroy, OnExit {
     const datosMalFormada = detalle.find(x => x['tipoRegistro'] == 8)
     const datosRebabas = detalle.find(x => x['tipoRegistro'] == 9)
     const datosSinAgujero = detalle.find(x => x['tipoRegistro'] == 10)
+    const datosPocaProfundidad = detalle.find(x => x['tipoRegistro'] == 12) 
 
     this.agujeroDescentrado.patchValue({
       tolerancia: datosAgujeroDescentrado['tolerancia'],
@@ -392,6 +404,10 @@ export class PruebaDefectosComponent implements OnInit, OnDestroy, OnExit {
 
     this.sinAgujero.patchValue({
       cantidad: datosSinAgujero['cantidad']
+    })
+
+    this.pocaProfundidad.patchValue({
+      cantidad: (datosPocaProfundidad == undefined ? 0 : datosPocaProfundidad['cantidad'])
     })
 
     this.agujeroCentrado.patchValue({
@@ -472,6 +488,10 @@ export class PruebaDefectosComponent implements OnInit, OnDestroy, OnExit {
 
   get total(){
     return this.pruebas.controls[11] as FormGroup
+  }
+  
+  get pocaProfundidad(){
+    return this.pruebas.controls[12] as FormGroup
   }
 
 }

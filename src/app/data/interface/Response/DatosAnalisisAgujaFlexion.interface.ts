@@ -10,6 +10,7 @@ export interface DatosAnalisisAgujaFlexion
     proveedor:string,
     cantidadPruebas:number,
     especialidad:string,
+    fechaAnalisis:Date
   },
   detalle: {
     lote:string,
