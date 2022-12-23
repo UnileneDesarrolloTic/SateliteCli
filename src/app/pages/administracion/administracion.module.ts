@@ -16,6 +16,7 @@ import { EditarUsuarioComponent } from './usuario/editar-usuario/editar-usuario.
 import { ConfigCotizacionComponent } from './config-cotizacion/config-cotizacion.component';
 import { EditarConfigCotizacionComponent } from './config-cotizacion/editar-config-cotizacion/editar-config-cotizacion.component';
 import { AsignacionPersonalLaboralComponent } from './asignacion-personal-laboral/asignacion-personal-laboral.component';
+import { AreaComponent } from './asignacion-personal-laboral/area/area.component';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { AsignacionPersonalLaboralComponent } from './asignacion-personal-labora
     EditarUsuarioComponent,
     ConfigCotizacionComponent,
     EditarConfigCotizacionComponent,
-    AsignacionPersonalLaboralComponent
+    AsignacionPersonalLaboralComponent,
+    AreaComponent
   ],
   imports: [
     RouterModule.forChild(AdministracionRoutes),

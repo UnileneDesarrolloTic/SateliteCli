@@ -242,7 +242,7 @@ export class ControlProductoTerminadoComponent implements OnInit {
 
     myForm.forEach((element: any) => {
       PL_Suma = PL_Suma + (isNaN(element.LongitudD) ? 0 : element.LongitudD);
-      if (element.LongitudD == null || element.LongitudD == 0 || element.LongitudD == NaN)
+      if (element.LongitudD == null || element.LongitudD == 0 || Number.isNaN(element.LongitudD))
         cn = cn;
       else
         cn = cn + 1;
@@ -282,7 +282,7 @@ export class ControlProductoTerminadoComponent implements OnInit {
 
     myForm.forEach((element: any) => {
       PL_Suma = PL_Suma + (isNaN(element.DiametroD) ? 0 : element.DiametroD);
-      if (element.DiametroD == null || element.DiametroD == 0 || element.DiametroD == NaN)
+      if (element.DiametroD == null || element.DiametroD == 0 || Number.isNaN(element.DiametroD))
         cn = cn;
       else
         cn = cn + 1;
@@ -328,7 +328,7 @@ export class ControlProductoTerminadoComponent implements OnInit {
 
     myForm.forEach((element: any) => {
       PL_Suma = PL_Suma + (isNaN(element.TensionNewtons) ? 0 : element.TensionNewtons);
-      if (element.TensionNewtons == null || element.TensionNewtons == 0 || element.TensionNewtons == NaN)
+      if (element.TensionNewtons == null || element.TensionNewtons == 0 || Number.isNaN(element.TensionNewtons))
         cn = cn;
       else
         cn = cn + 1;
@@ -381,7 +381,7 @@ export class ControlProductoTerminadoComponent implements OnInit {
 
     myForm.forEach((element: any) => {
       PL_Suma = PL_Suma + (isNaN(element.AgujasNewtons) ? 0 : element.AgujasNewtons);
-      if (element.AgujasNewtons == null || element.AgujasNewtons == 0 || element.AgujasNewtons == NaN)
+      if (element.AgujasNewtons == null || element.AgujasNewtons == 0 || Number.isNaN(element.AgujasNewtons))
         cn = cn;
       else
         cn = cn + 1;
@@ -425,7 +425,7 @@ export class ControlProductoTerminadoComponent implements OnInit {
 
 
   Cancelar(){
-    this._router.navigate(['ControlCalidad', 'Protocolo','principal'])
+    this._router.navigate(['ControlCalidad', 'Protocolo','principal',this.NumeroLote]);
   }
 
   // FIN DE TABLA 

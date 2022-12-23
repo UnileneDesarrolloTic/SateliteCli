@@ -17,6 +17,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./control-proceso.component.css']
 })
 export class ControlProcesoComponent implements OnInit,OnDestroy {
+
   hoy = new Date().toLocaleDateString();
   InformacionProducto: NumeroLoteProtocoloModel;
   TablaControlProceso:Array<number>=[1,2,3,4,5];
@@ -36,7 +37,7 @@ export class ControlProcesoComponent implements OnInit,OnDestroy {
     private servicebase64:Cargarbase64Service,) { 
     this.subcripcion=this.activeroute.params.subscribe(params=>{
       this.NumeroLote=params["NumeroLote"];
-  });
+    });
 
   }
 
@@ -244,7 +245,7 @@ export class ControlProcesoComponent implements OnInit,OnDestroy {
 
     myForm.forEach((element: any) => {
       PL_Suma = PL_Suma + (isNaN(element.LongitudD) ? 0 : element.LongitudD);
-      if (element.LongitudD == null || element.LongitudD == 0 || element.LongitudD == NaN)
+      if (element.LongitudD == null || element.LongitudD == 0 || Number.isNaN(element.LongitudD))
         cn = cn;
       else
         cn = cn + 1;
@@ -258,11 +259,6 @@ export class ControlProcesoComponent implements OnInit,OnDestroy {
 
       if (valor != 0)
         D1 = Math.pow(valor - promedio, 2) + D1;
-
-      // if (valor< this.FormProtocolo.controls.longitud.value)
-      //     this.condicionTabla1=true;
-      // else
-      //     this.condicionTabla1=false;
     });
 
     D2 = D1 / (cn - 1);
@@ -284,7 +280,7 @@ export class ControlProcesoComponent implements OnInit,OnDestroy {
 
     myForm.forEach((element: any) => {
       PL_Suma = PL_Suma + (isNaN(element.DiametroD) ? 0 : element.DiametroD);
-      if (element.DiametroD == null || element.DiametroD == 0 || element.DiametroD == NaN)
+      if (element.DiametroD == null || element.DiametroD == 0 || Number.isNaN(element.DiametroD))
         cn = cn;
       else
         cn = cn + 1;
@@ -300,10 +296,6 @@ export class ControlProcesoComponent implements OnInit,OnDestroy {
       if (valor != 0)
         D1 = Math.pow(valor - promedio, 2) + D1;
 
-      // if (valor< D_Min || valor>D_Max)
-      //     this.condicionTabla2=true;
-      // else
-      //     this.condicionTabla2=false;
     });
 
     D2 = D1 / (cn - 1);
@@ -328,7 +320,7 @@ export class ControlProcesoComponent implements OnInit,OnDestroy {
 
     myForm.forEach((element: any) => {
       PL_Suma = PL_Suma + (isNaN(element.TensionNewtons) ? 0 : element.TensionNewtons);
-      if (element.TensionNewtons == null || element.TensionNewtons == 0 || element.TensionNewtons == NaN)
+      if (element.TensionNewtons == null || element.TensionNewtons == 0 || Number.isNaN(element.TensionNewtons))
         cn = cn;
       else
         cn = cn + 1;
@@ -360,26 +352,6 @@ export class ControlProcesoComponent implements OnInit,OnDestroy {
       if (v1 != 0) {
         D1 = Math.pow(v1 - promedio, 2) + D1;
       }
-      // let Border = document.getElementById(`Resistencia-${index}`);
-      // Border.removeAttribute("style");
-
-      // if (D_Min == 0) {
-      //   if (v1 < D_PromMinimo) {
-      //     Border.setAttribute("style", "border-color: red !important");
-      //   } else {
-      //     Border.setAttribute("style", "border-color: green !important");
-      //   }
-      // } else {
-      //   console.log("entre ac............a");
-      //   if (v1 < D_Min) {
-      //     Border.setAttribute("style", "border-color: red !important");
-      //   } else {
-      //     console.log("cambio de border");
-      //     Border.setAttribute("style", "border-color: blue !important");
-      //   }
-      // }
-
-     
     });
 
     D2 = D1 / (cn - 1);
@@ -401,7 +373,7 @@ export class ControlProcesoComponent implements OnInit,OnDestroy {
 
     myForm.forEach((element: any) => {
       PL_Suma = PL_Suma + (isNaN(element.AgujasNewtons) ? 0 : element.AgujasNewtons);
-      if (element.AgujasNewtons == null || element.AgujasNewtons == 0 || element.AgujasNewtons == NaN)
+      if (element.AgujasNewtons == null || element.AgujasNewtons == 0 || Number.isNaN(element.AgujasNewtons))
         cn = cn;
       else
         cn = cn + 1;
@@ -485,8 +457,9 @@ export class ControlProcesoComponent implements OnInit,OnDestroy {
 
   }
 
-  Cancelar(){
-    this._router.navigate(['ControlCalidad', 'Protocolo','principal'])
+  Cancelar()
+  {
+    this._router.navigate(['ControlCalidad', 'Protocolo','principal',this.NumeroLote])
   }
 
 

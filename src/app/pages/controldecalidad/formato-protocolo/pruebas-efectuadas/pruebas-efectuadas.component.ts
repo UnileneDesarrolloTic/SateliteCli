@@ -42,7 +42,6 @@ export class PruebasEfectuadasComponent implements OnInit , OnDestroy{
   }
 
   ngOnInit(): void {
-    console.log("first")
     this.crearDetallePruebaProtocolo();
     this.BuscarinformacionProductoProtocolo();
     this.buscarInformacionPrueba(this.NumeroLote,this.NumeroParte,this.PruebasFormularioProtocolo.controls.Idioma.value);
@@ -88,6 +87,7 @@ export class PruebasEfectuadasComponent implements OnInit , OnDestroy{
     this.PruebasFormularioProtocolo = this._fb.group({
       Idioma:new FormControl('1'),
       fechaanalisis:new FormControl(''),
+      fechaproduccion:new FormControl({value:'',disabled:true}),
       NumeroLote: new FormControl(''),
       NumeroParte : new  FormControl(''),
       Tecnica : new FormControl(''),
@@ -111,12 +111,13 @@ export class PruebasEfectuadasComponent implements OnInit , OnDestroy{
               if(resp["success"]){
                   this.InformacionProducto=resp["content"];
                   // console.log(this.InformacionProducto);
-                  this.PruebasFormularioProtocolo.get("Tecnica").patchValue(this.InformacionProducto.tecnica);
+                  this.PruebasFormularioProtocolo.get("Tecnica").patchValue(this.InformacionProducto.tecnica);                  
                   this.PruebasFormularioProtocolo.get("Metodo").patchValue(this.InformacionProducto.metodo);
                   this.PruebasFormularioProtocolo.get("Detalle").patchValue(this.InformacionProducto.detalle);
                   this.PruebasFormularioProtocolo.get("NumeroParte").patchValue(this.InformacionProducto.numerodeparte);
                   this.PruebasFormularioProtocolo.get("NumeroLote").patchValue(this.InformacionProducto.referencianumero);
                   this.PruebasFormularioProtocolo.get("fechaanalisis").patchValue(this.formatoFecha(this.InformacionProducto.fechaanalisis));
+                  this.PruebasFormularioProtocolo.get("fechaproduccion").patchValue(this.formatoFecha(this.InformacionProducto.fechaproduccion));
               }else{
                   this.InformacionProducto=null;
               }
@@ -166,7 +167,7 @@ export class PruebasEfectuadasComponent implements OnInit , OnDestroy{
   }
 
   Cancelar(){
-    this._router.navigate(['ControlCalidad', 'Protocolo','principal'])
+    this._router.navigate(['ControlCalidad', 'Protocolo','principal',this.NumeroLote])
   }
   
 
