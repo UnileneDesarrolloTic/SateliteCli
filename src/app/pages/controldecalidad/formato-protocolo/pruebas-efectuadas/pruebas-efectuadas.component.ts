@@ -6,7 +6,6 @@ import { NumeroLoteProtocoloModel } from '@data/interface/Response/DatosFormatoN
 import { ControlcalidadService } from '@data/services/backEnd/pages/controlcalidad.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalCargarComponent } from '@shared/components/modal-cargar/modal-cargar.component';
-import { ModalPdfComponent } from '@shared/components/modal-pdf/modal-pdf.component';
 import { Cargarbase64Service } from '@shared/services/comunes/cargarbase64.service';
 import { GenericoService } from '@shared/services/comunes/generico.service';
 import { ToastrService } from 'ngx-toastr';
