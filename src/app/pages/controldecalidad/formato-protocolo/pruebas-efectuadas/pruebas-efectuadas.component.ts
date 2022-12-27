@@ -6,6 +6,7 @@ import { NumeroLoteProtocoloModel } from '@data/interface/Response/DatosFormatoN
 import { ControlcalidadService } from '@data/services/backEnd/pages/controlcalidad.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalCargarComponent } from '@shared/components/modal-cargar/modal-cargar.component';
+import { ModalPdfComponent } from '@shared/components/modal-pdf/modal-pdf.component';
 import { Cargarbase64Service } from '@shared/services/comunes/cargarbase64.service';
 import { GenericoService } from '@shared/services/comunes/generico.service';
 import { ToastrService } from 'ngx-toastr';
@@ -33,7 +34,8 @@ export class PruebasEfectuadasComponent implements OnInit , OnDestroy{
     private _GenericoService:GenericoService,
     private activeroute:ActivatedRoute,
     private _modalService: NgbModal,
-    private servicebase64:Cargarbase64Service,) { 
+    private servicebase64:Cargarbase64Service,
+   ) { 
 
     this.subcripcion=this.activeroute.params.subscribe(params=>{
       this.NumeroLote=params["NumeroLote"];
@@ -135,18 +137,66 @@ export class PruebasEfectuadasComponent implements OnInit , OnDestroy{
   construirFormaArray(ArrayTabla:DatosPruebaProtocoloModel[]){
         const FormTabla = this.PruebasFormularioProtocolo.controls["TablaPrueba"] as FormArray;
         FormTabla.controls=[];
-
+        let contador=0;
+        let especificacion1="";
+        let especificacion2="";
+        let esp="";
+        
         ArrayTabla.forEach((element:DatosPruebaProtocoloModel) => {
-          const lessForm = this._fb.group({
-            orden:[element.orden],
-            descripcionLocal:[element.descripcionLocal],
-            unidadMedida:[element.unidadMedida],
-            especificacion:[element.especificacion],
-            valor:[element.valor],
-            resultado:[element.resultado],
-            metodologia:[element.metodologia],
-          })
-          this.ListarPruebaProtocolo().push(lessForm);
+          if(element.decimales=="0" || element.decimales==""){
+           element.resultado= element.resultado;
+          }else{
+            element.resultado=this._GenericoService.RedondearDecimales(element.resultado,parseInt(element.decimales),false);
+          }
+
+          
+
+          if(element.flagPreResultado=='S' ){
+              element.resultado=element.preResultado
+          }else{
+              element.resultado=element.resultado;
+          }
+
+          if(element.orden==3 &&  contador==0){
+            especificacion1=element.especificacion+element.valor;
+            contador ++;
+          }else if(element.orden==3 && contador>0){
+            especificacion2=element.especificacion+element.valor;
+            esp="de "+especificacion1.replace(".",",")+" a "+especificacion2.replace(".",",");
+
+            
+
+            const lessForm = this._fb.group({
+              orden:[element.orden],
+              descripcionLocal:[element.descripcionLocal],
+              unidadMedida:[element.unidadMedida],
+              especificacion:[esp],
+              valor:[""],
+              resultado:[ element.resultado ],
+              metodologia:[element.metodologia],
+            })
+
+            this.ListarPruebaProtocolo().push(lessForm);
+
+          }else{
+            esp = element.especificacion;
+
+            const lessForm = this._fb.group({
+              orden:[element.orden],
+              descripcionLocal:[element.descripcionLocal],
+              unidadMedida:[element.unidadMedida],
+              especificacion:[esp],
+              valor:[element.valor],
+              resultado:[element.resultado],
+              metodologia:[element.metodologia],
+            })
+
+            this.ListarPruebaProtocolo().push(lessForm);
+          }
+
+          
+          
+         
           
         });
           
@@ -213,17 +263,36 @@ export class PruebasEfectuadasComponent implements OnInit , OnDestroy{
     });
 
     ModalCarga.componentInstance.fromParent = "Generando el Formato pdf";
+
     this._ControlcalidadService.ImprimirDocumentoControPruebasProtocolo(this.NumeroLote,Opcion,this.PruebasFormularioProtocolo.controls.Idioma.value).subscribe(
       (resp:any)=>{
-        if(resp.success){
-          this.servicebase64.file(resp.content,`Formato-prueba-${this.NumeroLote}-${this.hoy}`,'pdf',ModalCarga);
-        }else{
-          ModalCarga.close();
-          this.toastr.warning(resp.content);
-        }
+            // this.modalpdf(resp.content);
+          if(resp.success){
+            this.servicebase64.file(resp.content,`Formato-prueba-${this.NumeroLote}-${this.hoy}`,'pdf',ModalCarga);
+          }else{
+            ModalCarga.close();
+            this.toastr.warning(resp.content);
+          }
       }
     );
   }
 
+  // modalpdf(base){
+  //   // const ModalCarga = this._modalService.open(ModalPdfComponent, {
+  //   const ModalCarga = this._modalService.open(ModalPdfComponent, {
+  //     centered: true,
+  //     backdrop: 'static',
+  //     size: 'lx',
+  //     scrollable: true
+  //   });
+  //   ModalCarga.componentInstance.base = base;
+  //   ModalCarga.result.then((result) => {
+     
+  //   },
+  //   (reason) => {
+
+  //   }
+  // );
+  // }
 
 }

@@ -34,10 +34,10 @@ export class Cargarbase64Service {
     exportLinkElement.download = NumeroFormato+"."+formato;
     exportLinkElement.href = objectURL;
     exportLinkElement.text = "downloading...";
-    
     document.body.appendChild(exportLinkElement);
     exportLinkElement.click();
     URL.revokeObjectURL(objectURL);
+    
     exportLinkElement.remove();
     
   };
