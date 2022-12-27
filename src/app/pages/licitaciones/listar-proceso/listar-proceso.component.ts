@@ -1,10 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
 import { DatosListarProceso } from '@data/interface/Response/DatoListarProceso.interface';
 import { ComercialService } from '@data/services/backEnd/pages/comercial.service';
 import { LicitacionesService } from '@data/services/backEnd/pages/licitaciones.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalClienteComponent } from '@shared/components/modal-cliente/modal-cliente.component';
+import { debounceTime } from 'rxjs/operators';
 import { ModalOrdenCompraComponent } from './modal-orden-compra/modal-orden-compra.component';
 
 @Component({
@@ -13,53 +15,86 @@ import { ModalOrdenCompraComponent } from './modal-orden-compra/modal-orden-comp
   styleUrls: ['./listar-proceso.component.css']
 })
 export class ListarProcesoComponent implements OnInit {
+
   @Input() idProceso:number;
   Cliente: string = '';
   idCliente: string = '';
   listarcliente:object[]=[];
-
-  ListarProceso:DatosListarProceso[]=[];
+  ListarProcesoOriginal:DatosListarProceso[]=[];
+  ListarProcesoAux:DatosListarProceso[]=[];
   nombreProceso:string;
-  constructor(private _activatedRoute : ActivatedRoute,
-              private _router: Router,
-              private _modalService: NgbModal,
-              private _comercialService:ComercialService,
-              private _licitacionesServices:LicitacionesService,
-              ) { 
-               
-              }
 
-  ngOnInit(): void {
-    this.Filtrar()
-    this.ListarCliente();
+  flagLoading: boolean = false
+  textFilterCtrl = new FormControl('');
+  messagerNgxTable = {
+    'emptyMessage': 'No se ha encontrado procesos',
+    'totalMessage': 'Procesos'
+  }
+  constructor(private _router: Router, private _modalService: NgbModal, private _comercialService:ComercialService,private _licitacionesServices:LicitacionesService) 
+  { 
   }
 
-  NuevoProceso(){
+  ngOnInit(): void 
+  {
+    this.Filtrar()
+    this.ListarCliente();
+    
+    this.textFilterCtrl.valueChanges.pipe( debounceTime(900) ).subscribe( _ => {
+      this.filtroSeleccion();
+    })
+  }
+
+  filtroSeleccion()
+  {
+    this.flagLoading = true
+
+    if(this.textFilterCtrl.value != '')
+    {
+      const texto = this.textFilterCtrl.value.toLowerCase();
+
+      this.ListarProcesoAux = this.ListarProcesoOriginal.filter( x => 
+            (x.descripcionProceso != null && x.descripcionProceso?.toLowerCase().indexOf(texto) !== -1)
+          || (x.descripcionComercial != null && x.descripcionComercial?.toLowerCase().indexOf(texto) !== -1)
+          || (x.descripcionComercialDetalle != null &&x.descripcionComercialDetalle?.toLowerCase().indexOf(texto) !== -1)
+      );
+      
+    }
+    else
+      this.ListarProcesoAux = this.ListarProcesoOriginal
+   
+    this.flagLoading = false
+
+  }
+
+  NuevoProceso()
+  {
     this._router.navigate(['Licitaciones','proceso','nuevo-proceso']);
   }
 
-  DetalleProceso(){
+  DetalleProceso()
+  {
     this._router.navigate(['Licitaciones','proceso','programacion-proceso']);
   }
 
-  AbrirModuloMuestrayEnsayo(proceso: any){
+  AbrirModuloMuestrayEnsayo(proceso: any)
+  {
     this.nombreProceso=proceso.descripcionProceso;
     this._router.navigate(['Licitaciones', 'proceso', 'muestra-ensayo-proceso', proceso.idProceso]);
   }
 
-  AbrirModuloContrato(idproceso: number){
-    
+  AbrirModuloContrato(idproceso: number)
+  {  
     this._router.navigate(['Licitaciones', 'proceso', 'contrato', idproceso]);
   }
 
 
-  AbrirModuloGuias(idproceso:number){
-    this._router.navigate(['Licitaciones', 'proceso', 'estado-guia', ':idproceso'],
-                          { state: { idproceso: idproceso } }
-                           );
+  AbrirModuloGuias(idproceso:number)
+  {
+    this._router.navigate(['Licitaciones', 'proceso', 'estado-guia', ':idproceso'],{ state: { idproceso: idproceso } });
   }
   
-  AbrirOrdenCompra(proceso:DatosListarProceso){
+  AbrirOrdenCompra(proceso:DatosListarProceso)
+  {
     const modalRef = this._modalService.open(ModalOrdenCompraComponent, {
       ariaLabelledBy: 'modal-basic-title',
       centered: true,
@@ -71,23 +106,10 @@ export class ListarProcesoComponent implements OnInit {
     });
 
     modalRef.componentInstance.fromParent = proceso;
-    modalRef.result.then((result) => {
-      
-    }, (reason) => {
-      // console.log("salir2", reason)
-    });
   }
 
-
-  // ListarProcesoTabla(){
-  //   this._licitacionesServices.ListarProceso().subscribe(
-  //     (resp:any)=>{
-  //       this.ListarProceso=resp;
-  //     }
-  //   );
-  // }
-
-  ListarCliente(){
+  ListarCliente()
+  {
     const body = {};
     this._comercialService.ListarClientes(body).subscribe((resp) => {
       resp["success"]==true ? this.listarcliente=resp["content"] : this.listarcliente=[];
@@ -95,7 +117,8 @@ export class ListarProcesoComponent implements OnInit {
   }
 
 
-  openModalConsultaClientes(){
+  openModalConsultaClientes()
+  {
     const modalBusquedaCliente = this._modalService.open(ModalClienteComponent, {
       ariaLabelledBy: "modal-basic-title",
       backdrop: "static",
@@ -107,30 +130,33 @@ export class ListarProcesoComponent implements OnInit {
     }
 
     modalBusquedaCliente.componentInstance.fromParent = data;
+
 		modalBusquedaCliente.result.then((result) => {  
-        if(result!=undefined){
-            this.idCliente= result.persona;
-            this.Cliente=result.nombreCompleto;
+        if(result!=undefined)
+        {
+            this.idCliente = result.persona;
+            this.Cliente = result.nombreCompleto;
         }
 		});
   }
 
-  Filtrar(){
+  Filtrar()
+  {
+    this.flagLoading = true
+
     this._licitacionesServices.ListarProceso(this.idCliente).subscribe(
-      (resp:any)=>{
-        this.ListarProceso=resp;
-      }
+      resp => {
+        this.ListarProcesoOriginal = resp
+        this.ListarProcesoAux = resp
+        this.flagLoading = false
+      }, 
+      _ => this.flagLoading = false
     );
   }
-
 
   Reset(){
     this.idCliente='';
     this.Cliente='';
   }
-  
-  
-
-
 
 }

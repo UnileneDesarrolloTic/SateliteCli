@@ -28,7 +28,7 @@
                 <button type="button" class="btn btn-info btn-sm"(click)="Filtrar()" ><i class="fas fa-search"></i> Buscar </button>
               </div>
             </div>
-            <!-- <button type="button" class="btn btn-info btn-rounded"(click)="NuevoProceso()"  [disabled]="true"><i class="fas fa-file-medical"></i> Nuevo proceso </button> -->
+            <!-- <button type="button" class="btn btn-info btn-rounded"(click)="NuevoProceso()" [disabled]="true"><i class="fas fa-file-medical"></i> Nuevo proceso </button> -->
          </div>
       </div>
     </div>
@@ -39,8 +39,52 @@
     <div class="col-lg-12">
       <div class="card">
         <div class="card-body">        
-          <div class="d-flex no-block align-items-center">
-            <div class="table-hover table-responsive table-bordered">
+          <div class="row mb-2">
+            <div class="col-4">
+              <input type="text" placeholder="Buscar por CodSut, Item o Descripción." class="form-control rounded-pill"  [formControl]= 'textFilterCtrl'>
+            </div>
+          </div>
+  
+          <div class="col-12">
+
+            <ngx-datatable
+              class="material"
+              [loadingIndicator]="flagLoading"
+              [columnMode]="'force'"
+              [rows]="ListarProcesoAux"
+              rowHeight="auto"
+              [limit]="15"
+              [headerHeight]="50"
+              [footerHeight]="50"
+              [messages]="messagerNgxTable"
+            >
+              <ngx-datatable-column name="Descripción Proceso" prop='descripcionProceso' [width]="200" [draggable]="false"></ngx-datatable-column>
+              <ngx-datatable-column name="Descripción Comercial" prop='descripcionComercial' [width]="200" [draggable]="false"></ngx-datatable-column>
+              <ngx-datatable-column name="Descripción Comercial Detalle" prop='descripcionComercialDetalle' [width]="420" [draggable]="false"></ngx-datatable-column>
+              <ngx-datatable-column name="Items" prop='cantItems' [width]="60" [draggable]="false"></ngx-datatable-column>
+              <ngx-datatable-column name="Contrato" [width]="60" [draggable]="false" [sortable]="false" [resizeable]="false">
+                <ng-template let-value="value" ngx-datatable-cell-template let-row="row">
+                    <button type="button" style="font-size: 10px;background-color: #9ce0db;border: none;" (click)="AbrirModuloContrato(row['idProceso'])" class="btn btn-secondary text-white"><i class="fas fa-file-alt"></i></button>
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column name="O. Compra" [width]="60" [draggable]="false" [sortable]="false" [resizeable]="false">
+                <ng-template let-value="value" ngx-datatable-cell-template let-row="row">
+                  <button type="button" style="font-size: 10px;background-color: #ffcc50;border: none;" (click)="AbrirOrdenCompra(row)" class="btn btn-warning"><i class="far fa-edit"></i></button>
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column name="Inasa" [width]="60" [draggable]="false" [sortable]="false" [resizeable]="false">
+                <ng-template let-value="value" ngx-datatable-cell-template let-row="row">
+                  <button type="button" class="btn btn-info" style="font-size: 10px;background-color: #4596DA;border: none;" (click)="AbrirModuloMuestrayEnsayo(row)"><i class="fas fa-list-alt"></i></button>
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column name="Guias" [width]="60" [draggable]="false" [sortable]="false" [resizeable]="false">
+                <ng-template let-value="value" ngx-datatable-cell-template let-row="row">
+                  <button type="button" class="btn btn-primary" style="font-size: 10px;background-color: #2CB820;border: none;" (click)="AbrirModuloGuias(row['idProceso'])"><i class="fas fa-paste"></i></button>
+                </ng-template>
+              </ngx-datatable-column>
+            </ngx-datatable>
+          </div>
+            <!-- <div class="table-hover table-responsive table-bordered">
               <table class="table table-striped border table-hover table-inf">
                 <thead style="font-size: 13px" class="thead-light" >
                   <tr>
@@ -75,8 +119,7 @@
                   </tr>
                 </tbody>
               </table>
-            </div>
-          </div>
+            </div> -->
         </div>
       </div>
     </div>
