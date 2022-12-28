@@ -86,10 +86,10 @@ export class UsuarioService {
   }
 
 
-  EliminarUsuario(IdPersona){
-    const params= new HttpParams().set('IdPersona',IdPersona);
-    return this._http.get(this.url+"/api/usuario/EliminarUsuario", {"params":params}).pipe(
-      catchError(() => throwError("Error al Eliminar Usuario "))
-    )
-  }
+  // EliminarUsuario(IdPersona){
+  //   const params= new HttpParams().set('IdPersona',IdPersona);
+  //   return this._http.get(this.url+"/api/usuario/EliminarUsuario", {"params":params}).pipe(
+  //     catchError(() => throwError("Error al Eliminar Usuario "))
+  //   )
+  // }
 }
