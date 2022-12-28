@@ -27,6 +27,7 @@ export class PruebaFlexionComponent implements OnInit , OnExit
   botonGuardarDisabled: boolean = false
   disabledCampo:boolean=false;
   especialidaBD: string = 'S';
+  flagCiclosImpares: boolean = false;
 
   constructor(private _activatedRoute : ActivatedRoute, private _analisisAgujaServices : AnalisisAgujaService, private _toastr: ToastrService,
       private _router: Router, private _fb: FormBuilder, private _genericoService : GenericoService, private _usuarioSesion: SesionService)
@@ -67,6 +68,9 @@ export class PruebaFlexionComponent implements OnInit , OnExit
 
   CrearCicloForm(cantidad:number, detalle:any)
   {
+    if(cantidad == 25 )
+      cantidad = 30
+
     const ciclos = detalle.filter(x => x['tipoRegistro'] == 1)
     let valorCiclo;
     let cicloBD;
@@ -92,6 +96,9 @@ export class PruebaFlexionComponent implements OnInit , OnExit
 
       this.ciclosFlexion.push(groupCicloForm);
     }
+
+    console.log(this.ciclosFlexion);
+    
   }
 
   CrearResumenForm(detalle:{}[])
@@ -139,6 +146,8 @@ export class PruebaFlexionComponent implements OnInit , OnExit
           this._router.navigate(['ControlCalidad','analisis-agujas','registrar-analisis']);
         }
 
+        this.flagCiclosImpares = cabeceraAnalisis.cantidadPruebas == 25;
+
         this.listaGruposCiclos = this.CrearDatosArreglo(cabeceraAnalisis.cantidadPruebas)
 
         const fechaAnalisisBD = new Date(cabeceraAnalisis.fechaAnalisis)
@@ -171,7 +180,10 @@ export class PruebaFlexionComponent implements OnInit , OnExit
   CrearDatosArreglo(numero: number):number[]
   {
     const lista:number[] = []
-    numero -= 10
+
+    if (!this.flagCiclosImpares)
+      numero -= 10
+
     lista.push(0)
 
     for(let i= 10; i <= numero; i += 10)
