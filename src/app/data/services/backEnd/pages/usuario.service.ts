@@ -70,4 +70,26 @@ export class UsuarioService {
       catchError(() => throwError("Error al Liberar Personal"))
     )
   }
+
+  RegistrarEditarArea(IdArea,Descripcion){
+    const params= new HttpParams().set('IdArea',IdArea).set('Descripcion',Descripcion);
+    return this._http.get(this.url+"/api/usuario/RegistrarEditarArea", {"params":params}).pipe(
+      catchError(() => throwError("Error al Registrar Area "))
+    )
+  }
+
+  EliminarArea(IdArea){
+    const params= new HttpParams().set('IdArea',IdArea);
+    return this._http.get(this.url+"/api/usuario/EliminarAreaProduccion", {"params":params}).pipe(
+      catchError(() => throwError("Error al Eliminar Area "))
+    )
+  }
+
+
+  EliminarUsuario(IdPersona){
+    const params= new HttpParams().set('IdPersona',IdPersona);
+    return this._http.get(this.url+"/api/usuario/EliminarUsuario", {"params":params}).pipe(
+      catchError(() => throwError("Error al Eliminar Usuario "))
+    )
+  }
 }

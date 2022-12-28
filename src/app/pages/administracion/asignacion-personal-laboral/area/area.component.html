@@ -1,0 +1,45 @@
+
+<form autocomplete="off" [formGroup]="TablaFormulario">
+<div class="row p-1 justify-content-end">
+    <input type="text" name='ingresarArea' [formControl]="NuevaArea"  autocomplete="off"  class="form-control col-md-6 form-control-sm" placeholder="Ingrese Nueva areaa">
+    <button class="btn btn-success btn-sm"  (click)="agregarArea()" type="button" >
+     <i class="fas fa-plus"></i> 
+    </button>
+</div>  
+<div class="row">
+    <div class="table-hover table-responsive table-bordered scrollvertical">
+        <table class=" table table-striped border table-sm table-hover">
+            <thead style="font-size: 12px" class="bg-info text-white table-bordered">
+                <tr>
+                    <th class="text-center">Id</th>
+                    <th class="text-center">Descripción</th>
+                    <th class="text-center">Opcion</th>
+                </tr>
+            </thead>
+            <tbody style="font-size: 11px" *ngFor="let lessonForm of ListadoArea.controls; let i = index" >
+                <ng-container [formGroup]="lessonForm">
+                    <td class="text-center">
+                        <b>{{i+1}}</b>
+                    </td>
+                    <td class="text-center">
+                        <div class="input-group input-group-sm"  style='width:100%'>
+                            <input type="text" class="form-control form-control-sm"
+                                formControlName="descripcion" />
+                        </div>
+                    </td>
+
+                    <td class="text-center">
+                        <button class="btn btn-info btn-sm" type="button" 
+                            (click)="editar(lessonForm,i)"> <i class="fas fa-edit"></i> 
+                        </button>
+
+                        <button class="btn btn-danger btn-sm" type="button" 
+                            (click)="eliminar(lessonForm,i)"> <i class="fas fa-trash-alt"></i> 
+                        </button>
+                    </td>
+                </ng-container>
+            </tbody>
+        </table>
+    </div>
+</div>
+</form>

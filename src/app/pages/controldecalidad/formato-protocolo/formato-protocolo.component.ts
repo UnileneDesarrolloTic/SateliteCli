@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { NumeroLoteProtocoloModel } from '@data/interface/Response/DatosFormatoNumeroLoteProtocolo.interface';
 import { ControlcalidadService } from '@data/services/backEnd/pages/controlcalidad.service';
 import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-formato-protocolo',
@@ -16,19 +17,30 @@ export class FormatoProtocoloComponent implements OnInit {
   TablaControlProducto:Array<number>=[1,2,3,4,5,6,7,8,9,10];
   TablaControlProceso:Array<number>=[1,2,3,4,5];
   disabled:boolean=false;
+  subcripcion : Subscription;
+  numeroLote:string="";
+
   constructor(private _ControlcalidadService:ControlcalidadService,
               private toastr: ToastrService,
               private _fb:FormBuilder,
               private _activatedRoute : ActivatedRoute,
-              private _router: Router,) { }
+              private _router: Router,) {
+                this.subcripcion=this._activatedRoute.params.subscribe(params=>{
+                  this.numeroLote =  params["NumeroLote"] == ":NumeroLote" ? '' :  params["NumeroLote"] ;
+                });
+
+               }
 
   ngOnInit(): void {
+    console.log(this.numeroLote)
     this.crearFormularioProtocolo();
+    if(this.numeroLote != ":NumeroLote")
+        this.BuscarinformacionProductoProtocolo();
   }
 
   crearFormularioProtocolo(){
     this.FormProtocolo = this._fb.group({
-      Numerolote:new FormControl(''), //10225225 20456592
+      Numerolote:new FormControl(this.numeroLote), //10225225 20456592
       itemdescripcion: new FormControl(''),
       numerodeparte: new FormControl(''),
       fechaanalisis: new FormControl(null),
@@ -40,7 +52,6 @@ export class FormatoProtocoloComponent implements OnInit {
     })
   }
 
- 
 
   BuscarinformacionProductoProtocolo(){
     if(this.FormProtocolo.controls.Numerolote.value.trim()==''){

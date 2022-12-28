@@ -9,6 +9,7 @@ import { MensajeAdvertenciaComponent } from './mensaje-advertencia/mensaje-adver
 import { ModalMaestroItemComponent } from './modal-maestro-item/modal-maestro-item.component';
 import { ModalItemCostoComponent } from './modal-item-costo/modal-item-costo.component';
 import { ModalItemMastComponent } from './modal-item-mast/modal-item-mast.component';
+import { ModalPdfComponent } from './modal-pdf/modal-pdf.component';
 
 
 @NgModule({
@@ -20,6 +21,7 @@ import { ModalItemMastComponent } from './modal-item-mast/modal-item-mast.compon
     ModalMaestroItemComponent,
     ModalItemCostoComponent,
     ModalItemMastComponent,
+    ModalPdfComponent,
   ],
   imports: [
     CommonModule,
