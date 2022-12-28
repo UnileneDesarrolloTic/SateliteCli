@@ -8,14 +8,16 @@ import { RRHHRoutes } from './rrhh.routing';
 import { ComponenteModule } from '@shared/components/componente.module';
 
 import { ReporteAsistenciaComponent } from '@pages/rrhh/reporteasistencia/reporteasistencia.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { HorasextrasComponent } from './horasextras/horasextras.component';
 
 @NgModule({
   declarations: [
-    ReporteAsistenciaComponent
+    ReporteAsistenciaComponent,
+    HorasextrasComponent
   ],
   imports: [
     RouterModule.forChild(RRHHRoutes),
@@ -24,6 +26,7 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
     ComponenteModule,
     NgbModule,
     FormsModule,
+    ReactiveFormsModule,
     NgxDatatableModule
   ],
   providers:[
