@@ -248,15 +248,6 @@ export class AsignacionPersonalLaboralComponent implements OnInit {
           
   }
 
-  EliminarPersona(fila:DatosFormatoPersonaLaboralModel){
-    this._UsuarioService.EliminarUsuario(fila.idEmpleado).subscribe(
-      (resp:any)=>{
-        if (resp["success"]){
-          this.toastr.success(resp["content"]);
-          this.CargarInformacionPersonalLaboral();
-        }
-      }
-    )
-  }
+  
 
 }

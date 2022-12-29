@@ -13,11 +13,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { HorasextrasComponent } from './horasextras/horasextras.component';
+import { ListarPersonaComponent } from './horasextras/listar-persona/listar-persona.component';
 
 @NgModule({
   declarations: [
     ReporteAsistenciaComponent,
-    HorasextrasComponent
+    HorasextrasComponent,
+    ListarPersonaComponent
   ],
   imports: [
     RouterModule.forChild(RRHHRoutes),

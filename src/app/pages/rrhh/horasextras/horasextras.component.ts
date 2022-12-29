@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { DatosFormatoFiltrarAreaPersona } from '@data/interface/Response/DatosFormatoFiltrarAreaPersona.interface';
 import { UsuarioService } from '@data/services/backEnd/pages/usuario.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ListarPersonaComponent } from './listar-persona/listar-persona.component';
 
 @Component({
   selector: 'app-horasextras',
@@ -12,7 +14,8 @@ import { UsuarioService } from '@data/services/backEnd/pages/usuario.service';
 export class HorasextrasComponent implements OnInit {
   hoy = new Date()
   constructor(private _UsuarioService:UsuarioService,
-              private _fb:FormBuilder) { }
+              private _fb:FormBuilder,
+              private modalService: NgbModal,) { }
   ListarArea:Object[]=[];
 
   CrearFormulario: FormGroup;
@@ -89,4 +92,25 @@ export class HorasextrasComponent implements OnInit {
       this.activarCampo=!this.activarCampo;
   }
 
+
+  AgregarPersona(){
+    const modalRefAgregarPersona = this.modalService.open(ListarPersonaComponent, {
+			ariaLabelledBy: 'modal-basic-title',
+			centered: true,
+			backdropClass: 'light-blue-backdrop',
+			backdrop: 'static',
+			size: 'xl',
+			scrollable: true,
+			keyboard: false
+		});
+
+    modalRefAgregarPersona.result.then((result) => {
+		
+			
+		}, (reason) => {
+			
+			// console.log("salir Generar Cotizacion", reason)
+		});
+
+  }
 }
