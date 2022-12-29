@@ -84,8 +84,7 @@ export class UsuarioService {
       catchError(() => throwError("Error al Eliminar Area "))
     )
   }
-
-
+  
   ListarPersonaTecnica(){
     return this._http.get(this.url+"/api/usuario/ListarPersonaTecnico").pipe(
       catchError(() => throwError("Error al Listar Persona  Tecnica "))
