@@ -32,7 +32,6 @@ export class FormatoProtocoloComponent implements OnInit {
                }
 
   ngOnInit(): void {
-    console.log(this.numeroLote)
     this.crearFormularioProtocolo();
     if(this.numeroLote != ":NumeroLote")
         this.BuscarinformacionProductoProtocolo();

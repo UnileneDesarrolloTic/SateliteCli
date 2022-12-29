@@ -1,3 +1,4 @@
+import { formatDate } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -87,7 +88,7 @@ export class PruebasEfectuadasComponent implements OnInit , OnDestroy{
   crearDetallePruebaProtocolo(){
     this.PruebasFormularioProtocolo = this._fb.group({
       Idioma:new FormControl('1'),
-      fechaanalisis:new FormControl(''),
+      fechaanalisis:new FormControl(formatDate(new Date(Date.now()), 'yyyy-MM-dd', 'en')),
       fechaproduccion:new FormControl({value:'',disabled:true}),
       NumeroLote: new FormControl(''),
       NumeroParte : new  FormControl(''),
@@ -142,10 +143,10 @@ export class PruebasEfectuadasComponent implements OnInit , OnDestroy{
         let esp="";
         
         ArrayTabla.forEach((element:DatosPruebaProtocoloModel) => {
-          if(element.decimales=="0" || element.decimales==""){
-           element.resultado= element.resultado;
+          if(element.decimales=="0.0000" || element.decimales==""){
+            element.resultado= element.resultado=="0.0000" ? 'Cumple' : element.resultado;
           }else{
-            element.resultado=this._GenericoService.RedondearDecimales(element.resultado,parseInt(element.decimales),false);
+            element.resultado=(element.resultado== 'Cumple' || element.resultado=="0.0000") ? 'Cumple' : this._GenericoService.RedondearDecimales(element.resultado,parseInt(element.decimales),false);
           }
 
           
