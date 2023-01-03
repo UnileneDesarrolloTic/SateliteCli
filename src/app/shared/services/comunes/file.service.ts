@@ -9,7 +9,6 @@ import { Injectable } from "@angular/core";
     descargarArchivo(response: any, fileName:string): void
     {
         const formatoArchivo = response.type;
-        console.log(formatoArchivo);
         
         const binaryData = [];
         binaryData.push(response);

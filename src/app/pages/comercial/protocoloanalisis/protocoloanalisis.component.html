@@ -42,7 +42,7 @@
                       </div>
                       <input type="text" class="form-control form-control-sm" placeholder="Cliente" id="cliente" formControlName="nombreCliente">
                       <div class="input-group-prepend">
-                        <span class="input-group-text" (click)="LimpiarCliente()" style="cursor: pointer">
+                        <span class="input-group-text" (click)="limpiarCliente()" style="cursor: pointer">
                           <i class="fa fa-trash"></i>
                         </span>
                       </div>
@@ -55,7 +55,7 @@
                   <label class="control-label" for="ordFabricacion">Orden Fabricación:</label>
                   <div class="input-group">
                     <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="fa fa-edit"></i></span>
+                        <span class="input-group-text"><i class="fas fa-industry"></i></span>
                     </div>
                     <input type="text" class="form-control form-control-sm" placeholder="Orden fabricación" id="ordFabricacion" formControlName="ordenFabricacion">
                   </div>
@@ -66,9 +66,24 @@
                   <label class="control-label" for="lote">Lote:</label>
                   <div class="input-group">
                     <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="fa fa-edit"></i></span>
+                        <span class="input-group-text"><i class="fas fa-industry"></i></span>
                     </div>
                     <input type="text" class="form-control form-control-sm" placeholder="Lote" id="lote" formControlName="lote">
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-4 col-xl-2">
+                <div class="form-group">
+                  <label class="control-label" for="protocolo">Protocolo:</label>
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-paste"></i></span>
+                    </div>
+                    <select class="form-control form-control-sm" id="protocolo" formControlName="protocolo">
+                      <option value="">Todos</option>
+                      <option value="S">Con Protocolo</option>
+                      <option value="N">Sin Protocolo</option>
+                    </select>
                   </div>
                 </div>
               </div>
@@ -77,7 +92,7 @@
                   <label class="control-label" for="tipoDocumento">Tipo Documento:</label>
                   <div class="input-group">
                     <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="fa fa-list"></i></span>
+                        <span class="input-group-text"><i class="fas fa-list-ol"></i></span>
                     </div>
                     <select class="form-control form-control-sm" id="tipoDocumento" formControlName="tipoDocumento" (ngModelChange)="cambioTipoDocumento()">
                       <option value="">Ninguno</option>
@@ -94,24 +109,9 @@
                   <label class="control-label" for="documento">Documento:</label>
                   <div class="input-group">
                     <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="fa fa-edit"></i></span>
+                        <span class="input-group-text"><i class="fas fa-file"></i></span>
                     </div>
                     <input type="text" class="form-control form-control-sm" placeholder="Nro Documento" id="documento" formControlName="numeroDocumento">
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-12 col-md-4 col-xl-2">
-                <div class="form-group">
-                  <label class="control-label" for="protocolo">Protocolo:</label>
-                  <div class="input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="fa fa-edit"></i></span>
-                    </div>
-                    <select class="form-control form-control-sm" id="protocolo" formControlName="protocolo">
-                      <option value="">Todos</option>
-                      <option value="S">Con Protocolo</option>
-                      <option value="N">Sin Protocolo</option>
-                    </select>
                   </div>
                 </div>
               </div>
@@ -120,7 +120,7 @@
           <div class="row m-t-20">
             <div class="col-12 d-flex justify-content-center">
                 <!-- <button class="btn btn-success btn-rounded" (click)="ExportarExcel()">
-                  <i class="fas fa-file-excel"></i>&nbsp;&nbsp;Exportar
+                  <i class="fas fa-file-excel"></i>&nbsp;&nbsp;Generar Excel
                 </button> -->
                 <button class="btn btn-info btn-rounded" type="submit">
                     <i class="fa fa-search"></i>&nbsp;&nbsp;Buscar&nbsp;
@@ -138,30 +138,110 @@
 <div class="row">
   <div class="col-md-12">
     <div class="card border-left border-info">
-      <div class="card-body">
-        <div>
-          <ngx-datatable
-              class="material"
-              rowHeight="auto"
-              [loadingIndicator]="flagLoading"
-              [columnMode]="'force'"
-              [rows]="listaProtocoloAnalisisAux"
-              [limit]="15"
-              [headerHeight]="50"
+      <div class="card-body" >
+        <div class="col-12 m-b-20 d-flex justify-content-end">
+          <button class="btn btn-success btn-rounded btn-sm" (click)="exportarExcel()">
+            <i class="fa fa-download" *ngIf="!flagDescargarLista"></i>
+            <i class="fa fa-spinner fa-spin fa-fw" *ngIf="flagDescargarLista"></i>
+              &nbsp;&nbsp;Descargar lista&nbsp;&nbsp;
+          </button>
+          <button class="btn btn-danger btn-rounded btn-sm" type="button">
+            <i class="fa fa-print"></i>&nbsp;&nbsp;Protocolo&nbsp;&nbsp;
+          </button>
+        </div>
+        <div class="col-12">
+          <ngx-datatable 
+              style="height: 1150px;" 
+              class="material" 
+              [rows]="listaProtocoloAnalisisAux" 
+              [columnMode]="'force'" 
+              [headerHeight]="50" 
               [footerHeight]="50"
+              rowHeight="auto" 
+              [limit]="10" 
+              [selected]="selected"
+              [selectionType]="'checkbox'" 
+              [selectAllRowsOnPage]="false"
+              [scrollbarH]="true" 
+              [loadingIndicator]="flagLoading" 
               [messages]="messagerNgxTable"
-            >
-              <ngx-datatable-column name="Documento" prop='numeroDocumento' [draggable]="false"></ngx-datatable-column>
-              <ngx-datatable-column name="Fecha" prop='fechaDocumento' [draggable]="false"></ngx-datatable-column>
-              <ngx-datatable-column name="Nombre Cliente" prop='clienteNombre' [draggable]="false"></ngx-datatable-column>
-              <ngx-datatable-column name="Item" prop='itemCodigo' [draggable]="false"></ngx-datatable-column>
-              <ngx-datatable-column name="Descripción" prop='descripcion' [draggable]="false"></ngx-datatable-column>
-              <ngx-datatable-column name="Cantidad" prop='cantidadPedida' [draggable]="false"></ngx-datatable-column>
-              <ngx-datatable-column name="Lote" prop='lote' [draggable]="false"></ngx-datatable-column>
-              <ngx-datatable-column name="Orden Fabricación" prop='ordenFabricacion' [draggable]="false"></ngx-datatable-column>
-              <ngx-datatable-column name="Comentario" prop='comentarios' [draggable]="false"></ngx-datatable-column>
-              <ngx-datatable-column name="¿Tiene?" [draggable]="false"></ngx-datatable-column>
-            </ngx-datatable>
+              (select)="eventoSeleccionar($event)">
+            
+            <ngx-datatable-column [width]="50" [sortable]="false" [canAutoResize]="false" [draggable]="false"
+              [resizeable]="false" [headerCheckboxable]="true" [checkboxable]="true" [ariaMultiSelectable]="true" >
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Documento" prop='numeroDocumento' [draggable]="false" [width]="130">
+              <ng-template let-value="value" ngx-datatable-cell-template>
+                <span style="font-size: 12px;">
+                  {{ value }}
+                </span>
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Fecha" prop='fechaDocumento' [draggable]="false" [width]="100">
+              <ng-template let-value="value" ngx-datatable-cell-template>
+                <span style="font-size: 12px;">
+                  {{ value | date: 'dd/MM/yyyy HH:mm'}}
+                </span>
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Nombre Cliente" prop='clienteNombre' [draggable]="false" [width]="230">
+              <ng-template let-value="value" ngx-datatable-cell-template>
+                <span style="font-size: 12px;">
+                  {{ value }}
+                </span>
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Item" prop='itemCodigo' [draggable]="false" [width]="100">
+              <ng-template let-value="value" ngx-datatable-cell-template>
+                <span style="font-size: 12px;">
+                  {{ value }}
+                </span>
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Descripción" prop='descripcion' [draggable]="false" [width]="230">
+              <ng-template let-value="value" ngx-datatable-cell-template>
+                <span style="font-size: 12px;">
+                  {{ value }}
+                </span>
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Cantidad" prop='cantidadPedida' [draggable]="false" [width]="80">
+              <ng-template let-value="value" ngx-datatable-cell-template>
+                <span style="font-size: 12px;">
+                  {{ value | number }}
+                </span>
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Lote" prop='lote' [draggable]="false" [width]="100">
+              <ng-template let-value="value" ngx-datatable-cell-template>
+                <span style="font-size: 12px;">
+                  {{ value }}
+                </span>
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Orden Fabricación" prop='ordenFabricacion' [draggable]="false" [width]="100">
+              <ng-template let-value="value" ngx-datatable-cell-template>
+                <span style="font-size: 12px;">
+                  {{ value }}
+                </span>
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Comentario" prop='comentarios' [draggable]="false" [width]="300">
+              <ng-template let-value="value" ngx-datatable-cell-template>
+                <span style="font-size: 11px;">
+                  {{ value }}
+                </span>
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="¿Tiene?" [draggable]="false" [width]="60">
+              <ng-template let-value="value" ngx-datatable-cell-template>
+                <span style="font-size: 12px;">
+                  SI
+                </span>
+              </ng-template>
+            </ngx-datatable-column>
+          </ngx-datatable>
         </div>
       </div>
     </div>
@@ -318,15 +398,3 @@
     </button>
   </div>
 </ng-template> -->
-
-<ng-template #modalGeneracion let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title">Generando</h4>
-  </div>
-  <div class="modal-body"></div>
-  <div class="modal-footer">
-    <span class="spinner-border"></span>
-    <br />
-    <span>Cargando...</span>
-  </div>
-</ng-template> 

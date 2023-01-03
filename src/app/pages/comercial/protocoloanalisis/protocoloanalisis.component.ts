@@ -12,6 +12,7 @@ import { ToastrService } from "ngx-toastr";
 import { ModalCargarComponent } from "@shared/components/modal-cargar/modal-cargar.component";
 import { Cargarbase64Service } from "@shared/services/comunes/cargarbase64.service";
 import { ModalClienteComponent } from "@shared/components/modal-cliente/modal-cliente.component";
+import { FileService } from "@shared/services/comunes/file.service";
 
 @Component({
   selector: "app-protocoloanalisis",
@@ -19,62 +20,29 @@ import { ModalClienteComponent } from "@shared/components/modal-cliente/modal-cl
 })
 export class ProtocoloAnalisisComponent implements OnInit
 {
-  // GlobalesPrincipal = {
-  //   fechas: true,
-  //   resultB64: "",
-  //   documento: true,
-  // };
-
   listaProtocoloAnalisis: ProtocoloAnalisisData[] = [];
   listaProtocoloAnalisisAux: ProtocoloAnalisisData[] = [];
   modalCargaReporte: any;
   modalBusquedaCliente: any;
   flagLoading: boolean = false;
   listarcliente:object[] = [];
+  selected = [];
+  flagDescargarLista: boolean = false;
 
   messagerNgxTable = {
     'emptyMessage': 'No se ha encontrado protocolos',
     'totalMessage': 'Protocolos'
   }
 
-  // pagina: Number = 1;
-  // pageSize: Number = 1000;
-  // page: Number = 1;
-  // paginador: Paginado = {
-  //   paginaActual: 1,
-  //   totalPaginas: 1,
-  //   registroPorPagina: 1000,
-  //   totalRegistros: 1,
-  //   siguiente: true,
-  //   anterior: false,
-  //   primeraPagina: true,
-  //   ultimaPagina: false,
-  // };
-
   frmBusqueda: FormGroup;
   disabledInput:boolean=false;
 
-  //Variables Globales - Búsqueda Cliente
-  // GlobalesBusquedaCliente = {
-  //   data: [],
-  //   _searchTerm: "",
-  //   editing: {},
-  //   rows: new Array(),
-  //   temp: [],
-  //   loadingIndicator: true,
-  //   reorderable: true,
-  // };
-
-  // get searchTerm(): string {
-  //   return this.GlobalesBusquedaCliente._searchTerm;
-  // }
-
-  // @ViewChild(ProtocoloAnalisisComponent) table: ProtocoloAnalisisComponent | any;
   constructor(
     private _fb: FormBuilder,
     private _modalService: NgbModal,
     private _comercialService: ComercialService,
     private toastr: ToastrService,
+    private _fileService: FileService,
     private modalService: NgbModal,
     private _sesionService: SesionService,
     private servicebase64:Cargarbase64Service,
@@ -96,67 +64,179 @@ export class ProtocoloAnalisisComponent implements OnInit
     );
   }
 
-
   crearFormularioBusqueda() 
   {
     this.frmBusqueda = this._fb.group(
       {
         fechaInicio: [""],
         fechaFin: [""],
-        numeroDocumento: [{ value: "", disabled: true }],
+        numeroDocumento: [{ value: "0000000146", disabled: true }],
         lote: [""],
         ordenFabricacion: [""],
         idCliente: [""],
         nombreCliente: [{ value: "", disabled: true }],
-        tipoDocumento: [""],
+        tipoDocumento: ["C"],
         protocolo: [""],
       });
   }
 
-  // ActivaDesactivaFechas() {
-  //   let button = document.getElementById("btnFechas");
-  //   let fechaInicio = <HTMLInputElement>document.getElementById("fechaInicio");
-  //   let fechaFin = <HTMLInputElement>document.getElementById("fechaFin");
+  openModalConsultaClientes() 
+  {
+    const modalBusquedaCliente = this._modalService.open(ModalClienteComponent, {
+      ariaLabelledBy: "modal-basic-title",
+      backdrop: "static",
+      size: "lg",
+    });
 
-  //   if (this.GlobalesPrincipal.fechas) 
-  //   {
-  //     this.GlobalesPrincipal.fechas = false;
-  //     button.innerHTML = "Desactivar";
-  //     button.removeAttribute("class");
-  //     button.setAttribute(
-  //       "class",
-  //       "btn btn-danger btn-sm mr-0 h-75 border-top-0"
-  //     );
-  //     let date = new Date();
-  //     let day = date.getDate();
-  //     let dayS = day < 10 ? "0" + day : day;
-  //     let month = date.getMonth() + 1;
-  //     let monthS = month < 10 ? "0" + month : month;
-  //     let year = date.getFullYear();
-  //     let now = `${year}-${monthS}-${dayS}`;
+    const data={
+        listarclientes:this.listarcliente
+    }
 
-  //     this.frmBusqueda.patchValue({
-  //       fechaInicio: now,
-  //       fechaFin: now,
-  //     });
-  //     fechaInicio.disabled = false;
-  //     fechaFin.disabled = false;
-  //   } else {
-  //     this.GlobalesPrincipal.fechas = true;
-  //     button.innerHTML = "Activar";
-  //     button.removeAttribute("class");
-  //     button.setAttribute(
-  //       "class",
-  //       "btn btn-success btn-sm mr-0 h-75 border-top-0"
-  //     );
-  //     this.frmBusqueda.patchValue({
-  //       fechaInicio: "",
-  //       fechaFin: "",
-  //     });
-  //     fechaInicio.disabled = true;
-  //     fechaFin.disabled = true;
-  //   }
-  // }
+    modalBusquedaCliente.componentInstance.fromParent = data;
+		modalBusquedaCliente.result.then((result) => {        
+        if(result!=undefined){
+          this.frmBusqueda.patchValue({           
+            idCliente: parseInt(result.persona),
+            nombreCliente: result.nombreCompleto
+          })
+        }
+		});
+  }
+  
+  filtrarProtocoloAnalisis() 
+  {
+    const body = this.frmBusqueda.getRawValue();
+    const boolValidacion: boolean = this.validarFiltros(body);
+
+    if(!boolValidacion)
+      return
+
+    if(body.fechaInicio == "" || body.fechaFin == "")
+    {
+      body.fechaInicio = null
+      body.fechaFin = null
+    }
+
+    body.idCliente = body.idCliente == "" ? 0 : body.idCliente;
+
+    this.flagLoading = true;
+    this.listaProtocoloAnalisisAux = [];
+
+    this._comercialService.ListarProtocoloAnalisis(body).subscribe(resp => 
+    {
+      this.listaProtocoloAnalisisAux = resp["content"];
+      // this.listaProtocoloAnalisis = resp["content"];
+      this.flagLoading = false;
+    },
+    err => {
+      this.flagLoading = false;
+    });
+  }
+
+  exportarExcel()
+  {
+    if(this.flagDescargarLista)
+    {
+      this.toastr.warning('Espere un momento por favor...', 'Advertencia !!', { progressBar: true, timeOut: 2000, closeButton: true });
+      return
+    }
+
+    const body = this.frmBusqueda.getRawValue();
+    const resultValidacion: boolean = this.validarFiltros(body);
+
+    if(!resultValidacion)
+      return
+
+    if(body.fechaInicio == "" || body.fechaFin == "")
+    {
+      body.fechaInicio = null
+      body.fechaFin = null
+    }
+
+    body.idCliente = body.idCliente == "" ? 0 : body.idCliente;
+
+    this.flagDescargarLista = true;
+    
+    this._comercialService.ExportarExcelProtocoloAnalisis(body).subscribe(
+      (resp:any) =>
+        {
+          if(resp.success)
+            this._fileService.decargarExcel_Base64(resp.content, "Protocolo análisis", "xlsx");
+          else
+            this.toastr.info(resp.message, "Advertencia !!", { progressBar: true, timeOut: 3000, closeButton: true });
+          
+          this.flagDescargarLista = false;
+        }, 
+        err => this.flagDescargarLista = false
+    );
+  }
+
+  eventoSeleccionar( {selected} ) 
+  {
+    this.selected = []
+    this.selected.push(...selected);
+  }
+
+  cambioTipoDocumento ()
+  {
+    if (this.tipoDocumento == '')
+    {
+      this.frmBusqueda.patchValue({
+        numeroDocumento: ""
+      })
+      this.frmBusqueda.controls['numeroDocumento'].disable()
+    }
+    else
+      this.frmBusqueda.controls['numeroDocumento'].enable()
+  }
+
+  limpiarCliente () 
+  {
+    this.frmBusqueda.patchValue({
+      idCliente: "",
+      nombreCliente: "",
+    });
+  }
+  
+  private validarFiltros(formDatos): boolean
+  {
+    if (formDatos.lote == '' && formDatos.ordenFabricacion == '' && formDatos.tipoDocumento == '')
+    {
+      this.toastr.warning("Debe de contrar como mínimo con los filtros: Ord. Fabricacion, Lote ó Documento", "Advertencia !!", {closeButton: true, progressBar: true, timeOut: 3000})
+      return false
+    }
+
+    if (formDatos.tipoDocumento != '' && formDatos.numeroDocumento == '')
+    {
+      this.toastr.warning("Debe de ingresar el tipo y número de documento", "Advertencia !!", {closeButton: true, progressBar: true, timeOut: 3000})
+      return false
+    }
+    
+    if ((formDatos.fechaInicio == '' && formDatos.fechaFin != '') || (formDatos.fechaInicio != '' && formDatos.fechaFin == '') )
+    {
+      this.toastr.warning("Las fechas no son válidas.", "Advertencia !!", {closeButton: true, progressBar: true, timeOut: 3000})
+      return false
+    }
+
+    if ( formDatos.fechaInicio > formDatos.fechaFin ) 
+    {
+      this.toastr.warning("La fecha inicio no puede ser mayor a la fecha fin", "Advertencia !!", {closeButton: true, progressBar: true, timeOut: 3000})
+      return false
+    }
+
+    if(formDatos.fechaInicio.substring(0,7) != formDatos.fechaFin.substring(0,7))
+    {
+      this.toastr.warning("Las fechas deben pertenecer al mismo periodo", "Advertencia !!", {closeButton: true, progressBar: true, timeOut: 3000})
+      return false
+    }
+
+    return true;
+  }
+
+  get tipoDocumento()
+  {
+    return this.frmBusqueda.get('tipoDocumento').value
+  }
 
   // AlternaGuiaFactura() {
   //   let button = document.getElementById("btnNroDocumento");
@@ -181,117 +261,6 @@ export class ProtocoloAnalisisComponent implements OnInit
   //       tipoDoc: "G",
   //     });
   //   }
-  // }
-
-  openModalConsultaClientes() 
-  {
-    const modalBusquedaCliente = this._modalService.open(ModalClienteComponent, {
-      ariaLabelledBy: "modal-basic-title",
-      backdrop: "static",
-      size: "lg",
-    });
-
-    
-    const data={
-        listarclientes:this.listarcliente
-    }
-
-    modalBusquedaCliente.componentInstance.fromParent = data;
-		modalBusquedaCliente.result.then((result) => {        
-        if(result!=undefined){
-          this.frmBusqueda.patchValue({           
-            idCliente: parseInt(result.persona),
-            nombreCliente: result.nombreCompleto
-          })
-        }
-		});
-  }
-
-  // cambioPagina(paginaCambiada: Number) {
-  //   this.pagina = paginaCambiada;
-  //   this.filtrarProtocoloAnalisis();
-  // }
-
-  // validacampos(){
-  //   this.frmBusqueda.get("numeroDocumento").patchValue("");
-  //   this.frmBusqueda.controls.tipoDocu.value=="N" ? this.disabledInput=true :  this.disabledInput=false; 
-  // }
-
-  filtrarProtocoloAnalisis() 
-  {
-    const body = this.frmBusqueda.getRawValue();
-    console.log(body);
-    
-    if (body.lote == '' && body.ordenFabricacion == '')
-    {
-      this.toastr.warning("Debe de contrar como mínimo con los filtros: Ord. Fabricacion ó Lote", "Advertencia !!", {closeButton: true, progressBar: true, timeOut: 3000})
-      return
-    }
-
-    if (body.tipoDocumento != '' && body.numeroDocumento == '')
-    {
-      this.toastr.warning("Debe de ingresar el tipo y número de documento", "Advertencia !!", {closeButton: true, progressBar: true, timeOut: 3000})
-      return
-    }
-    
-    if ((body.fechaInicio == '' && body.fechaFin != '') || (body.fechaInicio != '' && body.fechaFin == '') )
-    {
-      this.toastr.warning("Las fechas no son válidas.", "Advertencia !!", {closeButton: true, progressBar: true, timeOut: 3000})
-      return
-    }
-
-    if ( body.fechaInicio > body.fechaFin ) 
-    {
-      this.toastr.warning("La fecha inicio no puede ser mayor a la fecha fin", "Advertencia !!", {closeButton: true, progressBar: true, timeOut: 3000})
-      return
-    }
-
-    if(body.fechaInicio.substring(0,7) != body.fechaFin.substring(0,7))
-    {
-      this.toastr.warning("Las fechas deben pertenecer al mismo periodo", "Advertencia !!", {closeButton: true, progressBar: true, timeOut: 3000})
-      return
-    }
-
-    this.flagLoading = true;
-
-    this._comercialService.ListarProtocoloAnalisis(body).subscribe(resp => 
-    {
-      this.flagLoading = false;
-      // this.listaProtocoloAnalisisAux = resp["content"];
-      this.listaProtocoloAnalisis = resp["content"];
-    });
-  }
-
-  // alternaSeleccion() {
-  //   let checkbox = <HTMLInputElement>(
-  //     document.getElementById("alternaSeleccion")
-  //   );
-  //   if (checkbox.checked) {
-  //     this.seleccionarTodos();
-  //   } else {
-  //     this.desSeleccionarTodos();
-  //   }
-  // }
-
-  // seleccionarTodos() {
-  //   let tbody = document.getElementById("tbodyPrincipal");
-  //   tbody.childNodes.forEach((element) => {
-  //     if (element.childNodes.length !== 0) {
-  //       let checkbox = <HTMLInputElement>element.childNodes[10].childNodes[0];
-  //       if (checkbox.getAttribute("disabled") == null) {
-  //         checkbox.checked = true;
-  //       }
-  //     }
-  //   });
-  // }
-
-  // desSeleccionarTodos() {
-  //   let tbody = document.getElementById("tbodyPrincipal");
-  //   tbody.childNodes.forEach((element) => {
-  //     if (element.childNodes.length !== 0) {
-  //       (<HTMLInputElement>element.childNodes[10].childNodes[0]).checked = false;
-  //     }
-  //   });
   // }
 
   // filterLotes() {
@@ -336,17 +305,18 @@ export class ProtocoloAnalisisComponent implements OnInit
   //   this.modalCargaReporte.close();
   // }
 
-  // ObtieneB64(body) {
-  //   var b64 = new Promise<string>((resolve, reject) => {
-  //     this._comercialService
-  //       .GenerarReporteProtocoloAnalisis(body)
-  //       .subscribe(async (resp) => {
-  //         let base64 = resp["content"];
-  //         resolve(base64);
-  //       });
-  //   });
-  //   return b64;
-  // }
+  ObtieneB64(body) 
+  {
+    var b64 = new Promise<string>((resolve, reject) => {
+      this._comercialService
+        .GenerarReporteProtocoloAnalisis(body)
+        .subscribe(async (resp) => {
+          let base64 = resp["content"];
+          resolve(base64);
+        });
+    });
+    return b64;
+  }
 
   // async mergePdfs(pdfs) {
   //   const mergedPdf = await PDFDocument.create();
@@ -414,27 +384,7 @@ export class ProtocoloAnalisisComponent implements OnInit
   //   this.modalBusquedaCliente.close();
   // }
 
-  LimpiarCliente () 
-  {
-    this.frmBusqueda.patchValue({
-      idCliente: "",
-      nombreCliente: "",
-    });
-  }
-
-  cambioTipoDocumento ()
-  {
-    
-    if (this.tipoDocumento == '')
-    {
-      this.frmBusqueda.patchValue({
-        numeroDocumento: ""
-      })
-      this.frmBusqueda.controls['numeroDocumento'].disable()
-    }
-    else
-      this.frmBusqueda.controls['numeroDocumento'].enable()
-  }
+  
 
   // CambioEstadoTiene(event: any) {
   //   this.listaProtocoloAnalisis = []  
@@ -451,88 +401,5 @@ export class ProtocoloAnalisisComponent implements OnInit
   //   }
   // }
 
-
-  // ExportarExcel(){
-
-       
-  //   let checkbox = <HTMLInputElement>(
-  //     document.getElementById("alternaSeleccion")
-  //   );
-  //   checkbox.checked = false;
-  //   let fecIni = "";
-  //   let fecFin = "";
-  //   let date = new Date();
-  //   let day = date.getDate();
-  //   let dayS = day < 10 ? "0" + day : day;
-  //   let month = date.getMonth() + 1;
-  //   let monthS = month < 10 ? "0" + month : month;
-  //   let year = date.getFullYear();
-  //   let now = `${year}-${monthS}-${dayS}`;
-
-  //   if (this.frmBusqueda.get("fechaInicio").value === "") {
-  //     fecIni = now;
-  //     fecFin = now;
-  //   } else {
-  //     fecIni = formatDate(
-  //       this.frmBusqueda.get("fechaInicio").value,
-  //       "dd/MM/yyyy",
-  //       "en"
-  //     );
-  //     fecFin = formatDate(
-  //       this.frmBusqueda.get("fechaFin").value,
-  //       "dd/MM/yyyy",
-  //       "en"
-  //     );
-  //     if (
-  //       this.frmBusqueda.get("fechaInicio").value >
-  //       this.frmBusqueda.get("fechaFin").value
-  //     ) {
-  //       this.toastr.error("La Fecha Inicio no puede ser mayor a la Fecha Fin");
-  //     }
-  //   }
-
-  //   if(this.frmBusqueda.controls.tipoDocu.value=="N"){
-  //       if(this.frmBusqueda.controls.ordenFabricacion.value.trim()=="" && this.frmBusqueda.controls.lote.value.trim()==""){
-  //           return this.toastr.info("Debe Ingresar la Orden de fabricación o Lote");
-  //       }
-
-        
-        
-  //   }
-
-  //   const body = {
-  //     FechaInicio: fecIni,
-  //     FechaFinal: fecFin,
-  //     NumeroDocumento: this.frmBusqueda.get("numeroDocumento").value,
-  //     Lote: this.frmBusqueda.get("lote").value,
-  //     OrdenFabricacion: this.frmBusqueda.get("ordenFabricacion").value,
-  //     IdCliente: this.frmBusqueda.get("idCliente").value,
-  //     TipoDoc: this.frmBusqueda.get("tipoDocu").value,
-  //     Pagina: this.pagina,
-  //     RegistrosPorPagina: 1000,
-  //   };
-
-  //   const ModalCarga = this.modalService.open(ModalCargarComponent, {
-  //     centered: true,
-  //     backdrop: 'static',
-  //     size: 'sm',
-  //     scrollable: true
-  //   });
-  //   ModalCarga.componentInstance.fromParent = "Generando el Formato Excel";
-  //   this._comercialService.ExportarExcelProtocoloAnalisis(body).subscribe(
-  //     (resp:any)=>{
-  //       if(resp.success){
-  //         this.servicebase64.file(resp.content,`ProtocoloAnalisis`,'xlsx',ModalCarga);
-  //       }else{
-  //         ModalCarga.close();
-  //         this.toastr.info(resp.message);
-  //       }
-  //     }
-  //   );
-  // }
-
-  get tipoDocumento()
-  {
-    return this.frmBusqueda.get('tipoDocumento').value
-  }
+  
 }
