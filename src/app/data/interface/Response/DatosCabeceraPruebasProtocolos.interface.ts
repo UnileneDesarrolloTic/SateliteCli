@@ -8,5 +8,7 @@ export interface DatosPruebaProtocoloModel {
     resultado:string;
     metodologia:string;
     decimales:string;
+    preResultado:string;
+    flagPreResultado:string;
   }
   

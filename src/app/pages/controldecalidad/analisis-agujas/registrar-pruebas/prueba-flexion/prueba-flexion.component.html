@@ -58,7 +58,7 @@
       <div class="card border-left border-info">
         <div class="card-body">
           <div class="row" formArrayName="ciclosFlexion">
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2" *ngFor="let grupo of listaGruposCiclos">
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2" *ngFor="let grupo of listaGruposCiclos; let i = index">
               <table class="table">
                 <thead class="bg-info text-white">
                   <tr>
@@ -68,7 +68,20 @@
                 </thead>
                 <tbody>
                   <tr class="border border-info" *ngFor="let ciclo of [0,1,2,3,4,5,6,7,8,9]">
-                    <ng-container [formGroup]="ciclosFlexion.controls[ciclo + grupo]" >
+                    <ng-container *ngIf="flagCiclosImpares" [formGroup]="ciclosFlexion.controls[ciclo + grupo]">
+                      <td class="text-center p-2">
+                        {{ grupo + ciclo + 1}}
+                      </td>
+                      <td class="text-center p-2" *ngIf="(grupo + ciclo + 1) < 26; else inputDisabled">
+                        <input onkeydown="return event.keyCode !== 69" type="number"  [readonly]="disabledCampo" class="form-control form-control-sm" placeholder="0" formControlName="valor" />
+                      </td>
+                      <ng-template #inputDisabled>
+                        <td class="text-center p-2">
+                          <input type="number" readonly=true class="form-control form-control-sm" placeholder="**********"/>
+                        </td>
+                      </ng-template>
+                    </ng-container>
+                    <ng-container *ngIf="!flagCiclosImpares" [formGroup]="ciclosFlexion.controls[ciclo + grupo]">
                       <td class="text-center p-2">
                         {{ grupo + ciclo + 1}}
                       </td>

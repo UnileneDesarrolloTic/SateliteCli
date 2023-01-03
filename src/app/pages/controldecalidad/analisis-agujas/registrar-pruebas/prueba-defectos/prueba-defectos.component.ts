@@ -107,7 +107,8 @@ export class PruebaDefectosComponent implements OnInit, OnDestroy, OnExit {
           porcentaje: new FormControl(null, [Validators.required, Validators.min(0)]),
         }),
       ]),
-      observaciones: new FormControl('')
+      observaciones: new FormControl(''),
+      conclusion: new FormControl('', Validators.required)
     })
   }
 
@@ -272,7 +273,8 @@ export class PruebaDefectosComponent implements OnInit, OnDestroy, OnExit {
           this.cantidadMuestra = result['undMuestrearIII']
 
         this.formulario.patchValue({
-          observaciones: result['observaciones']
+          observaciones: result['observaciones'],
+          conclusion: result['conclusion']
         });
       }
     )
@@ -314,7 +316,8 @@ export class PruebaDefectosComponent implements OnInit, OnDestroy, OnExit {
 
     const body = {
       pruebas : itemPruebaAspecto,
-      observaciones: this.formulario.get('observaciones').value
+      observaciones: this.formulario.get('observaciones').value,
+      conclusion: this.formulario.get('conclusion').value
     }    
 
     this._analisisAgujaService.GuardarPruebaAspecto(body).subscribe( response => {
@@ -421,21 +424,21 @@ export class PruebaDefectosComponent implements OnInit, OnDestroy, OnExit {
     this.subscriptionRuta.unsubscribe()
   }
 
-  onExit() {
-
+  onExit() 
+  {
     if(this.botonGuardarDisabled)
     {
       this._toastr.warning('Los datos del formulario se estan guardando','Advertencia !!', {timeOut: 3000, closeButton: true, tapToDismiss: true})
       return false
     }
 
-    if(this.formulario.dirty){
+    if(this.formulario.dirty)
+    {
       const rpta = confirm("¿Está seguro de salir del formulario sin guardar?");
       return rpta;
     }
 
     return true;
-
   };
 
   get pruebas(){

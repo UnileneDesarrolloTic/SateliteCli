@@ -95,7 +95,7 @@ export const ControlCalidadRoutes: Routes = [
     canActivateChild: [AuthGuard],
     children : [
       {
-        path: 'principal',
+        path: 'principal/:NumeroLote',
         component: FormatoProtocoloComponent,
         data: {
           title: "Control de Protocolos"
