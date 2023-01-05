@@ -84,12 +84,17 @@ export class UsuarioService {
       catchError(() => throwError("Error al Eliminar Area "))
     )
   }
+  
+  ListarPersonaTecnica(){
+    return this._http.get(this.url+"/api/usuario/ListarPersonaTecnico").pipe(
+      catchError(() => throwError("Error al Listar Persona  Tecnica "))
+    )
+  }
 
-
-  // EliminarUsuario(IdPersona){
-  //   const params= new HttpParams().set('IdPersona',IdPersona);
-  //   return this._http.get(this.url+"/api/usuario/EliminarUsuario", {"params":params}).pipe(
-  //     catchError(() => throwError("Error al Eliminar Usuario "))
-  //   )
-  // }
+  ListarPersonaPorArea(IdArea){
+    const params= new HttpParams().set('IdArea',IdArea);
+    return this._http.get(this.url+"/api/usuario/ListarPersonaPorArea", {"params":params}).pipe(
+      catchError(() => throwError("Error al Listar Persona  relacionada al area "))
+    )
+  }
 }

@@ -1,0 +1,89 @@
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card  border-left border-info">
+            <div class="card-body">
+                <form [formGroup]="FiltroFormulario">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="control-label font-weight-normal" style="font-size:12px">Fecha Inicio:</label>
+                                <input type="date" formControlName="FechaInicio"
+                                    class="form-control form-control-sm font-weight-normal">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="control-label font-weight-normal" style="font-size:12px">Fecha Final:</label>
+                                <input type="date" formControlName="FechaFin"
+                                    class="form-control form-control-sm font-weight-normal">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="control-label font-weight-normal" style="font-size:12px">Estado:</label>
+                                <select class="form-control  form-control-sm font-weight-normal"
+                                    formControlName="Estado">
+                                    <option [value]="'TD'">TODOS </option>
+                                    <option [value]="'GE'">GENERADO </option>
+                                    <option [value]="'AP'">APROBADO</option>
+                                    <option [value]="'AN'">ANULADO </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="control-label text-white">:</label>
+                            <div class="form-group">
+                                <button (click)="filtrar()" class="btn btn-info btn-sm"><i class="fas fa-search"></i> Buscar</button>
+                                <button (click)="crear('Nuevo')" class="btn btn-success btn-sm"><i class="fas fa-plus"></i> Nuevo</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="card border-left border-info">
+            <div class="card-body">
+                <div class="table-responsive text-nowrap">
+                    <table class="table table-hover table-bordered table-sm">
+                        <thead>
+                            <tr>
+
+                                <th scope="col" class="text-center font-weight-bold">#</th>
+                                <th scope="col" class="text-center font-weight-bold">Area</th>
+                                <th scope="col" class="text-center font-weight-bold">Fe.Registrado</th>
+                                <th scope="col" class="text-center font-weight-bold">Justificación</th>
+                                <th scope="col" class="text-center font-weight-bold">Tipo</th>
+                                <th scope="col" class="text-center font-weight-bold">Fe.Aprobacion</th>
+                                <th scope="col" class="text-center font-weight-bold">Usu.Aprobacion</th>
+                                <th scope="col" class="text-center font-weight-bold">Estado</th>
+                                <th scope="col" class="text-center font-weight-bold">...</th>
+                            </tr>
+                        </thead>
+                            <tbody style="font-size: 12px" *ngFor="let horasextras of ListarHorasExtras; let i = index">
+                             <td class="text-center font-normal"> {{i+1}}</td>
+                             <td class="text-center font-normal"> {{horasextras.nombreArea}}</td>
+                             <td class="text-center font-normal"> {{horasextras.fechaRegistro  | date:'dd/MM/yyyy'}}</td>
+                             <td class="text-center font-normal"> {{horasextras.justificacion | puntosuspensivo:'30' }}</td>
+                             <td class="text-center font-normal"> {{horasextras.tipoPersona}}</td>
+                             <td class="text-center font-normal"> {{horasextras.fechaAprobacion |  date:'dd/MM/yyyy'}}</td>
+                             <td class="text-center font-normal"> {{horasextras.usuarioAprobacion}}</td>
+                             <td class="text-center font-normal"> {{horasextras.estado}}</td>
+                             <td class="text-center font-normal">
+                                    <button class="btn btn-warning btn-sm" type="button"
+                                        (click)="Editar(horasextras)"> <i class="fas fa-edit"></i>
+                                    </button>
+                                </td>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
