@@ -3,6 +3,7 @@ export interface DatosFormatoPersonaTecnico {
     tipoPlanilla: string,
     nombreCompleto: string,
     tipoHorario:number,
+    documento:string;
     isSelected:boolean,
   
   }

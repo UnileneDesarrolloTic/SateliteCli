@@ -11,7 +11,7 @@ import { catchError, map } from 'rxjs/operators';
 
   export class RRHHService {
 
-    private url = environment.urlApiSatelliteCore + "/api/RRHH/";;
+    private url = environment.urlApiSatelliteCore + "/api/RRHH/";
 
     constructor(private _http: HttpClient, private _toastr: ToastrService) { }
 
@@ -33,6 +33,29 @@ import { catchError, map } from 'rxjs/operators';
           return throwError(ex)
         })
       )
+    }
+
+    RegistrarHoraExtras(body){
+      return this._http.post(this.url+"RegistrarHorasExtras",body).pipe(
+        catchError((ex) => {
+          this._toastr.error("Error al guardar el formulario de hora extras", "Error !!", { timeOut: 4000, closeButton: true })
+          return throwError("Error al guardar los datos del formulario de horas extras")
+        })
+      );
+    }
+
+    ListarHoraExtras(body){
+      return this._http.post(this.url+"ListarHoraExtrasPersona",body).pipe(
+        catchError (() => throwError("Error al obtener Listar Horas Extras"))
+      );
+    }
+
+    InformacionHorasExtrasCabecera(Cabecera){
+      const params =  new HttpParams().set('Cabecera', Cabecera);
+
+      return this._http.get(this.url+"InformacionHoraExtras",{'params': params}).pipe(
+        catchError (() => throwError("Error al obtener Informacion de extras"))
+      );
     }
 
   }

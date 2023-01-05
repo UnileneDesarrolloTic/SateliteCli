@@ -1,0 +1,132 @@
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card border-left border-info">
+            <div class="card-header bg-info text-white" style="font-weight: bold">
+                    FORMATO  DE AUTORIZACIÓN DE TRABAJO EN SOBRETIEMPO
+            </div>
+            <div class="card-body">
+                <form [formGroup]="CrearFormulario">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="control-label" style="font-size:12px">Area:</label>
+                                <select class="form-control  form-control-sm font-weight-normal" formControlName="Area">
+                                    <option disabled [value]="null">Seleccione el Area </option>
+                                    <option *ngFor="let area of ListarArea" [value]="area.idArea"> {{area.descripcion}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="control-label" style="font-size:12px">Fecha Registro:</label>
+                                <button class="btn btn-warning btn-sm side-badge badge badge-warning ml-4"
+                                    *ngIf="activarCampo" type="button" (click)="activaDesactiva()"> Desactivar </button>
+                                <button class="btn btn-success btn-sm side-badge badge badge-success ml-4"
+                                    *ngIf="!activarCampo" type="button" (click)="activaDesactiva()"> Activar
+                                </button>
+                                <input type="date" [readonly]="!activarCampo" formControlName="FechaRegistro"
+                                    class="form-control form-control-sm font-weight-normal"
+                                    placeholder="Código Producto">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="control-label" style="font-size:12px">Persona:</label>
+                                <select class="form-control  form-control-sm font-weight-normal"
+                                    formControlName="Persona">
+                                    <option disabled [value]="null">Seleccione a la persona </option>
+                                    <!-- <option [value]="'E'">EMPLEADO </option> -->
+                                    <option [value]="'O'">OBRERO</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="control-label" style="font-size:12px">Estado:</label>
+                                <select class="form-control  form-control-sm font-weight-normal"
+                                    formControlName="Estado">
+                                    <option [value]="'GE'">GENERADO</option>
+                                    <option [value]="'AP'">APROBADO</option>
+                                    <option [value]="'AN'">ANULADO</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-9">
+                            <label class="control-label" style="font-size:12px">Justificación {{this.CrearFormulario.controls.Justificacion.value.length}} /500:</label>
+                            <textarea type="text" formControlName="Justificacion"
+                                class="form-control form-control-sm font-weight-normal"></textarea>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="control-label text-white">:</label>
+                            <div class="form-group">
+                                <button type="button" (click)="Guardar()" class="btn btn-info btn-sm">
+                                    <i class="fa fa-spinner fa-spin fa-fw" *ngIf="flagDescargarLista"></i>
+                                    <i class="fas fa-save" *ngIf="!flagDescargarLista" ></i> Guardar</button>
+                                <button type="button" (click)="AgregarPersona()" class="btn btn-warning btn-sm"><i
+                                        class="fas fa-plus"></i> Agregar</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card border-left border-info">
+            <div class="card-header bg-info text-white" style="font-weight: bold">
+                Lista de persona
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="table-hover table-responsive table-bordered scrollvertical">
+                        <table class=" table table-striped border table-sm table-hover">
+                            <thead style="font-size: 12px" class="text-black table-bordered">
+                                <tr>
+                                    
+                                    <th class="text-center">Id</th>
+                                    <th class="text-center">Nombre completo</th>
+                                    <th class="text-center">Número Documento</th>
+                                    <th class="text-center">Cant. Horas</th>
+                                    <th class="text-center">Opcion</th>
+                                </tr>
+                            </thead>
+                            <tbody style="font-size: 11px"
+                                *ngFor="let FormPersona of listadoPersonal.controls; let i = index">
+                                <ng-container [formGroup]="FormPersona">
+                                    
+                                    <td class="text-center">
+                                        <b>{{FormPersona.value.persona}}</b>
+                                    </td>
+                                    <td class="text-center">
+                                        <b>{{FormPersona.value.nombreCompleto}}</b>
+                                    </td>
+                                    <td class="text-center">
+                                        <b>{{FormPersona.value.documento}}</b>
+                                    </td>
+                                    <td class="text-center" style='width:7rem'>
+                                        <div class="input-group input-group-sm">
+                                            <input type="number" class="form-control form-control-sm font-normal"
+                                                formControlName="horasextras" />
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <button class="btn btn-danger btn-sm" type="button"
+                                            (click)="eliminarPersonal(i)"> <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </td>
+                                </ng-container>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

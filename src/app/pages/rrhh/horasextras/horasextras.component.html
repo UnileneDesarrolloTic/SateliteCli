@@ -1,53 +1,41 @@
 <div class="row">
     <div class="col-lg-12">
-        <div class="card">
+        <div class="card  border-left border-info">
             <div class="card-body">
-                <form [formGroup]="CrearFormulario">
+                <form [formGroup]="FiltroFormulario">
                     <div class="row">
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="control-label" style="font-size:12px">Area:</label>
-                                <select class="form-control  form-control-sm inputNegrita" formControlName="Area">
-                                    <option disabled [value]="null">Seleccione el Area </option>
-                                    <option *ngFor="let area of ListarArea" [value]="area.idArea"> {{area.descripcion}}
-                                    </option>
+                                <label class="control-label font-weight-normal" style="font-size:12px">Fecha Inicio:</label>
+                                <input type="date" formControlName="FechaInicio"
+                                    class="form-control form-control-sm font-weight-normal">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="control-label font-weight-normal" style="font-size:12px">Fecha Final:</label>
+                                <input type="date" formControlName="FechaFin"
+                                    class="form-control form-control-sm font-weight-normal">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="control-label font-weight-normal" style="font-size:12px">Estado:</label>
+                                <select class="form-control  form-control-sm font-weight-normal"
+                                    formControlName="Estado">
+                                    <option [value]="'TD'">TODOS </option>
+                                    <option [value]="'GE'">GENERADO </option>
+                                    <option [value]="'AP'">APROBADO</option>
+                                    <option [value]="'AN'">ANULADO </option>
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-3">
+                            <label class="control-label text-white">:</label>
                             <div class="form-group">
-                                <label class="control-label" style="font-size:12px">Fecha Registro:</label>
-                                <button class="btn btn-success btn-sm side-badge badge badge-success ml-4"
-                                    *ngIf="activarCampo" type="button" (click)="activaDesactiva()"> Activar </button>
-                                <button class="btn btn-warning btn-sm side-badge badge badge-warning ml-4"
-                                    *ngIf="!activarCampo" type="button" (click)="activaDesactiva()"> Desactivar
-                                </button>
-                                <input type="date" [readonly]="!activarCampo" formControlName="FechaRegistro"
-                                    class="form-control form-control-sm inputNegrita" placeholder="Código Producto">
+                                <button (click)="filtrar()" class="btn btn-info btn-sm"><i class="fas fa-search"></i> Buscar</button>
+                                <button (click)="crear('Nuevo')" class="btn btn-success btn-sm"><i class="fas fa-plus"></i> Nuevo</button>
                             </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label class="control-label" style="font-size:12px">Persona:</label>
-                                <select class="form-control  form-control-sm inputNegrita" formControlName="Persona">
-                                    <option disabled [value]="null">Seleccione a la persona </option>
-                                    <option [value]="'E'">EMPLEADO </option>
-                                    <option [value]="'O'">OBRERO</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-9">
-                            <textarea type="text" formControlName="Justificacion"
-                                class="form-control form-control-sm inputNegrita"></textarea>
-                        </div>
-                        <div class="col-md-3">
-                            <button class="btn btn-info btn-sm"><i class="fas fa-save"></i> Guardar</button>
-                            <button  type="button" (click)="AgregarPersona()" class="btn btn-warning btn-sm"><i class="fas fa-plus"></i> Agregar</button>
                         </div>
                     </div>
                 </form>
@@ -56,38 +44,43 @@
     </div>
 </div>
 
+
 <div class="row">
-    <div class="col-lg-12">
-        <div class="card">
+    <div class="col-12">
+        <div class="card border-left border-info">
             <div class="card-body">
-                <div class="row">
-                    <div class="table-hover table-responsive table-bordered scrollvertical">
-                        <table class=" table table-striped border table-sm table-hover">
-                            <thead style="font-size: 12px" class="bg-info text-white table-bordered">
-                                <tr>
-                                    <th class="text-center">IdPersona</th>
-                                    <th class="text-center">Descripción</th>
-                                    <th class="text-center">Opcion</th>
-                                </tr>
-                            </thead>
-                            <tbody style="font-size: 11px"
-                                *ngFor="let FormPersona of listadoPersonal.controls; let i = index">
-                                <ng-container [formGroup]="FormPersona">
-                                    <td class="text-center">
-                                        <b>{{FormPersona.value.idAsignacion}}</b>
-                                    </td>
-                                    <td class="text-center">
-                                        <b>{{FormPersona.value.nombreCompleto}}</b>
-                                    </td>
-                                    <td class="text-center">
-                                        <button class="btn btn-danger btn-sm" type="button"
-                                            (click)="eliminarPersonal(i)"> <i class="fas fa-trash-alt"></i>
-                                        </button>
-                                    </td>
-                                </ng-container>
-                            </tbody>
-                        </table>
-                    </div>
+                <div class="table-responsive text-nowrap">
+                    <table class="table table-hover table-bordered table-sm">
+                        <thead>
+                            <tr>
+
+                                <th scope="col" class="text-center font-weight-bold">#</th>
+                                <th scope="col" class="text-center font-weight-bold">Area</th>
+                                <th scope="col" class="text-center font-weight-bold">Fe.Registrado</th>
+                                <th scope="col" class="text-center font-weight-bold">Justificación</th>
+                                <th scope="col" class="text-center font-weight-bold">Tipo</th>
+                                <th scope="col" class="text-center font-weight-bold">Fe.Aprobacion</th>
+                                <th scope="col" class="text-center font-weight-bold">Usu.Aprobacion</th>
+                                <th scope="col" class="text-center font-weight-bold">Estado</th>
+                                <th scope="col" class="text-center font-weight-bold">...</th>
+                            </tr>
+                        </thead>
+                            <tbody style="font-size: 12px" *ngFor="let horasextras of ListarHorasExtras; let i = index">
+                             <td class="text-center font-normal"> {{i+1}}</td>
+                             <td class="text-center font-normal"> {{horasextras.nombreArea}}</td>
+                             <td class="text-center font-normal"> {{horasextras.fechaRegistro  | date:'dd/MM/yyyy'}}</td>
+                             <td class="text-center font-normal"> {{horasextras.justificacion | puntosuspensivo:'30' }}</td>
+                             <td class="text-center font-normal"> {{horasextras.tipoPersona}}</td>
+                             <td class="text-center font-normal"> {{horasextras.fechaAprobacion |  date:'dd/MM/yyyy'}}</td>
+                             <td class="text-center font-normal"> {{horasextras.usuarioAprobacion}}</td>
+                             <td class="text-center font-normal"> {{horasextras.estado}}</td>
+                             <td class="text-center font-normal">
+                                    <button class="btn btn-warning btn-sm" type="button"
+                                        (click)="Editar(horasextras)"> <i class="fas fa-edit"></i>
+                                    </button>
+                                </td>
+                        </tbody>
+                    </table>
                 </div>
 
             </div>

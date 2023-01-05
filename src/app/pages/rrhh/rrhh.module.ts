@@ -14,12 +14,16 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { HorasextrasComponent } from './horasextras/horasextras.component';
 import { ListarPersonaComponent } from './horasextras/listar-persona/listar-persona.component';
+import { FormularioHorasextrasComponent } from './horasextras/formulario-horasextras/formulario-horasextras.component';
+import { PuntosuspensivoPipe } from '@shared/pipe/puntosuspensivo.pipe';
 
 @NgModule({
   declarations: [
     ReporteAsistenciaComponent,
     HorasextrasComponent,
-    ListarPersonaComponent
+    ListarPersonaComponent,
+    FormularioHorasextrasComponent,
+    PuntosuspensivoPipe,
   ],
   imports: [
     RouterModule.forChild(RRHHRoutes),
@@ -29,7 +33,9 @@ import { ListarPersonaComponent } from './horasextras/listar-persona/listar-pers
     NgbModule,
     FormsModule,
     ReactiveFormsModule,
-    NgxDatatableModule
+    NgxDatatableModule,
+    
+    
   ],
   providers:[
     DatePipe

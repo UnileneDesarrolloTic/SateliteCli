@@ -4,6 +4,8 @@ export interface DetalleOrdenCompraMP {
     detallePendienteOC: number,
     numeroOrden:string;
     fechaPrometida:Date,
-    estadoDetalle:string
+    estadoDetalle:string,
+    idProveedor:number,
+    nombreProveedor:string
   }
   

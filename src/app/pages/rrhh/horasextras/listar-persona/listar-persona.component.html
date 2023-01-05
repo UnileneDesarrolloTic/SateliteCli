@@ -16,20 +16,22 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="row">
-                                <input type="text" name='filtro' autocomplete="off" [(ngModel)]="buscarNombre"  class="form-control col-md-6 form-control-sm" placeholder="Buscar Nombre">
+                                <input type="text" name='filtro' autocomplete="off"  [formControl]="BuscarNombrePersona" class="form-control col-md-6 form-control-sm font-weight-normal" placeholder="Buscar Nombre">
                                 <div class="table-hover table-responsive table-bordered scrollvertical">
                                     <table class=" table table-striped border table-sm table-hover">
                                         <thead style="font-size: 12px" class="bg-info text-white table-bordered">
                                             <tr>
                                                 <th class="text-center">...</th>
                                                 <th class="text-center">Nombre Completo</th>
+                                                <th class="text-center">Numero Documento</th>
                                             </tr>
                                         </thead>
                                         <tbody style="font-size: 13px">
                                             <tr  *ngFor="let persona of ListarDatosFormatoPersonaTecnico; let i = index">
-                                                <td class="text-center" ><input type="checkbox" [(ngModel)]="persona.isSelected" name="list_name"
+                                                <td class="text-center font-weight-normal" ><input type="checkbox" [(ngModel)]="persona.isSelected" name="list_name"
                                                 (change)="SeleccionaItem(persona)" value="{{ persona.idEmpleado}}" /> </td>
-                                                <td class="text-center">{{persona.nombreCompleto}}</td>
+                                                <td class="text-center font-weight-normal">{{persona.nombreCompleto}}</td>
+                                                <td class="text-center font-weight-normal">{{persona.documento}}</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -43,7 +45,7 @@
             
         </div>
         <div class="modal-footer">
-            <button type="button"  class="btn btn-rounded  btn-info"> Agregar</button>
+            <button type="button" (click)="agregar()" class="btn btn-rounded  btn-info"> Agregar</button>
             <button type="button" (click)="activeModal.dismiss('Cross click')" class="btn btn-rounded btn-secondary">Cancelar</button>
         </div>
     </div>
