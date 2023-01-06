@@ -43,7 +43,7 @@ registerLocaleData(localeEs);
     CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory
-  }),
+    }),
     CommonModule,
     NgxDatatableModule,
     FormsModule,

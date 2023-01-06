@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { environment } from "environments/environment";
+import { ToastrService } from "ngx-toastr";
 import { throwError } from "rxjs";
 import { catchError } from "rxjs/operators";
 
@@ -8,13 +9,18 @@ import { catchError } from "rxjs/operators";
   providedIn: "root",
 })
 export class ComercialService {
+
   private url = environment.urlApiSatelliteCore + "/api/Comercial/";
-  constructor(private _http: HttpClient) {}
+  constructor(private _http: HttpClient, private _toastr: ToastrService) {}
 
   ListarProtocoloAnalisis(body) {
     return this._http
       .post(this.url + "ListarProtocoloAnalisis", body)
-      .pipe(catchError(() => throwError("Error al cargar la lista")));
+      .pipe(catchError(() => 
+        { 
+          this._toastr.error('Ocurrio un error al obtener la lista de protocolos.', 'Error !!', { closeButton: true, progressBar: true, timeOut: 3000})
+          return throwError("Error al cargar la lista")
+        }));
   }
 
   ListarClientes(body) {
@@ -25,7 +31,10 @@ export class ComercialService {
   GenerarReporteProtocoloAnalisis(body) {
     return this._http
       .post(this.url + "GenerarReporteProtocoloAnalisis", body)
-      .pipe(catchError(() => throwError("Error al registrar el reporte")));
+      .pipe(catchError( _ => {
+        this._toastr.error("Error al generar el reporte.","Error !!", {timeOut: 3000, closeButton: true, progressBar: true})
+        return throwError("Error al registrar el reporte")
+      }));
   }
 
   ListarLicitaciones(body) {
@@ -64,19 +73,24 @@ export class ComercialService {
   ListarGuiaporFacturarExportar(body){
     return this._http
     .post(this.url + "ListarGuiaporFacturarExportar", body)
-    .pipe(catchError(() => throwError("Error al registrar el reporte")));
+    .pipe(catchError(_ => throwError("Error al registrar el reporte")));
   }
 
   RegistrarGuiaPorFacturar(body){
     return this._http
     .post(this.url + "RegistrarGuiaporFacturar", body)
-    .pipe(catchError(() => throwError("Error al registrar el reporte")));
+    .pipe(catchError(_ => throwError("Error al registrar el reporte")));
   }
 
-  ExportarExcelProtocoloAnalisis(body){
-    return this._http
-    .post(this.url + "ListarProtocoloAnalisisExportar", body)
-    .pipe(catchError(() => throwError("Error al registrar el reporte")));
+  ExportarExcelProtocoloAnalisis(body)
+  {
+    return this._http.post(this.url + "ListarProtocoloAnalisisExportar", body).pipe(
+      catchError( _ => 
+        {
+          this._toastr.error("Ocurrio un error al descargar los protocolos.", "Error !!", { progressBar: true, closeButton: true, timeOut: 3000 });
+          return throwError("Error al descargar el protocolo")
+        })
+      );
   }
 
 }
