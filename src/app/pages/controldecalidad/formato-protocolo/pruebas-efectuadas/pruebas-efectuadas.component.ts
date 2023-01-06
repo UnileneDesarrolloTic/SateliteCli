@@ -1,4 +1,4 @@
-import { formatDate } from '@angular/common';
+import { DecimalPipe, formatDate } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -11,6 +11,7 @@ import { Cargarbase64Service } from '@shared/services/comunes/cargarbase64.servi
 import { GenericoService } from '@shared/services/comunes/generico.service';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 import { ModalElegirDocumentoComponent } from './modal-elegir-documento/modal-elegir-documento.component';
 
 @Component({
@@ -26,6 +27,7 @@ export class PruebasEfectuadasComponent implements OnInit , OnDestroy{
   NumeroLote:string;
   NumeroParte:string;
   buttonDeshabilitar:boolean=false;
+  NombreCumple:string='Cumple';
 
   constructor(private _router: Router,
     private toastr: ToastrService,
@@ -35,6 +37,7 @@ export class PruebasEfectuadasComponent implements OnInit , OnDestroy{
     private activeroute:ActivatedRoute,
     private _modalService: NgbModal,
     private servicebase64:Cargarbase64Service,
+    private _decimalPipe: DecimalPipe
    ) { 
 
     this.subcripcion=this.activeroute.params.subscribe(params=>{
@@ -58,6 +61,7 @@ export class PruebasEfectuadasComponent implements OnInit , OnDestroy{
         }
       )
   }
+
 
   save(){
         // this.buttonDeshabilitar=true;
@@ -101,6 +105,7 @@ export class PruebasEfectuadasComponent implements OnInit , OnDestroy{
 
   ObservableIdioma(){
     this.PruebasFormularioProtocolo.controls.Idioma.valueChanges.subscribe(valor=>{
+        valor=='1'? this.NombreCumple='Cumple' : this.NombreCumple='Comply';
         this.buscarInformacionPrueba(this.NumeroLote,this.NumeroParte,valor);
         this.BuscarinformacionProductoProtocolo();
     })
@@ -113,12 +118,13 @@ export class PruebasEfectuadasComponent implements OnInit , OnDestroy{
               if(resp["success"]){
                   this.InformacionProducto=resp["content"];
                   // console.log(this.InformacionProducto);
+                  const date1 = new Date('0001-01-01T00:00:00');
                   this.PruebasFormularioProtocolo.get("Tecnica").patchValue(this.InformacionProducto.tecnica);                  
                   this.PruebasFormularioProtocolo.get("Metodo").patchValue(this.InformacionProducto.metodo);
                   this.PruebasFormularioProtocolo.get("Detalle").patchValue(this.InformacionProducto.detalle);
                   this.PruebasFormularioProtocolo.get("NumeroParte").patchValue(this.InformacionProducto.numerodeparte);
                   this.PruebasFormularioProtocolo.get("NumeroLote").patchValue(this.InformacionProducto.referencianumero);
-                  this.PruebasFormularioProtocolo.get("fechaanalisis").patchValue(this.formatoFecha(this.InformacionProducto.fechaanalisis));
+                  this.PruebasFormularioProtocolo.get("fechaanalisis").patchValue(  this.formatoFecha(this.InformacionProducto.fechaanalisis) );
                   this.PruebasFormularioProtocolo.get("fechaproduccion").patchValue(this.formatoFecha(this.InformacionProducto.fechaproduccion));
               }else{
                   this.InformacionProducto=null;
@@ -129,9 +135,12 @@ export class PruebasEfectuadasComponent implements OnInit , OnDestroy{
 
 
   formatoFecha(Fecha){
-    return  Fecha!=null ? Fecha.split("T")[0] : '01-01-1990';
+    return  Fecha!='01-01-0001' ? Fecha.split("T")[0] : '01-01-0001';
   }
 
+  transformDecimal(num,decimal) {
+    return this._decimalPipe.transform(num, `1.${decimal}-${decimal}`);
+  }
   
 
   construirFormaArray(ArrayTabla:DatosPruebaProtocoloModel[]){
@@ -144,9 +153,10 @@ export class PruebasEfectuadasComponent implements OnInit , OnDestroy{
         
         ArrayTabla.forEach((element:DatosPruebaProtocoloModel) => {
           if(element.decimales=="0.0000" || element.decimales==""){
-            element.resultado= element.resultado=="0.0000" ? 'Cumple' : element.resultado;
+            element.resultado= element.resultado=="0.0000" ? this.NombreCumple : element.resultado;
           }else{
-            element.resultado=(element.resultado== 'Cumple' || element.resultado=="0.0000") ? 'Cumple' : this._GenericoService.RedondearDecimales(element.resultado,parseInt(element.decimales),false);
+            // console.log(this._GenericoService.RedondearDecimales(element.resultado,parseInt(element.decimales),false));
+            element.resultado=+(element.resultado== this.NombreCumple || element.resultado=="0.0000") ? this.NombreCumple : this.transformDecimal(element.resultado,element.decimales);
           }
 
           

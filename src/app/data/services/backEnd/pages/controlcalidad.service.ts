@@ -3,6 +3,7 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { environment } from "environments/environment";
 import { throwError } from "rxjs";
 import { catchError } from "rxjs/operators";
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ import { catchError } from "rxjs/operators";
 export class ControlcalidadService {
   private url = environment.urlApiSatelliteCore;
 
-  constructor(private _http: HttpClient) { 
+  constructor(private _http: HttpClient,private _toastr: ToastrService) { 
   }
 
   ObtenerInformacionLote(NumeroLote){
@@ -192,7 +193,10 @@ export class ControlcalidadService {
 
   RegistrarControlProcesoProtocolo(body){
     return this._http.post<any>(this.url+"/api/ControlCalidad/RegistrarControlProcesoProtocolo",body).pipe(
-      catchError (() => throwError("Error al obtener Registrar Control Proceso"))
+      catchError((ex) => {
+        this._toastr.error("Error al guardar el formulario control en proceso", "Error !!", { timeOut: 4000, closeButton: true })
+        return throwError("Error al guardar los datos del formulario de control en proceso")
+      })
     );
   }
 

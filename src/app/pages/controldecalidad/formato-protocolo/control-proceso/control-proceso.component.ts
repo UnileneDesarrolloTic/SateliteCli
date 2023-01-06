@@ -1,3 +1,4 @@
+import { DecimalPipe } from '@angular/common';
 import { Component, OnInit,OnDestroy } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -10,6 +11,7 @@ import { Cargarbase64Service } from '@shared/services/comunes/cargarbase64.servi
 import { GenericoService } from '@shared/services/comunes/generico.service';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-control-proceso',
@@ -26,6 +28,7 @@ export class ControlProcesoComponent implements OnInit,OnDestroy {
   NumeroLote:string;
   ListarTablaA:InformacionTablaModel[]=[];
   ListarTablaB:InformacionTablaModel[]=[];
+  flagGuardado:boolean=false;
 
   constructor(private _router: Router,
     private toastr: ToastrService,
@@ -34,7 +37,8 @@ export class ControlProcesoComponent implements OnInit,OnDestroy {
     private _GenericoService:GenericoService,
     private activeroute:ActivatedRoute,
     private _modalService: NgbModal,
-    private servicebase64:Cargarbase64Service,) { 
+    private servicebase64:Cargarbase64Service,
+    private _decimalPipe: DecimalPipe) { 
     this.subcripcion=this.activeroute.params.subscribe(params=>{
       this.NumeroLote=params["NumeroLote"];
     });
@@ -51,7 +55,8 @@ export class ControlProcesoComponent implements OnInit,OnDestroy {
     this.ListarTablaB = tabla.filter((element:InformacionTablaModel)=> (element.tabla=='B'));
     await this.ConstruirTabla1(this.TablaControlProceso , this.ListarTablaA );
     await this.ConstruirTabla2(this.TablaControlProceso , this.ListarTablaB );
-    
+    this.isObservableTablaLongitud();
+    this.isObservableTablaResistencia();
   }
 
   crearFormularioProtocolo(){
@@ -166,8 +171,8 @@ export class ControlProcesoComponent implements OnInit,OnDestroy {
         ContenidoTabla.forEach((itemrow:InformacionTablaModel)=>{
               if(itemrow.secuencia<= PlantillaTabla.length){
                 const ItemFilaForm = this._fb.group({
-                  LongitudD: [itemrow.coL_1],
-                  DiametroD: [itemrow.coL_2]
+                  LongitudD: [this.transformDecimal(itemrow.coL_1,1)],
+                  DiametroD: [this.transformDecimal(itemrow.coL_2,this.FormProtocolo.controls.deC_DMinimo.value)]
                 });
                 this.ListTabla1.push(ItemFilaForm);
               }
@@ -197,8 +202,8 @@ export class ControlProcesoComponent implements OnInit,OnDestroy {
         ContenidoTabla.forEach((itemrow:InformacionTablaModel)=>{
           if(itemrow.secuencia<= PlantillaTabla.length){
             const ItemFilaForm = this._fb.group({
-              TensionNewtons: [itemrow.coL_1],
-              AgujasNewtons: [itemrow.coL_2]
+              TensionNewtons: [this.transformDecimal(itemrow.coL_1,this.FormProtocolo.controls.deC_R_PromedioMinimo.value)],
+              AgujasNewtons: [this.transformDecimal(itemrow.coL_2,this.FormProtocolo.controls.deC_S_IndividualMinimo.value)]
             });
             this.ListTabla2.push(ItemFilaForm);
           }
@@ -220,8 +225,10 @@ export class ControlProcesoComponent implements OnInit,OnDestroy {
         this.ListTabla2.push(ItemFilaForm);
       });
     }
-   
+  }
 
+  transformDecimal(num,decimal) {
+    return this._decimalPipe.transform(num, `1.${decimal}-${decimal}`);
   }
 
   get ListTabla1() {
@@ -234,7 +241,6 @@ export class ControlProcesoComponent implements OnInit,OnDestroy {
 
   //PRIMERA TABLA
   PromedioLongitud2(index: number) {
-
     const myForm = this.FormProtocolo.controls.TablaLongitud.value;
     let PL_Suma = 0;
     let cn = 0;
@@ -243,9 +249,11 @@ export class ControlProcesoComponent implements OnInit,OnDestroy {
     let D2 = 0;
     let desv = 0;
 
+    
+
     myForm.forEach((element: any) => {
-      PL_Suma = PL_Suma + (isNaN(element.LongitudD) ? 0 : element.LongitudD);
-      if (element.LongitudD == null || element.LongitudD == 0 || Number.isNaN(element.LongitudD))
+      PL_Suma = PL_Suma + (isNaN(+element.LongitudD) ? 0 : +element.LongitudD);
+      if (element.LongitudD == null || +element.LongitudD == 0 || Number.isNaN(+element.LongitudD))
         cn = cn;
       else
         cn = cn + 1;
@@ -255,7 +263,7 @@ export class ControlProcesoComponent implements OnInit,OnDestroy {
     this.FormProtocolo.get("PromLongitud").patchValue(promedio);
 
     myForm.forEach((element: any) => {
-      let valor = (isNaN(element.LongitudD) ? 0 : element.LongitudD) * 1;
+      let valor = (isNaN(+element.LongitudD) ? 0 : +element.LongitudD) * 1;
 
       if (valor != 0)
         D1 = Math.pow(valor - promedio, 2) + D1;
@@ -279,8 +287,8 @@ export class ControlProcesoComponent implements OnInit,OnDestroy {
     let desv = 0;
 
     myForm.forEach((element: any) => {
-      PL_Suma = PL_Suma + (isNaN(element.DiametroD) ? 0 : element.DiametroD);
-      if (element.DiametroD == null || element.DiametroD == 0 || Number.isNaN(element.DiametroD))
+      PL_Suma = PL_Suma + (isNaN(+element.DiametroD) ? 0 : +element.DiametroD);
+      if (+element.DiametroD == null || +element.DiametroD == 0 || Number.isNaN(+element.DiametroD))
         cn = cn;
       else
         cn = cn + 1;
@@ -291,7 +299,7 @@ export class ControlProcesoComponent implements OnInit,OnDestroy {
     this.FormProtocolo.get("CampoVacio1Longitud").patchValue(this._GenericoService.NumberTwoDecimal(isNaN(promedio) ? 0 : promedio,4));
 
     myForm.forEach((element: any) => {
-      let valor = (isNaN(element.DiametroD) ? 0 : element.DiametroD) * 1;
+      let valor = (isNaN(+element.DiametroD) ? 0 : +element.DiametroD) * 1;
 
       if (valor != 0)
         D1 = Math.pow(valor - promedio, 2) + D1;
@@ -319,8 +327,8 @@ export class ControlProcesoComponent implements OnInit,OnDestroy {
     let Min = 1000;
 
     myForm.forEach((element: any) => {
-      PL_Suma = PL_Suma + (isNaN(element.TensionNewtons) ? 0 : element.TensionNewtons);
-      if (element.TensionNewtons == null || element.TensionNewtons == 0 || Number.isNaN(element.TensionNewtons))
+      PL_Suma = PL_Suma + (isNaN(+element.TensionNewtons) ? 0 : +element.TensionNewtons);
+      if (+element.TensionNewtons == null || +element.TensionNewtons == 0 || Number.isNaN(+element.TensionNewtons))
         cn = cn;
       else
         cn = cn + 1;
@@ -330,7 +338,7 @@ export class ControlProcesoComponent implements OnInit,OnDestroy {
 
     this.FormProtocolo.get("PromResistencia").patchValue(promedio);
     myForm.forEach((element: any) => {
-      let v1 = (isNaN(element.TensionNewtons) ? 0 : element.TensionNewtons) * 1;
+      let v1 = (isNaN(+element.TensionNewtons) ? 0 : +element.TensionNewtons) * 1;
         if(v1!=0){
           if (v1 < Min) {
             Min = v1;
@@ -347,7 +355,7 @@ export class ControlProcesoComponent implements OnInit,OnDestroy {
       // console.log(D_Min)
       let D_PromMinimo = this.FormProtocolo.controls.r_PromedioMinimo.value;
       // console.log(isNaN(element.DiametroD))
-      let v1 = (isNaN(element.TensionNewtons) ? 0 : element.TensionNewtons) * 1;
+      let v1 = (isNaN(+element.TensionNewtons) ? 0 : +element.TensionNewtons) * 1;
       // console.log(v1);
       if (v1 != 0) {
         D1 = Math.pow(v1 - promedio, 2) + D1;
@@ -372,8 +380,8 @@ export class ControlProcesoComponent implements OnInit,OnDestroy {
     let Min = 1000;
 
     myForm.forEach((element: any) => {
-      PL_Suma = PL_Suma + (isNaN(element.AgujasNewtons) ? 0 : element.AgujasNewtons);
-      if (element.AgujasNewtons == null || element.AgujasNewtons == 0 || Number.isNaN(element.AgujasNewtons))
+      PL_Suma = PL_Suma + (isNaN(+element.AgujasNewtons) ? 0 : +element.AgujasNewtons);
+      if (+element.AgujasNewtons == null || +element.AgujasNewtons == 0 || Number.isNaN(+element.AgujasNewtons))
         cn = cn;
       else
         cn = cn + 1;
@@ -384,7 +392,7 @@ export class ControlProcesoComponent implements OnInit,OnDestroy {
     this.FormProtocolo.get("CampoVacio1Resistencia").patchValue(this._GenericoService.NumberTwoDecimal(isNaN(promedio) ? 0 : promedio,4));
     
     myForm.forEach((element: any) => {
-      let v1 = (isNaN(element.AgujasNewtons) ? 0 : element.AgujasNewtons) * 1;
+      let v1 = (isNaN(+element.AgujasNewtons) ? 0 : +element.AgujasNewtons) * 1;
         if(v1!=0){
           if (v1 < Min) {
             Min = v1;
@@ -397,7 +405,7 @@ export class ControlProcesoComponent implements OnInit,OnDestroy {
 
 
     myForm.forEach((element:any) => {
-      let v1 = (isNaN(element.AgujasNewtons) ? 0 : element.AgujasNewtons) * 1;
+      let v1 = (isNaN(+element.AgujasNewtons) ? 0 : +element.AgujasNewtons) * 1;
       if(v1!=0){
         D1=Math.pow(v1-promedio,2)+D1;
       }
@@ -415,20 +423,45 @@ export class ControlProcesoComponent implements OnInit,OnDestroy {
 
   }
   // FIN DE TABLA 
+  formarrayTabla1(){
+   return this.FormProtocolo.controls.TablaLongitud as FormArray;
+  }
 
+  isObservableTablaLongitud(){
+    this.FormProtocolo.controls.TablaLongitud.valueChanges.pipe(debounceTime(1500)).subscribe(((valor)=>{
+           this.FormProtocolo.controls.TablaLongitud.value.forEach(((element,index)=>{
+            this.formarrayTabla1().at(index).get("LongitudD").patchValue(this.transformDecimal(element.LongitudD,1));
+            this.formarrayTabla1().at(index).get("DiametroD").patchValue(this.transformDecimal(element.DiametroD,this.FormProtocolo.controls.deC_DMinimo.value));
+           }))
+    }));
+  } 
+
+  formarrayTabla2(){
+    return this.FormProtocolo.controls.TablaResistencia as FormArray;
+   }
+
+
+  isObservableTablaResistencia(){
+    this.FormProtocolo.controls.TablaResistencia.valueChanges.pipe(debounceTime(1500)).subscribe(((valor)=>{
+      this.FormProtocolo.controls.TablaResistencia.value.forEach(((element,index)=>{
+       this.formarrayTabla2().at(index).get("TensionNewtons").patchValue(this.transformDecimal(element.TensionNewtons,this.FormProtocolo.controls.deC_R_PromedioMinimo.value));
+       this.formarrayTabla2().at(index).get("AgujasNewtons").patchValue(this.transformDecimal(element.AgujasNewtons,this.FormProtocolo.controls.deC_S_IndividualMinimo.value));
+      }))
+    }));
+  }
 
   save() {
-
+    this.flagGuardado=true;
     const ArrayLongitud = this.FormProtocolo.controls.TablaLongitud.value.map((elemen)=>({
-      LongitudD:elemen.LongitudD==null ? 0: elemen.LongitudD,
-      DiametroD:elemen.DiametroD==null ? 0: elemen.DiametroD,
+      LongitudD:elemen.LongitudD==null ? 0: +elemen.LongitudD,
+      DiametroD:elemen.DiametroD==null ? 0: +elemen.DiametroD,
     }));
     ArrayLongitud.push({'LongitudD': this.FormProtocolo.controls.PromLongitud.value, 'DiametroD': this.FormProtocolo.controls.CampoVacio1Longitud.value});
     ArrayLongitud.push({'LongitudD': this.FormProtocolo.controls.CampoVacio2Longitud.value, 'DiametroD': this.FormProtocolo.controls.CampoVacio3Longitud.value});
     
     const ArrayResistencia = this.FormProtocolo.controls.TablaResistencia.value.map((elemen)=>({
-      TensionNewtons:elemen.TensionNewtons==null ? 0: elemen.TensionNewtons,
-      AgujasNewtons:elemen.AgujasNewtons==null ? 0: elemen.AgujasNewtons,
+      TensionNewtons:elemen.TensionNewtons==null ? 0: +elemen.TensionNewtons,
+      AgujasNewtons:elemen.AgujasNewtons==null ? 0: +elemen.AgujasNewtons,
     }));
 
     ArrayResistencia.push({'TensionNewtons': this.FormProtocolo.controls.PromResistencia.value, 'AgujasNewtons': this.FormProtocolo.controls.CampoVacio1Resistencia.value});
@@ -445,13 +478,14 @@ export class ControlProcesoComponent implements OnInit,OnDestroy {
 
 
     this._ControlcalidadService.RegistrarControlProcesoProtocolo(Datos).subscribe(
-      (resp:any)=>{
+      resp=>{
           if(resp["success"]){
               this.toastr.success(resp["content"]);
           }
+          this.flagGuardado=false;
       },
-      (error)=>{
-          this.toastr.info("Comuniquese con Sistemas");
+      error=>{
+          this.flagGuardado=false;
       }
   )
 

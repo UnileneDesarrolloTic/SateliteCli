@@ -1,7 +1,7 @@
 import { FeatherModule } from 'angular-feather';
 import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DecimalPipe } from '@angular/common';
 import { ControlCalidadRoutes } from './control-calidad.routing';
 import { ComponenteModule } from '@shared/components/componente.module';
 import { CertificadoComponent } from '@pages/controldecalidad/esterilizacion/certificado/certificado.component';
@@ -69,7 +69,8 @@ import { ModalElegirDocumentoComponent } from './formato-protocolo/pruebas-efect
   exports: [
     CertificadoComponent,
     GestionContraMuestraComponent
-  ]
+  ],
+  providers: [DecimalPipe]
 })
 
 export class ControlCalidadModule { }

@@ -13,7 +13,10 @@
                         </div>
                         <div class="ml-auto">
                             <span class="text-info display-6">
-                                <button type="button" (click)="save()" class="btn btn-success btn-sm"> <i class="fas fa-save"> </i> Guardar</button>
+                                <button type="button" (click)="save()" class="btn btn-success btn-sm"> 
+                                    <i class="fa fa-spinner fa-spin fa-fw" *ngIf="flagGuardado"></i>
+                                    <i class="fas fa-save" *ngIf="!flagGuardado" ></i> 
+                                    Guardar</button>
                             </span>
                             <span class="text-info display-6">
                                 <button type="button"  (click)="Imprimir()" class="btn btn-info btn-sm"> <i class="fas fa-print"></i> Imprimir</button>
@@ -66,7 +69,7 @@
                                                 <input type="number" 
                                                 [ngStyle]="{'border-color':  Tabla1.value.LongitudD > this.FormProtocolo.controls.longitud.value || Tabla1.value.LongitudD==null  ?  '#67757c' : 'red' }" 
                                                 class="form-control form-control-sm"
-                                                formControlName="LongitudD" (keyup)="PromedioLongitud2(i)" />
+                                                formControlName="LongitudD" (keyup)="PromedioLongitud2(i,Tabla1)" />
                                             </div>
                                         </td>
                                         <td class="text-center" colspan="2">
