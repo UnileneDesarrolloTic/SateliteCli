@@ -81,8 +81,8 @@
                     </div>
                     <select class="form-control form-control-sm" id="protocolo" formControlName="protocolo">
                       <option value="">Todos</option>
-                      <option value="S">Con Protocolo</option>
-                      <option value="N">Sin Protocolo</option>
+                      <option value="Si">Con Protocolo</option>
+                      <option value="No">Sin Protocolo</option>
                     </select>
                   </div>
                 </div>
@@ -145,15 +145,17 @@
             <i class="fa fa-spinner fa-spin fa-fw" *ngIf="flagDescargarLista"></i>
               &nbsp;&nbsp;Descargar lista&nbsp;&nbsp;
           </button>
-          <button class="btn btn-danger btn-rounded btn-sm" type="button">
-            <i class="fa fa-print"></i>&nbsp;&nbsp;Protocolo&nbsp;&nbsp;
+          <button class="btn btn-danger btn-rounded btn-sm" type="button" [disabled]="this.selected.length < 1" (click)="imprimirProtocolos()">
+            <i class="fa fa-print" *ngIf="!flagDescargarPdf"></i>
+            <i class="fa fa-spinner fa-spin fa-fw" *ngIf="flagDescargarPdf"></i>
+            &nbsp;&nbsp;Imp. Protocolo&nbsp;&nbsp;
           </button>
         </div>
         <div class="col-12">
           <ngx-datatable 
               style="height: 1150px;" 
               class="material" 
-              [rows]="listaProtocoloAnalisisAux" 
+              [rows]="listaProtocoloAnalisis" 
               [columnMode]="'force'" 
               [headerHeight]="50" 
               [footerHeight]="50"
@@ -168,7 +170,15 @@
               (select)="eventoSeleccionar($event)">
             
             <ngx-datatable-column [width]="50" [sortable]="false" [canAutoResize]="false" [draggable]="false"
-              [resizeable]="false" [headerCheckboxable]="true" [checkboxable]="true" [ariaMultiSelectable]="true" >
+              [resizeable]="false" [headerCheckboxable]="true" [checkboxable]="true">
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="¿Tiene?" prop="tieneProtocolo" [draggable]="false" [width]="80">
+              <ng-template let-value="value" ngx-datatable-cell-template>
+                <span style="font-size: 12px;">
+                  {{ value }}
+                </span>
+              </ng-template>
             </ngx-datatable-column>
 
             <ngx-datatable-column name="Documento" prop='numeroDocumento' [draggable]="false" [width]="130">
@@ -201,7 +211,7 @@
             </ngx-datatable-column>
             <ngx-datatable-column name="Descripción" prop='descripcion' [draggable]="false" [width]="230">
               <ng-template let-value="value" ngx-datatable-cell-template>
-                <span style="font-size: 12px;">
+                <span style="font-size: 11px;">
                   {{ value }}
                 </span>
               </ng-template>
@@ -234,167 +244,9 @@
                 </span>
               </ng-template>
             </ngx-datatable-column>
-            <ngx-datatable-column name="¿Tiene?" [draggable]="false" [width]="60">
-              <ng-template let-value="value" ngx-datatable-cell-template>
-                <span style="font-size: 12px;">
-                  SI
-                </span>
-              </ng-template>
-            </ngx-datatable-column>
           </ngx-datatable>
         </div>
       </div>
     </div>
   </div>
 </div>
-
-
-
-        <!-- <div class="table table-hover table-responsive mt-4">
-          
-          <table
-            class="table table-striped border mt-1"
-            style="font-size: 10px"
-          >
-            <thead class="no-wrap">
-              <tr>
-                <th>Documento</th>
-                <th>Fecha</th>
-                <th>Nombre Cliente</th>
-
-                <th>Item</th>
-                <th>Descripción</th>
-                <th>Cantidad</th>
-                <th>Lote</th>
-                <th>Orden Fabricación</th>
-                <th>Comentario</th>
-                <th>¿Tiene?</th>
-                <th>
-                  Imprimir &nbsp;
-                  <input
-                    class="align-middle"
-                    type="checkbox"
-                    id="alternaSeleccion"
-                    (change)="alternaSeleccion()"
-                  />
-                </th>
-              </tr>
-            </thead>
-            <tbody id="tbodyPrincipal">
-              <tr *ngFor="let PA of listaProtocoloAnalisis">
-                <td class="text-dark"><b>{{ PA.numeroDocumento }}</b></td>
-                <td class="text-dark"><b>{{ PA.fechaDocumento | date: "shortDate" }}</b></td>
-                <td class="text-dark"><b>{{ PA.clienteNombre }}</b></td>
-                <td class="text-dark"><b>{{ PA.itemCodigo }}</b></td>
-                <td class="text-dark"><b>{{ PA.descripcion }}</b></td>
-                <td class="text-dark"><b>{{ PA.cantidadPedida }}</b></td>
-                <td class="text-dark"><b>{{ PA.lote }}</b></td>
-                <td class="text-dark"><b>{{ PA.ordenFabricacion }}</b></td>
-                <td class="text-dark"><b>{{ PA.comentarios }}</b></td>
-                <td class="text-dark"><b>{{ PA.protocoloFlag != "S" ? "N" : PA.protocoloFlag }}</b></td>
-                <td class="text-center">
-                  <input
-                    type="checkbox"
-                    id="{{ PA.lote }}"
-                    [disabled]="PA.protocoloFlag != 'S' ? true : false"
-                  />
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <div class="d-flex justify-content-center p-2">
-            <ngb-pagination
-              [collectionSize]="paginador.totalRegistros"
-              [(page)]="page"
-              [pageSize]="pageSize"
-              [boundaryLinks]="true"
-              (pageChange)="cambioPagina($event)"
-              [ellipses]="false"
-              [maxSize]="5"
-              [rotate]="true"
-            >
-            </ngb-pagination>
-          </div>
-        </div>
-      </div>
-    </div> -->
-
-<!-- <ng-template #modalConsultaClientes let-modal>
-  <div class="modal-header">
-    <i class="fa fa-binoculars mt-1 mr-2" aria-hidden="true"></i>
-    <h4 class="modal-title">Búsqueda de Clientes</h4>
-    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <div class="card">
-      <div class="card-body">
-        <form class="w-50 m-b-30 ml-1 row">
-          <label class="col-md-3 p-0">Buscar:</label>
-          <div class="col-md-9 p-0">
-            <div class="col-md-12 p-0">
-              <input
-                type="text"
-                class="form-control"
-                placeholder=""
-                (keyup)="updateFilter($event)"
-              />
-            </div>
-          </div>
-        </form>
-        <ngx-datatable
-          #table
-          class="material"
-          [columnMode]="'force'"
-          [headerHeight]="50"
-          [footerHeight]="50"
-          [rowHeight]="'auto'"
-          [limit]="10"
-          [rows]="GlobalesBusquedaCliente.rows"
-        >
-          <ngx-datatable-column name="Codigo" prop="persona" [width]="100">
-            <ng-template let-value="value" ngx-datatable-cell-template>
-              {{ value }}
-            </ng-template>
-          </ngx-datatable-column>
-          <ngx-datatable-column
-            name="Nombre Completo"
-            prop="nombreCompleto"
-            [width]="450"
-          >
-            <ng-template let-value="value" ngx-datatable-cell-template>
-              {{ value }}
-            </ng-template>
-          </ngx-datatable-column>
-          <ngx-datatable-column name="Estado" prop="estado" [width]="100">
-            <ng-template let-value="value" ngx-datatable-cell-template>
-              {{ value }}
-            </ng-template>
-          </ngx-datatable-column>
-          <ngx-datatable-column name="Acción" sortable="false" prop="id">
-            <ng-template
-              let-row="row"
-              let-value="value"
-              ngx-datatable-cell-template
-            >
-              <button
-                md-icon-button
-                class="btn btn-success btn-xs"
-                (click)="ObtenerCliente(row)"
-              >
-                Pasar
-              </button>
-            </ng-template>
-          </ngx-datatable-column>
-        </ngx-datatable>
-      </div>
-    </div>
-  </div>
-
-  <div class="modal-footer">
-    <button type="button" class="btn btn-inverse" (click)="modal.dismiss('Cross click')">
-      Close
-    </button>
-  </div>
-</ng-template> -->

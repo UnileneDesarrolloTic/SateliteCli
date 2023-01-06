@@ -1,16 +1,9 @@
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { FormGroup, FormBuilder } from "@angular/forms";
+import { Component, OnInit } from "@angular/core";
 import { ProtocoloAnalisisData } from "@data/interface/Request/ProtocoloAnalisis.interface";
 import { ComercialService } from "@data/services/backEnd/pages/comercial.service";
-import { Paginado } from "@data/interface/Comodin/Paginado.interface";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { SesionService } from "@shared/services/comunes/sesion.service";
-import { formatDate } from "@angular/common";
-import { PDFDocument } from "pdf-lib";
-import { saveAs } from "file-saver";
 import { ToastrService } from "ngx-toastr";
-import { ModalCargarComponent } from "@shared/components/modal-cargar/modal-cargar.component";
-import { Cargarbase64Service } from "@shared/services/comunes/cargarbase64.service";
 import { ModalClienteComponent } from "@shared/components/modal-cliente/modal-cliente.component";
 import { FileService } from "@shared/services/comunes/file.service";
 
@@ -28,6 +21,7 @@ export class ProtocoloAnalisisComponent implements OnInit
   listarcliente:object[] = [];
   selected = [];
   flagDescargarLista: boolean = false;
+  flagDescargarPdf: boolean = false;
 
   messagerNgxTable = {
     'emptyMessage': 'No se ha encontrado protocolos',
@@ -37,19 +31,10 @@ export class ProtocoloAnalisisComponent implements OnInit
   frmBusqueda: FormGroup;
   disabledInput:boolean=false;
 
-  constructor(
-    private _fb: FormBuilder,
-    private _modalService: NgbModal,
-    private _comercialService: ComercialService,
-    private toastr: ToastrService,
-    private _fileService: FileService,
-    private modalService: NgbModal,
-    private _sesionService: SesionService,
-    private servicebase64:Cargarbase64Service,
-  )
+  constructor( private _fb: FormBuilder, private _modalService: NgbModal, private _comercialService: ComercialService,
+    private toastr: ToastrService, private _fileService: FileService )
   {
     this.crearFormularioBusqueda();
-    // this.filtrarClientes();
   }
 
   ngOnInit(): void 
@@ -70,12 +55,12 @@ export class ProtocoloAnalisisComponent implements OnInit
       {
         fechaInicio: [""],
         fechaFin: [""],
-        numeroDocumento: [{ value: "0000000146", disabled: true }],
+        numeroDocumento: [{ value: "", disabled: true }],
         lote: [""],
         ordenFabricacion: [""],
         idCliente: [""],
         nombreCliente: [{ value: "", disabled: true }],
-        tipoDocumento: ["C"],
+        tipoDocumento: [""],
         protocolo: [""],
       });
   }
@@ -120,12 +105,12 @@ export class ProtocoloAnalisisComponent implements OnInit
     body.idCliente = body.idCliente == "" ? 0 : body.idCliente;
 
     this.flagLoading = true;
-    this.listaProtocoloAnalisisAux = [];
+    this.listaProtocoloAnalisis = [];
 
     this._comercialService.ListarProtocoloAnalisis(body).subscribe(resp => 
     {
       this.listaProtocoloAnalisisAux = resp["content"];
-      // this.listaProtocoloAnalisis = resp["content"];
+      this.listaProtocoloAnalisis = resp["content"];
       this.flagLoading = false;
     },
     err => {
@@ -168,6 +153,41 @@ export class ProtocoloAnalisisComponent implements OnInit
           this.flagDescargarLista = false;
         }, 
         err => this.flagDescargarLista = false
+    );
+  }
+
+  imprimirProtocolos()
+  {
+    const lotesSeleccion = this.selected.filter( p => p.ordenFabricacion).map( p => p.ordenFabricacion)
+
+    if(lotesSeleccion.length < 1)
+    {
+      this.toastr.warning("No se detecto ningun protocolo seleccionado", "Advertencia !!", { closeButton: true, progressBar: true, timeOut: 3000})
+      return
+    }
+   
+    if(lotesSeleccion.length != this.selected.length)
+      this.toastr.warning("Para los protocolos seleccionados sin Ord. Fabricación, no se podra generar el reporte.", "Advertencia !!", { closeButton: true, progressBar: true, timeOut: 3000})
+
+    const ordenesFabricacion = { ordenesFabricacion: lotesSeleccion}
+    this.flagDescargarPdf = true;
+
+    this._comercialService.GenerarReporteProtocoloAnalisis(ordenesFabricacion).subscribe( resp => 
+      {
+        if(!resp['success'])
+        {
+          this.toastr.error(resp['message'], "Error !!", { closeButton: true, progressBar: true, timeOut: 3000})
+          return
+        }
+
+        if(resp['message'] !== "Ok")
+          this.toastr.warning(resp['message'], "Advertencia !!", { closeButton: true, progressBar: true, timeOut: 3000})
+        
+
+        this._fileService.decargarPDF_Base64(resp['content'], "Protocolo de Análisis")
+        this.flagDescargarPdf = false;
+      },
+      err => this.flagDescargarPdf = false
     );
   }
 
@@ -238,168 +258,4 @@ export class ProtocoloAnalisisComponent implements OnInit
     return this.frmBusqueda.get('tipoDocumento').value
   }
 
-  // AlternaGuiaFactura() {
-  //   let button = document.getElementById("btnNroDocumento");
-  //   let nroDocumento = <HTMLInputElement>(
-  //     document.getElementById("nroDocumentoAlterna")
-  //   );
-
-  //   if (!this.GlobalesPrincipal.documento) {
-  //     this.GlobalesPrincipal.documento = true;
-  //     button.innerHTML = "Factura";
-  //     nroDocumento.removeAttribute("placeholder");
-  //     nroDocumento.setAttribute("placeholder", "N° Factura");
-  //     this.frmBusqueda.patchValue({
-  //       tipoDoc: "F",
-  //     });
-  //   } else {
-  //     this.GlobalesPrincipal.documento = false;
-  //     button.innerHTML = "Guía";
-  //     nroDocumento.removeAttribute("placeholder");
-  //     nroDocumento.setAttribute("placeholder", "N° Guía");
-  //     this.frmBusqueda.patchValue({
-  //       tipoDoc: "G",
-  //     });
-  //   }
-  // }
-
-  // filterLotes() {
-  //   let tbody = document.getElementById("tbodyPrincipal");
-  //   let lotes = [];
-  //   tbody.childNodes.forEach((element) => {
-  //     if (element.childNodes.length !== 0) {
-  //       let checkbox = <HTMLInputElement>element.childNodes[10].childNodes[0];
-  //       if (
-  //         checkbox.getAttribute("disabled") == null &&
-  //         checkbox.checked == true
-  //       ) {
-  //         let lote = checkbox.getAttribute("id");
-  //         lotes.push(lote);
-  //       }
-  //     }
-  //   });
-  //   let lotesFormat = lotes.filter((item, index) => {
-  //     return lotes.indexOf(item) === index;
-  //   });
-  //   return lotesFormat;
-  // }
-
-  // async imprimirProtocoloAnalisis(modal: NgbModal) {
-  //   this.openVerticallyCentered(modal);
-
-  //   let pdfs = [];
-  //   let lotes = this.filterLotes();
-
-  //   await Promise.all(
-  //     lotes.map(async (lote) => {
-  //       let body = {
-  //         Lote: lote,
-  //       };
-  //       const pdfdoc = await this.ObtieneB64(body);
-  //       const pdf = await PDFDocument.load(pdfdoc);
-
-  //       pdfs.push(pdf);
-  //     })
-  //   );
-  //   this.mergePdfs(pdfs);
-  //   this.modalCargaReporte.close();
-  // }
-
-  ObtieneB64(body) 
-  {
-    var b64 = new Promise<string>((resolve, reject) => {
-      this._comercialService
-        .GenerarReporteProtocoloAnalisis(body)
-        .subscribe(async (resp) => {
-          let base64 = resp["content"];
-          resolve(base64);
-        });
-    });
-    return b64;
-  }
-
-  // async mergePdfs(pdfs) {
-  //   const mergedPdf = await PDFDocument.create();
-  //   for (let pdf of pdfs) {
-  //     const copiedPages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
-  //     copiedPages.forEach((page) => {
-  //       mergedPdf.addPage(page);
-  //     });
-  //   }
-  //   const mergedPdfFile = await mergedPdf.save();
-
-  //   saveAs(new Blob([mergedPdfFile]), "ProtocoloAnalisis.pdf");
-  // }
-
-  // openVerticallyCentered(modal: NgbModal) {
-  //   this.modalCargaReporte = this.modalService.open(modal, {
-  //     centered: true,
-  //     backdrop: "static",
-  //   });
-  // }
-
-  // /****************Funciones - Búsqueda Cliente****************/
-
-  // filtrarClientes() {
-  //   const body = {};
-
-  //   this._comercialService.ListarClientes(body).subscribe((resp) => {
-  //     //console.log(resp);
-  //     this.GlobalesBusquedaCliente.data = resp["content"];
-  //     this.GlobalesBusquedaCliente.rows = this.GlobalesBusquedaCliente.data;
-  //     this.GlobalesBusquedaCliente.temp = [
-  //       ...this.GlobalesBusquedaCliente.data,
-  //     ];
-  //     setTimeout(() => {
-  //       this.GlobalesBusquedaCliente.loadingIndicator = false;
-  //     }, 1500);
-  //   });
-  // }
-
-  // updateFilter(event: any) {
-  //   const val = event.target.value.toLowerCase();
-
-  //   // filter our data
-  //   const temp = this.GlobalesBusquedaCliente.temp.filter(function (d) {
-  //     return d.nombreCompleto.toLowerCase().indexOf(val) !== -1 || !val;
-  //   });
-
-  //   // update the rows
-  //   this.GlobalesBusquedaCliente.rows = temp;
-  //   // Whenever the filter changes, always go back to the first page
-  //   this.table = this.GlobalesBusquedaCliente.data;
-  // }
-
-  // updateValue(event: any, cell: any, rowIndex: number) {
-  //   this.GlobalesBusquedaCliente.editing[rowIndex + "-" + cell] = false;
-  //   this.GlobalesBusquedaCliente.rows[rowIndex][cell] = event.target.value;
-  //   this.GlobalesBusquedaCliente.rows = [...this.GlobalesBusquedaCliente.rows];
-  // }
-
-  // ObtenerCliente(row) {
-  //   this.frmBusqueda.patchValue({
-  //     idCliente: row.persona,
-  //     nombreCliente: row.persona + " - " + row.nombreCompleto,
-  //   });
-  //   this.modalBusquedaCliente.close();
-  // }
-
-  
-
-  // CambioEstadoTiene(event: any) {
-  //   this.listaProtocoloAnalisis = []  
-  //   let TextFiltro = event.target.value;
-
-  //   this.listaProtocoloAnalisis = this.listaProtocoloAnalisisAux
-
-  //   if (TextFiltro == "S") { // Productos con alerta
-  //     this.listaProtocoloAnalisis = this.listaProtocoloAnalisisAux.filter((element:any) => element.protocoloFlag == 'S');
-  //   } else if (TextFiltro == "N") { //Productos sin alerta
-  //     this.listaProtocoloAnalisis = this.listaProtocoloAnalisisAux.filter(element => element.protocoloFlag == 'N');
-  //   } else {//Ambas
-  //     this.listaProtocoloAnalisis = this.listaProtocoloAnalisisAux
-  //   }
-  // }
-
-  
 }

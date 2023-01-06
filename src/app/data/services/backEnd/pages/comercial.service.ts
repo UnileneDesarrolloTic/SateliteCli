@@ -31,7 +31,10 @@ export class ComercialService {
   GenerarReporteProtocoloAnalisis(body) {
     return this._http
       .post(this.url + "GenerarReporteProtocoloAnalisis", body)
-      .pipe(catchError(() => throwError("Error al registrar el reporte")));
+      .pipe(catchError( _ => {
+        this._toastr.error("Error al generar el reporte.","Error !!", {timeOut: 3000, closeButton: true, progressBar: true})
+        return throwError("Error al registrar el reporte")
+      }));
   }
 
   ListarLicitaciones(body) {
