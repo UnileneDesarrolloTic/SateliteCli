@@ -1,12 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router, RouterModule} from '@angular/router';
-import { DatosListarProgramacionMuestraLIP } from '@data/interface/Response/DatosListarProgramacionMuestraLIP.interface';
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { ActivatedRoute, Router} from '@angular/router';
+import { DatosContratoProcesos } from '@data/interface/Response/Agrupados/Licitaciones.interface';
 import { EstructuraDatosListaContratoProceso } from '@data/interface/Response/EstructuraListaContratoProceso.interface';
 import { LicitacionesService } from '@data/services/backEnd/pages/licitaciones.service';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
-
 
 @Component({
   selector: 'app-contrato-proceso',
@@ -19,6 +18,12 @@ export class ContratoProcesoComponent implements OnInit,OnDestroy {
   form:FormGroup;
   DeshabilitarBoton:boolean=true;
   ListadoProgramacioncontrato:FormGroup;
+  listaContradosProceso: DatosContratoProcesos[] = [];
+  flagLoading: boolean = false;
+  messagerNgxTable = {
+    'emptyMessage': 'No se ha encontrado procesos',
+    'totalMessage': 'Procesos'
+  }
   
   constructor(private _router: Router,
               private _LicitacionesServices:LicitacionesService,
@@ -45,13 +50,16 @@ export class ContratoProcesoComponent implements OnInit,OnDestroy {
 
   Listar(){
     this._LicitacionesServices.ListarContratoProceso(this.IdProceso).subscribe(
-        (resp)=>{
-            resp.length>0 ? this.DeshabilitarBoton=false : this.DeshabilitarBoton=true;
-            this.ProgramacionContratoProceso(resp);
+        (resp)=>
+        {
+          this.listaContradosProceso = resp
+            // resp.length>0 ? this.DeshabilitarBoton=false : this.DeshabilitarBoton=true;
+            // this.ProgramacionContratoProceso(resp);
         }
     )
   }
-  ProgramacionContratoProceso(ListadoProceso){
+  ProgramacionContratoProceso(ListadoProceso)
+  {
     const ArrayItem = this.ListadoProgramacioncontrato.controls.ContratoArray as FormArray;
     ArrayItem.controls = [];
 
@@ -90,4 +98,19 @@ export class ContratoProcesoComponent implements OnInit,OnDestroy {
   ngOnDestroy(){
     this.subcripcion.unsubscribe();
   }
+
+  updateValue(event, rowIndex) {
+    this.listaContradosProceso[rowIndex].numeroContrato = event.target.value ?? "";
+  }
+
+  listarcontratos()
+  {
+    console.log(this.listaContradosProceso);
+  }
+
+  guardarContratos(){
+    console.log(this.listaContradosProceso);
+    
+  }
+
 }

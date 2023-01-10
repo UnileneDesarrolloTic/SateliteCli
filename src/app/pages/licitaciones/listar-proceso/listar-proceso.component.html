@@ -1,52 +1,52 @@
 <div class="row">
     <div class="col-lg-12">
       <div class="card">
+        <div class="card-header bg-info text-white font-weight-bold">
+          Filtro de busqueda
+        </div>
         <div class="card-body">
-          <div class="row justify-content-start">
-            <div class="col-md-3">
-              <label for="cliente" class="col-sm-3 text-right control-label col-form-label text-white">.</label>
+          <div class="row">
+            <div class="col-md-6">
               <div class="form-group">
-                  <!-- <input type="text"  name='cliente' formControlName="cliente" readonly class="form-control" placeholder="Buscar Cliente"> -->
-                <div class="input-group mb-3">
-                  <div class="input-group-append">
-                    <button class="btn mr-0 btn-primary btn-sm" (click)="Reset()"  type="button">
-                        <i class=" fas fa-redo"></i>
-                    </button>
+                  <label class="control-label col-form-label-sm" (click)="openModalConsultaClientes()">
+                    Cliente
+                  </label>
+                  <div class="col-12 p-0">
+                    <div class="form-group">
+                      <div class="input-group">
+                        <div class="input-group-append">
+                          <button class="btn mr-0 btn-primary btn-sm" (click)="Reset()" type="button">
+                            <i class=" fas fa-redo"></i>
+                          </button>
+                        </div>
+                        <input type="text" name='cliente' [(ngModel)]="Cliente" #ctrl="ngModel" readonly  class="form-control form-control-sm" placeholder="Buscar Cliente" aria-label="" aria-describedby="basic-addon1">
+                        <div class="input-group-append">
+                            <button class="btn mr-0 btn-info btn-sm" (click)="openModalConsultaClientes()"  type="button">
+                              <i class="ti-search"></i>
+                            </button>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <input type="text" name='cliente' [(ngModel)]="Cliente" #ctrl="ngModel" readonly  class="form-control form-control-sm" placeholder="Buscar Cliente" aria-label="" aria-describedby="basic-addon1">
-                  <div class="input-group-append">
-                      <button class="btn mr-0 btn-info btn-sm" (click)="openModalConsultaClientes()"  type="button">
-                          <i class="ti-search"></i>
-                      </button>
-                  </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group has-danger">
+                    <label class="control-label col-form-label-sm" for="coincidencia">Palabra Clave</label>
+                    <input type="text" id="coincidencia" class="form-control form-control-sm" placeholder="Coincidencia" [formControl]= 'textFilterCtrl'>
                 </div>
-              </div>
             </div>
-            <div class="col-md-3">
-              <label for="fechainicio" class="text-right control-label col-form-label">&nbsp;</label>
-              <div class="form-group">
-                <button type="button" class="btn btn-info btn-sm"(click)="Filtrar()" ><i class="fas fa-search"></i> Buscar </button>
-              </div>
-            </div>
-            <!-- <button type="button" class="btn btn-info btn-rounded"(click)="NuevoProceso()" [disabled]="true"><i class="fas fa-file-medical"></i> Nuevo proceso </button> -->
-         </div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
 </div>
 
 <div class="row">
     <div class="col-lg-12">
       <div class="card">
         <div class="card-body">        
-          <div class="row mb-2">
-            <div class="col-4">
-              <input type="text" placeholder="Buscar por CodSut, Item o Descripción." class="form-control rounded-pill"  [formControl]= 'textFilterCtrl'>
-            </div>
-          </div>
-  
           <div class="col-12">
-
             <ngx-datatable
               class="material"
               [loadingIndicator]="flagLoading"
@@ -58,10 +58,34 @@
               [footerHeight]="50"
               [messages]="messagerNgxTable"
             >
-              <ngx-datatable-column name="Descripción Proceso" prop='descripcionProceso' [width]="200" [draggable]="false"></ngx-datatable-column>
-              <ngx-datatable-column name="Descripción Comercial" prop='descripcionComercial' [width]="200" [draggable]="false"></ngx-datatable-column>
-              <ngx-datatable-column name="Descripción Comercial Detalle" prop='descripcionComercialDetalle' [width]="420" [draggable]="false"></ngx-datatable-column>
-              <ngx-datatable-column name="Items" prop='cantItems' [width]="60" [draggable]="false"></ngx-datatable-column>
+              <ngx-datatable-column name="Descripción Proceso" prop='descripcionProceso' [width]="150" [draggable]="false">
+                <ng-template let-value="value" ngx-datatable-cell-template>
+                  <span style="font-size: 11px;">
+                    {{ value }}
+                  </span>
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column name="Descripción Comercial" prop='descripcionComercial' [width]="200" [draggable]="false">
+                <ng-template let-value="value" ngx-datatable-cell-template>
+                  <span style="font-size: 11px;">
+                    {{ value }}
+                  </span>
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column name="Descripción Comercial Detalle" prop='descripcionComercialDetalle' [width]="420" [draggable]="false">
+                <ng-template let-value="value" ngx-datatable-cell-template>
+                  <span style="font-size: 11px;">
+                    {{ value }}
+                  </span>
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column name="Items" prop='cantItems' [width]="80" [draggable]="false">
+                <ng-template let-value="value" ngx-datatable-cell-template>
+                  <span style="font-size: 12px;">
+                    {{ value }}
+                  </span>
+                </ng-template>
+              </ngx-datatable-column>
               <ngx-datatable-column name="Contrato" [width]="60" [draggable]="false" [sortable]="false" [resizeable]="false">
                 <ng-template let-value="value" ngx-datatable-cell-template let-row="row">
                     <button type="button" style="font-size: 10px;background-color: #9ce0db;border: none;" (click)="AbrirModuloContrato(row['idProceso'])" class="btn btn-secondary text-white"><i class="fas fa-file-alt"></i></button>

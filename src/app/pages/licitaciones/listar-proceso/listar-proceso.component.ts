@@ -18,7 +18,7 @@ export class ListarProcesoComponent implements OnInit {
 
   @Input() idProceso:number;
   Cliente: string = '';
-  idCliente: string = '';
+  idCliente: number = 0;
   listarcliente:object[]=[];
   ListarProcesoOriginal:DatosListarProceso[]=[];
   ListarProcesoAux:DatosListarProceso[]=[];
@@ -36,34 +36,37 @@ export class ListarProcesoComponent implements OnInit {
 
   ngOnInit(): void 
   {
-    this.Filtrar()
+    this.ObtenerProcesos()
     this.ListarCliente();
     
     this.textFilterCtrl.valueChanges.pipe( debounceTime(900) ).subscribe( _ => {
-      this.filtroSeleccion();
+      this.filtroClienteySeleccion();
     })
   }
 
-  filtroSeleccion()
+  filtroClienteySeleccion()
   {
     this.flagLoading = true
+
+    this.ListarProcesoAux = this.ListarProcesoOriginal;
+
+    console.log("filtroClienteySeleccion", this.idCliente);
+    
+    if(this.idCliente && this.idCliente != 0)
+      this.ListarProcesoAux = this.ListarProcesoAux.filter(x => x.cliente == this.idCliente)
+    
 
     if(this.textFilterCtrl.value != '')
     {
       const texto = this.textFilterCtrl.value.toLowerCase();
 
-      this.ListarProcesoAux = this.ListarProcesoOriginal.filter( x => 
+      this.ListarProcesoAux = this.ListarProcesoAux.filter( x => 
             (x.descripcionProceso != null && x.descripcionProceso?.toLowerCase().indexOf(texto) !== -1)
           || (x.descripcionComercial != null && x.descripcionComercial?.toLowerCase().indexOf(texto) !== -1)
           || (x.descripcionComercialDetalle != null &&x.descripcionComercialDetalle?.toLowerCase().indexOf(texto) !== -1)
       );
-      
     }
-    else
-      this.ListarProcesoAux = this.ListarProcesoOriginal
-   
     this.flagLoading = false
-
   }
 
   NuevoProceso()
@@ -131,16 +134,20 @@ export class ListarProcesoComponent implements OnInit {
 
     modalBusquedaCliente.componentInstance.fromParent = data;
 
-		modalBusquedaCliente.result.then((result) => {  
+		modalBusquedaCliente.result.then((result) => {
+      
+      
         if(result!=undefined)
         {
-            this.idCliente = result.persona;
+            this.idCliente = +result.persona ?? 0;
             this.Cliente = result.nombreCompleto;
+            console.log(result, this.idCliente);
+            this.filtroClienteySeleccion()
         }
 		});
   }
 
-  Filtrar()
+  ObtenerProcesos()
   {
     this.flagLoading = true
 
@@ -155,8 +162,9 @@ export class ListarProcesoComponent implements OnInit {
   }
 
   Reset(){
-    this.idCliente='';
+    this.idCliente=0;
     this.Cliente='';
+    this.filtroClienteySeleccion();
   }
 
 }

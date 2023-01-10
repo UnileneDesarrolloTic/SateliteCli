@@ -2,10 +2,11 @@ import { SeguimientoCandidato } from '@data/interface/Response/SeguimientoCandid
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { environment } from "environments/environment";
-import { throwError } from "rxjs";
+import { Observable, Subscriber, Subscription, throwError } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { DetallePedido } from '@data/interface/Response/ListarDetallePedido.interface';
 import { DatosListarProceso } from '@data/interface/Response/DatoListarProceso.interface';
+import { DatosContratoProcesos } from '@data/interface/Response/Agrupados/Licitaciones.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -16,9 +17,10 @@ export class LicitacionesService {
   constructor(private _http: HttpClient) { 
   }
 
-  ListarProceso(idClient){
+  ListarProceso(idClient):Observable<DatosListarProceso[]>
+  {
     const params =  new HttpParams().set('idClient', idClient)
-    return this._http.get<DatosListarProceso[]>(this.url+"/api/Licitaciones/ListarProceso",{'params': params}).pipe(
+    return this._http.get<DatosListarProceso[]>(this.url+"/api/Licitaciones/ListarProceso", {'params': params}).pipe(
       catchError (() => throwError("Error al obtener Detalle de Pedido"))
     );
   }
@@ -85,10 +87,10 @@ export class LicitacionesService {
     );
   }
 
-  ListarContratoProceso(proceso){
+  ListarContratoProceso(proceso):Observable<DatosContratoProcesos[]>{
     const params = new HttpParams().set('proceso',proceso);
-    return this._http.get<DetallePedido[]>(this.url+"/api/Licitaciones/ListarContratoProceso", {'params': params}).pipe(
-      catchError (() => throwError("Error al obtener Detalle de Pedido"))
+    return this._http.get<DatosContratoProcesos[]>(this.url+"/api/Licitaciones/ListarContratoProceso", {'params': params}).pipe(
+      catchError (_ => throwError("Error al obtener Detalle de Pedido"))
     );
   }
 
