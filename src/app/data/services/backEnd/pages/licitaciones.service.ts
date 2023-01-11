@@ -7,6 +7,7 @@ import { catchError } from "rxjs/operators";
 import { DetallePedido } from '@data/interface/Response/ListarDetallePedido.interface';
 import { DatosListarProceso } from '@data/interface/Response/DatoListarProceso.interface';
 import { DatosContratoProcesos } from '@data/interface/Response/Agrupados/Licitaciones.interface';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ import { DatosContratoProcesos } from '@data/interface/Response/Agrupados/Licita
 export class LicitacionesService {
   private url = environment.urlApiSatelliteCore;
 
-  constructor(private _http: HttpClient) { 
+  constructor(private _http: HttpClient, private _toastr: ToastrService) { 
   }
 
   ListarProceso(idClient):Observable<DatosListarProceso[]>
@@ -96,7 +97,11 @@ export class LicitacionesService {
 
   RegistrarContratoProceso(body){
     return this._http.post(this.url+"/api/Licitaciones/RegistrarContratoProceso", body).pipe(
-      catchError (() => throwError("Error al obtener Detalle de Pedido"))
+      catchError (_ => 
+      {
+        this._toastr.error("Ocurrio un error al guardas los contratos", "Error !!", {closeButton: true, progressBar: true, timeOut: 3000})
+        return throwError("Error al obtener Detalle de Pedido")
+      })
     );
   }
 

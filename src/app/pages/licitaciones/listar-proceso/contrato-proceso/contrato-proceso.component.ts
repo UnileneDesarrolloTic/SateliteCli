@@ -1,8 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router} from '@angular/router';
 import { DatosContratoProcesos } from '@data/interface/Response/Agrupados/Licitaciones.interface';
-import { EstructuraDatosListaContratoProceso } from '@data/interface/Response/EstructuraListaContratoProceso.interface';
 import { LicitacionesService } from '@data/services/backEnd/pages/licitaciones.service';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
@@ -12,13 +10,11 @@ import { Subscription } from 'rxjs';
   templateUrl: './contrato-proceso.component.html',
   styleUrls: ['./contrato-proceso.component.css']
 })
-export class ContratoProcesoComponent implements OnInit,OnDestroy {
-  IdProceso:number;
+export class ContratoProcesoComponent implements OnInit,OnDestroy 
+{
+  idProceso:number;
   subcripcion : Subscription
-  form:FormGroup;
-  DeshabilitarBoton:boolean=true;
-  ListadoProgramacioncontrato:FormGroup;
-  listaContradosProceso: DatosContratoProcesos[] = [];
+  listaContratosProceso: DatosContratoProcesos[] = [];
   flagLoading: boolean = false;
   messagerNgxTable = {
     'emptyMessage': 'No se ha encontrado procesos',
@@ -28,89 +24,57 @@ export class ContratoProcesoComponent implements OnInit,OnDestroy {
   constructor(private _router: Router,
               private _LicitacionesServices:LicitacionesService,
               private toastr: ToastrService,
-              private _fb: FormBuilder,
-              private activeroute:ActivatedRoute) {
-
+              private activeroute:ActivatedRoute) 
+  {
     this.subcripcion=this.activeroute.params.subscribe(params=>{
-      this.IdProceso=params["idproceso"];
-  });
-   }
+      this.idProceso=params["idproceso"];
+    });
+  }
 
   ngOnInit(): void {  
-    this.CrearFormulario()
     this.Listar();
   }
 
-  CrearFormulario(){
-   this.ListadoProgramacioncontrato = this._fb.group({
-    ContratoArray: this._fb.array([]),
-   })
- }
-
-
   Listar(){
-    this._LicitacionesServices.ListarContratoProceso(this.IdProceso).subscribe(
-        (resp)=>
-        {
-          this.listaContradosProceso = resp
-            // resp.length>0 ? this.DeshabilitarBoton=false : this.DeshabilitarBoton=true;
-            // this.ProgramacionContratoProceso(resp);
-        }
+    this._LicitacionesServices.ListarContratoProceso(this.idProceso).subscribe(
+        resp=> this.listaContratosProceso = resp
     )
   }
-  ProgramacionContratoProceso(ListadoProceso)
+
+  Salir()
   {
-    const ArrayItem = this.ListadoProgramacioncontrato.controls.ContratoArray as FormArray;
-    ArrayItem.controls = [];
-
-    ListadoProceso.forEach((itemRow:EstructuraDatosListaContratoProceso)=>{
-          const ItemFilaForm = this._fb.group({
-            idproceso: [itemRow.idproceso],
-            tipodeusuario: [itemRow.tipodeusuario],
-            numeroitem: [itemRow.numeroitem],
-            descripcionitem: [itemRow.descripcionitem],
-            numeroContrato: [itemRow.numeroContrato],
-          });
-      this.Programacioncontrato.push(ItemFilaForm);
-    })    
-  }
-
-  get Programacioncontrato(){
-    return this.ListadoProgramacioncontrato.controls['ContratoArray'] as FormArray;
-  }
-
-  Guardar(){
-    this._LicitacionesServices.RegistrarContratoProceso(this.ListadoProgramacioncontrato.controls['ContratoArray'].value).subscribe(
-      (resp)=>{
-          if(resp["success"]){
-              this.toastr.success(resp["content"])
-          }
-      })
-    
-  }
-
-
-  Salir(){
     this._router.navigate(['Licitaciones', 'proceso','listar-proceso'])
   }
-  
 
   ngOnDestroy(){
     this.subcripcion.unsubscribe();
   }
 
   updateValue(event, rowIndex) {
-    this.listaContradosProceso[rowIndex].numeroContrato = event.target.value ?? "";
+    this.listaContratosProceso[rowIndex].numeroContrato = event.target.value ?? "";
   }
 
-  listarcontratos()
+  guardarContratos()
   {
-    console.log(this.listaContradosProceso);
-  }
+    if(this.flagLoading)
+    {
+      this.toastr.warning("Se esta registrando la información","Advertencia !!", {closeButton: true, progressBar: true, timeOut: 3000})
+      return
+    }
 
-  guardarContratos(){
-    console.log(this.listaContradosProceso);
-    
+    this.flagLoading = true;
+
+    const body = this.listaContratosProceso.map(elem => (
+      {idproceso: elem.idproceso, tipodeusuario: elem.tipodeusuario, numeroitem: elem.numeroitem, numeroContrato: elem.numeroContrato}
+    ));
+
+    this._LicitacionesServices.RegistrarContratoProceso(body).subscribe(
+      _ => {
+        this.toastr.success("Se ha registrado correctamente.","Éxito !!", {closeButton: true, progressBar: true, timeOut: 3000})
+        this.flagLoading = false;
+      }, 
+      _ => this.flagLoading = false
+    )
   }
 
 }
