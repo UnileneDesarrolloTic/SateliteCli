@@ -9,7 +9,6 @@ import { Injectable } from "@angular/core";
     descargarArchivo(response: any, fileName:string): void
     {
         const formatoArchivo = response.type;
-        console.log(formatoArchivo);
         
         const binaryData = [];
         binaryData.push(response);
@@ -60,6 +59,15 @@ import { Injectable } from "@angular/core";
       
       return array; 
     } 
+
+    decargarPDF_Base64(base64Pdf:string, nameFile: string)
+    {
+      const downloadLink = document.createElement("a")
+      downloadLink.href = `data:application/pdf;base64,${base64Pdf}`
+      downloadLink.download = `${nameFile}.pdf`
+      downloadLink.click()
+      downloadLink.remove()
+    }
   
 
   }
