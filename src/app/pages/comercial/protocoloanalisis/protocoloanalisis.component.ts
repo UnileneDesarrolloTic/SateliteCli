@@ -93,6 +93,8 @@ export class ProtocoloAnalisisComponent implements OnInit
     const body = this.frmBusqueda.getRawValue();
     const boolValidacion: boolean = this.validarFiltros(body);
 
+    this.selected = [];
+
     if(!boolValidacion)
       return
 
@@ -177,6 +179,7 @@ export class ProtocoloAnalisisComponent implements OnInit
         if(!resp['success'])
         {
           this.toastr.error(resp['message'], "Error !!", { closeButton: true, progressBar: true, timeOut: 3000})
+          this.flagDescargarPdf = false;
           return
         }
 

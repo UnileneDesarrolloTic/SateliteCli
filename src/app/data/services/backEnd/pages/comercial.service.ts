@@ -1,8 +1,9 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { ProtocoloAnalisisData } from "@data/interface/Request/ProtocoloAnalisis.interface";
 import { environment } from "environments/environment";
 import { ToastrService } from "ngx-toastr";
-import { throwError } from "rxjs";
+import { Observable, throwError } from "rxjs";
 import { catchError } from "rxjs/operators";
 
 @Injectable({
@@ -13,9 +14,9 @@ export class ComercialService {
   private url = environment.urlApiSatelliteCore + "/api/Comercial/";
   constructor(private _http: HttpClient, private _toastr: ToastrService) {}
 
-  ListarProtocoloAnalisis(body) {
-    return this._http
-      .post(this.url + "ListarProtocoloAnalisis", body)
+  ListarProtocoloAnalisis(body):Observable<ProtocoloAnalisisData[]> 
+  {
+    return this._http.post<ProtocoloAnalisisData[]>(this.url + "ListarProtocoloAnalisis", body)
       .pipe(catchError(() => 
         { 
           this._toastr.error('Ocurrio un error al obtener la lista de protocolos.', 'Error !!', { closeButton: true, progressBar: true, timeOut: 3000})
@@ -23,14 +24,15 @@ export class ComercialService {
         }));
   }
 
-  ListarClientes(body) {
-    return this._http
-      .post(this.url + "ListarClientes", body)
+  ListarClientes(body)
+  {
+    return this._http.post(this.url + "ListarClientes", body)
       .pipe(catchError(() => throwError("Error al cargar la lista")));
   }
-  GenerarReporteProtocoloAnalisis(body) {
-    return this._http
-      .post(this.url + "GenerarReporteProtocoloAnalisis", body)
+  
+  GenerarReporteProtocoloAnalisis(body) 
+  {
+    return this._http.post(this.url + "GenerarReporteProtocoloAnalisis", body)
       .pipe(catchError( _ => {
         this._toastr.error("Error al generar el reporte.","Error !!", {timeOut: 3000, closeButton: true, progressBar: true})
         return throwError("Error al registrar el reporte")
