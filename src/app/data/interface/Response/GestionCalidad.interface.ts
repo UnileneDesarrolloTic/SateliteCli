@@ -154,3 +154,26 @@ export interface EvidenciaLoteReclamo
     usuario: string,
     fecha: Date
 }
+
+export interface SsomaDTO
+{
+    idSsoma: number,
+    idTipoDocumento: number,
+    tipoDocumentoDescripcion: string,
+    idUbicacionSsoma: number,
+    idProteccionSsoma: number,
+    idEstadoSsoma: number,
+    estadoDescripcion: string,
+    codigoDocumento: string,
+    nombreDocumento: string,
+    fechaPublicacion: Date,
+    versionSsoma: number,
+    vigencia: number,
+    idSsomaAlmacenamiento: number,
+    archivoPasivo: number,
+    responsable: string,
+    fechaAprobacion: Date,
+    fechaRevision: Date,
+    comentario: string,
+    dias: number
+}

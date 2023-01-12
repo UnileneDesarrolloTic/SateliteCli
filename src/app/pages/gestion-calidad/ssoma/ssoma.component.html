@@ -2,7 +2,7 @@
     <div class="col-12">
       <div class="card border-left border-info">
         <div class="card-header bg-info text-white" style="font-weight: bold">
-            <i class="fas fa-search"></i> Filtros de búsqueda
+            <i class="fas fa-search"></i>&nbsp;&nbsp;Filtros de búsqueda
         </div>
         <div class="card-body">
           <form autocomplete="off" [formGroup]="formFormularioFiltros" (submit)="filtrarLote()">
@@ -10,7 +10,7 @@
                 <div class="col-md-3">
                     <div class="form-group">
                         <label class="control-label text-black" style="font-size:12px">Codigo:</label>
-                        <input type="text"  formControlName="Codigo" class="form-control form-control-sm" placeholder="Codigo">
+                        <input type="text"  formControlName="codigo" class="form-control form-control-sm" placeholder="codigo">
                     </div>
                 </div>
                 <div class="col-md-3">
@@ -18,11 +18,10 @@
                         <label class="control-label" style="font-size:12px">Tipo Documento:</label>
                         <select class="form-control  form-control-sm" formControlName="tipoDocumento">
                             <option [value]="0" selected>TODO</option>
-                            <option *ngFor="let tipo of TipoDocumentoSsoma"   [value]="tipo.idTipoDocumento">
+                            <option *ngFor="let tipo of tipoDocumentoSsoma"   [value]="tipo.idTipoDocumento">
                                 {{tipo.descripcion}}
                             </option>
                         </select>
-                            
                     </div>
                 </div>
                 <div class="col-md-3">
@@ -30,7 +29,7 @@
                         <label class="control-label" style="font-size:12px">Estado</label>
                         <select class="form-control  form-control-sm" formControlName="estado">
                             <option [value]="0" selected>TODO</option>
-                            <option *ngFor="let estado of estadoSsoma"   [value]="estado.idEstadoSsoma">
+                            <option *ngFor="let estado of estadoSsoma" [value]="estado.idEstadoSsoma">
                                 {{estado.descripcion}}
                             </option>
                         </select>
@@ -49,17 +48,17 @@
       </div>
     </div>
 </div>
-
-
-
 <div class="row">
     <div class="col-12">
         <div class="card border-left border-info">
-            <div class="card-body">
-                <div class="table-responsive text-nowrap">
+            <div class="card-body" >
+                <div class="alert alert-warning" role="alert" *ngIf="flagBusqueda && listaSsoma.length <= 0">
+                    No se han encontrado resultados.
+                </div>
+                <div class="table-responsive text-nowrap " style="height: 400px;overflow-y: scroll;" *ngIf="flagBusqueda && listaSsoma.length > 0">
                     <table class="table table-hover table-bordered table-sm">
                         <thead style="font-size: 11px;">
-                            <tr>
+                            <tr style="position: sticky; top: 0;" class="bg-white">
                                 <th scope="col" class="text-center font-weight-bold">Código</th>
                                 <th scope="col" class="text-center font-weight-bold">T.Documento</th>
                                 <th scope="col" class="text-center font-weight-bold">Nombre Documento</th>
@@ -73,11 +72,11 @@
                                 <th scope="col" class="text-center font-weight-bold">Opción</th>
                             </tr>
                         </thead>
-                        <tbody style="font-size: 11px;">
-                            <tr *ngFor="let documento of listarSsoma; let i = index">
+                        <tbody style="font-size: 11px; overflow: scroll;">
+                            <tr *ngFor="let documento of listaSsoma; let i = index">
                                 <td class="text-center"><b>{{documento.codigoDocumento}}</b></td>
                                 <td class="text-center"><b>{{documento.tipoDocumentoDescripcion}}</b></td>
-                                <td class="text-center"><b>{{documento.nombreDocumento}}</b></td>
+                                <td class="text-center text-wrap"><b>{{documento.nombreDocumento}}</b></td>
                                 <td class="text-center"><b>{{documento.versionSsoma}}</b></td>
                                 <td class="text-center"><b>{{documento.vigencia}}</b></td>
                                 <td class="text-center"><b>{{documento.estadoDescripcion}}</b></td>
@@ -85,19 +84,12 @@
                                 <td class="text-center"><b>{{documento.fechaPublicacion | date :'dd/MM/yyyy'}}</b></td>
                                 <td class="text-center"><b>{{documento.fechaRevision | date :'dd/MM/yyyy'}}</b></td>
                                 <td class="text-center">
-                                    <div *ngIf="documento.dias>0;then other_content else content"></div>
-                                    <ng-template #content>
-                                        <button  type="button" style="background-color: #c514a2;border: none;" class="btn btn-danger btn-sm"> <i class="fas fa-hourglass-end"></i> {{documento.dias}}</button>
-                                    </ng-template>
-                                    <ng-template #other_content>
-                                        <button  type="button"  style="background-color: #0dd139;border: none;" class="btn btn-success btn-sm"> <i class=" fas fa-hourglass-half"></i> {{documento.dias}}</button>
-                                    </ng-template>
-                                    <!-- <button *ngIf="documento.dias>0"  type="button" class="btn btn-success btn-sm"> <i class=" fas fa-hourglass-half"></i> {{documento.dias}}</button> -->
+                                    <button *ngIf="documento.dias <= 0" type="button" style="background-color: #c514a2;border: none;" class="btn btn-danger btn-sm"> <i class="fas fa-hourglass-end"></i> {{documento.dias}}</button>
+                                    <button *ngIf="documento.dias > 0" type="button"  style="background-color: #0dd139;border: none;" class="btn btn-success btn-sm"> <i class=" fas fa-hourglass-half"></i> {{documento.dias}}</button>
                                 </td>
                                 <td class="text-center"> 
-                                        <button class="btn btn-info btn-sm" style="background-color: #1496ea;border: none" type="button" (click)="OpenModal('editar',documento)"> <i class="fas fa-edit"></i> </button>
-                                        <button (click)="EliminarSsoma(documento,i)" type="button" class="btn btn-danger btn-sm"> <i class="fas fa-trash-alt"></i></button>
-                                       
+                                    <button class="btn btn-info btn-sm" style="background-color: #1496ea;border: none" type="button" (click)="OpenModal('editar',documento)"> <i class="fas fa-edit"></i> </button>
+                                    <button (click)="EliminarSsoma(documento,i)" type="button" class="btn btn-danger btn-sm"> <i class="fas fa-trash-alt"></i></button>
                                 </td>
                             </tr>
                         </tbody>

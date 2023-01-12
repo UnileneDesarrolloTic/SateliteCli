@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { RegistrarReclamoResp } from "@data/interface/Response/Common.interface";
-import { CabeceraLoteReclamo, DatosItemPorLote, DatosReclamo, EvidenciaLoteReclamo, FiltrosLotesReclamos, LotesFiltradosReclamo, ReclamosQuejasPaginado, TBDReclamoEntity } from "@data/interface/Response/GestionCalidad.interface";
+import { CabeceraLoteReclamo, DatosItemPorLote, DatosReclamo, EvidenciaLoteReclamo, FiltrosLotesReclamos, LotesFiltradosReclamo, ReclamosQuejasPaginado, SsomaDTO, TBDReclamoEntity } from "@data/interface/Response/GestionCalidad.interface";
 import { environment } from "environments/environment";
 import { ToastrService } from "ngx-toastr";
 import { Observable, throwError } from "rxjs";
@@ -69,15 +69,15 @@ import { catchError, map } from "rxjs/operators";
       )
     }
 
-    ListarSsoma(TipoDocumento,Codigo,Estado)
+    ListarSsoma(TipoDocumento,Codigo,Estado): Observable<SsomaDTO[]>
     {
       const params =  new HttpParams().set('TipoDocumento', TipoDocumento).set('Codigo',Codigo).set('Estado',Estado)
-        return this._http.get(this.url + "/ListarSsoma",{"params":params}).pipe(
-            catchError(() => {
-              this._toastr.error("Error al obtener la lista de Ssoma.", 'ERROR !', { closeButton:true, progressBar:true, timeOut:3000 })
-              return throwError("Error al obtener la lista de Ssoma.")
-            })
-          ) 
+      return this._http.get<SsomaDTO[]>(this.url + "/ListarSsoma",{"params":params}).pipe(
+          catchError(_ => {
+            this._toastr.error("Error al obtener la lista de Ssoma.", 'ERROR !', { closeButton:true, progressBar:true, timeOut:3000 })
+            return throwError("Error al obtener la lista de Ssoma.")
+          })
+        ) 
     }
 
     RegistrarSsoma(body)
