@@ -54,9 +54,8 @@ export const LicitacionesRoutes: Routes = [
         canDeactivate: [ConfirmExitGuard],
         component: ContratoProcesoComponent,
         data: {
-          title: "Contrato Proceso",
           urls: [
-            { title: 'Contrato Proceso', url: '/Licitaciones/proceso/listar-proceso'},
+            { title: 'Lista Procesos', url: '/Licitaciones/proceso/listar-proceso'},
             { title: 'Contrato Proceso' }
           ]
         },

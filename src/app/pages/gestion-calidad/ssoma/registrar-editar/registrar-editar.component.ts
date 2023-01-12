@@ -1,12 +1,13 @@
+import { formatDate } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ListarSsomaModel } from '@data/interface/Response/DatosFormatoListarSsoma.interface';
 import { AlmacenamientoSsoma } from '@data/interface/Response/DatosFormatosAlmacenamientosSoma.interfaces';
 import { EstadoSsoma } from '@data/interface/Response/DatosFormatosEstadosSoma.interfaces';
 import { ProteccionSsoma } from '@data/interface/Response/DatosFormatosProteccionsSoma.interfaces';
 import { ResponsableSsoma } from '@data/interface/Response/DatosFormatosResponsableSoma.interfaces';
 import { TipoDocumentoSsoma } from '@data/interface/Response/DatosFormatosTipoDocumentosSoma.interfaces';
 import { UbicacionSsoma } from '@data/interface/Response/DatosFormatosUbicacionsSoma.interfaces';
+import { SsomaDTO } from '@data/interface/Response/GestionCalidad.interface';
 import { GestionCalidadService } from '@data/services/backEnd/pages/gestionCalidad.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { GenericoService } from '@shared/services/comunes/generico.service';
@@ -73,16 +74,21 @@ export class RegistrarEditarComponent implements OnInit {
     });
   }
 
-  colocarValorFormulario(formulario:FormGroup,data:ListarSsomaModel){
+  colocarValorFormulario(formulario:FormGroup,data:SsomaDTO)
+  {   
+    let fechaPublicacion = formatDate(data.fechaPublicacion, 'yyyy-dd-MM', 'en-US') ?? "";
+    let fechaRevision = formatDate(data.fechaRevision, 'yyyy-dd-MM', 'en-US') ?? "";
+    let fechaAprobacion = formatDate(data.fechaAprobacion, 'yyyy-dd-MM', 'en-US') ?? "";
+
     formulario.patchValue({
       idSsoma : data.idSsoma,
       codigo : data.codigoDocumento,
       nombreDocumento : data.nombreDocumento,
       tipoDocumento : data.idTipoDocumento,
       version : data.versionSsoma,
-      fechapublicacion :  data.fechaPublicacion!=null ? data.fechaPublicacion.split("T")[0] : null ,
-      fecharevision : data.fechaRevision!=null ? data.fechaRevision.split("T")[0] : null ,
-      fechaAprobacion: data.fechaAprobacion!=null ? data.fechaAprobacion.split("T")[0] : null ,
+      fechapublicacion : fechaPublicacion ,
+      fecharevision : fechaRevision ,
+      fechaAprobacion: fechaAprobacion ,
       estado : data.idEstadoSsoma,
       Ubicacion :data.idUbicacionSsoma,
       Almacenamiento :data.idSsomaAlmacenamiento,

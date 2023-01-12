@@ -1,7 +1,8 @@
-export interface EstructuraDatosListaContratoProceso {
+export interface DatosContratoProcesos 
+{
     idproceso: number,
     tipodeusuario: string,
     numeroitem: number,
-    descripcionitem:string,
+    descripcionitem: string,
     numeroContrato: string
-  }
+}

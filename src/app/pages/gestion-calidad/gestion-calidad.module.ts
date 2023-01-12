@@ -12,6 +12,7 @@ import { DetalleComponent } from './reclamos-quejas/detalle/detalle.component';
 import { ListaComponent } from './reclamos-quejas/lista/lista.component';
 import {DatePipe} from '@angular/common';
 import { DetalleLoteComponent } from './reclamos-quejas/detalle-lote/detalle-lote.component';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { DetalleLoteComponent } from './reclamos-quejas/detalle-lote/detalle-lot
     ReactiveFormsModule,
     CommonModule,
     NgbModule,
-    FormsModule
+    FormsModule,
+    NgxDatatableModule
   ], 
   providers: [
     DatePipe

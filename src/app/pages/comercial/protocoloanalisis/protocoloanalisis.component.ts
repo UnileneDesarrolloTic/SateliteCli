@@ -55,12 +55,12 @@ export class ProtocoloAnalisisComponent implements OnInit
       {
         fechaInicio: [""],
         fechaFin: [""],
-        numeroDocumento: [{ value: "", disabled: true }],
+        numeroDocumento: [{ value: "", disabled: false }],
         lote: [""],
         ordenFabricacion: [""],
         idCliente: [""],
         nombreCliente: [{ value: "", disabled: true }],
-        tipoDocumento: [""],
+        tipoDocumento: ["F"],
         protocolo: [""],
       });
   }
