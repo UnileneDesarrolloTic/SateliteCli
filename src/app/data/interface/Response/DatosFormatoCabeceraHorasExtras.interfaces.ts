@@ -6,4 +6,5 @@ export interface DatosFormatoCabeceraHoraExtras {
     descripcion:string; 
     fechaRegistro:Date;
     estado:string;
+    periodo:string;
 }

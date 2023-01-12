@@ -46,7 +46,10 @@ import { catchError, map } from 'rxjs/operators';
 
     ListarHoraExtras(body){
       return this._http.post(this.url+"ListarHoraExtrasPersona",body).pipe(
-        catchError (() => throwError("Error al obtener Listar Horas Extras"))
+        catchError((ex) => {
+          this._toastr.error("Error al momento de listar ", "Error !!", { timeOut: 4000, closeButton: true })
+          return throwError("Error al momento de listar")
+        })
       );
     }
 

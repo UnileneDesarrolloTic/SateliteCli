@@ -44,7 +44,6 @@ export class FormularioHorasextrasComponent implements OnInit {
   ListarArea:Object[]=[];
   
   CrearFormulario: FormGroup;
-  activarCampo:boolean=true;
   ListarAreaPersona:DatosFormatoFiltrarAreaPersona[]=[];
 
   ngOnInit(): void {
@@ -71,6 +70,7 @@ export class FormularioHorasextrasComponent implements OnInit {
         FechaRegistro: new FormControl(formatDate(new Date(Date.now()), 'yyyy-MM-dd', 'en')),
         Persona: new FormControl('O',Validators.required),
         Justificacion: new FormControl('',Validators.required),
+        Periodo: new FormControl('',[Validators.maxLength(7)]),
         Estado: new FormControl('GE'),
         ListaPersona: this._fb.array([])
       })
@@ -111,6 +111,7 @@ export class FormularioHorasextrasComponent implements OnInit {
             FechaRegistro:formatDate(new Date(this.HorasExtrasCabecera.fechaRegistro), 'yyyy-MM-dd', 'en') ,
             Persona:this.HorasExtrasCabecera.tipoPersona,
             Justificacion: this.HorasExtrasCabecera.justificacion,
+            Periodo:this.HorasExtrasCabecera.periodo,
             Estado:this.HorasExtrasCabecera.estado
           });
 
@@ -174,9 +175,6 @@ export class FormularioHorasextrasComponent implements OnInit {
   }
  
 
-  activaDesactiva(){
-      this.activarCampo=!this.activarCampo;
-  }
 
 
   AgregarPersona(){ 
@@ -218,28 +216,35 @@ export class FormularioHorasextrasComponent implements OnInit {
   Guardar(){
       
       let rpta:boolean=true;
-     
+      let simbolo = this.CrearFormulario.controls.Periodo.value.substring(4,5)=="-";
 
+      console.log(!this.CrearFormulario.controls.Periodo.invalid,simbolo)
+      
       if(this.HorasExtrasCabecera!=undefined)
         if(this.HorasExtrasCabecera.estado=='AP')
-          return this.toastr.warning("No puede modificar,ya que se encuentra en estado APROBADO");
-
+          return this.toastr.warning("No puede modificar,ya que se encuentra en estado APROBADO", "Advertencia", {timeOut: 1500, closeButton: true, tapToDismiss: true, progressBar: true});
 
       if(this.CrearFormulario.controls.Area.invalid)
-        return this.toastr.warning("Debe seleccionar el Area");
+        return this.toastr.warning("Debe seleccionar el Area", "Advertencia", {timeOut: 1500, closeButton: true, tapToDismiss: true, progressBar: true});
 
       if(this.CrearFormulario.controls.Persona.invalid)
-        return this.toastr.warning("Debe seleccionar la Persona");
+        return this.toastr.warning("Debe seleccionar la Persona", "Advertencia", {timeOut: 1500, closeButton: true, tapToDismiss: true, progressBar: true});
+
+      if((!simbolo) && (!this.CrearFormulario.controls.Periodo.invalid))
+        return this.toastr.warning("Ingrese bien el formato Correcto: YYYY-MM ", "Advertencia", {timeOut: 1500, closeButton: true, tapToDismiss: true, progressBar: true});
+
+      if(this.CrearFormulario.controls.ListaPersona.invalid)
+        return this.toastr.warning("Debe Completar los campos en blanco", "Advertencia", {timeOut: 1500, closeButton: true, tapToDismiss: true, progressBar: true});
 
       if(this.CrearFormulario.controls.Justificacion.invalid)
-        return this.toastr.warning("Debe ingresar la justificación");
+        return this.toastr.warning("Debe ingresar la justificación", "Advertencia", {timeOut: 1500, closeButton: true, tapToDismiss: true, progressBar: true});
 
       if(this.CrearFormulario.controls.ListaPersona.value.length == 0)
-        return this.toastr.warning("Debe Agregar Personas a la Lista");
+        return this.toastr.warning("Debe Agregar Personas a la Lista", "Advertencia", {timeOut: 1500, closeButton: true, tapToDismiss: true, progressBar: true});
       
-      if(this.CrearFormulario.controls.ListaPersona.invalid)
-        return this.toastr.warning("Debe Completar los campos en blanco");
 
+
+      
 
       const dato={
           ...this.CrearFormulario.value,
