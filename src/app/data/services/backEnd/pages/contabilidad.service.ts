@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'environments/environment';
+import { ToastrService } from 'ngx-toastr';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
@@ -11,7 +12,7 @@ export class ContabilidadService {
 
   private url = environment.urlApiSatelliteCore;
 
-  constructor(private _http: HttpClient) { }
+  constructor(private _http: HttpClient,private _toastr: ToastrService) { }
 
   
 
@@ -64,6 +65,15 @@ export class ContabilidadService {
     return this._http.post(this.url+"/api/Contabilidad/ExportarExcelProductoCostoBase",body).pipe(
         catchError(() => throwError("Error al Consultar Costo Base Productos"))
     )
+  }
+
+  ListarInformacionTransaccionKardex(body){
+    return this._http.post(this.url+"/api/Contabilidad/InformacionTransaccionKardex",body).pipe(
+      catchError((ex) => {
+        this._toastr.error("Error al listar la información", "Error !!", { timeOut: 4000, closeButton: true })
+        return throwError("Error al listar la información")
+      })
+    );
   }
   
 

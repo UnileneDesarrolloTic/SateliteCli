@@ -1,0 +1,100 @@
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card  border-left border-info">
+            <div class="card-body">
+                <form action="" [formGroup]="FormularioGrupo" (submit)="Filtrar()">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="control-label font-weight-normal"  style="font-size:12px">Periodo</label>
+                                <input type="text" formControlName="Periodo"  class="form-control form-control-sm font-weight-normal" [maxLength]="6">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="control-label font-weight-normal" style="font-size:12px">Tipo</label>
+                                <select  class="form-control" formControlName="Tipo" class="form-control form-control-sm">
+                                        <option [value]="'TR'"> TRANSACCION </option>
+                                        <option [value]="'KA'"> KARDEX </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="control-label text-white">:</label>
+                            <div class="form-group">
+                                <button  type="submit" class="btn btn-info btn-sm"><i class="fas fa-search"></i> Buscar</button>
+                                <button  (click)="Guardar()" type="button" class="btn btn-success btn-sm"><i class="fas fa-save"></i> Guardar</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-check form-check-inline">
+                                <div class="custom-control custom-checkbox">
+                                  <input type="checkbox" formControlName="CheckCierre"  class="custom-control-input" id="customCheck1">
+                                  <label class="custom-control-label" for="customCheck1">¿Desea cerra el mes?</label>
+                                </div>
+                            </div>
+                        </div>
+                       
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+      <div class="card border-left border-info">
+        <div class="card-body">
+                <table class=" scroll-group table table-striped border" style="font-size: 12px">
+                    <thead class="no-wrap">
+                        <tr>
+                            <th>TipoDoc.</th>
+                            <th>NumeroDoc.</th>
+                            <th>TranCodigo</th>
+                            <th>Ref.TipoDoc.</th>
+                            <th>Ref.NumeroDoc.</th>
+                            <th>Secuencia</th>
+                            <th>Item</th>
+                            <th>Lote</th>
+                            <th>Cantidad</th>
+                            <th>Pre.Unitario</th>
+                            <th>MontoTotal</th>
+                            <th>MontoTotalReal</th>
+                            
+
+  
+                        </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let listado of ListarTransaccionKardex">
+                        <td>{{ listado.tipoDocumento }}</td>
+                        <td>{{ listado.numeroDocumento }}</td>
+                        <td>{{ listado.transaccionCodigo }}</td>
+                        <td>{{ listado.referenciaTipoDocumento }}</td>
+                        <td>{{ listado.referenciaNumeroDocumento }}</td>
+                        <td>{{ listado.secuencia }}</td>
+                        <td>{{ listado.item }}</td>
+                        <td>{{ listado.lote }}</td>
+                        <td>{{ listado.cantidad }}</td>
+                        <td>{{ listado.precioUnitario | number : '1.2-2' }}</td>
+                        <td>{{ listado.montoTotal | number : '1.2-2'}}</td>
+                        <td>{{ listado.montoTotalReal | number : '1.2-2' }}</td>
+                        
+                      </tr>
+                    </tbody>
+                </table>
+            </div>
+  
+            <div class="d-flex justify-content-center p-2">
+                <ngb-pagination *ngIf="paginador.totalPaginas > 1" [collectionSize]="paginador.totalRegistros"
+                    [(page)]="page" [pageSize]="pageSize" [boundaryLinks]="true"
+                    (pageChange)="cambioPagina($event)" [ellipses]="false" [maxSize]=5 [rotate]="true">
+                </ngb-pagination>
+            </div>
+        </div>
+  
+        </div>
+  </div>

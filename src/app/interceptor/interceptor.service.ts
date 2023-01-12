@@ -161,6 +161,7 @@ export class InterceptorService implements HttpInterceptor {
       'Contabilidad/ProcesarProductoExcel',
       'Contabilidad/ListarItemComponentePrecio',
       'Contabilidad/ExportarExcelProductoCostoBase',
+      'Contabilidad/InformacionTransaccionKardex',
       'AnalisisAguja/ListaOrdenesCompra',
       'AnalisisAguja/ListarAnalisisAguja',
       'AnalisisAguja/ListarCiclos',
