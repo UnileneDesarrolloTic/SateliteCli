@@ -61,4 +61,15 @@ import { catchError, map } from 'rxjs/operators';
       );
     }
 
+    ProcesarHorasExtrasPlanilla(periodo: string)
+    {
+      const params =  new HttpParams().set('periodo', periodo);
+      return this._http.get(this.url+"ProcesarHorasExtrasPlanilla",{'params': params}).pipe(
+        catchError(_ => {
+          this._toastr.error("Error al procesar las horas extras", "Error !!", {tapToDismiss: true, closeButton: true, timeOut: 3000});
+          return throwError("Error al procesar las horas extras");
+        })
+      );
+    }
+
   }

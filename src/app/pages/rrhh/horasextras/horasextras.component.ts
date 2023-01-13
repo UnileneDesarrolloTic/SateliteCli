@@ -1,4 +1,5 @@
 import { formatDate } from '@angular/common';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -15,15 +16,14 @@ import { debounceTime } from 'rxjs/operators';
 export class HorasextrasComponent implements OnInit {
 
   FiltroFormulario:FormGroup;
-  ListarHorasExtras:DatosFormatoListarHorasExtras[]=[];
-  TempListarHorasExtras:DatosFormatoListarHorasExtras[]=[];
-  activarCampo:boolean=false;
-  flagProcesar:boolean=false;
-  flagListar:boolean=false;
-  textfiltro=new FormControl('');
-  constructor(private _router: Router,
-              private _RRHHService:RRHHService,
-              private toastr: ToastrService) { }
+  ListarHorasExtras:DatosFormatoListarHorasExtras[] = [];
+  TempListarHorasExtras:DatosFormatoListarHorasExtras[] = [];
+  activarCampo:boolean = false;
+  flagProcesar:boolean = false;
+  flagListar:boolean = false;
+  textfiltro = new FormControl('');
+  constructor(private _router: Router,  private _RRHHService:RRHHService, private toastr: ToastrService) 
+  { }
 
   ngOnInit(): void {
     this.crearFormulario();
@@ -32,9 +32,9 @@ export class HorasextrasComponent implements OnInit {
 
   crearFormulario(){
     this.FiltroFormulario = new FormGroup({
-        FechaInicio: new FormControl(formatDate(new Date(Date.now()), 'yyyy-MM-dd', 'en')),
-        FechaFin: new FormControl(formatDate(new Date(Date.now()), 'yyyy-MM-dd', 'en')),
-        Periodo: new FormControl('',[Validators.maxLength(7)]),
+        FechaInicio: new FormControl({value: '', disabled: true}),
+        FechaFin: new FormControl({value: '', disabled: true}),
+        Periodo: new FormControl('2023-01'),
         Estado: new FormControl('TD'),
     });
   }
@@ -55,13 +55,11 @@ export class HorasextrasComponent implements OnInit {
    }
 
   instanciarObservadoresFilter(){
-    this.textfiltro.valueChanges.pipe( debounceTime(900) ).subscribe( _ => {
-      // console.log(this._Cargarbase64Service.zfill(this.textFilterCtrl.value,10));
+    this.textfiltro.valueChanges.pipe( debounceTime(900) ).subscribe( _ => 
+    {
       if(this.textfiltro.value.trim() == '')
       {
-        const texto = this.textfiltro.value.toLowerCase();
         this.ListarHorasExtras=this.TempListarHorasExtras;
-        
       }
 
       if(this.textfiltro.value != '')
@@ -72,44 +70,109 @@ export class HorasextrasComponent implements OnInit {
     })
   }
 
-  filtrar(){
-      let simbolo = this.FiltroFormulario.controls.Periodo.value.substring(4,5)=="-";
-      this.flagListar=true;
+  filtrar()
+  {
+    this.flagListar=true;
 
-      if (this.activarCampo==false)
-        if (this.FiltroFormulario.controls.FechaInicio.value > this.FiltroFormulario.controls.FechaFin.value)
-            return (this.toastr.warning("La fecha de inicio es mayor que la fecha final", "Advertencia" ,{timeOut: 3000, closeButton: true, tapToDismiss: true, progressBar: true}), this.flagListar=false);
-      
-      if (this.activarCampo==true)
-        if((!simbolo) && (!this.FiltroFormulario.controls.Periodo.invalid))
-            return (this.toastr.warning("Ingrese bien el formato Correcto: YYYY-MM ", "Advertencia", {timeOut: 3000, closeButton: true, tapToDismiss: true, progressBar: true}),this.flagListar=false);
+    if (this.activarCampo && (this.fechaInicio == '' || this.fechaFin == ''))
+    {
+      this.toastr.warning("Las fechas seleccionadas no son válidas.", "Advertencia !!", {timeOut: 3000, closeButton: true, tapToDismiss: true, progressBar: true}) 
+      this.flagListar=false
+      return
+    }
+    
+    if (this.activarCampo && this.fechaInicio > this.fechaFin)
+    {
+      this.toastr.warning("La fecha de inicio debe ser menor a la fecha final", "Advertencia !!", {timeOut: 3000, closeButton: true, tapToDismiss: true, progressBar: true}) 
+      this.flagListar=false
+      return
+    }
+    
+    if (!this.activarCampo && this.periodo == '')
+    {
+      this.toastr.warning("El periodo no es válido", "Advertencia !!", {timeOut: 3000, closeButton: true, tapToDismiss: true, progressBar: true})
+      this.flagListar=false
+      return
+    }
 
-     
-      const Datos={
-          ...this.FiltroFormulario.value,
-          TipoFiltro:this.activarCampo
-      }
-  
+    this.ListarHorasExtras=[];
 
-      this._RRHHService.ListarHoraExtras(Datos).subscribe(
-        (resp:any)=>{
-               this.flagListar=false
-               this.ListarHorasExtras=[];
-               resp.length > 0 ?  (this.ListarHorasExtras= resp, this.TempListarHorasExtras=resp) : this.toastr.warning("No hay dato");
-         
-        },
-        error=>{
-            this.flagListar=false
-        }
-      )
+    const filtros={
+        ...this.FiltroFormulario.value,
+    }
+
+    this._RRHHService.ListarHoraExtras(filtros).subscribe((resp:any)=>
+      {
+        this.TempListarHorasExtras=resp
+        this.ListarHorasExtras= resp
+        this.flagListar=false
+      },
+      _ => this.flagListar=false
+    )
   }
 
-  activaDesactiva(){
+  activaDesactiva()
+  {
     this.activarCampo=!this.activarCampo;
+    console.log('Desactivado');
+    
+    if(this.activarCampo)
+    {
+      this.FiltroFormulario.controls['Periodo'].disable();
+      this.FiltroFormulario.controls['FechaInicio'].enable();
+      this.FiltroFormulario.controls['FechaFin'].enable();
+      this.FiltroFormulario.patchValue({
+        Periodo: '',
+      })
+    }
+    else {
+      this.FiltroFormulario.controls['Periodo'].enable();
+      this.FiltroFormulario.controls['FechaInicio'].disable();
+      this.FiltroFormulario.controls['FechaFin'].disable();
+
+      this.FiltroFormulario.patchValue({
+        FechaInicio: '',
+        FechaFin: '',
+      })
+    }
+    
   }
   
-  Procesar(){
-      this.flagProcesar=true;
+  procesar()
+  {
+    if(!this.periodo || this.FiltroFormulario.get('Periodo').invalid ||this.periodo == '')
+    {
+      this.toastr.warning('El periodo no es válido','Advertencia !!', {closeButton: true, timeOut: 3000, progressBar: true});
+      return
+    }
+
+    let confirmacion = confirm("¿ Seguro de procesar horas extras para el periodo " + this.periodo);
+
+    if(!confirmacion)
+      return
+
+    this.flagProcesar=true;
+
+    this._RRHHService.ProcesarHorasExtrasPlanilla(this.periodo).subscribe(_=> 
+      {
+        this.flagProcesar = false;
+        this.toastr.success('Se ha procesado la información correctamente','Éxito !!', {closeButton: true, timeOut: 3000, progressBar: true});
+      }, _ => this.flagProcesar = false )
+  }
+
+  get fechaInicio() 
+  {
+    return this.FiltroFormulario.get('FechaInicio').value
+  }
+  
+  get fechaFin() 
+  {
+    return this.FiltroFormulario.get('FechaFin').value
+  }
+
+  get periodo()
+  {
+    return this.FiltroFormulario.get('Periodo').value
   }
 
 }

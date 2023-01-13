@@ -27,11 +27,16 @@
                                             </tr>
                                         </thead>
                                         <tbody style="font-size: 13px">
-                                            <tr  *ngFor="let persona of ListarDatosFormatoPersonaTecnico; let i = index">
-                                                <td class="text-center font-weight-normal" ><input type="checkbox" [(ngModel)]="persona.isSelected" name="list_name"
-                                                (change)="SeleccionaItem(persona)" value="{{ persona.idEmpleado}}" /> </td>
-                                                <td class="text-center font-weight-normal">{{persona.nombreCompleto}}</td>
-                                                <td class="text-center font-weight-normal">{{persona.documento}}</td>
+                                            <tr  *ngFor="let persona of ListarDatosFormatoPersonaTecnico">
+                                                <td class="text-center font-weight-normal">
+                                                    <input type="checkbox" [(ngModel)]="persona.isSelected" name="list_name" [id]="persona.idEmpleado" (change)="SeleccionaItem(persona)" value="{{ persona.idEmpleado}}" />
+                                                </td>
+                                                <td class="text-center font-weight-normal">
+                                                    <label [for]="persona.idEmpleado" class="font-normal">{{persona.nombreCompleto}}</label>
+                                                </td>
+                                                <td class="text-center font-weight-normal">
+                                                    <label [for]="persona.idEmpleado" class="font-normal">{{persona.documento}}</label>
+                                                </td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -44,7 +49,7 @@
             </div>
             
         </div>
-        <div class="modal-footer">
+        <div class="modal-footer p-3 d-flex justify-content-center">
             <button type="button" (click)="agregar()" class="btn btn-rounded  btn-info"> Agregar</button>
             <button type="button" (click)="activeModal.dismiss('Cross click')" class="btn btn-rounded btn-secondary">Cancelar</button>
         </div>

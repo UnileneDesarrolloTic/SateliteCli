@@ -7,7 +7,7 @@
             <div class="card-body">
                 <form [formGroup]="CrearFormulario">
                     <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label class="control-label" style="font-size:12px">Area:</label>
                                 <select class="form-control  form-control-sm font-weight-normal" formControlName="Area">
@@ -36,17 +36,10 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <label class="control-label" style="font-size:12px">Periodo:</label>
-                                <input  type="text" class="form-control  form-control-sm font-weight-normal" [maxlength]="7" formControlName="Periodo"/>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label class="control-label" style="font-size:12px">Estado:</label>
-                                <select class="form-control  form-control-sm font-weight-normal"
-                                    formControlName="Estado">
+                                <select class="form-control  form-control-sm font-weight-normal" formControlName="Estado">
                                     <option [value]="'GE'">GENERADO</option>
                                     <option [value]="'AP'">APROBADO</option>
                                     <option [value]="'AN'">ANULADO</option>
@@ -65,9 +58,11 @@
                             <div class="form-group">
                                 <button type="button" (click)="Guardar()" class="btn btn-info btn-sm">
                                     <i class="fa fa-spinner fa-spin fa-fw" *ngIf="flagDescargarLista"></i>
-                                    <i class="fas fa-save" *ngIf="!flagDescargarLista" ></i> Guardar</button>
-                                <button type="button" (click)="AgregarPersona()" class="btn btn-warning btn-sm"><i
-                                        class="fas fa-plus"></i> Agregar</button>
+                                    <i class="fas fa-save" *ngIf="!flagDescargarLista" ></i> Guardar
+                                </button>
+                                <button type="button" (click)="AgregarPersona()" class="btn btn-warning btn-sm">
+                                    <i class="fas fa-plus"></i> Agregar
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -97,8 +92,7 @@
                                     <th class="text-center">Opcion</th>
                                 </tr>
                             </thead>
-                            <tbody style="font-size: 11px"
-                                *ngFor="let FormPersona of listadoPersonal.controls; let i = index">
+                            <tbody style="font-size: 12px" *ngFor="let FormPersona of listadoPersonal.controls; let i = index">
                                 <ng-container [formGroup]="FormPersona">
                                     
                                     <td class="text-center">
@@ -112,14 +106,13 @@
                                     </td>
                                     <td class="text-center" style='width:7rem'>
                                         <div class="input-group input-group-sm">
-                                            <input type="number" class="form-control form-control-sm font-normal"
-                                                formControlName="horasextras" />
+                                            <input type="number" class="form-control form-control-sm p-0" formControlName="horasextras" />
                                         </div>
                                     </td>
                                     <td class="text-center">
-                                        <button class="btn btn-danger btn-sm" type="button"
-                                            (click)="eliminarPersonal(i)"> <i class="fas fa-trash-alt"></i>
-                                        </button>
+                                        <a (click)="eliminarPersonal()" class="cursor-pointer m-4">
+                                            <i class="fas fa-trash-alt fa-lg text-danger"></i>
+                                        </a>
                                     </td>
                                 </ng-container>
                             </tbody>

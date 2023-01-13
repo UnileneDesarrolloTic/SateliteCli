@@ -240,7 +240,8 @@ export class InterceptorService implements HttpInterceptor {
       'GestionCalidad/EliminarEvidencaciaReclamo',
       'GestionCalidad/ListaEvidenciasPorIdDetalle',
       'GestionCalidad/ResponderReclamo',
-      "Common/DatosCliente"
+      "Common/DatosCliente",
+      "RRHH/ProcesarHorasExtrasPlanilla"
     ];
     
     const data = this.sesionService.datosPersonales();

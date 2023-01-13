@@ -6,30 +6,30 @@
                     <div class="row">
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="control-label font-weight-normal" style="font-size:12px">Fecha Inicio:</label>
-                                <button class="btn btn-warning btn-sm side-badge badge badge-warning ml-4" *ngIf="!activarCampo" type="button" (click)="activaDesactiva()"> Desactivar </button>
-                                <button class="btn btn-success btn-sm side-badge badge badge-success ml-4" *ngIf="activarCampo" type="button" (click)="activaDesactiva()"> Activar</button>
-                                <input type="date" formControlName="FechaInicio" [readonly]="activarCampo" class="form-control form-control-sm font-weight-normal">
+                                <label class="control-label" style="font-size:12px">Fecha Inicio:</label>
+                                <button class="btn btn-sm badge side-badge ml-4" [ngClass]="{'btn-warning': activarCampo,'btn-success': !activarCampo}" type="button" (click)="activaDesactiva()"> 
+                                    <span *ngIf="activarCampo">Desactivar</span>
+                                    <span *ngIf="!activarCampo">Activar</span>
+                                 </button>
+                                <input type="date" formControlName="FechaInicio" class="form-control form-control-sm">
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="control-label font-weight-normal"  style="font-size:12px">Fecha Final:</label>
-                                <input type="date" formControlName="FechaFin" [readonly]="activarCampo"
-                                    class="form-control form-control-sm font-weight-normal">
+                                <label class="control-label" style="font-size:12px">Fecha Final:</label>
+                                <input type="date" formControlName="FechaFin" class="form-control form-control-sm">
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="control-label font-weight-normal"  style="font-size:12px">Periodo:</label>
-                                <input type="text" formControlName="Periodo" [readonly]="!activarCampo"  placeholder="YYYY-MM"  [maxlength]="7"
-                                    class="form-control form-control-sm font-weight-normal">
+                                <label class="control-label"  style="font-size:12px">Periodo:</label>
+                                <input type="month" formControlName="Periodo" class="form-control form-control-sm">
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="control-label font-weight-normal" style="font-size:12px">Estado:</label>
-                                <select class="form-control  form-control-sm font-weight-normal"
+                                <label class="control-label" style="font-size:12px">Estado:</label>
+                                <select class="form-control  form-control-sm"
                                     formControlName="Estado">
                                     <option [value]="'TD'">TODOS </option>
                                     <option [value]="'GE'">GENERADO </option>
@@ -44,10 +44,11 @@
                             <div class="form-group">
                                 <button (click)="filtrar()" class="btn btn-info btn-sm"> <i class=" fas fa-search" ></i> Buscar</button>
                                 <button (click)="crear('Nuevo')" class="btn btn-success btn-sm"><i class="fas fa-plus"></i> Nuevo</button>
-                                <button (click)="Procesar()" class="btn btn-primary btn-sm">
+                                <button (click)="procesar()" class="btn btn-primary btn-sm">
                                     <i class="fa fa-spinner fa-spin fa-fw" *ngIf="flagProcesar"></i>
                                     <i class="fas fa-play" *ngIf="!flagProcesar" ></i>
-                                    Procesar</button>
+                                    Procesar
+                                </button>
                             </div>
                         </div>
                     </div>

@@ -11,7 +11,6 @@ import { RRHHService } from '@data/services/backEnd/pages/rrhh.service';
 import { UsuarioService } from '@data/services/backEnd/pages/usuario.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
-import { element } from 'protractor';
 import { Subscription } from 'rxjs';
 import { ListarPersonaComponent } from '../listar-persona/listar-persona.component';
 
@@ -29,22 +28,19 @@ export class FormularioHorasextrasComponent implements OnInit {
   HorasExtrasCabecera:DatosFormatoCabeceraHoraExtras;
   HorasExtrasDetalle:DatosFormatoDetalleHoraExtras[]=[];
   flagDescargarLista:boolean=false;
-  constructor(private _UsuarioService:UsuarioService,
-              private _fb:FormBuilder,
-              private _router: Router,
-              private modalService: NgbModal,
-              private activeroute: ActivatedRoute,
-              private _RRHHService:RRHHService,
-              private toastr: ToastrService) { 
-                this.subcripcion = this.activeroute.params.subscribe(params => {
-                  this.codigo = params["Codigo"];
-                });
-            
-              }
+
+  constructor(private _UsuarioService:UsuarioService, private _fb:FormBuilder, private _router: Router,
+              private modalService: NgbModal, private activeroute: ActivatedRoute, private _RRHHService:RRHHService,
+              private toastr: ToastrService) 
+  { 
+    this.subcripcion = this.activeroute.params.subscribe(params => {
+      this.codigo = params["Codigo"];
+    });
+  }
+
   ListarArea:Object[]=[];
-  
   CrearFormulario: FormGroup;
-  ListarAreaPersona:DatosFormatoFiltrarAreaPersona[]=[];
+  ListarAreaPersona:DatosFormatoFiltrarAreaPersona[] = [];
 
   ngOnInit(): void {
     this.cargarInformacionArea();
@@ -70,7 +66,6 @@ export class FormularioHorasextrasComponent implements OnInit {
         FechaRegistro: new FormControl(formatDate(new Date(Date.now()), 'yyyy-MM-dd', 'en')),
         Persona: new FormControl('O',Validators.required),
         Justificacion: new FormControl('',Validators.required),
-        Periodo: new FormControl('',[Validators.maxLength(7)]),
         Estado: new FormControl('GE'),
         ListaPersona: this._fb.array([])
       })
@@ -101,7 +96,8 @@ export class FormularioHorasextrasComponent implements OnInit {
 
   encontrarHorasExtras(Codigo){
     this._RRHHService.InformacionHorasExtrasCabecera(Codigo).subscribe(
-      (resp:any)=>{
+      (resp:any) => 
+      {
           this.HorasExtrasCabecera=resp["cabecera"];
           this.HorasExtrasDetalle=resp["detalle"];
 
@@ -111,7 +107,7 @@ export class FormularioHorasextrasComponent implements OnInit {
             FechaRegistro:formatDate(new Date(this.HorasExtrasCabecera.fechaRegistro), 'yyyy-MM-dd', 'en') ,
             Persona:this.HorasExtrasCabecera.tipoPersona,
             Justificacion: this.HorasExtrasCabecera.justificacion,
-            Periodo:this.HorasExtrasCabecera.periodo,
+            // Periodo:this.HorasExtrasCabecera.periodo,
             Estado:this.HorasExtrasCabecera.estado
           });
 
@@ -132,7 +128,7 @@ export class FormularioHorasextrasComponent implements OnInit {
           persona:elementArea.idPersona,
           nombreCompleto:elementArea.nombrePersona,
           documento:elementArea.documento,
-          horasextras:[elementArea.horasextras,Validators.required]
+          horasextras:[elementArea.horasextras, Validators.required]
         });
 
         this.listadoPersonal.push(PersonaFormArray);
@@ -145,10 +141,10 @@ export class FormularioHorasextrasComponent implements OnInit {
 
     Listar.forEach((elementArea:PersonaRelacionaArea)=>{
         const PersonaFormArray= this._fb.group({
-          persona:elementArea.persona,
-          nombreCompleto:elementArea.nombreCompleto,
-          documento:elementArea.documento,
-          horasextras:[0,Validators.required]
+          persona: [elementArea.persona],
+          nombreCompleto: [elementArea.nombreCompleto],
+          documento: [elementArea.documento],
+          horasextras: [0, Validators.required]
         })
 
         this.listadoPersonal.push(PersonaFormArray);
@@ -163,8 +159,6 @@ export class FormularioHorasextrasComponent implements OnInit {
     return this.CrearFormulario.controls.ListaPersona as FormArray;
   }
 
-
-
   eliminarPersonal(index:number){
 
     if(this.HorasExtrasCabecera!=undefined)
@@ -174,9 +168,6 @@ export class FormularioHorasextrasComponent implements OnInit {
     this.formarrayPersonal().removeAt(index);
   }
  
-
-
-
   AgregarPersona(){ 
     if(this.HorasExtrasCabecera!=undefined)
       if(this.HorasExtrasCabecera.estado=='AP')
@@ -199,26 +190,20 @@ export class FormularioHorasextrasComponent implements OnInit {
           persona:element.idEmpleado,
           nombreCompleto:element.nombreCompleto,
           documento:element.documento,
-          horasextras:[0,Validators.required]
+          horasextras:[0, [Validators.required, Validators.min(0.1)]]
         })
-
-          this.listadoPersonal.push(PersonaFormArray);
+        
+        this.listadoPersonal.push(PersonaFormArray);
       })
-		}, (reason) => {
-			
 		});
 
   }
 
-
-
-
   Guardar(){
       
       let rpta:boolean=true;
-      let simbolo = this.CrearFormulario.controls.Periodo.value.substring(4,5)=="-";
-
-      console.log(!this.CrearFormulario.controls.Periodo.invalid,simbolo)
+      // let simbolo = this.CrearFormulario.controls.Periodo.value.substring(4,5)=="-";
+      // console.log(!this.CrearFormulario.controls.Periodo.invalid,simbolo)
       
       if(this.HorasExtrasCabecera!=undefined)
         if(this.HorasExtrasCabecera.estado=='AP')
@@ -230,8 +215,8 @@ export class FormularioHorasextrasComponent implements OnInit {
       if(this.CrearFormulario.controls.Persona.invalid)
         return this.toastr.warning("Debe seleccionar la Persona", "Advertencia", {timeOut: 1500, closeButton: true, tapToDismiss: true, progressBar: true});
 
-      if((!simbolo) && (!this.CrearFormulario.controls.Periodo.invalid))
-        return this.toastr.warning("Ingrese bien el formato Correcto: YYYY-MM ", "Advertencia", {timeOut: 1500, closeButton: true, tapToDismiss: true, progressBar: true});
+      // if((!simbolo) && (!this.CrearFormulario.controls.Periodo.invalid))
+      //   return this.toastr.warning("Ingrese bien el formato Correcto: YYYY-MM ", "Advertencia", {timeOut: 1500, closeButton: true, tapToDismiss: true, progressBar: true});
 
       if(this.CrearFormulario.controls.ListaPersona.invalid)
         return this.toastr.warning("Debe Completar los campos en blanco", "Advertencia", {timeOut: 1500, closeButton: true, tapToDismiss: true, progressBar: true});
@@ -241,9 +226,6 @@ export class FormularioHorasextrasComponent implements OnInit {
 
       if(this.CrearFormulario.controls.ListaPersona.value.length == 0)
         return this.toastr.warning("Debe Agregar Personas a la Lista", "Advertencia", {timeOut: 1500, closeButton: true, tapToDismiss: true, progressBar: true});
-      
-
-
       
 
       const dato={
