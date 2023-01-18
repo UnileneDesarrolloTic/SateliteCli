@@ -15,7 +15,6 @@ import { ModalDetalleMateriaPrimaComponent } from './analisiscostos-listaprecio/
 import { CierreContableComponent } from './cierre-contable/cierre-contable.component';
 import { FormularioCierreContableComponent } from './cierre-contable/formulario-cierre-contable/formulario-cierre-contable.component';
 
-
 @NgModule({
   declarations:
   [
@@ -25,7 +24,7 @@ import { FormularioCierreContableComponent } from './cierre-contable/formulario-
     TagResumenComponent,
     ModalDetalleMateriaPrimaComponent,
     CierreContableComponent,
-    FormularioCierreContableComponent
+    FormularioCierreContableComponent,
   ],
   imports:
   [

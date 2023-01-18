@@ -5,6 +5,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Paginado } from '@data/interface/Comodin/Paginado.interface';
 import { DatosFormatoListadoTransaccionKardex } from '@data/interface/Response/DatosFormatoListadoTransaccionKardex.interfaces';
 import { ContabilidadService } from '@data/services/backEnd/pages/contabilidad.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ModalCargarComponent } from '@shared/components/modal-cargar/modal-cargar.component';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 
@@ -18,7 +20,10 @@ export class FormularioCierreContableComponent implements OnInit,OnDestroy {
   codigo:string="";
   FormularioGrupo:FormGroup;
   ListarTransaccionKardex:DatosFormatoListadoTransaccionKardex[]=[];
+  InformacionCabecera:any={cCantidadTotal:0,cMontoTotal:0};
+
   flagLoading:boolean=false;
+  flagRegistrar:boolean=false;
 
   pagina: Number = 1
 	pageSize: Number = 10;
@@ -41,6 +46,7 @@ export class FormularioCierreContableComponent implements OnInit,OnDestroy {
   constructor(private activeroute: ActivatedRoute,
               private _fb:FormBuilder,
               private _ContabilidadService:ContabilidadService,
+              private _modalService: NgbModal,
               private toastr: ToastrService) { 
     this.subcripcion = this.activeroute.params.subscribe(params => {
       this.codigo = params["Codigo"];
@@ -93,7 +99,8 @@ export class FormularioCierreContableComponent implements OnInit,OnDestroy {
     const datos={
       Pagina: this.pagina,
       RegistrosPorPagina: 10,
-      ...this.FormularioGrupo.value
+      ...this.FormularioGrupo.value,
+      Periodo:this.FormularioGrupo.controls.Periodo.value.replace("-","")
     }
     this.ListarFiltro(datos)
     
@@ -104,8 +111,11 @@ export class FormularioCierreContableComponent implements OnInit,OnDestroy {
     this._ContabilidadService.ListarInformacionTransaccionKardex(datos)
     .subscribe(
         (resp:any)=>{
-          this.ListarTransaccionKardex=resp["contenido"];
+          this.ListarTransaccionKardex=resp["contentidoDetalle"]["contenido"];
+          this.InformacionCabecera=resp["contentidoCabecera"];
           this.flagLoading=false;
+
+          console.log(this.InformacionCabecera);
         },
         error=>{
           this.flagLoading=false;
@@ -114,14 +124,39 @@ export class FormularioCierreContableComponent implements OnInit,OnDestroy {
   }
 
   Guardar(){
+    this.flagRegistrar=true;
     const GuardarInformacion={
       Pagina: -1,
       RegistrosPorPagina: 10,
-      ...this.FormularioGrupo.value
+      ...this.FormularioGrupo.value,
+      Periodo:this.FormularioGrupo.controls.Periodo.value.replace("-","")
     }
 
-    console.log(GuardarInformacion);
+    const ModalCarga = this._modalService.open(ModalCargarComponent, {
+      centered: true,
+      backdrop: 'static',
+      size: 'sm',
+      scrollable: true
+    });
+    ModalCarga.componentInstance.fromParent = "Subiendo la información ...";
 
+    this._ContabilidadService.RegistrarInformacionTransaccionKardex(GuardarInformacion).subscribe(
+        resp=>{
+               if(resp["success"]){
+                this.flagRegistrar=false;
+                this.toastr.success(resp["content"])
+               }else{
+                this.flagRegistrar=false;
+                this.toastr.warning(resp["content"])
+               }
+               ModalCarga.close();
+          },
+          error=>{
+            ModalCarga.close();
+            this.flagRegistrar=false;
+          }
+    )
   }
 
+  
 }

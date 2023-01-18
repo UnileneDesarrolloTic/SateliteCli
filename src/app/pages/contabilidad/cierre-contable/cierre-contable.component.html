@@ -2,23 +2,113 @@
     <div class="col-lg-12">
         <div class="card  border-left border-info">
             <div class="card-body">
-                <form >
+                <form (ngSubmit)="buscarReporteCierre()">
                     <div class="row">
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label class="control-label font-weight-normal" style="font-size:12px">Periodo</label>
-                                <input type="text"  class="form-control form-control-sm font-weight-normal">
+                                <input type="month" [formControl]="Periodo"
+                                    class="form-control form-control-sm font-weight-normal">
                             </div>
                         </div>
                         <div class="col-md-3">
                             <label class="control-label text-white">&nbsp;</label>
                             <div class="form-group">
                                 <button class="btn btn-info btn-sm"><i class="fas fa-search"></i> Consultar</button>
-                                <button (click)="NuevoCierre('Nuevo')"  class="btn btn-warning btn-sm"><i class="fas fa-plus"></i> Procesar</button>
+                                <button (click)="NuevoCierre('Nuevo')" class="btn btn-warning btn-sm"><i
+                                        class="fas fa-plus"></i> Procesar</button>
                             </div>
                         </div>
                     </div>
                 </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card border-left border-info">
+            <div class="card-body">
+                <table class="table table-striped border table-ms" style="font-size: 13px">
+                    <thead class="no-wrap">
+                        <tr>
+                            <th>...</th>
+                            <th>Periodo</th>
+                            <th>Tipo</th>
+                            <th>Cantidad Antes</th>
+                            <th>Monto Total Antes</th>
+                            <th>Cantidad Actual</th>
+                            <th>Monto Total Actual</th>
+                            <th>Ver</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let reporte of ListarReporteCierreContable ; let i = index">
+                            <td class="font-normal">
+                                <button type="button" (click)="anularReporteHistorico(reporte,i)"
+                                    class="btn btn-danger btn-sm">
+                                    <i class="fas fa-trash"></i> </button>
+                            </td>
+                            <td class="font-medium">{{ reporte.periodo }}</td>
+                            <td class="font-medium">{{ reporte.tipo }}</td>
+                            <td class="font-medium">{{ reporte.cantidadTotalAntes | number : '1.2-2' }}</td>
+                            <td class="font-medium">{{ reporte.montoTotalAntes  | number : '1.2-2' }}</td>
+                            <td class="font-medium">{{ reporte.cantidadTotalActual | number : '1.2-2'  }}</td>
+                            <td class="font-medium">{{ reporte.montoTotalActual | number : '1.2-2' }}</td>
+                            <td>
+                                <button type="button" (click)="verReporteDetalle(reporte)"
+                                    class="btn btn-primary btn-sm">
+                                    <i class="fas fa-eye"></i> </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row" *ngIf="ListarDetalleReporte.length>0">
+    <div class="col-lg-12">
+        <div class="card border-left border-info">
+            <div class="card-body">
+                <table class="table table-striped border table-ms" style="font-size: 11px">
+                    <thead class="no-wrap">
+                        <tr>
+                            <th>TipoDoc.</th>
+                            <th>NumeroDoc.</th>
+                            <th>TranCodigo</th>
+                            <th>Ref.TipoDoc.</th>
+                            <th>Ref.NumeroDoc.</th>
+                            <th>Secuencia</th>
+                            <th>Item</th>
+                            <th>Lote</th>
+                            <th>Cantidad</th>
+                            <th>Pre.Unitario</th>
+                            <th>MontoTotal</th>
+                            <th>MontoTotalReal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let listado of ListarDetalleReporte">
+                            <td>{{ listado.tipoDocumento }}</td>
+                            <td>{{ listado.numeroDocumento }}</td>
+                            <td>{{ listado.transaccionCodigo }}</td>
+                            <td>{{ listado.referenciaTipoDocumento }}</td>
+                            <td>{{ listado.referenciaNumeroDocumento }}</td>
+                            <td>{{ listado.secuencia }}</td>
+                            <td>{{ listado.item }}</td>
+                            <td>{{ listado.lote }}</td>
+                            <td>{{ listado.cantidad }}</td>
+                            <td>{{ listado.precioUnitario | number : '1.2-2' }}</td>
+                            <td>{{ listado.montoTotal | number : '1.2-2'}}</td>
+                            <td>{{ listado.montoTotalReal | number : '1.2-2' }}</td>
+
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
