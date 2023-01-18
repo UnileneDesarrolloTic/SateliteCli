@@ -37,7 +37,7 @@ export class DescripcionNuevoEditarComponent implements OnInit {
     
       if(this.Tipo){
         this.Titulo='Nuevo';
-        console.log("entre",this.formulario);
+        // console.log("entre",this.formulario);
         this.FormDescripcion.get("IdDescripcion").patchValue(0);
         this.FormDescripcion.get("Marca").patchValue(null);
         this.FormDescripcion.get("Hebra").patchValue(null);
