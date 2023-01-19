@@ -46,7 +46,7 @@ export class AdministracionProtocoloComponent implements OnInit {
       (resp:any)=>{
           if(resp["success"]){
             this.Listarhebraprotocolo=resp["content"];
-            console.log("first")
+            // console.log("first")
           }else{
             this.Listarhebraprotocolo=[];
           }
