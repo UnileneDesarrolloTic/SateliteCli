@@ -7,6 +7,7 @@ export interface DatosFormatoListarHorasExtras {
     justificacion:string,
     estado: string,
     usuarioAprobacion:string,
+    periodo:string,
     fechaAprobacion:Date
   }
   

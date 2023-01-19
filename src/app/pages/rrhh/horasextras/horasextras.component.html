@@ -7,14 +7,22 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label class="control-label font-weight-normal" style="font-size:12px">Fecha Inicio:</label>
-                                <input type="date" formControlName="FechaInicio"
+                                <button class="btn btn-warning btn-sm side-badge badge badge-warning ml-4" *ngIf="!activarCampo" type="button" (click)="activaDesactiva()"> Desactivar </button>
+                                <button class="btn btn-success btn-sm side-badge badge badge-success ml-4" *ngIf="activarCampo" type="button" (click)="activaDesactiva()"> Activar</button>
+                                <input type="date" formControlName="FechaInicio" [readonly]="activarCampo" class="form-control form-control-sm font-weight-normal">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="control-label font-weight-normal"  style="font-size:12px">Fecha Final:</label>
+                                <input type="date" formControlName="FechaFin" [readonly]="activarCampo"
                                     class="form-control form-control-sm font-weight-normal">
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="control-label font-weight-normal" style="font-size:12px">Fecha Final:</label>
-                                <input type="date" formControlName="FechaFin"
+                                <label class="control-label font-weight-normal"  style="font-size:12px">Periodo:</label>
+                                <input type="text" formControlName="Periodo" [readonly]="!activarCampo"  placeholder="YYYY-MM"  [maxlength]="7"
                                     class="form-control form-control-sm font-weight-normal">
                             </div>
                         </div>
@@ -30,11 +38,16 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-3">
-                            <label class="control-label text-white">:</label>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
                             <div class="form-group">
-                                <button (click)="filtrar()" class="btn btn-info btn-sm"><i class="fas fa-search"></i> Buscar</button>
+                                <button (click)="filtrar()" class="btn btn-info btn-sm"> <i class=" fas fa-search" ></i> Buscar</button>
                                 <button (click)="crear('Nuevo')" class="btn btn-success btn-sm"><i class="fas fa-plus"></i> Nuevo</button>
+                                <button (click)="Procesar()" class="btn btn-primary btn-sm">
+                                    <i class="fa fa-spinner fa-spin fa-fw" *ngIf="flagProcesar"></i>
+                                    <i class="fas fa-play" *ngIf="!flagProcesar" ></i>
+                                    Procesar</button>
                             </div>
                         </div>
                     </div>
@@ -44,7 +57,7 @@
     </div>
 </div>
 
-
+<!-- 
 <div class="row">
     <div class="col-12">
         <div class="card border-left border-info">
@@ -57,6 +70,7 @@
                                 <th scope="col" class="text-center font-weight-bold">#</th>
                                 <th scope="col" class="text-center font-weight-bold">Area</th>
                                 <th scope="col" class="text-center font-weight-bold">Fe.Registrado</th>
+                                <th scope="col" class="text-center font-weight-bold">Periodo</th>
                                 <th scope="col" class="text-center font-weight-bold">Justificación</th>
                                 <th scope="col" class="text-center font-weight-bold">Tipo</th>
                                 <th scope="col" class="text-center font-weight-bold">Fe.Aprobacion</th>
@@ -69,6 +83,7 @@
                              <td class="text-center font-normal"> {{i+1}}</td>
                              <td class="text-center font-normal"> {{horasextras.nombreArea}}</td>
                              <td class="text-center font-normal"> {{horasextras.fechaRegistro  | date:'dd/MM/yyyy'}}</td>
+                             <td class="text-center font-normal"> {{horasextras.periodo}}</td>
                              <td class="text-center font-normal"> {{horasextras.justificacion | puntosuspensivo:'30' }}</td>
                              <td class="text-center font-normal"> {{horasextras.tipoPersona}}</td>
                              <td class="text-center font-normal"> {{horasextras.fechaAprobacion |  date:'dd/MM/yyyy'}}</td>
@@ -83,6 +98,69 @@
                     </table>
                 </div>
 
+            </div>
+        </div>
+    </div>
+</div> -->
+
+
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex">
+                    <div class="p-2 col-md-4">
+                        <input type="text" placeholder="Buscar el area" class="form-control rounded-pill" [formControl]= 'textfiltro'>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12" style="height: 78vh;">
+                      <ngx-datatable style="height: 100%;"
+                        class="material"
+                        [loadingIndicator]="flagListar"
+                        [rows]="ListarHorasExtras"
+                        [headerHeight]="50"
+                        [footerHeight]="50"
+                        [rowHeight]="50"
+                        [scrollbarH]="true"
+                        [scrollbarV]="true"
+                        [rowClass]="getRowClass"
+                      >
+
+                        <!-- <ngx-datatable-column name="ID" prop='idCabecera' [width]="50"></ngx-datatable-column> -->
+                        <ngx-datatable-column name="Area" prop='nombreArea' [width]="180"></ngx-datatable-column>
+                        <ngx-datatable-column name="F.Registro" prop='fechaRegistro' [width]="100">
+                            <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                                {{ value | date:'dd/MM/yyy' }}
+                              </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Periodo" prop='periodo' [width]="100"></ngx-datatable-column>
+                        <ngx-datatable-column name="Jusitificación" prop='justificacion' [width]="300">
+                            <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                                {{ value | puntosuspensivo:'30' }}
+                              </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Tipo" prop='tipoPersona' [width]="100"></ngx-datatable-column>
+                        <ngx-datatable-column name="F.Aprobacion" prop='fechaAprobacion' [width]="100">
+                            <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                                {{ value | date:'dd/MM/yyy' }}
+                              </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Usuario" prop='usuarioAprobacion' [width]="100"></ngx-datatable-column>
+                        <ngx-datatable-column name="Estado" prop='estado' [width]="100"></ngx-datatable-column>
+
+                        <ngx-datatable-column name="Opcion" prop='idCabecera' [width]="100">
+                            <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                                <button class="btn btn-warning btn-sm" type="button"
+                                        (click)="Editar(value)"> <i class="fas fa-edit"></i>
+                                 </button>
+                              </ng-template>
+                        </ngx-datatable-column>
+                      </ngx-datatable>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

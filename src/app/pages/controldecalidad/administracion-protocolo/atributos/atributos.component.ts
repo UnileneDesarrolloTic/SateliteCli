@@ -18,7 +18,7 @@ export class AtributosComponent implements OnInit {
   ListarAtributo(){
     this._ControlcalidadService.ListarTablaAtributo().subscribe(
       (resp:any)=>{
-          console.log(resp);
+          // console.log(resp);
           this.ListarTablaAtributos=resp;
       }
     )

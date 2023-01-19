@@ -17,20 +17,15 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <div class="form-group">
                                 <label class="control-label" style="font-size:12px">Fecha Registro:</label>
-                                <button class="btn btn-warning btn-sm side-badge badge badge-warning ml-4"
-                                    *ngIf="activarCampo" type="button" (click)="activaDesactiva()"> Desactivar </button>
-                                <button class="btn btn-success btn-sm side-badge badge badge-success ml-4"
-                                    *ngIf="!activarCampo" type="button" (click)="activaDesactiva()"> Activar
-                                </button>
-                                <input type="date" [readonly]="!activarCampo" formControlName="FechaRegistro"
+                                <input type="date"  formControlName="FechaRegistro"
                                     class="form-control form-control-sm font-weight-normal"
                                     placeholder="Código Producto">
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <div class="form-group">
                                 <label class="control-label" style="font-size:12px">Persona:</label>
                                 <select class="form-control  form-control-sm font-weight-normal"
@@ -41,7 +36,13 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="control-label" style="font-size:12px">Periodo:</label>
+                                <input  type="text" class="form-control  form-control-sm font-weight-normal" [maxlength]="7" formControlName="Periodo"/>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
                             <div class="form-group">
                                 <label class="control-label" style="font-size:12px">Estado:</label>
                                 <select class="form-control  form-control-sm font-weight-normal"
