@@ -1,15 +1,16 @@
 import { formatDate } from '@angular/common';
+import { ThrowStmt } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DatosFormatoCabeceraHoraExtras } from '@data/interface/Response/DatosFormatoCabeceraHorasExtras.interfaces';
 import { DatosFormatoDetalleHoraExtras } from '@data/interface/Response/DatosFormatoDetalleHorasExtras.interfaces';
-import { DatosFormatoFiltrarAreaPersona } from '@data/interface/Response/DatosFormatoFiltrarAreaPersona.interface';
 import { PersonaRelacionaArea } from '@data/interface/Response/DatosFormatoPersonaRespArea.interfaces';
 import { DatosFormatoPersonaTecnico } from '@data/interface/Response/DatosFormatoPersonaTecnica.interfaces';
 import { RRHHService } from '@data/services/backEnd/pages/rrhh.service';
 import { UsuarioService } from '@data/services/backEnd/pages/usuario.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { LogIn } from 'angular-feather/icons';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { ListarPersonaComponent } from '../listar-persona/listar-persona.component';
@@ -40,7 +41,6 @@ export class FormularioHorasextrasComponent implements OnInit {
 
   ListarArea:Object[]=[];
   CrearFormulario: FormGroup;
-  ListarAreaPersona:DatosFormatoFiltrarAreaPersona[] = [];
 
   ngOnInit(): void {
     this.cargarInformacionArea();
@@ -48,7 +48,7 @@ export class FormularioHorasextrasComponent implements OnInit {
     this.isObservableArea();
     
     if(this.codigo=="Nuevo"){
-      this.CrearFormulario.controls.Estado.disable();  
+      this.CrearFormulario.controls.Estado.disable(); 
     }else{
       this.encontrarHorasExtras(this.codigo);
     }
@@ -107,7 +107,6 @@ export class FormularioHorasextrasComponent implements OnInit {
             FechaRegistro:formatDate(new Date(this.HorasExtrasCabecera.fechaRegistro), 'yyyy-MM-dd', 'en') ,
             Persona:this.HorasExtrasCabecera.tipoPersona,
             Justificacion: this.HorasExtrasCabecera.justificacion,
-            // Periodo:this.HorasExtrasCabecera.periodo,
             Estado:this.HorasExtrasCabecera.estado
           });
 
@@ -162,17 +161,24 @@ export class FormularioHorasextrasComponent implements OnInit {
   eliminarPersonal(index:number){
 
     if(this.HorasExtrasCabecera!=undefined)
-      if(this.HorasExtrasCabecera.estado=='AP')
-        return this.toastr.warning("No puede eliminar personas de la lista,ya que se encuentra en estado APROBADO");
+      if (this.HorasExtrasCabecera.estado !== 'AG')
+        return this.toastr.warning("Solo se puede modificar cuando se encuentre en estado 'Generado'", "Advertencia !!", {progressBar: true, timeOut: 3000, closeButton: true, tapToDismiss: true});
 
     this.formarrayPersonal().removeAt(index);
   }
- 
-  AgregarPersona(){ 
-    if(this.HorasExtrasCabecera!=undefined)
-      if(this.HorasExtrasCabecera.estado=='AP')
-        return this.toastr.warning("No puede Agregar mas personas a la lista, ya que se encuentra en estado APROBADO");
 
+  get estadoSolicitud ()
+  {
+    return this.HorasExtrasCabecera?.estado ?? 'GE'
+  }
+
+  AgregarPersona()
+  {
+    console.log(this.estadoSolicitud);
+    
+    if(this.estadoSolicitud != 'GE')
+        return this.toastr.warning("La solicitud solo se puede modificar, cuando esta en estado 'GENERADO'", "Advertencia", {timeOut: 1500, closeButton: true, tapToDismiss: true, progressBar: true});
+    
     const modalRefAgregarPersona = this.modalService.open(ListarPersonaComponent, {
 			ariaLabelledBy: 'modal-basic-title',
 			centered: true,
@@ -200,11 +206,12 @@ export class FormularioHorasextrasComponent implements OnInit {
   }
 
   Guardar(){
+
+      if(this.estadoSolicitud != 'GE')
+        return this.toastr.warning("La solicitud solo se puede modificar, cuando esta en estado 'GENERADO'", "Advertencia", {timeOut: 1500, closeButton: true, tapToDismiss: true, progressBar: true});
       
       let rpta:boolean=true;
-      // let simbolo = this.CrearFormulario.controls.Periodo.value.substring(4,5)=="-";
-      // console.log(!this.CrearFormulario.controls.Periodo.invalid,simbolo)
-      
+
       if(this.HorasExtrasCabecera!=undefined)
         if(this.HorasExtrasCabecera.estado=='AP')
           return this.toastr.warning("No puede modificar,ya que se encuentra en estado APROBADO", "Advertencia", {timeOut: 1500, closeButton: true, tapToDismiss: true, progressBar: true});
@@ -253,6 +260,11 @@ export class FormularioHorasextrasComponent implements OnInit {
                 }
             );
       }
-     
+  }
+
+  cancelar(){
+
+    if(!this.flagDescargarLista)    
+      this._router.navigate(['RRHH', 'HorasExtras']);
   }
 }

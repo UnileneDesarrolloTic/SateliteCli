@@ -5,7 +5,6 @@ import { UsuarioService } from '@data/services/backEnd/pages/usuario.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { GenericoService } from '@shared/services/comunes/generico.service';
 import { ToastrService } from 'ngx-toastr';
-import { element } from 'protractor';
 import { debounceTime } from 'rxjs/operators';
 
 @Component({

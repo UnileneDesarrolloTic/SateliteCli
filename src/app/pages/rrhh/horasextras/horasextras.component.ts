@@ -1,10 +1,10 @@
 import { formatDate } from '@angular/common';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { DatosFormatoListarHorasExtras } from '@data/interface/Response/DatosFormatoListarHorasExtras.interfaces';
 import { RRHHService } from '@data/services/backEnd/pages/rrhh.service';
+import { FileService } from '@shared/services/comunes/file.service';
 import { ToastrService } from 'ngx-toastr';
 import { debounceTime } from 'rxjs/operators';
 
@@ -21,8 +21,12 @@ export class HorasextrasComponent implements OnInit {
   activarCampo:boolean = false;
   flagProcesar:boolean = false;
   flagListar:boolean = false;
+  flagExportarData: boolean = false;
   textfiltro = new FormControl('');
-  constructor(private _router: Router,  private _RRHHService:RRHHService, private toastr: ToastrService) 
+  fechaActual = new Date();
+
+  constructor(private _router: Router,  private _RRHHService:RRHHService, private toastr: ToastrService, 
+    private _fileService :FileService) 
   { }
 
   ngOnInit(): void {
@@ -34,17 +38,18 @@ export class HorasextrasComponent implements OnInit {
     this.FiltroFormulario = new FormGroup({
         FechaInicio: new FormControl({value: '', disabled: true}),
         FechaFin: new FormControl({value: '', disabled: true}),
-        Periodo: new FormControl('2023-01'),
+        Periodo: new FormControl(formatDate(this.fechaActual, 'yyyy-MM', 'en')),
         Estado: new FormControl('TD'),
     });
   }
 
-  crear(Nuevo){
+  crear(Nuevo)
+  {
     this._router.navigate(['RRHH', 'HorasExtras',Nuevo]);
   }
 
-  Editar(idCabecera:number){
-    console.log(idCabecera);
+  Editar(idCabecera:number)
+  {
     this._router.navigate(['RRHH', 'HorasExtras',idCabecera]);
   }
 
@@ -114,16 +119,20 @@ export class HorasextrasComponent implements OnInit {
   activaDesactiva()
   {
     this.activarCampo=!this.activarCampo;
-    console.log('Desactivado');
     
     if(this.activarCampo)
     {
       this.FiltroFormulario.controls['Periodo'].disable();
       this.FiltroFormulario.controls['FechaInicio'].enable();
       this.FiltroFormulario.controls['FechaFin'].enable();
+
+      let fecaFormato = formatDate(this.fechaActual, 'yyyy-MM-dd','en')
       this.FiltroFormulario.patchValue({
+        FechaInicio: fecaFormato,
+        FechaFin: fecaFormato,
         Periodo: '',
-      })
+      });
+      
     }
     else {
       this.FiltroFormulario.controls['Periodo'].enable();
@@ -133,6 +142,7 @@ export class HorasextrasComponent implements OnInit {
       this.FiltroFormulario.patchValue({
         FechaInicio: '',
         FechaFin: '',
+        Periodo: formatDate(this.fechaActual, 'yyyy-MM', 'en')
       })
     }
     
@@ -158,6 +168,40 @@ export class HorasextrasComponent implements OnInit {
         this.flagProcesar = false;
         this.toastr.success('Se ha procesado la información correctamente','Éxito !!', {closeButton: true, timeOut: 3000, progressBar: true});
       }, _ => this.flagProcesar = false )
+  }
+
+  exportarDatos()
+  {
+    if(this.flagExportarData)
+    {
+      this.toastr.warning("Se esta exportando la información.",'Advertencia !!', {closeButton: true, timeOut: 3000, progressBar: true})
+      return
+    }
+    let periodoSeleccionado = this.FiltroFormulario.get("Periodo").value
+
+    if (periodoSeleccionado == undefined || periodoSeleccionado == null || periodoSeleccionado == ''  )
+    {
+      this.toastr.warning("Debe de seleccionar un periodo válido.",'Advertencia !!', {closeButton: true, timeOut: 3000, progressBar: true})
+      return
+    }
+
+    this.flagExportarData = true;
+
+    this._RRHHService.ReporteHorasExtrasGeneradas_Excel(periodoSeleccionado).subscribe( resp => {      
+      this._fileService.decargarExcel_Base64(resp, "Rpt. Horas Extras Generadas " + periodoSeleccionado, "xlsx");
+      this.flagExportarData = false;
+    }, _ => this.flagExportarData = false );
+  }
+
+  exportarFormatoSobreTiempo(value: number)
+  {
+    console.log(value);
+    this._RRHHService.ExportarFormatoAutorizacionSobreTiempo(value).subscribe(
+      resp => {
+        this._fileService.decargarPDF_Base64(resp, "Sobretimepo " + this.periodo);
+      }
+    )
+    
   }
 
   get fechaInicio() 

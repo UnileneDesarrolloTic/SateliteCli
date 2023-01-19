@@ -2,14 +2,14 @@
     <div class="col-lg-12">
         <div class="card border-left border-info">
             <div class="card-header bg-info text-white" style="font-weight: bold">
-                    FORMATO  DE AUTORIZACIÓN DE TRABAJO EN SOBRETIEMPO
+                FORMATO DE AUTORIZACIÓN DE TRABAJO EN SOBRETIEMPO
             </div>
             <div class="card-body">
                 <form [formGroup]="CrearFormulario">
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label class="control-label" style="font-size:12px">Area:</label>
+                                <label class="control-label col-form-label-sm">Area:</label>
                                 <select class="form-control  form-control-sm font-weight-normal" formControlName="Area">
                                     <option disabled [value]="null">Seleccione el Area </option>
                                     <option *ngFor="let area of ListarArea" [value]="area.idArea"> {{area.descripcion}}
@@ -19,15 +19,15 @@
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label class="control-label" style="font-size:12px">Fecha Registro:</label>
-                                <input type="date"  formControlName="FechaRegistro"
+                                <label class="control-label col-form-label-sm">Fecha Registro:</label>
+                                <input type="date" formControlName="FechaRegistro"
                                     class="form-control form-control-sm font-weight-normal"
                                     placeholder="Código Producto">
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label class="control-label" style="font-size:12px">Persona:</label>
+                                <label class="control-label col-form-label-sm">Persona:</label>
                                 <select class="form-control  form-control-sm font-weight-normal"
                                     formControlName="Persona">
                                     <option disabled [value]="null">Seleccione a la persona </option>
@@ -38,32 +38,22 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="control-label" style="font-size:12px">Estado:</label>
+                                <label class="control-label col-form-label-sm">Estado:</label>
                                 <select class="form-control  form-control-sm font-weight-normal" formControlName="Estado">
                                     <option [value]="'GE'">GENERADO</option>
                                     <option [value]="'AP'">APROBADO</option>
                                     <option [value]="'AN'">ANULADO</option>
+                                    <option [value]="'PR'">PROCESADO</option>
                                 </select>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-9">
-                            <label class="control-label" style="font-size:12px">Justificación {{this.CrearFormulario.controls.Justificacion.value.length}} /500:</label>
+                            <label class="control-label col-form-label-sm">Justificación {{this.CrearFormulario.controls.Justificacion.value.length}} /500:</label>
                             <textarea type="text" formControlName="Justificacion"
-                                class="form-control form-control-sm font-weight-normal"></textarea>
-                        </div>
-                        <div class="col-md-3">
-                            <label class="control-label text-white">:</label>
-                            <div class="form-group">
-                                <button type="button" (click)="Guardar()" class="btn btn-info btn-sm">
-                                    <i class="fa fa-spinner fa-spin fa-fw" *ngIf="flagDescargarLista"></i>
-                                    <i class="fas fa-save" *ngIf="!flagDescargarLista" ></i> Guardar
-                                </button>
-                                <button type="button" (click)="AgregarPersona()" class="btn btn-warning btn-sm">
-                                    <i class="fas fa-plus"></i> Agregar
-                                </button>
-                            </div>
+                                class="form-control form-control-sm font-weight-normal">
+                            </textarea>
                         </div>
                     </div>
                 </form>
@@ -71,30 +61,31 @@
         </div>
     </div>
 </div>
-
 <div class="row">
     <div class="col-lg-12">
         <div class="card border-left border-info">
-            <div class="card-header bg-info text-white" style="font-weight: bold">
-                Lista de persona
-            </div>
             <div class="card-body">
-                <div class="row">
+                <div class="d-flex justify-content-end mb-3">
+                    <div class="col-sm-12 col-md-3 text-right">
+                        <button (click)="AgregarPersona()" class="btn btn-info btn-sm">
+                            &nbsp;<i class="fas fa-user-plus"></i>&nbsp;&nbsp;Agregar&nbsp;
+                        </button>
+                    </div>
+                </div>
+                <div class="row clearfix">
                     <div class="table-hover table-responsive table-bordered scrollvertical">
-                        <table class=" table table-striped border table-sm table-hover">
+                        <table class="table table-striped border table-sm table-hover">
                             <thead style="font-size: 12px" class="text-black table-bordered">
                                 <tr>
-                                    
                                     <th class="text-center">Id</th>
                                     <th class="text-center">Nombre completo</th>
                                     <th class="text-center">Número Documento</th>
                                     <th class="text-center">Cant. Horas</th>
-                                    <th class="text-center">Opcion</th>
+                                    <th class="text-center" *ngIf="estadoSolicitud == 'GE'">Opcion</th>
                                 </tr>
                             </thead>
                             <tbody style="font-size: 12px" *ngFor="let FormPersona of listadoPersonal.controls; let i = index">
                                 <ng-container [formGroup]="FormPersona">
-                                    
                                     <td class="text-center">
                                         <b>{{FormPersona.value.persona}}</b>
                                     </td>
@@ -104,22 +95,31 @@
                                     <td class="text-center">
                                         <b>{{FormPersona.value.documento}}</b>
                                     </td>
-                                    <td class="text-center" style='width:7rem'>
-                                        <div class="input-group input-group-sm">
-                                            <input type="number" class="form-control form-control-sm p-0" formControlName="horasextras" />
-                                        </div>
+                                    <td class="col-1">
+                                        <input type="number" class="form-control form-control-sm p-0" formControlName="horasextras" /> 
                                     </td>
-                                    <td class="text-center">
-                                        <a (click)="eliminarPersonal()" class="cursor-pointer m-4">
-                                            <i class="fas fa-trash-alt fa-lg text-danger"></i>
-                                        </a>
+                                    <td class="text-center" *ngIf="estadoSolicitud == 'GE'">
+                                        <a (click)="eliminarPersonal()" class="cursor-pointer p-0 m-0">
+                                            <i class="fas fa-user-times fa-lg text-danger"></i>
+                                        </a> 
                                     </td>
                                 </ng-container>
                             </tbody>
                         </table>
                     </div>
                 </div>
-
+                <div class="row mt-3">
+                    <div class="col-12 d-flex justify-content-center">
+                        <button type="button" (click)="cancelar()" class="btn btn-danger btn-sm">
+                            &nbsp;<i class=" fas fa-angle-left fa-fw"></i>
+                            &nbsp;&nbsp;Cancelar&nbsp;
+                        </button>
+                        <button type="button" (click)="Guardar()" class="btn btn-success btn-sm">
+                            &nbsp;<i class="fa fa-spinner fa-spin fa-fw" *ngIf="flagDescargarLista"></i>
+                            <i class="fas fa-save" *ngIf="!flagDescargarLista" ></i>&nbsp;&nbsp;Guardar&nbsp;
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

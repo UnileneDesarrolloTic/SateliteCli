@@ -27,7 +27,7 @@
                                             </tr>
                                         </thead>
                                         <tbody style="font-size: 13px">
-                                            <tr  *ngFor="let persona of ListarDatosFormatoPersonaTecnico">
+                                            <tr *ngFor="let persona of ListarDatosFormatoPersonaTecnico">
                                                 <td class="text-center font-weight-normal">
                                                     <input type="checkbox" [(ngModel)]="persona.isSelected" name="list_name" [id]="persona.idEmpleado" (change)="SeleccionaItem(persona)" value="{{ persona.idEmpleado}}" />
                                                 </td>
@@ -42,7 +42,6 @@
                                     </table>
                                 </div>
                             </div>
-            
                         </div>
                     </div>
                 </div>
