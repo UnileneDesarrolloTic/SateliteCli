@@ -60,7 +60,7 @@ export class FormularioCierreContableComponent implements OnInit,OnDestroy {
 
 
   ngOnInit(): void {
-    this.CreacionFormulario();
+    this.creacionFormulario();
 
     this.paginador = {
 			"paginaActual": 1,
@@ -76,23 +76,21 @@ export class FormularioCierreContableComponent implements OnInit,OnDestroy {
 
   cambioPagina(paginaCambiada: Number) {
 		this.pagina = paginaCambiada
-		this.Filtrar();
+		this.filtrar();
 	}
 
-  CreacionFormulario(){
+  creacionFormulario(){
     this.FormularioGrupo= new FormGroup({
       Periodo:new FormControl('',Validators.required),
       Tipo: new FormControl('TR',Validators.required),
       CheckCierre: new FormControl(false,Validators.required),
-      DetalleTabla:this._fb.array([])
     });
   }
   
  
 
-  Filtrar(){
+  filtrar(){
     this.flagLoading=true;
-
     if(!this.FormularioGrupo.controls.Periodo.valid)
         return (this.toastr.warning("Debe ingresar el Periodo Correspondiente"), this.flagLoading=false);
     
@@ -102,29 +100,29 @@ export class FormularioCierreContableComponent implements OnInit,OnDestroy {
       ...this.FormularioGrupo.value,
       Periodo:this.FormularioGrupo.controls.Periodo.value.replace("-","")
     }
-    this.ListarFiltro(datos)
+    this.listarFiltro(datos)
     
   }
 
   
-  ListarFiltro(datos){
+  listarFiltro(datos){
     this._ContabilidadService.ListarInformacionTransaccionKardex(datos)
     .subscribe(
         (resp:any)=>{
           this.ListarTransaccionKardex=resp["contentidoDetalle"]["contenido"];
           this.InformacionCabecera=resp["contentidoCabecera"];
           this.flagLoading=false;
-
-          console.log(this.InformacionCabecera);
         },
-        error=>{
-          this.flagLoading=false;
-        }
+        _=> this.flagLoading=false
+        
     );
   }
 
-  Guardar(){
+  guardar(){
     this.flagRegistrar=true;
+    if(!this.FormularioGrupo.controls.Periodo.valid)
+        return (this.toastr.warning("Debe ingresar el Periodo Correspondiente"), this.flagRegistrar=false);
+
     const GuardarInformacion={
       Pagina: -1,
       RegistrosPorPagina: 10,

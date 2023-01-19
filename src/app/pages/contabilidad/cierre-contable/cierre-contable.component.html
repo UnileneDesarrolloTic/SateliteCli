@@ -4,7 +4,7 @@
             <div class="card-body">
                 <form (ngSubmit)="buscarReporteCierre()">
                     <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-sm-3">
                             <div class="form-group">
                                 <label class="control-label font-weight-normal" style="font-size:12px">Periodo</label>
                                 <input type="month" [formControl]="Periodo"
@@ -14,9 +14,12 @@
                         <div class="col-md-3">
                             <label class="control-label text-white">&nbsp;</label>
                             <div class="form-group">
-                                <button class="btn btn-info btn-sm"><i class="fas fa-search"></i> Consultar</button>
-                                <button (click)="NuevoCierre('Nuevo')" class="btn btn-warning btn-sm"><i
-                                        class="fas fa-plus"></i> Procesar</button>
+                                <button class="btn btn-info btn-sm">
+                                    <i class="fa fa-spinner fa-spin fa-fw" *ngIf="flagBuscar"></i>
+                                    <i class="fas fa-search" *ngIf="!flagBuscar"></i>
+                                    Consultar</button>
+                                <button type="button" (click)="nuevoCierre('Nuevo')" class="btn btn-warning btn-sm"><i
+                                        class="fas fa-sign-in-alt"></i> Procesar</button>
                             </div>
                         </div>
                     </div>
@@ -33,33 +36,26 @@
                 <table class="table table-striped border table-ms" style="font-size: 13px">
                     <thead class="no-wrap">
                         <tr>
-                            <th>...</th>
-                            <th>Periodo</th>
-                            <th>Tipo</th>
-                            <th>Cantidad Antes</th>
-                            <th>Monto Total Antes</th>
-                            <th>Cantidad Actual</th>
-                            <th>Monto Total Actual</th>
-                            <th>Ver</th>
+                            <th class="text-center">Periodo</th>
+                            <th class="text-center">Tipo</th>
+                            <th class="text-center">Cantidad Antes</th>
+                            <th class="text-center">Monto Total Antes</th>
+                            <th class="text-center">Cantidad Actual</th>
+                            <th class="text-center">Monto Total Actual</th>
+                            <th class="text-center">...</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let reporte of ListarReporteCierreContable ; let i = index">
-                            <td class="font-normal">
-                                <button type="button" (click)="anularReporteHistorico(reporte,i)"
-                                    class="btn btn-danger btn-sm">
-                                    <i class="fas fa-trash"></i> </button>
-                            </td>
-                            <td class="font-medium">{{ reporte.periodo }}</td>
-                            <td class="font-medium">{{ reporte.tipo }}</td>
-                            <td class="font-medium">{{ reporte.cantidadTotalAntes | number : '1.2-2' }}</td>
-                            <td class="font-medium">{{ reporte.montoTotalAntes  | number : '1.2-2' }}</td>
-                            <td class="font-medium">{{ reporte.cantidadTotalActual | number : '1.2-2'  }}</td>
-                            <td class="font-medium">{{ reporte.montoTotalActual | number : '1.2-2' }}</td>
-                            <td>
-                                <button type="button" (click)="verReporteDetalle(reporte)"
-                                    class="btn btn-primary btn-sm">
-                                    <i class="fas fa-eye"></i> </button>
+                        <tr *ngFor="let reporte of ListarReporteCierreContable ; let i = index" [ngStyle]="{'background-color':reporte.comparacion === false ? '#cfffca' : '#ffbfb0' }">
+                            <td class="font-medium text-center">{{ reporte.periodo }}</td>
+                            <td class="font-medium text-center">{{ reporte.tipo }}</td>
+                            <td class="font-medium text-center">{{ reporte.cantidadTotalAntes | number : '1.2-2' }}</td>
+                            <td class="font-medium text-center">{{ reporte.montoTotalAntes | number : '1.2-2' }}</td>
+                            <td class="font-medium text-center">{{ reporte.cantidadTotalActual | number : '1.2-2' }}</td>
+                            <td class="font-medium text-center">{{ reporte.montoTotalActual | number : '1.2-2' }}</td>
+                            <td class="font-medium text-center">
+                                <a type="button" (click)="verReporteDetalle(reporte)" class="mr-3"> <i class="fas fa-eye" style="font-size: 14px;"></i> </a>
+                                <a type="button" (click)="anularReporteHistorico(reporte,i)"><i class="fas fa-trash" style="font-size: 14px;" ></i> </a>
                             </td>
                         </tr>
                     </tbody>
@@ -74,41 +70,100 @@
     <div class="col-lg-12">
         <div class="card border-left border-info">
             <div class="card-body">
-                <table class="table table-striped border table-ms" style="font-size: 11px">
-                    <thead class="no-wrap">
-                        <tr>
-                            <th>TipoDoc.</th>
-                            <th>NumeroDoc.</th>
-                            <th>TranCodigo</th>
-                            <th>Ref.TipoDoc.</th>
-                            <th>Ref.NumeroDoc.</th>
-                            <th>Secuencia</th>
-                            <th>Item</th>
-                            <th>Lote</th>
-                            <th>Cantidad</th>
-                            <th>Pre.Unitario</th>
-                            <th>MontoTotal</th>
-                            <th>MontoTotalReal</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let listado of ListarDetalleReporte">
-                            <td>{{ listado.tipoDocumento }}</td>
-                            <td>{{ listado.numeroDocumento }}</td>
-                            <td>{{ listado.transaccionCodigo }}</td>
-                            <td>{{ listado.referenciaTipoDocumento }}</td>
-                            <td>{{ listado.referenciaNumeroDocumento }}</td>
-                            <td>{{ listado.secuencia }}</td>
-                            <td>{{ listado.item }}</td>
-                            <td>{{ listado.lote }}</td>
-                            <td>{{ listado.cantidad }}</td>
-                            <td>{{ listado.precioUnitario | number : '1.2-2' }}</td>
-                            <td>{{ listado.montoTotal | number : '1.2-2'}}</td>
-                            <td>{{ listado.montoTotalReal | number : '1.2-2' }}</td>
+                <div class="col-lg-12" style="width: 100%;">
+                    <ngx-datatable class="material" [rows]="ListarDetalleReporte" [columnMode]="'force'"
+                        [headerHeight]="50" [footerHeight]="50" [rowHeight]="50" [scrollbarV]="true"
+                        style="height: 85%;" [loadingIndicator]="flagLoading" class="material" [rowHeight]="50"
+                        [scrollbarH]="true">
 
-                        </tr>
-                    </tbody>
-                </table>
+                        <!-- Tipo Documento -->
+                        <ngx-datatable-column name="TipoDoc." prop="tipoDocumento" [width]="50">
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                <span style="font-size: 11px !important" class="font-medium" > {{row.tipoDocumento}} </span>
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <!-- Numero Documento -->
+                        <ngx-datatable-column name="NumeroDoc" prop="numeroDocumento" [width]="100">
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                <span style="font-size: 11px !important" class="font-medium" > {{row.numeroDocumento}} </span>
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <!-- TrasaccionCodigo -->
+                        <ngx-datatable-column name="TranCodigo" prop="transaccionCodigo" [width]="80">
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                <span style="font-size: 11px !important" class="font-medium" > {{row.transaccionCodigo}} </span>
+                            </ng-template>
+                        </ngx-datatable-column>
+
+
+                        <!-- referenciaTipoDocumento -->
+                        <ngx-datatable-column name="Ref.TipoDoc." prop="referenciaTipoDocumento" [width]="80">
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                <span style="font-size: 11px !important" class="font-medium" > {{row.referenciaTipoDocumento}} </span>
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <!-- referenciaNumeroDocumento -->
+                        <ngx-datatable-column name="Ref.NumeroDoc." prop="referenciaNumeroDocumento" [width]="80">
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                <span style="font-size: 11px !important" class="font-medium" > {{row.subFamilia}} </span>
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <!-- secuencia -->
+                        <ngx-datatable-column name="Secuencia" prop="secuencia" [width]="80">
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                <span style="font-size: 11px !important" class="font-medium" > {{row.secuencia}} </span>
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <!-- item -->
+                        <ngx-datatable-column name="Item" prop="item" [width]="80">
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                <span style="font-size: 11px !important" class="font-medium" > {{row.item}} </span>
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <!-- lote -->
+                        <ngx-datatable-column name="Lote" prop="lote" [width]="80">
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                <span style="font-size: 11px !important" class="font-medium" > {{row.lote}} </span>
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <!-- cantidad -->
+                        <ngx-datatable-column name="Cantidad" prop="cantidad" [width]="80">
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                <span style="font-size: 11px !important" class="font-medium" > {{row.cantidad | number:"1.2-2"}} </span>
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <!-- precioUnitario -->
+                        <ngx-datatable-column name="Pre.Unitario" prop="precioUnitario" [width]="80">
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                <span style="font-size: 11px !important" class="font-medium" > {{row.precioUnitario | number:"1.2-2"}}
+                                </span>
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <!-- montoTotal -->
+                        <ngx-datatable-column name="MontoTotal" prop="montoTotal" [width]="100">
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                <span style="font-size: 11px !important" class="font-medium" > {{row.montoTotal | number:"1.2-2"}} </span>
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <!-- montoTotalReal -->
+                        <ngx-datatable-column name="MontoTotalReal" prop="montoTotalReal" [width]="100">
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                <span style="font-size: 11px !important" class="font-medium" > {{row.montoTotalReal | number:"1.2-2"}}
+                                </span>
+                            </ng-template>
+                        </ngx-datatable-column>
+                    </ngx-datatable>
+                </div>
             </div>
         </div>
     </div>

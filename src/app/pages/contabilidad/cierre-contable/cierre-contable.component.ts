@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { DatosFormatoListadoTransaccionKardex } from '@data/interface/Response/DatosFormatoListadoTransaccionKardex.interfaces';
 import { DatosFormatoListaReporteCierreContable } from '@data/interface/Response/DatosFormatoListaReporteCierreContable.interfaces';
 import { ContabilidadService } from '@data/services/backEnd/pages/contabilidad.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -15,59 +14,61 @@ import { ToastrService } from 'ngx-toastr';
 export class CierreContableComponent implements OnInit {
   ListarReporteCierreContable:DatosFormatoListaReporteCierreContable[]=[];
   ListarDetalleReporte:DatosFormatoListadoTransaccionKardex []=[];
-
+  flagLoading:boolean=false;
+  flagBuscar:boolean=false;
   constructor(private _router: Router,
               private _ContabilidadService:ContabilidadService,
-              private toastr: ToastrService,
-              private modalService: NgbModal) { }
+              private toastr: ToastrService) { }
 
   ngOnInit(): void {
   }
 
   Periodo = new FormControl('',Validators.required);
-  NuevoCierre(Nuevo){
+  nuevoCierre(Nuevo){
     this._router.navigate(['Contabilidad', 'CierreContable',Nuevo]);
   }
 
   buscarReporteCierre(){
+      this.ListarDetalleReporte=[];
       if(!this.Periodo.valid)
         return this.toastr.warning("Debe ingresar el periodo", "Advertencia");
 
+      this.flagBuscar=true;
       this._ContabilidadService.ListarReporteCierre(this.Periodo.value.replace("-","")).subscribe(
-          (resp:any)=>{
+          (resp:any) => {
               this.ListarReporteCierreContable=resp;
-          }
+              this.flagBuscar=false;
+          },
+          _ => this.flagBuscar=false
+          
       )
   }
 
   verReporteDetalle(documento:DatosFormatoListaReporteCierreContable){
+    this.flagLoading=true;
     this.ListarDetalleReporte=[];
     this._ContabilidadService.ListarDetalleReporteCierre(documento.id,documento.periodo,documento.tipo)
     .subscribe(
-      (resp:any)=>{
+      (resp:any) => {
               this.ListarDetalleReporte=resp;
+              this.flagLoading=false;
       },
-      error=>{
-        
-      }
+      _ => this.flagLoading=false 
     );
   }
 
   anularReporteHistorico(documento:DatosFormatoListaReporteCierreContable,index:number){
+    let respuesta = confirm(`¿Está seguro que desea eliminar?`);
+    //flag 
+    if(respuesta){
+        this._ContabilidadService.AnularReporteCierre(documento.id).subscribe(
+          (resp:any) => {
+                  this.toastr.success(resp["content"]);
+                  this.ListarReporteCierreContable=this.ListarReporteCierreContable.filter((x:DatosFormatoListaReporteCierreContable)=>x.id!=documento.id);
+          },
+        );
+    }
    
-    this._ContabilidadService.AnularReporteCierre(documento.id).subscribe(
-      (resp:any)=>{
-          if(resp["success"]){
-              this.toastr.success(resp["content"]);
-              this.ListarReporteCierreContable=this.ListarReporteCierreContable.filter((x:DatosFormatoListaReporteCierreContable)=>x.id!=documento.id);
-          }else{
-              this.toastr.warning(resp["content"]);
-          }
-      },
-      error=>{
-
-      }
-    )
   }
 
 }
