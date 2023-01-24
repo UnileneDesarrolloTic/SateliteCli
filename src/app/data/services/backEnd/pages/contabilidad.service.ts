@@ -84,15 +84,25 @@ export class ContabilidadService {
     );
   }
 
-  ListarReporteCierre(Periodo){
+  ListarReporteCierrePeriodo(Periodo){
       const params =  new HttpParams().set('Periodo', Periodo);
-    return this._http.get(this.url+"/api/Contabilidad/ListarInformacionReporteCierre",{"params":params}).pipe(
+    return this._http.get(this.url+"/api/Contabilidad/ListarInformacionReporteCierrePeriodo",{"params":params}).pipe(
       catchError( _ => {
         this._toastr.error("Error al Listar el reporte de cierre", "Error !!", { timeOut: 4000, closeButton: true })
         return throwError("Error al Listar el reporte de cierre")
       })
     );
   }
+
+  ListarReporteCierreAnio(Anio){
+    const params =  new HttpParams().set('Anio', Anio);
+  return this._http.get(this.url+"/api/Contabilidad/ListarInformacionReporteAnio",{"params":params}).pipe(
+    catchError( _ => {
+      this._toastr.error("Error al Listar el reporte de cierre", "Error !!", { timeOut: 4000, closeButton: true })
+      return throwError("Error al Listar el reporte de cierre")
+    })
+  );
+}
   
   ListarDetalleReporteCierre(Id,Periodo,Tipo){
     const params =  new HttpParams().set('Id', Id).set('Periodo',Periodo).set('Tipo',Tipo);
@@ -108,8 +118,8 @@ export class ContabilidadService {
     const params =  new HttpParams().set('Id', Id);
     return this._http.get(this.url+"/api/Contabilidad/AnularReporteCierre",{"params":params}).pipe(
       catchError( _ => {
-        this._toastr.error("Error al anular reporte de cierre", "Error !!", { timeOut: 4000, closeButton: true })
-        return throwError("Error al anular reporte de cierre")
+        this._toastr.error("Error al proceso de anulación de reporte cierre  ", "Error !!", { timeOut: 4000, closeButton: true })
+        return throwError("Error  al proceso de anulación de reporte cierre ")
       })
     );
   }

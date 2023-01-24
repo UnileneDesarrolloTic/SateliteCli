@@ -6,9 +6,10 @@
                     <div class="row">
                         <div class="col-sm-3">
                             <div class="form-group">
-                                <label class="control-label font-weight-normal" style="font-size:12px">Periodo</label>
-                                <input type="month" [formControl]="Periodo"
-                                    class="form-control form-control-sm font-weight-normal">
+                                <label class="control-label font-weight-normal" style="font-size:12px">Elejir:</label>
+                                <button class="btn btn-success btn-sm side-badge badge badge-success ml-4" type="button" (click)="cambiarInput()" > {{ CambioInput ? 'Año' : 'Periodo' }} </button>
+                                <input type="month" [formControl]="Periodo" *ngIf="CambioInput" class="form-control form-control-sm font-weight-normal">
+                                <input type="text" [formControl]="Anio" *ngIf="!CambioInput" [maxlength]="4" class="form-control form-control-sm font-weight-normal">
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -29,7 +30,7 @@
     </div>
 </div>
 
-<div class="row">
+<div class="row" *ngIf="CambioInput">
     <div class="col-lg-12">
         <div class="card border-left border-info">
             <div class="card-body">
@@ -38,21 +39,25 @@
                         <tr>
                             <th class="text-center">Periodo</th>
                             <th class="text-center">Tipo</th>
-                            <th class="text-center">Cantidad Antes</th>
-                            <th class="text-center">Monto Total Antes</th>
-                            <th class="text-center">Cantidad Actual</th>
-                            <th class="text-center">Monto Total Actual</th>
+                            <th class="text-center">Cant.Antes</th>
+                            <th class="text-center">Cant.Actual</th>
+                            <th class="text-center">Dif.</th>
+                            <th class="text-center">Mont.Total Antes</th>
+                            <th class="text-center">Mont.Total Actual</th>
+                            <th class="text-center">Dif</th>
                             <th class="text-center">...</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let reporte of ListarReporteCierreContable ; let i = index" [ngStyle]="{'background-color':reporte.comparacion === false ? '#cfffca' : '#ffbfb0' }">
+                        <tr *ngFor="let reporte of ListarReporteCierreContable ; let i = index" [ngStyle]="{'background-color':reporte.comparacion ?  '#ffbfb0' :  '#cfffca'  }">
                             <td class="font-medium text-center">{{ reporte.periodo }}</td>
                             <td class="font-medium text-center">{{ reporte.tipo }}</td>
                             <td class="font-medium text-center">{{ reporte.cantidadTotalAntes | number : '1.2-2' }}</td>
-                            <td class="font-medium text-center">{{ reporte.montoTotalAntes | number : '1.2-2' }}</td>
                             <td class="font-medium text-center">{{ reporte.cantidadTotalActual | number : '1.2-2' }}</td>
+                            <td class="font-medium text-center">{{ reporte.cantidadDiferencia | number }}</td>
+                            <td class="font-medium text-center">{{ reporte.montoTotalAntes | number : '1.2-2' }}</td>                           
                             <td class="font-medium text-center">{{ reporte.montoTotalActual | number : '1.2-2' }}</td>
+                            <td class="font-medium text-center">{{ reporte.montoDiferencia | number }}</td>
                             <td class="font-medium text-center">
                                 <a type="button" (click)="verReporteDetalle(reporte)" class="mr-3"> <i class="fas fa-eye" style="font-size: 14px;"></i> </a>
                                 <a type="button" (click)="anularReporteHistorico(reporte,i)"><i class="fas fa-trash" style="font-size: 14px;" ></i> </a>
@@ -66,10 +71,57 @@
 </div>
 
 
+<div class="row" *ngIf="!CambioInput">
+    <div class="col-lg-12">
+        <div class="card border-left border-info">
+            <div class="card-body">
+                <table class="table table-striped border table-ms" style="font-size: 13px">
+                    <thead class="no-wrap">
+                        <tr>
+                            <th class="text-center">Periodo</th>
+                            <th class="text-center">Tipo</th>
+                            <th class="text-center">Cant.Antes</th>
+                            <th class="text-center">Cant.Actual</th>
+                            <th class="text-center">Dif.</th>
+                            <th class="text-center">Mont.Total Antes</th>
+                            <th class="text-center">Mont.Total Actual</th>
+                            <th class="text-center">Dif</th>
+                            <th class="text-center">...</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let reporte of ListarReporteCierreContable ; let i = index" >
+                            <td class="font-medium text-center">{{ reporte.periodo }}</td>
+                            <td class="font-medium text-center">{{ reporte.tipo }}</td>
+                            <td class="font-medium text-center">{{ reporte.cantidadTotalAntes | number : '1.2-2' }}</td>
+                            <td class="font-medium text-center">{{ reporte.cantidadTotalActual | number : '1.2-2' }}</td>
+                            <td class="font-medium text-center">{{ reporte.cantidadDiferencia | number }}</td>
+                            <td class="font-medium text-center">{{ reporte.montoTotalAntes | number : '1.2-2' }}</td>                           
+                            <td class="font-medium text-center">{{ reporte.montoTotalActual | number : '1.2-2' }}</td>
+                            <td class="font-medium text-center">{{ reporte.montoDiferencia | number }}</td>
+                            <td class="font-medium text-center">
+                                <a type="button" (click)="verReporteDetalle(reporte)" class="mr-3"> <i class="fas fa-eye" style="font-size: 14px;"></i> </a>
+                                <a type="button" (click)="anularReporteHistorico(reporte,i)"><i class="fas fa-trash" style="font-size: 14px;" ></i> </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 <div class="row" *ngIf="ListarDetalleReporte.length>0">
     <div class="col-lg-12">
         <div class="card border-left border-info">
             <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <label for="" class="font-medium">{{NombreEjecucion}}</label>
+                    </div>
+                </div>
                 <div class="col-lg-12" style="width: 100%;">
                     <ngx-datatable class="material" [rows]="ListarDetalleReporte" [columnMode]="'force'"
                         [headerHeight]="50" [footerHeight]="50" [rowHeight]="50" [scrollbarV]="true"
@@ -99,16 +151,16 @@
 
 
                         <!-- referenciaTipoDocumento -->
-                        <ngx-datatable-column name="Ref.TipoDoc." prop="referenciaTipoDocumento" [width]="80">
+                        <ngx-datatable-column name="Ref.TipoDoc." prop="referenciaTipoDocumento" *ngIf="NombreEjecucion=='TRANSACCION'" [width]="80">
                             <ng-template let-row="row" ngx-datatable-cell-template>
                                 <span style="font-size: 11px !important" class="font-medium" > {{row.referenciaTipoDocumento}} </span>
                             </ng-template>
                         </ngx-datatable-column>
 
                         <!-- referenciaNumeroDocumento -->
-                        <ngx-datatable-column name="Ref.NumeroDoc." prop="referenciaNumeroDocumento" [width]="80">
+                        <ngx-datatable-column name="Ref.NumeroDoc." prop="referenciaNumeroDocumento"  *ngIf="NombreEjecucion=='TRANSACCION'" [width]="80">
                             <ng-template let-row="row" ngx-datatable-cell-template>
-                                <span style="font-size: 11px !important" class="font-medium" > {{row.subFamilia}} </span>
+                                <span style="font-size: 11px !important" class="font-medium" > {{row.referenciaNumeroDocumento}} </span>
                             </ng-template>
                         </ngx-datatable-column>
 

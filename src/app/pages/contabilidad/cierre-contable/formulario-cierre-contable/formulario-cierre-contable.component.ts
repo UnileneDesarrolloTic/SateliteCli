@@ -90,11 +90,16 @@ export class FormularioCierreContableComponent implements OnInit,OnDestroy {
  
 
   filtrar(){
-    this.flagLoading=true;
-    if(!this.FormularioGrupo.controls.Periodo.valid)
-        return (this.toastr.warning("Debe ingresar el Periodo Correspondiente"), this.flagLoading=false);
     
-    const datos={
+    if(!this.FormularioGrupo.valid)
+    {
+      this.FormularioGrupo.markAllAsTouched();
+      return this.toastr.warning("Debe ingresar los datos faltantes","Advertencia");
+    }
+       
+    this.flagLoading=true;
+    const datos=
+    {
       Pagina: this.pagina,
       RegistrosPorPagina: 10,
       ...this.FormularioGrupo.value,
@@ -113,17 +118,22 @@ export class FormularioCierreContableComponent implements OnInit,OnDestroy {
           this.InformacionCabecera=resp["contentidoCabecera"];
           this.flagLoading=false;
         },
-        _=> this.flagLoading=false
-        
-    );
+        _=> this.flagLoading=false   
+      );
   }
 
-  guardar(){
-    this.flagRegistrar=true;
-    if(!this.FormularioGrupo.controls.Periodo.valid)
-        return (this.toastr.warning("Debe ingresar el Periodo Correspondiente"), this.flagRegistrar=false);
-
-    const GuardarInformacion={
+  guardar()
+  { 
+    if(!this.FormularioGrupo.valid)
+    {
+      this.FormularioGrupo.markAllAsTouched();
+      return this.toastr.warning("Debe ingresar los datos faltantes","Advertencia");
+    }
+    
+      
+    this.flagRegistrar=true;    
+    const GuardarInformacion=
+    {
       Pagina: -1,
       RegistrosPorPagina: 10,
       ...this.FormularioGrupo.value,
@@ -138,22 +148,22 @@ export class FormularioCierreContableComponent implements OnInit,OnDestroy {
     });
     ModalCarga.componentInstance.fromParent = "Subiendo la información ...";
 
-    this._ContabilidadService.RegistrarInformacionTransaccionKardex(GuardarInformacion).subscribe(
-        resp=>{
-               if(resp["success"]){
+    this._ContabilidadService.RegistrarInformacionTransaccionKardex(GuardarInformacion)
+    .subscribe(
+          resp=>{
+                if(resp["success"])
+                  this.toastr.success(resp["content"])
+                else
+                  this.toastr.info(resp["message"])
+
+                ModalCarga.close();
                 this.flagRegistrar=false;
-                this.toastr.success(resp["content"])
-               }else{
-                this.flagRegistrar=false;
-                this.toastr.warning(resp["content"])
-               }
-               ModalCarga.close();
-          },
-          error=>{
-            ModalCarga.close();
-            this.flagRegistrar=false;
-          }
-    )
+            },
+            _=>{
+              ModalCarga.close();
+              this.flagRegistrar=false;
+            }
+      );
   }
 
   

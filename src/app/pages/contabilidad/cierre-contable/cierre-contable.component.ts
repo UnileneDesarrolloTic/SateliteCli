@@ -16,6 +16,8 @@ export class CierreContableComponent implements OnInit {
   ListarDetalleReporte:DatosFormatoListadoTransaccionKardex []=[];
   flagLoading:boolean=false;
   flagBuscar:boolean=false;
+  NombreEjecucion:string="";
+  CambioInput:boolean=true;
   constructor(private _router: Router,
               private _ContabilidadService:ContabilidadService,
               private toastr: ToastrService) { }
@@ -24,34 +26,92 @@ export class CierreContableComponent implements OnInit {
   }
 
   Periodo = new FormControl('',Validators.required);
+  Anio= new FormControl('',Validators.required);
   nuevoCierre(Nuevo){
     this._router.navigate(['Contabilidad', 'CierreContable',Nuevo]);
   }
 
   buscarReporteCierre(){
       this.ListarDetalleReporte=[];
-      if(!this.Periodo.valid)
-        return this.toastr.warning("Debe ingresar el periodo", "Advertencia");
+      this.ListarReporteCierreContable=[];
+      if(this.CambioInput)
+        this.buscarReporteCierrePeriodo();
+      else
+        this.buscarReporteCierreAnio();
+     
+  }
 
-      this.flagBuscar=true;
-      this._ContabilidadService.ListarReporteCierre(this.Periodo.value.replace("-","")).subscribe(
-          (resp:any) => {
-              this.ListarReporteCierreContable=resp;
-              this.flagBuscar=false;
-          },
-          _ => this.flagBuscar=false
+  buscarReporteCierrePeriodo(){
+    if(!this.Periodo.valid){
+      this.Periodo.markAllAsTouched();
+      return this.toastr.warning("Debe ingresar el periodo", "Advertencia");
+    }
+        
+   
+    this.flagBuscar=true;
+    this._ContabilidadService.ListarReporteCierrePeriodo(this.Periodo.value.replace("-","")).subscribe(
+        (resp:any) => {
+          if(resp["success"])
+            this.ListarReporteCierreContable=resp["content"];
+          else             
+            this.toastr.info(resp["message"]);
           
-      )
+          this.flagBuscar=false;
+        },
+        _ => this.flagBuscar=false    
+    )
+  }
+
+  buscarReporteCierreAnio(){
+    if(!this.Anio.valid)
+      return this.toastr.warning("Debe ingresar el Año", "Advertencia");
+    this.flagBuscar=true;
+    this._ContabilidadService.ListarReporteCierreAnio(this.Anio.value).subscribe(
+        (resp:any) => {
+          if(resp["success"])
+            this.ListarReporteCierreContable=resp["content"];
+          else             
+            this.toastr.info(resp["message"]);
+          
+          this.flagBuscar=false;
+        },
+        _ => this.flagBuscar=false    
+    )
+  }
+
+  cambiarInput(){
+      this.CambioInput =  ! this.CambioInput;
+      this.ListarDetalleReporte=[];
+      this.ListarReporteCierreContable=[];
+      if(this.CambioInput)
+      {
+          this.Anio.clearValidators();
+          this.Anio.setValue(null);
+          this.Periodo.setValidators(Validators.required,);
+          this.Periodo.updateValueAndValidity();
+      }
+      else
+      {  
+          this.Periodo.clearValidators();
+          this.Periodo.setValue(null);
+          this.Anio.setValidators([Validators.required,Validators.minLength(4)]);
+          this.Anio.updateValueAndValidity();
+      }
   }
 
   verReporteDetalle(documento:DatosFormatoListaReporteCierreContable){
+    this.NombreEjecucion= documento.tipo =='TR'? 'TRANSACCION' : 'KARDEX'
     this.flagLoading=true;
     this.ListarDetalleReporte=[];
     this._ContabilidadService.ListarDetalleReporteCierre(documento.id,documento.periodo,documento.tipo)
     .subscribe(
       (resp:any) => {
-              this.ListarDetalleReporte=resp;
-              this.flagLoading=false;
+              if(resp["success"])
+                this.ListarDetalleReporte=resp["content"];
+              else
+                this.toastr.info(resp["message"]);
+            
+                this.flagLoading=false;
       },
       _ => this.flagLoading=false 
     );

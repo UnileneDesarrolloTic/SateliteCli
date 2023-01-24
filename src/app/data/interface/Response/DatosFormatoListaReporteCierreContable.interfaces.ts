@@ -6,6 +6,8 @@ export interface DatosFormatoListaReporteCierreContable {
     tipo: string,
     montoTotalActual:number,
     cantidadTotalActual: number,
-    comparacion:boolean
+    comparacion:boolean,
+    cantidadDiferencia:number,
+    montoDiferencia:number,
   }
   
