@@ -4,6 +4,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { DatosFormatoListarHorasExtras } from '@data/interface/Response/DatosFormatoListarHorasExtras.interfaces';
 import { RRHHService } from '@data/services/backEnd/pages/rrhh.service';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FileService } from '@shared/services/comunes/file.service';
 import { ToastrService } from 'ngx-toastr';
 import { debounceTime } from 'rxjs/operators';
@@ -24,9 +25,11 @@ export class HorasextrasComponent implements OnInit {
   flagExportarData: boolean = false;
   textfiltro = new FormControl('');
   fechaActual = new Date();
+  modalReportesRef : NgbModalRef;
+  reporteSeleccionado: string = ""
 
   constructor(private _router: Router,  private _RRHHService:RRHHService, private toastr: ToastrService, 
-    private _fileService :FileService) 
+    private _fileService :FileService,  private _modalService: NgbModal) 
   { }
 
   ngOnInit(): void {
@@ -172,25 +175,53 @@ export class HorasextrasComponent implements OnInit {
 
   exportarDatos()
   {
+
     if(this.flagExportarData)
     {
-      this.toastr.warning("Se esta exportando la información.",'Advertencia !!', {closeButton: true, timeOut: 3000, progressBar: true})
+      this.toastr.warning("Se está exportando la información", "Aviso !!", {timeOut: 3000, closeButton: true, progressBar: true, tapToDismiss: true})
       return
     }
-    let periodoSeleccionado = this.FiltroFormulario.get("Periodo").value
+    
+    if(this.reporteSeleccionado != "e" && this.reporteSeleccionado != "a")
+    {
+      this.toastr.warning("Seleccione un reporte, para la descarga", "Aviso !!", {timeOut: 3000, closeButton: true, progressBar:true, tapToDismiss:true})
+      return
+    }
+    const periodoSeleccionado = this.FiltroFormulario.get("Periodo").value
 
     if (periodoSeleccionado == undefined || periodoSeleccionado == null || periodoSeleccionado == ''  )
     {
-      this.toastr.warning("Debe de seleccionar un periodo válido.",'Advertencia !!', {closeButton: true, timeOut: 3000, progressBar: true})
+      this.toastr.warning("Debe de seleccionar un periodo válido.",'Advertencia !!', {closeButton: true, timeOut: 3000, progressBar: true, tapToDismiss: true})
       return
     }
-
+    
     this.flagExportarData = true;
 
-    this._RRHHService.ReporteHorasExtrasGeneradas_Excel(periodoSeleccionado).subscribe( resp => {      
-      this._fileService.decargarExcel_Base64(resp, "Rpt. Horas Extras Generadas " + periodoSeleccionado, "xlsx");
-      this.flagExportarData = false;
-    }, _ => this.flagExportarData = false );
+    if(this.reporteSeleccionado == 'e')
+    {
+      this._RRHHService.ReporteHorasExtrasGeneradas_Excel(periodoSeleccionado).subscribe( resp => 
+        {      
+          this._fileService.decargarExcel_Base64(resp, "Rpt. Horas Extras Generadas " + periodoSeleccionado, "xlsx");
+          setTimeout( () => this.flagExportarData = false, 1500)
+        }, _ => this.flagExportarData = false );
+    }
+    
+    if(this.reporteSeleccionado == 'a')
+    {
+      this._RRHHService.ReporteAutorizacionSobreTiempoPorPersona_PDF(periodoSeleccionado).subscribe( resp => 
+        {
+          if(resp['success'] == false)
+          {
+            this.toastr.warning(resp['message'], "Aviso !!", {closeButton: true, timeOut: 3000, progressBar: true, tapToDismiss: true})
+            this.flagExportarData = false
+          }
+          else
+          {
+            this._fileService.decargarPDF_Base64(resp['content'], "Rpt. Autorización sobretiempo - " + periodoSeleccionado);
+            setTimeout( () => this.flagExportarData = false, 1500)
+          }
+        }, _ => this.flagExportarData = false );
+    }
   }
 
   exportarFormatoSobreTiempo(value: number)
@@ -202,6 +233,16 @@ export class HorasextrasComponent implements OnInit {
       }
     )
     
+  }
+
+  modalReportes(modal:NgbModal)
+  {
+    this.modalReportesRef = this._modalService.open(modal, {
+      centered: true,
+      backdrop: 'static',
+      size: 'sm',
+      scrollable: true
+    });
   }
 
   get fechaInicio() 

@@ -17,10 +17,10 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label class="control-label col-form-label-sm">Fecha Registro:</label>
-                                <input type="date" formControlName="FechaRegistro"
+                                <input type="datetime-local" formControlName="FechaRegistro"
                                     class="form-control form-control-sm font-weight-normal"
                                     placeholder="Código Producto">
                             </div>
@@ -33,6 +33,17 @@
                                     <option disabled [value]="null">Seleccione a la persona </option>
                                     <!-- <option [value]="'E'">EMPLEADO </option> -->
                                     <option [value]="'O'">OBRERO</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="control-label col-form-label-sm">Estado:</label>
+                                <select class="form-control  form-control-sm font-weight-normal" formControlName="Estado">
+                                    <option [value]="'GE'">GENERADO</option>
+                                    <option [value]="'AP'">APROBADO</option>
+                                    <option [value]="'AN'">ANULADO</option>
+                                    <option [value]="'PR'">PROCESADO</option>
                                 </select>
                             </div>
                         </div>

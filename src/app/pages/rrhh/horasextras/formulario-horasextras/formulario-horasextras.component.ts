@@ -255,7 +255,7 @@ export class FormularioHorasextrasComponent implements OnInit {
                     this.toastr.success(resp['content'], 'Éxito !!', {timeOut: 3000, closeButton: true, tapToDismiss: true, progressBar: true})
                     this._router.navigate(['RRHH', 'HorasExtras']);
               }},
-              error=>{
+              _ =>{
                     this.flagDescargarLista=false;
                 }
             );

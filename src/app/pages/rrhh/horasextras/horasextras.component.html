@@ -45,11 +45,14 @@
                     </div>
                     <div class="row mt-3">
                         <div class="col-12 d-flex justify-content-center">
-                            <button (click)="exportarDatos()" class="btn btn-success btn-sm">
+                            <button (click)="modalReportes(modalReporteSelect)" class="btn btn-success btn-sm">
+                                <i class="fas fa-file"></i>&nbsp;Exportar&nbsp;
+                            </button>
+                            <!-- <button (click)="exportarDatos()" class="btn btn-success btn-sm">
                                 &nbsp;<i class="fa fa-spinner fa-spin fa-fw" *ngIf="flagExportarData"></i>
                                 <i class="fas fa-file" *ngIf="!flagExportarData" ></i>
                                 &nbsp;Exportar&nbsp;
-                            </button>
+                            </button> -->
                             <button (click)="filtrar()" class="btn btn-info btn-sm">
                                 &nbsp;<i class=" fas fa-search"></i>
                                 &nbsp;Buscar&nbsp;
@@ -93,10 +96,10 @@
                                 </span>
                             </ng-template>
                         </ngx-datatable-column>
-                        <ngx-datatable-column name="F.Registro" prop='fechaRegistro' [width]="100">
+                        <ngx-datatable-column name="F.Registro" prop='fechaRegistro' [width]="150">
                             <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                                 <span style="font-size: 12px;">
-                                    {{ value | date:'dd/MM/yyy' }}
+                                    {{ value | date:'dd/MM/yyy HH:mm' }}
                                 </span>
                             </ng-template>
                         </ngx-datatable-column>
@@ -154,3 +157,44 @@
         </div>
     </div>
 </div>
+<ng-template #modalReporteSelect let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">
+          <i class="fas fa-file-alt fas-md"></i>&nbsp;&nbsp;Reportes
+      </h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <span aria-hidden="true">
+              &times;
+          </span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="row">
+        <div class="form-group row">
+          <div class="col-12 ml-3" style="font-size: 14px;">
+              <div class="custom-control custom-radio mb-2">
+                  <input type="radio" class="custom-control-input" id="horasExtras" name="reporteAnalisisAguja" value="e" [(ngModel)]="reporteSeleccionado" required>
+                  <label class="custom-control-label" for="horasExtras"> Horas extras generadas</label>
+              </div>
+              <div class="custom-control custom-radio">
+                  <input type="radio" class="custom-control-input" id="autorizacion" name="reporteAnalisisAguja" value="a" [(ngModel)]="reporteSeleccionado" required>
+                  <label class="custom-control-label" for="autorizacion"> Autorización de sobretiempo</label>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <div class="col-12 text-center">
+        <button class="btn btn-success btn-sm btn-rounded" (click)="exportarDatos()">
+          <span *ngIf="!flagExportarData">
+            &nbsp;<i class="fas fa-download" aria-hidden="true"></i>&nbsp;&nbsp;Descargar&nbsp;&nbsp;
+          </span>
+          <span *ngIf="flagExportarData">
+            &nbsp;<i class="fa fa-spinner fa-spin" aria-hidden="true"></i>&nbsp;Descargando..&nbsp;&nbsp;
+          </span>
+        </button>
+      </div>
+    </div>
+</ng-template>
+  
