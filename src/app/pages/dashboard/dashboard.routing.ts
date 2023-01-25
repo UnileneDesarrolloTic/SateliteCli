@@ -9,13 +9,14 @@ import { RentabilidadComponent } from '@pages/dashboard/comercial/rentabilidad/r
 import { SegUnishopB2cComponent } from '@pages/dashboard/comercial/seg-unishop-b2c/seg-unishop-b2c.component'
 import { SegOperacionesComercialComponent } from '@pages/dashboard/comercial/seg-operaciones-comercial/seg-operaciones-comercial.component'
 import { EstadosFinancierosComponent } from '@pages/dashboard/comercial/estados-financieros/estados-financieros.component'
-import { RentabilidadEstrategicoComponent } from './comercial/rentabilidad-estrategico/rentabilidad-estrategico.component';
-import { DrogueriaComponent } from "./comercial/drogueria/drogueria.component";
-import { SeguimientoOperacionesComponent } from "./produccion/seguimiento-operaciones/seguimiento-operaciones.component";
-import { SegProcesosComponent } from "./comercial/seg-procesos/seg-procesos.component";
-import { DesempenioArimaComponent } from "./produccion/desempenio-arima/desempenio-arima.component";
-import { ObligacionesFinancierasComponent } from "./comercial/obligaciones-financieras/obligaciones-financieras.component";
-import { GestionCalidadComponent } from "./produccion/gestion-calidad/gestion-calidad.component";
+import { RentabilidadEstrategicoComponent } from '@pages/dashboard/comercial/rentabilidad-estrategico/rentabilidad-estrategico.component';
+import { DrogueriaComponent } from "@pages/dashboard/comercial/drogueria/drogueria.component";
+import { SeguimientoOperacionesComponent } from "@pages/dashboard/produccion/seguimiento-operaciones/seguimiento-operaciones.component";
+import { SegProcesosComponent } from "@pages/dashboard/comercial/seg-procesos/seg-procesos.component";
+import { DesempenioArimaComponent } from "@pages/dashboard/produccion/desempenio-arima/desempenio-arima.component";
+import { ObligacionesFinancierasComponent } from "@pages/dashboard/comercial/obligaciones-financieras/obligaciones-financieras.component";
+import { GestionCalidadComponent } from "@pages/dashboard/produccion/gestion-calidad/gestion-calidad.component";
+import { ExportacionBoliviaComponent } from "@pages/dashboard/comercial/exportacion-bolivia/exportacion-bolivia.component";
 
 export const DashboardRoutes: Routes = [
     {
@@ -106,6 +107,13 @@ export const DashboardRoutes: Routes = [
               title: "Obligaciones Financieras"
             }
           },
+          {
+            path: 'exportacion-bolivia',
+            component: ExportacionBoliviaComponent,
+            data: {
+              title: "Seg. Expo. Bolivia"
+            }
+          }
         ]
     },
     {

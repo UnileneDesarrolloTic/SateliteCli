@@ -17,6 +17,7 @@ import { SegProcesosComponent } from './comercial/seg-procesos/seg-procesos.comp
 import { DesempenioArimaComponent } from './produccion/desempenio-arima/desempenio-arima.component';
 import { ObligacionesFinancierasComponent } from './comercial/obligaciones-financieras/obligaciones-financieras.component';
 import { GestionCalidadComponent } from './produccion/gestion-calidad/gestion-calidad.component';
+import { ExportacionBoliviaComponent } from './comercial/exportacion-bolivia/exportacion-bolivia.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { GestionCalidadComponent } from './produccion/gestion-calidad/gestion-ca
     SegProcesosComponent,
     DesempenioArimaComponent,
     ObligacionesFinancierasComponent,
-    GestionCalidadComponent
+    GestionCalidadComponent,
+    ExportacionBoliviaComponent
   ],
   imports: [
     RouterModule.forChild(DashboardRoutes)
