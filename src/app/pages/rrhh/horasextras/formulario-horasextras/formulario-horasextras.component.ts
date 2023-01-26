@@ -63,7 +63,7 @@ export class FormularioHorasextrasComponent implements OnInit {
       this.CrearFormulario =  new FormGroup({
         idCodigo:new FormControl(0),
         Area:new FormControl(null,Validators.required),
-        FechaRegistro: new FormControl(formatDate(new Date(Date.now()), 'yyyy-MM-dd', 'en')),
+        FechaRegistro: new FormControl(formatDate(new Date(Date.now()), 'yyyy-MM-dd HH:mm', 'en')),
         Persona: new FormControl('O',Validators.required),
         Justificacion: new FormControl('',Validators.required),
         Estado: new FormControl('GE'),
@@ -104,7 +104,7 @@ export class FormularioHorasextrasComponent implements OnInit {
           this.CrearFormulario.patchValue({
             idCodigo:this.HorasExtrasCabecera.idCabecera,
             Area:this.HorasExtrasCabecera.idArea,
-            FechaRegistro:formatDate(new Date(this.HorasExtrasCabecera.fechaRegistro), 'yyyy-MM-dd', 'en') ,
+            FechaRegistro:this.HorasExtrasCabecera.fechaRegistro,
             Persona:this.HorasExtrasCabecera.tipoPersona,
             Justificacion: this.HorasExtrasCabecera.justificacion,
             Estado:this.HorasExtrasCabecera.estado
