@@ -83,6 +83,18 @@ import { catchError, map } from 'rxjs/operators';
       );
     }
 
+    ReporteAutorizacionSobreTiempoPorPersona_PDF(periodo: string): Observable<string>
+    {
+      const params =  new HttpParams().set('periodo', periodo);
+      return this._http.get<string>(this.url+"RptAutorizacionSobretiempoPorPersona",{'params': params}).pipe(
+        catchError(_ => {
+          this._toastr.error("Error al generar repote de autorizacion de sobretiempo", "Error !!", {tapToDismiss: true, closeButton: true, timeOut: 3000});
+          return throwError("Error al generar repote de autorizacion de sobretiempo");
+        })
+      );
+    }
+
+
     ExportarFormatoAutorizacionSobreTiempo(id: number): Observable<string>
     {
       const params =  new HttpParams().set('id', id.toString());

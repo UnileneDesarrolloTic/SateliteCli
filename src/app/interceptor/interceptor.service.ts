@@ -243,7 +243,8 @@ export class InterceptorService implements HttpInterceptor {
       "Common/DatosCliente",
       "RRHH/ProcesarHorasExtrasPlanilla",
       "RRHH/ReporteHorasExtrasGenerada",
-      "RRHH/FormatoAutorizacionSobretiempo"
+      "RRHH/FormatoAutorizacionSobretiempo",
+      "RRHH/RptAutorizacionSobretiempoPorPersona"
     ];
     
     const data = this.sesionService.datosPersonales();

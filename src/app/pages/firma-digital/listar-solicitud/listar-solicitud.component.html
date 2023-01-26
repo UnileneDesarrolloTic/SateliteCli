@@ -135,7 +135,7 @@
     </div>
 </div>
 
-  <ng-template #modalNuevaSolicitud let-modal>
+<ng-template #modalNuevaSolicitud let-modal>
     <div class="modal-header">
       <h4 class="modal-title font-weight-bold">
           Nueva Solicitud 
@@ -148,7 +148,7 @@
     </div>
     <form autocomplete="off" [formGroup]="formNuevaSolicitud" (submit)="registrarNuevaSolicitud()">
         <div class="modal-body">
-            <div class="form-horizontal">
+            <div class="form-horizontal" style="font-size: 12px;">
                 <div class="form-group">
                     <label>Flujo</label>
                     <select class="form-control form-control-sm" id="status" formControlName="flujo">
