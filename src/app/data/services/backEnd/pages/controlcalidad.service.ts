@@ -209,7 +209,10 @@ export class ControlcalidadService {
 
   RegistrarFormatoProtocolo(body){
     return this._http.post<any>(this.url+"/api/ControlCalidad/RegistrarFormatoProtocolo",body).pipe(
-      catchError (() => throwError("Error al obtener Registrar Formato Proceso"))
+      catchError( _ => {
+        this._toastr.error("Error al Registrar Formato de protocolo ", "Error !!", { timeOut: 4000, closeButton: true })
+        return throwError("Error al Registrar Formato de protocolo ")
+      })
     );
   }
 
@@ -230,7 +233,11 @@ export class ControlcalidadService {
   ImprimirDocumentoControPruebasProtocolo(NumeroLote,Opcion,Idioma){
     const params =  new HttpParams().set('NumeroLote', NumeroLote).set('Opcion',Opcion).set('Idioma',Idioma);
     return this._http.get<any>(this.url+"/api/ControlCalidad/ImprimirDocumentoProtocolo", {'params':params}).pipe(
-      catchError (() => throwError("Error al obtener Registrar Formato Proceso"))
+      // catchError (() => throwError("Error al obtener Registrar Formato Proceso"))
+      catchError( _ => {
+        this._toastr.error("Error al Imprimir Formato de protocolo ", "Error !!", { timeOut: 4000, closeButton: true })
+        return throwError("Error al Imprimir Formato de protocolo ")
+      })
     );
   }
 }

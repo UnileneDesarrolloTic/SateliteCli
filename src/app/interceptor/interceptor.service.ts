@@ -167,6 +167,7 @@ export class InterceptorService implements HttpInterceptor {
       'Contabilidad/ListarInformacionReporteAnio',
       'Contabilidad/ListarDetalleReporteCierre',
       'Contabilidad/AnularReporteCierre',
+      'Contabilidad/RestablecerReporteCierre',
       'AnalisisAguja/ListaOrdenesCompra',
       'AnalisisAguja/ListarAnalisisAguja',
       'AnalisisAguja/ListarCiclos',

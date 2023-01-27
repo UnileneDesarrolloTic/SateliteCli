@@ -94,8 +94,8 @@ export class ContabilidadService {
     );
   }
 
-  ListarReporteCierreAnio(Anio){
-    const params =  new HttpParams().set('Anio', Anio);
+  ListarReporteCierreAnio(Anio:number){
+    const params =  new HttpParams().set('Anio', Anio.toString());
   return this._http.get(this.url+"/api/Contabilidad/ListarInformacionReporteAnio",{"params":params}).pipe(
     catchError( _ => {
       this._toastr.error("Error al Listar el reporte de cierre", "Error !!", { timeOut: 4000, closeButton: true })
@@ -120,6 +120,15 @@ export class ContabilidadService {
       catchError( _ => {
         this._toastr.error("Error al proceso de anulación de reporte cierre  ", "Error !!", { timeOut: 4000, closeButton: true })
         return throwError("Error  al proceso de anulación de reporte cierre ")
+      })
+    );
+  }
+
+  RestablecerCierre(body){
+    return this._http.post(this.url+"/api/Contabilidad/RestablecerReporteCierre",body).pipe(
+      catchError( _ => {
+        this._toastr.error("Error al Restablecer el reporte cierre  ", "Error !!", { timeOut: 4000, closeButton: true })
+        return throwError("Error  al Restablecer el reporte cierre ")
       })
     );
   }

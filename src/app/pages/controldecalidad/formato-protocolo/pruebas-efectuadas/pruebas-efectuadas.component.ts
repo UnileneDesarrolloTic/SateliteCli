@@ -1,6 +1,6 @@
 import { DecimalPipe, formatDate } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DatosPruebaProtocoloModel } from '@data/interface/Response/DatosCabeceraPruebasProtocolos.interface';
 import { NumeroLoteProtocoloModel } from '@data/interface/Response/DatosFormatoNumeroLoteProtocolo.interface';
@@ -64,11 +64,16 @@ export class PruebasEfectuadasComponent implements OnInit , OnDestroy{
 
 
   save(){
-        // this.buttonDeshabilitar=true;
+        
         if (this.PruebasFormularioProtocolo.controls.fechaanalisis.value=="0001-01-01")
         {
-          // this.buttonDeshabilitar=false;
           return this.toastr.warning("Debe Seleccionar la fecha");
+        }
+
+        if(this.PruebasFormularioProtocolo.controls.TablaPrueba.invalid)
+        {
+          this.PruebasFormularioProtocolo.markAllAsTouched();
+          return this.toastr.warning("Debe completar la información la columna resultado");
         }
             
 
@@ -77,13 +82,8 @@ export class PruebasEfectuadasComponent implements OnInit , OnDestroy{
               if(resp["success"]){
                 this.toastr.success(resp["content"]);
               }else{
-                this.toastr.success(resp["content"]);
+                this.toastr.info(resp["content"]);
               }
-              
-          },
-          (error)=>{
-              this.toastr.info("Comuniquese con sistema")
-              
           }
         )
         
@@ -182,7 +182,7 @@ export class PruebasEfectuadasComponent implements OnInit , OnDestroy{
               unidadMedida:[element.unidadMedida],
               especificacion:[esp],
               valor:[""],
-              resultado:[ element.resultado ],
+              resultado:[element.resultado,Validators.required],
               metodologia:[element.metodologia],
             })
 
@@ -197,16 +197,12 @@ export class PruebasEfectuadasComponent implements OnInit , OnDestroy{
               unidadMedida:[element.unidadMedida],
               especificacion:[esp],
               valor:[element.valor],
-              resultado:[element.resultado],
+              resultado:[element.resultado,Validators.required],
               metodologia:[element.metodologia],
             })
 
             this.ListarPruebaProtocolo().push(lessForm);
-          }
-
-          
-          
-         
+          }   
           
         });
           
@@ -239,7 +235,7 @@ export class PruebasEfectuadasComponent implements OnInit , OnDestroy{
       unidadMedida:['',],
       especificacion:['',],
       valor:['',],
-      resultado:['',],
+      resultado:['',Validators.required],
       metodologia:['',],
     }))
 
@@ -283,7 +279,9 @@ export class PruebasEfectuadasComponent implements OnInit , OnDestroy{
             ModalCarga.close();
             this.toastr.warning(resp.content);
           }
-      }
+      },
+      _ => ModalCarga.close()
+    
     );
   }
 
