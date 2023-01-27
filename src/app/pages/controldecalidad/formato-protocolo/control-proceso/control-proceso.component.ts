@@ -516,7 +516,7 @@ export class ControlProcesoComponent implements OnInit,OnDestroy {
           this.servicebase64.file(resp.content,`Control-Proceso-Interno-${this.NumeroLote}-${this.hoy}`,'pdf',ModalCarga);
         }else{
           ModalCarga.close();
-          this.toastr.info(resp.message);
+          this.toastr.info(resp.content);
         }
       }
     );

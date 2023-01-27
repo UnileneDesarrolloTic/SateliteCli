@@ -12,7 +12,8 @@ import { AlertaProcesarDetraccionComponent } from './detracciones/alerta-procesa
 import { AnalisiscostosListaprecioComponent } from './analisiscostos-listaprecio/analisiscostos-listaprecio.component';
 import { TagResumenComponent } from './analisiscostos-listaprecio/tag-resumen/tag-resumen.component';
 import { ModalDetalleMateriaPrimaComponent } from './analisiscostos-listaprecio/modal-detalle-materia-prima/modal-detalle-materia-prima.component';
-
+import { CierreContableComponent } from './cierre-contable/cierre-contable.component';
+import { FormularioCierreContableComponent } from './cierre-contable/formulario-cierre-contable/formulario-cierre-contable.component';
 
 @NgModule({
   declarations:
@@ -21,7 +22,9 @@ import { ModalDetalleMateriaPrimaComponent } from './analisiscostos-listaprecio/
     AlertaProcesarDetraccionComponent,
     AnalisiscostosListaprecioComponent,
     TagResumenComponent,
-    ModalDetalleMateriaPrimaComponent
+    ModalDetalleMateriaPrimaComponent,
+    CierreContableComponent,
+    FormularioCierreContableComponent,
   ],
   imports:
   [
