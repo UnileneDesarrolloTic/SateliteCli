@@ -63,7 +63,7 @@ export class FormularioHorasextrasComponent implements OnInit {
       this.CrearFormulario =  new FormGroup({
         idCodigo:new FormControl(0),
         Area:new FormControl(null,Validators.required),
-        FechaRegistro: new FormControl(formatDate(new Date(Date.now()), 'yyyy-MM-dd HH:mm', 'en')),
+        FechaRegistro: new FormControl(''),
         Persona: new FormControl('O',Validators.required),
         Justificacion: new FormControl('',Validators.required),
         Estado: new FormControl('GE'),
@@ -161,7 +161,7 @@ export class FormularioHorasextrasComponent implements OnInit {
   eliminarPersonal(index:number){
 
     if(this.HorasExtrasCabecera!=undefined)
-      if (this.HorasExtrasCabecera.estado !== 'AG')
+      if (this.HorasExtrasCabecera.estado !== 'GE')
         return this.toastr.warning("Solo se puede modificar cuando se encuentre en estado 'Generado'", "Advertencia !!", {progressBar: true, timeOut: 3000, closeButton: true, tapToDismiss: true});
 
     this.formarrayPersonal().removeAt(index);
@@ -174,7 +174,6 @@ export class FormularioHorasextrasComponent implements OnInit {
 
   AgregarPersona()
   {
-    console.log(this.estadoSolicitud);
     
     if(this.estadoSolicitud != 'GE')
         return this.toastr.warning("La solicitud solo se puede modificar, cuando esta en estado 'GENERADO'", "Advertencia", {timeOut: 1500, closeButton: true, tapToDismiss: true, progressBar: true});
@@ -233,14 +232,17 @@ export class FormularioHorasextrasComponent implements OnInit {
 
       if(this.CrearFormulario.controls.ListaPersona.value.length == 0)
         return this.toastr.warning("Debe Agregar Personas a la Lista", "Advertencia", {timeOut: 1500, closeButton: true, tapToDismiss: true, progressBar: true});
-      
 
-      const dato={
-          ...this.CrearFormulario.value,
-          Area:parseInt(this.CrearFormulario.controls.Area.value),
-          Estado:this.CrearFormulario.controls.Estado.value
+      const dato = {
+        idCodigo: +this.CrearFormulario.get("idCodigo").value,
+        area: +this.CrearFormulario.get("Area").value,
+        fechaRegistro: this.CrearFormulario.get("FechaRegistro").value,
+        justificacion: this.CrearFormulario.get("Justificacion").value,
+        persona: this.CrearFormulario.get("Persona").value,
+        estado: this.CrearFormulario.get("Estado").value,
+        listaPersona : this.CrearFormulario.get("ListaPersona").value,
       }
-      
+
       if (this.CrearFormulario.controls.Estado.value=='AP'){
         rpta = confirm("¿Esta seguro que desea APROBAR?");
       }
