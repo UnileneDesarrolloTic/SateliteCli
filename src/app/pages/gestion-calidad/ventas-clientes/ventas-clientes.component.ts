@@ -140,7 +140,9 @@ export class VentasClientesComponent implements OnInit {
     let cliente = this.formFiltros.get('cliente').value
     let lote = this.formFiltros.get('lote').value
     
-    if (cliente == '' && lote == '')
+    console.log(cliente);
+    
+    if ((cliente == '' || cliente == 0 || cliente == null) && lote == '')
     {
       this._toastrService.warning('Los filtros debe ser por cliente o lote','Advertencia !!', {timeOut: 2000, closeButton: true, progressBar: true})
       return
@@ -149,7 +151,7 @@ export class VentasClientesComponent implements OnInit {
     let inicio = this.formFiltros.get('fechaInicio').value
     let fin = this.formFiltros.get('fechaFin').value
 
-    if(lote == '' && cliente != '' && (inicio == '' || fin == ''))
+    if(lote == '' && (cliente == '' || cliente == 0 || cliente == null)  && (inicio == '' || fin == ''))
     {
       this._toastrService.warning('Al buscar por cliente debe de seleccionar un rango de fechas.','Advertencia !!', {timeOut: 2000, closeButton: true, progressBar: true})
       return
@@ -187,6 +189,14 @@ export class VentasClientesComponent implements OnInit {
     
   }
 
+  limpiarCliente () 
+  {
+    this.formFiltros.patchValue({
+      cliente: 0,
+      clienteNombre: "",
+    });
+  }
+
   listarCliente()
   {
     this._comercialService.ListarClientes({}).subscribe(
@@ -196,11 +206,35 @@ export class VentasClientesComponent implements OnInit {
 
   descargarReporte()
   {
-    if(this.formFiltros.invalid)
+    let cliente = this.formFiltros.get('cliente').value
+    let lote = this.formFiltros.get('lote').value
+    console.log(cliente);
+    
+    if ((cliente == '' || cliente == 0 || cliente == null) && lote == '')
     {
-      this.formFiltros.markAllAsTouched()
-      this._toastrService.warning('Los filtros seleccionados no son correctos','Advertencia !!', {timeOut: 2000, closeButton: true, progressBar: true})
+      this._toastrService.warning('Los filtros debe ser por cliente o lote','Advertencia !!', {timeOut: 2000, closeButton: true, progressBar: true})
       return
+    }
+    
+    let inicio = this.formFiltros.get('fechaInicio').value
+    let fin = this.formFiltros.get('fechaFin').value
+
+    if(lote == '' && (cliente == '' || cliente == 0 || cliente == null) && (inicio == '' || fin == ''))
+    {
+      this._toastrService.warning('Al buscar por cliente debe de seleccionar un rango de fechas.','Advertencia !!', {timeOut: 2000, closeButton: true, progressBar: true})
+      return
+    }
+
+    if (cliente == null)
+      this.formFiltros.patchValue({
+        cliente : 0
+      })
+
+    if (this.formFiltros.get('fechaInicio').value == '' || this.formFiltros.get('fechaFin').value == ''){
+      this.formFiltros.patchValue({
+        fechaInicio: null,
+        fechaFin: null
+      })
     }
 
     const body = {
@@ -248,8 +282,8 @@ export class VentasClientesComponent implements OnInit {
             cliente: parseInt(result.persona),
             clienteNombre: result.nombreCompleto
           })
-
-          if(this.formFiltros.get('fechaInicio').value == '' && this.formFiltros.get('fechaFin').value == '' && this.formFiltros.get('lote').value == '')
+          
+          if(this.formFiltros.get('lote').value == '' && this.formFiltros.get('fechaInicio').value == '' && this.formFiltros.get('fechaFin').value == '' )
           {
             this.formFiltros.patchValue({
               fechaInicio: formatDate(this.primerDiaMes, 'yyyy-MM-dd', 'en'),

@@ -20,7 +20,7 @@
                                     <input type="date" class="form-control form-control-sm" id="fecFin" formControlName="fechaFin">
                                 </div>
                             </div>
-                            <div class="col-sm-12 col-md-4 col-xl-2">
+                            <!-- <div class="col-sm-12 col-md-4 col-xl-2">
                                 <div class="form-group">
                                     <label class="control-label" for="cliente">Cliente</label>
                                     <div class="input-group mb-3">
@@ -31,6 +31,26 @@
                                             </button>
                                         </div>
                                     </div>
+                                </div>
+                            </div> -->
+                            <div class="col-sm-12 col-md-4 col-xl-2">
+                                <div class="form-group">
+                                  <label class="control-label" for="cliente">Cliente:</label>
+                                  <div class="input-group">
+                                    <div class="input-group">
+                                      <div class="input-group-prepend">
+                                          <span class="input-group-text" (click)="openModalConsultaClientes()" style="cursor: pointer">
+                                            <i class="fa fa-binoculars"></i>
+                                          </span>
+                                      </div>
+                                      <input type="text" class="form-control form-control-sm" placeholder="Cliente" id="cliente" formControlName="clienteNombre">
+                                      <div class="input-group-prepend">
+                                        <span class="input-group-text" style="cursor: pointer" (click)="limpiarCliente()">
+                                          <i class="fa fa-trash"></i>
+                                        </span>
+                                      </div>
+                                    </div>
+                                  </div>
                                 </div>
                             </div>
                             <div class="col-sm-12 col-md-4 col-xl-2">
