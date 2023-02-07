@@ -5,6 +5,7 @@ import { environment } from "environments/environment";
 import { throwError } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { ComprasMateriaPrimaArima } from '@data/interface/Response/CompraMateriaPrimaArima';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Injectable({
@@ -14,7 +15,7 @@ export class ProduccionService {
 
   private url = environment.urlApiSatelliteCore;
 
-  constructor(private _http: HttpClient) { }
+  constructor(private _http: HttpClient,private _toastr: ToastrService) { }
 
   ListarProductosArima(periodo: string){
 
@@ -133,5 +134,14 @@ export class ProduccionService {
     );
   }
   
+
+  ReporteSeguimientoDrogueria(){
+    return this._http.get(this.url+"/api/Produccion/SeguimientoOCDrogueria").pipe(
+      catchError( _ => {
+        this._toastr.error("Error al mostrar el seguimiento de drogueria ", "Error !!", { timeOut: 4000, closeButton: true })
+        return throwError("Error  aal mostrar el seguimiento de drogueria ")
+      })
+    );
+  }
 
 }
