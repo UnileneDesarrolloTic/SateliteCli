@@ -51,15 +51,16 @@ export class VentasClientesComponent implements OnInit {
   inicializarFormulario()
   {
     this.formFiltros = new FormGroup({
-      cliente: new FormControl(null, Validators.required),
-      clienteNombre: new FormControl({value:'', disabled: true}, Validators.required),
+      cliente: new FormControl(0),
+      clienteNombre: new FormControl({value:'', disabled: true}),
       linea : new FormControl(''),
       familia : new FormControl(''),
       subFamilia : new FormControl(''),
-      fechaInicio: new FormControl(formatDate(this.primerDiaMes, 'yyyy-MM-dd', 'en'), Validators.required),
-      fechaFin: new FormControl(formatDate(this.fechaActual, 'yyyy-MM-dd', 'en'),  Validators.required),
+      fechaInicio: new FormControl(''),//new FormControl(formatDate(this.primerDiaMes, 'yyyy-MM-dd', 'en')),
+      fechaFin: new FormControl(''), //new FormControl(formatDate(this.fechaActual, 'yyyy-MM-dd', 'en')),
       item: new FormControl(''),
-      numeroParte: new FormControl('')
+      numeroParte: new FormControl(''),
+      lote: new FormControl('')
     })
 
     this.formFiltros.get('linea').valueChanges.subscribe( () => this.cargarComboLineaFamilia())
@@ -136,13 +137,38 @@ export class VentasClientesComponent implements OnInit {
   filtrarVentas()
   {
 
-    if(this.formFiltros.invalid)
+    let cliente = this.formFiltros.get('cliente').value
+    let lote = this.formFiltros.get('lote').value
+    
+    console.log(cliente);
+    
+    if ((cliente == '' || cliente == 0 || cliente == null) && lote == '')
     {
-      this.formFiltros.markAllAsTouched()
-      this._toastrService.warning('Los filtros seleccionados no son correctos','Advertencia !!', {timeOut: 2000, closeButton: true, progressBar: true})
+      this._toastrService.warning('Los filtros debe ser por cliente o lote','Advertencia !!', {timeOut: 2000, closeButton: true, progressBar: true})
+      return
+    }
+    
+    let inicio = this.formFiltros.get('fechaInicio').value
+    let fin = this.formFiltros.get('fechaFin').value
+
+    if(lote == '' && (cliente == '' || cliente == 0 || cliente == null)  && (inicio == '' || fin == ''))
+    {
+      this._toastrService.warning('Al buscar por cliente debe de seleccionar un rango de fechas.','Advertencia !!', {timeOut: 2000, closeButton: true, progressBar: true})
       return
     }
 
+    if (cliente == null)
+      this.formFiltros.patchValue({
+        cliente : 0
+      })
+
+    if (this.formFiltros.get('fechaInicio').value == '' || this.formFiltros.get('fechaFin').value == ''){
+      this.formFiltros.patchValue({
+        fechaInicio: null,
+        fechaFin: null
+      })
+    }
+    
     const body = {
       ...this.formFiltros.value
     };
@@ -163,6 +189,14 @@ export class VentasClientesComponent implements OnInit {
     
   }
 
+  limpiarCliente () 
+  {
+    this.formFiltros.patchValue({
+      cliente: 0,
+      clienteNombre: "",
+    });
+  }
+
   listarCliente()
   {
     this._comercialService.ListarClientes({}).subscribe(
@@ -172,11 +206,35 @@ export class VentasClientesComponent implements OnInit {
 
   descargarReporte()
   {
-    if(this.formFiltros.invalid)
+    let cliente = this.formFiltros.get('cliente').value
+    let lote = this.formFiltros.get('lote').value
+    console.log(cliente);
+    
+    if ((cliente == '' || cliente == 0 || cliente == null) && lote == '')
     {
-      this.formFiltros.markAllAsTouched()
-      this._toastrService.warning('Los filtros seleccionados no son correctos','Advertencia !!', {timeOut: 2000, closeButton: true, progressBar: true})
+      this._toastrService.warning('Los filtros debe ser por cliente o lote','Advertencia !!', {timeOut: 2000, closeButton: true, progressBar: true})
       return
+    }
+    
+    let inicio = this.formFiltros.get('fechaInicio').value
+    let fin = this.formFiltros.get('fechaFin').value
+
+    if(lote == '' && (cliente == '' || cliente == 0 || cliente == null) && (inicio == '' || fin == ''))
+    {
+      this._toastrService.warning('Al buscar por cliente debe de seleccionar un rango de fechas.','Advertencia !!', {timeOut: 2000, closeButton: true, progressBar: true})
+      return
+    }
+
+    if (cliente == null)
+      this.formFiltros.patchValue({
+        cliente : 0
+      })
+
+    if (this.formFiltros.get('fechaInicio').value == '' || this.formFiltros.get('fechaFin').value == ''){
+      this.formFiltros.patchValue({
+        fechaInicio: null,
+        fechaFin: null
+      })
     }
 
     const body = {
@@ -198,7 +256,8 @@ export class VentasClientesComponent implements OnInit {
 
   }
 
-  openModalConsultaClientes(){
+  openModalConsultaClientes()
+  {
     const modalBusquedaCliente = this._modalService.open(ModalClienteComponent, {
       ariaLabelledBy: "modal-basic-title",
       backdrop: "static",
@@ -215,12 +274,22 @@ export class VentasClientesComponent implements OnInit {
     }
 
     modalBusquedaCliente.componentInstance.fromParent = data;
-		modalBusquedaCliente.result.then((result) => {        
-        if(result!=undefined){
+		modalBusquedaCliente.result.then((result) => 
+    {
+        if(result!=undefined)
+        {
           this.formFiltros.patchValue({           
             cliente: parseInt(result.persona),
             clienteNombre: result.nombreCompleto
           })
+          
+          if(this.formFiltros.get('lote').value == '' && this.formFiltros.get('fechaInicio').value == '' && this.formFiltros.get('fechaFin').value == '' )
+          {
+            this.formFiltros.patchValue({
+              fechaInicio: formatDate(this.primerDiaMes, 'yyyy-MM-dd', 'en'),
+              fechaFin: formatDate(this.fechaActual, 'yyyy-MM-dd', 'en')
+            })
+          }
         }
 		});
      

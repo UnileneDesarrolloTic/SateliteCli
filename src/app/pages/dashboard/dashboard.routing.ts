@@ -17,6 +17,7 @@ import { DesempenioArimaComponent } from "@pages/dashboard/produccion/desempenio
 import { ObligacionesFinancierasComponent } from "@pages/dashboard/comercial/obligaciones-financieras/obligaciones-financieras.component";
 import { GestionCalidadComponent } from "@pages/dashboard/produccion/gestion-calidad/gestion-calidad.component";
 import { ExportacionBoliviaComponent } from "@pages/dashboard/comercial/exportacion-bolivia/exportacion-bolivia.component";
+import { BioleneComponent } from "./comercial/biolene/biolene.component";
 
 export const DashboardRoutes: Routes = [
     {
@@ -112,6 +113,13 @@ export const DashboardRoutes: Routes = [
             component: ExportacionBoliviaComponent,
             data: {
               title: "Seg. Expo. Bolivia"
+            }
+          },
+          {
+            path: 'biolene',
+            component: BioleneComponent,
+            data: {
+              title: "Dashboard Biolene"
             }
           }
         ]
