@@ -135,13 +135,45 @@ export class ProduccionService {
   }
   
 
-  ReporteSeguimientoDrogueria(){
-    return this._http.get(this.url+"/api/Produccion/SeguimientoOCDrogueria").pipe(
+  reporteSeguimientoDrogueria(idproveedor){
+    const params = new HttpParams().set('idproveedor',idproveedor);
+    return this._http.get(this.url+"/api/Produccion/SeguimientoOCDrogueria",{"params":params}).pipe(
       catchError( _ => {
         this._toastr.error("Error al mostrar el seguimiento de drogueria ", "Error !!", { timeOut: 4000, closeButton: true })
-        return throwError("Error  aal mostrar el seguimiento de drogueria ")
+        return throwError("Error  al mostrar el seguimiento de drogueria ")
       })
     );
   }
+
+  mostarOrdenCompraItem(Item){
+    const params =  new HttpParams().set('Item', Item);
+    return this._http.get(this.url+"/api/Produccion/MostrarOrdenCompraDrogueria",{"params":params}).pipe(
+      catchError( _ => {
+        this._toastr.error("Error al mostrar orden de compra ", "Error !!", { timeOut: 4000, closeButton: true })
+        return throwError("Error  al mostrar orden de compra ")
+      })
+    );
+  }
+  
+  mostrarProveedores(){
+    return this._http.get(this.url+"/api/Produccion/MostrarProveedorDrogueria").pipe(
+      catchError( _ => {
+        this._toastr.error("Error al momento de traer los proveedores ", "Error !!", { timeOut: 4000, closeButton: true })
+        return throwError("Error  al momento de traer los proveedores ")
+      })
+    );
+  }
+
+  exportarCompraDrogueria(idproveedor,mostrar){
+
+    const params = new HttpParams().set('idproveedor',idproveedor).set('mostrarcolumna',mostrar);
+    return this._http.get(this.url+"/api/Produccion/ExcelCompraDrogueria", {"params":params}).pipe(
+      catchError( _ => {
+        this._toastr.error("Error al Exportar la información de drogueria ", "Error !!", { timeOut: 4000, closeButton: true })
+        return throwError("Error  al Exportar la información de drogueria ")
+      })
+    );
+  }
+
 
 }

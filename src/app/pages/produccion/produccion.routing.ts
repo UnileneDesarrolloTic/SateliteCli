@@ -43,10 +43,10 @@ export const ProduccionRoutes: Routes = [
         }
       },
       {
-        path: 'OCDrogueria',
+        path: 'CompraDrogueria',
         component: OcDrogueriaComponent,
         data: {
-          title: "OC Drogueria"
+          title: "Compra Drogueria"
         }
       },
     ]

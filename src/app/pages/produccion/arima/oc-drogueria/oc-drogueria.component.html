@@ -1,178 +1,274 @@
 <div class="row">
+
     <div class="col-12">
-        <div class="card border-left border-info">
-            <div class="card-header bg-info text-white" style="font-weight: bold;">
-                Filtros de búsqueda
-            </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label class="control-label">Proveedor: </label>
-                            <input type="text" class="form-control form-control-sm" placeholder="Proveedor">
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label class="control-label">Familia: </label>
-                            <input type="text" class="form-control form-control-sm" placeholder="Familia">
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <label class="control-label text-white" >&nbsp;&nbsp;</label>
-                        <div class="form-group"> 
-                            <button class="btn btn-info btn-sm text-white" (click)="reporteSeguimientoDrogueria()"> <i class="fas fa-search"></i> Buscar</button>
-                        </div>
-                    </div>
+        <form action="" [formGroup]="formularioFiltro">
+            <div class="card border-left border-info">
+                <div class="card-header bg-info text-white" style="font-weight: bold;">
+                    Filtros de búsqueda
                 </div>
-                <div class="row">
-                    <div class="col-md-3">
-                        <div class="form-check form-check-inline">
-                            <div class="custom-control custom-checkbox">
-                              <input type="checkbox" [formControl]="checkMostrarColumna" class="custom-control-input" id="customCheck1">
-                              <label class="custom-control-label" for="customCheck1">Mostrar más infomación</label>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label">Proveedor: </label>
+                                <select class="form-control  form-control-sm" formControlName="idproveedor">
+                                    <option [value]="null">TODOS</option>
+                                    <option *ngFor="let pro of proveedores" [value]="pro.idProveedor">
+                                        {{pro.nombreProveedor}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="control-label text-white">&nbsp;&nbsp;</label>
+                            <div class="form-group">
+                                <button class="btn btn-info btn-sm text-white" (click)="reporteSeguimientoDrogueria()">
+                                    <i class="fas fa-search" *ngIf="!flagEspera"></i>
+                                    <i class="fa fa-spinner fa-spin fa-fw" *ngIf="flagEspera"></i> Buscar</button>
+                                <button class="btn btn-success btn-sm text-white" (click)="exportarExcel()"
+                                    style="background-color: #25aa00;border: none;">
+                                    <i class="fas fa-file-excel" *ngIf="!flagEsperaExcel"></i>
+                                    <i class="fa fa-spinner fa-spin fa-fw" *ngIf="flagEsperaExcel"></i> Excel</button>
                             </div>
                         </div>
                     </div>
-                   
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-check form-check-inline">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" [formControl]="checkMostrarColumna"
+                                        class="custom-control-input" id="customCheck1">
+                                    <label class="custom-control-label" for="customCheck1">Visualizar detalle</label>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
             </div>
-        </div>
+        </form>
     </div>
+
 </div>
 
 <div class="row">
     <div class="col-12">
         <div class="card border-left border-info">
             <div class="card-body">
+                <div class="row mb-2">
+                    <div class="col-md-4">
+                        <input type="text" style="float: right" [formControl]='textFiltrar'
+                            placeholder="Buscar Item o Descripción o Proveedor" class="form-control rounded-pill">
+                    </div>
+                </div>
                 <div class="row">
-                        <div class="col-12" style="height: 80vh;">
-                          <ngx-datatable
-                          lass="material" [rows]="listarItemDrogueria" [columnMode]="'force'"
-                          [headerHeight]="50" [footerHeight]="50" [rowHeight]="50"
-                          [scrollbarV]="true" [sorts]="[{prop: 'name', dir: 'desc'}]" style="height: 95%;"
-                          class="material" [rowHeight]="50" [scrollbarH]="true"
-                          >
-                          
-                          <ngx-datatable-column name="Proveedor" prop="descProveedor" [width]="150">
-                            <ng-template let-row="row" ngx-datatable-cell-template>
-                                <span class="font-medium">{{row.descProveedor }}</span>
-                            </ng-template>
-                         </ngx-datatable-column>
+                    <div class="col-12" style="height: 80vh;">
+                        <ngx-datatable class="material" [rows]="listarItemDrogueria" [columnMode]="'force'"
+                            [headerHeight]="50" [footerHeight]="50" [rowHeight]="50" [scrollbarV]="true"
+                            [sorts]="[{prop: 'name', dir: 'desc'}]" style="height: 90%;" class="material font-medium"
+                            [rowHeight]="50" [scrollbarH]="true">
 
-                         <ngx-datatable-column name="Puerto" prop="puerto" *ngIf="this.checkMostrarColumna.value" [width]="20">
-                            <ng-template let-row="row" ngx-datatable-cell-template>
-                                <span class="font-medium">{{row.puerto }}</span>
-                            </ng-template>
-                         </ngx-datatable-column>
+                            <ngx-datatable-column name="Item" prop="item" [frozenLeft]="true"
+                                [width]="40">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <span class="font-medium">{{row.item }}</span>
+                                </ng-template>
+                            </ngx-datatable-column>
 
-                         <ngx-datatable-column name="Periodo" prop="Periodo" *ngIf="this.checkMostrarColumna.value" [width]="20">
-                            <ng-template let-row="row" ngx-datatable-cell-template>
-                                <span class="font-medium">{{row.periodo }}</span>
-                            </ng-template>
-                         </ngx-datatable-column>
+                            <ngx-datatable-column name="UNI" prop="unidadCodigo" *ngIf="this.checkMostrarColumna.value" [width]="50">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <span class="font-medium">{{row.unidadCodigo }}</span>
+                                </ng-template>
+                            </ngx-datatable-column>
 
-                         <ngx-datatable-column name="Item" prop="item" [width]="20">
-                            <ng-template let-row="row" ngx-datatable-cell-template>
-                                <span class="font-medium">{{row.item }}</span>
-                            </ng-template>
-                         </ngx-datatable-column>
+                            <ngx-datatable-column name="Descripcion" prop="descripcionLocal"
+                                [frozenLeft]="true"
+                                [width]="this.checkMostrarColumna.value==false ?350 : 500">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <span class="font-medium">{{row.descripcionLocal }}</span>
+                                </ng-template>
+                            </ngx-datatable-column>
 
-                         <ngx-datatable-column name="vol.caja" prop="volumenCaja" *ngIf="this.checkMostrarColumna.value" [width]="30">
-                            <ng-template let-row="row" ngx-datatable-cell-template>
-                                <span class="font-medium">{{row.volumenCaja }}</span>
-                            </ng-template>
-                         </ngx-datatable-column>
+                            <ngx-datatable-column name="Puerto" prop="puerto"  *ngIf="this.checkMostrarColumna.value"
+                                [width]="90">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <span class="font-medium">{{row.puerto }}</span>
+                                </ng-template>
+                            </ngx-datatable-column>
 
-                         <ngx-datatable-column name="Variación" prop="variacion" [width]="30">
-                            <ng-template let-row="row" ngx-datatable-cell-template>
-                                <span class="font-medium">{{row.variacion }}</span>
-                            </ng-template>
-                         </ngx-datatable-column>
+                            <ngx-datatable-column name="Proveedor" prop="descProveedor"  [frozenLeft]="true" [width]="50">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <span class="font-medium">{{row.descProveedor }}</span>
+                                </ng-template>
+                            </ngx-datatable-column>
 
-                         <ngx-datatable-column name="Pronostico" prop="pronostico" [width]="30">
-                            <ng-template let-row="row" ngx-datatable-cell-template>
-                                <span class="font-medium">{{row.pronostico }}</span>
-                            </ng-template>
-                         </ngx-datatable-column>
+                            <ngx-datatable-column name="T Compra" prop="tGestionCompra"
+                                *ngIf="this.checkMostrarColumna.value" [width]="100">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <span class="font-medium">{{row.tGestionCompra }}</span>
+                                </ng-template>
+                            </ngx-datatable-column>
 
-                         <ngx-datatable-column name="Cons.Diario" prop="consumoDiario"  *ngIf="this.checkMostrarColumna.value" [width]="30">
-                            <ng-template let-row="row" ngx-datatable-cell-template>
-                                <span class="font-medium">{{row.consumoDiario }}</span>
-                            </ng-template>
-                         </ngx-datatable-column>
+                            <ngx-datatable-column name="T Pago" prop="tGestionPago"
+                                *ngIf="this.checkMostrarColumna.value" [width]="100">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <span class="font-medium">{{row.tGestionPago }}</span>
+                                </ng-template>
+                            </ngx-datatable-column>
 
-                         <ngx-datatable-column name="TFrabricacion" prop="variableItem" *ngIf="this.checkMostrarColumna.value" [width]="30">
-                            <ng-template let-row="row" ngx-datatable-cell-template>
-                                <span class="font-medium">{{row.variableItem }}</span>
-                            </ng-template>
-                         </ngx-datatable-column>
+                            <ngx-datatable-column name="T Aprobación" prop="tGestionAprobacion"
+                                *ngIf="this.checkMostrarColumna.value" [width]="100">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <span class="font-medium">{{row.tGestionAprobacion }}</span>
+                                </ng-template>
+                            </ngx-datatable-column>
 
-                         <ngx-datatable-column name="Tiem.Compra" prop="tGestionCompra" *ngIf="this.checkMostrarColumna.value" [width]="30">
-                            <ng-template let-row="row" ngx-datatable-cell-template>
-                                <span class="font-medium">{{row.tGestionCompra }}</span>
-                            </ng-template>
-                         </ngx-datatable-column>
+                            <ngx-datatable-column name="T Frabricacion" prop="tFabricacion"
+                                *ngIf="this.checkMostrarColumna.value" [width]="100">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <span class="font-medium">{{row.variableItem }}</span>
+                                </ng-template>
+                            </ngx-datatable-column>
 
-                         <ngx-datatable-column name="Tiem.Pago" prop="tGestionPago" *ngIf="this.checkMostrarColumna.value" [width]="30">
-                            <ng-template let-row="row" ngx-datatable-cell-template>
-                                <span class="font-medium">{{row.tGestionPago }}</span>
-                            </ng-template>
-                         </ngx-datatable-column>
+                            <ngx-datatable-column name="T Maritimo" prop="transporte"
+                                *ngIf="this.checkMostrarColumna.value" [width]="100">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <span class="font-medium">{{row.transporte }}</span>
+                                </ng-template>
+                            </ngx-datatable-column>
 
-                         <ngx-datatable-column name="Tiem.Aprobación" prop="tGestionAprobacion" *ngIf="this.checkMostrarColumna.value" [width]="30">
-                            <ng-template let-row="row" ngx-datatable-cell-template>
-                                <span class="font-medium">{{row.tGestionAprobacion }}</span>
-                            </ng-template>
-                         </ngx-datatable-column>
+                            <ngx-datatable-column name="Tiem.Aduans" prop="tAduanas"
+                                *ngIf="this.checkMostrarColumna.value" [width]="100">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <span class="font-medium">{{row.tAduanas }}</span>
+                                </ng-template>
+                            </ngx-datatable-column>
 
-                         <ngx-datatable-column name="Transporte" prop="transporte"  *ngIf="this.checkMostrarColumna.value" [width]="30">
-                            <ng-template let-row="row" ngx-datatable-cell-template>
-                                <span class="font-medium">{{row.transporte }}</span>
-                            </ng-template>
-                         </ngx-datatable-column>
+                            <ngx-datatable-column name="cantMaxima" prop="maximoStock" [width]="100">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <span class="font-bold">{{row.maximoStock }}</span>
+                                </ng-template>
+                            </ngx-datatable-column>
 
-                         <ngx-datatable-column name="Aduanas" prop="tAduanas" *ngIf="this.checkMostrarColumna.value" [width]="30">
-                            <ng-template let-row="row" ngx-datatable-cell-template>
-                                <span class="font-medium">{{row.tAduanas }}</span>
-                            </ng-template>
-                         </ngx-datatable-column>
+                            <ngx-datatable-column name="P.Corte" prop="puntoCorteDebePagar" [width]="100">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <span class="font-medium">{{row.puntoCorteDebePagar }}</span>
+                                </ng-template>
+                            </ngx-datatable-column>
 
-                         <ngx-datatable-column name="M.Proteccion" prop="mesesAdicional" *ngIf="this.checkMostrarColumna.value" [width]="30">
-                            <ng-template let-row="row" ngx-datatable-cell-template>
-                                <span class="font-medium">{{row.mesesAdicional }}</span>
-                            </ng-template>
-                         </ngx-datatable-column>
-                        
-                         <ngx-datatable-column name="Disponible" prop="stockAlmacenDRO" [width]="30">
-                            <ng-template let-row="row" ngx-datatable-cell-template>
-                                <span class="font-medium">{{row.stockAlmacenDRO | number:'1.2-2' }}</span>
-                            </ng-template>
-                         </ngx-datatable-column>
+                            <ngx-datatable-column name="Disponible" prop="stockAlmacenDRO" [width]="90">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <span class="font-medium">{{row.stockAlmacenDRO | number:'1.2-2' }}</span>
+                                </ng-template>
+                            </ngx-datatable-column>
 
-                         <ngx-datatable-column name="Transito" prop="cantidadOC" [width]="30">
-                            <ng-template let-row="row" ngx-datatable-cell-template>
-                                <span class="font-medium">{{row.cantidadOC | number:'1.2-2' }}</span>
-                            </ng-template>
-                         </ngx-datatable-column>
+                            <ngx-datatable-column name="Transito" prop="cantidadOC" [width]="90">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <span *ngIf="row.cantidadOC<=0" class="font-medium">{{row.cantidadOC | number:'1.2-2' }}</span>
+                                    <button class="btn btn-sm btn-outline-primary btn-rounded font-medium" type="button"
+                                        *ngIf="row.cantidadOC>0" (click)="abrirModalMostrarOC(modalPendienteOC,row)">
+                                        {{ row.cantidadOC | number }}
+                                    </button>
+                                </ng-template>
+                            </ngx-datatable-column>
 
-                         <ngx-datatable-column name="F.Stock" prop="futuroStock" [width]="30">
-                            <ng-template let-row="row" ngx-datatable-cell-template>
-                                <span class="font-medium">{{row.futuroStock  }}</span>
-                            </ng-template>
-                         </ngx-datatable-column>
+                            <ngx-datatable-column name="Disp+Trans" prop="totalStock" [width]="90">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <span class="font-medium">{{row.totalStock }}</span>
+                                </ng-template>
+                            </ngx-datatable-column>
 
-                         <ngx-datatable-column name="P.Corte" prop="puntoCorteDebePagar" [width]="30">
-                            <ng-template let-row="row" ngx-datatable-cell-template>
-                                <span class="font-medium">{{row.puntoCorteDebePagar  }}</span>
-                            </ng-template>
-                         </ngx-datatable-column>
+                            <ngx-datatable-column name="F.Stock" *ngIf="this.checkMostrarColumna.value"
+                                prop="futuroStock" [width]="100">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <span class="font-medium">{{row.futuroStock }}</span>
+                                </ng-template>
+                            </ngx-datatable-column>
 
-                         <ngx-datatable-column name="Maximo" prop="maximoStock" [width]="30">
-                            <ng-template let-row="row" ngx-datatable-cell-template>
-                                <span class="font-medium">{{row.maximoStock  }}</span>
-                            </ng-template>
-                         </ngx-datatable-column>
+                            <ngx-datatable-column name="C Mensual" prop="pronostico" [width]="100">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <span class="font-medium">{{row.pronostico }}</span>
+                                </ng-template>
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column name="DiasEspera" prop="diasEspera" [width]="90">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <span class="font-medium"
+                                        [ngStyle]="{ 'color': row.diasEspera > 0 ? 'blue' : 'red' }">{{row.diasEspera}}</span>
+                                </ng-template>
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column name="Cons.Diario" prop="consumoDiario"
+                                *ngIf="this.checkMostrarColumna.value" [width]="100">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <span class="font-medium">{{row.consumoDiario }}</span>
+                                </ng-template>
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column name="M.Proteccion" prop="mesesAdicional"
+                                *ngIf="this.checkMostrarColumna.value" [width]="100">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <span class="font-medium">{{row.mesesAdicional }}</span>
+                                </ng-template>
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column name="Variación" *ngIf="this.checkMostrarColumna.value"
+                                prop="variacion" [width]="100">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <span class="font-medium">{{row.variacion }}</span>
+                                </ng-template>
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column name="CantComprar" prop="cantidadComprar" [width]="90">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <span class="font-medium">{{row.cantidadComprar }}</span>
+                                </ng-template>
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column name="vol.caja" prop="volumenCaja" [width]="100">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <span class="font-medium">{{row.volumenCaja }}</span>
+                                </ng-template>
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column name="TotalComprar" prop="totalComprar" [width]="100">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <span class="font-medium">{{row.totalComprar | number: '1.2-2' }}</span>
+                                </ng-template>
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column name="PrecioFOB" prop="precioFOBFinal" [width]="100">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <span class="font-medium">{{row.precioFOBFinal | number: '1.1-2' }}</span>
+                                </ng-template>
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column name="PrecioFOBTotal" prop="precioFOBTotalFinal" [width]="100">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <span class="font-medium">{{row.precioFOBTotalFinal | number: '1.1-3' }}</span>
+                                </ng-template>
+                            </ngx-datatable-column>
+
+
+                            <!-- <ngx-datatable-column name="TotalDias" prop="tiempoTotal"
+                                *ngIf="this.checkMostrarColumna.value" [width]="100">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <span class="font-medium">{{row.tiempoTotal }}</span>
+                                </ng-template>
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column name="T.Precausion" prop="diasAdicionales"
+                                *ngIf="this.checkMostrarColumna.value" [width]="100">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <span class="font-medium">{{row.diasAdicionales}}</span>
+                                </ng-template>
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column name="Ti.General" prop="tiempoGeneral" [width]="100">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <span class="font-medium">{{row.tiempoGeneral}}</span>
+                                </ng-template>
+                            </ngx-datatable-column> -->
 
 
 
@@ -180,12 +276,72 @@
 
 
 
-                          </ngx-datatable>
-            
-                        </div>
-                      
+
+
+                        </ngx-datatable>
+
+                    </div>
+
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+
+<ng-template #modalPendienteOC let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">
+            Ordenes de compra pendientes
+        </h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">
+                &times;
+            </span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="table-responsive table-sm">
+            <p class="text-info">ITEM: {{itemModalOC}}</p>
+            <table class="table table-striped no-wrap border mt-4" style="font-size: 13px;">
+                <thead>
+                    <tr>
+                        <th class="text-center">Nro Orden</th>
+                        <th class="text-center">Proveedor</th>
+                        <th class="text-center">C. Pedido</th>
+                        <th class="text-center">C. Recibida</th>
+                        <th class="text-center">C. Pendiente</th>
+                        <th class="text-center">Fec. Prometida</th>
+                        <th class="text-center">Dif. Días</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let ordenCompra of listarOrdenCompraDrogueria">
+                        <td class="text-center font-medium">
+                            {{ ordenCompra['numeroOrden'] }}
+                        </td>
+                        <td class="text-center font-medium">
+                            {{ ordenCompra['proveedor'] }}
+                        </td>
+                        <td class="text-center font-medium">
+                            {{ ordenCompra['cantidad'] | number }}
+                        </td>
+                        <td class="text-center font-medium">
+                            {{ ordenCompra['cantidadRecibida'] | number }}
+                        </td>
+                        <td class="text-center font-medium">
+                            {{ ordenCompra['cantidadPendiente'] | number }}
+                        </td>
+                        <td class="text-center font-medium">
+                            {{ ordenCompra['fechaPrometida'] | date:'dd/MM/yyyy' }}
+                        </td>
+                        <td class="text-center font-medium"
+                            [ngStyle]="{'color':ordenCompra['diferenciaFecha']>0 ? '#FC0000':'#27E900' }">
+                            {{ ordenCompra['diferenciaFecha'] }}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</ng-template>
