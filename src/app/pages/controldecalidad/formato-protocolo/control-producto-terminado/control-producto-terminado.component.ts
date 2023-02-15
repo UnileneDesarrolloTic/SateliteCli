@@ -45,6 +45,7 @@ export class ControlProductoTerminadoComponent implements OnInit {
   }
 
   async ngOnInit() {
+
     await this.crearFormularioProtocolo();
     const { content } = await this.BuscarinformacionProductoProtocolo(); 
     await this.ColocarVariableFormulario(content);
@@ -126,6 +127,10 @@ export class ControlProductoTerminadoComponent implements OnInit {
         NumeroParte = ((NumeroParte).substr(12, 3)) * 0.95;
     }
     return NumeroParte;
+  }
+
+  convertidorStringaNumero(cadena:string):number{
+    return parseFloat(cadena.replace(",","."))
   }
 
   ngOnDestroy(){
@@ -281,6 +286,9 @@ export class ControlProductoTerminadoComponent implements OnInit {
   }
 
   PromedioDiametro2(index) {
+    
+    
+    
     const myForm = this.FormProtocolo.controls.TablaLongitudCP.value;
     let D_Min = this.FormProtocolo.controls.dMinimo.value;
     let D_Max = this.FormProtocolo.controls.dMaximo.value;

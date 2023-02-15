@@ -158,6 +158,11 @@ export class ControlProcesoComponent implements OnInit,OnDestroy {
     return NumeroParte;
   }
 
+  convertidorStringaNumero(cadena:string):number{
+    return parseFloat(cadena.replace(",","."))
+  }
+
+
   ngOnDestroy(){
     this.subcripcion.unsubscribe();
   }

@@ -49,9 +49,9 @@
                                     </th>
                                     <th colspan="2">
                                         <!-- <table [style]="'border-color:white'">  -->
-                                        Minimo:<input type="number" formControlName="dMinimo"
+                                        Minimo:<input type="text" formControlName="dMinimo"
                                             class="form-control form-control-sm">
-                                        Maximo:<input type="number" formControlName="dMaximo"
+                                        Maximo:<input type="text" formControlName="dMaximo"
                                             class="form-control form-control-sm">
                                         <!-- </table> -->
                                     </th>
@@ -72,7 +72,7 @@
                                         <td class="text-center" colspan="2">
                                             <div class="input-group input-group-sm" style='width:10rem'>
                                                 <input type="number"  
-                                                    [ngStyle]="{'border-color': Tabla1.value.DiametroD==null  ?  '#67757c' : Tabla1.value.DiametroD < this.FormProtocolo.controls.dMinimo.value || Tabla1.value.DiametroD > this.FormProtocolo.controls.dMaximo.value ?  'red' : '#67757c'}" 
+                                                    [ngStyle]="{'border-color': Tabla1.value.DiametroD==null  ?  '#67757c' : Tabla1.value.DiametroD < this.convertidorStringaNumero(this.FormProtocolo.controls.dMinimo.value) || Tabla1.value.DiametroD > this.convertidorStringaNumero(this.FormProtocolo.controls.dMaximo.value) ?  'red' : '#67757c'}" 
                                                     class="form-control form-control-sm"
                                                     formControlName="DiametroD" (keyup)="PromedioDiametro2(i)" />
                                             </div>

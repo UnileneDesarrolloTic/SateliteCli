@@ -13,8 +13,8 @@ export interface NumeroLoteProtocoloModel {
             tecnica:string;
             metodo:string;
             detalle:string;
-            dMinimo:number;
-            dMaximo:number;
+            dMinimo:string;
+            dMaximo:string;
             r_PromedioMinimo:number;
             r_individualMinimo:number;
             s_PromedioMinimo:number;
