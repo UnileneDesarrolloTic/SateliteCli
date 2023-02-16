@@ -20,6 +20,7 @@ import { ModalInformacionItemComponent } from './gestion/seguimiento-orden-compr
 import { TagResumenComponent } from './gestion/seguimiento-orden-compra/tag-resumen/tag-resumen.component';
 import { MiniTablaDetalleComponent } from './gestion/seguimiento-orden-compra/mini-tabla-detalle/mini-tabla-detalle.component';
 import { ModalVisualizarDetalleImportacionComponent } from './gestion/seguimiento-orden-compra/modal-visualizar-detalle-importacion/modal-visualizar-detalle-importacion.component';
+import { OcDrogueriaComponent } from './arima/oc-drogueria/oc-drogueria.component';
 
 
 registerLocaleData(localeEs);
@@ -37,6 +38,7 @@ registerLocaleData(localeEs);
     TagResumenComponent,
     MiniTablaDetalleComponent,
     ModalVisualizarDetalleImportacionComponent,
+    OcDrogueriaComponent,
   ],
   imports: [
     RouterModule.forChild(ProduccionRoutes),
