@@ -63,7 +63,7 @@
                 </div>
                 <div class="row">
                     <div class="col-12" style="height: 80vh;">
-                        <ngx-datatable class="material" [rows]="listarItemDrogueria" [columnMode]="'force'"
+                        <ngx-datatable class="material"  [reorderable]="false" [rows]="listarItemDrogueria" [columnMode]="'force'"
                             [headerHeight]="50" [footerHeight]="50" [rowHeight]="50" [scrollbarV]="true"
                             [sorts]="[{prop: 'name', dir: 'desc'}]" style="height: 90%;" class="material font-medium"
                             [rowHeight]="50" [scrollbarH]="true"  >
