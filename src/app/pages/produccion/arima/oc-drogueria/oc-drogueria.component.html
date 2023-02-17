@@ -227,7 +227,7 @@
 
                             <ngx-datatable-column name="vol.caja" prop="volumenCaja" [width]="100">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
-                                    <span class="font-medium">{{row.volumenCaja }}</span>
+                                    <span class="font-medium">{{row.volumenCaja | number: '1.3-3' }}</span>
                                 </ng-template>
                             </ngx-datatable-column>
 
@@ -239,13 +239,13 @@
 
                             <ngx-datatable-column name="PrecioFOB" prop="precioFOBFinal" [width]="100">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
-                                    <span class="font-medium">{{row.precioFOBFinal | number: '1.1-2' }}</span>
+                                    <span class="font-medium">{{row.precioFOBFinal | number: '1.2-2' }}</span>
                                 </ng-template>
                             </ngx-datatable-column>
 
                             <ngx-datatable-column name="PrecioFOBTotal" prop="precioFOBTotalFinal" [width]="100">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
-                                    <span class="font-medium">{{row.precioFOBTotalFinal | number: '1.1-3' }}</span>
+                                    <span class="font-medium">{{row.precioFOBTotalFinal | number: '1.2-2' }}</span>
                                 </ng-template>
                             </ngx-datatable-column>
 
