@@ -27,6 +27,7 @@ export class OcDrogueriaComponent implements OnInit {
   formularioFiltro: FormGroup;
   flagEspera: boolean = false;
   flagEsperaExcel:boolean=false;
+  
 
   checkMostrarColumna = new FormControl(false);
   textFiltrar = new FormControl('');

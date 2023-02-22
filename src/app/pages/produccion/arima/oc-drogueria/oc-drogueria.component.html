@@ -65,7 +65,7 @@
                     <div class="col-12" style="height: 80vh;">
                         <ngx-datatable class="material"  [reorderable]="false" [rows]="listarItemDrogueria" [columnMode]="'force'"
                             [headerHeight]="50" [footerHeight]="50" [rowHeight]="50" [scrollbarV]="true"
-                            [sorts]="[{prop: 'name', dir: 'desc'}]" style="height: 90%;" class="material font-medium"
+                            [sorts]="[{prop: 'name', dir: 'desc'}]" [loadingIndicator]="flagEspera" style="height: 90%;" class="material font-medium"
                             [rowHeight]="50" [scrollbarH]="true"  >
 
                             <ngx-datatable-column name="Item" prop="item" [frozenLeft]="true"
@@ -277,11 +277,10 @@
                     <tr>
                         <th class="text-center">Nro Orden</th>
                         <th class="text-center">Proveedor</th>
-                        <th class="text-center">C. Pedido</th>
-                        <th class="text-center">C. Recibida</th>
-                        <th class="text-center">C. Pendiente</th>
-                        <th class="text-center">Fec. Prometida</th>
-                        <th class="text-center">Dif. Días</th>
+                        <th class="text-center">Fec. Preparacion</th>
+                        <th class="text-center">Cant. Pedida</th>
+                        <th class="text-center">Cant Kardex</th>
+                        <th class="text-center">Cant.Transito</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -293,20 +292,16 @@
                             {{ ordenCompra['proveedor'] }}
                         </td>
                         <td class="text-center font-medium">
-                            {{ ordenCompra['cantidad'] | number }}
+                            {{ ordenCompra['fechaPreparacion'] | date:'dd/MM/yyyy' }}
                         </td>
                         <td class="text-center font-medium">
-                            {{ ordenCompra['cantidadRecibida'] | number }}
+                            {{ ordenCompra['cantidadPedida'] | number }}
                         </td>
                         <td class="text-center font-medium">
-                            {{ ordenCompra['cantidadPendiente'] | number }}
+                            {{ ordenCompra['cantidadKardex'] | number }}
                         </td>
                         <td class="text-center font-medium">
-                            {{ ordenCompra['fechaPrometida'] | date:'dd/MM/yyyy' }}
-                        </td>
-                        <td class="text-center font-medium"
-                            [ngStyle]="{'color':ordenCompra['diferenciaFecha']>0 ? '#FC0000':'#27E900' }">
-                            {{ ordenCompra['diferenciaFecha'] }}
+                            {{ ordenCompra['cantidadTransito'] | number }}
                         </td>
                     </tr>
                 </tbody>
