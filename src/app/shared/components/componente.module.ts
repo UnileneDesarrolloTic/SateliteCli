@@ -10,6 +10,8 @@ import { ModalMaestroItemComponent } from './modal-maestro-item/modal-maestro-it
 import { ModalItemCostoComponent } from './modal-item-costo/modal-item-costo.component';
 import { ModalItemMastComponent } from './modal-item-mast/modal-item-mast.component';
 import { ModalPdfComponent } from './modal-pdf/modal-pdf.component';
+import { ModalOrdenCompraPrevioComponent } from './modal-orden-compra-previo/modal-orden-compra-previo.component';
+import { ListarOrdenCompraPrevioComponent } from './listar-orden-compra-previo/listar-orden-compra-previo.component';
 
 
 @NgModule({
@@ -22,6 +24,9 @@ import { ModalPdfComponent } from './modal-pdf/modal-pdf.component';
     ModalItemCostoComponent,
     ModalItemMastComponent,
     ModalPdfComponent,
+    ModalOrdenCompraPrevioComponent,
+    ListarOrdenCompraPrevioComponent,
+
   ],
   imports: [
     CommonModule,
@@ -30,7 +35,8 @@ import { ModalPdfComponent } from './modal-pdf/modal-pdf.component';
     ReactiveFormsModule
   ],
   exports:[
-    PaginadorComponent
+    PaginadorComponent,
+    ListarOrdenCompraPrevioComponent,
   ]
 })
 export class ComponenteModule { }

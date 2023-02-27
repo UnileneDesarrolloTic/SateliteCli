@@ -22,7 +22,6 @@ import { MiniTablaDetalleComponent } from './gestion/seguimiento-orden-compra/mi
 import { ModalVisualizarDetalleImportacionComponent } from './gestion/seguimiento-orden-compra/modal-visualizar-detalle-importacion/modal-visualizar-detalle-importacion.component';
 import { OcDrogueriaComponent } from './arima/oc-drogueria/oc-drogueria.component';
 
-
 registerLocaleData(localeEs);
 
 
@@ -52,7 +51,7 @@ registerLocaleData(localeEs);
     NgbModule,
     NotifierModule,
     ReactiveFormsModule,
-    NgMultiSelectDropDownModule
-  ]
+    NgMultiSelectDropDownModule,
+  ],
 })
 export class ProduccionModule { }
