@@ -183,10 +183,10 @@ export class ControlProcesoComponent implements OnInit,OnDestroy {
               }
         });
            //Calculos Tabla 1 
-           this.FormProtocolo.get("PromLongitud").patchValue(ContenidoTabla[5].coL_1);
-           this.FormProtocolo.get("CampoVacio1Longitud").patchValue(ContenidoTabla[5].coL_2);
-           this.FormProtocolo.get("CampoVacio2Longitud").patchValue(ContenidoTabla[6].coL_1);
-           this.FormProtocolo.get("CampoVacio3Longitud").patchValue(ContenidoTabla[6].coL_2);
+           this.FormProtocolo.get("PromLongitud").patchValue(ContenidoTabla[5].coL_1 = null ? 0 : ContenidoTabla[5].coL_1);
+           this.FormProtocolo.get("CampoVacio1Longitud").patchValue(ContenidoTabla[5].coL_2 = null ? 0 : ContenidoTabla[5].coL_2);
+           this.FormProtocolo.get("CampoVacio2Longitud").patchValue(ContenidoTabla[6].coL_1 = null ? 0 : ContenidoTabla[6].coL_1);
+           this.FormProtocolo.get("CampoVacio3Longitud").patchValue(ContenidoTabla[6].coL_2 = null ? 0 : ContenidoTabla[6].coL_2);
       }else{
         PlantillaTabla.forEach((itemRow: any) => {
           const ItemFilaForm = this._fb.group({
@@ -214,12 +214,12 @@ export class ControlProcesoComponent implements OnInit,OnDestroy {
           }
         });
      //Calculos Tabla 1 
-     this.FormProtocolo.get("PromResistencia").patchValue(ContenidoTabla[5].coL_1);
-     this.FormProtocolo.get("CampoVacio1Resistencia").patchValue(ContenidoTabla[5].coL_2);
-     this.FormProtocolo.get("CampoVacio2Resistencia").patchValue(ContenidoTabla[6].coL_1);
-     this.FormProtocolo.get("CampoVacio3Resistencia").patchValue(ContenidoTabla[6].coL_2);
-     this.FormProtocolo.get("CampoVacio4Resistencia").patchValue(ContenidoTabla[7].coL_1);
-     this.FormProtocolo.get("CampoVacio5Resistencia").patchValue(ContenidoTabla[7].coL_2);
+     this.FormProtocolo.get("PromResistencia").patchValue(ContenidoTabla[5].coL_1 = null ? 0 : ContenidoTabla[5].coL_1);
+     this.FormProtocolo.get("CampoVacio1Resistencia").patchValue(ContenidoTabla[5].coL_2 = null ? 0 : ContenidoTabla[5].coL_2);
+     this.FormProtocolo.get("CampoVacio2Resistencia").patchValue(ContenidoTabla[6].coL_1 = null ? 0 : ContenidoTabla[6].coL_1);
+     this.FormProtocolo.get("CampoVacio3Resistencia").patchValue(ContenidoTabla[6].coL_2 = null ? 0 : ContenidoTabla[6].coL_2);
+     this.FormProtocolo.get("CampoVacio4Resistencia").patchValue(ContenidoTabla[7].coL_1 = null ? 0 : ContenidoTabla[7].coL_1);
+     this.FormProtocolo.get("CampoVacio5Resistencia").patchValue(ContenidoTabla[7].coL_2 = null ? 0 : ContenidoTabla[7].coL_2);
 
     }else{
       PlantillaTabla.forEach((itemRow: any) => {

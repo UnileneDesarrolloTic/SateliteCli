@@ -152,10 +152,10 @@ export class ControlProductoTerminadoComponent implements OnInit {
           this.ListTabla1.push(ItemFilaForm);
         }
       });
-      this.FormProtocolo.get("CampoPromvacioCP").patchValue(ContenidoTabla[10].coL_1);
-      this.FormProtocolo.get("CampoPromvacio1CP").patchValue(ContenidoTabla[10].coL_2);
-      this.FormProtocolo.get("CampoPromvacio2CP").patchValue(ContenidoTabla[11].coL_1);
-      this.FormProtocolo.get("CampoPromvacio3CP").patchValue(ContenidoTabla[11].coL_2);
+      this.FormProtocolo.get("CampoPromvacioCP").patchValue(ContenidoTabla[10].coL_1  = null ? 0 : ContenidoTabla[10].coL_1);
+      this.FormProtocolo.get("CampoPromvacio1CP").patchValue(ContenidoTabla[10].coL_2 = null ? 0 : ContenidoTabla[10].coL_2);
+      this.FormProtocolo.get("CampoPromvacio2CP").patchValue(ContenidoTabla[11].coL_1 = null ? 0 : ContenidoTabla[11].coL_1);
+      this.FormProtocolo.get("CampoPromvacio3CP").patchValue(ContenidoTabla[11].coL_2 = null ? 0 : ContenidoTabla[11].coL_2);
 
     }else{
       PlantillaTabla.forEach((itemRow: any) => {
@@ -184,12 +184,12 @@ export class ControlProductoTerminadoComponent implements OnInit {
         }
       });
    //Calculos Tabla 1 
-   this.FormProtocolo.get("CampoPromvacioRCP").patchValue(ContenidoTabla[10].coL_1);
-   this.FormProtocolo.get("CampoPromvacio1RCP").patchValue(ContenidoTabla[10].coL_2);
-   this.FormProtocolo.get("CampoPromvacio2RCP").patchValue(ContenidoTabla[11].coL_1);
-   this.FormProtocolo.get("CampoPromvacio3RCP").patchValue(ContenidoTabla[11].coL_2);
-   this.FormProtocolo.get("CampoPromvacio4CP").patchValue(ContenidoTabla[12].coL_1);
-   this.FormProtocolo.get("CampoPromvacio5RCP").patchValue(ContenidoTabla[12].coL_2);
+   this.FormProtocolo.get("CampoPromvacioRCP").patchValue(ContenidoTabla[10].coL_1  = null ? 0 : ContenidoTabla[10].coL_1);
+   this.FormProtocolo.get("CampoPromvacio1RCP").patchValue(ContenidoTabla[10].coL_2 = null ? 0 : ContenidoTabla[10].coL_2);
+   this.FormProtocolo.get("CampoPromvacio2RCP").patchValue(ContenidoTabla[11].coL_1 = null ? 0 : ContenidoTabla[11].coL_1);
+   this.FormProtocolo.get("CampoPromvacio3RCP").patchValue(ContenidoTabla[11].coL_2 = null ? 0 : ContenidoTabla[11].coL_2);
+   this.FormProtocolo.get("CampoPromvacio4CP").patchValue(ContenidoTabla[12].coL_1  = null ? 0 : ContenidoTabla[12].coL_1);
+   this.FormProtocolo.get("CampoPromvacio5RCP").patchValue(ContenidoTabla[12].coL_2 = null ? 0 : ContenidoTabla[12].coL_2);
 
   }else{
     PlantillaTabla.forEach((itemRow: any) => {
