@@ -21,6 +21,7 @@ import { TagResumenComponent } from './gestion/seguimiento-orden-compra/tag-resu
 import { MiniTablaDetalleComponent } from './gestion/seguimiento-orden-compra/mini-tabla-detalle/mini-tabla-detalle.component';
 import { ModalVisualizarDetalleImportacionComponent } from './gestion/seguimiento-orden-compra/modal-visualizar-detalle-importacion/modal-visualizar-detalle-importacion.component';
 import { OcDrogueriaComponent } from './arima/oc-drogueria/oc-drogueria.component';
+import { ComponenteModule } from '@shared/components/componente.module';
 
 registerLocaleData(localeEs);
 
@@ -47,6 +48,7 @@ registerLocaleData(localeEs);
     }),
     CommonModule,
     NgxDatatableModule,
+    ComponenteModule,
     FormsModule,
     NgbModule,
     NotifierModule,

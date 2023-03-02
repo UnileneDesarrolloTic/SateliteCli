@@ -1,2 +1,54 @@
-<p>listar-orden-compra-previo works!</p>
-zxAXasdsadasdsad
+<div class="row">
+    <div class="col-12" style="height: 80vh;">
+        <ngx-datatable class="material"  [reorderable]="false" [rows]="ordenCompraPrevio" [columnMode]="'force'"
+            [headerHeight]="50" [footerHeight]="50" [rowHeight]="50" [scrollbarV]="true"
+            [sorts]="[{prop: 'name', dir: 'desc'}]" style="height: 90%;" class="material font-medium"
+            [rowHeight]="50" [scrollbarH]="true"  >
+
+            <ngx-datatable-column name="Proveedor" prop="descripcionProveedor" [width]="250">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    <span class="font-medium">{{row.descripcionProveedor}}</span>
+                </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Fecha" prop="fechaPreparacion" [width]="40">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    <span class="font-medium">{{row.fechaPreparacion | date : 'dd/mm/yyyy' }}</span>
+                </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Procedencia" prop="procedencia" [width]="40">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    <span class="font-medium">{{row.procedencia}}</span>
+                </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="MontoTotal" prop="montoTotal" [width]="40">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    <span class="font-medium">{{row.montoTotal | number: '1.2-2'}}</span>
+                </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Monedas" prop="monedaCodigo" [width]="40">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    <span class="font-medium">{{row.monedaCodigo }}</span>
+                </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Estado" prop="estado" [width]="40">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    <span class="font-medium">{{row.estado }}</span>
+                </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Detalle" [width]="40">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    <button class="btn btn-sm btn-info" (click)="verDetalle(row)"> 
+                            <i class="fas fa-eye text-white">  Detalle </i>
+                    </button>
+                </ng-template>
+            </ngx-datatable-column>
+
+        </ngx-datatable>
+    </div>
+</div>

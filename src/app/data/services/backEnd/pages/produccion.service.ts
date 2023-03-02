@@ -175,5 +175,26 @@ export class ProduccionService {
     );
   }
 
+  generarOrdenCompraPrevios(){
+    return this._http.get(this.url +"/api/Produccion/MostrarOrdenCompraPrevios").pipe(
+      catchError( _ => {
+        this._toastr.error("Error al listar la orden de compra simulada ", "Error !!", { timeOut: 4000, closeButton: true })
+        return throwError("Error  al listar la orden de compra simulada ")
+      })
+    )
+  }
+
+
+  visualizarOrdenCompraPrevios(proveedor){
+    const params =  new HttpParams().set('proveedor',proveedor)
+    return this._http.get(this.url +"/api/Produccion/VisualizarOrdenCompraSimulada", {"params": params}).pipe(
+      catchError( _ => {
+        this._toastr.error("Error al visualizar la orden de compra", "Error !!", { timeOut: 4000, closeButton: true })
+        return throwError("Error  al visualizar la orden de compra")
+      })
+    )
+  }
+ 
+
 
 }
