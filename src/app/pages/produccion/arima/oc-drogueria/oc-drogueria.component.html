@@ -60,6 +60,11 @@
                         <input type="text" style="float: right" [formControl]='textFiltrar'
                             placeholder="Buscar Item o Descripción o Proveedor" class="form-control rounded-pill">
                     </div>
+                    <div class="col-md-4">
+                    </div>
+                    <div class="col-md-4">
+                        <button *ngIf="!PermisoAcceso" type="button" class="btn btn-sm btn-primary float-right" (click)="verTransito()"><i class="fas fa-list-alt"></i> ver tránsito</button>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-12" style="height: 80vh;">
@@ -277,10 +282,12 @@
                     <tr>
                         <th class="text-center">Nro Orden</th>
                         <th class="text-center">Proveedor</th>
-                        <th class="text-center">Fec. Preparacion</th>
+                        <th class="text-center">Fec. Preparación</th>
+                        <th class="text-center">Dias</th>
+                        <th class="text-center">Nuevo f.prometida </th>
                         <th class="text-center">Cant. Pedida</th>
-                        <th class="text-center">Cant Kardex</th>
-                        <th class="text-center">Cant.Transito</th>
+                        <th class="text-center">Cant recibida</th>
+                        <th class="text-center">Cant.Tránsito</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -293,6 +300,12 @@
                         </td>
                         <td class="text-center font-medium">
                             {{ ordenCompra['fechaPreparacion'] | date:'dd/MM/yyyy' }}
+                        </td>
+                        <td class="text-center font-medium">
+                            {{ ordenCompra['tiempoGeneral'] | number }}
+                        </td>
+                        <td class="text-center font-medium">
+                            {{ ordenCompra['nuevoTiempoEntrega'] | date:'dd/MM/yyyy'  }}
                         </td>
                         <td class="text-center font-medium">
                             {{ ordenCompra['cantidadPedida'] | number }}

@@ -5,4 +5,6 @@ export interface MostrarOrdenCompraDrogueria {
     CantidadKardex:    number;
     cantidadTransito:  number;
     fechaPreparacion:    Date;
+    tiempoGeneral:     number;
+    nuevoTiempoEntrega:  Date;
 }

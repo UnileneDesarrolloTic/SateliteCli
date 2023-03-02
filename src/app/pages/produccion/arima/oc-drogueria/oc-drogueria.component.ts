@@ -7,8 +7,10 @@ import { ProduccionService } from '@data/services/backEnd/pages/produccion.servi
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalCargarComponent } from '@shared/components/modal-cargar/modal-cargar.component';
 import { Cargarbase64Service } from '@shared/services/comunes/cargarbase64.service';
+import { ModalOcVencidasComponent } from '@shared/components/modal-oc-vencidas/modal-oc-vencidas.component';
 import { Toast, ToastrService } from 'ngx-toastr';
 import { debounceTime } from 'rxjs/operators';
+import { GenericoService } from '@shared/services/comunes/generico.service';
 
 @Component({
   selector: 'app-oc-drogueria',
@@ -27,6 +29,7 @@ export class OcDrogueriaComponent implements OnInit {
   formularioFiltro: FormGroup;
   flagEspera: boolean = false;
   flagEsperaExcel:boolean=false;
+  PermisoAcceso:boolean=true;
   
 
   checkMostrarColumna = new FormControl(false);
@@ -36,9 +39,11 @@ export class OcDrogueriaComponent implements OnInit {
   constructor(private _ProduccionService: ProduccionService,
     private _modalService: NgbModal,
     private _toastr: ToastrService,
-    private _Cargarbase64Service:Cargarbase64Service) { }
+    private _Cargarbase64Service:Cargarbase64Service,
+    private _GenericoService : GenericoService) { }
 
   ngOnInit(): void {
+    this.accesosPermiso();
     this.filtroFormulario();
     this.mostrarProveedor();
     this.reporteSeguimientoDrogueria();
@@ -135,8 +140,34 @@ export class OcDrogueriaComponent implements OnInit {
             this.flagEsperaExcel=false;
       }
     );
+  }
 
+  accesosPermiso(){
+    this._GenericoService.AccesosPermiso('BTN0002').subscribe(
+      (resp:any)=>{
+          this.PermisoAcceso=resp["content"];
+      },
+      _=>{
+          this._toastr.error("Error al validar el permiso por boton")
+      }
+    );
+  }
 
+  verTransito(){
+    this.listarOrdenCompraDrogueria=[];
+    const ModalTransito = this._modalService.open(ModalOcVencidasComponent, {
+      centered: true,
+      backdrop: 'static',
+      size: 'xl',
+      scrollable: true
+    });
+
+    ModalTransito.result.then((result) => 
+    {
+    }, (reason) => {
+      
+    });
+  
   }
 
 }
