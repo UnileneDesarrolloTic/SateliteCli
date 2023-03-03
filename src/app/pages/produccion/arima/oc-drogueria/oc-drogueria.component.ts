@@ -167,7 +167,14 @@ export class OcDrogueriaComponent implements OnInit {
     }, (reason) => {
       
     });
-  
+  }
+
+  quitarTransito(ordenItem:MostrarOrdenCompraDrogueria){
+    let rpta:boolean=true;
+    rpta = confirm(`¿Esta seguro de quitar del transito la ${ordenItem.numeroOrden} con el Item ${ this.itemModalOC} ? `);
+
+    console.log(rpta);
+    
   }
 
 }
