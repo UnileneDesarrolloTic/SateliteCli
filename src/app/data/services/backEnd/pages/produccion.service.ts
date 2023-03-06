@@ -185,8 +185,8 @@ export class ProduccionService {
     );
   }
   
-  cambiarEstadoOCVencida(body){
-    return this._http.post(this.url+"/api/Produccion/EditarEstadoOCVencidas",body).pipe(
+  GuardarOrdenCompraVencida(body){
+    return this._http.post(this.url+"/api/Produccion/GuardarOrdenCompraVencida",body).pipe(
       catchError( _ => {
         this._toastr.error("Error al momento de modificar el estado orden compra ", "Error !!", { timeOut: 4000, closeButton: true })
         return throwError("Error  al momento de modificar el estado orden compra ")

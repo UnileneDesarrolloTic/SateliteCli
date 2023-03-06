@@ -4,7 +4,7 @@ import { MostrarOrdenCompraDrogueria } from '@data/interface/Response/OCDrogueri
 import { MostrarProveedorDrogueria } from '@data/interface/Response/OCDrogueria/DatosFormatoMostrarProveedor.interface';
 import { ModelSeguimientoDrogueria } from '@data/interface/Response/OCDrogueria/DatosFormatoSeguimientoDrogueria.interface';
 import { ProduccionService } from '@data/services/backEnd/pages/produccion.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalCargarComponent } from '@shared/components/modal-cargar/modal-cargar.component';
 import { Cargarbase64Service } from '@shared/services/comunes/cargarbase64.service';
 import { ModalOcVencidasComponent } from '@shared/components/modal-oc-vencidas/modal-oc-vencidas.component';
@@ -29,9 +29,7 @@ export class OcDrogueriaComponent implements OnInit {
   formularioFiltro: FormGroup;
   flagEspera: boolean = false;
   flagEsperaExcel:boolean=false;
-  PermisoAcceso:boolean=true;
   
-
   checkMostrarColumna = new FormControl(false);
   textFiltrar = new FormControl('');
 
@@ -43,7 +41,7 @@ export class OcDrogueriaComponent implements OnInit {
     private _GenericoService : GenericoService) { }
 
   ngOnInit(): void {
-    this.accesosPermiso();
+    // this.accesosPermiso();
     this.filtroFormulario();
     this.mostrarProveedor();
     this.reporteSeguimientoDrogueria();
@@ -142,16 +140,17 @@ export class OcDrogueriaComponent implements OnInit {
     );
   }
 
-  accesosPermiso(){
-    this._GenericoService.AccesosPermiso('BTN0002').subscribe(
-      (resp:any)=>{
-          this.PermisoAcceso=resp["content"];
-      },
-      _=>{
-          this._toastr.error("Error al validar el permiso por boton")
-      }
-    );
-  }
+  // accesosPermiso(){
+  //   this._GenericoService.AccesosPermiso('BTN0002').subscribe(
+  //     (resp:any)=>{
+  //         this.PermisoAcceso=resp["content"];
+  //     },
+  //     _=>{
+  //         this._toastr.error("Error al validar el permiso por boton")
+  //     }
+  //   );
+  // }
+
 
   verTransito(){
     this.listarOrdenCompraDrogueria=[];
@@ -164,8 +163,9 @@ export class OcDrogueriaComponent implements OnInit {
 
     ModalTransito.result.then((result) => 
     {
-    }, (reason) => {
       
+    }, (reason) => {
+       
     });
   }
 
@@ -173,7 +173,25 @@ export class OcDrogueriaComponent implements OnInit {
     let rpta:boolean=true;
     rpta = confirm(`¿Esta seguro de quitar del transito la ${ordenItem.numeroOrden} con el Item ${ this.itemModalOC} ? `);
 
-    console.log(rpta);
+    if (rpta)
+    {
+      let comentario = prompt(`Por favor, el motivo por qué desea quitar la ${ordenItem.numeroOrden} con el Item ${this.itemModalOC}`,'');
+      const datos = 
+      {
+        numeroOrden: ordenItem.numeroOrden,
+        item : this.itemModalOC,
+        comentario: comentario
+      }
+
+      this._ProduccionService.GuardarOrdenCompraVencida(datos).subscribe(
+          (resp:any)=>{
+            if(resp["success"]){
+              this.listarOrdenCompraDrogueria = this.listarOrdenCompraDrogueria.filter((filacompra:MostrarOrdenCompraDrogueria) => (filacompra.numeroOrden != ordenItem.numeroOrden))
+              this._toastr.success(resp["message"],"Guardado", { timeOut: 4000, closeButton: true });
+            }
+          }
+      ) 
+    }
     
   }
 

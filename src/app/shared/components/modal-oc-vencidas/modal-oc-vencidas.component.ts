@@ -29,25 +29,4 @@ export class ModalOcVencidasComponent implements OnInit {
       )
   }
 
-  cambioEstado(filaOrdencompra:OrdenCompraVencidas){
- 
-    let rpta:boolean=true;
-    rpta = confirm(`¿Esta seguro que desea cambiar el estado de la ${filaOrdencompra.numeroOrden} con el Item ${ filaOrdencompra.item} ? `);
-
-    if (rpta){
-      this._ProduccionService.cambiarEstadoOCVencida(filaOrdencompra).subscribe(
-        (resp:any)=>{
-            if(resp["success"]){
-              this.mostrarOrdenCompra.forEach((element:OrdenCompraVencidas)=>{
-                    if(element.numeroOrden==filaOrdencompra.numeroOrden &&  element.item==filaOrdencompra.item)
-                        element.excluir= filaOrdencompra.excluir=='S' ? 'N' : 'S';
-              })
-            }
-        }
-     )
-    }
-
-  }
-
-
 }
