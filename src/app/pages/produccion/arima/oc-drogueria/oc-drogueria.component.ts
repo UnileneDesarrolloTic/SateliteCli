@@ -7,10 +7,10 @@ import { ProduccionService } from '@data/services/backEnd/pages/produccion.servi
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalCargarComponent } from '@shared/components/modal-cargar/modal-cargar.component';
 import { Cargarbase64Service } from '@shared/services/comunes/cargarbase64.service';
-import { ModalOcVencidasComponent } from '@shared/components/modal-oc-vencidas/modal-oc-vencidas.component';
 import { Toast, ToastrService } from 'ngx-toastr';
 import { debounceTime } from 'rxjs/operators';
 import { GenericoService } from '@shared/services/comunes/generico.service';
+import { ModalVerTransitoComponent } from '@shared/components/modal-ver-transito/modal-ver-transito.component';
 
 @Component({
   selector: 'app-oc-drogueria',
@@ -86,16 +86,6 @@ export class OcDrogueriaComponent implements OnInit {
     )
   }
 
-  abrirModalMostrarOC(modal: NgbModal, fila: ModelSeguimientoDrogueria) {
-    this.obtenerOrdenCompra(fila.item);
-    this._modalService.open(modal, {
-      centered: true,
-      backdrop: 'static',
-      size: 'lg',
-      scrollable: false
-    });
-  }
-
   mostrarProveedor() {
     this._ProduccionService.mostrarProveedores().subscribe(
       (resp: any) => {
@@ -104,15 +94,25 @@ export class OcDrogueriaComponent implements OnInit {
     )
   }
 
-  obtenerOrdenCompra(Item) {
-    this.itemModalOC = Item;
-    this._ProduccionService.mostarOrdenCompraItem(Item).subscribe(
-      (resp: any) => {
-        this.listarOrdenCompraDrogueria = resp["content"];
+  abrirModalMostrarOC(Item : string) {
+    const ModalTransito = this._modalService.open(ModalVerTransitoComponent, {
+      windowClass: 'my-class',
+      centered: true,
+      backdrop: 'static',
+      size: 'lg',
+      scrollable: true
+    });
+    ModalTransito.componentInstance.Item = Item;
+    ModalTransito.result.then((result) => 
+    {
+      
+    }, (refrescado) => {
+      if(refrescado > 0)
+      {
+        this.reporteSeguimientoDrogueria();
       }
-    )
+    });
   }
-
 
   exportarExcel() {
     this.flagEsperaExcel=true;
@@ -140,59 +140,25 @@ export class OcDrogueriaComponent implements OnInit {
     );
   }
 
-  // accesosPermiso(){
-  //   this._GenericoService.AccesosPermiso('BTN0002').subscribe(
-  //     (resp:any)=>{
-  //         this.PermisoAcceso=resp["content"];
-  //     },
-  //     _=>{
-  //         this._toastr.error("Error al validar el permiso por boton")
-  //     }
-  //   );
-  // }
-
-
   verTransito(){
     this.listarOrdenCompraDrogueria=[];
-    const ModalTransito = this._modalService.open(ModalOcVencidasComponent, {
+    const ModalTransito = this._modalService.open(ModalVerTransitoComponent, {
+      windowClass: 'my-class',
       centered: true,
       backdrop: 'static',
-      size: 'xl',
+      size: 'lg',
       scrollable: true
     });
 
+    ModalTransito.componentInstance.Item = '';
     ModalTransito.result.then((result) => 
     {
       
-    }, (reason) => {
-       
+    }, (refrescado) => {
+      if(refrescado > 0)
+      {
+        this.reporteSeguimientoDrogueria();
+      }
     });
   }
-
-  quitarTransito(ordenItem:MostrarOrdenCompraDrogueria){
-    let rpta:boolean=true;
-    rpta = confirm(`¿Esta seguro de quitar del transito la ${ordenItem.numeroOrden} con el Item ${ this.itemModalOC} ? `);
-
-    if (rpta)
-    {
-      let comentario = prompt(`Por favor, el motivo por qué desea quitar la ${ordenItem.numeroOrden} con el Item ${this.itemModalOC}`,'');
-      const datos = 
-      {
-        numeroOrden: ordenItem.numeroOrden,
-        item : this.itemModalOC,
-        comentario: comentario
-      }
-
-      this._ProduccionService.GuardarOrdenCompraVencida(datos).subscribe(
-          (resp:any)=>{
-            if(resp["success"]){
-              this.listarOrdenCompraDrogueria = this.listarOrdenCompraDrogueria.filter((filacompra:MostrarOrdenCompraDrogueria) => (filacompra.numeroOrden != ordenItem.numeroOrden))
-              this._toastr.success(resp["message"],"Guardado", { timeOut: 4000, closeButton: true });
-            }
-          }
-      ) 
-    }
-    
-  }
-
 }

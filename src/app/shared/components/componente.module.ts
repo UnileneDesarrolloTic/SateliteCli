@@ -10,7 +10,7 @@ import { ModalMaestroItemComponent } from './modal-maestro-item/modal-maestro-it
 import { ModalItemCostoComponent } from './modal-item-costo/modal-item-costo.component';
 import { ModalItemMastComponent } from './modal-item-mast/modal-item-mast.component';
 import { ModalPdfComponent } from './modal-pdf/modal-pdf.component';
-import { ModalOcVencidasComponent } from './modal-oc-vencidas/modal-oc-vencidas.component';
+import { ModalVerTransitoComponent } from './modal-ver-transito/modal-ver-transito.component';
 
 
 @NgModule({
@@ -23,7 +23,7 @@ import { ModalOcVencidasComponent } from './modal-oc-vencidas/modal-oc-vencidas.
     ModalItemCostoComponent,
     ModalItemMastComponent,
     ModalPdfComponent,
-    ModalOcVencidasComponent,
+    ModalVerTransitoComponent
   ],
   imports: [
     CommonModule,
