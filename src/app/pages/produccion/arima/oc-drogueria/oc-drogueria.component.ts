@@ -5,11 +5,13 @@ import { MostrarProveedorDrogueria } from '@data/interface/Response/OCDrogueria/
 import { OrdenCompraPrevio } from '@data/interface/Response/OCDrogueria/DatosFormatoOrdenCompraPrevio.interface';
 import { ModelSeguimientoDrogueria } from '@data/interface/Response/OCDrogueria/DatosFormatoSeguimientoDrogueria.interface';
 import { ProduccionService } from '@data/services/backEnd/pages/produccion.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalCargarComponent } from '@shared/components/modal-cargar/modal-cargar.component';
 import { Cargarbase64Service } from '@shared/services/comunes/cargarbase64.service';
 import { Toast, ToastrService } from 'ngx-toastr';
 import { debounceTime } from 'rxjs/operators';
+import { GenericoService } from '@shared/services/comunes/generico.service';
+import { ModalVerTransitoComponent } from '@shared/components/modal-ver-transito/modal-ver-transito.component';
 
 @Component({
   selector: 'app-oc-drogueria',
@@ -31,7 +33,6 @@ export class OcDrogueriaComponent implements OnInit {
   flagEspera: boolean = false;
   flagEsperaExcel:boolean=false;
   
-
   checkMostrarColumna = new FormControl(false);
   textFiltrar = new FormControl('');
 
@@ -39,9 +40,11 @@ export class OcDrogueriaComponent implements OnInit {
   constructor(private _ProduccionService: ProduccionService,
     private _modalService: NgbModal,
     private _toastr: ToastrService,
-    private _Cargarbase64Service:Cargarbase64Service) { }
+    private _Cargarbase64Service:Cargarbase64Service,
+    private _GenericoService : GenericoService) { }
 
   ngOnInit(): void {
+    // this.accesosPermiso();
     this.filtroFormulario();
     this.mostrarProveedor();
     this.reporteSeguimientoDrogueria();
@@ -87,16 +90,6 @@ export class OcDrogueriaComponent implements OnInit {
     )
   }
 
-  abrirModalMostrarOC(modal: NgbModal, fila: ModelSeguimientoDrogueria) {
-    this.obtenerOrdenCompra(fila.item);
-    this._modalService.open(modal, {
-      centered: true,
-      backdrop: 'static',
-      size: 'lg',
-      scrollable: false
-    });
-  }
-
   mostrarProveedor() {
     this._ProduccionService.mostrarProveedores().subscribe(
       (resp: any) => {
@@ -105,15 +98,25 @@ export class OcDrogueriaComponent implements OnInit {
     )
   }
 
-  obtenerOrdenCompra(Item) {
-    this.itemModalOC = Item;
-    this._ProduccionService.mostarOrdenCompraItem(Item).subscribe(
-      (resp: any) => {
-        this.listarOrdenCompraDrogueria = resp["content"];
+  abrirModalMostrarOC(Item : string) {
+    const ModalTransito = this._modalService.open(ModalVerTransitoComponent, {
+      windowClass: 'my-class',
+      centered: true,
+      backdrop: 'static',
+      size: 'lg',
+      scrollable: true
+    });
+    ModalTransito.componentInstance.Item = Item;
+    ModalTransito.result.then((result) => 
+    {
+      
+    }, (refrescado) => {
+      if(refrescado > 0)
+      {
+        this.reporteSeguimientoDrogueria();
       }
-    )
+    });
   }
-
 
   exportarExcel() {
     this.flagEsperaExcel=true;
@@ -139,6 +142,7 @@ export class OcDrogueriaComponent implements OnInit {
             this.flagEsperaExcel=false;
       }
     );
+
     }
 
     generarOrdenCompra(){
@@ -149,5 +153,27 @@ export class OcDrogueriaComponent implements OnInit {
       
       )
     }
+  
 
+  verTransito(){
+    this.listarOrdenCompraDrogueria=[];
+    const ModalTransito = this._modalService.open(ModalVerTransitoComponent, {
+      windowClass: 'my-class',
+      centered: true,
+      backdrop: 'static',
+      size: 'lg',
+      scrollable: true
+    });
+
+    ModalTransito.componentInstance.Item = '';
+    ModalTransito.result.then((result) => 
+    {
+      
+    }, (refrescado) => {
+      if(refrescado > 0)
+      {
+        this.reporteSeguimientoDrogueria();
+      }
+    });
+  }
 }
