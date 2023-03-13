@@ -51,7 +51,7 @@ export class ModalVerTransitoComponent implements OnInit {
         comentario: comentario
       }
 
-      this._ProduccionService.GuardarOrdenCompraVencida(datos).subscribe(
+      this._ProduccionService.guardarOrdenCompraVencida(datos).subscribe(
           (resp:any)=>{
             if(resp["success"]){
               this.listarOrdenCompraDrogueria = this.listarOrdenCompraDrogueria.filter((filacompra:MostrarOrdenCompraDrogueria) => `${filacompra.numeroOrden}-${filacompra.itemFinal}` != `${ordenItem.numeroOrden}-${ordenItem.itemFinal}` )

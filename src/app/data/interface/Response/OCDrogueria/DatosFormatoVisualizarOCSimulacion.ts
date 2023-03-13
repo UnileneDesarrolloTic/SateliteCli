@@ -11,10 +11,13 @@ export interface CabeceraOrdenCompraP {
     FechaPreparacion:     Date;
     MontoTotal:           number;
     Estado:               string;
+    IdGestionarColor:     number;
+    DiasEspera:           number;
+    FechaPrometida:       Date;
 }
 
 export interface DetalleOrdenCompraP {
-    proveedor:      number;
+    Proveedor:      number;
     Secuencia:      number;
     Item:           string;
     Descripcion:    string;
@@ -25,4 +28,6 @@ export interface DetalleOrdenCompraP {
     Moneda:         string;
     Estado:         string;
     FechaPrometida: Date;
+    ColorVariacion:   string;
+    IdGestionarColor: number;
 }

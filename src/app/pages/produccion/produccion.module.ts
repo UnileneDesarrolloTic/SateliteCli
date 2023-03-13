@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule,registerLocaleData } from '@angular/common';
+import { CommonModule,DecimalPipe,registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
 import { RouterModule } from '@angular/router';
 import { ProduccionRoutes } from './produccion.routing';
@@ -22,6 +22,7 @@ import { MiniTablaDetalleComponent } from './gestion/seguimiento-orden-compra/mi
 import { ModalVisualizarDetalleImportacionComponent } from './gestion/seguimiento-orden-compra/modal-visualizar-detalle-importacion/modal-visualizar-detalle-importacion.component';
 import { OcDrogueriaComponent } from './arima/oc-drogueria/oc-drogueria.component';
 import { ComponenteModule } from '@shared/components/componente.module';
+import { OrdenCompraDrogueriaComponent } from './arima/oc-drogueria/orden-compra-drogueria/orden-compra-drogueria.component';
 
 registerLocaleData(localeEs);
 
@@ -39,6 +40,7 @@ registerLocaleData(localeEs);
     MiniTablaDetalleComponent,
     ModalVisualizarDetalleImportacionComponent,
     OcDrogueriaComponent,
+    OrdenCompraDrogueriaComponent,
   ],
   imports: [
     RouterModule.forChild(ProduccionRoutes),
@@ -55,5 +57,6 @@ registerLocaleData(localeEs);
     ReactiveFormsModule,
     NgMultiSelectDropDownModule,
   ],
+  providers: [DecimalPipe]
 })
 export class ProduccionModule { }

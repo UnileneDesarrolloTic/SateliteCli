@@ -206,11 +206,29 @@ export class ProduccionService {
     );
   }
   
-  GuardarOrdenCompraVencida(body){
+  guardarOrdenCompraVencida(body){
     return this._http.post(this.url+"/api/Produccion/GuardarOrdenCompraVencida",body).pipe(
       catchError( _ => {
         this._toastr.error("Error al momento de modificar el estado orden compra ", "Error !!", { timeOut: 4000, closeButton: true })
         return throwError("Error  al momento de modificar el estado orden compra ")
+      })
+    );
+  }
+
+  generarOrdenCompraDrogueria(){
+    return this._http.get(this.url+"/api/Produccion/GenerarOrdenCompraDrogueria").pipe(
+      catchError( _ => {
+        this._toastr.error("Error al Generar Orden Compra", "Error !!", { timeOut: 4000, closeButton: true })
+        return throwError("Error  al Generar Orden Compra")
+      })
+    );
+  }
+
+  registrarOrdenCompraDrogueria(body){
+    return this._http.post(this.url+"/api/Produccion/RegistrarOrdenCompraDrogueria",body).pipe(
+      catchError( _ => {
+        this._toastr.error("Error al momento de registrar el estado orden compra ", "Error !!", { timeOut: 4000, closeButton: true })
+        return throwError("Error  al momento de registrar el estado orden compra ")
       })
     );
   }

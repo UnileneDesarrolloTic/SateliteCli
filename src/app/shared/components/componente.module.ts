@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PaginadorComponent } from '@shared/components/paginador/paginador.component';
@@ -10,8 +10,8 @@ import { ModalMaestroItemComponent } from './modal-maestro-item/modal-maestro-it
 import { ModalItemCostoComponent } from './modal-item-costo/modal-item-costo.component';
 import { ModalItemMastComponent } from './modal-item-mast/modal-item-mast.component';
 import { ModalPdfComponent } from './modal-pdf/modal-pdf.component';
-import { ModalOrdenCompraPrevioComponent } from './modal-orden-compra-previo/modal-orden-compra-previo.component';
 import { ListarOrdenCompraPrevioComponent } from './listar-orden-compra-previo/listar-orden-compra-previo.component';
+import { ModalVerTransitoComponent } from './modal-ver-transito/modal-ver-transito.component';
 
 
 @NgModule({
@@ -24,9 +24,8 @@ import { ListarOrdenCompraPrevioComponent } from './listar-orden-compra-previo/l
     ModalItemCostoComponent,
     ModalItemMastComponent,
     ModalPdfComponent,
-    ModalOrdenCompraPrevioComponent,
     ListarOrdenCompraPrevioComponent,
-
+    ModalVerTransitoComponent
   ],
   imports: [
     CommonModule,
@@ -34,6 +33,7 @@ import { ListarOrdenCompraPrevioComponent } from './listar-orden-compra-previo/l
     FormsModule,
     ReactiveFormsModule
   ],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
   exports:[
     PaginadorComponent,
     ListarOrdenCompraPrevioComponent,

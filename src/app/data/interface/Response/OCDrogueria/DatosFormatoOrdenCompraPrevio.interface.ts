@@ -7,4 +7,7 @@ export interface OrdenCompraPrevio {
     fechaPreparacion:     Date;
     montoTotal:           number;
     estado:               string;
+    idGestionarColor:     number;
+    diasEsperal :         number;
+    fechaPromedia :       Date;
 }
