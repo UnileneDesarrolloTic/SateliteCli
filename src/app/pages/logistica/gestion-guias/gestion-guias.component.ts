@@ -59,7 +59,6 @@ export class GestionGuiasComponent implements OnInit {
   ConstruirFormArray(formArrayResp:DatosFormatoPlanOrdenServicosDModel[]){
     const ArrayItem = this.Planservicios.controls.ListadoNumeroGuias as FormArray;
     ArrayItem.controls = [];
-    
     formArrayResp.forEach((itemRow:DatosFormatoPlanOrdenServicosDModel)=>{
 
         let separarFecha=itemRow.fechaRetorno.split("T");
