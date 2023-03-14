@@ -209,6 +209,7 @@ export class InterceptorService implements HttpInterceptor {
       'Licitaciones/RegistrarOrdenCompra',
       'Logistica/ObtenerNumeroGuias',
       'Logistica/RegistrarRetornoGuia',
+      'Logistica/ExportarExcelRetornoGuia',
       'Logistica/ListarItemVentas',
       'Logistica/BuscarItemVentas',
       'Logistica/ListarItemVentasExportar',
