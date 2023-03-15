@@ -81,7 +81,7 @@ export class SegProcesosComponent implements OnInit {
     aceptarDescarga(){
       if(this.reporteDashboard.value != 'a' && this.reporteDashboard.value != 'b')
       {
-        this.toastr.warning("Seleccione un reporte, para la descarga", "Aviso !!", {timeOut: 3000, closeButton: true, progressBar:true, tapToDismiss:true})
+        this.toastr.warning("Seleccione uno para la descarga", "Aviso !!", {timeOut: 3000, closeButton: true, progressBar:true, tapToDismiss:true})
         return
       }
 
@@ -93,7 +93,7 @@ export class SegProcesosComponent implements OnInit {
       {
         this.exportarPaginatres(this.reporteDashboard.value);
       }
-          
+
     }
 
 
