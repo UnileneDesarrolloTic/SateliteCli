@@ -16,8 +16,8 @@ export class LogisticaService {
   constructor(private _http: HttpClient,private _toastr: ToastrService) { 
   }
 
-  ObtenerNumeroGuia(NumeroGuia,serie){
-    const params = new HttpParams().set('numeroguia',NumeroGuia).set('serie',serie);
+  ObtenerNumeroGuia(NumeroGuia){
+    const params = new HttpParams().set('numeroguia',NumeroGuia);
    
     return this._http.get<any[]>(this.url+"/api/Logistica/ObtenerNumeroGuias", {'params': params}).pipe(
       catchError (() => {

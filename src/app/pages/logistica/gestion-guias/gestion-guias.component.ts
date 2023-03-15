@@ -30,7 +30,6 @@ export class GestionGuiasComponent implements OnInit {
 
   crearFormulario(){
     this.form = new FormGroup({ 
-      serie : new FormControl('T001') , 
       numero : new FormControl ('')
     })
 
@@ -40,16 +39,16 @@ export class GestionGuiasComponent implements OnInit {
   }
 
   buscar(){
-    if(this.form.controls.numero.value=='' || this.form.controls.serie.value==''){
+    if(this.form.controls.numero.value==''){
         return this.toastr.warning("Debe Ingresar Numero de la Guia o la serie");
     }
 
-    this._ServiceLogistica.ObtenerNumeroGuia(this.form.controls.numero.value,this.form.controls.serie.value).subscribe(
+    this._ServiceLogistica.ObtenerNumeroGuia(this.form.controls.numero.value).subscribe(
       resp=>{
         if(resp.length>0){
           this.ConstruirFormArray(resp);
         }else{
-          this.toastr.warning("no hay informacion con el numero de guia:" + this.form.controls.serie.value +"-" + this.form.controls.numero.value);
+          this.toastr.warning("no hay informacion con el numero de guia:" + this.form.controls.numero.value);
         }
         
       }
