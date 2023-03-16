@@ -23,7 +23,7 @@ export class SegProcesosComponent implements OnInit {
   ngOnInit(): void {
   }
   
-  exportarPaginatres(opcion:string){
+  exportar(opcion:string, titulo:string){
     const ModalCarga = this._modalService.open(ModalCargarComponent, {
       centered: true,
       backdrop: 'static',
@@ -34,7 +34,7 @@ export class SegProcesosComponent implements OnInit {
     this._LicitacionesService.exportarDashboardLicitaciones(opcion).subscribe(
       (resp:any)=>{
         if(resp.success){
-          this.servicebase64.file(resp.content,`DashboardLicitaciones-${this.hoy}`,'xlsx',ModalCarga);
+          this.servicebase64.file(resp.content,`${titulo}-${this.hoy}`,'xlsx',ModalCarga);
         }else{
           ModalCarga.close();
           this.toastr.info(resp.message);
@@ -44,27 +44,7 @@ export class SegProcesosComponent implements OnInit {
     );
   }
 
-  exportarPaginacinco(opcion:string){
-    const ModalCargaPaginacinco = this._modalService.open(ModalCargarComponent, {
-      centered: true,
-      backdrop: 'static',
-      size: 'sm',
-      scrollable: true
-    });
-    ModalCargaPaginacinco.componentInstance.fromParent = "Generando el Formato Excel";
-    this._LicitacionesService.exportarDashboardLicitaciones(opcion).subscribe(
-      (resp:any)=>{
-        if(resp.success){
-          this.servicebase64.file(resp.content,`DashboardLicitacionesResumenProcesoPagina5-${this.hoy}`,'xlsx',ModalCargaPaginacinco);
-        }else{
-          ModalCargaPaginacinco.close();
-          this.toastr.info(resp.message);
-        }
-      },
-      _=>{ModalCargaPaginacinco.close()}
-    );
-
-  }
+ 
 
 
   exportarArchivopaginacinco(modal:NgbModal){
@@ -87,11 +67,13 @@ export class SegProcesosComponent implements OnInit {
 
       if(this.reporteDashboard.value=='a')
       {
-        this.exportarPaginatres(this.reporteDashboard.value);
+        let titulo='DashboardLicitacionesDetalleFacturacion';
+        this.exportar(this.reporteDashboard.value,titulo);
       }
       else
       {
-        this.exportarPaginatres(this.reporteDashboard.value);
+        let titulo='DashboardLicitacionesResumenProceso';
+        this.exportar(this.reporteDashboard.value,titulo);
       }
 
     }
