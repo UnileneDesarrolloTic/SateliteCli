@@ -10,7 +10,6 @@ import { ModalMaestroItemComponent } from './modal-maestro-item/modal-maestro-it
 import { ModalItemCostoComponent } from './modal-item-costo/modal-item-costo.component';
 import { ModalItemMastComponent } from './modal-item-mast/modal-item-mast.component';
 import { ModalPdfComponent } from './modal-pdf/modal-pdf.component';
-import { ListarOrdenCompraPrevioComponent } from './listar-orden-compra-previo/listar-orden-compra-previo.component';
 import { ModalVerTransitoComponent } from './modal-ver-transito/modal-ver-transito.component';
 
 
@@ -24,7 +23,6 @@ import { ModalVerTransitoComponent } from './modal-ver-transito/modal-ver-transi
     ModalItemCostoComponent,
     ModalItemMastComponent,
     ModalPdfComponent,
-    ListarOrdenCompraPrevioComponent,
     ModalVerTransitoComponent
   ],
   imports: [
@@ -36,7 +34,6 @@ import { ModalVerTransitoComponent } from './modal-ver-transito/modal-ver-transi
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
   exports:[
     PaginadorComponent,
-    ListarOrdenCompraPrevioComponent,
   ]
 })
 export class ComponenteModule { }

@@ -147,7 +147,6 @@ export class OrdenCompraDrogueriaComponent implements OnInit {
   }
 
   save(){
-    
     const validarEstado = this.detalleOC.value.filter(detalle => detalle.estado=='PE').map(resultado=> resultado.estado).length;
     if(validarEstado > 0)
         return this._toastrService.warning("No debe contar con estado pendiente en el detalle")
@@ -163,9 +162,7 @@ export class OrdenCompraDrogueriaComponent implements OnInit {
           }
       },
       _=>this.flagGuardado=false
-    )
-    
-    this._toastrService.success("registrado")
+    );
   }
 
   cancel(){
