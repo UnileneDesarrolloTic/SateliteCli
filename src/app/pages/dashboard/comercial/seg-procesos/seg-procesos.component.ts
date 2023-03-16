@@ -13,7 +13,7 @@ import { ToastrService } from 'ngx-toastr';
 export class SegProcesosComponent implements OnInit {
   hoy = new Date().toLocaleDateString();
   reporteDashboard = new FormControl('a');
-  
+  filtroAnio = new FormControl(2018);
 
   constructor(private _modalService: NgbModal,
               private _LicitacionesService:LicitacionesService,
@@ -23,31 +23,28 @@ export class SegProcesosComponent implements OnInit {
   ngOnInit(): void {
   }
   
-  exportar(opcion:string, titulo:string){
-    const ModalCarga = this._modalService.open(ModalCargarComponent, {
+  exportar(opcion:string, anio:String ,titulo:string){
+    const modalCarga = this._modalService.open(ModalCargarComponent, {
       centered: true,
       backdrop: 'static',
       size: 'sm',
       scrollable: true
     });
-    ModalCarga.componentInstance.fromParent = "Generando el Formato Excel";
-    this._LicitacionesService.exportarDashboardLicitaciones(opcion).subscribe(
+    modalCarga.componentInstance.fromParent = "Generando el Formato Excel";
+    this._LicitacionesService.exportarDashboardLicitaciones(opcion,anio).subscribe(
       (resp:any)=>{
         if(resp.success){
-          this.servicebase64.file(resp.content,`${titulo}-${this.hoy}`,'xlsx',ModalCarga);
+          this.servicebase64.file(resp.content,`${titulo}-${this.hoy}`,'xlsx',modalCarga);
         }else{
-          ModalCarga.close();
+          modalCarga.close();
           this.toastr.info(resp.message);
         }
       },
-      _=>{ModalCarga.close()}
+      _=>{modalCarga.close()}
     );
   }
 
- 
-
-
-  exportarArchivopaginacinco(modal:NgbModal){
+  exportarArchivo(modal:NgbModal){
   
     this._modalService.open(modal, {
       centered: true,
@@ -59,21 +56,30 @@ export class SegProcesosComponent implements OnInit {
     }
 
     aceptarDescarga(){
-      if(this.reporteDashboard.value != 'a' && this.reporteDashboard.value != 'b')
+      if(this.reporteDashboard.value != 'facturacion' && this.reporteDashboard.value != 'resumen')
       {
-        this.toastr.warning("Seleccione uno para la descarga", "Aviso !!", {timeOut: 3000, closeButton: true, progressBar:true, tapToDismiss:true})
+        this.toastr.warning("Seleccione una opción para la descarga", "Aviso !!", {timeOut: 3000, closeButton: true, progressBar:true, tapToDismiss:true})
         return
       }
 
-      if(this.reporteDashboard.value=='a')
+      if(this.reporteDashboard.value == 'facturacion')
       {
-        let titulo='DashboardLicitacionesDetalleFacturacion';
-        this.exportar(this.reporteDashboard.value,titulo);
+         if(this.filtroAnio.value > 2017)
+         {
+          let titulo = 'DashboardLicitacionesDetalleFacturacion';
+          this.exportar(this.reporteDashboard.value, this.filtroAnio.value, titulo);
+         }
+         else
+         {
+          this.toastr.warning("Debe ser apartir del 2018", "Aviso !!", {timeOut: 3000, closeButton: true, progressBar:true, tapToDismiss:true})
+          return
+         }
+           
       }
       else
       {
-        let titulo='DashboardLicitacionesResumenProceso';
-        this.exportar(this.reporteDashboard.value,titulo);
+        let titulo = 'DashboardLicitacionesResumenProceso';
+        this.exportar(this.reporteDashboard.value, this.filtroAnio.value, titulo);
       }
 
     }
