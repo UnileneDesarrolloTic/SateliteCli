@@ -19,6 +19,13 @@ import { ObligacionesFinancierasComponent } from './comercial/obligaciones-finan
 import { GestionCalidadComponent } from './produccion/gestion-calidad/gestion-calidad.component';
 import { ExportacionBoliviaComponent } from './comercial/exportacion-bolivia/exportacion-bolivia.component';
 import { BioleneComponent } from './comercial/biolene/biolene.component';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ComponenteModule } from '@shared/components/componente.module';
+import { FeatherModule } from 'angular-feather';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -42,7 +49,12 @@ import { BioleneComponent } from './comercial/biolene/biolene.component';
     BioleneComponent
   ],
   imports: [
-    RouterModule.forChild(DashboardRoutes)
+    RouterModule.forChild(DashboardRoutes),
+    CommonModule,
+    ComponenteModule,
+    FormsModule,
+    ReactiveFormsModule,
+    NgbModule,
   ],
   exports: [
     PedidosComponent,

@@ -106,9 +106,15 @@ export class LicitacionesService {
   }
 
 
-  ExportarDashboardLicitaciones(){
-    return this._http.get(this.url+"/api/Licitaciones/DashboardLicitacionesExportar").pipe(
-      catchError (() => throwError("Error al obtener Detalle de Pedido"))
+  exportarDashboardLicitaciones(opcion){
+    const params = new HttpParams().set('opcion',opcion);
+    return this._http.get(this.url+"/api/Licitaciones/DashboardLicitacionesExportar",{'params': params}).pipe(
+      catchError (_ => 
+        {
+          this._toastr.error("Error al descargar el excel", "Error !!", {closeButton: true, progressBar: true, timeOut: 3000})
+          return throwError("Error al descargar el excel")
+        })
     );
   }
+
 }

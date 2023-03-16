@@ -1,27 +1,36 @@
-<div class="row">
-    <div class="col-lg-12">
-        <div class="card">
-            <div class="card-body">
-                <div class="row justify-content-start">
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <div class="input-group mb-3">
-                                <input type="text" name='LoteFabricacion' [(ngModel)]="NumeroGuia" #ctrl="ngModel"
-                                    class="form-control form-control-sm" autocomplete="off" placeholder="Buscar Numero Guia" aria-label=""
-                                    aria-describedby="basic-addon1">
-                                <div class="input-group-append">
-                                    <button class="btn mr-0 btn-info btn-sm" type="button" (click)="Buscar()">
-                                        <i class="ti-search"></i>
-                                    </button>
+<form [formGroup]="form" (ngSubmit)="buscar()">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row justify-content-start">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <div class="input-group mb-3">
+                                        <input type="text" formControlName="numero"
+                                        class="form-control form-control-sm font-medium" autocomplete="off"
+                                        placeholder="Guia" aria-label="" aria-describedby="basic-addon1">
+                                    <div class="input-group-append">
+                                        <button class="btn mr-0 btn-info btn-sm" type="submit" (click)="buscar()">
+                                            <i class="ti-search"></i>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
+                        </div>
+                        <div class="col-md-3">
+                            <button class="btn btn-success btn-sm text-white" type="button" style="background-color: #25aa00;border: none;" (click)="exportaExcel()">
+                                <i class="fas fa-file-excel" *ngIf="!flagEsperaExcel"></i>
+                                <i class="fa fa-spinner fa-spin fa-fw" *ngIf="flagEsperaExcel"></i> Excel
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
     </div>
-</div>
+</form>
 <div class="row">
     <div class="col-md-12">
         <div class="card">
@@ -29,7 +38,8 @@
                 <div class="d-flex">
                     <div class="ml-auto">
                         <div class="form-group">
-                            <button type="button" class="btn btn-info btn-sm"  (click)="GuardarServicios()"> <i class="fas fa-save"></i> Guardar </button>
+                            <button type="button" class="btn btn-info btn-sm" (click)="guardarServicios()"> <i
+                                    class="fas fa-save"></i> Guardar </button>
                         </div>
                     </div>
                 </div>
@@ -48,25 +58,26 @@
                             <tbody style="font-size: 11px" id="tbodyDetalle">
                                 <tr *ngFor="let lessonForm of ListadoServicios.controls; let i = index">
                                     <ng-container [formGroup]="lessonForm">
-                                      <td class="text-center">
-                                        <b>{{lessonForm.value.numeroGuia}}</b>
-                                      </td>
-                                      <td class="text-center">
-                                        <b style="font-size: 10px;">{{lessonForm.value.fechaDocumento}}</b>
-                                      </td>
-                                      <td class="text-left">
-                                        <b style="font-size: 10px;">{{lessonForm.value.cliente}}</b>
-                                      </td>
-                                      <td class="text-left">
-                                        <b style="font-size: 10px;">{{lessonForm.value.ordenServicios}}</b>
-                                      </td>
-                                      <td class="text-center">
-                                        <div class="input-group input-group-sm" style='width:10rem'>
-                                          <input type="date"  class="form-control form-control-sm" formControlName="fechaRetorno" />
-                                        </div>
-                                      </td>
+                                        <td class="text-center" class="font-medium">
+                                            <b>{{lessonForm.value.numeroGuia}}</b>
+                                        </td>
+                                        <td class="text-center" class="font-medium">
+                                            <b style="font-size: 12px;">{{lessonForm.value.fechaDocumento}}</b>
+                                        </td>
+                                        <td class="text-left" class="font-medium">
+                                            <b style="font-size: 12px;">{{lessonForm.value.cliente}}</b>
+                                        </td>
+                                        <td class="text-left" class="font-medium">
+                                            <b style="font-size: 12px;">{{lessonForm.value.ordenServicios}}</b>
+                                        </td>
+                                        <td class="text-center" class="font-medium">
+                                            <div class="input-group input-group-sm" style='width:10rem'>
+                                                <input type="date" class="form-control form-control-sm"
+                                                    formControlName="fechaRetorno" />
+                                            </div>
+                                        </td>
                                     </ng-container>
-                                  </tr>
+                                </tr>
                             </tbody>
                         </table>
                     </div>

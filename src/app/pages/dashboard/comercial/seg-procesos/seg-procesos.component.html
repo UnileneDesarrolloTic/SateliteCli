@@ -1,16 +1,46 @@
 <div class="col-12" style="height: 82vh">
   <div class="d-flex">
     <div class="ml-auto p-2">
-      <button type="button" (click)="ExportarArchivo()" class="btn btn-block btn-sm btn-info"> 
-          <i class="fas fa-download"></i> Descarga</button>
+      <button type="button" (click)="exportarArchivopaginacinco(modalDashboard)"
+        class="btn btn-block btn-sm btn-success">
+        <i class="fas fa-file-excel"></i> Descarga </button>
     </div>
   </div>
 
-    <iframe
-      width="100%"
-      height="100%"
-      src="https://app.powerbi.com/view?r=eyJrIjoiMmU0ZTc1M2UtMzJhNC00ZDVjLTk0YWEtY2MwMTUzOWIxYTkxIiwidCI6ImU4YzRlODUyLTVmYjAtNDIyYi05OWE1LTMzNzcxMjFjNjQyMiIsImMiOjR9"
-      frameborder="0"
-      allowFullScreen="true"
-    ></iframe>
+  <iframe width="100%" height="100%"
+    src="https://app.powerbi.com/view?r=eyJrIjoiMmU0ZTc1M2UtMzJhNC00ZDVjLTk0YWEtY2MwMTUzOWIxYTkxIiwidCI6ImU4YzRlODUyLTVmYjAtNDIyYi05OWE1LTMzNzcxMjFjNjQyMiIsImMiOjR9"
+    frameborder="0" allowFullScreen="true"></iframe>
+</div>
+
+
+<ng-template #modalDashboard let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">
+      Descargar Excel
+    </h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">
+        &times;
+      </span>
+    </button>
   </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-sm-12">
+          <div class="custom-control custom-radio">
+              <input type="radio" class="custom-control-input" [formControl]="reporteDashboard" [value]="'a'" id="customControlValidation2" name="radio-stacked">
+              <label class="custom-control-label" for="customControlValidation2">Detalle Facturación</label>
+          </div>
+          <div class="custom-control custom-radio">
+              <input type="radio" class="custom-control-input" [formControl]="reporteDashboard" [value]="'b'" id="customControlValidation3" name="radio-stacked">
+              <label class="custom-control-label" for="customControlValidation3">Resumen otros proceso</label>
+          </div>
+      </div>
+  </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" (click)="aceptarDescarga()" class="btn btn-rounded btn-sm btn-info">Descargar</button>
+    <button type="button" (click)="modal.dismiss('Cross click')"
+      class="btn btn-rounded btn-sm btn-secondary">Cancelar</button>
+  </div>
+</ng-template>
