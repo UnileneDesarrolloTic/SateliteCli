@@ -200,7 +200,6 @@ export class InterceptorService implements HttpInterceptor {
       'Licitaciones/ListarDistribuccionProceso',
       'Licitaciones/RegistrarDistribuccionProceso',
       'Licitaciones/DashboardLicitacionesExportar',
-      'Licitaciones/DashboardLicitacionesExportarRProceso',
       'Licitaciones/ListarProceso',
       'Licitaciones/ListarProgramaMuestraLIP',
       'Licitaciones/RegistrarProgramacionMuestreo',

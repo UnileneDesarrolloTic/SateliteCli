@@ -1,7 +1,7 @@
 <div class="col-12" style="height: 82vh">
   <div class="d-flex">
     <div class="ml-auto p-2">
-      <button type="button" (click)="exportarArchivopaginacinco(modalDashboard)"
+      <button type="button" (click)="exportarArchivo(modalDashboard)"
         class="btn btn-block btn-sm btn-success">
         <i class="fas fa-file-excel"></i> Descarga </button>
     </div>
@@ -28,12 +28,16 @@
     <div class="row">
       <div class="col-sm-12">
           <div class="custom-control custom-radio">
-              <input type="radio" class="custom-control-input" [formControl]="reporteDashboard" [value]="'a'" id="customControlValidation2" name="radio-stacked">
+              <input type="radio" class="custom-control-input" [formControl]="reporteDashboard" [value]="'facturacion'" id="customControlValidation2" name="radio-stacked">
               <label class="custom-control-label" for="customControlValidation2">Detalle Facturación</label>
+              <div class="input-group col-sm-8">
+                <input type="number" class="form-control form-control-sm font-medium" [formControl]="filtroAnio" >
+              </div>
+              
           </div>
           <div class="custom-control custom-radio">
-              <input type="radio" class="custom-control-input" [formControl]="reporteDashboard" [value]="'b'" id="customControlValidation3" name="radio-stacked">
-              <label class="custom-control-label" for="customControlValidation3">Resumen otros proceso</label>
+              <input type="radio" class="custom-control-input" [formControl]="reporteDashboard" [value]="'resumen'" id="customControlValidation3" name="radio-stacked">
+              <label class="custom-control-label" for="customControlValidation3">Resumen por procesos</label>
           </div>
       </div>
   </div>
