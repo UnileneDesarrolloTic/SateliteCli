@@ -16,7 +16,7 @@ export class ListarOrdenCompraPrevioComponent implements OnInit {
   @Input() ordenCompraPrevio:OrdenCompraPrevio[]=[];
   constructor(private _modalService: NgbModal, private _router: Router, private _ProduccionService:ProduccionService, private  _ToastrService:ToastrService) { }
 
-  ngOnInit(): void {
+  ngOnInit(): void { 
   }
 
   verDetalle(ordenCompra:OrdenCompraPrevio){
@@ -31,6 +31,13 @@ export class ListarOrdenCompraPrevioComponent implements OnInit {
 
 
    generarOrdenCompra(){
+    let respuesta =  confirm('¿Esta seguro que desea actualizar?');
+      if(respuesta)
+          this.generar();
+   }
+
+
+   generar(){
     this.flagEsperaOC=true;
     this._ProduccionService.generarOrdenCompraDrogueria().subscribe(
         (resp:any)=>{
