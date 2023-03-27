@@ -83,10 +83,10 @@
                 [scrollbarV]="true"
                 [messages]="messagerNgxTable"
               >
-                <ngx-datatable-column name="#" prop='candidato' [width]="50"></ngx-datatable-column>
-                <ngx-datatable-column prop='item' [width]="100"></ngx-datatable-column>
-                <ngx-datatable-column name="Descripción" prop='descripcion' [width]="170"></ngx-datatable-column>
-                <ngx-datatable-column *ngIf="selectRegla.value != 'MPAG0R3'" name="Alerta" prop='cantPedir' [width]="100">
+                <ngx-datatable-column name="#" prop='candidato' [width]="50" [frozenLeft]="true"></ngx-datatable-column>
+                <ngx-datatable-column prop='item' [width]="100" [frozenLeft]="true"></ngx-datatable-column>
+                <ngx-datatable-column name="Descripción" prop='descripcion' [width]="170" [frozenLeft]="true"></ngx-datatable-column>
+                <ngx-datatable-column *ngIf="selectRegla.value != 'MPAG0R3'" name="Alerta" prop='cantPedir' [width]="100" [frozenLeft]="true">
                   <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                     {{ value | number }}
                   </ng-template>
