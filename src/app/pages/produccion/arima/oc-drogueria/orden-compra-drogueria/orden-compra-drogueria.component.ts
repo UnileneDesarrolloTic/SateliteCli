@@ -149,16 +149,23 @@ export class OrdenCompraDrogueriaComponent implements OnInit {
   save(){
     const validarEstado = this.detalleOC.value.filter(detalle => detalle.estado=='PE').map(resultado=> resultado.estado).length;
     if(validarEstado > 0)
-        return this._toastrService.warning("No debe contar con estado pendiente en el detalle")
+        return this._toastrService.warning("No debe contar con estado pendiente en el detalle");
+
+    if(this.detalleOC.length == 0)
+        return this._toastrService.warning("Debe conter aunque sea un item en la orden de compra");
 
     this.flagGuardado=true;
 
     this._ProduccionService.registrarOrdenCompraDrogueria(this.form.value).subscribe(
       (resp:any)=>{
-          if(resp["success"]){
+          if(resp["success"])
+          {
             this._toastrService.success(resp["message"])
             this.flagGuardado=true;
             this._router.navigate(['Produccion', 'Arima', 'CompraDrogueria'])
+          }else{
+            this._toastrService.info(resp["message"])
+            this.flagGuardado=false
           }
       },
       _=>this.flagGuardado=false
