@@ -23,6 +23,7 @@ export interface ComprasMateriaPrimaArima {
     stockReal: number,
     alerta: number,
     duracion:number,
+    condicionColor: string,
     detalleCompra:DetalleOrdenCompraMP[],
     detalleCalidad:DetalleCalidad[]
   }

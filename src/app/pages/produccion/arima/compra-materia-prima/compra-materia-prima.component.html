@@ -150,67 +150,59 @@
                             class="material" [loadingIndicator]="flagLoading" [rowHeight]="50" [scrollbarH]="true">
 
                             <!-- Item -->
-                            <ngx-datatable-column name="Item" prop="item" [width]="120">
+                            <ngx-datatable-column name="Item" prop="item" [width]="120" [frozenLeft]="true">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
-                                    <span style="font-size: 11px !important"> {{row.item}} </span>
+                                    <span style="font-size: 11px !important" [ngStyle]="{ 'color': row.condicionColor }" class="font-medium" > {{row.item}} </span>
                                 </ng-template>
                             </ngx-datatable-column>
-    
 
                             <!-- Descripcion -->
                             <ngx-datatable-column name="Descripcion" prop="descripcion" text-align="center"
-                                [width]="220">
+                                [width]="220" [frozenLeft]="true" >
                                 <ng-template   let-row="row" ngx-datatable-cell-template>
-                                    <span style="font-size: 11px !important">{{row.descripcion}}</span>
+                                    <span style="font-size: 11px !important" [ngStyle]="{ 'color': row.condicionColor }" class="font-medium" >{{row.descripcion}}</span>
                                 </ng-template>
                             </ngx-datatable-column>
 
-
                             <!-- Promedio anual -->
-                            <ngx-datatable-column name="P.12Meses" prop="promedioanual" [width]="100">
+                            <ngx-datatable-column name="P.12Meses" prop="promedioanual" [width]="100" [frozenLeft]="true">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
-                                    <span style="font-size: 11px !important">{{row.promedioanual | number }}</span>
+                                    <span style="font-size: 11px !important" class="font-medium" >{{row.promedioanual | number }}</span>
                                 </ng-template>
                              </ngx-datatable-column>
-
                              
                             <!-- MesesDuracion  -->
-                            <ngx-datatable-column name="MesesDuracion" prop="duracion" [width]="80">
+                            <ngx-datatable-column name="MesesDuracion" prop="duracion" [width]="80" [frozenLeft]="true">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
-                                    <span style="font-size: 11px !important"> {{row.duracion | number:'1.2-2' }}</span>
+                                    <span style="font-size: 11px !important" class="font-medium"> {{row.duracion | number:'1.2-2' }}</span>
                                 </ng-template>
                             </ngx-datatable-column>
                              
                             <!-- Promedio Alerta -->
-                            <ngx-datatable-column name="Alerta" isFixedRow="true" prop="alerta" [width]="80">
+                            <ngx-datatable-column name="Alerta" isFixedRow="true" prop="alerta" [width]="80" [frozenLeft]="true">
                                 <ng-template let-row="row" text-align="center" ngx-datatable-cell-template>
-                                    <span style="font-size: 11px !important">{{row.alerta | number}}</span>
+                                    <span style="font-size: 11px !important" class="font-medium">{{row.alerta | number}}</span>
                                 </ng-template>
                             </ngx-datatable-column>
-
-
                         
                             <!-- Promedio Stock Disponible -->
                             <ngx-datatable-column name="Disp - Planta" prop="stockDisponible" [width]="100">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
-                                    <span style="font-size: 11px !important">{{row.stockDisponible | number }}</span>
+                                    <span style="font-size: 11px !important" class="font-medium">{{row.stockDisponible | number }}</span>
                                 </ng-template>
                             </ngx-datatable-column>
-
 
                             <!--Stock Real -->
                             <ngx-datatable-column name="Disponible" prop="stockReal" [width]="100">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
-                                    <span style="font-size: 11px !important">{{row.stockReal | number }}</span>
+                                    <span style="font-size: 11px !important" class="font-medium">{{row.stockReal | number }}</span>
                                 </ng-template>
                             </ngx-datatable-column>
-
-
 
                              <!-- Promedio Orden de compra -->
                              <ngx-datatable-column name="OC" prop="pendienteOC" [width]="100">
                                 <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                                    <span *ngIf="row.detalleCompra.length < 1">
+                                    <span  tyle="font-size: 11px !important" *ngIf="row.detalleCompra.length < 1">
                                         {{row.pendienteOC | number}}
                                     </span>
                                     <button class="btn btn-sm btn-outline-info btn-rounded" type="button"
@@ -231,7 +223,7 @@
                             <!-- Promedio Control Calidad -->
                             <ngx-datatable-column name="Calidad" prop="controlCalidad" [width]="100">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
-                                    <span *ngIf="row.detalleCalidad.length < 1">
+                                    <span tyle="font-size: 11px !important" *ngIf="row.detalleCalidad.length < 1">
                                         {{row.controlCalidad | number}}
                                     </span>
                                     <button class="btn btn-sm btn-outline-info btn-rounded" type="button"
@@ -247,7 +239,7 @@
                             <ngx-datatable-column  name="Familia" prop="familiaMP" 
                                 [width]="220">
                                 <ng-template let-row="row" text-align="center"  ngx-datatable-cell-template>
-                                    <span style="font-size: 11px !important"> {{row.familiaMP}} </span>
+                                    <span style="font-size: 11px !important" class="font-medium"> {{row.familiaMP}} </span>
                                 </ng-template>
                             </ngx-datatable-column>
 
@@ -255,21 +247,21 @@
                             <!-- Kraljic -->
                             <ngx-datatable-column name="Kraljic" prop="kraljic"  [width]="150">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
-                                    <span style="font-size: 11px !important">  {{row.kraljic}} </span>
+                                    <span style="font-size: 11px !important" class="font-medium">  {{row.kraljic}} </span>
                                 </ng-template>
                             </ngx-datatable-column>
 
                               <!-- MesesDuracion  -->
                               <ngx-datatable-column name="Meses" prop="meses" [width]="80">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
-                                    <span style="font-size: 11px !important">  {{row.meses | number:'1.2-2' }} </span>
+                                    <span style="font-size: 11px !important" class="font-medium">  {{row.meses | number:'1.2-2' }} </span>
                                 </ng-template>
                             </ngx-datatable-column>
 
                             <!-- coeficiente Variacion -->
                             <ngx-datatable-column name="Variacion" prop="coeficienteVariacion" [width]="100">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
-                                    <span style="font-size: 11px !important">   {{row.coeficienteVariacion}} </span>
+                                    <span style="font-size: 11px !important" class="font-medium">   {{row.coeficienteVariacion}} </span>
                                 </ng-template>
                             </ngx-datatable-column>
 
@@ -277,7 +269,7 @@
                             <!-- Promedio Historico -->
                             <ngx-datatable-column name="Historico" prop="promedioHist" [width]="100">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
-                                    <span style="font-size: 11px !important"> {{row.promedioHist | number }} </span>
+                                    <span style="font-size: 11px !important" class="font-medium"> {{row.promedioHist | number }} </span>
                                 </ng-template>
                             </ngx-datatable-column>
 
@@ -286,21 +278,21 @@
                             <!-- Pronostico -->
                             <ngx-datatable-column name="Pronostico" prop="pronostico" [width]="100">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
-                                    <span style="font-size: 11px !important"> {{row.pronostico | number }} </span>
+                                    <span style="font-size: 11px !important" class="font-medium"> {{row.pronostico | number }} </span>
                                 </ng-template>
                             </ngx-datatable-column>
 
                             <!--  limiteSuperior -->
                             <ngx-datatable-column name="L.Superior" prop="limiteSuperior" [width]="100">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
-                                    <span style="font-size: 11px !important"> {{row.limiteSuperior | number }} </span> 
+                                    <span style="font-size: 11px !important" class="font-medium"> {{row.limiteSuperior | number }} </span> 
                                 </ng-template>
                             </ngx-datatable-column>
 
                             <!-- Promedio Punto de Control -->
                             <ngx-datatable-column name="P.Control" prop="puntoControl" [width]="100">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
-                                    <span style="font-size: 11px !important"> {{row.puntoControl | number }} </span> 
+                                    <span style="font-size: 11px !important" class="font-medium"> {{row.puntoControl | number }} </span> 
                                 </ng-template>
                             </ngx-datatable-column>
 
