@@ -52,7 +52,7 @@ export class MateriaPrimaComponent {
     })
 
     this.formularioFiltro.reset({
-      regla: 'MPAGAR1',
+      regla: 'MPAGARTODOS',
       textFilter: ''
     })
   }
