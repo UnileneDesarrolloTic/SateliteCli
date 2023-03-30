@@ -142,9 +142,7 @@ export class GuiasPorFacturarComponent implements OnInit {
   Filtrar(){
     this.ListarGuiasPorFacturar=[];
     this.TempListarGuiasPorFacturar=[];
-
-    console.log(isNaN(parseInt(this.form.controls.destinatario.value)),this.activarFecha);
-
+    
     if(isNaN(parseInt(this.form.controls.destinatario.value)) && this.activarFecha){
       return this.toastr.warning("Debe Seleccionar un Cliente o en caso un rango de fecha");
     }

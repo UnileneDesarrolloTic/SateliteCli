@@ -1,10 +1,15 @@
+import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { DatosFormatoPlanOrdenServicosDModel } from '@data/interface/Response/DatosFormatoPlanOrdenServicosD.inteface';
+import { TransportistaModel } from '@data/interface/Response/Generico/DatosFormatoTransportista.interface';
+import { DatosListarRetornoGuia } from '@data/interface/Response/GestionGuia/DatosFormatoListarRetornoGuia.interface';
+import { ComercialService } from '@data/services/backEnd/pages/comercial.service';
 import { LogisticaService } from '@data/services/backEnd/pages/logistica.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ModalCargarComponent } from '@shared/components/modal-cargar/modal-cargar.component';
-import { Cargarbase64Service } from '@shared/services/comunes/cargarbase64.service';
+import { ModalClienteComponent } from '@shared/components/modal-cliente/modal-cliente.component';
+import { FileService } from '@shared/services/comunes/file.service';
+import { GenericoService } from '@shared/services/comunes/generico.service';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -13,101 +18,211 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./gestion-guias.component.css']
 })
 export class GestionGuiasComponent implements OnInit {
-  hoy = new Date().toLocaleDateString();
-  Planservicios:FormGroup;
   form:FormGroup;
+  formulario:FormGroup;
   flagEsperaExcel:boolean=false;
-  
+  informacionGuiaListar:DatosFormatoPlanOrdenServicosDModel[] = [];
+  listadoTransportista: TransportistaModel [] = [];
+  activarInputDateFecha: boolean = true;
+  fechaActual: Date = new Date;
+  listarRetornoGuia: DatosListarRetornoGuia[] = [];
+  flagLoading:boolean =  false;
+  listarcliente:object[]=[];
+  flagDescargandoReporte: boolean = false
+
+  reporteRetornoGuia = new FormControl('');
+
   constructor(private _ServiceLogistica:LogisticaService,
-              private toastr: ToastrService,
+              private _comercialService:ComercialService,
               private _modalService: NgbModal,
-              private _Cargarbase64Service:Cargarbase64Service,
-              private _fb: FormBuilder,) { }
+              private toastr: ToastrService,
+              private _FileService: FileService,
+              private _GenericoService: GenericoService) { }
 
   ngOnInit(): void {
     this.crearFormulario();
+    this.transportista();
+    this.ListarCliente();
+    this.observableActivarFecha();
   }
 
   crearFormulario(){
     this.form = new FormGroup({ 
       numero : new FormControl ('')
-    })
+    });
 
-    this.Planservicios = this._fb.group({
-      ListadoNumeroGuias: this._fb.array([]),
+    this.formulario = new FormGroup({
+      idcliente: new FormControl(0),
+      cliente: new FormControl(''),
+      destino: new FormControl(''),
+      transportista: new FormControl(0),
+      fechaInicio: new FormControl(null),
+      fechaFin: new FormControl(null),
+      activarFecha: new FormControl(false),
     });
   }
 
   buscar(){
-    if(this.form.controls.numero.value==''){
+    this.informacionGuiaListar = [];
+    if(this.form.controls.numero.value == ''){
         return this.toastr.warning("Debe Ingresar Numero de la Guia o la serie");
     }
 
     this._ServiceLogistica.ObtenerNumeroGuia(this.form.controls.numero.value).subscribe(
-      resp=>{
-        if(resp.length>0){
-          this.ConstruirFormArray(resp);
-        }else{
-          this.toastr.warning("no hay informacion con el numero de guia:" + this.form.controls.numero.value);
+      (resp:any)=>{
+        
+        if(resp.success)
+        {
+          this.informacionGuiaListar.push(resp.content);
+          this.guardarServicios(resp.content)
+        }else
+        {
+          this.toastr.warning(resp.message + this.form.controls.numero.value);
         }
         
       }
     );
   }
 
-  ConstruirFormArray(formArrayResp:DatosFormatoPlanOrdenServicosDModel[]){
-    const ArrayItem = this.Planservicios.controls.ListadoNumeroGuias as FormArray;
-    ArrayItem.controls = [];
-    formArrayResp.forEach((itemRow:DatosFormatoPlanOrdenServicosDModel)=>{
-
-        let separarFecha=itemRow.fechaRetorno.split("T");
-        
-          const ItemFilaForm = this._fb.group({
-            numeroGuia: [itemRow.numeroGuia],
-            fechaDocumento: [itemRow.fechaDocumento],
-            cliente: [itemRow.cliente],
-            ordenServicios: [itemRow.ordenServicios],
-            fechaRetorno:[separarFecha[0]]
-          });
-          this.ListadoServicios.push(ItemFilaForm);
-      })
-  }
-
-  get ListadoServicios(){
-    return this.Planservicios.controls['ListadoNumeroGuias'] as FormArray;
-  }
-
-  guardarServicios(){
-    this._ServiceLogistica.RegistarFechaRetorno(this.Planservicios.controls['ListadoNumeroGuias'].value).subscribe(
+  guardarServicios(informacion:DatosFormatoPlanOrdenServicosDModel){
+    this._ServiceLogistica.RegistarFechaRetorno(informacion).subscribe(
       (resp:any)=>{
               resp["success"] ? this.toastr.success(resp["content"]) : this.toastr.info(resp["content"]);
       }
     );
+    
   }
 
-  exportaExcel(){
-    const ModalCarga = this._modalService.open(ModalCargarComponent, {
+  transportista(){
+    this._GenericoService.transportista().subscribe(
+      (resp:any)=>{
+          this.listadoTransportista =  resp["content"];
+      },
+      _=> this.toastr.info("Ocurrio un error en la información de transportista")
+    );
+  }
+ 
+  buscarInformacionExportacion(){
+    if(this.formulario.controls.cliente.value == '' && this.formulario.controls.destino.value == '' && this.formulario.controls.transportista.value == 0 && this.formulario.controls.activarFecha.value == false)
+        return this.toastr.warning("Debe ingresar un valor para lograr la busqueda");
+    
+    if(this.formulario.controls.activarFecha.value == true)
+      if(this.formulario.controls.fechaInicio.value == null || this.formulario.controls.fechaFin.value == null || this.formulario.controls.fechaInicio.value == '' || this.formulario.controls.fechaFin.value == '')
+          return this.toastr.warning("Debe ingresar las dos fechas: inicio y fin");
+
+    this.flagLoading = true;
+    const envioDato = {
+        ...this.formulario.value,
+        idcliente : parseInt(this.formulario.controls.idcliente.value),
+        transportista : parseInt(this.formulario.controls.transportista.value),
+        fechaInicio :  this.formulario.controls.fechaInicio.value || formatDate(this.formulario.controls.fechaInicio.value, 'yyyy-MM-dd', 'en'),
+        fechaFin : this.formulario.controls.fechaFin.value || formatDate(this.formulario.controls.fechaFin.value, 'yyyy-MM-dd', 'en')
+    }
+        
+    this._ServiceLogistica.listadoRetornoGuia(envioDato).subscribe(
+      (resp:any)=>{
+          if(resp.success)
+          {
+            this.listarRetornoGuia = resp.content
+          }
+          else
+          {
+            this.toastr.info(resp.message);
+          }
+          this.flagLoading = false;
+      },
+      _=> this.flagLoading = false
+    )
+  }
+
+  observableActivarFecha(){
+    this.formulario.controls.activarFecha.valueChanges.subscribe(
+        activar=>{
+           this.activarInputDateFecha = !activar;
+             if(activar)
+             {
+                this.formulario.get("fechaInicio").patchValue(formatDate(this.fechaActual, 'yyyy-MM-dd', 'en'));
+                this.formulario.get("fechaFin").patchValue(formatDate(this.fechaActual, 'yyyy-MM-dd', 'en'));
+             }else
+             {
+                this.formulario.get("fechaInicio").patchValue(null);
+                this.formulario.get("fechaFin").patchValue(null);
+             }
+        }
+    )
+  }
+
+  excelInformacionExportacion(modal:NgbModal){
+    this._modalService.open(modal, {
       centered: true,
       backdrop: 'static',
       size: 'sm',
       scrollable: true
     });
-    ModalCarga.componentInstance.fromParent = "Generando el Formato Excel";
-    this._ServiceLogistica.exportarExcelRetornoGuia().subscribe(
-      (resp:any)=>{
-        if(resp.success){
-          this._Cargarbase64Service.file(resp.content,`ReporteRetornoGuia-${this.hoy}`,'xlsx',ModalCarga);
-        }else{
-          ModalCarga.close();
-          this.toastr.info(resp.message);
-        }
-        this.flagEsperaExcel=false;
-      },
-      error=> {
-            ModalCarga.close();
-            this.flagEsperaExcel=false;
-      }
-    );
+
   }
 
+  ListarCliente(){
+    const body = {};
+    this._comercialService.ListarClientes(body).subscribe((resp) => {
+      resp["success"]==true ? this.listarcliente=resp["content"] : this.listarcliente=[];
+    });
+  } 
+
+
+  openModalConsultaClientes(){
+    const modalBusquedaCliente = this._modalService.open(ModalClienteComponent, {
+      ariaLabelledBy: "modal-basic-title",
+      backdrop: "static",
+      size: "lg",
+    });
+    
+    const data={
+        listarclientes:this.listarcliente
+    }
+
+    modalBusquedaCliente.componentInstance.fromParent = data;
+		modalBusquedaCliente.result.then((result) => {  
+        if(result!=undefined){
+            this.formulario.get("idcliente").patchValue(result.persona);
+            this.formulario.get("cliente").patchValue(result.nombreCompleto);
+        }
+		});
+     
+  }
+
+  Reset(){
+    this.formulario.get("idcliente").patchValue(0);
+    this.formulario.get("cliente").patchValue('');
+  }
+
+  aceptarDescargaExcel(){
+    this.flagDescargandoReporte = true;
+      const envioInformacion = {
+        ...this.formulario.value,
+        idcliente : parseInt(this.formulario.controls.idcliente.value),
+        transportista : parseInt(this.formulario.controls.transportista.value),
+        fechaInicio :  this.formulario.controls.fechaInicio.value || formatDate(this.formulario.controls.fechaInicio.value, 'yyyy-MM-dd', 'en'),
+        fechaFin : this.formulario.controls.fechaFin.value || formatDate(this.formulario.controls.fechaFin.value, 'yyyy-MM-dd', 'en'),
+        exportar: this.reporteRetornoGuia.value
+      }
+
+      this._ServiceLogistica.exportarExcelRetornoGuia(envioInformacion).subscribe(
+        (resp:any)=>{
+          if(resp['success'] == false)
+          {
+            this.toastr.warning(resp['message'], "Adventencia !!",{timeOut: 5000, closeButton: true});
+            this.flagDescargandoReporte = false
+            return
+          }
+
+          this._FileService.decargarExcel_Base64(resp['content'],  "Reporte " + this.reporteRetornoGuia.value ,'xlsx')
+          this.flagDescargandoReporte = false
+        },
+        _=>  this.flagDescargandoReporte = false
+        
+      )
+
+
+  }
 }
