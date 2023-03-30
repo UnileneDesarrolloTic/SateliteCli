@@ -52,7 +52,7 @@ export class GestionGuiasComponent implements OnInit {
     });
 
     this.formulario = new FormGroup({
-      idcliente: new FormControl(0),
+      idcliente: new FormControl(''),
       cliente: new FormControl(''),
       destino: new FormControl(''),
       transportista: new FormControl(0),
@@ -110,10 +110,11 @@ export class GestionGuiasComponent implements OnInit {
       if(this.formulario.controls.fechaInicio.value == null || this.formulario.controls.fechaFin.value == null || this.formulario.controls.fechaInicio.value == '' || this.formulario.controls.fechaFin.value == '')
           return this.toastr.warning("Debe ingresar las dos fechas: inicio y fin");
 
+    this.listarRetornoGuia = [];
     this.flagLoading = true;
     const envioDato = {
         ...this.formulario.value,
-        idcliente : parseInt(this.formulario.controls.idcliente.value),
+        idcliente : this.formulario.controls.idcliente.value,
         transportista : parseInt(this.formulario.controls.transportista.value),
         fechaInicio :  this.formulario.controls.fechaInicio.value || formatDate(this.formulario.controls.fechaInicio.value, 'yyyy-MM-dd', 'en'),
         fechaFin : this.formulario.controls.fechaFin.value || formatDate(this.formulario.controls.fechaFin.value, 'yyyy-MM-dd', 'en')
@@ -165,7 +166,7 @@ export class GestionGuiasComponent implements OnInit {
   ListarCliente(){
     const body = {};
     this._comercialService.ListarClientes(body).subscribe((resp) => {
-      resp["success"]==true ? this.listarcliente=resp["content"] : this.listarcliente=[];
+      resp["success"] == true ? this.listarcliente = resp["content"] : this.listarcliente = [];
     });
   } 
 
@@ -183,7 +184,8 @@ export class GestionGuiasComponent implements OnInit {
 
     modalBusquedaCliente.componentInstance.fromParent = data;
 		modalBusquedaCliente.result.then((result) => {  
-        if(result!=undefined){
+        if(result!=undefined)
+        {
             this.formulario.get("idcliente").patchValue(result.persona);
             this.formulario.get("cliente").patchValue(result.nombreCompleto);
         }
@@ -192,7 +194,7 @@ export class GestionGuiasComponent implements OnInit {
   }
 
   Reset(){
-    this.formulario.get("idcliente").patchValue(0);
+    this.formulario.get("idcliente").patchValue('');
     this.formulario.get("cliente").patchValue('');
   }
 
@@ -200,7 +202,7 @@ export class GestionGuiasComponent implements OnInit {
     this.flagDescargandoReporte = true;
       const envioInformacion = {
         ...this.formulario.value,
-        idcliente : parseInt(this.formulario.controls.idcliente.value),
+        idcliente : this.formulario.controls.idcliente.value,
         transportista : parseInt(this.formulario.controls.transportista.value),
         fechaInicio :  this.formulario.controls.fechaInicio.value || formatDate(this.formulario.controls.fechaInicio.value, 'yyyy-MM-dd', 'en'),
         fechaFin : this.formulario.controls.fechaFin.value || formatDate(this.formulario.controls.fechaFin.value, 'yyyy-MM-dd', 'en'),
