@@ -47,9 +47,9 @@
             <div class="col-4">
               <select class="custom-select btn-rounded col-9" formControlName="regla" style="float: left"
                 (change)="obtenerListaCandidatosMP()" #selectRegla>
-                <option value="MPAGAR1">MP Agujas Arima Regla 1</option>
-                <option value="MPAG0R2">MP Agujas Promedio Regla 2</option>
-                <option value="MPAG0R3">MP Agujas Regla 3</option>
+                <option value="MPAGARTODOS">Mostrar todas las agujas</option>
+                <option value="MPAG0R1R2R3">MP Agujas Promedio Regla (1, 2, 3)</option>
+                <!-- <option value="MPAG0R4">MP Agujas Regla 3</option> -->
                 <option value="MPAG0R4">MP Agujas Regla 4 (serie 300)</option>
                 <option value="PT01STNAE">MP Agujas Especialidad </option>
               </select>
@@ -86,7 +86,7 @@
                 <ngx-datatable-column name="#" prop='candidato' [width]="50" [frozenLeft]="true"></ngx-datatable-column>
                 <ngx-datatable-column prop='item' [width]="100" [frozenLeft]="true"></ngx-datatable-column>
                 <ngx-datatable-column name="Descripción" prop='descripcion' [width]="170" [frozenLeft]="true"></ngx-datatable-column>
-                <ngx-datatable-column *ngIf="selectRegla.value != 'MPAG0R3'" name="Alerta" prop='cantPedir' [width]="100" [frozenLeft]="true">
+                <ngx-datatable-column  name="Alerta" prop='cantPedir' [width]="100" [frozenLeft]="true">
                   <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                     {{ value | number }}
                   </ng-template>
@@ -140,13 +140,7 @@
                       {{ value | number }} %
                     </ng-template>
                 </ngx-datatable-column>
-                <ngx-datatable-column prop="pronostico" [width]="94">
-                  <ng-template let-column="column" let-sort="sortFn" ngx-datatable-header-template>
-                    <span *ngIf="selectRegla.value == 'MPAGAR1'">Pronostico</span>
-                    <span *ngIf="selectRegla.value == 'MPAG0R2' || selectRegla.value == 'MPAG0R3'">Pro. Mensual</span>
-                    <span *ngIf="selectRegla.value == 'MPAG0R4'">Prom.12meses</span>
-                    <span *ngIf="selectRegla.value == 'PT01STNAE'">Prom.4años</span>
-                  </ng-template>
+                <ngx-datatable-column prop="pronostico" name ='pronostico' [width]="94">
                   <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                     {{ value | number }}
                   </ng-template>
