@@ -244,4 +244,11 @@ export class GenericoService {
     );
   }
 
+
+  transportista(){
+    return this._http.get<any>(this.url+"/api/Common/Transportista").pipe(
+      catchError ((ex)=> throwError('Error al momento de traer información transportista'))
+    );
+  }
+
 }
