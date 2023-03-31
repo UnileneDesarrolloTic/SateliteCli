@@ -30,7 +30,7 @@ export class GestionGuiasComponent implements OnInit {
   listarcliente:object[]=[];
   flagDescargandoReporte: boolean = false
 
-  reporteRetornoGuia = new FormControl('');
+  reporteRetornoGuia = new FormControl('general');
 
   constructor(private _ServiceLogistica:LogisticaService,
               private _comercialService:ComercialService,
@@ -68,7 +68,7 @@ export class GestionGuiasComponent implements OnInit {
         return this.toastr.warning("Debe Ingresar Numero de la Guia o la serie");
     }
 
-    this._ServiceLogistica.ObtenerNumeroGuia(this.form.controls.numero.value).subscribe(
+    this._ServiceLogistica.ObtenerNumeroGuia(this.form.controls.numero.value.trim()).subscribe(
       (resp:any)=>{
         
         if(resp.success)
@@ -103,8 +103,8 @@ export class GestionGuiasComponent implements OnInit {
   }
  
   buscarInformacionExportacion(){
-    if(this.formulario.controls.cliente.value == '' && this.formulario.controls.destino.value == '' && this.formulario.controls.transportista.value == 0 && this.formulario.controls.activarFecha.value == false)
-        return this.toastr.warning("Debe ingresar un valor para lograr la busqueda");
+    /*if(this.formulario.controls.cliente.value == '' && this.formulario.controls.destino.value == '' && this.formulario.controls.transportista.value == 0 && this.formulario.controls.activarFecha.value == false)
+        return this.toastr.warning("Debe ingresar un valor para lograr la busqueda");*/
     
     if(this.formulario.controls.activarFecha.value == true)
       if(this.formulario.controls.fechaInicio.value == null || this.formulario.controls.fechaFin.value == null || this.formulario.controls.fechaInicio.value == '' || this.formulario.controls.fechaFin.value == '')
@@ -116,8 +116,8 @@ export class GestionGuiasComponent implements OnInit {
         ...this.formulario.value,
         idcliente : this.formulario.controls.idcliente.value,
         transportista : parseInt(this.formulario.controls.transportista.value),
-        fechaInicio :  this.formulario.controls.fechaInicio.value || formatDate(this.formulario.controls.fechaInicio.value, 'yyyy-MM-dd', 'en'),
-        fechaFin : this.formulario.controls.fechaFin.value || formatDate(this.formulario.controls.fechaFin.value, 'yyyy-MM-dd', 'en')
+        fechaInicio :  this.formulario.controls.fechaInicio.value ,
+        fechaFin : this.formulario.controls.fechaFin.value 
     }
         
     this._ServiceLogistica.listadoRetornoGuia(envioDato).subscribe(
@@ -204,8 +204,8 @@ export class GestionGuiasComponent implements OnInit {
         ...this.formulario.value,
         idcliente : this.formulario.controls.idcliente.value,
         transportista : parseInt(this.formulario.controls.transportista.value),
-        fechaInicio :  this.formulario.controls.fechaInicio.value || formatDate(this.formulario.controls.fechaInicio.value, 'yyyy-MM-dd', 'en'),
-        fechaFin : this.formulario.controls.fechaFin.value || formatDate(this.formulario.controls.fechaFin.value, 'yyyy-MM-dd', 'en'),
+        fechaInicio :  this.formulario.controls.fechaInicio.value,
+        fechaFin : this.formulario.controls.fechaFin.value,
         exportar: this.reporteRetornoGuia.value
       }
 
