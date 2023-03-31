@@ -1,88 +1,301 @@
-<form [formGroup]="form" (ngSubmit)="buscar()">
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-body">
-                    <div class="row justify-content-start">
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <div class="input-group mb-3">
-                                        <input type="text" formControlName="numero"
-                                        class="form-control form-control-sm font-medium" autocomplete="off"
-                                        placeholder="Guia" aria-label="" aria-describedby="basic-addon1">
-                                    <div class="input-group-append">
-                                        <button class="btn mr-0 btn-info btn-sm" type="submit" (click)="buscar()">
-                                            <i class="ti-search"></i>
-                                        </button>
+<div class="card">
+    <div class="card-body">
+        <ngb-tabset>
+            <ngb-tab title="Gestión">
+                <ng-template ngbTabContent>
+                    <form [formGroup]="form" (ngSubmit)="buscar()">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row justify-content-start">
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <div class="input-group mb-3">
+                                                        <input type="text" formControlName="numero"
+                                                            class="form-control form-control-sm font-medium"
+                                                            autocomplete="off" placeholder="Guia" aria-label=""
+                                                            aria-describedby="basic-addon1">
+                                                        <div class="input-group-append">
+                                                            <button class="btn mr-0 btn-info btn-sm" type="button"
+                                                                (click)="buscar()">
+                                                                <i class="ti-search"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
-                            <button class="btn btn-success btn-sm text-white" type="button" style="background-color: #25aa00;border: none;" (click)="exportaExcel()">
-                                <i class="fas fa-file-excel" *ngIf="!flagEsperaExcel"></i>
-                                <i class="fa fa-spinner fa-spin fa-fw" *ngIf="flagEsperaExcel"></i> Excel
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+                    </form>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="align-items-center">
+                                        <div class="table-hover table-responsive table-bordered">
+                                            <table class="table table-striped border table-hover table-inf">
+                                                <thead style="font-size: 13px">
+                                                    <tr>
+                                                        <th class="text-center" scope="col">SERIE - NÚMERO</th>
+                                                        <th class="text-center" scope="col">FECHA EMISIÓN</th>
+                                                        <th class="text-center" scope="col">NOMBRE DE CLIENTE</th>
+                                                        <th class="text-center" scope="col">FACTURA</th>
+                                                        <th class="text-center" scope="col">FECHA RETORNO ALMACEN</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody style="font-size: 14px" id="tbodyDetalle">
+                                                    <tr *ngFor="let guia of informacionGuiaListar; let i = index">
+                                                        <td class="text-center font-bold">
+                                                            {{guia.numeroGuia}}
+                                                        </td>
+                                                        <td class="text-center font-bold">
+                                                            {{guia.fechaDocumento | date : 'dd/MM/yyyy'}}
+                                                        </td>
+                                                        <td class="text-center font-bold">
+                                                            {{guia.cliente}}
+                                                        </td>
+                                                        <td class="text-center font-bold">
+                                                            {{guia.ordenServicios}}
+                                                        </td>
+                                                        <td class="text-center font-bold">
+                                                            {{guia.fechaRetorno | date : 'dd/MM/yyyy'}}
+                                                        </td>
 
-    </div>
-</form>
-<div class="row">
-    <div class="col-md-12">
-        <div class="card">
-            <div class="card-body">
-                <div class="d-flex">
-                    <div class="ml-auto">
-                        <div class="form-group">
-                            <button type="button" class="btn btn-info btn-sm" (click)="guardarServicios()"> <i
-                                    class="fas fa-save"></i> Guardar </button>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="align-items-center">
-                    <div class="table-hover table-responsive table-bordered">
-                        <table class="table table-striped border table-hover table-inf">
-                            <thead style="font-size: 13px">
-                                <tr>
-                                    <th class="text-center" scope="col">Guia</th>
-                                    <th class="text-center" scope="col">Fecha Doc.</th>
-                                    <th class="text-center" scope="col">Cliente</th>
-                                    <th class="text-center" scope="col">Orden. Servicio</th>
-                                    <th class="text-center" scope="col">F.Retorno</th>
-                                </tr>
-                            </thead>
-                            <tbody style="font-size: 11px" id="tbodyDetalle">
-                                <tr *ngFor="let lessonForm of ListadoServicios.controls; let i = index">
-                                    <ng-container [formGroup]="lessonForm">
-                                        <td class="text-center" class="font-medium">
-                                            <b>{{lessonForm.value.numeroGuia}}</b>
-                                        </td>
-                                        <td class="text-center" class="font-medium">
-                                            <b style="font-size: 12px;">{{lessonForm.value.fechaDocumento}}</b>
-                                        </td>
-                                        <td class="text-left" class="font-medium">
-                                            <b style="font-size: 12px;">{{lessonForm.value.cliente}}</b>
-                                        </td>
-                                        <td class="text-left" class="font-medium">
-                                            <b style="font-size: 12px;">{{lessonForm.value.ordenServicios}}</b>
-                                        </td>
-                                        <td class="text-center" class="font-medium">
-                                            <div class="input-group input-group-sm" style='width:10rem'>
-                                                <input type="date" class="form-control form-control-sm"
-                                                    formControlName="fechaRetorno" />
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab>
+                <ng-template ngbTabTitle><b>Exportar</b></ng-template>
+                <ng-template ngbTabContent>
+                    <form [formGroup]="formulario">
+                        <div class="row mt-4">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label> Cliente </label>
+
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <div class="input-group-append">
+                                                <button class="btn mr-0 btn-primary btn-sm" (click)="Reset()"
+                                                    type="button">
+                                                    <i class=" fas fa-redo"></i>
+                                                </button>
                                             </div>
-                                        </td>
-                                    </ng-container>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
+                                            <input type="text" formControlName="cliente" [readonly]="true"
+                                                class="form-control form-control-sm" placeholder="Buscar Cliente"
+                                                aria-label="" aria-describedby="basic-addon1">
+                                            <div class="input-group-append">
+                                                <button class="btn mr-0 btn-info btn-sm"
+                                                    (click)="openModalConsultaClientes()" type="button">
+                                                    <i class="ti-search"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label">Destino:</label>
+                                    <select class="form-control form-control-sm font-bold" formControlName="destino">
+                                        <option value="">Seleccionar Destino</option>
+                                        <option value="Lima">LIMA</option>
+                                        <option value="Provincia">PROVINCIA</option>
+                                        <option value="Otros">OTROS</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-">
+                                <div class="form-group">
+                                    <label class="control-label">Transportista:</label>
+                                    <select class="form-control  form-control-sm font-bold"
+                                        formControlName="transportista">
+                                        <option [value]="0">Seleccionar Transportista</option>
+                                        <option *ngFor="let transportista of listadoTransportista"
+                                            [value]="transportista.id"> {{transportista.descripcion}} </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label class="control-label">Fecha Inicio: </label>
+                                    <input type="date" formControlName="fechaInicio" [readonly]="activarInputDateFecha"
+                                        class="form-control form-control-sm font-bold">
+                                    <small class="form-control-feedback">
+                                        <div class="form-check form-check-inline">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" formControlName="activarFecha"
+                                                    class="custom-control-input font-bold" id="customCheck1">
+                                                <label class="custom-control-label" for="customCheck1">¿Activar
+                                                    la fecha ?</label>
+                                            </div>
+                                        </div>
+                                    </small>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label class="control-label">Fecha Fin: </label>
+                                    <input type="date" formControlName="fechaFin" [readonly]="activarInputDateFecha"
+                                        class="form-control form-control-sm font-bold">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="control-label">&nbsp;&nbsp;&nbsp;</label>
+                                <div class="form-group">
+                                    <button class="btn btn-sm btn-info font-normal"
+                                        (click)="buscarInformacionExportacion()"> <i class="ti-search"></i>
+                                        Buscar</button>
+                                    <button class="btn btn-sm btn-success font-normal"
+                                        (click)="excelInformacionExportacion(modalExportar)"> <i
+                                            class="fas fa-file-excel"></i>
+                                        Descargar</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12" style="height: 78vh;">
+                                <ngx-datatable style="height: 100%;" class="material" [loadingIndicator]="flagLoading"
+                                    [rows]="listarRetornoGuia" [columnMode]="'force'" [trackByProp]="'updated'"
+                                    [headerHeight]="50" [footerHeight]="50" [rowHeight]="50" [scrollbarH]="true"
+                                    [scrollbarV]="true">
+                                    <ngx-datatable-column name="Serie" prop='serieNumero' [width]="60"
+                                        [frozenLeft]="true">
+                                        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                                            {{ row.serieNumero }}
+                                        </ng-template>
+
+                                    </ngx-datatable-column>
+                                    <ngx-datatable-column name="Número" prop='guiaNumero' [width]="100"
+                                        [frozenLeft]="true">
+                                        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                                            {{ row.guiaNumero }}
+                                        </ng-template>
+                                    </ngx-datatable-column>
+                                    <ngx-datatable-column name="Nombre Cliente" prop='cliente' [width]="250"
+                                        [frozenLeft]="true"></ngx-datatable-column>
+
+                                    <ngx-datatable-column name="F.Documento" prop='fechaDocumento' [width]="100">
+                                        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                                            {{ row.fechaDocumento | date:'dd/MM/yyy' }}
+                                        </ng-template>
+                                    </ngx-datatable-column>
+                                    <ngx-datatable-column name="Proceso" prop='licitacionNumeroProceso'
+                                        [width]="150"></ngx-datatable-column>
+                                    <ngx-datatable-column name="P.Partida" prop='reprogramacionPuntoPartida'
+                                        [width]="90"></ngx-datatable-column>
+                                    <ngx-datatable-column name="R.Alamacen" prop='retornoAlmacen'
+                                        [width]="100"></ngx-datatable-column>
+                                    <ngx-datatable-column name="R.Comercial" prop='retornoComercial'
+                                        [width]="100"></ngx-datatable-column>
+                                    <ngx-datatable-column name="F.Recepcion" prop='fechaRecepcion' [width]="100">
+                                        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                                            {{ row.fechaRecepcion | date:'dd/MM/yyy' }}
+                                        </ng-template>
+                                    </ngx-datatable-column>
+                                    <ngx-datatable-column name="Fec.R.Comercial" prop='fechaRetornoComercial'
+                                        [width]="100">
+                                        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                                            {{ row.fechaRetornoComercial | date:'dd/MM/yyy' }}
+                                        </ng-template>
+                                    </ngx-datatable-column>
+                                    <ngx-datatable-column name="Fec.R.Almacen" prop='fechaRetornoAlmacen' [width]="100">
+                                        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                                            {{ row.fechaRetornoAlmacen | date:'dd/MM/yyy' }}
+                                        </ng-template>
+                                    </ngx-datatable-column>
+                                    <ngx-datatable-column name="AtrasoAlmacen" prop='diasAtrasoAlmacen' [width]="100">
+                                        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                                            <span class="font-medium"
+                                                [ngStyle]="{ 'color': row.diasAtrasoAlmacen >= 0 ? 'blue' : 'red' }">{{row.diasAtrasoAlmacen
+                                                | number : '1.'}}</span>
+                                        </ng-template>
+                                    </ngx-datatable-column>
+                                    <ngx-datatable-column name="AtrasoComecial" prop='diasAtrasoComercial'
+                                        [width]="100">
+                                        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                                            <span class="font-medium"
+                                                [ngStyle]="{ 'color': row.diasAtrasoComercial >= 0 ? 'blue' : 'red' }">{{row.diasAtrasoComercial
+                                                | number : '1.'}}</span>
+                                        </ng-template>
+                                    </ngx-datatable-column>
+                                    <ngx-datatable-column name="Destino" prop='destino'
+                                        [width]="80"></ngx-datatable-column>
+                                    <ngx-datatable-column name="Transportista" prop='transportista'
+                                        [width]="150"></ngx-datatable-column>
+
+                                    <ngx-datatable-column name="Monto" prop='monto' [width]="120">
+                                        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                                            {{ row.monto | number : '1.2-4' }}
+                                        </ng-template>
+                                    </ngx-datatable-column>
+                                </ngx-datatable>
+                            </div>
+                        </div>
+                    </form>
+                </ng-template>
+            </ngb-tab>
+
+        </ngb-tabset>
     </div>
 </div>
+
+
+
+<ng-template #modalExportar let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">
+            Descargar Excel
+        </h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">
+                &times;
+            </span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="custom-control custom-radio">
+                    <input type="radio" class="custom-control-input" [formControl]="reporteRetornoGuia"
+                        [value]="'general'" id="customControlValidation2" name="radio-stacked">
+                    <label class="custom-control-label" for="customControlValidation2">Reporte General</label>
+                </div>
+                <div class="custom-control custom-radio">
+                    <input type="radio" class="custom-control-input" [formControl]="reporteRetornoGuia"
+                        [value]="'resumen'" id="customControlValidation3" name="radio-stacked">
+                    <label class="custom-control-label" for="customControlValidation3">Reporte Resumen</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" (click)="aceptarDescargaExcel()" class="btn btn-rounded btn-sm btn-info"> <span
+                *ngIf="!flagDescargandoReporte">
+                <i class="fas fa-download" aria-hidden="true"></i>&nbsp;&nbsp;Descargar
+            </span>
+            <span *ngIf="flagDescargandoReporte">
+                <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>&nbsp;Descargando..
+            </span>
+        </button>
+        <button type="button" (click)="modal.dismiss('Cross click')"
+            class="btn btn-rounded btn-sm btn-secondary">Cancelar</button>
+    </div>
+</ng-template>

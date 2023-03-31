@@ -33,11 +33,20 @@ export class LogisticaService {
     );
   }
 
-  exportarExcelRetornoGuia(){
-    return this._http.get(this.url+"/api/Logistica/ExportarExcelRetornoGuia").pipe(
+  listadoRetornoGuia(body){
+    return this._http.post(this.url+"/api/Logistica/ListarRetornoGuia",body).pipe(
       catchError( _ => {
-        this._toastr.error("Error al exportar informacion retorno de guia ", "Error !!", { timeOut: 4000, closeButton: true })
-        return throwError("Error al exportar informacion retorno de guia ")
+        this._toastr.error("Error al listar informacion retorno de guia ", "Error !!", { timeOut: 4000, closeButton: true })
+        return throwError("Error al listar informacion retorno de guia ")
+      })
+    );
+  }
+
+  exportarExcelRetornoGuia(body){
+    return this._http.post(this.url+"/api/Logistica/ExportarExcelRetornoGuia",body).pipe(
+      catchError( _ => {
+        this._toastr.error("Error al exportar información retorno de guia ", "Error !!", { timeOut: 4000, closeButton: true })
+        return throwError("Error al exportar información retorno de guia ")
       })
     );
   }

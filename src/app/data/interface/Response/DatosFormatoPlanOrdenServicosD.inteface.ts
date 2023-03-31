@@ -1,8 +1,8 @@
 export interface DatosFormatoPlanOrdenServicosDModel {
-    numeroGuia: string,
+    numeroGuia: string ,
     fechaDocumento: Date,
     cliente: string,
-    ordenServicios:string;
-    fechaRetorno:string,
+    ordenServicios:string,
+    fechaRetorno:Date,
   }
   

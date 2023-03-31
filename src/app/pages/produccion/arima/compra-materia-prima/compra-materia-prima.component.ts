@@ -71,7 +71,6 @@ export class CompraMateriaPrimaComponent implements OnInit {
 
 
   ngOnInit(): void {
-    console.log("sadasd")
     this.BuscarProducto();
     this.cambiarlinea();
   }
