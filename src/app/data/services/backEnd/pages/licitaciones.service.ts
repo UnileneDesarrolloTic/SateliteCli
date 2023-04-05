@@ -106,8 +106,8 @@ export class LicitacionesService {
   }
 
 
-  exportarDashboardLicitaciones(opcion,anio){
-    const params = new HttpParams().set('opcion',opcion).set('anio',anio);
+  exportarDashboardLicitaciones(opcion){
+    const params = new HttpParams().set('opcion',opcion);
     return this._http.get(this.url+"/api/Licitaciones/DashboardLicitacionesExportar",{'params': params}).pipe(
       catchError (_ => 
         {
@@ -115,6 +115,28 @@ export class LicitacionesService {
           return throwError("Error al descargar el excel")
         })
     );
+  }  
+
+  buscarFacturaProceso(factura){
+    const params = new HttpParams().set('factura',factura);
+    return this._http.get(this.url+"/api/Licitaciones/BuscarFacturaProceso",{'params': params}).pipe(
+      catchError (_ => 
+        {
+          this._toastr.error("Error al momento de mostrar información", "Error !!", {closeButton: true, progressBar: true, timeOut: 3000})
+          return throwError("Error al momento de mostrar infomación")
+        })
+    );
   }
+
+  registrarSeguimientoOrden(body){
+    return this._http.post(this.url+"/api/Licitaciones/RegistrarExpedienteLI",body).pipe(
+      catchError (_ => 
+        {
+          this._toastr.error("Error al momento de mostrar infomación", "Error !!", {closeButton: true, progressBar: true, timeOut: 3000})
+          return throwError("Error al momento de mostrar infomación")
+        })
+    );
+  }
+  
 
 }

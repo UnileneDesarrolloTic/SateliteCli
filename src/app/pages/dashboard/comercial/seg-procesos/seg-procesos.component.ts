@@ -31,7 +31,7 @@ export class SegProcesosComponent implements OnInit {
       scrollable: true
     });
     modalCarga.componentInstance.fromParent = "Generando el Formato Excel";
-    this._LicitacionesService.exportarDashboardLicitaciones(opcion,anio).subscribe(
+    this._LicitacionesService.exportarDashboardLicitaciones(opcion).subscribe(
       (resp:any)=>{
         if(resp.success){
           this.servicebase64.file(resp.content,`${titulo}-${this.hoy}`,'xlsx',modalCarga);
@@ -64,17 +64,8 @@ export class SegProcesosComponent implements OnInit {
 
       if(this.reporteDashboard.value == 'facturacion')
       {
-         if(this.filtroAnio.value > 2017)
-         {
           let titulo = 'DashboardLicitacionesDetalleFacturacion';
-          this.exportar(this.reporteDashboard.value, this.filtroAnio.value, titulo);
-         }
-         else
-         {
-          this.toastr.warning("Debe ser apartir del 2018", "Aviso !!", {timeOut: 3000, closeButton: true, progressBar:true, tapToDismiss:true})
-          return
-         }
-           
+          this.exportar(this.reporteDashboard.value, this.filtroAnio.value, titulo);    
       }
       else
       {

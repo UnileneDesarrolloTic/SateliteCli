@@ -95,6 +95,11 @@ export class ListarProcesoComponent implements OnInit {
   {
     this._router.navigate(['Licitaciones', 'proceso', 'estado-guia', ':idproceso'],{ state: { idproceso: idproceso } });
   }
+
+  abrirModuloSeguimientoOrdenCompra(idproceso:number)
+  {
+    this._router.navigate(['Licitaciones', 'proceso', 'seguimientoordencompra', idproceso ]);
+  }
   
   AbrirOrdenCompra(proceso:DatosListarProceso)
   {
