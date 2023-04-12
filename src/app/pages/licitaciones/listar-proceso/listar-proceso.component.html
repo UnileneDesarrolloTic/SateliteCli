@@ -79,7 +79,7 @@
                   </span>
                 </ng-template>
               </ngx-datatable-column>
-              <ngx-datatable-column name="Items" prop='cantItems' [width]="80" [draggable]="false">
+              <ngx-datatable-column name="Items" prop='cantItems' [width]="40" [draggable]="false">
                 <ng-template let-value="value" ngx-datatable-cell-template>
                   <span style="font-size: 12px;">
                     {{ value }}
@@ -101,9 +101,14 @@
                   <button type="button" class="btn btn-info" style="font-size: 10px;background-color: #4596DA;border: none;" (click)="AbrirModuloMuestrayEnsayo(row)"><i class="fas fa-list-alt"></i></button>
                 </ng-template>
               </ngx-datatable-column>
-              <ngx-datatable-column name="Guias" [width]="60" [draggable]="false" [sortable]="false" [resizeable]="false">
+              <!-- <ngx-datatable-column name="Guias" [width]="60" [draggable]="false" [sortable]="false" [resizeable]="false">
                 <ng-template let-value="value" ngx-datatable-cell-template let-row="row">
                   <button type="button" class="btn btn-primary" style="font-size: 10px;background-color: #2CB820;border: none;" (click)="AbrirModuloGuias(row['idProceso'])"><i class="fas fa-paste"></i></button>
+                </ng-template>
+              </ngx-datatable-column> -->
+              <ngx-datatable-column name="Seguimiento" [width]="80" [draggable]="false" [sortable]="false" [resizeable]="false">
+                <ng-template let-value="value" ngx-datatable-cell-template let-row="row">
+                  <button type="button" class="btn btn-info" style="font-size: 10px;background-color: #b421e6;border: none;" (click)="abrirModuloSeguimientoOrdenCompra(row['idProceso'])"><i class="fas fa-list-alt"></i></button>
                 </ng-template>
               </ngx-datatable-column>
             </ngx-datatable>

@@ -1,0 +1,278 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card border-left border-info">
+            <div class="card-body">
+                <form autocomplete="off" [formGroup]="formulario">
+                    <div class="form-body" style="font-size: 14px;">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label">Proceso </label>
+                                    <select class="form-control  form-control-sm" disabled="true"
+                                        formControlName="idproceso">
+                                        <option [value]="null" [disabled]="true">Eliga un proceso</option>
+                                        <option *ngFor="let proceso of listarProceso" [value]="proceso.idProceso">
+                                            {{proceso.descripcionProceso}} | {{proceso.descripcionComercial}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-1">
+                                <div class="form-group">
+                                    <label class="control-label">Entrega</label>
+                                    <div class="form-group">
+                                        <select class="form-control form-control-sm font-normal"
+                                            id="inlineFormCustomSelect" formControlName="NumeroEntrega">
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                            <option value="9">9</option>
+                                            <option value="10">10</option>
+                                            <option value="11">11</option>
+                                            <option value="12">12</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label class="control-label">Item : </label>
+                                    <select class="form-control  form-control-sm font-normal" formControlName="Item">
+                                        <option [value]="null" [disabled]="true">Eliga un Item</option>
+                                        <option *ngFor="let item of ListarItemProceso" [value]="item.numeroItem">
+                                            {{item.numeroItem}}-{{item.descripcionItem}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label class="control-label">T. Usuario </label>
+                                    <select class="form-control  form-control-sm font-normal" formControlName="Usuario">
+                                        <option [value]="null" [disabled]="true">Eliga un Tipo usuario</option>
+                                        <option *ngFor="let usuario of ListarTipoUsuario" [value]="usuario">
+                                            {{usuario}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label class="control-label">Número Orden Compra:</label>
+                                    <input type="text" [readonly]="true" class="form-control form-control-sm font-normal"
+                                        formControlName="NumeroOC">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label class="control-label">Cantidad Orden Compra:</label>
+                                    <input type="number" [readonly]="true" class="form-control form-control-sm font-normal"
+                                        formControlName="CantidadOC" placeholder="Ingrese Cantidad Orden de Compra">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Factura</label>
+                                <div class="col-12 p-0">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <input type="text" name='factura'
+                                                class="form-control form-control-sm font-normal" [formControl]="factura"
+                                                placeholder="Buscar Factura" aria-label=""
+                                                aria-describedby="basic-addon1">
+                                            <div class="input-group-append">
+                                                <button class="btn mr-0 btn-info btn-sm" type="button"
+                                                    (click)="buscarFacturaProceso()">
+                                                    <i class="ti-search"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label>&nbsp;</label>
+                            <div class="form-group">
+                                <button class="btn btn-success btn-sm" type="button" (click)="registrarSeguimiento()"> Registrar</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card border-left border-info">
+            <div class="card-body">
+                <ngb-alert type="warning" *ngIf="flagAlerta" class="p-3"> {{this.mensajeAlerta}}</ngb-alert>
+                <div class="table-responsive table-sm">
+                    <table class="table table-striped no-wrap border mt-4" style="font-size: 13px;">
+                        <thead>
+                            <tr>
+                                <th class="text-center font-bold">Num Documento </th>
+                                <th class="text-center font-bold">F. Documento</th>
+                                <th class="text-center font-bold">Proceso</th>
+                                <th class="text-center font-bold">Orden compra </th>
+                                <th class="text-center font-bold">Cantidad</th>
+                                <th class="text-center font-bold">Monto Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngIf="mostrarData">
+                                <td class="text-center font-normal">
+                                    {{ this.obtenerfacturaProceso?.numeroDocumento }}
+                                </td>
+                                <td class="text-center font-normal">
+                                    {{ this.obtenerfacturaProceso?.fechaDocumento | date: 'dd/MM/yyyy' }}
+                                </td>
+                                <td class="text-center font-normal">
+                                    {{ this.obtenerfacturaProceso?.proceso }}
+                                </td>
+                                <td class="text-center font-normal">
+                                    {{ this.obtenerfacturaProceso?.ordenCompra}}
+                                </td>
+                                <td class="text-center font-normal">
+                                    {{ this.obtenerfacturaProceso?.cantidad | number: '1.2-2'}}
+                                </td>
+                                <td class="text-center font-normal">
+                                    {{ this.obtenerfacturaProceso?.montoTotal | number: '1.2-2'}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Expediente</label>
+                            <div class="col-12 p-0">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <input type="text" name='factura' class="form-control form-control-sm"
+                                            [formControl]="expediente" placeholder="Buscar Expediente" aria-label=""
+                                            aria-describedby="basic-addon1">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+
+                        <div class="table-responsive table-sm">
+                            <table class="table table-striped no-wrap border mt-4" style="font-size: 13px;">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center font-bold">Destino </th>
+                                        <th class="text-center font-bold">Fecha Entrega</th>
+                                        <th class="text-center font-bold">Fecha Aprobación Cargo</th>
+                                        <th class="text-center font-bold">Usuario</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody id="tbodyDetalle" class="border" style="font-size: 11px;">
+                                    <tr *ngFor="let expedienteForm of ProgramacionExpendiente.controls; let i = index">
+                                        <ng-container [formGroup]="expedienteForm">
+                                            <td class="text-center font-normal">{{expedienteForm.value.destino}}</td>
+                                            <td class="text-center"> 
+                                                <div class="input-group input-group-sm" style='width:10rem'>
+                                                    <input type="date" class="form-control form-control-sm font-normal" formControlName="fechaEntrega">
+                                                </div>
+                                            </td>
+                                            <td class="text-center">
+                                                <div class="input-group input-group-sm" style='width:10rem'>
+                                                    <input type="date" class="form-control form-control-sm font-normal" formControlName="fechaAprobacion">
+                                                </div>    
+                                            </td>
+                                            <td class="text-center font-normal">{{expedienteForm.value.usuario}}</td>
+                                            
+                                        </ng-container>
+                                    </tr>
+                                </tbody>
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 
+<div class="row">
+    <div class="col-12">
+        <div class="card border-left border-info">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Expediente</label>
+                            <div class="col-12 p-0">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <input type="text" name='factura' class="form-control form-control-sm"
+                                            [formControl]="expediente" placeholder="Buscar Expediente" aria-label=""
+                                            aria-describedby="basic-addon1">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+
+                        <div class="table-responsive table-sm">
+                            <table class="table table-striped no-wrap border mt-4" style="font-size: 13px;">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center font-bold">Destino </th>
+                                        <th class="text-center font-bold">Fecha Entrega</th>
+                                        <th class="text-center font-bold">Fecha Aprobación Cargo</th>
+                                        <th class="text-center font-bold">Usuario</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody id="tbodyDetalle" class="border" style="font-size: 11px;">
+                                    <tr *ngFor="let expedienteForm of ProgramacionExpendiente.controls; let i = index">
+                                        <ng-container [formGroup]="expedienteForm">
+                                            <td class="text-center font-normal">{{expedienteForm.value.destino}}</td>
+                                            <td class="text-center"> 
+                                                <div class="input-group input-group-sm" style='width:10rem'>
+                                                    <input type="date" class="form-control form-control-sm font-normal" formControlName="fechaEntrega">
+                                                </div>
+                                            </td>
+                                            <td class="text-center">
+                                                <div class="input-group input-group-sm" style='width:10rem'>
+                                                    <input type="date" class="form-control form-control-sm font-normal" formControlName="fechaAprobacion">
+                                                </div>    
+                                            </td>
+                                            <td class="text-center font-normal">{{expedienteForm.value.usuario}}</td>
+                                            
+                                        </ng-container>
+                                    </tr>
+                                </tbody>
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->

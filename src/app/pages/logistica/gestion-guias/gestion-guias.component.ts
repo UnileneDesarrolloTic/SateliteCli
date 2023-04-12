@@ -1,4 +1,5 @@
 import { formatDate } from '@angular/common';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { DatosFormatoPlanOrdenServicosDModel } from '@data/interface/Response/DatosFormatoPlanOrdenServicosD.inteface';
@@ -75,6 +76,7 @@ export class GestionGuiasComponent implements OnInit {
         {
           this.informacionGuiaListar.push(resp.content);
           this.guardarServicios(resp.content)
+          this.form.reset();
         }else
         {
           this.toastr.warning(resp.message + this.form.controls.numero.value);

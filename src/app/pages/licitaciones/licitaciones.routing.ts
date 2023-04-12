@@ -8,6 +8,7 @@ import { ProgramacionProcesoComponent } from "./listar-proceso/programacion-proc
 import { ProcesoMuestraEnsayoComponent } from "./listar-proceso/proceso-muestra-ensayo/proceso-muestra-ensayo.component";
 import { GuiaInformeComponent } from "./listar-proceso/guia-informe/guia-informe.component";
 import { ContratoProcesoComponent } from "./listar-proceso/contrato-proceso/contrato-proceso.component";
+import { SeguimientoOrdenCompraComponent } from "./listar-proceso/seguimiento-orden-compra/seguimiento-orden-compra.component";
 
 export const LicitacionesRoutes: Routes = [
   
@@ -67,8 +68,20 @@ export const LicitacionesRoutes: Routes = [
         data: {
           title: "Estado Guia",
           urls: [
-            { title: 'Estado Guia', url: '/Licitaciones/proceso/listar-proceso'},
+            { title: 'Lista Procesos', url: '/Licitaciones/proceso/listar-proceso'},
             { title: 'Estado Guia' }
+          ]
+        },
+      },
+      {
+        path: 'seguimientoordencompra/:idproceso',
+        canDeactivate: [ConfirmExitGuard],
+        component: SeguimientoOrdenCompraComponent,
+        data: {
+          title: "Seguimiento de orden de compra",
+          urls: [
+            { title: 'Lista Procesos', url: '/Licitaciones/proceso/listar-proceso'},
+            { title: 'Seguimiento' }
           ]
         },
       }
