@@ -194,4 +194,13 @@ export class ProduccionService {
     );
   }
 
+  listarSeguimientoCompraAguja(){
+    return this._http.get(this.url+"/api/Produccion/InformacionSeguimientoAguja").pipe(
+      catchError( _ => {
+        this._toastr.error("Error al mostrar el listado de las agujas ", "Error !!", { timeOut: 4000, closeButton: true })
+        return throwError("Error  al mostrar el listado de las agujas ")
+      })
+    );
+  }
+
 }

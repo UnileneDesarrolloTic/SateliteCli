@@ -1,0 +1,29 @@
+export interface DatosFormatoListadoCompraAguja {
+    material:             string;
+    itemFinal:            string;
+    descripcionLocal:     string;
+    longAguja:            null;
+    familiaLarga:         string;
+    tiempoCompra:         number;
+    tiempoPago:           number;
+    tiempoAprobacion:     number;
+    tiempofabricacion:    number;
+    tiempoTransporte:     number;
+    tiempoAduanas:        number;
+    cantidadMinima:       number;
+    pronostico:           number;
+    variacion:            number;
+    demoraLlegarProducto: number;
+    consumoDia:           number;
+    desviacionCompra:     number;
+    pendienteOC:          number;
+    controlCalidad:       number;
+    aduanas:              number;
+    almacen:              number;
+    stockTotal:           number;
+    diasPotencial:        number;
+    puntoCorte:           number;
+    maximaStock:          number;
+    diasEsperar:          number;
+    cantidadComprar:      number;
+}
