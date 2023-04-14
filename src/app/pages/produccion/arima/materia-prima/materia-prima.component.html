@@ -96,7 +96,7 @@
                     {{ value | number:'1.1-1' }}
                   </ng-template>
               </ngx-datatable-column>
-                <ngx-datatable-column name="S Disponible" prop='stockDisponible' [width]="110">
+                <ngx-datatable-column name="Disp - Planta" prop='stockDisponible' [width]="110">
                   <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                     {{ value | number }}
                   </ng-template>
@@ -140,7 +140,7 @@
                       {{ value | number }} %
                     </ng-template>
                 </ngx-datatable-column>
-                <ngx-datatable-column prop="pronostico" name ='pronostico' [width]="94">
+                <ngx-datatable-column prop="pronostico" name ='ConsumoMensual' [width]="94">
                   <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                     {{ value | number }}
                   </ng-template>

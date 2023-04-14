@@ -100,7 +100,7 @@
                                                     <th scope="col" class="text-center font-weight-bold" style="width: 4.5rem;">P.Unit</th>
                                                     <th scope="col" class="text-center font-weight-bold">Total</th>
                                                     <th scope="col" class="text-center font-weight-bold">F.Prometida</th>
-                                                    <th scope="col" class="text-center font-weight-bold">Moneda</th>
+                                                    <!-- <th scope="col" class="text-center font-weight-bold">Moneda</th> -->
                                                     <th scope="col" class="text-center font-weight-bold">Estado</th>
                                                     <th scope="col" class="text-center font-weight-bold">opción</th>
                                                 </tr>
@@ -123,7 +123,7 @@
                                                         <td class="text-center font-weight-normal" style="width: 5.5rem;">
                                                             <input type="number" class="form-control form-control-sm" formControlName="cantidadpedida" />
                                                         </td>
-                                                        <td class="text-center font-weight-normal" style="width: 5.0rem;">
+                                                        <td class="text-center font-weight-normal" style="width: 5.5rem;">
                                                             <input type="number" class="form-control form-control-sm" formControlName="preciounitario" />
                                                         </td>
                                                         <td class="text-center font-weight-normal">
@@ -132,9 +132,9 @@
                                                         <td class="text-center font-weight-normal">
                                                             <b>{{fromItem.value.fechaprometida | date:'dd/MM/yyy'}}</b>
                                                         </td>
-                                                        <td class="text-center font-weight-normal">
+                                                        <!-- <td class="text-center font-weight-normal">
                                                             <b>{{fromItem.value.moneda}}</b>
-                                                        </td>
+                                                        </td> -->
                                                         <td class="text-center font-weight-normal" style="width: 4.5rem">
                                                             <select class="form-control  form-control-sm font-weight-normal" formControlName="estado">
                                                                 <option [value]="'OK'">OK</option>

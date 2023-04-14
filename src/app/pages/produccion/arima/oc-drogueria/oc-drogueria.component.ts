@@ -50,6 +50,7 @@ export class OcDrogueriaComponent implements OnInit {
     this.reporteSeguimientoDrogueria();
     this.isObservableFiltro();
     this.generarOrdenCompra();
+    this.generarOC();
   }
 
   filtroFormulario() {
@@ -176,4 +177,31 @@ export class OcDrogueriaComponent implements OnInit {
       }
     });
   }
+
+
+  generarOC(){
+    this._ProduccionService.generarOrdenCompraDrogueria().subscribe(
+        (resp:any)=>{
+              if(resp["success"])
+              {
+                this._toastr.success(resp["message"])
+                this.listadoOrdenCompra();
+              }
+        }
+    );
+   }
+
+
+   listadoOrdenCompra(){
+    this._ProduccionService.generarOrdenCompraPrevios().subscribe(
+      (resp:any)=>{
+          this.ordenCompraPrevio=resp["content"];
+      },
+    
+    )
+  }
+
+
+
+
 }
