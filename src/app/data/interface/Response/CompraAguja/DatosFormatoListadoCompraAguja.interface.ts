@@ -20,10 +20,10 @@ export interface DatosFormatoListadoCompraAguja {
     controlCalidad:       number;
     aduanas:              number;
     almacen:              number;
-    stockTotal:           number;
+    disponible:           number;
     diasPotencial:        number;
     puntoCorte:           number;
     maximaStock:          number;
-    diasEsperar:          number;
+    diasEspera:           number;
     cantidadComprar:      number;
 }
