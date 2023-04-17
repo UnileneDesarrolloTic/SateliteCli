@@ -19,8 +19,8 @@
                 </div>
                 <div class="row pb-1">
                     <div class="col-md-4">
-                        <input type="text" style="float: right" [formControl]='textFiltrar'
-                            placeholder="Buscar Item o Descripción" class="form-control rounded-pill">
+                        <input type="text" style="float: right" [formControl]='textFiltrarAgujas'
+                            placeholder="Buscar Item o Descripción" class="form-control rounded-pill font-bold">
                     </div>
                     <div class="col-md-4">
                     </div>
@@ -48,7 +48,7 @@
                                 </ng-template>
                             </ngx-datatable-column>
 
-                            <ngx-datatable-column name="Descripción" prop="descripcionLocal"  [frozenLeft]="true"
+                            <ngx-datatable-column name="Descripción" prop="descripcionLocal" [frozenLeft]="true"
                                 [width]="120">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
                                     <span class="font-medium">{{row.descripcionLocal }}</span>
@@ -68,37 +68,43 @@
                                 </ng-template>
                             </ngx-datatable-column>
 
-                            <ngx-datatable-column name="T.Compra" prop="tiempoCompra" *ngIf="this.checkMostrarColumna.value" [width]="30">
+                            <ngx-datatable-column name="T.Compra" prop="tiempoCompra"
+                                *ngIf="this.checkMostrarColumna.value" [width]="30">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
                                     <span class="font-medium">{{row.tiempoCompra | number : '1.0-0'}}</span>
                                 </ng-template>
                             </ngx-datatable-column>
 
-                            <ngx-datatable-column name="T.Pago" prop="tiempoPago" *ngIf="this.checkMostrarColumna.value" [width]="30">
+                            <ngx-datatable-column name="T.Pago" prop="tiempoPago" *ngIf="this.checkMostrarColumna.value"
+                                [width]="30">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
                                     <span class="font-medium">{{row.tiempoPago | number : '1.0-0'}}</span>
                                 </ng-template>
                             </ngx-datatable-column>
 
-                            <ngx-datatable-column name="T. Aprobacion" prop="tiempoAprobacion" *ngIf="this.checkMostrarColumna.value" [width]="30">
+                            <ngx-datatable-column name="T. Aprobacion" prop="tiempoAprobacion"
+                                *ngIf="this.checkMostrarColumna.value" [width]="30">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
                                     <span class="font-medium">{{row.tiempoAprobacion | number : '1.0-0'}}</span>
                                 </ng-template>
                             </ngx-datatable-column>
 
-                            <ngx-datatable-column name="T. Fabricacion" prop="tiempofabricacion" *ngIf="this.checkMostrarColumna.value" [width]="30">
+                            <ngx-datatable-column name="T. Fabricacion" prop="tiempofabricacion"
+                                *ngIf="this.checkMostrarColumna.value" [width]="30">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
                                     <span class="font-medium">{{row.tiempofabricacion | number : '1.0-0'}}</span>
                                 </ng-template>
                             </ngx-datatable-column>
 
-                            <ngx-datatable-column name="T. Transporte" prop="tiempoTransporte" *ngIf="this.checkMostrarColumna.value" [width]="30">
+                            <ngx-datatable-column name="T. Transporte" prop="tiempoTransporte"
+                                *ngIf="this.checkMostrarColumna.value" [width]="30">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
                                     <span class="font-medium">{{row.tiempoTransporte | number : '1.0-0'}}</span>
                                 </ng-template>
                             </ngx-datatable-column>
 
-                            <ngx-datatable-column name="T. Aduana" prop="tiempoAduanas"  *ngIf="this.checkMostrarColumna.value" [width]="30">
+                            <ngx-datatable-column name="T. Aduana" prop="tiempoAduanas"
+                                *ngIf="this.checkMostrarColumna.value" [width]="30">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
                                     <span class="font-medium">{{row.tiempoAduanas | number : '1.0-0'}}</span>
                                 </ng-template>
@@ -122,16 +128,24 @@
                                 </ng-template>
                             </ngx-datatable-column>
 
-                            <!-- <ngx-datatable-column name="Almacen" prop="almacen"  [width]="30">
+                            <ngx-datatable-column name="Almacen" prop="almacen" [width]="30">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
                                     <span class="font-medium">{{row.almacen | number : '1.0-0'}}</span>
                                 </ng-template>
                             </ngx-datatable-column>
 
-                            <ngx-datatable-column name="Transito" prop="pendienteOC"  [width]="30">
+
+
+
+                            <ngx-datatable-column name="Transito" prop="pendienteOC" [width]="30">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
-                                    <span class="font-medium">{{row.pendienteOC | number : '1.0-0'}}</span>
+                                    <span *ngIf="row.pendienteOC<=0" class="font-medium">{{row.pendienteOC | number:'1.2-2' }}</span>
+                                    <button class="btn btn-sm btn-outline-primary btn-rounded font-medium" type="button"
+                                        *ngIf="row.pendienteOC>0" (click)="abrirModalMostrarOC(modalPendienteOC, row.itemFinal)">
+                                        {{ row.pendienteOC | number : '1.' }}
+                                    </button>
                                 </ng-template>
+
                             </ngx-datatable-column>
 
                             <ngx-datatable-column name="Aduans" prop="aduanas" [width]="30">
@@ -144,7 +158,7 @@
                                 <ng-template let-row="row" ngx-datatable-cell-template>
                                     <span class="font-medium">{{row.controlCalidad | number : '1.0-0'}}</span>
                                 </ng-template>
-                            </ngx-datatable-column> -->
+                            </ngx-datatable-column>
 
                             <ngx-datatable-column name="Disponible" prop="disponible" [width]="30">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
@@ -152,7 +166,8 @@
                                 </ng-template>
                             </ngx-datatable-column>
 
-                            <ngx-datatable-column name="Dia Potencial" prop="diasPotencial" *ngIf="this.checkMostrarColumna.value" [width]="30">
+                            <ngx-datatable-column name="Dia Potencial" prop="diasPotencial"
+                                *ngIf="this.checkMostrarColumna.value" [width]="30">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
                                     <span class="font-medium">{{row.diasPotencial | number : '1.0-0'}}</span>
                                 </ng-template>
@@ -164,19 +179,22 @@
                                 </ng-template>
                             </ngx-datatable-column>
 
-                            <ngx-datatable-column name="Consumo Dia" prop="consumoDia" *ngIf="this.checkMostrarColumna.value" [width]="30">
+                            <ngx-datatable-column name="Consumo Dia" prop="consumoDia"
+                                *ngIf="this.checkMostrarColumna.value" [width]="30">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
                                     <span class="font-medium">{{row.consumoDia | number : '1.0-0'}}</span>
                                 </ng-template>
                             </ngx-datatable-column>
 
-                            <ngx-datatable-column name="Dias Llegada" prop="demoraLlegarProducto" *ngIf="this.checkMostrarColumna.value" [width]="30">
+                            <ngx-datatable-column name="Dias Llegada" prop="demoraLlegarProducto"
+                                *ngIf="this.checkMostrarColumna.value" [width]="30">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
                                     <span class="font-medium">{{row.demoraLlegarProducto | number : '1.0-0'}}</span>
                                 </ng-template>
                             </ngx-datatable-column>
 
-                            <ngx-datatable-column name="Desviacion" prop="desviacionCompra" *ngIf="this.checkMostrarColumna.value" [width]="30">
+                            <ngx-datatable-column name="Desviacion" prop="desviacionCompra"
+                                *ngIf="this.checkMostrarColumna.value" [width]="30">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
                                     <span class="font-medium">{{row.desviacionCompra | number : '1.1-1'}}</span>
                                 </ng-template>
@@ -189,7 +207,8 @@
                                 </ng-template>
                             </ngx-datatable-column>
 
-                            <ngx-datatable-column name="Variacion" prop="variacion" *ngIf="this.checkMostrarColumna.value" [width]="40">
+                            <ngx-datatable-column name="Variacion" prop="variacion"
+                                *ngIf="this.checkMostrarColumna.value" [width]="40">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
                                     <span class="font-medium">{{row.pronostico | number : '1.0-0'}}</span>
                                 </ng-template>
@@ -211,3 +230,61 @@
 
     </div>
 </div>
+
+
+<ng-template #modalPendienteOC let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">
+            Ordenes de compra pendientes
+        </h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">
+                &times;
+            </span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <p class="text-info">ITEM: {{itemModal}} - {{descripcionModal}}</p>
+        <div class="table-responsive table-sm">
+            <table class="table table-striped no-wrap border mt-4" style="font-size: 13px;">
+                <thead>
+                    <tr>
+                        <th class="text-center">Nro Orden</th>
+                        <th class="text-center">Proveedor</th>
+                        <th class="text-center">C. Pedido</th>
+                        <th class="text-center">C. Recibida</th>
+                        <th class="text-center">C. Pendiente</th>
+                        <th class="text-center">Fec. Prometida</th>
+                        <th class="text-center">Dif. Días</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let ordenCompra of listaDettalleCC">
+                        <td class="text-center font-medium">
+                            {{ ordenCompra['numeroOrden'] }}
+                        </td>
+                        <td class="text-center font-medium">
+                            {{ ordenCompra['proveedor'] }}
+                        </td>
+                        <td class="text-center font-medium">
+                            {{ ordenCompra['cantidad'] | number }}
+                        </td>
+                        <td class="text-center font-medium">
+                            {{ ordenCompra['cantidadRecibida'] | number }}
+                        </td>
+                        <td class="text-center font-medium">
+                            {{ ordenCompra['pendienteOC'] | number }}
+                        </td>
+                        <td class="text-center font-medium">
+                            {{ ordenCompra['fecha'] | date:'dd/MM/yyyy' }}
+                        </td>
+                        <td class="text-center font-medium"
+                            [ngStyle]="{'color':ordenCompra['diferenciaFecha']>0 ? '#FC0000':'#27E900' }">
+                            {{ ordenCompra['diferenciaFecha'] }}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</ng-template>

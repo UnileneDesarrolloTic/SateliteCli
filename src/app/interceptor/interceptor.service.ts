@@ -96,6 +96,7 @@ export class InterceptorService implements HttpInterceptor {
       'Produccion/GuardarOrdenCompraVencida',
       'Produccion/InformacionSeguimientoAguja',
       'Produccion/InformacionSeguimientoAgujaExcel',
+      'Produccion/MostrarOrdenCompraArima',
       'Comercial/ListarCotizaciones',
       'Comercial/GenerarReporteCotizacion',
       'Comercial/ObtenerEstructuraFormato',

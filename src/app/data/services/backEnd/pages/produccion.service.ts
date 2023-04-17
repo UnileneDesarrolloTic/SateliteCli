@@ -204,9 +204,19 @@ export class ProduccionService {
   }
 
   exportarSeguimientoCompraAguja(mostrarColumna){
-
     const params = new HttpParams().set('mostrarColumna',mostrarColumna); 
     return this._http.get(this.url+"/api/Produccion/InformacionSeguimientoAgujaExcel",  {"params":params}).pipe(
+      catchError( _ => {
+        this._toastr.error("Error al momento de exportar las agujas ", "Error !!", { timeOut: 4000, closeButton: true })
+        return throwError("Error  al momento de exportar las agujas ")
+      })
+    );
+  }
+
+  
+  mostrarOrdenCompraArima(Item){
+    const params = new HttpParams().set('Item',Item); 
+    return this._http.get(this.url+"/api/Produccion/MostrarOrdenCompraArima",  {"params":params}).pipe(
       catchError( _ => {
         this._toastr.error("Error al momento de exportar las agujas ", "Error !!", { timeOut: 4000, closeButton: true })
         return throwError("Error  al momento de exportar las agujas ")
