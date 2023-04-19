@@ -14,6 +14,10 @@ export interface CabeceraOrdenCompraP {
     IdGestionarColor:     number;
     DiasEspera:           number;
     FechaPrometida:       Date;
+    ViaEnvio:             string;
+    Incoterms:            string;
+    PaisOrigen:           string;
+    PuertoSalida:         string;
 }
 
 export interface DetalleOrdenCompraP {

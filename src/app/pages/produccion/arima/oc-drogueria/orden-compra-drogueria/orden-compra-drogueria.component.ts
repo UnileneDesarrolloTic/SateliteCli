@@ -57,6 +57,10 @@ export class OrdenCompraDrogueriaComponent implements OnInit {
           procedencia:  this.informacionOrdenCompra.cabecera.Procedencia,
           fechaPrometida: this.formatoFecha(this.informacionOrdenCompra.cabecera.FechaPrometida),
           diasespera: this.informacionOrdenCompra.cabecera.DiasEspera,
+          viaEnvio: this.informacionOrdenCompra.cabecera.ViaEnvio,
+          incoterms:this.informacionOrdenCompra.cabecera.Incoterms,
+          paisOrigen: this.informacionOrdenCompra.cabecera.PaisOrigen,
+          puertoSalida: this.informacionOrdenCompra.cabecera.PuertoSalida,
         })
         this.construirDetalle(this.informacionOrdenCompra.detalle)
       }
