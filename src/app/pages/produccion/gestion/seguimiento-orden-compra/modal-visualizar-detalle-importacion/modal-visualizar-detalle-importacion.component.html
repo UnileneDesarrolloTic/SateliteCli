@@ -84,13 +84,13 @@
                                     <input type="checkbox" [disabled]="this.fromParent.Permiso" [(ngModel)]="Detalle.isSelected" name="list_name"
                                         (change)="SeleccionaItem(Detalle)" value="{{ Detalle.Item}}" />
                                 </td>
-                                <td>{{Detalle.Item }}</td>
-                                <td>{{Detalle.Descripcion}}</td>
-                                <td>{{Detalle.UnidadCodigo}}</td>
-                                <td>{{Detalle.CantidadPedida | number}}</td>
-                                <td>{{Detalle.CantidadRecibida | number }}</td>
-                                <td>{{Detalle.Estado}}</td>
-                                <td>{{Detalle.FechaPrometida | date:'dd/MM/yyyy'}}</td>
+                                <td class="font-medium">{{Detalle.Item }}</td>
+                                <td class="font-medium">{{Detalle.Descripcion}}</td>
+                                <td class="font-medium">{{Detalle.UnidadCodigo}}</td>
+                                <td class="font-medium">{{Detalle.CantidadPedida | number}}</td>
+                                <td class="font-medium">{{Detalle.CantidadRecibida | number }}</td>
+                                <td class="font-medium">{{Detalle.Estado}}</td>
+                                <td class="font-medium">{{Detalle.FechaPrometida | date:'dd/MM/yyyy'}}</td>
                             </tr>
                         </tbody>
                     </table>

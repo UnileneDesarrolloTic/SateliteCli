@@ -15,7 +15,6 @@ export class ModalInformacionItemComponent implements OnInit {
 
   @Input() fromParent;
   FormTableItem:FormGroup;
-  ListarInformacionItem:DatoFormatoInformacionItemOC[]=[];
   ListarDetalle:any[]=[];
   constructor(public activeModal: NgbActiveModal,
               private _fb:FormBuilder,
@@ -37,7 +36,6 @@ export class ModalInformacionItemComponent implements OnInit {
   InformacionOrdenCompra(Item,Anio){
     this._ProduccionService.BuscarItemOrdenCompra(Item,Anio).subscribe(
       resp=>{
-          this.ListarInformacionItem=resp["informacionItem"];
           this.ListarDetalle=resp["detalle"];
           this.ConstruirFormArray(resp["listaOrdenCompra"]);
       }

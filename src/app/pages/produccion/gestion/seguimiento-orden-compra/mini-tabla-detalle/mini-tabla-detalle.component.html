@@ -3,8 +3,8 @@
     <tr *ngFor="let detalle of TempListarDetalleSeguimientoItemOC; let i = index">
         <td  class="d-flex flex-row bg-success text-white cursor-pointer" (click)="ModalDetalleOrdenCompra(detalle)" >
             <div class="align-self-center">
-                <h4 class="m-b-0 text-white" style="font-size: 13px;">{{detalle.numeroOrden}}</h4>
-                <span class="align-self-center" style="font-size: 12px; ">{{detalle.cantidad | number}}</span>
+                <h4 class="m-b-0 text-white font-medium"  style="font-size: 13px;">{{detalle.numeroOrden}}</h4>
+                <span class="align-self-center font-medium" style="font-size: 12px; ">{{detalle.cantidad | number}}</span>
             </div>
         </td>
     </tr> 
