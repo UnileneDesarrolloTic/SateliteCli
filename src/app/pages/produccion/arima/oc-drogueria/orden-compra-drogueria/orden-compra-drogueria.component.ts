@@ -91,6 +91,11 @@ export class OrdenCompraDrogueriaComponent implements OnInit {
         procedencia: new FormControl(null),
         diasespera:new FormControl(null),
         fechaPrometida:new FormControl(null),
+        viaEnvio : new FormControl(null),
+        incoterms : new FormControl(null),
+        paisOrigen : new FormControl(null),
+        puertoSalida: new FormControl(null),
+
         detalle: this.fb.array([])
     })
   }
