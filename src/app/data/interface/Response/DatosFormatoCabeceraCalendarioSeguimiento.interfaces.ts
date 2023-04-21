@@ -1,6 +1,6 @@
 export interface CalendarioCabeceraSeguimiento {
     item: string,
-    descripcionLocal: string,
+    descripcion: string,
     unidadCodigo: string,
     pronostico:number,
     coeficienteVariacion:number,

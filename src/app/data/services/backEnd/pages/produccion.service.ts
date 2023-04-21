@@ -94,10 +94,13 @@ export class ProduccionService {
   }
 
   //SEGUIMIENTO DE LA ORDEN DE COMPRA
-  ListarItemOrdenCompra(FiltroElemento){
-    const params =  new HttpParams().set('Origen', FiltroElemento.Origen).set('Anio',FiltroElemento.Anio).set('Regla',FiltroElemento.regla);
+  ListarItemOrdenCompra(Anio){
+    const params =  new HttpParams().set('Anio',Anio);
     return this._http.get<any[]>(this.url+"/api/Produccion/ListarItemOrdenCompra", {'params': params}).pipe(
-      catchError (() => throwError("Error al obtener el seguimiento de candidatos"))
+      catchError( _ => {
+        this._toastr.error("Error al mostrar el calendario de orden compra ", "Error !!", { timeOut: 4000, closeButton: true })
+        return throwError("Error  al mostrar el calendario de orden compra ")
+      })
     );
   }
 

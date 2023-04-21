@@ -15,7 +15,7 @@ import { ModalInformacionItemComponent } from '../modal-informacion-item/modal-i
 export class TagResumenComponent implements OnInit {
   @Input() ListarSeguimientoItemOC:CalendarioCabeceraSeguimiento[]=[];
   @Input() ListarDetalleSeguimientoItemOC:CalendarioDetalleSeguimiento[]=[];
-  @Input()TempListarSeguimientoItemOC:CalendarioCabeceraSeguimiento[]=[];
+  @Input() TempListarSeguimientoItemOC:CalendarioCabeceraSeguimiento[]=[];
   @Input() Anio:string;
   @Input() PermisoAcceso:boolean;
   @Output() ItemEventMinitabla = new EventEmitter<boolean>();
@@ -80,7 +80,7 @@ export class TagResumenComponent implements OnInit {
       const texto = this.textFilterCtrl.value.toLowerCase();
 
       this.TempListarSeguimientoItemOC = this.ListarSeguimientoItemOC.filter( (x:CalendarioCabeceraSeguimiento) => x.item?.toLowerCase().indexOf(texto) !== -1
-          || x.descripcionLocal?.toLowerCase().indexOf(texto) !== -1
+          || x.descripcion?.toLowerCase().indexOf(texto) !== -1
       );
     }else{
       this.TempListarSeguimientoItemOC = this.ListarSeguimientoItemOC;

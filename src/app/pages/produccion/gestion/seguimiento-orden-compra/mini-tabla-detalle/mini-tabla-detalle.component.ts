@@ -30,7 +30,7 @@ export class MiniTablaDetalleComponent implements OnInit {
   }
 
   ModalDetalleOrdenCompra(Detalle){
-   
+    
     const modalRef = this._modalService.open(ModalVisualizarDetalleImportacionComponent, {
       ariaLabelledBy: 'modal-basic-title',
       centered: true,
