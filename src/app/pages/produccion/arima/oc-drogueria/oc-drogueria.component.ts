@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MostrarOrdenCompraDrogueria } from '@data/interface/Response/OCDrogueria/DatosFormatoMostrarOrdenCompra.interface';
 import { MostrarProveedorDrogueria } from '@data/interface/Response/OCDrogueria/DatosFormatoMostrarProveedor.interface';
+import { OrdenCompraPrevio } from '@data/interface/Response/OCDrogueria/DatosFormatoOrdenCompraPrevio.interface';
 import { ModelSeguimientoDrogueria } from '@data/interface/Response/OCDrogueria/DatosFormatoSeguimientoDrogueria.interface';
 import { ProduccionService } from '@data/services/backEnd/pages/produccion.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -25,6 +26,8 @@ export class OcDrogueriaComponent implements OnInit {
   
   listarOrdenCompraDrogueria: MostrarOrdenCompraDrogueria[] = [];
   proveedores: MostrarProveedorDrogueria[] = [];
+  ordenCompraPrevio:OrdenCompraPrevio[]=[];
+
   itemModalOC: string = "";
   formularioFiltro: FormGroup;
   flagEspera: boolean = false;
@@ -46,6 +49,8 @@ export class OcDrogueriaComponent implements OnInit {
     this.mostrarProveedor();
     this.reporteSeguimientoDrogueria();
     this.isObservableFiltro();
+    this.generarOrdenCompra();
+    this.generarOC();
   }
 
   filtroFormulario() {
@@ -133,12 +138,23 @@ export class OcDrogueriaComponent implements OnInit {
         }
         this.flagEsperaExcel=false;
       },
-      error=> {
+      _=> {
             ModalCarga.close();
             this.flagEsperaExcel=false;
       }
     );
-  }
+
+    }
+
+    generarOrdenCompra(){
+      this._ProduccionService.generarOrdenCompraPrevios().subscribe(
+        (resp:any)=>{
+            this.ordenCompraPrevio=resp["content"];
+        },
+      
+      )
+    }
+  
 
   verTransito(){
     this.listarOrdenCompraDrogueria=[];
@@ -161,4 +177,31 @@ export class OcDrogueriaComponent implements OnInit {
       }
     });
   }
+
+
+  generarOC(){
+    this._ProduccionService.generarOrdenCompraDrogueria().subscribe(
+        (resp:any)=>{
+              if(resp["success"])
+              {
+                this._toastr.success(resp["message"])
+                this.listadoOrdenCompra();
+              }
+        }
+    );
+   }
+
+
+   listadoOrdenCompra(){
+    this._ProduccionService.generarOrdenCompraPrevios().subscribe(
+      (resp:any)=>{
+          this.ordenCompraPrevio=resp["content"];
+      },
+    
+    )
+  }
+
+
+
+
 }

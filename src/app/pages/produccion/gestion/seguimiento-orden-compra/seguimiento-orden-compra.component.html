@@ -2,18 +2,8 @@
     <div class="col-lg-12">
       <div class="card">
         <div class="card-body">
-          <form [formGroup]="filtrosForm" (submit)="BuscarPedido()">
+          <form [formGroup]="filtrosForm">
             <div class="row justify-content-start">
-              <div class="col-md-2">
-                <div class="form-group">
-                  <label class="control-label TamanoLetra">Origen: </label>
-                  <select class="form-control  form-control-sm" formControlName="Origen">
-                    <option value="TD">TODOS</option>
-                    <option value="LOC">NACIONAL</option>
-                    <option value="FOR">IMPORTACION</option>
-                  </select>
-                </div>
-              </div>
               <div class="col-md-2">
                 <div class="form-group">
                   <label class="control-label TamanoLetra">Año: </label>
@@ -21,25 +11,14 @@
                     <option value="2021">2021</option>
                     <option value="2022">2022</option>
                     <option value="2023">2023</option>
+                    <option value="2024">2024</option>
                   </select>
-                </div>
-              </div>
-              <div class="col-md-3">
-                <div class="form-group">
-                  <label class="control-label TamanoLetra">Regla: </label>
-                  <select class="form-control  form-control-sm" formControlName="regla" style="float: left">
-                  <option value="MPAGAR1">MP Agujas Arima Regla 1</option>
-                  <option value="MPAG0R2">MP Agujas Promedio Regla 2</option>
-                  <option value="MPAG0R3">MP Agujas Regla 3</option>
-                  <option value="MPAG0R4">MP Agujas Regla 4 (serie 300)</option>
-                  <option value="PT01STNAE">MP Agujas Especialidad </option>
-                </select>
                 </div>
               </div>
               <div class="col-md-2">
                 <label class="control-label text-white">.</label>
                 <div class="form-group">
-                  <button class="btn btn-primary btn-sm " type="submit"  style="background-color: #0275D8; border: none;"> <i
+                  <button (click)="filtrar()" class="btn btn-primary btn-sm " type="submit"  style="background-color: #0275D8; border: none;"> <i
                     class=" fas fa-search"></i> Buscar</button>
                 </div>
               </div>
@@ -50,30 +29,11 @@
     </div>
   </div>
   
-  
   <div class="card">
     <div class="card-body">
-
       <app-tag-resumen  *ngIf="ListarDetalleSeguimientoItemOC.length>0" [ListarSeguimientoItemOC]="ListarSeguimientoItemOC"
         [TempListarSeguimientoItemOC]="ListarSeguimientoItemOC" 
         [Anio]="this.filtrosForm.controls.Anio.value" [PermisoAcceso]="PermisoAcceso" [ListarDetalleSeguimientoItemOC]="ListarDetalleSeguimientoItemOC" (ItemEventMinitabla)="Refrescar($event)" >
       </app-tag-resumen>
-<!--       
-      <ngb-tabset>
-        <ngb-tab title="Resumen">
-          <ng-template ngbTabContent>
-           <app-tag-resumen  *ngIf="ListarDetalleSeguimientoItemOC.length>0" [ListarSeguimientoItemOC]="ListarSeguimientoItemOC"
-              [TempListarSeguimientoItemOC]="ListarSeguimientoItemOC" 
-              [Anio]="this.filtrosForm.controls.Anio.value" [ListarDetalleSeguimientoItemOC]="ListarDetalleSeguimientoItemOC" (ItemEventMinitabla)="Refrescar($event)" >
-            </app-tag-resumen>
-          </ng-template>
-        </ngb-tab>
-        <ngb-tab>
-          <ng-template ngbTabTitle><b>Detalle</b></ng-template>
-          <ng-template ngbTabContent>
-           
-          </ng-template>
-        </ngb-tab>
-      </ngb-tabset> -->
     </div>
   </div>

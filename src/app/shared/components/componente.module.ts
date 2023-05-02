@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PaginadorComponent } from '@shared/components/paginador/paginador.component';
@@ -31,8 +31,9 @@ import { ModalVerTransitoComponent } from './modal-ver-transito/modal-ver-transi
     FormsModule,
     ReactiveFormsModule
   ],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
   exports:[
-    PaginadorComponent
+    PaginadorComponent,
   ]
 })
 export class ComponenteModule { }

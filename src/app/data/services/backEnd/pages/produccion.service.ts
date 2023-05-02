@@ -94,10 +94,13 @@ export class ProduccionService {
   }
 
   //SEGUIMIENTO DE LA ORDEN DE COMPRA
-  ListarItemOrdenCompra(FiltroElemento){
-    const params =  new HttpParams().set('Origen', FiltroElemento.Origen).set('Anio',FiltroElemento.Anio).set('Regla',FiltroElemento.regla);
+  ListarItemOrdenCompra(Anio){
+    const params =  new HttpParams().set('Anio',Anio);
     return this._http.get<any[]>(this.url+"/api/Produccion/ListarItemOrdenCompra", {'params': params}).pipe(
-      catchError (() => throwError("Error al obtener el seguimiento de candidatos"))
+      catchError( _ => {
+        this._toastr.error("Error al mostrar el calendario de orden compra ", "Error !!", { timeOut: 4000, closeButton: true })
+        return throwError("Error  al mostrar el calendario de orden compra ")
+      })
     );
   }
 
@@ -175,6 +178,27 @@ export class ProduccionService {
     );
   }
 
+  generarOrdenCompraPrevios(){
+    return this._http.get(this.url +"/api/Produccion/MostrarOrdenCompraPrevios").pipe(
+      catchError( _ => {
+        this._toastr.error("Error al listar la orden de compra simulada ", "Error !!", { timeOut: 4000, closeButton: true })
+        return throwError("Error  al listar la orden de compra simulada ")
+      })
+    )
+  }
+
+
+  visualizarOrdenCompraPrevios(proveedor){
+    const params =  new HttpParams().set('proveedor',proveedor)
+    return this._http.get(this.url +"/api/Produccion/VisualizarOrdenCompraSimulada", {"params": params}).pipe(
+      catchError( _ => {
+        this._toastr.error("Error al visualizar la orden de compra", "Error !!", { timeOut: 4000, closeButton: true })
+        return throwError("Error  al visualizar la orden de compra")
+      })
+    )
+  }
+ 
+
 
   ordenCompraVencidas(){
     return this._http.get(this.url+"/api/Produccion/MostrarOrdenCompraVencidas").pipe(
@@ -185,7 +209,7 @@ export class ProduccionService {
     );
   }
   
-  GuardarOrdenCompraVencida(body){
+  guardarOrdenCompraVencida(body){
     return this._http.post(this.url+"/api/Produccion/GuardarOrdenCompraVencida",body).pipe(
       catchError( _ => {
         this._toastr.error("Error al momento de modificar el estado orden compra ", "Error !!", { timeOut: 4000, closeButton: true })
@@ -199,6 +223,13 @@ export class ProduccionService {
       catchError( _ => {
         this._toastr.error("Error al mostrar el listado de las agujas ", "Error !!", { timeOut: 4000, closeButton: true })
         return throwError("Error  al mostrar el listado de las agujas ")
+      }));
+  }
+  generarOrdenCompraDrogueria(){
+    return this._http.get(this.url+"/api/Produccion/GenerarOrdenCompraDrogueria").pipe(
+      catchError( _ => {
+        this._toastr.error("Error al Generar Orden Compra", "Error !!", { timeOut: 4000, closeButton: true })
+        return throwError("Error  al Generar Orden Compra")
       })
     );
   }
@@ -219,9 +250,16 @@ export class ProduccionService {
     return this._http.get(this.url+"/api/Produccion/MostrarOrdenCompraArima",  {"params":params}).pipe(
       catchError( _ => {
         this._toastr.error("Error al momento de exportar las agujas ", "Error !!", { timeOut: 4000, closeButton: true })
-        return throwError("Error  al momento de exportar las agujas ")
-      })
-    );
+        return throwError("Error  al momento de exportar las agujas ")}));
+     
+  }
+  
+  registrarOrdenCompraDrogueria(body){
+    return this._http.post(this.url+"/api/Produccion/RegistrarOrdenCompraDrogueria",body).pipe(
+      catchError( _ => {
+        this._toastr.error("Error al momento de registrar el estado orden compra ", "Error !!", { timeOut: 4000, closeButton: true })
+        return throwError("Error  al momento de registrar el estado orden compra ")
+      }));
   }
 
 }

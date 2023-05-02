@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { CommonModule,registerLocaleData } from '@angular/common';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { CommonModule,DecimalPipe,registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
 import { RouterModule } from '@angular/router';
 import { ProduccionRoutes } from './produccion.routing';
@@ -22,7 +22,9 @@ import { MiniTablaDetalleComponent } from './gestion/seguimiento-orden-compra/mi
 import { ModalVisualizarDetalleImportacionComponent } from './gestion/seguimiento-orden-compra/modal-visualizar-detalle-importacion/modal-visualizar-detalle-importacion.component';
 import { OcDrogueriaComponent } from './arima/oc-drogueria/oc-drogueria.component';
 import { CompraAgujaComponent } from './arima/compra-aguja/compra-aguja.component';
-
+import { ComponenteModule } from '@shared/components/componente.module';
+import { OrdenCompraDrogueriaComponent } from './arima/oc-drogueria/orden-compra-drogueria/orden-compra-drogueria.component';
+import { ListarOrdenCompraPrevioComponent } from './arima/oc-drogueria/listar-orden-compra-previo/listar-orden-compra-previo.component';
 
 registerLocaleData(localeEs);
 
@@ -41,6 +43,8 @@ registerLocaleData(localeEs);
     ModalVisualizarDetalleImportacionComponent,
     OcDrogueriaComponent,
     CompraAgujaComponent,
+    OrdenCompraDrogueriaComponent,
+    ListarOrdenCompraPrevioComponent,
   ],
   imports: [
     RouterModule.forChild(ProduccionRoutes),
@@ -50,11 +54,14 @@ registerLocaleData(localeEs);
     }),
     CommonModule,
     NgxDatatableModule,
+    ComponenteModule,
     FormsModule,
     NgbModule,
     NotifierModule,
     ReactiveFormsModule,
-    NgMultiSelectDropDownModule
-  ]
+    NgMultiSelectDropDownModule,
+  ],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
+  providers: [DecimalPipe]
 })
 export class ProduccionModule { }

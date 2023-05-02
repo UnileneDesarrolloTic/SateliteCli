@@ -1,0 +1,165 @@
+<div class="card">
+    <div class="card-body">
+        <form [formGroup]="form">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <h4 class="mb-0">Orden de compra:</h4>
+                </div>
+                <div class="col-md-6 mt-3 mt-md-0">
+                    <div class="row justify-content-end">
+                        <!-- <div class="col-lg-3 col-md-4 col-6">
+                            <button type="button" (click)="cancel()"
+                                class="btn btn-outline-info shadow-sm font-medium btn-block"> <i class="fas fa-plus"></i>
+                                Agregar
+                            </button>
+                        </div> -->
+                        <div class="col-lg-3 col-md-4 col-6">
+                            <button type="button"   (click)="cancel()"
+                                class="btn btn-outline-danger shadow-sm font-medium btn-block"> <i class="fas fa-ban"></i>
+                                Cancel
+                            </button>
+                        </div>
+                        <div class="col-lg-3 col-md-4 col-6">
+                            <button  (click)="save()" [disabled]="flagGuardado" type="button"
+                                class="btn btn-outline-success shadow-sm font-medium btn-block">
+                                <i class="fa fa-spinner fa-spin fa-fw" *ngIf="flagGuardado"></i>
+                                <i class="fas fa-save" *ngIf="!flagGuardado" ></i> 
+                                Guardar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex align-items-center border-top pt-3 pb-3 border-bottom">
+                <div class="col-lg-12">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <label>Proveedor: </label>
+                            <div class="form-group">
+                                <input type="text" class="form-control form-control-sm"  [readOnly]="desactivarInput" formControlName="proveedor">
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-4">
+                            <label>Procendencia: </label>
+                            <div class="form-group">
+                                <input type="text" class="form-control form-control-sm" [readOnly]="desactivarInput" formControlName="procedencia">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-2">
+                            <label>Moneda: </label>
+                            <div class="form-group">
+                                <input type="text" class="form-control form-control-sm" [readOnly]="desactivarInput" formControlName="moneda">
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <label>Fecha Preparación: </label>
+                            <div class="form-group">
+                                <input type="date" class="form-control form-control-sm"  [readOnly]="desactivarInput" formControlName="fecha">
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <label>Entrega(días) </label>
+                            <div class="form-group">
+                                <input type="number" class="form-control form-control-sm"  [readOnly]="desactivarInput" formControlName="diasespera">
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <label>Fecha Prometida: </label>
+                            <div class="form-group">
+                                <input type="date" class="form-control form-control-sm"  [readOnly]="desactivarInput" formControlName="fechaPrometida">
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <label>Estado: </label>
+                            <div class="form-group">
+                                <input type="text" class="form-control form-control-sm"  [readOnly]="desactivarInput" formControlName="estado">
+                            </div>
+                        </div>
+                       
+                        <div class="col-lg-2">
+                            <label>MontoTotal: </label>
+                            <div class="form-group">
+                                <input type="number" class="form-control form-control-sm" [readOnly]="desactivarInput" formControlName="montoTotal">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body scroll-group">
+                                    <div class="table-responsive text-nowrap">
+                                        <table class="table  table-bordered table-sm" style="font-size: 12px" >
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col" class="text-center font-weight-bold">#</th>
+                                                    <th scope="col" class="text-center font-weight-bold">Item</th>
+                                                    <th scope="col" class="text-center font-weight-bold text-nowrap">Descripción</th>
+                                                    <th scope="col" class="text-center font-weight-bold">U.M</th>
+                                                    <th scope="col" class="text-center font-weight-bold" style="width: 5.5rem;">Cantidad</th>
+                                                    <th scope="col" class="text-center font-weight-bold" style="width: 4.5rem;">P.Unit</th>
+                                                    <th scope="col" class="text-center font-weight-bold">Total</th>
+                                                    <th scope="col" class="text-center font-weight-bold">F.Prometida</th>
+                                                    <!-- <th scope="col" class="text-center font-weight-bold">Moneda</th> -->
+                                                    <th scope="col" class="text-center font-weight-bold">Estado</th>
+                                                    <th scope="col" class="text-center font-weight-bold">opción</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let fromItem of detalleOC.controls; let i = index" [ngStyle]="{'background-color': fromItem.value.idGestionarColor > 0 ? fromItem.value.colorVariacion : fromItem.value.colorVariacion }">
+                                                    <ng-container [formGroup]="fromItem">
+                                                        <td class="text-center font-weight-normal">
+                                                            <b>{{fromItem.value.secuencia}}</b>
+                                                        </td>
+                                                        <td class="text-center font-weight-normal">
+                                                            <b>{{fromItem.value.item}}</b>
+                                                        </td>
+                                                        <td class="text-left font-weight-normal">
+                                                            <b class="text-nowrap">{{fromItem.value.descripcion}}</b>
+                                                        </td>
+                                                        <td class="text-center font-weight-normal">
+                                                            <b>{{fromItem.value.presentacion}}</b>
+                                                        </td>
+                                                        <td class="text-center font-weight-normal" style="width: 5.5rem;">
+                                                            <input type="number" class="form-control form-control-sm" formControlName="cantidadpedida" />
+                                                        </td>
+                                                        <td class="text-center font-weight-normal" style="width: 5.5rem;">
+                                                            <input type="number" class="form-control form-control-sm" formControlName="preciounitario" />
+                                                        </td>
+                                                        <td class="text-center font-weight-normal">
+                                                            <b>{{fromItem.value.montototal | number: '1.2-2' }}</b>
+                                                        </td>
+                                                        <td class="text-center font-weight-normal">
+                                                            <b>{{fromItem.value.fechaprometida | date:'dd/MM/yyy'}}</b>
+                                                        </td>
+                                                        <!-- <td class="text-center font-weight-normal">
+                                                            <b>{{fromItem.value.moneda}}</b>
+                                                        </td> -->
+                                                        <td class="text-center font-weight-normal" style="width: 4.5rem">
+                                                            <select class="form-control  form-control-sm font-weight-normal" formControlName="estado">
+                                                                <option [value]="'OK'">OK</option>
+                                                                <option [value]="'PE'">PE</option>
+                                                            </select>
+                                                        </td>
+                                                        <td class="text-center font-weight-normal" style="width: 4.5rem">
+                                                           <a type="button" (click)="eliminar(fromItem.value,i)" class="btn btn-sm" >
+                                                                <i class="fas fa-trash text-danger"></i></a>
+                                                        </td>
+                                                    
+                                                    </ng-container>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <div class="text-right">
+                                            <h3><span class="font-weight-bold  text-right mr-2">Total:</span> $ {{this.form.controls.montoTotal.value | number }} </h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

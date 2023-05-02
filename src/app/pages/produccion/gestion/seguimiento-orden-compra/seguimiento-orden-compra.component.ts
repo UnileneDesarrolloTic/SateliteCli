@@ -24,8 +24,9 @@ export class SeguimientoOrdenCompraComponent implements OnInit {
 
   ngOnInit(): void {
     this.inicializarFormulario();
-    this.BuscarPedido();
-    this.AccesosPermiso();
+    this.accesosPermiso();
+    this.isObservableAnio();
+    this.filtrar()
   }
 
   currentJustify = 'start';
@@ -39,15 +40,16 @@ export class SeguimientoOrdenCompraComponent implements OnInit {
 
   inicializarFormulario() {
     this.filtrosForm = new FormGroup({
-      Origen: new FormControl('TD'),
-      Anio:new FormControl('2022'),
-      regla:new FormControl('MPAGAR1'),
-    })
-
+      Anio:new FormControl('2023'),
+    });
   }
 
-  BuscarPedido(){
-    this._ProductoServices.ListarItemOrdenCompra(this.filtrosForm.value).subscribe(
+  filtrar(){
+    this.buscarPedido(this.filtrosForm.controls.Anio.value);
+  }
+
+  buscarPedido(Anio){
+    this._ProductoServices.ListarItemOrdenCompra(Anio).subscribe(
       resp=>{
           this.ListarSeguimientoItemOC=resp["calendario"];
           this.ListarDetalleSeguimientoItemOC=resp["detalleCalendario"];
@@ -55,7 +57,14 @@ export class SeguimientoOrdenCompraComponent implements OnInit {
     );
   }
 
-  AccesosPermiso(){
+
+  isObservableAnio(){
+    this.filtrosForm.controls.Anio.valueChanges.subscribe((valor)=>{
+        this.buscarPedido(valor);
+    })
+  }
+
+  accesosPermiso(){
     this._GenericoService.AccesosPermiso('BTN0001').subscribe(
       (resp:any)=>{
           this.PermisoAcceso=resp["content"];
@@ -64,7 +73,7 @@ export class SeguimientoOrdenCompraComponent implements OnInit {
   }
 
   Refrescar(valor:boolean){
-    this.BuscarPedido();
+    this.buscarPedido(this.filtrosForm.controls.Anio.value);
   }
 
  
