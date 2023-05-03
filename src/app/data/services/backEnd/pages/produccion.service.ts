@@ -167,9 +167,9 @@ export class ProduccionService {
     );
   }
 
-  exportarCompraDrogueria(idproveedor,mostrar){
+  exportarCompraDrogueria(idproveedor, mostrar, agrupador){
 
-    const params = new HttpParams().set('idproveedor',idproveedor).set('mostrarcolumna',mostrar);
+    const params = new HttpParams().set('idproveedor',idproveedor).set('mostrarcolumna',mostrar).set('agrupador',agrupador);
     return this._http.get(this.url+"/api/Produccion/ExcelCompraDrogueria", {"params":params}).pipe(
       catchError( _ => {
         this._toastr.error("Error al Exportar la información de drogueria ", "Error !!", { timeOut: 4000, closeButton: true })

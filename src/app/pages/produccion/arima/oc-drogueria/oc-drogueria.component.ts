@@ -1,17 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MostrarOrdenCompraDrogueria } from '@data/interface/Response/OCDrogueria/DatosFormatoMostrarOrdenCompra.interface';
 import { MostrarProveedorDrogueria } from '@data/interface/Response/OCDrogueria/DatosFormatoMostrarProveedor.interface';
 import { OrdenCompraPrevio } from '@data/interface/Response/OCDrogueria/DatosFormatoOrdenCompraPrevio.interface';
 import { ModelSeguimientoDrogueria } from '@data/interface/Response/OCDrogueria/DatosFormatoSeguimientoDrogueria.interface';
 import { ProduccionService } from '@data/services/backEnd/pages/produccion.service';
-import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalCargarComponent } from '@shared/components/modal-cargar/modal-cargar.component';
 import { Cargarbase64Service } from '@shared/services/comunes/cargarbase64.service';
-import { Toast, ToastrService } from 'ngx-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { debounceTime } from 'rxjs/operators';
 import { GenericoService } from '@shared/services/comunes/generico.service';
 import { ModalVerTransitoComponent } from '@shared/components/modal-ver-transito/modal-ver-transito.component';
+import { FullComponent } from '@layout/full/full.component';
 
 @Component({
   selector: 'app-oc-drogueria',
@@ -35,22 +36,32 @@ export class OcDrogueriaComponent implements OnInit {
   
   checkMostrarColumna = new FormControl(false);
   textFiltrar = new FormControl('');
+  reporteDrogueria = new FormControl('sinGrupo');
 
 
   constructor(private _ProduccionService: ProduccionService,
     private _modalService: NgbModal,
     private _toastr: ToastrService,
     private _Cargarbase64Service:Cargarbase64Service,
-    private _GenericoService : GenericoService) { }
+    private _GenericoService : GenericoService,
+    private _fullcomponent : FullComponent) { 
+      this._fullcomponent.options.sidebartype = 'mini-sidebar'
+
+    }
 
   ngOnInit(): void {
     // this.accesosPermiso();
+   
     this.filtroFormulario();
     this.mostrarProveedor();
     this.reporteSeguimientoDrogueria();
     this.isObservableFiltro();
     this.generarOrdenCompra();
     this.generarOC();
+  }
+
+  ngAfterViewInit(){
+    
   }
 
   filtroFormulario() {
@@ -119,32 +130,6 @@ export class OcDrogueriaComponent implements OnInit {
     });
   }
 
-  exportarExcel() {
-    this.flagEsperaExcel=true;
-    const ModalCarga = this._modalService.open(ModalCargarComponent, {
-      centered: true,
-      backdrop: 'static',
-      size: 'sm',
-      scrollable: true
-    });
-    ModalCarga.componentInstance.fromParent = "Generando el Formato Excel";
-    this._ProduccionService.exportarCompraDrogueria(this.formularioFiltro.controls.idproveedor.value,this.checkMostrarColumna.value).subscribe(
-      (resp:any)=>{
-        if(resp.success){
-          this._Cargarbase64Service.file(resp.content,`CompraDrogueria-${this.hoy}`,'xlsx',ModalCarga);
-        }else{
-          ModalCarga.close();
-          this._toastr.info(resp.message);
-        }
-        this.flagEsperaExcel=false;
-      },
-      _=> {
-            ModalCarga.close();
-            this.flagEsperaExcel=false;
-      }
-    );
-
-    }
 
     generarOrdenCompra(){
       this._ProduccionService.generarOrdenCompraPrevios().subscribe(
@@ -200,6 +185,46 @@ export class OcDrogueriaComponent implements OnInit {
     
     )
   }
+
+
+
+  exportarExcel(modal: NgbModal) {
+    this._modalService.open(modal, {
+      centered: true,
+      backdrop: 'static',
+      size: 'sm',
+      scrollable: true
+    });
+    
+    
+
+    }
+
+    aceptarDescarga(){
+        this.flagEsperaExcel=true;
+        const ModalCarga = this._modalService.open(ModalCargarComponent, {
+          centered: true,
+          backdrop: 'static',
+          size: 'sm',
+          scrollable: true
+        });
+        ModalCarga.componentInstance.fromParent = "Generando el Formato Excel";
+        this._ProduccionService.exportarCompraDrogueria(this.formularioFiltro.controls.idproveedor.value,this.checkMostrarColumna.value, this.reporteDrogueria.value).subscribe(
+          (resp:any)=>{
+            if(resp.success){
+              this._Cargarbase64Service.file(resp.content,`CompraDrogueria-${this.hoy}`,'xlsx',ModalCarga);
+            }else{
+              ModalCarga.close();
+              this._toastr.info(resp.message);
+            }
+            this.flagEsperaExcel=false;
+          },
+          _=> {
+                ModalCarga.close();
+                this.flagEsperaExcel=false;
+          }
+        );
+    }
 
 
 
