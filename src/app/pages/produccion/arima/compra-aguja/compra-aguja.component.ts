@@ -3,6 +3,7 @@ import { FormControl } from '@angular/forms';
 import { DatosFormatoListadoCompraAguja } from '@data/interface/Response/CompraAguja/DatosFormatoListadoCompraAguja.interface';
 import { OCPendientesArima } from '@data/interface/Response/CompraAguja/DatosFormatoOCPendientes.interface';
 import { ProduccionService } from '@data/services/backEnd/pages/produccion.service';
+import { FullComponent } from '@layout/full/full.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalCargarComponent } from '@shared/components/modal-cargar/modal-cargar.component';
 import { Cargarbase64Service } from '@shared/services/comunes/cargarbase64.service';
@@ -26,7 +27,9 @@ export class CompraAgujaComponent implements OnInit {
   textFiltrarAgujas = new FormControl('');
   
   constructor(public _ProduccionService: ProduccionService,private _modalService: NgbModal,
-    private _Cargarbase64Service:Cargarbase64Service, private _toastr: ToastrService,) { }
+    private _Cargarbase64Service:Cargarbase64Service, private _toastr: ToastrService, private _fullComponente: FullComponent) { 
+        this._fullComponente.options.sidebartype = 'mini-sidebar';
+    }
 
   ngOnInit(): void {
     this.listadoComprasAguja();
