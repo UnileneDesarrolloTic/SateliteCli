@@ -297,7 +297,10 @@
       </div>
       </div>
       <div class="modal-footer">
-        <button type="button" (click)="aceptarDescarga()" class="btn btn-rounded btn-sm btn-info">Descargar</button>
+        <button type="button" (click)="aceptarDescarga()" class="btn btn-rounded btn-sm btn-info">
+            <i class="fas fa-file-excel" *ngIf="!flagEsperaExcelAgrupador"></i>
+            <i class="fa fa-spinner fa-spin fa-fw" *ngIf="flagEsperaExcelAgrupador"></i>
+            Descargar</button>
         <button type="button" (click)="modal.dismiss('Cross click')"
           class="btn btn-rounded btn-sm btn-secondary">Cancelar</button>
       </div>
