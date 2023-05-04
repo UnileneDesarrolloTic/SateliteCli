@@ -1,28 +1,23 @@
 <div class="row">
     <div class="col-12">
-
         <div class="card border-left border-info">
-            <div class="card-header bg-info text-white" style="font-weight: bold;">
-                Reporte de Aguja
-            </div>
             <div class="card-body">
-                <div class="row">
-                    <div class="col-md-3">
-                        <label class="control-label text-white">&nbsp;&nbsp;</label>
-                        <div class="form-group">
-                            <button class="btn btn-success btn-sm text-white" (click)="exportarExcel()"
-                                style="background-color: #25aa00;border: none;">
-                                <i class="fas fa-file-excel" *ngIf="!flagEsperaExcel"></i>
-                                <i class="fa fa-spinner fa-spin fa-fw" *ngIf="flagEsperaExcel"></i> Excel</button>
-                        </div>
-                    </div>
-                </div>
                 <div class="row pb-1">
                     <div class="col-md-4">
                         <input type="text" style="float: right" [formControl]='textFiltrarAgujas'
                             placeholder="Buscar Item o Descripción" class="form-control rounded-pill font-bold">
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-4  d-flex justify-content-center">
+                        <div class="form-group">
+                            <button class="btn btn-info btn-sm text-white" (click)="listadoComprasAguja()" >
+                                <i class="fas fa-search" *ngIf="!flagEsperaExcel"></i>
+                                <i class="fa fa-spinner fa-spin fa-fw" *ngIf="flagEsperaExcel"></i> Buscar</button>
+                            
+                            <button class="btn btn-success btn-sm text-white" (click)="exportarExcel()"
+                                style="background-color: #25aa00;border: none;">
+                                <i class="fas fa-file-excel" *ngIf="!flagEsperaExcel"></i>
+                                <i class="fa fa-spinner fa-spin fa-fw" *ngIf="flagEsperaExcel"></i> Excel</button>
+                        </div>
                     </div>
                     <div class="col-md-4 d-flex justify-content-end">
                         <div class="form-check form-check-inline">
@@ -42,27 +37,28 @@
                             [scrollbarV]="true" [sorts]="[{prop: 'name', dir: 'desc'}]" [loadingIndicator]="flagEspera"
                             style="height: 90%;" class="material font-medium" [rowHeight]="50" [scrollbarH]="true">
 
-                            <ngx-datatable-column name="ItemFinal" prop="itemFinal" [frozenLeft]="true" [width]="20">
+                            <!-- [frozenLeft]="true"  -->
+                            <ngx-datatable-column name="ItemFinal" prop="itemFinal" [width]="20">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
                                     <span class="font-medium">{{row.itemFinal }}</span>
                                 </ng-template>
                             </ngx-datatable-column>
 
-                            <ngx-datatable-column name="Descripción" prop="descripcionLocal" [frozenLeft]="true"
-                                [width]="120">
+                            <ngx-datatable-column name="Descripción" prop="descripcionLocal" 
+                                [width]="180">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
                                     <span class="font-medium">{{row.descripcionLocal }}</span>
                                 </ng-template>
                             </ngx-datatable-column>
 
 
-                            <ngx-datatable-column name="Longuitud" prop="longAgujas" [frozenLeft]="true" [width]="40">
+                            <ngx-datatable-column name="Longuitud" prop="longAgujas" [width]="40">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
                                     <span class="font-medium">{{row.longAgujas }}</span>
                                 </ng-template>
                             </ngx-datatable-column>
 
-                            <ngx-datatable-column name="Familia" prop="familiaLarga" [frozenLeft]="true" [width]="60">
+                            <ngx-datatable-column name="Familia" prop="familiaLarga" [width]="120">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
                                     <span class="font-medium">{{row.familiaLarga }}</span>
                                 </ng-template>
@@ -110,38 +106,45 @@
                                 </ng-template>
                             </ngx-datatable-column>
 
-                            <ngx-datatable-column name="CantMinima" prop="cantidadMinima" [width]="30">
+                            <ngx-datatable-column name="CantMinima" prop="cantidadMinima" [width]="50">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
                                     <span class="font-medium">{{row.cantidadMinima | number : '1.0-0'}}</span>
                                 </ng-template>
                             </ngx-datatable-column>
 
-                            <ngx-datatable-column name="Maximo stock" prop="maximoStock" [width]="30">
+                            <ngx-datatable-column name="Maximo stock" prop="maximoStock" [width]="50">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
                                     <span class="font-medium">{{row.maximoStock | number : '1.0-0'}}</span>
                                 </ng-template>
                             </ngx-datatable-column>
 
-                            <ngx-datatable-column name="Punto corte" prop="puntoCorte" [width]="30">
+                            <ngx-datatable-column name="Punto corte" prop="puntoCorte" [width]="50">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
                                     <span class="font-medium">{{row.puntoCorte | number : '1.0-0'}}</span>
                                 </ng-template>
                             </ngx-datatable-column>
 
-                            <ngx-datatable-column name="Almacen" prop="almacen" [width]="30">
+                            <ngx-datatable-column name="Almacen" prop="almacen" [width]="50">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
                                     <span class="font-medium">{{row.almacen | number : '1.0-0'}}</span>
                                 </ng-template>
                             </ngx-datatable-column>
 
+                            <ngx-datatable-column name="OC(Preparacion)" prop="preparacionOC" [width]="60">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <span *ngIf="row.preparacionOC<=0" class="font-medium">{{row.preparacionOC | number:'1.2-2' }}</span>
+                                    <button class="btn btn-sm btn-outline-primary btn-rounded font-medium" type="button"
+                                        *ngIf="row.preparacionOC>0" (click)="abrirModalMostrarOC(modalPendienteOC, row.itemFinal, 'Preparacion')">
+                                        {{ row.preparacionOC | number : '1.0-0' }}
+                                    </button>
+                                </ng-template>
+                            </ngx-datatable-column>
 
-
-
-                            <ngx-datatable-column name="Transito" prop="pendienteOC" [width]="30">
+                            <ngx-datatable-column name="Transito" prop="pendienteOC" [width]="60">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
                                     <span *ngIf="row.pendienteOC<=0" class="font-medium">{{row.pendienteOC | number:'1.2-2' }}</span>
                                     <button class="btn btn-sm btn-outline-primary btn-rounded font-medium" type="button"
-                                        *ngIf="row.pendienteOC>0" (click)="abrirModalMostrarOC(modalPendienteOC, row.itemFinal)">
+                                        *ngIf="row.pendienteOC>0" (click)="abrirModalMostrarOC(modalPendienteOC, row.itemFinal, 'Aprobados')">
                                         {{ row.pendienteOC | number : '1.' }}
                                     </button>
                                 </ng-template>
@@ -160,7 +163,7 @@
                                 </ng-template>
                             </ngx-datatable-column>
 
-                            <ngx-datatable-column name="Disponible" prop="disponible" [width]="30">
+                            <ngx-datatable-column name="Disponible" prop="disponible" [width]="50">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
                                     <span class="font-medium">{{row.disponible | number : '1.0-0'}}</span>
                                 </ng-template>
@@ -173,7 +176,7 @@
                                 </ng-template>
                             </ngx-datatable-column>
 
-                            <ngx-datatable-column name="Pronostico" prop="pronostico" [width]="30">
+                            <ngx-datatable-column name="Pronostico" prop="pronostico" [width]="50">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
                                     <span class="font-medium">{{row.pronostico | number : '1.0-0'}}</span>
                                 </ng-template>
@@ -200,7 +203,7 @@
                                 </ng-template>
                             </ngx-datatable-column>
 
-                            <ngx-datatable-column name="DiasEspera" prop="diasEspera" [width]="30">
+                            <ngx-datatable-column name="DiasEspera" prop="diasEspera" [width]="50">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
                                     <span class="font-medium"
                                         [ngStyle]="{ 'color': row.diasEspera > 0 ? 'blue' : 'red' }">{{row.diasEspera}}</span>
@@ -214,7 +217,7 @@
                                 </ng-template>
                             </ngx-datatable-column>
 
-                            <ngx-datatable-column name="CantComprar" prop="cantidadComprar" [width]="40">
+                            <ngx-datatable-column name="CantComprar" prop="cantidadComprar" [width]="60" [flexGrow]="2">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
                                     <span class="font-medium">{{row.cantidadComprar | number : '1.0-0'}}</span>
                                 </ng-template>

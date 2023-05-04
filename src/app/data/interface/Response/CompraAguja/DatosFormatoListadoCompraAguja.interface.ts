@@ -17,6 +17,7 @@ export interface DatosFormatoListadoCompraAguja {
     consumoDia:           number;
     desviacionCompra:     number;
     pendienteOC:          number;
+    preparacionOC:        number;
     controlCalidad:       number;
     aduanas:              number;
     almacen:              number;

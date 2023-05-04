@@ -245,8 +245,8 @@ export class ProduccionService {
   }
 
   
-  mostrarOrdenCompraArima(Item){
-    const params = new HttpParams().set('Item',Item); 
+  mostrarOrdenCompraArima(Item,Tipo){
+    const params = new HttpParams().set('Item',Item).set('Tipo',Tipo); 
     return this._http.get(this.url+"/api/Produccion/MostrarOrdenCompraArima",  {"params":params}).pipe(
       catchError( _ => {
         this._toastr.error("Error al momento de exportar las agujas ", "Error !!", { timeOut: 4000, closeButton: true })

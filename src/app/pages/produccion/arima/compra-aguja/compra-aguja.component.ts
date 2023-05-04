@@ -38,6 +38,8 @@ export class CompraAgujaComponent implements OnInit {
 
 
   listadoComprasAguja(){
+    this.listadoCompraAguja = [];
+    this.templistadoCompraAguja = [];
     this.flagEspera = true;
     this._ProduccionService.listarSeguimientoCompraAguja().subscribe(
       (resp:any)=>{
@@ -89,7 +91,7 @@ export class CompraAgujaComponent implements OnInit {
   }
 
 
-  abrirModalMostrarOC(modal: NgbModal,item:string){  
+  abrirModalMostrarOC(modal: NgbModal,item:string, tipo:string){  
     console.log(item);
     
   this._modalService.open(modal, {
@@ -99,7 +101,7 @@ export class CompraAgujaComponent implements OnInit {
     scrollable: true
   });
 
-  this._ProduccionService.mostrarOrdenCompraArima(item).subscribe(
+  this._ProduccionService.mostrarOrdenCompraArima(item,tipo).subscribe(
     (resp:any) => {
       if(resp["success"]){
         this.listaDettalleCC=resp["content"];
