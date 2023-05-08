@@ -20,6 +20,7 @@ export interface DatosFormatoListadoCompraAguja {
     preparacionOC:        number;
     controlCalidad:       number;
     aduanas:              number;
+    planta:               number;
     almacen:              number;
     disponible:           number;
     diasPotencial:        number;

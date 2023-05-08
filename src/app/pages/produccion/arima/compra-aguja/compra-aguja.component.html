@@ -130,11 +130,17 @@
                                 </ng-template>
                             </ngx-datatable-column>
 
+                            <ngx-datatable-column name="Planta" prop="planta" [width]="50">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <span class="font-medium">{{row.planta | number : '1.0-0'}}</span>
+                                </ng-template>
+                            </ngx-datatable-column>
+
                             <ngx-datatable-column name="OC(Preparacion)" prop="preparacionOC" [width]="60">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
-                                    <span *ngIf="row.preparacionOC<=0" class="font-medium">{{row.preparacionOC | number:'1.2-2' }}</span>
+                                    <span *ngIf="row.preparacionOC<=0" class="font-medium">{{row.preparacionOC | number:'1.0-0' }}</span>
                                     <button class="btn btn-sm btn-outline-primary btn-rounded font-medium" type="button"
-                                        *ngIf="row.preparacionOC>0" (click)="abrirModalMostrarOC(modalPendienteOC, row.itemFinal, 'Preparacion')">
+                                        *ngIf="row.preparacionOC>0" (click)="abrirModalMostrarOC(modalPendienteOC, row.itemFinal, 'Preparacion',  row.descripcionLocal)">
                                         {{ row.preparacionOC | number : '1.0-0' }}
                                     </button>
                                 </ng-template>
@@ -142,9 +148,9 @@
 
                             <ngx-datatable-column name="Transito" prop="pendienteOC" [width]="60">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
-                                    <span *ngIf="row.pendienteOC<=0" class="font-medium">{{row.pendienteOC | number:'1.2-2' }}</span>
+                                    <span *ngIf="row.pendienteOC<=0" class="font-medium">{{row.pendienteOC | number:'1.0-0' }}</span>
                                     <button class="btn btn-sm btn-outline-primary btn-rounded font-medium" type="button"
-                                        *ngIf="row.pendienteOC>0" (click)="abrirModalMostrarOC(modalPendienteOC, row.itemFinal, 'Aprobados')">
+                                        *ngIf="row.pendienteOC>0" (click)="abrirModalMostrarOC(modalPendienteOC, row.itemFinal, 'Aprobados', row.descripcionLocal)">
                                         {{ row.pendienteOC | number : '1.' }}
                                     </button>
                                 </ng-template>
@@ -238,7 +244,7 @@
 <ng-template #modalPendienteOC let-modal>
     <div class="modal-header">
         <h4 class="modal-title">
-            Ordenes de compra pendientes
+            Ordenes de compra
         </h4>
         <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
             <span aria-hidden="true">
@@ -247,9 +253,9 @@
         </button>
     </div>
     <div class="modal-body">
-        <p class="text-info">ITEM: {{itemModal}} - {{descripcionModal}}</p>
+        <p class="text-info">ITEM: {{this.itemModal}} - {{this.descripcionModal}}</p>
         <div class="table-responsive table-sm">
-            <table class="table table-striped no-wrap border mt-4" style="font-size: 13px;">
+            <table class="table table-striped no-wrap border" style="font-size: 13px;">
                 <thead>
                     <tr>
                         <th class="text-center">Nro Orden</th>

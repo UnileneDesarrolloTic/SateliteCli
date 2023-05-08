@@ -25,6 +25,9 @@ export class CompraAgujaComponent implements OnInit {
 
   checkMostrarColumna = new FormControl(false);
   textFiltrarAgujas = new FormControl('');
+
+  itemModal:string = '';
+  descripcionModal:string = '';
   
   constructor(public _ProduccionService: ProduccionService,private _modalService: NgbModal,
     private _Cargarbase64Service:Cargarbase64Service, private _toastr: ToastrService, private _fullComponente: FullComponent) { 
@@ -91,9 +94,10 @@ export class CompraAgujaComponent implements OnInit {
   }
 
 
-  abrirModalMostrarOC(modal: NgbModal,item:string, tipo:string){  
-    console.log(item);
-    
+  abrirModalMostrarOC(modal: NgbModal,item:string, tipo:string , descripcion : string ){  
+
+    this.itemModal = item;
+    this.descripcionModal = descripcion;
   this._modalService.open(modal, {
     centered: true,
     backdrop: 'static',
@@ -108,10 +112,6 @@ export class CompraAgujaComponent implements OnInit {
       }else{
         this.listaDettalleCC=[];
       }
-
-      console.log(this.listaDettalleCC);
-      
-        
     }
   )
    
