@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { DatosFormatoListadoCompraAguja } from '@data/interface/Response/CompraAguja/DatosFormatoListadoCompraAguja.interface';
 import { OCPendientesArima } from '@data/interface/Response/CompraAguja/DatosFormatoOCPendientes.interface';
+import { DatosFormatoListadoCantidadTotal } from '@data/interface/Response/CompraAguja/DatosFormatosListadoCantidadTotal.interface';
 import { ProduccionService } from '@data/services/backEnd/pages/produccion.service';
 import { FullComponent } from '@layout/full/full.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -20,6 +21,12 @@ export class CompraAgujaComponent implements OnInit {
   listadoCompraAguja:DatosFormatoListadoCompraAguja[]=[];
   templistadoCompraAguja:DatosFormatoListadoCompraAguja[]=[];
   listaDettalleCC:OCPendientesArima[]=[];
+  cantidadTotal: DatosFormatoListadoCantidadTotal[]=[];
+  totalAduanas : number = 0;
+  totalDisponible : number = 0;
+  totalControlCalidad : number = 0;
+  totalPendiente : number = 0;
+
   flagEspera: boolean = false;
   flagEsperaExcel:boolean=false;
 
@@ -46,8 +53,10 @@ export class CompraAgujaComponent implements OnInit {
     this.flagEspera = true;
     this._ProduccionService.listarSeguimientoCompraAguja().subscribe(
       (resp:any)=>{
-            this.listadoCompraAguja = resp;
-            this.templistadoCompraAguja = resp;
+             
+            this.listadoCompraAguja = resp["detalleInformacionAguja"];
+            this.templistadoCompraAguja = resp["detalleInformacionAguja"];
+            this.calcularTotal(resp["total"])
             this.flagEspera = false;
       },
       _=> this.flagEspera = false
@@ -116,5 +125,20 @@ export class CompraAgujaComponent implements OnInit {
   )
    
   }
+
+
+  calcularTotal(cantidadTotales:DatosFormatoListadoCantidadTotal[]){
+    cantidadTotales.forEach((element:DatosFormatoListadoCantidadTotal) => {
+          if(element.tipoBanner == "Aduanas"){
+              this.totalAduanas = element.cantidad;
+          }else if(element.tipoBanner == "Disponible"){
+              this.totalDisponible = element.cantidad;
+          }else if(element.tipoBanner == "ControlCalidad"){
+              this.totalControlCalidad = element.cantidad;
+          }else {
+              this.totalPendiente = element.cantidad;
+          }
+    });
+}
 
 }
