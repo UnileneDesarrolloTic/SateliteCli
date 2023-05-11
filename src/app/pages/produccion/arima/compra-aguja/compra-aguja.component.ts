@@ -26,9 +26,9 @@ export class CompraAgujaComponent implements OnInit {
   totalDisponible : number = 0;
   totalControlCalidad : number = 0;
   totalPendiente : number = 0;
-
   flagEspera: boolean = false;
   flagEsperaExcel:boolean=false;
+  mostrarmodalCantidad:Boolean=false;
 
   checkMostrarColumna = new FormControl(false);
   textFiltrarAgujas = new FormControl('');
@@ -139,6 +139,21 @@ export class CompraAgujaComponent implements OnInit {
               this.totalPendiente = element.cantidad;
           }
     });
-}
+  }
+
+
+  mostrarCantidad(){
+    this.mostrarmodalCantidad=true;
+    this.tableRowClicked();
+  }
+
+  tableRowClicked() {
+    (document.getElementById('rightMenu') as HTMLFormElement).style.width = '300px';
+  }
+
+  cancelClick(){
+    this.mostrarmodalCantidad=false;
+    (document.getElementById('rightMenu') as HTMLFormElement).style.width = '0';
+  }
 
 }

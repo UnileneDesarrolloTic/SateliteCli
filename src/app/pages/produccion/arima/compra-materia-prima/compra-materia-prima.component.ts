@@ -6,6 +6,7 @@ import { DetalleCalidad } from '@data/interface/Response/DetalleCalidad.interfac
 import { DetalleOrdenCompraMP } from '@data/interface/Response/DetalleordenCompraMPArima';
 import { SubFamilia } from '@data/interface/Response/SubFamilia.Interface';
 import { ProduccionService } from '@data/services/backEnd/pages/produccion.service';
+import { FullComponent } from '@layout/full/full.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalCargarComponent } from '@shared/components/modal-cargar/modal-cargar.component';
 import { Cargarbase64Service } from '@shared/services/comunes/cargarbase64.service';
@@ -60,10 +61,11 @@ export class CompraMateriaPrimaComponent implements OnInit {
   constructor(private _modalService: NgbModal,
               private toastr: ToastrService,
               private servicebase64:Cargarbase64Service, private _fb: FormBuilder, 
-              private _produccionService: ProduccionService, private _commonService: GenericoService) {
+              private _produccionService: ProduccionService, private _commonService: GenericoService,
+              private _fullComponente: FullComponent) {
+                this._fullComponente.options.sidebartype = 'mini-sidebar';
   
     this.inicializarFormulario();
-    
     this.instanciarObservadoresFilter();
     this.CargarFamiliaMP();
   }

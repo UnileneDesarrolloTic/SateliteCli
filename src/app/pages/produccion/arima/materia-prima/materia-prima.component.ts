@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ProduccionService } from '@data/services/backEnd/pages/produccion.service';
+import { FullComponent } from '@layout/full/full.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalCargarComponent } from '@shared/components/modal-cargar/modal-cargar.component';
 import  { Cargarbase64Service } from '@shared/services/comunes/cargarbase64.service';
@@ -38,7 +39,10 @@ export class MateriaPrimaComponent {
               private _fb: FormBuilder,
               private _ProduccionService:ProduccionService,
               private _Cargarbase64Service:Cargarbase64Service,
-              private toastr:ToastrService) {
+              private toastr:ToastrService,
+              private _fullComponente: FullComponent) {
+    
+    this._fullComponente.options.sidebartype = 'mini-sidebar'
     this.MostrarColumnaMateriaPrima();
     this.crearFormulario()
     this.obtenerListaCandidatosMP()
