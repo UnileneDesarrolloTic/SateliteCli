@@ -5,7 +5,6 @@ import { MateriaPrimaComponent } from '@pages/produccion/arima/materia-prima/mat
 import { LogPedidosAutomaticosComponent } from '@pages/produccion/arima/log-pedidos-automaticos/log-pedidos-automaticos.component';
 import { CompraMateriaPrimaComponent } from "./arima/compra-materia-prima/compra-materia-prima.component";
 import { EtiquetasComponent } from "./gestion/etiquetas/etiquetas.component";
-import { SeguimientoOperacionesComponent } from "@pages/dashboard/produccion/seguimiento-operaciones/seguimiento-operaciones.component";
 import { SeguimientoOrdenCompraComponent } from "./gestion/seguimiento-orden-compra/seguimiento-orden-compra.component";
 import { OcDrogueriaComponent } from "./arima/oc-drogueria/oc-drogueria.component";
 import { CompraAgujaComponent } from "./arima/compra-aguja/compra-aguja.component";
@@ -54,7 +53,7 @@ export const ProduccionRoutes: Routes = [
         path: 'CompraAguja',
         component: CompraAgujaComponent,
         data: {
-          title: "Compra Aguja"
+         
         }
       },
     ]
