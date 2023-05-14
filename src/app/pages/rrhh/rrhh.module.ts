@@ -16,6 +16,7 @@ import { HorasextrasComponent } from './horasextras/horasextras.component';
 import { ListarPersonaComponent } from './horasextras/listar-persona/listar-persona.component';
 import { FormularioHorasextrasComponent } from './horasextras/formulario-horasextras/formulario-horasextras.component';
 import { PuntosuspensivoPipe } from '@shared/pipe/puntosuspensivo.pipe';
+import { ComisionVendedorComponent } from './comision-vendedor/comision-vendedor.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { PuntosuspensivoPipe } from '@shared/pipe/puntosuspensivo.pipe';
     ListarPersonaComponent,
     FormularioHorasextrasComponent,
     PuntosuspensivoPipe,
+    ComisionVendedorComponent,
   ],
   imports: [
     RouterModule.forChild(RRHHRoutes),

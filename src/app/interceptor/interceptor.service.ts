@@ -157,6 +157,8 @@ export class InterceptorService implements HttpInterceptor {
       'RRHH/RegistrarHorasExtras',
       'RRHH/ListarHoraExtrasPersona',
       'RRHH/InformacionHoraExtras',
+      'RRHH/ReporteComisionVendedor', 
+      'RRHH/ReporteComisionVendedorExcel', 
       'Cotizacion/Listar',
       'Cotizacion/FormatosPorCliente',
       'Cotizacion/FormatoEstructura',

@@ -106,4 +106,27 @@ import { catchError, map } from 'rxjs/operators';
       );
     }
 
+    reporteComisionVendero( periodo:string): Observable<string>
+    {
+      const params =  new HttpParams().set('periodo', periodo);
+      return this._http.get<string>(this.url+"ReporteComisionVendedor", {'params': params}).pipe(
+        catchError(_ => {
+          this._toastr.error("Error al mostrar el reporte de comision de vendedor", "Error !!", {tapToDismiss: true, closeButton: true, timeOut: 3000});
+          return throwError("Error al mostrar el reporte de comision de vendedor");
+        })
+      );
+    }
+
+
+    exportarComisionVendero( periodo:string): Observable<string>
+    {
+      const params =  new HttpParams().set('periodo', periodo);
+      return this._http.get<string>(this.url+"ReporteComisionVendedorExcel", {'params': params}).pipe(
+        catchError(_ => {
+          this._toastr.error("Error al mostrar el exportar la comision de vendedor", "Error !!", {tapToDismiss: true, closeButton: true, timeOut: 3000});
+          return throwError("Error al mostrar el exportar la comision de vendedor");
+        })
+      );
+    }
+
   }

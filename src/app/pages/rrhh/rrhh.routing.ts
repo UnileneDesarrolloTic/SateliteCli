@@ -3,6 +3,7 @@ import { Routes } from "@angular/router";
 import { AuthGuard } from "@guard/auth.guard";
 import { HorasextrasComponent } from './horasextras/horasextras.component';
 import { FormularioHorasextrasComponent } from './horasextras/formulario-horasextras/formulario-horasextras.component';
+import { ComisionVendedorComponent } from './comision-vendedor/comision-vendedor.component';
 
 export const RRHHRoutes: Routes = [
   {
@@ -38,6 +39,13 @@ export const RRHHRoutes: Routes = [
             { title: 'Horas Extras', url: '/RRHH/HorasExtras'},
             { title: 'Formulario' }
           ]
+        }
+      },
+      {
+        path: 'ComisionVenedor',
+        component: ComisionVendedorComponent,
+        data: {
+         
         }
       },
     ]

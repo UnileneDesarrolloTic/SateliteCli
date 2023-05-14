@@ -1,0 +1,97 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card border-left border-info">
+            <div class="card-header bg-info text-white" style="font-weight: bold;">
+                Comisión de vendedor
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input type="month"  [formControl]="fechaconsulta"  class="form-control form-control-sm" placeholder="Buscar Cliente" aria-label="" aria-describedby="basic-addon1">
+                                    <div class="input-group-append">
+                                        <button class="btn mr-0 btn-info btn-sm"  (click)="buscar()"  type="button">
+                                            <i class="ti-search" *ngIf="!flagInformacion"></i>
+                                            <i class="fa fa-spinner fa-spin fa-fw" *ngIf="flagInformacion"></i>
+                                        </button>
+                                    </div>
+                                    <button type="button" class =" btn btn-sm btn-success ml-3" (click)="exportarExcel()"> <i class="fas fa-file-excel"></i> Excel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="align-items-center">
+                            <div class="table-hover table-responsive table-bordered">
+                              <table class="table table-striped border table-hover table-inf">
+                                <thead style="font-size: 13px" >
+                                  <tr>
+                                    <th class="text-center" scope="col">Nombre Completo</th>
+                                    <th class="text-center" scope="col">Total Facturado</th>
+                                    <th class="text-center" scope="col">Sin Igv</th>
+                                    <th class="text-center" scope="col">Venta General(2%)</th>
+                                    <th class="text-center" scope="col">Venta Restriccion(1%)</th>
+                                    <th class="text-center" scope="col">Venta Guantes(1%)</th>
+                                    <th class="text-center" scope="col">Venta Emodialisis(1%)</th>
+                                    <th class="text-center" scope="col">Comisión General(2%)</th>
+                                    <th class="text-center" scope="col">Comisión Restriccion(1%)</th>
+                                    <th class="text-center" scope="col">Comisión Guantes(1%)</th>
+                                    <th class="text-center" scope="col">Comisión Emodialisis(1%)</th>
+                                    <th class="text-center" scope="col">Comisión Total</th>
+                                  </tr>
+                                </thead>
+                                <tbody style="font-size: 11px" id="tbodyDetalle" >
+                                    <tr *ngFor="let comision of listarComisionVendedor">
+                                        <td class="text-left font-medium">
+                                            {{comision.nombreCompleto}}
+                                        </td>
+                                        <td class="text-center font-medium">
+                                            {{comision.totalFacturado | number: '1.2-2'}}
+                                        </td>
+                                        <td class="text-center font-medium">
+                                            {{comision.sinIGV | number: '1.2-2'}}
+                                        </td>
+                                        <td class="text-center font-medium">
+                                            {{comision.ventaGeneral | number: '1.2-2'}}
+                                        </td>
+                                        <td class="text-center font-medium">
+                                            {{comision.ventaRestriccion | number: '1.2-2'}}
+                                        </td>
+                                        <td class="text-center font-medium">
+                                            {{comision.ventaGuantes | number: '1.2-2'}}
+                                        </td>
+                                        <td class="text-center font-medium">
+                                            {{comision.ventaEmodialisis | number: '1.2-2'}}
+                                        </td>
+                                        <td class="text-center font-medium">
+                                            {{comision.comisionGeneral | number: '1.2-2'}}
+                                        </td>
+                                        <td class="text-center font-medium">
+                                            {{comision.comisionRestriccion | number: '1.2-2'}}
+                                        </td>
+                                        <td class="text-center font-medium">
+                                            {{comision.comisionGuantes | number: '1.2-2'}}
+                                        </td>
+                                        <td class="text-center font-medium">
+                                            {{comision.comisionEmodialisis | number: '1.2-2'}}
+                                        </td>
+                                        <td class="text-center font-medium">
+                                            {{comision.comisionTotal | number: '1.2-2'}}
+                                        </td>
+                                        
+                                    </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
