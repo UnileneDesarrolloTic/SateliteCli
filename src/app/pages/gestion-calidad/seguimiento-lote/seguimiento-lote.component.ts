@@ -14,6 +14,7 @@ export class SeguimientoLoteComponent implements OnInit {
   listaMateriaPrima: any[] = [];
   ordenesDeCompra: any[]= [];
   ordenesDeFabricacion: any[]= [];
+  documentosFactura: any[] = [];
   documentosPedidos: any[] = [];
   guiasRelacionadas: any[] = [];
   flagResultItems: boolean = false;
@@ -96,8 +97,11 @@ export class SeguimientoLoteComponent implements OnInit {
       this.ordenesDeFabricacion = resp['ordenesDeFabricacion']
       this.flagOrdenFabricacionResult = resp['ordenesDeFabricacion'].length > 0
 
-      this.documentosPedidos = resp['documentosPedidos']
+      this.documentosFactura = resp['documentosPedidos'].filter(documento=> documento.tipoDocumento != 'PE')
+      this.documentosPedidos = resp['documentosPedidos'].filter(documento=> documento.tipoDocumento == 'PE')
       this.flagDocumentosPedidosResult= resp['documentosPedidos'].length > 0
+
+      
 
       this.guiasRelacionadas = resp['guiasRelacionadas']
       this.flagGuiasRelacionadosResult= resp['guiasRelacionadas'].length > 0

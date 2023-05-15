@@ -386,6 +386,96 @@
             </table>
           </div>
 
+          <h4 class="font-weight-bold pt-2">Documentos relacionados</h4>
+          <div class="table-responsive text-nowrap" *ngIf="flagDocumentosPedidosResult">
+            <table class="table table-hover table-bordered table-sm">
+                <thead>
+                    <tr>
+                        <th scope="col" class="text-center font-weight-bold">Nro Doc</th>
+                        <th scope="col" class="text-center font-weight-bold">Tipo Doc</th>
+                        <th scope="col" class="text-center font-weight-bold">Ref.Factura</th>
+                        <th scope="col" class="text-center font-weight-bold">Forma Fac.</th>
+                        <th scope="col" class="text-center font-weight-bold">Venta</th>
+                        <th scope="col" class="text-center font-weight-bold">Fecha</th>
+                        <th scope="col" class="text-center font-weight-bold">Ruc</th>
+                        <th scope="col" class="text-center font-weight-bold">Cliente</th>
+                        <th scope="col" class="text-center font-weight-bold">Dirección</th>
+                        <th scope="col" class="text-center font-weight-bold">Lote</th>
+                        <th scope="col" class="text-center font-weight-bold">Ord. Fabr.</th>
+                        <th scope="col" class="text-center font-weight-bold">Almacen</th>
+                        <th scope="col" class="text-center font-weight-bold">Item</th>
+                        <th scope="col" class="text-center font-weight-bold">Descripción</th>
+                        <th scope="col" class="text-center font-weight-bold">Und</th>
+                        <th scope="col" class="text-center font-weight-bold">Entregado</th>
+                        <th scope="col" class="text-center font-weight-bold">Precio Und</th>
+                        <th scope="col" class="text-center font-weight-bold">Monto</th>
+                        <th scope="col" class="text-center font-weight-bold">Total</th>
+                    </tr>
+                </thead>
+                <tbody style="font-size: 14px">
+                    <tr *ngFor="let documento of documentosFactura">
+                        <td>
+                          {{ documento.numeroDocumento }}
+                        </td>
+                        <td class="text-center">
+                          {{ documento.tipoDocumento }}
+                        </td>
+                        <td class="text-center">
+                          {{ documento.referenciaDocumentoNC }}
+                        </td>
+                        <td class="text-center">
+                          {{ documento.formaFacturacion }}
+                        </td>
+                        <td class="text-center">
+                          {{ documento.tipoVenta }}
+                        </td>
+                        <td class="text-center">
+                          {{ documento.fechaDocumento | date: 'dd/MM/yyyy' }}
+                        </td>
+                        <td class="text-center">
+                          {{ documento.ruc }}
+                        </td>
+                        <td>
+                          {{ documento.clienteNombre }}
+                        </td>
+                        <td>
+                          {{ documento.clienteDireccion }}
+                        </td>
+                        <td class="text-center">
+                          {{ documento.lote }}
+                        </td>
+                        <td class="text-center">
+                          {{ documento.ordenFabricacion }}
+                        </td>
+                        <td class="text-center">
+                          {{ documento.almacenCodigo }}
+                        </td>
+                        <td>
+                          {{ documento.item }}
+                        </td>
+                        <td>
+                          {{ documento.descripcion }}
+                        </td>
+                        <td class="text-center">
+                          {{ documento.unidad }}
+                        </td>
+                        <td class="text-right">
+                          {{ documento.cantidadEntregada | number: '0.0-2' }}
+                        </td>
+                        <td class="text-right">
+                          {{ documento.precioUnitario | number: '0.2'}}
+                        </td>
+                        <td class="text-right">
+                          {{ documento.monto | number: '0.2'}}
+                        </td>
+                        <td class="text-right">
+                          {{ documento.montoTotal | number: '0.2'}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+          </div>
+
           <br>
           <h4 class="font-weight-bold">Guias relacionados</h4>
           <div class="alert alert-warning" role="alert" *ngIf="!flagGuiasRelacionadosResult">
