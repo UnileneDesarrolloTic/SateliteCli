@@ -20,6 +20,7 @@ import { FormatoCotizacionComponent } from './cotizacion/formato-cotizacion/form
 import { DocumentoLicitacionesComponent } from './documento-licitaciones/documento-licitaciones.component';
 import { RotuladoPEDComponent } from './rotulado-ped/rotulado-ped.component';
 import { GuiasPorFacturarComponent } from './guias-por-facturar/guias-por-facturar.component';
+import { GestionGuiasComponent } from './gestion-guias/gestion-guias.component';
 
 @NgModule({
   declarations: [GeneracionFormatosComponent, 
@@ -31,7 +32,8 @@ import { GuiasPorFacturarComponent } from './guias-por-facturar/guias-por-factur
                  FormatoCotizacionComponent, 
                  DocumentoLicitacionesComponent, 
                  RotuladoPEDComponent,
-                 GuiasPorFacturarComponent],
+                 GuiasPorFacturarComponent,
+                 GestionGuiasComponent],
   imports: [
     RouterModule.forChild(ComercialRoutes),
     CommonModule,

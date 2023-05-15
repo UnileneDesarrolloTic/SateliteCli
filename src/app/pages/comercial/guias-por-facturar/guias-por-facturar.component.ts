@@ -4,7 +4,6 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DatosGuiaPorFacturarModel } from '@data/interface/Response/DatosGuiaPorFacturar.interface';
 import { ComercialService } from '@data/services/backEnd/pages/comercial.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { MensajeAdvertenciaComponent } from '@shared/components/mensaje-advertencia/mensaje-advertencia.component';
 import { ModalCargarComponent } from '@shared/components/modal-cargar/modal-cargar.component';
 import { ModalClienteComponent } from '@shared/components/modal-cliente/modal-cliente.component';
 import { Cargarbase64Service } from '@shared/services/comunes/cargarbase64.service';
@@ -17,6 +16,7 @@ import { debounceTime } from 'rxjs/operators';
   styleUrls: ['./guias-por-facturar.component.css']
 })
 export class GuiasPorFacturarComponent implements OnInit {
+
   hoy = new Date()
   listarcliente:object[]=[];
   flagLoading: boolean =  false;
@@ -32,26 +32,23 @@ export class GuiasPorFacturarComponent implements OnInit {
   disablecheckou:boolean=true;
 
 
-  constructor(private _comercialService:ComercialService,
-    private toastr: ToastrService,
-    private elementRef:ElementRef,
-    private modalService: NgbModal,
-    private _Cargarbase64Service:Cargarbase64Service) {
-      this.instanciarObservadoresFilter();
-     }
+  constructor(private _comercialService:ComercialService, private toastr: ToastrService, 
+    private modalService: NgbModal, private _Cargarbase64Service:Cargarbase64Service) 
+  {
+    this.instanciarObservadoresFilter();
+  }
 
   ngOnInit(): void {
     this.ListarCliente();
     this.crearFormulario();
   }
-  
-
 
   getRowClass = (row) => {
    return {
      'row-color': row.comentariosEntrega
    };
   }
+
   crearFormulario(){
     this.form = new FormGroup({
       destinatario: new FormControl(''),
@@ -62,7 +59,6 @@ export class GuiasPorFacturarComponent implements OnInit {
       Tipo: new FormControl('GF',Validators.required)
     })
   }
-
   
   ActivaDesactivaFechas(){
     
@@ -84,40 +80,35 @@ export class GuiasPorFacturarComponent implements OnInit {
       this.form.controls.FechaFin.updateValueAndValidity();
       this.form.controls.FechaFin.setValidators(Validators.required);
     }
-
-
-  
   }
 
-
-  instanciarObservadoresFilter(){
-    this.textFilterCtrl.valueChanges.pipe( debounceTime(900) ).subscribe( _ => {
-      // console.log(this._Cargarbase64Service.zfill(this.textFilterCtrl.value,10));
-      if(this.textFilterCtrl.value.trim() == '')
+  instanciarObservadoresFilter()
+  {
+    this.textFilterCtrl.valueChanges.pipe( debounceTime(900) ).subscribe( _ => 
       {
-        const texto = this.textFilterCtrl.value.toLowerCase();
-        this.TempListarGuiasPorFacturar=this.ListarGuiasPorFacturar;
-        
-      }
+        if(this.textFilterCtrl.value.trim() == '')
+          this.TempListarGuiasPorFacturar=this.ListarGuiasPorFacturar;
 
-      if(this.textFilterCtrl.value != '')
-      {
-        const texto = this.textFilterCtrl.value.toLowerCase();
-        this.TempListarGuiasPorFacturar = this.ListarGuiasPorFacturar.filter( x => x.guiaNumero?.toLowerCase().indexOf(texto) !== -1);
+        if(this.textFilterCtrl.value != '')
+        {
+          const texto = this.textFilterCtrl.value.toLowerCase();
+          this.TempListarGuiasPorFacturar = this.ListarGuiasPorFacturar.filter( x => x.guiaNumero?.toLowerCase().indexOf(texto) !== -1);
+        }
       }
-    })
+    )
   }
 
-  ListarCliente(){
-    const body = {};
-    this._comercialService.ListarClientes(body).subscribe((resp) => {
-      resp["success"]==true ? this.listarcliente=resp["content"] : this.listarcliente=[];
-    });
+  ListarCliente()
+  {
+    this._comercialService.ListarClientes({}).subscribe ( resp => 
+      {
+        resp["success"] == true ? this.listarcliente = resp["content"] : this.listarcliente = [];
+      }
+    );
   } 
 
-
-
-  openModalConsultaClientes(){
+  openModalConsultaClientes()
+  {
     const modalBusquedaCliente = this.modalService.open(ModalClienteComponent, {
       ariaLabelledBy: "modal-basic-title",
       backdrop: "static",
@@ -138,74 +129,39 @@ export class GuiasPorFacturarComponent implements OnInit {
      
   }
 
-
-  Filtrar(){
+  Filtrar()
+  {
     this.ListarGuiasPorFacturar=[];
     this.TempListarGuiasPorFacturar=[];
     
-    if(isNaN(parseInt(this.form.controls.destinatario.value)) && this.activarFecha){
+    if(isNaN(parseInt(this.form.controls.destinatario.value)) && this.activarFecha)
       return this.toastr.warning("Debe Seleccionar un Cliente o en caso un rango de fecha");
-    }
 
-    const dato={
-      FechaFin: this.form.controls.FechaFin.value,
-      FechaInicio: this.form.controls.FechaInicio.value,
-      Territorio: this.form.controls.Territorio.value,
-      destinatario: isNaN(parseInt(this.form.controls.destinatario.value)) ? 0 : parseInt(this.form.controls.destinatario.value),
-      Tipo:this.form.controls.Tipo.value,
-    }
-      if(this.form.controls.Tipo.value!='G'){
-        
-          const dato={
-            FechaFin: this.form.controls.FechaFin.value,
-            FechaInicio: this.form.controls.FechaInicio.value,
-            Territorio: this.form.controls.Territorio.value,
-            destinatario: isNaN(parseInt(this.form.controls.destinatario.value))? 0 : parseInt(this.form.controls.destinatario.value),
-            Tipo:this.form.controls.Tipo.value,
-          }
-          this.flagLoading=true;
-          this._comercialService.ListarGuiaPorFacturar(dato).subscribe(
-              (resp:any)=>{
-                 this.ListarGuiasPorFacturar=resp;
-                 this.TempListarGuiasPorFacturar=resp;
-                 this.flagLoading=false;
-              }
-          )
-      
-      }else{
-                 this.ListarGuiasPorFacturar=[];
-                 this.TempListarGuiasPorFacturar=[];
-      }
-  }
-
-
-
-  CheckSeleccion(itemrow) {
-      
-      if(itemrow.comentariosEntrega){
-          this.mensaje(itemrow)
-      }else{
-
-        this.ListarGuiasPorFacturar.forEach((a:DatosGuiaPorFacturarModel)=>{
-          if(a.serieNumero==itemrow.serieNumero  && a.guiaNumero==itemrow.guiaNumero){
-              a.comentariosEntrega= !itemrow.comentariosEntrega
-          }
-        });
-        const ItemGuia={
-          guiaNumero:itemrow.guiaNumero,
-          serieNumero:itemrow.serieNumero,
-          comentariosEntrega:itemrow.comentariosEntrega,
-          destinatario:itemrow.destinatario
+    if(this.form.controls.Tipo.value!='G')
+    {
+      this.flagLoading=true;
+      const dato = 
+        {
+          FechaFin: this.form.controls.FechaFin.value,
+          FechaInicio: this.form.controls.FechaInicio.value,
+          Territorio: this.form.controls.Territorio.value,
+          destinatario: isNaN(parseInt(this.form.controls.destinatario.value))? 0 : parseInt(this.form.controls.destinatario.value),
+          Tipo:this.form.controls.Tipo.value,
         }
 
-        this._comercialService.RegistrarGuiaPorFacturar(ItemGuia).subscribe(
-            (resp:any)=>{
-                
-            }
-        );
-
-      }
-
+      this._comercialService.ListarGuiaPorFacturar(dato).subscribe(
+          (resp:any) => {
+              this.ListarGuiasPorFacturar = resp;
+              this.TempListarGuiasPorFacturar = resp;
+              this.flagLoading = false;
+          }
+      )
+    
+    }
+    else {
+      this.ListarGuiasPorFacturar = [];
+      this.TempListarGuiasPorFacturar = [];
+    }
   }
 
   Exportar(){
@@ -231,46 +187,10 @@ export class GuiasPorFacturarComponent implements OnInit {
     
     ModalCarga.componentInstance.fromParent = "Generando el Formato Excel";
     this._comercialService.ListarGuiaporFacturarExportar(dato).subscribe(
-      (resp:any)=>{
-          this._Cargarbase64Service.file(resp,'ExportarListar','xlsx',ModalCarga);
+      resp =>
+      {
+        this._Cargarbase64Service.file(resp, 'ExportarListar', 'xlsx', ModalCarga);
       }
     )
   }
-
-  mensaje(itemrow){
-    const ModalMensaje = this.modalService.open(MensajeAdvertenciaComponent, {
-      centered: true,
-      backdrop: 'static',
-      size: 'sm',
-      scrollable: true
-    });
-
-    ModalMensaje.componentInstance.fromParent = "¿ Por favor , confirme si desea quitar la seleccion \n\n" + `${itemrow.serieNumero}-${itemrow.guiaNumero}` +" ?" ;
-
-    ModalMensaje.result.then((result) => { //true 
-      this.ListarGuiasPorFacturar.forEach((a:DatosGuiaPorFacturarModel)=>{
-        if(a.serieNumero==itemrow.serieNumero  && a.guiaNumero==itemrow.guiaNumero){
-            a.comentariosEntrega= !itemrow.comentariosEntrega
-        }
-      });
-      const ItemGuia={
-        guiaNumero:itemrow.guiaNumero,
-        serieNumero:itemrow.serieNumero,
-        comentariosEntrega:itemrow.comentariosEntrega,
-        destinatario:itemrow.destinatario
-      }
-
-      this._comercialService.RegistrarGuiaPorFacturar(ItemGuia).subscribe(
-          (resp:any)=>{
-          }
-      );
-    }, (reason) => { //false
-     
-      this.ListarGuiasPorFacturar.forEach((a:DatosGuiaPorFacturarModel)=>{
-        if(a.comentariosEntrega){
-            a.comentariosEntrega= true;
-        }});
-
-    });
-  } 
 }

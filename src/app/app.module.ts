@@ -28,7 +28,6 @@ import { VerticalSidebarComponent } from '@layout/vertical-sidebar/vertical-side
 import { VerticalNavigationComponent } from '@layout/vertical-header/vertical-navigation.component';
 
 import { AuthGuard } from '@guard/auth.guard';
-import { PuntosuspensivoPipe } from './shared/pipe/puntosuspensivo.pipe';
 
 // Select some icons (use an object, not an array)
 const icons = { Home, Edit, Edit2, Trash2, BarChart2, TrendingUp, Tool, Server, Cpu,Box, CheckSquare, ShoppingCart, Users, Layers, Book, Download,Briefcase };

@@ -3,6 +3,7 @@ import { AuthGuard } from "@guard/auth.guard";
 import { CotizacionComponent } from "./cotizacion/cotizacion.component";
 import { GeneracionFormatosComponent } from './cotizaciones/generacionformatos/generacionformatos.component';
 import { DocumentoLicitacionesComponent } from "./documento-licitaciones/documento-licitaciones.component";
+import { GestionGuiasComponent } from "./gestion-guias/gestion-guias.component";
 import { GuiasPorFacturarComponent } from "./guias-por-facturar/guias-por-facturar.component";
 import { ProtocoloAnalisisComponent } from './protocoloanalisis/protocoloanalisis.component';
 import { RotuladoPEDComponent } from "./rotulado-ped/rotulado-ped.component";
@@ -101,8 +102,20 @@ export const ComercialRoutes: Routes = [
           urls: [
             {title: 'Guia por Facturar' }
           ]
-        }
+        },
+        
       },
+      {
+        path: 'gestionGuias',
+        component: GestionGuiasComponent,
+        data: {
+          title: "Gestión de Guias",
+          // urls: [
+          //   {title: 'Guia por Facturar' }
+          // ]
+        },
+        
+      }
     ]
   }
 
