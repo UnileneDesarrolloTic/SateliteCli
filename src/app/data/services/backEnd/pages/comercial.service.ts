@@ -78,12 +78,6 @@ export class ComercialService {
     .pipe(catchError(_ => throwError("Error al registrar el reporte")));
   }
 
-  RegistrarGuiaPorFacturar(body){
-    return this._http
-    .post(this.url + "RegistrarGuiaporFacturar", body)
-    .pipe(catchError(_ => throwError("Error al registrar el reporte")));
-  }
-
   ExportarExcelProtocoloAnalisis(body)
   {
     return this._http.post(this.url + "ListarProtocoloAnalisisExportar", body).pipe(
@@ -93,6 +87,20 @@ export class ComercialService {
           return throwError("Error al descargar el protocolo")
         })
       );
+  }
+
+  RegistrarRecepcionGuia(numeroDocumento: string, tipoRegistro: string)
+  {
+    const params = new HttpParams().set('numeroDocumento', numeroDocumento).set('tipoRegistro', tipoRegistro);
+
+    return this._http.get<any>(this.url + "RegistrarAdministracionGuia", {'params': params}).pipe(
+      catchError (  () => 
+        { 
+          this._toastr.error("Error al registrar recepcion de guía en Comercial", "Error !!", { progressBar: true, closeButton: true, timeOut: 3000 });
+          return throwError("Error al registrar recepcion de guía en Comercial")
+        }
+      )
+    );
   }
 
 }

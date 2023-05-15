@@ -1,0 +1,146 @@
+<div class="card">
+    <div class="card-body">
+        <ngb-tabset>
+            <ngb-tab title="Envío Almacen">
+                <ng-template ngbTabContent>
+                    <div class="row mt-5">
+                        <div class="col-md-12">
+                            <div class="card border-left border-primary">
+                                <div class="card-header bg-primary text-white" style="font-weight: bold">
+                                    Envío de guia a Almacen
+                                </div>
+                                <div class="card-body">
+                                    <form autocomplete="off" (submit)="registrarRecepcionGuia('O')" >
+                                        <div class="form-group row">
+                                            <div class="col-1 text-center control-label col-form-label">
+                                                <i class="fas fa-barcode fa-lg"></i>
+                                            </div>
+                                            <div class="col-4">
+                                                <input type="text" #guiaCodeBarOutput class="form-control form-control-sm" id="numeroGuiaOutput" name="documentoOutput" [(ngModel)]="numeroDocumentoOutput" placeholder="Número Guía" autofocus>
+                                            </div>
+                                            <div class="col-2">
+                                                <button type="submit" class="btn btn-sm btn-rounded btn-success"><i class="fas fa-check"></i>&nbsp;&nbsp; Marcar</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                          <div class="card border-left border-primary">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="mt-3 d-flex justify-content-center">
+                                            <div *ngIf="flagSpinner">
+                                                <i class="fas fa-spinner fa-spin fa-2x"></i>
+                                            </div>
+                                            <div class="alert alert-warning col-12" role="alert" *ngIf="flagAdvertenciaOutput && !flagSpinnerOutput">
+                                                {{ mensajeAdvertenciaOutput }}
+                                            </div>
+                                            <div class="card col-6 border-primary" *ngIf="!flagAdvertenciaOutput && !flagSpinnerOutput">
+                                                <div class="card-header bg-success text-white">
+                                                    <h4 class="card-title">
+                                                        <i class="far fa-check-circle"></i>&nbsp;&nbsp; Guía Enviada
+                                                    </h4>
+                                                </div>
+                                                <div class="card-body" style="background-color: #e5ffe1;">
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="col-12">
+                                                            <h6 class="text-muted font-light"><i class="far fa-file fa-sm"></i> &nbsp;Documento</h6>
+                                                            <h5>{{datosGuiaOutput.guiaNumero}}</h5>
+                                                            <h6 class="text-muted font-light mt-4"><i class="far fa-user fa-sm"></i> &nbsp;Cliente</h6>
+                                                            <h5>{{datosGuiaOutput.destinatario}}</h5>
+                                                            <h6 class="text-muted font-light mt-4"><i class="far fa-file-alt fa-sm"></i> &nbsp;Factura</h6>
+                                                            <h5>{{datosGuiaOutput.factura}}</h5> 
+                                                            <h6 class="text-muted font-light mt-4"><i class="far fa-calendar-alt fa-sm"></i> &nbsp;Fecha Documento</h6>
+                                                            <h5>{{datosGuiaOutput.fechaDocumento | date: 'dd/MM/yyyy'}}</h5>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab title="Recepción Guia">
+                <ng-template ngbTabContent>
+                    <div class="row mt-5">
+                        <div class="col-md-12">
+                          <div class="card border-left border-info">
+                            <div class="card-header bg-info text-white" style="font-weight: bold">
+                              Recepción de guías
+                            </div>
+                            <div class="card-body">
+                    
+                                <form autocomplete="off" (submit)="registrarRecepcionGuia('I')" >
+                                    <div class="form-group row">
+                                        <div class="col-1 text-center control-label col-form-label">
+                                            <i class="fas fa-barcode fa-lg"></i>
+                                        </div>
+                                        <div class="col-4">
+                                            <input type="text" #guiaCodeBarInput class="form-control form-control-sm" id="numeroGuiaInput" name="documentoInput" [(ngModel)]="numeroDocumentoInput" placeholder="Número Guía" autofocus>
+                                        </div>
+                                        <div class="col-2">
+                                            <button type="submit" class="btn btn-sm btn-rounded btn-success"><i class="fas fa-check"></i>&nbsp;&nbsp; Marcar</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                          <div class="card border-left border-info">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="mt-3 d-flex justify-content-center">
+                                            <div *ngIf="flagSpinnerInput">
+                                                <i class="fas fa-spinner fa-spin fa-2x"></i>
+                                            </div>
+                                            <div class="alert alert-warning col-12" role="alert" *ngIf="flagAdvertenciaInput && !flagSpinnerInput">
+                                                {{ mensajeAdvertenciaInput }}
+                                            </div>
+                                            <div class="card col-6 border-info" *ngIf="!flagAdvertenciaInput && !flagSpinnerInput">
+                                                <div class="card-header bg-success text-white">
+                                                    <h4 class="card-title">
+                                                        <i class="far fa-check-circle"></i>&nbsp;&nbsp; Guía Recepcionado
+                                                    </h4>
+                                                </div>
+                                                <div class="card-body" style="background-color: #e5ffe1;">
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="col-12">
+                                                                <h6 class="text-muted font-light"><i class="far fa-file fa-sm"></i> &nbsp;Documento</h6>
+                                                                <h5>{{datosGuiaInput.guiaNumero}}</h5>
+                                                                <h6 class="text-muted font-light mt-4"><i class="far fa-user fa-sm"></i> &nbsp;Cliente</h6>
+                                                                <h5>{{datosGuiaInput.destinatario}}</h5>
+                                                                <h6 class="text-muted font-light mt-4"><i class="far fa-file-alt fa-sm"></i> &nbsp;Factura</h6>
+                                                                <h5>{{datosGuiaInput.factura}}</h5> 
+                                                                <h6 class="text-muted font-light mt-4"><i class="far fa-calendar-alt fa-sm"></i> &nbsp;Fecha Documento</h6>
+                                                                <h5>{{datosGuiaInput.fechaDocumento | date: 'dd/MM/yyyy'}}</h5>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </ngb-tab>
+        </ngb-tabset>
+    </div>
+</div>
+

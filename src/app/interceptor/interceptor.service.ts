@@ -114,7 +114,6 @@ export class InterceptorService implements HttpInterceptor {
       'Comercial/NumeroPedido',
       'Comercial/RegistrarRotuladosPedido',
       'Comercial/ListarGuiaporFacturar',
-      'Comercial/RegistrarGuiaporFacturar',
       'Comercial/ListarGuiaporFacturarExportar',
       'ControlCalidad/ListarCertificados',
       'ControlCalidad/RegistrarCertificado',
@@ -271,7 +270,8 @@ export class InterceptorService implements HttpInterceptor {
       "RRHH/ProcesarHorasExtrasPlanilla",
       "RRHH/ReporteHorasExtrasGenerada",
       "RRHH/FormatoAutorizacionSobretiempo",
-      "RRHH/RptAutorizacionSobretiempoPorPersona"
+      "RRHH/RptAutorizacionSobretiempoPorPersona",
+      "Comercial/RegistrarAdministracionGuia"
     ];
     
     const data = this.sesionService.datosPersonales();
