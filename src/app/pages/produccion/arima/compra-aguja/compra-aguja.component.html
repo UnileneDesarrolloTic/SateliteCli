@@ -223,7 +223,7 @@
 
                             </ngx-datatable-column>
 
-                            <ngx-datatable-column name="Aduans" prop="aduanas" [width]="30">
+                            <ngx-datatable-column name="Aduanas" prop="aduanas" [width]="30">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
                                     <span class="font-medium">{{row.aduanas | number : '1.0-0'}}</span>
                                 </ng-template>
@@ -285,7 +285,7 @@
                             <ngx-datatable-column name="Variacion" prop="variacion"
                                 *ngIf="this.checkMostrarColumna.value" [width]="40">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
-                                    <span class="font-medium">{{row.pronostico | number : '1.0-0'}}</span>
+                                    <span class="font-medium">{{row.variacion | number : '1.0-0'}}</span>
                                 </ng-template>
                             </ngx-datatable-column>
 
