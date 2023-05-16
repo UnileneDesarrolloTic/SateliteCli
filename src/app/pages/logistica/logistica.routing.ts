@@ -2,6 +2,7 @@ import { Routes } from "@angular/router";
 import { AuthGuard } from "@guard/auth.guard";
 import { ConsultarStockVentasComponent } from "./consultar-stock-ventas/consultar-stock-ventas.component";
 import { GestionGuiasComponent } from "./gestion-guias/gestion-guias.component";
+import { OrdenesServicioMainComponent } from "./gestion-ordenes-servicio/ordenes-servicio-main/ordenes-servicio-main.component";
 import { MaestroItemComponent } from "./maestro-item/maestro-item.component";
 
 export const LogisticaRoutes: Routes = [
@@ -38,6 +39,18 @@ export const LogisticaRoutes: Routes = [
             { title: 'Logistica' }
             
           ]
+        }
+      },
+      {
+        path: 'ordenesServicio',
+        component: OrdenesServicioMainComponent,
+        data: {
+          title: "Ordenes de servicio",
+          // urls: [
+          //   { title: 'Gestión de guias' },
+          //   { title: 'Logistica' }
+            
+          // ]
         }
       },
       
