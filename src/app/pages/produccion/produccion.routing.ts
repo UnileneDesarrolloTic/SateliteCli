@@ -8,6 +8,7 @@ import { EtiquetasComponent } from "./gestion/etiquetas/etiquetas.component";
 import { SeguimientoOrdenCompraComponent } from "./gestion/seguimiento-orden-compra/seguimiento-orden-compra.component";
 import { OcDrogueriaComponent } from "./arima/oc-drogueria/oc-drogueria.component";
 import { CompraAgujaComponent } from "./arima/compra-aguja/compra-aguja.component";
+import { CompraNacionalImportacionComponent } from "./arima/compra-nacional-importacion/compra-nacional-importacion.component";
 
 export const ProduccionRoutes: Routes = [
   {
@@ -52,6 +53,13 @@ export const ProduccionRoutes: Routes = [
       {
         path: 'CompraAguja',
         component: CompraAgujaComponent,
+        data: {
+         
+        }
+      },
+      {
+        path: 'CompraNacionalImportacion',
+        component: CompraNacionalImportacionComponent,
         data: {
          
         }

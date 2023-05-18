@@ -25,6 +25,7 @@ import { CompraAgujaComponent } from './arima/compra-aguja/compra-aguja.componen
 import { ComponenteModule } from '@shared/components/componente.module';
 import { OrdenCompraDrogueriaComponent } from './arima/oc-drogueria/orden-compra-drogueria/orden-compra-drogueria.component';
 import { ListarOrdenCompraPrevioComponent } from './arima/oc-drogueria/listar-orden-compra-previo/listar-orden-compra-previo.component';
+import { CompraNacionalImportacionComponent } from './arima/compra-nacional-importacion/compra-nacional-importacion.component';
 
 registerLocaleData(localeEs);
 
@@ -45,6 +46,7 @@ registerLocaleData(localeEs);
     CompraAgujaComponent,
     OrdenCompraDrogueriaComponent,
     ListarOrdenCompraPrevioComponent,
+    CompraNacionalImportacionComponent,
   ],
   imports: [
     RouterModule.forChild(ProduccionRoutes),
