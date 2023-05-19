@@ -172,19 +172,19 @@
                                 </ng-template>
                             </ngx-datatable-column>
 
-                            <ngx-datatable-column name="CantMinima" prop="cantidadMinima" [width]="50">
+                            <ngx-datatable-column *ngIf="this.checkMostrarColumna.value" name="CantMinima" prop="cantidadMinima" [width]="50">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
                                     <span class="font-medium">{{row.cantidadMinima | number : '1.0-0'}}</span>
                                 </ng-template>
                             </ngx-datatable-column>
 
-                            <ngx-datatable-column name="Maximo stock" prop="maximoStock" [width]="50">
+                            <ngx-datatable-column  *ngIf="this.checkMostrarColumna.value" name="Maximo stock" prop="maximoStock" [width]="50">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
                                     <span class="font-medium">{{row.maximoStock | number : '1.0-0'}}</span>
                                 </ng-template>
                             </ngx-datatable-column>
 
-                            <ngx-datatable-column name="Punto corte" prop="puntoCorte" [width]="50">
+                            <ngx-datatable-column *ngIf="this.checkMostrarColumna.value" name="Punto corte" prop="puntoCorte" [width]="50">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
                                     <span class="font-medium">{{row.puntoCorte | number : '1.0-0'}}</span>
                                 </ng-template>
@@ -282,7 +282,7 @@
                                 </ng-template>
                             </ngx-datatable-column>
 
-                            <ngx-datatable-column name="Variacion" prop="variacion"
+                            <ngx-datatable-column  name="Variacion" prop="variacion"
                                 *ngIf="this.checkMostrarColumna.value" [width]="40">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
                                     <span class="font-medium">{{row.variacion | number : '1.0-0'}}</span>

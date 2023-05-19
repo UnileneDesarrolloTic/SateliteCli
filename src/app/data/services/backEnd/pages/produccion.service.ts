@@ -262,4 +262,36 @@ export class ProduccionService {
       }));
   }
 
+
+  seguimientoCompraNacionalImportacion(){
+    //const params = new HttpParams().set('mostrarColumna',mostrarColumna); 
+    return this._http.get(this.url+"/api/Produccion/InformacionSeguimientoCompraImportacion").pipe(
+      catchError( _ => {
+        this._toastr.error("Error al momento de mostrar informacion de compra importada o nacional ", "Error !!", { timeOut: 4000, closeButton: true })
+        return throwError("Error  al momento de mostrar informacion de compra importada o nacional ")
+      })
+    );
+  }
+
+  exportarseguimientoCompraNacionalImportacion(mostrarColumna){
+    const params = new HttpParams().set('mostrarColumna',mostrarColumna); 
+    return this._http.get(this.url+"/api/Produccion/ReporteSeguimientoCompraImportacionExcel",  {"params":params}).pipe(
+      catchError( _ => {
+        this._toastr.error("Error al momento de exportar excel de compra nacional importada", "Error !!", { timeOut: 4000, closeButton: true })
+        return throwError("Error  al momento de exportar excel de compra nacional importada")
+      })
+    );
+  }
+
+
+  mostrarOrdenCompraNacionalImportacion(item, tipo, material){
+    const params = new HttpParams().set('item',item).set('tipo',tipo).set('material', material); 
+    return this._http.get(this.url+"/api/Produccion/MostrarOrdenCompraNacionalImportacion",  {"params":params}).pipe(
+      catchError( _ => {
+        this._toastr.error("Error al momento de mostrar la orden de comprar" + item, "Error !!", { timeOut: 4000, closeButton: true })
+        return throwError("Error  al momento de mostrar la orden de compra")
+      })
+    );
+  }
+
 }
