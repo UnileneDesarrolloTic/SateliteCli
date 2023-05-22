@@ -156,4 +156,23 @@ export class CompraAgujaComponent implements OnInit {
     (document.getElementById('rightMenu') as HTMLFormElement).style.width = '0';
   }
 
+
+
+  getRowClass = (row:DatosFormatoListadoCompraAguja) => {
+    console.log('rowClass')
+    if (row.idGestion == 0)
+    {
+       return {'row-color-gestioncompra': true  };
+    }
+
+    if (row.idGestion == 1)
+    {
+      return {'row-color-nocomprar': true};
+    }
+
+    if (row.idGestion == 2)
+    {
+      return {'row-color-comercial': true};
+    }
+  }
 }

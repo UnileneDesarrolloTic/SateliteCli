@@ -28,4 +28,7 @@ export interface DatosFormatoListadoCompraAguja {
     maximaStock:          number;
     diasEspera:           number;
     cantidadComprar:      number;
+    idGestion:            number;
+    gestionColor:         number;
+    duracion:             number;
 }

@@ -101,7 +101,7 @@
                         <ngx-datatable class="material" [rows]="listadoCompraAguja"
                             [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="42" 
                             [scrollbarV]="true" [sorts]="[{prop: 'name', dir: 'desc'}]" [loadingIndicator]="flagEspera"
-                            style="height: 90%;" class="material font-medium" [scrollbarH]="true">
+                            style="height: 90%;" class="material font-medium" [scrollbarH]="true" [rowClass]="getRowClass">
 
                             <!-- [frozenLeft]="true"  -->
                             <ngx-datatable-column name="itemFinal" prop="itemFinal" [width]="20">
