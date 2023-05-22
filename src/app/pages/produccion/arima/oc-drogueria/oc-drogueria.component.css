@@ -1,3 +1,12 @@
-:host /deep/ .row-color {
-    background-color: rgb(211, 48, 176);
+:host /deep/ .row-color-gestioncompra {
+    background-color: #FFFFFF;
 } 
+
+:host /deep/ .row-color-nocomprar {
+    background-color: #FFFF00;
+} 
+
+:host /deep/ .row-color-comercial {
+    background-color: #B4C6E7;
+} 
+
