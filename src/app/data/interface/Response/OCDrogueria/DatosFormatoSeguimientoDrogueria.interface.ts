@@ -32,5 +32,7 @@ export interface ModelSeguimientoDrogueria {
   totalComprar:        number;
   precioFOBFinal:      number;
   precioFOBTotalFinal: number;
+  colorVariacion:      string;
+  idGestionarColor:    number;
   }
   
