@@ -3,35 +3,53 @@
     <div class="col-12">
         <div class="card border-left border-info">
             <div class="card-header bg-info text-white" style="font-weight: bold;">
-                Compra nacional importada
+                Compra nacional e importada
             </div>
             <div class="card-body">
-                <div class="row pb-1">
+                <div class="row">
                     <div class="col-md-4">
-                        <input type="text" style="float: right"  [formControl]='textFiltrarNacionalImportacion' placeholder="Buscar Item o Descripción" class="form-control rounded-pill font-bold">
+                        <div class="form-group d-flex">
+                            <label class="col-12 col-sm-4 col-md-4 control-label col-form-label">Material</label>
+                            <div class="col-12 col-sm-7 col-md-7">
+                                <select class="custom-select"  [formControl]='material' >
+                                    <option value="1">Material Importación</option>
+                                    <option value="2">Material Nacional</option>
+                                    <option value="3">Commodity</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-md-4  d-flex justify-content-center">
                         <div class="form-group">
                             <button class="btn btn-info btn-sm text-white" (click)="listadoComprasAguja()">
-                                <i class="fas fa-search"></i> Buscar</button>
+                                <i class="fa fa-spinner fa-spin fa-fw" *ngIf="flagEspera"></i> 
+                                <i class="fas fa-search" *ngIf="!flagEspera"></i> Buscar</button>
                             
-                            <button class="btn btn-success btn-sm text-white" (click)="exportarExcel()"
+                            <button class="btn btn-success btn-sm text-white" (click)="exportarExcel(modalExportarReporte)"
                                 style="background-color: #25aa00;border: none;">
                                 <i class="fas fa-file-excel"></i> Excel
                             </button>
                         </div>
                     </div>
-                    <div class="col-md-4 d-flex justify-content-end">
-                        <div class="form-check form-check-inline">
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" [formControl]="checkMostrarColumna"  class="custom-control-input"
-                                    id="customCheck1">
-                                <label class="custom-control-label" for="customCheck1">Visualizar detalle</label>
-                            </div>
+                    <div class="col-md-4">
+                        <input type="text" style="float: left"  [formControl]='textFiltrarNacionalImportacion' placeholder="Buscar Item o Descripción" class="form-control rounded-pill font-bold">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4  d-flex justify-content-start"></div>
+                <div class="col-md-4  d-flex justify-content-center"></div>
+                <div class="col-md-4 d-flex justify-content-end">
+                    <div class="form-check form-check-inline">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" [formControl]="checkMostrarColumna"  class="custom-control-input"
+                                id="customCheck1">
+                            <label class="custom-control-label" for="customCheck1">Visualizar detalle</label>
                         </div>
                     </div>
                 </div>
             </div>
+
             <div class="row">
                 <div class="col-12" style="height: 85vh;">
                     <ngx-datatable class="material" [rows]="listadoCompraNacionalImportada"
@@ -124,7 +142,7 @@
                             </ng-template>
                         </ngx-datatable-column>
 
-                        <ngx-datatable-column name="Planta" prop="planta" [width]="50">
+                        <ngx-datatable-column name="Planta" prop="planta"   *ngIf="this.material.value != '3'" [width]="50">
                             <ng-template let-row="row" ngx-datatable-cell-template>
                                 <span class="font-medium">{{row.planta | number : '1.0-0'}}</span>
                             </ng-template>
@@ -151,19 +169,19 @@
 
                         </ngx-datatable-column>
 
-                        <ngx-datatable-column name="Aduanas" prop="aduanas" [width]="30">
+                        <ngx-datatable-column name="Aduanas" prop="aduanas" *ngIf="this.material.value != '3'" [width]="30">
                             <ng-template let-row="row" ngx-datatable-cell-template>
                                 <span class="font-medium">{{row.aduanas | number : '1.0-0'}}</span>
                             </ng-template>
                         </ngx-datatable-column>
 
-                        <ngx-datatable-column name="C.Calidad" prop="controlCalidad" [width]="30">
+                        <ngx-datatable-column name="C.Calidad" prop="controlCalidad"  *ngIf="this.material.value != '3'" [width]="30">
                             <ng-template let-row="row" ngx-datatable-cell-template>
                                 <span class="font-medium">{{row.controlCalidad | number : '1.0-0'}}</span>
                             </ng-template>
                         </ngx-datatable-column>
 
-                        <ngx-datatable-column name="Disponible" prop="disponible" [width]="50">
+                        <ngx-datatable-column name="Stock calculado" prop="disponible" [width]="50">
                             <ng-template let-row="row" ngx-datatable-cell-template>
                                 <span class="font-medium">{{row.disponible | number : '1.0-0'}}</span>
                             </ng-template>
@@ -285,4 +303,47 @@
             </table>
         </div>
     </div>
+</ng-template>
+
+
+
+
+<ng-template #modalExportarReporte let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">
+          Descargar Excel
+        </h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <span aria-hidden="true">
+            &times;
+          </span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-sm-12">
+              <div class="custom-control custom-radio">
+                  <input type="radio" class="custom-control-input" [formControl]="reporteArima" [value]="'importacion'" id="customControlValidation2" name="radio-stacked">
+                  <label class="custom-control-label" for="customControlValidation2">Importación</label>
+              </div>
+              <div class="custom-control custom-radio">
+                  <input type="radio" class="custom-control-input" [formControl]="reporteArima" [value]="'nacional'" id="customControlValidation3" name="radio-stacked">
+                  <label class="custom-control-label" for="customControlValidation3">Nacional</label>
+              </div>
+
+              <div class="custom-control custom-radio">
+                <input type="radio" class="custom-control-input" [formControl]="reporteArima" [value]="'ambas'" id="customControlValidation4" name="radio-stacked">
+                <label class="custom-control-label" for="customControlValidation4">Ambas</label>
+            </div>
+          </div>
+      </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" (click)="aceptarDescarga()" class="btn btn-rounded btn-sm btn-info">
+            <i class="fas fa-file-excel" *ngIf="!flagExcel"></i>
+            <i class="fa fa-spinner fa-spin fa-fw" *ngIf="flagExcel"></i>
+            Descargar</button>
+        <button type="button" (click)="modal.dismiss('Cross click')"
+          class="btn btn-rounded btn-sm btn-secondary">Cancelar</button>
+      </div>
 </ng-template>

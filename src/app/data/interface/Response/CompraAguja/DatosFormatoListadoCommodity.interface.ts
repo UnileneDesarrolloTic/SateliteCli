@@ -1,8 +1,9 @@
-export interface DatosFormatoListadoCompraAguja {
+
+export interface ConfigComodity {
     material:             string;
     itemFinal:            string;
     descripcionLocal:     string;
-    longAguja:            null;
+    clasificacion:        string;
     familiaLarga:         string;
     tiempoCompra:         number;
     tiempoPago:           number;
@@ -18,17 +19,13 @@ export interface DatosFormatoListadoCompraAguja {
     desviacionCompra:     number;
     pendienteOC:          number;
     preparacionOC:        number;
-    controlCalidad:       number;
-    aduanas:              number;
-    planta:               number;
     almacen:              number;
     disponible:           number;
     diasPotencial:        number;
     puntoCorte:           number;
-    maximaStock:          number;
+    maximoStock:          number;
     diasEspera:           number;
     cantidadComprar:      number;
+    gestionColor:         string;
     idGestion:            number;
-    gestionColor:         number;
-    duracion:             number;
 }

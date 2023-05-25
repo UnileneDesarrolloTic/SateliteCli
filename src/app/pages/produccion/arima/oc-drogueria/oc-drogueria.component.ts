@@ -89,6 +89,7 @@ export class OcDrogueriaComponent implements OnInit {
         if (resp["success"]) {
           this.listarItemDrogueria = resp["content"];
           this.templistarItemDrogueria = resp["content"];
+          console.log(this.listarItemDrogueria);
         } else {
           this.listarItemDrogueria = resp["content"];
           this.templistarItemDrogueria = resp["content"];
@@ -207,7 +208,26 @@ export class OcDrogueriaComponent implements OnInit {
     );
   }
 
+  
+  getRowClass = (row:ModelSeguimientoDrogueria) => {
+    console.log('rowClass')
+    if (row.idGestionarColor == 0)
+    {
+       return {'row-color-gestioncompra': true  };
+    }
+
+    if (row.idGestionarColor == 1)
+    {
+      return {'row-color-nocomprar': true};
+    }
+
+    if (row.idGestionarColor == 2)
+    {
+      return {'row-color-comercial': true};
+    }
 
 
+
+  }
 
 }

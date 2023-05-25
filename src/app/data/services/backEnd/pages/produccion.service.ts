@@ -263,9 +263,9 @@ export class ProduccionService {
   }
 
 
-  seguimientoCompraNacionalImportacion(){
-    //const params = new HttpParams().set('mostrarColumna',mostrarColumna); 
-    return this._http.get(this.url+"/api/Produccion/InformacionSeguimientoCompraImportacion").pipe(
+  seguimientoCompraNacionalImportacion(material:string){
+    const params = new HttpParams().set('material',material); 
+    return this._http.get(this.url+"/api/Produccion/InformacionSeguimientoCompraImportacion", {"params":params}).pipe(
       catchError( _ => {
         this._toastr.error("Error al momento de mostrar informacion de compra importada o nacional ", "Error !!", { timeOut: 4000, closeButton: true })
         return throwError("Error  al momento de mostrar informacion de compra importada o nacional ")
@@ -273,8 +273,8 @@ export class ProduccionService {
     );
   }
 
-  exportarseguimientoCompraNacionalImportacion(mostrarColumna){
-    const params = new HttpParams().set('mostrarColumna',mostrarColumna); 
+  exportarseguimientoCompraNacionalImportacion(mostrarColumna,reporteArima){
+    const params = new HttpParams().set('mostrarColumna',mostrarColumna).set('reporteArima',reporteArima); 
     return this._http.get(this.url+"/api/Produccion/ReporteSeguimientoCompraImportacionExcel",  {"params":params}).pipe(
       catchError( _ => {
         this._toastr.error("Error al momento de exportar excel de compra nacional importada", "Error !!", { timeOut: 4000, closeButton: true })
@@ -294,4 +294,12 @@ export class ProduccionService {
     );
   }
 
+  seguimientoCompraCommodity(){
+    return this._http.get(this.url+"/api/Produccion/InformacionSeguimientoCompraCommodity").pipe(
+      catchError( _ => {
+        this._toastr.error("Error al momento de mostrar informacion de Commdodity ", "Error !!", { timeOut: 4000, closeButton: true })
+        return throwError("Error  al momento de mostrar informacion de Commdodity ")
+      })
+    );
+  }
 }
