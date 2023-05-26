@@ -88,8 +88,7 @@ export class OcDrogueriaComponent implements OnInit {
       (resp: any) => {
         if (resp["success"]) {
           this.listarItemDrogueria = resp["content"];
-          this.templistarItemDrogueria = resp["content"];
-          console.log(this.listarItemDrogueria);
+          this.templistarItemDrogueria = resp["content"];          
         } else {
           this.listarItemDrogueria = resp["content"];
           this.templistarItemDrogueria = resp["content"];
@@ -210,7 +209,6 @@ export class OcDrogueriaComponent implements OnInit {
 
   
   getRowClass = (row:ModelSeguimientoDrogueria) => {
-    console.log('rowClass')
     if (row.idGestionarColor == 0)
     {
        return {'row-color-gestioncompra': true  };

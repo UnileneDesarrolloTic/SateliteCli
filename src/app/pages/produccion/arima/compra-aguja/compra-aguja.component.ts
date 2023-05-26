@@ -159,7 +159,6 @@ export class CompraAgujaComponent implements OnInit {
 
 
   getRowClass = (row:DatosFormatoListadoCompraAguja) => {
-    console.log('rowClass')
     if (row.idGestion == 0)
     {
        return {'row-color-gestioncompra': true  };

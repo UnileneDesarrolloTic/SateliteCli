@@ -54,7 +54,8 @@
                 <div class="col-12" style="height: 85vh;">
                     <ngx-datatable class="material" [rows]="listadoCompraNacionalImportada"
                         [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="42" 
-                        [scrollbarV]="true" [sorts]="[{prop: 'name', dir: 'desc'}]"  style="height: 90%;" class="material font-medium" [scrollbarH]="true">
+                        [scrollbarV]="true" [sorts]="[{prop: 'name', dir: 'desc'}]"  style="height: 90%;" class="material font-medium" 
+                        [loadingIndicator]="flagEspera" [scrollbarH]="true">
 
                         <!-- [frozenLeft]="true"  -->
                         <ngx-datatable-column name="ItemFinal" prop="itemFinal" [width]="20">

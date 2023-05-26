@@ -43,6 +43,7 @@ export class CompraNacionalImportacionComponent implements OnInit {
   ngOnInit(): void {
     this.listadoComprasAguja();
     this.isObservableFiltro();
+    this.isObservableCombo();
   }
 
 
@@ -78,6 +79,12 @@ export class CompraNacionalImportacionComponent implements OnInit {
     this.textFiltrarNacionalImportacion.valueChanges.pipe(debounceTime(900)).subscribe(valorBusqueda=>{
           this.filtrar(valorBusqueda);
     });
+  }
+
+  isObservableCombo(){
+    this.material.valueChanges.subscribe((valor)=>{
+            this.listadoComprasAguja();
+    })
   }
 
   filtrar(valorBusqueda){
