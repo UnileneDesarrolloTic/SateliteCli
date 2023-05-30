@@ -2,6 +2,8 @@ import { Routes } from "@angular/router";
 import { AuthGuard } from "@guard/auth.guard";
 import { ConsultarStockVentasComponent } from "./consultar-stock-ventas/consultar-stock-ventas.component";
 import { GestionGuiasComponent } from "./gestion-guias/gestion-guias.component";
+import { OrdenesServicioDetalleComponent } from "./gestion-ordenes-servicio/ordenes-servicio-detalle/ordenes-servicio-detalle.component";
+import { OrdenesServicioMainComponent } from "./gestion-ordenes-servicio/ordenes-servicio-main/ordenes-servicio-main.component";
 import { MaestroItemComponent } from "./maestro-item/maestro-item.component";
 
 export const LogisticaRoutes: Routes = [
@@ -37,6 +39,24 @@ export const LogisticaRoutes: Routes = [
             { title: 'Gestión de guias' },
             { title: 'Logistica' }
             
+          ]
+        }
+      },
+      {
+        path: 'ordenesServicio',
+        component: OrdenesServicioMainComponent,
+        data: {
+          title: "Ordenes de servicio",
+        },
+      },
+      {
+        path: 'ordenesServicio/detalle/:codigo/:ordenServicio/:transportista',
+        component: OrdenesServicioDetalleComponent,
+        data: {
+          title: "Detalle Orden Servicio",
+          urls: [
+            { title: 'Lista Orden Servicio', url: '//Logistica/Gestion/ordenesServicio' },
+            { title: 'Detalle' }
           ]
         }
       },
