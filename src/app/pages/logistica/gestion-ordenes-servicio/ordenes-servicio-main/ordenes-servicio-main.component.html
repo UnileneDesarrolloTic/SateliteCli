@@ -1,108 +1,320 @@
 <div class="row">
-    <div class="col-md-12">
-      <div class="card border-left border-info">
-        <div class="card-header bg-info text-white" style="font-weight: bold">
-          Filtros de búsqueda
+  <div class="col-md-12">
+    <div class="card border-left border-info">
+      <div class="card-header bg-info text-white" style="font-weight: bold">
+        Filtros de búsqueda
+      </div>
+      <div class="card-body">
+        <form autocomplete="off" [formGroup]="formFiltros" (submit)="listarOrdenesServicio()">
+          <div class="form-body" style="font-size: 14px;">
+            <div class="row p-t-5">
+              <div class="col-sm-12 col-md-6">
+                <div class="form-group row">
+                  <label class="col-3 text-left control-label col-form-label" for="fechaInicio">Fecha Inicio:</label>
+                  <div class="col-sm-9 input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                    </div>
+                    <input type="date" class="form-control" aria-label="Small" aria-describedby="fechaInicio"
+                      id="fechaInicio" formControlName="fechaInicio">
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-6">
+                <div class="form-group row">
+                  <label class="col-3 text-left control-label col-form-label" for="fechaFin">Fecha Fin:</label>
+                  <div class="col-sm-9 input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                    </div>
+                    <input type="date" class="form-control" aria-label="Small" aria-describedby="fechaFin" id="fechaFin"
+                      formControlName="fechaFin">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row m-t-2">
+            <div class="col-12 d-flex justify-content-center">
+              <button class="btn btn-info btn-sm btn-rounded" type="submit">
+                <i class="fa fa-spinner fa-spin fa-fw fa-lg" *ngIf="flagLoadingLista"></i>
+                <i class="fa fa-search fa-fw fa-lg" *ngIf="!flagLoadingLista"></i>
+                &nbsp;&nbsp;Filtrar&nbsp;
+              </button>
+              <button class="btn btn-success btn-sm btn-rounded" type="button" (click)="exportarReporteSalidas()">
+                <i class="fa fa-spinner fa-spin fa-fw fa-lg" *ngIf="flagExportarDatos"></i>
+                <i class="far fa-file-excel fa-fw fa-lg" *ngIf="!flagExportarDatos"></i>&nbsp;&nbsp;Exportar&nbsp;
+              </button>
+              <button class="btn btn-primary btn-sm btn-rounded" type="button"
+                (click)="abrirModalNuevaOrdenServicio(nuevaOrdenServicio)">
+                <i class="fas fa-plus fa-fw fa-lg"></i>&nbsp;&nbsp;Nuevo&nbsp;
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12">
+    <div class="card border-left border-info">
+      <div class="card-body" style="font-size: 13px;">
+        <div class="row">
+          <div class="col-12 m-b-20 d-flex justify-content-between">
+            <button class="btn btn-info btn-sm btn-rounded" type="submit" (click)="generarReporteGuia()">
+              <i class="fas fa-file-alt fa-fw fa-lg" *ngIf="!flagReporteGuia"></i>
+              <i class="fa fa-spinner fa-spin fa-fw fa-lg" *ngIf="flagReporteGuia"></i>
+              &nbsp;&nbsp;Reporte Guias&nbsp;
+            </button>
+            <button class="btn btn-info btn-rounded btn-sm" (click)="abrirModalRetornoOrdenServicio(marcarRetorno)">
+              <i class="far fa-check-circle fa-fw fa-lg">
+              </i>
+              &nbsp;&nbsp;Marcar Salida O.S.&nbsp;&nbsp;
+            </button>
+          </div>
         </div>
-        <div class="card-body">
-          <form autocomplete="off">
-            <div class="form-body" style="font-size: 14px;">
-              <div class="row p-t-5">
-                <div class="col-sm-12 col-md-6">
-                    <div class="form-group row">
-                        <label class="col-3 text-left control-label col-form-label" for="fechaInicio">Fecha Inicio:</label>
-                        <div class="col-sm-9 input-group input-group-sm mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="fa fa-calendar"></i></span>
-                            </div>
-                            <input type="date" class="form-control" aria-label="Small" aria-describedby="fechaInicio"  id="fechaInicio">
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-12 col-md-6">
-                    <div class="form-group row">
-                        <label class="col-3 text-left control-label col-form-label" for="fechaFin">Fecha Fin:</label>
-                        <div class="col-sm-9 input-group input-group-sm mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="fa fa-calendar"></i></span>
-                            </div>
-                            <input type="date" class="form-control" aria-label="Small" aria-describedby="fechaFin"  id="fechaFin">
-                        </div>
-                    </div>
-                </div>
-              </div>
-            </div>
-            <div class="row m-t-2">
-              <div class="col-12 d-flex justify-content-center">
-                    <button class="btn btn-success btn-sm btn-rounded" type="submit">
-                        <i class="far fa-file-excel"></i>&nbsp;&nbsp;Exportar&nbsp;
-                    </button>
-                    <button class="btn btn-info btn-sm btn-rounded" type="submit">
-                        <i class="fa fa-search"></i>&nbsp;&nbsp;Filtrar&nbsp;
-                    </button>
-                    <button class="btn btn-primary btn-sm btn-rounded" type="submit">
-                        <i class=" fas fa-plus"></i>&nbsp;&nbsp;Nuevo&nbsp;
-                    </button>
-              </div>
-            </div>
-          </form>
+        <div class="alert alert-warning col-12" role="alert"
+          *ngIf="listaOrdenesServicio.length < 1  && !flagLoadingLista">
+          NO EXISTEN ORDENES DE SERVICIO PARA EL RANGO DE FECHAS SELECCIONADOS
+        </div>
+        <div class="table-responsive" *ngIf="listaOrdenesServicio.length > 0  ">
+          <table class="table table-striped border hover table-sm">
+            <thead>
+              <tr style="font-weight: bold;">
+                <th class="text-center">Fecha</th>
+                <th class="text-center">F. Salida</th>
+                <th class="text-center">Orden</th>
+                <th class="text-center">Transportista</th>
+                <th class="text-center">Usuario</th>
+                <th class="text-center">Estado</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let orden of listaOrdenesServicio">
+                <td class="text-center">{{ orden.fecha | date: 'dd/MM/yyyy HH:mm' }}</td>
+                <td class="text-center">{{ orden.fechaSalida | date: 'dd/MM/yyyy HH:mm' }}</td>
+                <td class="text-center">{{ orden.ordenServicio }}</td>
+                <td>{{ orden.transportista }}</td>
+                <td class="text-center">{{ orden.usuario }}</td>
+                <td class="text-center">{{ orden.estado == 'A' ? 'Activo' : 'Inactivo' }}</td>
+                <td class="text-center ">
+                  <a type="button" (click)="editar(orden.id, orden.ordenServicio, orden.idTransportista)">
+                    <i class="fas fa-edit fa-lg"></i>
+                  </a>&nbsp;
+                  <a type="button" (click)="exportarReporteOrdenServicio(orden.id)">
+                    <i class="far fa-file-pdf fa-lg"></i>
+                  </a>&nbsp;
+                  <a type="button" class="text-danger" (click)="eliminarOrdenServicio(orden.ordenServicio)">
+                    <i class="far fa-trash-alt fa-lg"></i>
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
   </div>
-
-  <div class="row">
-    <div class="col-12">
-      <div class="card border-left border-info">
-        <div class="card-body" style="font-size: 13px;">
-            <div class="col-12 m-b-20 d-flex justify-content-between">
-                <div class="col-2">
-                    <input type="text" class="form-control" aria-label="Small" aria-describedby="filtroOS"  id="filtroOS">
+</div>
+<ng-template #nuevaOrdenServicio let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">
+      AGREGAR GUÍAS A LA ORDEN DE SERVICIO
+    </h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">
+        &times;
+      </span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card border-left border-info">
+          <div class="card-body">
+            <form autocomplete="off" [formGroup]="formFiltroGuia" (submit)="obtenerListaGuiaRemision()">
+              <div class="form-body" style="font-size: 14px;">
+                <div class="row p-t-5">
+                  <div class="col-sm-12 col-md-6">
+                    <div class="form-group row">
+                      <label class="col-3 text-left control-label col-form-label" for="fechaInicio">F. Inicio:</label>
+                      <div class="col-sm-9 input-group input-group-sm mb-3">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                        </div>
+                        <input type="date" class="form-control" aria-label="Small" aria-describedby="fechaInicio"
+                          id="fechaInicio" formControlName="fechaInicio">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-12 col-md-6">
+                    <div class="form-group row">
+                      <label class="col-3 text-left control-label col-form-label" for="fechaFin">F. Fin:</label>
+                      <div class="col-sm-9 input-group input-group-sm mb-3">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                        </div>
+                        <input type="date" class="form-control" aria-label="Small" aria-describedby="fechaFin"
+                          id="fechaFin" formControlName="fechaFin">
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                
-                <button class="btn btn-success btn-rounded btn-sm">
-                  <i class="fas fa-dolly"></i>
-                  <!-- <i class="fa fa-spinner fa-spin fa-fw"></i> -->
-                    &nbsp;&nbsp;Agregar transportista&nbsp;&nbsp;
+              </div>
+              <div class="row m-t-2">
+                <div class="col-12 d-flex justify-content-center">
+                  <button class="btn btn-info btn-sm btn-rounded" type="submit">
+                    <i class="fa fa-spinner fa-spin fa-lg fa-fw" *ngIf="flagFiltrarGuia"></i>
+                    <i class="fa fa-search fa-lg fa-fw" *ngIf="!flagFiltrarGuia"></i>
+                    &nbsp;&nbsp;Filtrar&nbsp;
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <div class="card border-left border-info">
+          <div class="card-body" style="font-size: 13px;">
+            <div class="row">
+              <div class="col-12 m-b-20 d-flex justify-content-between">
+                <div class="col-5 input-group input-group-sm">
+                  <select class="custom-select" id="transportista" name="transportista" [(ngModel)]="transportistaSeleccionada">
+                      <option value="0">Transportista..</option>
+                      <option *ngFor="let transportista of transportistas" [value]="transportista.id" >
+                          {{transportista.descripcion}}</option>
+                  </select>
+                </div>
+                <button class="btn btn-primary btn-sm btn-success" type="button" (click)="crearOrdenServicio()">
+                  <i class="fas fa-plus"></i>&nbsp;&nbsp;Crear Orden de Servicio&nbsp;
                 </button>
+              </div>
             </div>
-            <div class="table-responsive">
-                <table class="table table-striped border hover table-sm">
+            <div class="alert alert-warning col-12" role="alert" *ngIf="guiasRemision.length < 1  && !flagFiltrarGuia">
+              NO EXISTEN ORDENES DE SERVICIO PARA EL RANGO DE FECHAS SELECCIONADOS
+            </div>
+            <div class="table-responsive" *ngIf="guiasRemision.length > 0">
+              <table class="table table-striped border hover table-sm">
                 <thead>
-                    <tr style="font-weight: bold;">
+                  <tr style="font-weight: bold;">
+                    <th class="text-center">-</th>
+                    <th class="text-center">Guía</th>
                     <th class="text-center">Fecha</th>
-                    <th class="text-center">Orden</th>
-                    <th class="text-center">Transportista</th>
-                    <th class="text-center">Usuario</th>
-                    <th class="text-center">Extra</th>
-                    <th class="text-center">Estado</th>
-                    <td></td>
-                    </tr>
+                    <th class="text-center">Cliente</th>
+                    <th class="text-center">Departamento</th>
+                    <th class="text-center">Documento</th>
+                    <th class="text-center">Fec. Doc.</th>
+                    <th class="text-center">E. Guía</th>
+                    <th class="text-center">E. Fact.</th>
+                  </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                    <td class="text-center">17/05/2023</td>
-                    <td class="text-center">OS-20210201-1</td>
-                    <td>Mundo Logistic 2</td>
-                    <td class="text-center">RZAVALA</td>
-                    <td class="text-center">Activo</td>
-                    <td class="text-center">extra extra extra</td>
-                    <td class="text-center ">
-                        <a type="button">
-                        <i class="fas fa-edit fa-lg"></i>
-                        </a>&nbsp;
-                        <a type="button" class="text-success">
-                            <i class="far fa-file-excel fa-lg"></i>
-                        </a>&nbsp;
-                        <a type="button" class="text-danger">
-                            <i class="far fa-trash-alt fa-lg"></i>
-                        </a>
+                  <tr *ngFor="let guia of guiasRemision">
+                    <td class="text-center">
+                      <input type="checkbox" [value]="guia.checkSeleccion"
+                        (change)="guia.checkSeleccion = !guia.checkSeleccion">
                     </td>
-                    </tr>
+                    <td class="text-center">{{ guia.guia }}</td>
+                    <td class="text-center">{{ guia.fechaGuia | date:'dd-MM-yyyy HH:mm' }}</td>
+                    <td class="text-center">{{ guia.cliente }}</td>
+                    <td class="text-center">{{ guia.departamento }}</td>
+                    <td class="text-center">{{ guia.documento }}</td>
+                    <td class="text-center">{{ guia.fechaDocumento | date: 'dd-MM-yyyy HH:mm' }}
+                    </td>
+                    <td class="text-center">{{ guia.estadoGuia }}</td>
+                    <td class="text-center">{{ guia.estadoFacturacion }}</td>
+                  </tr>
                 </tbody>
-                </table>
+              </table>
             </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
+</ng-template>
+<ng-template #marcarRetorno let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">
+      RETORNO DE ORDENES DE SERVICIOS
+    </h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">
+        &times;
+      </span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card border-left border-primary">
+          <div class="card-body p-0 d-flex justify-content-center pt-3">
+            <form autocomplete="off" (submit)="marcarRetornoOrdenServicio()">
+              <div class="form-group row">
+                <div class="col-1 text-center control-label col-form-label">
+                  <i class="fas fa-barcode fa-lg"></i>
+                </div>
+                <div class="col-6">
+                  <input type="text" #inputCodeBar class="form-control form-control-sm" id="ordenServicioInput"
+                    name="ordenServicioInput" placeholder="Número Guía" [(ngModel)]="ordenServicioInput">
+                </div>
+                <div class="col-4">
+                  <button type="submit" class="btn btn-sm btn-rounded btn-success"><i
+                      class="fas fa-check"></i>&nbsp;&nbsp; Marcar</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card border-left border-primary">
+          <div class="card-body p-0">
+            <div class="row">
+              <div class="col-12">
+                <div class="mt-3 d-flex justify-content-center">
+                  <div *ngIf="flagSpinner">
+                    <i class="fas fa-spinner fa-spin fa-2x"></i>
+                  </div>
+                  <div class="alert alert-warning col-12" role="alert"
+                    *ngIf="mensajeRetorno.length > 0 && !flagAlertaRetorno">
+                    {{ mensajeRetorno }}
+                  </div>
+                  <div class="card col-6 border-primary" *ngIf="mensajeRetorno.length < 1" >
+                    <div class="card-header bg-success text-white">
+                      <h4 class="card-title">
+                        <i class="far fa-check-circle"></i>&nbsp;&nbsp; Ord. Recepcionada
+                      </h4>
+                    </div>
+                    <div class="card-body" style="background-color: #e5ffe1;">
+                      <div class="d-flex align-items-center">
+                        <div class="col-12">
+                          <h6 class="text-muted font-light"><i class="far fa-file fa-sm"></i> &nbsp;Orden Servicio</h6>
+                          <h5>{{ datosOrdenServicio.ordenServicio }}</h5>       
+                          <h6 class="text-muted font-light mt-4"><i class="far fa-file-alt fa-sm"></i> &nbsp;Transportista
+                          </h6>
+                          <h5>{{ datosOrdenServicio.transportista }}</h5>
+                          <h6 class="text-muted font-light mt-4"><i class="far fa-calendar-alt fa-sm"></i> &nbsp;Fecha
+                            Registro</h6>
+                          <h5></h5>
+                          {{ datosOrdenServicio.fechaRegistro | date: 'dd/MM/yyyy HH:mm' }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

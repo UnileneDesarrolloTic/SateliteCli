@@ -271,7 +271,21 @@ export class InterceptorService implements HttpInterceptor {
       "RRHH/ReporteHorasExtrasGenerada",
       "RRHH/FormatoAutorizacionSobretiempo",
       "RRHH/RptAutorizacionSobretiempoPorPersona",
-      "Comercial/RegistrarAdministracionGuia"
+      "Comercial/RegistrarAdministracionGuia",
+      "OrdenServicio/listarOrdenServicio",
+      "OrdenServicio/listarTransportistaCombox",
+      "OrdenServicio/listaDetalleOrdenServicio",
+      "OrdenServicio/listaGuiaRemision",
+      "OrdenServicio/modificarOrdenServicio",
+      "OrdenServicio/eliminarDetalle",
+      "OrdenServicio/editarGuiaRemision",
+      "OrdenServicio/guardarTransportista",
+      "OrdenServicio/nuevaOrdenServicio",
+      "OrdenServicio/exportarOrdenServicioSalidas",
+      "OrdenServicio/exportarOrdenServicio",
+      "OrdenServicio/ordenServicioRetornada",
+      "OrdenServicio/eliminarOrdenServicio",
+      "OrdenServicio/reporteGuiaOrdenServicio"
     ];
     
     const data = this.sesionService.datosPersonales();
