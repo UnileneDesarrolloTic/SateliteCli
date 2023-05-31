@@ -26,6 +26,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ComponenteModule } from '@shared/components/componente.module';
 import { FeatherModule } from 'angular-feather';
 import { CommonModule } from '@angular/common';
+import { SeguimientoCobranzaComponent } from './comercial/seguimiento-cobranza/seguimiento-cobranza.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { CommonModule } from '@angular/common';
     ObligacionesFinancierasComponent,
     GestionCalidadComponent,
     ExportacionBoliviaComponent,
-    BioleneComponent
+    BioleneComponent,
+    SeguimientoCobranzaComponent
   ],
   imports: [
     RouterModule.forChild(DashboardRoutes),
