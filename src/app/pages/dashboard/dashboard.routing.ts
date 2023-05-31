@@ -18,6 +18,7 @@ import { ObligacionesFinancierasComponent } from "@pages/dashboard/comercial/obl
 import { GestionCalidadComponent } from "@pages/dashboard/produccion/gestion-calidad/gestion-calidad.component";
 import { ExportacionBoliviaComponent } from "@pages/dashboard/comercial/exportacion-bolivia/exportacion-bolivia.component";
 import { BioleneComponent } from "./comercial/biolene/biolene.component";
+import { SeguimientoCobranzaComponent } from "./comercial/seguimiento-cobranza/seguimiento-cobranza.component";
 
 export const DashboardRoutes: Routes = [
     {
@@ -120,6 +121,13 @@ export const DashboardRoutes: Routes = [
             component: BioleneComponent,
             data: {
               title: "Dashboard Biolene"
+            }
+          },
+          {
+            path: 'SeguimientoCobranza',
+            component: SeguimientoCobranzaComponent,
+            data: {
+              title: "Seguimiento de Cobranza"
             }
           }
         ]
