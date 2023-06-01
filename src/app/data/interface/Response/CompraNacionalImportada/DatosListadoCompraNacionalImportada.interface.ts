@@ -30,4 +30,7 @@ export interface DatosCompraNacionalImportada {
     cantidadComprar:      number;
     gestionColor:         string;
     idGestion:            number;
+    duracion:             number;
+    almacenMenosPlanta:   number;
+    mesesPotencialesFuturo: number;
 }
