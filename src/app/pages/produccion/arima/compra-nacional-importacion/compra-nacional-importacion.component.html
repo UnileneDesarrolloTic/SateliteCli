@@ -55,7 +55,7 @@
                     <ngx-datatable class="material" [rows]="listadoCompraNacionalImportada"
                         [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="42" 
                         [scrollbarV]="true" [sorts]="[{prop: 'name', dir: 'desc'}]"  style="height: 90%;" class="material font-medium" 
-                        [loadingIndicator]="flagEspera" [scrollbarH]="true">
+                        [loadingIndicator]="flagEspera" [scrollbarH]="true" [rowClass]="getRowClass">
 
                         <!-- [frozenLeft]="true"  -->
                         <ngx-datatable-column name="ItemFinal" prop="itemFinal" [width]="20">
@@ -212,27 +212,27 @@
                             </ng-template>
                         </ngx-datatable-column> -->
 
-                        <ngx-datatable-column name="Dia Potencial" prop="diasPotencial"
+                        <ngx-datatable-column name="Dia potencial" prop="diasPotencial"
                             *ngIf="this.checkMostrarColumna.value" [width]="30">
                             <ng-template let-row="row" ngx-datatable-cell-template>
                                 <span style="font-size: 12px !important" class="font-medium">{{row.diasPotencial | number : '1.0-0'}}</span>
                             </ng-template>
                         </ngx-datatable-column>
 
-                        <ngx-datatable-column name="Pronostico" prop="pronostico" [width]="50">
+                        <ngx-datatable-column name="Cons.mensual" prop="pronostico" [width]="50">
                             <ng-template let-row="row" ngx-datatable-cell-template>
                                 <span style="font-size: 12px !important" class="font-medium">{{row.pronostico | number : '1.0-0'}}</span>
                             </ng-template>
                         </ngx-datatable-column>
 
-                        <ngx-datatable-column name="Consumo Dia" prop="consumoDia"
+                        <ngx-datatable-column name="Consumo dia" prop="consumoDia"
                             *ngIf="this.checkMostrarColumna.value" [width]="30">
                             <ng-template let-row="row" ngx-datatable-cell-template>
                                 <span style="font-size: 12px !important" class="font-medium">{{row.consumoDia | number : '1.0-0'}}</span>
                             </ng-template>
                         </ngx-datatable-column>
 
-                        <ngx-datatable-column name="Dias Llegada"  prop="demoraLlegarProducto"
+                        <ngx-datatable-column name="Dias llegada"  prop="demoraLlegarProducto"
                             *ngIf="this.checkMostrarColumna.value" [width]="30">
                             <ng-template let-row="row" ngx-datatable-cell-template>
                                 <span style="font-size: 12px !important" class="font-medium">{{row.demoraLlegarProducto | number : '1.0-0'}}</span>
