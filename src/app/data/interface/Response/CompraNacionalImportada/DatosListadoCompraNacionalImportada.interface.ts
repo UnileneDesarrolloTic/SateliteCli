@@ -33,4 +33,5 @@ export interface DatosCompraNacionalImportada {
     duracion:             number;
     almacenMenosPlanta:   number;
     mesesPotencialesFuturo: number;
+    gestionLetras: number;
 }

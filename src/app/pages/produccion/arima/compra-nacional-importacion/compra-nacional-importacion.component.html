@@ -60,14 +60,14 @@
                         <!-- [frozenLeft]="true"  -->
                         <ngx-datatable-column name="ItemFinal" prop="itemFinal" [width]="20">
                             <ng-template let-row="row" ngx-datatable-cell-template>
-                                <span  style="font-size: 12px !important" class="font-medium">{{row.itemFinal }}</span>
+                                <span  style="font-size: 12px !important" [ngStyle]="{ 'color': row.gestionLetras }" class="font-medium">{{row.itemFinal }}</span>
                             </ng-template>
                         </ngx-datatable-column>
 
                         <ngx-datatable-column name="Descripción" prop="descripcionLocal" 
                             [width]="180">
                             <ng-template let-row="row" ngx-datatable-cell-template>
-                                <span  style="font-size: 12px !important" class="font-medium">{{row.descripcionLocal }}</span>
+                                <span  style="font-size: 12px !important" [ngStyle]="{ 'color': row.gestionLetras }" class="font-medium">{{row.descripcionLocal }}</span>
                             </ng-template>
                         </ngx-datatable-column>
 <!-- 
@@ -80,6 +80,12 @@
                         <ngx-datatable-column name="Duración" prop="duracion" [width]="50">
                             <ng-template let-row="row" ngx-datatable-cell-template>
                                 <span  style="font-size: 12px !important" class="font-medium">{{row.duracion | number : '1.2-2'}}</span>
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column name="Cons.mensual" prop="pronostico" [width]="50">
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                <span style="font-size: 12px !important" class="font-medium">{{row.pronostico | number : '1.0-0'}}</span>
                             </ng-template>
                         </ngx-datatable-column>
 
@@ -216,12 +222,6 @@
                             *ngIf="this.checkMostrarColumna.value" [width]="30">
                             <ng-template let-row="row" ngx-datatable-cell-template>
                                 <span style="font-size: 12px !important" class="font-medium">{{row.diasPotencial | number : '1.0-0'}}</span>
-                            </ng-template>
-                        </ngx-datatable-column>
-
-                        <ngx-datatable-column name="Cons.mensual" prop="pronostico" [width]="50">
-                            <ng-template let-row="row" ngx-datatable-cell-template>
-                                <span style="font-size: 12px !important" class="font-medium">{{row.pronostico | number : '1.0-0'}}</span>
                             </ng-template>
                         </ngx-datatable-column>
 
