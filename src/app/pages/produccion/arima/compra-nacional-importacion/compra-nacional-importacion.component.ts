@@ -110,7 +110,7 @@ export class CompraNacionalImportacionComponent implements OnInit {
     this._ProduccionService.exportarseguimientoCompraNacionalImportacion(this.checkMostrarColumna.value, this.reporteArima.value).subscribe(
       (resp:any)=>{
         if(resp.success){
-          this._FileService.decargarExcel_Base64(resp.content,`CompraAguja-Nacional-Importada`,'xlsx');
+          this._FileService.decargarExcel_Base64(resp.content,`Nacional-Importada`,'xlsx');
         }else{
           this._toastr.info(resp.message);
         }

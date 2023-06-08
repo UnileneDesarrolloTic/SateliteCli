@@ -118,7 +118,8 @@
                             </ngx-datatable-column>
 
 
-                            <ngx-datatable-column name="longitud" prop="longAgujas" [width]="40">
+                            <ngx-datatable-column name="longitud" *ngIf="this.checkMostrarColumna.value" 
+                                    prop="longAgujas" [width]="40">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
                                     <span class="font-medium">{{row.longAgujas }}</span>
                                 </ng-template>
@@ -178,13 +179,13 @@
                                 </ng-template>
                             </ngx-datatable-column>
 
-                            <ngx-datatable-column name="Maximo stock" prop="maximoStock" [width]="50">
+                            <ngx-datatable-column name="Maximo stock" *ngIf="this.checkMostrarColumna.value" prop="cantidadMinima" prop="maximoStock" [width]="50">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
                                     <span class="font-medium">{{row.maximoStock | number : '1.0-0'}}</span>
                                 </ng-template>
                             </ngx-datatable-column>
 
-                            <ngx-datatable-column name="Punto corte" prop="puntoCorte" [width]="50">
+                            <ngx-datatable-column name="Punto corte" *ngIf="this.checkMostrarColumna.value" prop="cantidadMinima" prop="puntoCorte" [width]="50">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
                                     <span class="font-medium">{{row.puntoCorte | number : '1.0-0'}}</span>
                                 </ng-template>
@@ -196,7 +197,7 @@
                                 </ng-template>
                             </ngx-datatable-column>
 
-                            <ngx-datatable-column name="Planta" prop="planta" [width]="50">
+                            <ngx-datatable-column name="Planta" *ngIf="this.checkMostrarColumna.value" prop="cantidadMinima" prop="planta" [width]="50">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
                                     <span class="font-medium">{{row.planta | number : '1.0-0'}}</span>
                                 </ng-template>
