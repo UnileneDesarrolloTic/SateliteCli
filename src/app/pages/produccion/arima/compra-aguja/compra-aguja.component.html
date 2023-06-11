@@ -104,16 +104,16 @@
                             style="height: 90%;" class="material font-medium" [scrollbarH]="true" [rowClass]="getRowClass">
 
                             <!-- [frozenLeft]="true"  -->
-                            <ngx-datatable-column name="itemFinal" prop="itemFinal" [width]="20">
+                            <ngx-datatable-column name="itemFinal" prop="itemFinal" [width]="10">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
-                                    <span class="font-medium">{{row.itemFinal }}</span>
+                                    <span class="font-medium" [ngStyle]="{ 'color': row.gestionLetras }">{{row.itemFinal }}</span>
                                 </ng-template>
                             </ngx-datatable-column>
 
                             <ngx-datatable-column name="descripción" prop="descripcionLocal" 
                                 [width]="180">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
-                                    <span class="font-medium">{{row.descripcionLocal }}</span>
+                                    <span class="font-medium" [ngStyle]="{ 'color': row.gestionLetras }">{{row.descripcionLocal }}</span>
                                 </ng-template>
                             </ngx-datatable-column>
 
@@ -130,6 +130,25 @@
                                     <span class="font-medium">{{row.familiaLarga }}</span>
                                 </ng-template>
                             </ngx-datatable-column>
+
+                            <ngx-datatable-column name="Duración" prop="duracion" [width]="40">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <span class="font-medium">{{row.duracion }}</span>
+                                </ng-template>
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column name="Cons.mensual" prop="pronostico" [width]="50">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <span class="font-medium">{{row.pronostico | number : '1.0-0'}}</span>
+                                </ng-template>
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column name="Cant.comprar" prop="cantidadComprar" [width]="60" [flexGrow]="2">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <span class="font-medium">{{row.cantidadComprar | number : '1.0-0'}}</span>
+                                </ng-template>
+                            </ngx-datatable-column>
+
 
                             <ngx-datatable-column name="T.compra" prop="tiempoCompra"
                                 *ngIf="this.checkMostrarColumna.value" [width]="30">
@@ -191,17 +210,23 @@
                                 </ng-template>
                             </ngx-datatable-column>
 
-                            <ngx-datatable-column name="Stock almacen" prop="almacen" [width]="50">
+                            <ngx-datatable-column name="Disp-Planta"  prop="almacenMenosPlanta" [width]="50">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <span class="font-medium">{{row.almacenMenosPlanta | number : '1.0-0'}}</span>
+                                </ng-template>
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column name="Disponible"  prop="almacen" [width]="50">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
                                     <span class="font-medium">{{row.almacen | number : '1.0-0'}}</span>
                                 </ng-template>
                             </ngx-datatable-column>
 
-                            <ngx-datatable-column name="Planta" *ngIf="this.checkMostrarColumna.value" prop="cantidadMinima" prop="planta" [width]="50">
+                            <!-- <ngx-datatable-column name="Planta"  prop="planta" [width]="50">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
                                     <span class="font-medium">{{row.planta | number : '1.0-0'}}</span>
                                 </ng-template>
-                            </ngx-datatable-column>
+                            </ngx-datatable-column> -->
 
                             <ngx-datatable-column name="OC(preparacion)" prop="preparacionOC" [width]="60">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
@@ -218,7 +243,7 @@
                                     <span *ngIf="row.pendienteOC<=0" class="font-medium">{{row.pendienteOC | number:'1.0-0' }}</span>
                                     <button class="btn btn-sm btn-outline-primary btn-rounded font-medium" type="button"
                                         *ngIf="row.pendienteOC>0" (click)="abrirModalMostrarOC(modalPendienteOC, row.itemFinal, 'Aprobados', row.descripcionLocal)">
-                                        {{ row.pendienteOC | number : '1.' }}
+                                        {{ row.pendienteOC | number : '1.0-0' }}
                                     </button>
                                 </ng-template>
 
@@ -236,11 +261,11 @@
                                 </ng-template>
                             </ngx-datatable-column>
 
-                            <ngx-datatable-column name="Stock  calculado" prop="disponible" [width]="50">
+                            <!-- <ngx-datatable-column name="Stock  calculado" prop="disponible" [width]="50">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
                                     <span class="font-medium">{{row.disponible | number : '1.0-0'}}</span>
                                 </ng-template>
-                            </ngx-datatable-column>
+                            </ngx-datatable-column> -->
 
                             <ngx-datatable-column name="Dia Potencial" prop="diasPotencial"
                                 *ngIf="this.checkMostrarColumna.value" [width]="30">
@@ -249,11 +274,7 @@
                                 </ng-template>
                             </ngx-datatable-column>
 
-                            <ngx-datatable-column name="Pronostico" prop="pronostico" [width]="50">
-                                <ng-template let-row="row" ngx-datatable-cell-template>
-                                    <span class="font-medium">{{row.pronostico | number : '1.0-0'}}</span>
-                                </ng-template>
-                            </ngx-datatable-column>
+                           
 
                             <ngx-datatable-column name="Consumo Dia" prop="consumoDia"
                                 *ngIf="this.checkMostrarColumna.value" [width]="30">
@@ -286,16 +307,11 @@
                             <ngx-datatable-column name="Variacion" prop="variacion"
                                 *ngIf="this.checkMostrarColumna.value" [width]="40">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
-                                    <span class="font-medium">{{row.variacion | number : '1.0-0'}}</span>
+                                    <span class="font-medium">{{row.variacion | number : '1.2-2'}}</span>
                                 </ng-template>
                             </ngx-datatable-column>
 
-                            <ngx-datatable-column name="Cant.comprar" prop="cantidadComprar" [width]="60" [flexGrow]="2">
-                                <ng-template let-row="row" ngx-datatable-cell-template>
-                                    <span class="font-medium">{{row.cantidadComprar | number : '1.0-0'}}</span>
-                                </ng-template>
-                            </ngx-datatable-column>
-
+                           
                         </ngx-datatable>
                     </div>
                 </div>

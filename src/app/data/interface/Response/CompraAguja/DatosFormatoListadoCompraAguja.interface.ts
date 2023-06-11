@@ -31,4 +31,6 @@ export interface DatosFormatoListadoCompraAguja {
     idGestion:            number;
     gestionColor:         number;
     duracion:             number;
+    almacenMenosPlanta:   number;
+    gestionLetras : string;
 }
