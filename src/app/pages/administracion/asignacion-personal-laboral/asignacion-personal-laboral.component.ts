@@ -22,6 +22,8 @@ export class AsignacionPersonalLaboralComponent implements OnInit {
   ListarPersonaLaboral:DatosFormatoPersonaLaboralModel[]=[];
   TemporalListarPersonaLaboral:DatosFormatoPersonaLaboralModel[]=[];
   ListarAreaContar:DatosFormatoAreaPersonalModel[]=[];
+  cantidadAsistio:number = 0;
+  cantidadFalto:number = 0;
 
   ListarArea:any[]=[];
   ListarFiltrarAreaPersona:DatosFormatoFiltrarAreaPersona[]=[];
@@ -93,6 +95,9 @@ export class AsignacionPersonalLaboralComponent implements OnInit {
         this.ListarPersonaLaboral=resp["personalLaboral"];
         this.TemporalListarPersonaLaboral=resp["personalLaboral"];
         this.ListarAreaContar=resp["contarArea"];
+
+        this.cantidadAsistio = this.ListarAreaContar.map((element:DatosFormatoAreaPersonalModel)=> element.asistio ).reduce((a, b) => a + b, 0);
+        this.cantidadFalto = this.ListarAreaContar.map((element:DatosFormatoAreaPersonalModel)=> element.falto ).reduce((a, b) => a + b, 0);
       }
     );
   }
@@ -224,7 +229,6 @@ export class AsignacionPersonalLaboralComponent implements OnInit {
       },
       (error)=>{
         ModalCarga.close();
-        this.toastr.info("Comuniquese con sistemas");
       }
       )
   }

@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UsuarioData } from '@data/interface/Request/Usuario.interface';
 import { environment } from 'environments/environment';
+import { ToastrService } from 'ngx-toastr';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
@@ -12,7 +13,7 @@ export class UsuarioService {
 
   private url = environment.urlApiSatelliteCore;
 
-  constructor(private _http: HttpClient) { }
+  constructor(private _http: HttpClient, private _toastr: ToastrService) { }
 
   obtenerUsuarioDetalle(body){
     return this._http.post<UsuarioData>(this.url+"/api/usuario/ObtenerUsuario", body).pipe(
@@ -67,7 +68,10 @@ export class UsuarioService {
   ExportarExcelPersonaAsignacion(FechaInicio,FechaFinal){
     const params =  new HttpParams().set('FechaInicio', FechaInicio).set('FechaFinal',FechaFinal);
     return this._http.get(this.url + "/api/usuario/ExportarExcelPersonaAsignacion",{'params': params}).pipe(
-      catchError(() => throwError("Error al Liberar Personal"))
+      catchError( _ => {
+        this._toastr.error("Error al mostrar el calendario de orden compra ", "Error !!", { timeOut: 4000, closeButton: true })
+        return throwError("Error  al mostrar el calendario de orden compra ")
+      })
     )
   }
 
