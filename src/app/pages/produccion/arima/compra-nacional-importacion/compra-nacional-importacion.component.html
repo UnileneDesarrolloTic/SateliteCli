@@ -357,8 +357,18 @@
               </div>
 
               <div class="custom-control custom-radio">
+                <input type="radio" class="custom-control-input" [formControl]="reporteArima" [value]="'commodity'" id="customControlValidation3" name="radio-stacked">
+                <label class="custom-control-label" for="customControlValidation5">Commodity</label>
+             </div>
+
+             <div class="custom-control custom-radio">
+                <input type="radio" class="custom-control-input" [formControl]="reporteArima" [value]="'maquinas'" id="customControlValidation3" name="radio-stacked">
+                <label class="custom-control-label" for="customControlValidation5">maquinas</label>
+             </div>
+
+              <div class="custom-control custom-radio">
                 <input type="radio" class="custom-control-input" [formControl]="reporteArima" [value]="'ambas'" id="customControlValidation4" name="radio-stacked">
-                <label class="custom-control-label" for="customControlValidation4">Ambas</label>
+                <label class="custom-control-label" for="customControlValidation4">Ambas(Importacion y Nacional)</label>
             </div>
           </div>
       </div>
