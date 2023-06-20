@@ -17,6 +17,7 @@ import { ConfigCotizacionComponent } from './config-cotizacion/config-cotizacion
 import { EditarConfigCotizacionComponent } from './config-cotizacion/editar-config-cotizacion/editar-config-cotizacion.component';
 import { AsignacionPersonalLaboralComponent } from './asignacion-personal-laboral/asignacion-personal-laboral.component';
 import { AreaComponent } from './asignacion-personal-laboral/area/area.component';
+import { ModalAsistenciaPersonaComponent } from './asignacion-personal-laboral/modal-asistencia-persona/modal-asistencia-persona.component';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { AreaComponent } from './asignacion-personal-laboral/area/area.component
     ConfigCotizacionComponent,
     EditarConfigCotizacionComponent,
     AsignacionPersonalLaboralComponent,
-    AreaComponent
+    AreaComponent,
+    ModalAsistenciaPersonaComponent
   ],
   imports: [
     RouterModule.forChild(AdministracionRoutes),

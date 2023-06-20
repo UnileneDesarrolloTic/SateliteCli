@@ -251,4 +251,10 @@ export class GenericoService {
     );
   }
 
+  clasificacionArea(){
+    return this._http.get<any>(this.url+"/api/Common/ClasificacionArea").pipe(
+      catchError ((ex)=> throwError('Error al momento de traer información Clasificacion del area'))
+    );
+  }
+
 }

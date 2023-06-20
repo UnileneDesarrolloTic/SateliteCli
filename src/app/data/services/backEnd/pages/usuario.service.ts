@@ -101,4 +101,11 @@ export class UsuarioService {
       catchError(() => throwError("Error al Listar Persona  relacionada al area "))
     )
   }
+
+  listarPersonaAsistencia(IdArea){
+    const params= new HttpParams().set('idArea',IdArea);
+    return this._http.get(this.url+"/api/usuario/MostrarPersonasAsistencias", {"params":params}).pipe(
+      catchError(() => throwError("Error al Listar Persona asistencia "))
+    )
+  }
 }

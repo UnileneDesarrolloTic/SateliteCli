@@ -1,16 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { DatosClasificacionArea } from '@data/interface/Response/ClasificacionArea.interface';
 import { DatosFormatoAreaPersonalModel } from '@data/interface/Response/DatosFormatoContarAreaPersonal.inteface';
 import { DatosFormatoFiltrarAreaPersona } from '@data/interface/Response/DatosFormatoFiltrarAreaPersona.interface';
 import { DatosFormatoListarLicitaciones } from '@data/interface/Response/DatosFormatoListarLicitaciones.interface';
 import { DatosFormatoPersonaLaboralModel } from '@data/interface/Response/DatosFormatoPersonaLaboralModel.interface';
 import { UsuarioService } from '@data/services/backEnd/pages/usuario.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalCargarComponent } from '@shared/components/modal-cargar/modal-cargar.component';
 import { Cargarbase64Service } from '@shared/services/comunes/cargarbase64.service';
+import { GenericoService } from '@shared/services/comunes/generico.service';
 import { ToastrService } from 'ngx-toastr';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+import { ModalAsistenciaPersonaComponent } from './modal-asistencia-persona/modal-asistencia-persona.component';
 
 @Component({
   selector: 'app-asignacion-personal-laboral',
@@ -22,6 +25,7 @@ export class AsignacionPersonalLaboralComponent implements OnInit {
   ListarPersonaLaboral:DatosFormatoPersonaLaboralModel[]=[];
   TemporalListarPersonaLaboral:DatosFormatoPersonaLaboralModel[]=[];
   ListarAreaContar:DatosFormatoAreaPersonalModel[]=[];
+  tempListarAreaContar:DatosFormatoAreaPersonalModel[]=[];
   cantidadAsistio:number = 0;
   cantidadFalto:number = 0;
 
@@ -39,12 +43,15 @@ export class AsignacionPersonalLaboralComponent implements OnInit {
   buscarPersonaAgregado = new Subject<string>();
   buscarpersonaArea:string="";
   idAreaPersonalFiltrada:string="0";
+  idAreaClasificacion = new FormControl(0);
   
   FormRangoFechas: FormGroup;
+  listadoClasificacionArea: DatosClasificacionArea[] = []
 
   constructor(private _UsuarioService:UsuarioService,
               private toastr: ToastrService,
               private modalService: NgbModal,
+              private _GenericoServices: GenericoService,
               private servicebase64:Cargarbase64Service) { }
 
   ngOnInit(): void {
@@ -52,7 +59,10 @@ export class AsignacionPersonalLaboralComponent implements OnInit {
     this.CargarInformacionPersonalLaboral();
     this.CargarInformacionArea();
     this.filtrarArea();
+    this.clasificacionAreas();
+    this.filtrarClasificacionArea();
 
+    
     //Bloque 1d
     this.buscarnombrecompleto.pipe(debounceTime(900)).subscribe(() => {
       if(this.buscarNombre.trim() == ''){
@@ -62,14 +72,30 @@ export class AsignacionPersonalLaboralComponent implements OnInit {
       }
     });
 
-    // //Bloque 2 
-    // this.buscarPersonaAgregado.pipe(debounceTime(900)).subscribe(() => {
-    //   if(this.buscarpersonaArea.trim() == ''){
-    //     this.ListarFiltrarAreaPersona=this.TemporalListarFiltrarAreaPersona;
-    //   }else{
-    //     this.ListarFiltrarAreaPersona=this.TemporalListarFiltrarAreaPersona.filter(x=>x.nombreCompleto.toLowerCase().indexOf(this.buscarpersonaArea.toLowerCase().trim()) !== -1);
-    //   }
-    // });
+  } 
+
+  filtrarClasificacionArea(){
+    this.idAreaClasificacion.valueChanges.subscribe((valor)=>{
+      this.ListarAreaContar = this.tempListarAreaContar.filter((element:DatosFormatoAreaPersonalModel)=> (valor == 0) ? element.idClasificacionArea != 0 : element.idClasificacionArea == valor);
+      this.cantidadAsistio = this.ListarAreaContar.map((element:DatosFormatoAreaPersonalModel)=> element.asistio ).reduce((a, b) => a + b, 0);
+      this.cantidadFalto = this.ListarAreaContar.map((element:DatosFormatoAreaPersonalModel)=> element.falto ).reduce((a, b) => a + b, 0);
+    });
+  }
+
+  mostrarPersonaFaltante(areaFila:DatosFormatoAreaPersonalModel){
+    const modalAsistencia = this.modalService.open(ModalAsistenciaPersonaComponent, {
+      ariaLabelledBy: 'modal-basic-title',
+      backdrop: 'static',
+      size: 'lg',
+      scrollable: true,
+      keyboard: false
+      
+    });
+
+    modalAsistencia.componentInstance.areaFila = areaFila;
+    modalAsistencia.result.then((result) => {
+    }, (reason: any) => {
+    });
   }
 
    //Bloque 1
@@ -77,10 +103,14 @@ export class AsignacionPersonalLaboralComponent implements OnInit {
     this.buscarnombrecompleto.next();
   }
 
-  //Bloque 2
-  // filtroNombreCompletoAgregado(){
-  //   this.buscarPersonaAgregado.next();
-  // }
+  clasificacionAreas(){
+    this._GenericoServices.clasificacionArea().subscribe(
+        (resp:any)=>{
+          console.log(resp["content"]);
+            this.listadoClasificacionArea = resp["content"];
+        }
+    )
+  }
 
   CrearFormula(){
     this.FormRangoFechas = new FormGroup({
@@ -95,6 +125,7 @@ export class AsignacionPersonalLaboralComponent implements OnInit {
         this.ListarPersonaLaboral=resp["personalLaboral"];
         this.TemporalListarPersonaLaboral=resp["personalLaboral"];
         this.ListarAreaContar=resp["contarArea"];
+        this.tempListarAreaContar=resp["contarArea"];
 
         this.cantidadAsistio = this.ListarAreaContar.map((element:DatosFormatoAreaPersonalModel)=> element.asistio ).reduce((a, b) => a + b, 0);
         this.cantidadFalto = this.ListarAreaContar.map((element:DatosFormatoAreaPersonalModel)=> element.falto ).reduce((a, b) => a + b, 0);
@@ -252,6 +283,6 @@ export class AsignacionPersonalLaboralComponent implements OnInit {
           
   }
 
-  
+ 
 
 }

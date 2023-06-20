@@ -72,7 +72,6 @@
                                                 <th class="text-center">Id</th>
                                                 <th class="text-center">Apellido y Nombre</th>
                                                 <th class="text-center">Hora</th>
-                                                <!-- <th class="text-center">...</th> -->
             
                                             </tr>
                                         </thead>
@@ -83,7 +82,7 @@
                                                         (change)="SeleccionaItem(persona)" value="{{ persona.idEmpleado}}" />
                                                 </td>
                                                 <td class="text-center font-medium">{{persona.idEmpleado }}</td>
-                                                <td class="text-center font-medium">{{persona.nombreCompleto}}</td>
+                                                <td class="text-left font-medium">{{persona.nombreCompleto}}</td>
                                                 <td class="text-center font-medium">{{persona.hora}}</td>
                                                 <!-- <td class="text-center">
                                                     <button class="btn btn-outled btn-outline-danger" style="font-size: 12px;" type="button" 
@@ -114,6 +113,16 @@
                 <ngb-tabset>
                     <ngb-tab title="Informacion">
                         <ng-template ngbTabContent>
+                            <div class="row p-2">
+                                <select [formControl]="idAreaClasificacion" class="form-control"
+                                    class="form-control form-control-sm">
+                                    <option selected [value]="0">Seleccione el filtro</option>
+                                    <option *ngFor="let clasificacion of listadoClasificacionArea" [value]="clasificacion.idClasificacionArea">
+                                        {{clasificacion.descripcion}}
+                                    </option>
+                                </select>
+                            </div>
+
                             <div class="row">
                                 <div class="table-hover table-responsive table-bordered">
                                     <table class=" table table-striped border table-sm table-hover">
@@ -123,22 +132,27 @@
                                                 <th class="text-center font-medium">Asistieron</th>
                                                 <th class="text-center font-medium">Faltaron</th>
                                                 <th class="text-center font-medium">Total</th>
+                                                <th class="text-center font-medium">...</th>
                                             </tr>
                                         </thead>
                                         <tbody style="font-size: 13px">
                                             <tr *ngFor="let area of ListarAreaContar; let i = index">
-                                                <td class="text-center font-medium">{{area.descripcion }}</td>
+                                                <td class="text-left font-medium">{{area.descripcion }}</td>
                                                 <td class="text-center  text-primary font-medium">{{area.asistio}}</td>
                                                 <td class="text-center font-medium">
                                                     <span [ngStyle]="{ 'color': area.falto > 0 ? 'red' : 'black' }">{{area.falto}}</span>
                                                 </td>
                                                 <td class="text-center font-medium">{{area.total}}</td>
+                                                <td class="text-center font-medium">
+                                                        <button class="btn btn-xs btn-primary font-medium" (click)="mostrarPersonaFaltante(area)"> <i class="fas fa-child"></i></button>
+                                                </td>
                                             </tr>
                                             <tr>
                                                     <td class="text-center font-medium bg-info text-white table-bordered">Total</td>                                                   
                                                     <td class="text-center font-medium">{{this.cantidadAsistio}}</td>
                                                     <td class="text-center font-medium">{{this.cantidadFalto}}</td>
                                                     <td class="text-center font-medium">{{this.cantidadAsistio + this.cantidadFalto}}</td>
+                                                    <td class="text-center font-medium">---</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -163,8 +177,9 @@
                                     class="form-control col-md-6 form-control-sm font-medium" placeholder="Buscar Nombre">
                                 <button type="button" (click)="filtrarArea()" class="btn btn-info btn-sm rounded"><i
                                         class="fas fa-search"></i> Busqueda </button>
-                                <h6>Total: {{this.ListarFiltrarAreaPersona.length}}</h6>
+                                <h6 class="font-medium">Total: {{this.ListarFiltrarAreaPersona.length}}</h6>
                             </div>
+                            
                             <div class="row">
                                 <div class="table-hover table-responsive table-bordered scrollvertical">
                                     <table class=" table table-striped border table-sm table-hover">
@@ -185,8 +200,8 @@
                                                     </a>
                                                 </td>
                                                 <td class="text-center font-medium">{{persona.idAsignacion }}</td>
-                                                <td class="text-center font-medium">{{persona.nombreCompleto}}</td>
-                                                <td class="text-center font-medium">{{persona.descripcion}}</td>
+                                                <td class="text-left font-medium">{{persona.nombreCompleto}}</td>
+                                                <td class="text-left font-medium">{{persona.descripcion}}</td>
                                             </tr>
                                         </tbody>
                                     </table>

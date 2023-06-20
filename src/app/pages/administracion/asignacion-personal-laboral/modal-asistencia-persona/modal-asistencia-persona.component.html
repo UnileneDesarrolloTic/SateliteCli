@@ -1,0 +1,68 @@
+<div class="row ">
+    <div class="card-body">
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title" stype="font-size: 14px">
+                <h5 class="font-medium"> <i class="fas fa-users" style="font-size: 22px;" ></i>  AREA : {{this.areaFila.descripcion}} </h5>
+            </h4>
+            <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="row p-2">
+                <div class="col-md-4">
+                    <div class="custom-control custom-radio">
+                        <input type="radio" id="customRadio1" [formControl]="asistencia" [value]="'Asistieron'"  name="customRadio" class="custom-control-input">
+                        <label class="custom-control-label" for="customRadio1">Asistieron(<i class="fas fa-stop" style="color:rgb(59, 228, 59); font-size: 14px"></i>)</label>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="custom-control custom-radio">
+                        <input type="radio" id="customRadio2" [formControl]="asistencia"  [value]="'Faltaron'" name="customRadio" class="custom-control-input">
+                        <label class="custom-control-label" for="customRadio2">Faltaron(<i class="fas fa-stop" style="color:rgb(241, 10, 41); font-size: 14px"></i>)</label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="custom-control custom-radio">
+                        <input type="radio" id="customRadio3"  [formControl]="asistencia"  [value]="'Todos'" name="customRadio" class="custom-control-input" checked>
+                        <label class="custom-control-label" for="customRadio3">Todos</label>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="row">
+                <div class="table-responsive text-nowrap scrollvertical">
+                    <table class="table table-hover table-bordered table-sm">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="text-center font-weight-bold">Persona</th>
+                                <th scope="col" class="text-center font-weight-bold">Nombre Completo</th>
+                                <th scope="col" class="text-center font-weight-bold">Asistencia</th>
+                            </tr>
+                        </thead>
+                        <tbody style="font-size: 12px;">
+                            <tr *ngFor="let persona of listaPersonaAsistencia; let i = index">
+                                <td class="text-center font-medium">{{persona.persona }}</td>
+                                <td class="text-left font-medium">{{persona.nombreCompleto}}</td>
+                                <td class="text-center font-medium">
+                                    <span *ngIf="persona.lectora > 0">
+                                        <i class="fas fa-stop" style="color:rgb(59, 228, 59); font-size: 14px"></i>
+                                    </span>
+                                    <span *ngIf="persona.lectora == 0">
+                                        <i class="fas fa-stop" style="color:rgb(241, 10, 41); font-size: 14px"></i>
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- <div class="modal-footer">
+                <button type="button" (click)="activeModal.dismiss('Cross click')"
+                    class="btn btn-rounded btn-sm btn-secondary">Cancelar</button>
+            </div> -->
+        </div>
+    </div>
