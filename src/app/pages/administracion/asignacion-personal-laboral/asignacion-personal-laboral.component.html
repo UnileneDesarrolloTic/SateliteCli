@@ -114,10 +114,10 @@
                     <ngb-tab title="Informacion">
                         <ng-template ngbTabContent>
                             <div class="row p-2">
-                                <select [formControl]="idAreaClasificacion" class="form-control"
-                                    class="form-control form-control-sm">
-                                    <option selected [value]="0">Seleccione el filtro</option>
-                                    <option *ngFor="let clasificacion of listadoClasificacionArea" [value]="clasificacion.idClasificacionArea">
+                                <select  [formControl]="idAreaClasificacion" class="form-control"
+                                    class="form-control form-control-sm font-medium">
+                                    <option  class="font-medium" selected [value]="0">Seleccione el filtro</option>
+                                    <option class="font-medium" *ngFor="let clasificacion of listadoClasificacionArea" [value]="clasificacion.idClasificacionArea">
                                         {{clasificacion.descripcion}}
                                     </option>
                                 </select>
