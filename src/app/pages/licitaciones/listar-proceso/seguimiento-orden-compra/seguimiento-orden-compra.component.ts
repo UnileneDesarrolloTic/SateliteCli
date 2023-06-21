@@ -31,6 +31,8 @@ export class SeguimientoOrdenCompraComponent implements OnInit {
   mostrarData:boolean = false;
 
   expediente = new FormControl('');
+  estadoSeguimiento = new FormControl('');
+  comentario = new FormControl('');
   factura =  new FormControl('')
 
   constructor(private _licitacionesServices:LicitacionesService,
@@ -179,6 +181,8 @@ export class SeguimientoOrdenCompraComponent implements OnInit {
         }
 
         this.expediente.patchValue(resp["content"]["informacionExpendiente"]["numeroExpediente"]);
+        this.estadoSeguimiento.patchValue(resp["content"]["informacionExpendiente"]["estadoSeguimiento"]);
+        this.comentario.patchValue(resp["content"]["informacionExpendiente"]["comentario"]);
         this.construirDetalleExpediente(resp["content"]["detalleExpediente"])
     });
   }
@@ -211,6 +215,10 @@ export class SeguimientoOrdenCompraComponent implements OnInit {
   }
 
   registrarSeguimiento(){
+    
+    if(this.estadoSeguimiento.value == '')
+        return this.toastr.warning("Deber seleccionar el estado ")
+    
     const datos = {
       idProceso  :  this.idProceso,
       entrega : this.formulario.controls.NumeroEntrega.value,
@@ -219,10 +227,11 @@ export class SeguimientoOrdenCompraComponent implements OnInit {
       ordenCompra: this.formulario.controls.NumeroOC.value,
       factura : this.factura.value,
       expediente: this.expediente.value,
-      detalleExpediente: this.detalle.controls.detalleExpediente.value
+      detalleExpediente: this.detalle.controls.detalleExpediente.value,
+      estadoSeguimiento: this.estadoSeguimiento.value,
+      comentario: this.comentario.value
     }
-  
-    
+
     this._licitacionesServices.registrarSeguimientoOrden(datos).subscribe(
       (resp:any)=>{
           if(resp["success"])

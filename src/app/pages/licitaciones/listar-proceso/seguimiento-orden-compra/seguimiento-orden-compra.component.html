@@ -64,15 +64,16 @@
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label class="control-label">Número Orden Compra:</label>
-                                    <input type="text" [readonly]="true" class="form-control form-control-sm font-normal"
-                                        formControlName="NumeroOC">
+                                    <input type="text" [readonly]="true"
+                                        class="form-control form-control-sm font-normal" formControlName="NumeroOC">
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label class="control-label">Cantidad Orden Compra:</label>
-                                    <input type="number" [readonly]="true" class="form-control form-control-sm font-normal"
-                                        formControlName="CantidadOC" placeholder="Ingrese Cantidad Orden de Compra">
+                                    <input type="number" [readonly]="true"
+                                        class="form-control form-control-sm font-normal" formControlName="CantidadOC"
+                                        placeholder="Ingrese Cantidad Orden de Compra">
                                 </div>
                             </div>
                         </div>
@@ -102,7 +103,8 @@
                         <div class="col-md-3">
                             <label>&nbsp;</label>
                             <div class="form-group">
-                                <button class="btn btn-success btn-sm" type="button" (click)="registrarSeguimiento()"> Registrar</button>
+                                <button class="btn btn-success btn-sm" type="button" (click)="registrarSeguimiento()">
+                                    Registrar</button>
                             </div>
                         </div>
                     </div>
@@ -156,55 +158,75 @@
                 <hr>
                 <div class="row">
                     <div class="col-md-3">
-                        <div class="form-group">
-                            <label>Expediente</label>
-                            <div class="col-12 p-0">
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <input type="text" name='factura' class="form-control form-control-sm"
-                                            [formControl]="expediente" placeholder="Buscar Expediente" aria-label=""
-                                            aria-describedby="basic-addon1">
-                                    </div>
-                                </div>
+                        <div class="input-group-sm">
+                            <div class="input-group-prepend font-normal">
+                                Expediente:
                             </div>
+                            <input type="text" class="form-control form-control-ms" [formControl]="expediente"
+                                placeholder="Buscar expediente" name="expediente" aria-describedby="basic-addon1">
                         </div>
                     </div>
+                    <div class="col-md-3">
+                        <div class="input-group-sm">
+                            <div class="input-group-prepend font-normal">
+                                Estado:
+                            </div>
+                            <select class="form-control form-control-sm font-normal" id="inlineFormCustomSelect" [formControl]="estadoSeguimiento">
+                                            <option value="">Seleccione el estado</option>
+                                            <option value="PE">PENDIENTE</option>
+                                            <option value="PA">PAGADO</option>
+                                            <option value="DE">DEVENGADO</option>
+                            </select>   
+                        </div>
+                    </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+
+                    <div class="table-responsive table-sm">
+                        <table class="table table-striped no-wrap border mt-4" style="font-size: 13px;">
+                            <thead>
+                                <tr>
+                                    <th class="text-center font-bold">Destino </th>
+                                    <th class="text-center font-bold">Fecha Entrega</th>
+                                    <th class="text-center font-bold">Fecha Aprobación Cargo</th>
+                                    <th class="text-center font-bold">Usuario</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="tbodyDetalle" class="border" style="font-size: 11px;">
+                                <tr *ngFor="let expedienteForm of ProgramacionExpendiente.controls; let i = index">
+                                    <ng-container [formGroup]="expedienteForm">
+                                        <td class="text-center font-normal">{{expedienteForm.value.destino}}</td>
+                                        <td class="text-center">
+                                            <div class="input-group input-group-sm" style='width:10rem'>
+                                                <input type="date" class="form-control form-control-sm font-normal"
+                                                    formControlName="fechaEntrega">
+                                            </div>
+                                        </td>
+                                        <td class="text-center">
+                                            <div class="input-group input-group-sm" style='width:10rem'>
+                                                <input type="date" class="form-control form-control-sm font-normal"
+                                                    formControlName="fechaAprobacion">
+                                            </div>
+                                        </td>
+                                        <td class="text-center font-normal">{{expedienteForm.value.usuario}}</td>
+
+                                    </ng-container>
+                                </tr>
+                            </tbody>
+
+                        </table>
+                    </div>
                 </div>
-                <div class="row">
-                    <div class="col-6">
-
-                        <div class="table-responsive table-sm">
-                            <table class="table table-striped no-wrap border mt-4" style="font-size: 13px;">
-                                <thead>
-                                    <tr>
-                                        <th class="text-center font-bold">Destino </th>
-                                        <th class="text-center font-bold">Fecha Entrega</th>
-                                        <th class="text-center font-bold">Fecha Aprobación Cargo</th>
-                                        <th class="text-center font-bold">Usuario</th>
-                                    </tr>
-                                </thead>
-
-                                <tbody id="tbodyDetalle" class="border" style="font-size: 11px;">
-                                    <tr *ngFor="let expedienteForm of ProgramacionExpendiente.controls; let i = index">
-                                        <ng-container [formGroup]="expedienteForm">
-                                            <td class="text-center font-normal">{{expedienteForm.value.destino}}</td>
-                                            <td class="text-center"> 
-                                                <div class="input-group input-group-sm" style='width:10rem'>
-                                                    <input type="date" class="form-control form-control-sm font-normal" formControlName="fechaEntrega">
-                                                </div>
-                                            </td>
-                                            <td class="text-center">
-                                                <div class="input-group input-group-sm" style='width:10rem'>
-                                                    <input type="date" class="form-control form-control-sm font-normal" formControlName="fechaAprobacion">
-                                                </div>    
-                                            </td>
-                                            <td class="text-center font-normal">{{expedienteForm.value.usuario}}</td>
-                                            
-                                        </ng-container>
-                                    </tr>
-                                </tbody>
-
-                            </table>
+                <div class="col-6">
+                    <div class="input-group-sm">
+                        <div class="input-group-prepend font-normal">
+                            Comentario:
+                        </div>
+                        <div class="input-group-sm">
+                            <textarea class="form-control form-control-sm font-normal" type="text" [formControl]="comentario" rows="5" cols="50" ></textarea>
+                            <small class="form-control-feedback"> Caracteres: {{comentario.value.length}}/255 </small>
                         </div>
                     </div>
                 </div>
@@ -212,67 +234,4 @@
         </div>
     </div>
 </div>
-
-<!-- 
-<div class="row">
-    <div class="col-12">
-        <div class="card border-left border-info">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label>Expediente</label>
-                            <div class="col-12 p-0">
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <input type="text" name='factura' class="form-control form-control-sm"
-                                            [formControl]="expediente" placeholder="Buscar Expediente" aria-label=""
-                                            aria-describedby="basic-addon1">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-6">
-
-                        <div class="table-responsive table-sm">
-                            <table class="table table-striped no-wrap border mt-4" style="font-size: 13px;">
-                                <thead>
-                                    <tr>
-                                        <th class="text-center font-bold">Destino </th>
-                                        <th class="text-center font-bold">Fecha Entrega</th>
-                                        <th class="text-center font-bold">Fecha Aprobación Cargo</th>
-                                        <th class="text-center font-bold">Usuario</th>
-                                    </tr>
-                                </thead>
-
-                                <tbody id="tbodyDetalle" class="border" style="font-size: 11px;">
-                                    <tr *ngFor="let expedienteForm of ProgramacionExpendiente.controls; let i = index">
-                                        <ng-container [formGroup]="expedienteForm">
-                                            <td class="text-center font-normal">{{expedienteForm.value.destino}}</td>
-                                            <td class="text-center"> 
-                                                <div class="input-group input-group-sm" style='width:10rem'>
-                                                    <input type="date" class="form-control form-control-sm font-normal" formControlName="fechaEntrega">
-                                                </div>
-                                            </td>
-                                            <td class="text-center">
-                                                <div class="input-group input-group-sm" style='width:10rem'>
-                                                    <input type="date" class="form-control form-control-sm font-normal" formControlName="fechaAprobacion">
-                                                </div>    
-                                            </td>
-                                            <td class="text-center font-normal">{{expedienteForm.value.usuario}}</td>
-                                            
-                                        </ng-container>
-                                    </tr>
-                                </tbody>
-
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div> -->
+</div>
