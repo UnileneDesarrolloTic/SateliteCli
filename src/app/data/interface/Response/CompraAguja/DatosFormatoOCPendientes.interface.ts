@@ -7,4 +7,5 @@ export interface OCPendientesArima {
     pendienteOC:       number;
     fecha:             Date;
     diferenciaFecha:   number;
+    fechaLlegada:       Date;
 }

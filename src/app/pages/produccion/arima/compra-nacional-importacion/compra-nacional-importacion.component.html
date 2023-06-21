@@ -297,6 +297,7 @@
                         <th class="text-center">C. Pendiente</th>
                         <th class="text-center">Fec. Prometida</th>
                         <th class="text-center">Dif. Días</th>
+                        <th class="text-center wrap">Fec. Llegada(Leadtime)</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -322,6 +323,9 @@
                         <td class="text-center font-medium"
                             [ngStyle]="{'color':ordenCompra['diferenciaFecha']>0 ? '#FC0000':'#27E900' }">
                             {{ ordenCompra['diferenciaFecha'] }}
+                        </td>
+                        <td class="text-center font-medium">
+                            {{ ordenCompra['fechaLlegada'] | date:'dd/MM/yyyy' }}
                         </td>
                     </tr>
                 </tbody>

@@ -132,7 +132,8 @@ export class CompraNacionalImportacionComponent implements OnInit {
     centered: true,
     backdrop: 'static',
     size: 'xl',
-    scrollable: true
+    scrollable: true,
+    windowClass: 'my-class',
   });
   
   this._ProduccionService.mostrarOrdenCompraNacionalImportacion(item,tipo,this.material.value).subscribe(

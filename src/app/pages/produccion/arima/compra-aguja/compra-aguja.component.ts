@@ -109,8 +109,9 @@ export class CompraAgujaComponent implements OnInit {
   this.descripcionModal = descripcion;
   this._modalService.open(modal, {
     centered: true,
+    windowClass: 'my-class',
     backdrop: 'static',
-    size: 'xl',
+    size: 'lg',
     scrollable: true
   });
 

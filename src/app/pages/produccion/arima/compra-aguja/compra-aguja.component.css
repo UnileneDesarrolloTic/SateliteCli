@@ -10,3 +10,7 @@
     background-color: #B4C6E7;
 } 
 
+::ng-deep .my-class .modal-dialog { 
+    max-width: 100%;
+    width: 80%;
+}

@@ -331,7 +331,7 @@
         <h4 class="modal-title">
             Ordenes de compra
         </h4>
-        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <button type="button" id="modal-basic-title" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
             <span aria-hidden="true">
                 &times;
             </span>
@@ -350,6 +350,7 @@
                         <th class="text-center">C. Pendiente</th>
                         <th class="text-center">Fec. Prometida</th>
                         <th class="text-center">Dif. Días</th>
+                        <th class="text-center wrap">Fec. Llegada(Leadtime)</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -373,9 +374,13 @@
                             {{ ordenCompra['fecha'] | date:'dd/MM/yyyy' }}
                         </td>
                         <td class="text-center font-medium"
-                            [ngStyle]="{'color':ordenCompra['diferenciaFecha']>0 ? '#FC0000':'#27E900' }">
+                            [ngStyle]="{'color':ordenCompra['diferenciaFecha'] < 0 ? '#FC0000':'#27E900' }">
                             {{ ordenCompra['diferenciaFecha'] }}
                         </td>
+                        <td class="text-center font-medium">
+                            {{ ordenCompra['fechaLlegada'] | date:'dd/MM/yyyy' }}
+                        </td>
+                        
                     </tr>
                 </tbody>
             </table>
