@@ -321,7 +321,7 @@
                             {{ ordenCompra['fecha'] | date:'dd/MM/yyyy' }}
                         </td>
                         <td class="text-center font-medium"
-                            [ngStyle]="{'color':ordenCompra['diferenciaFecha']>0 ? '#FC0000':'#27E900' }">
+                            [ngStyle]="{'color':ordenCompra['diferenciaFecha'] < 0 ? '#FC0000':'#27E900' }">
                             {{ ordenCompra['diferenciaFecha'] }}
                         </td>
                         <td class="text-center font-medium">
