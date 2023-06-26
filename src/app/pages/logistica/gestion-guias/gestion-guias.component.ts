@@ -20,9 +20,11 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class GestionGuiasComponent implements OnInit {
   form:FormGroup;
+  formBuscar:FormGroup;
   formulario:FormGroup;
   flagEsperaExcel:boolean=false;
   informacionGuiaListar:DatosFormatoPlanOrdenServicosDModel[] = [];
+  informacionGuia:DatosFormatoPlanOrdenServicosDModel[] = [];
   listadoTransportista: TransportistaModel [] = [];
   activarInputDateFecha: boolean = true;
   fechaActual: Date = new Date;
@@ -50,6 +52,10 @@ export class GestionGuiasComponent implements OnInit {
   crearFormulario(){
     this.form = new FormGroup({ 
       numero : new FormControl ('')
+    });
+
+    this.formBuscar = new FormGroup({ 
+      encontrarGuia : new FormControl ('')
     });
 
     this.formulario = new FormGroup({
@@ -85,6 +91,7 @@ export class GestionGuiasComponent implements OnInit {
       }
     );
   }
+
 
   guardarServicios(informacion:DatosFormatoPlanOrdenServicosDModel){
     this._ServiceLogistica.RegistarFechaRetorno(informacion).subscribe(
@@ -162,8 +169,32 @@ export class GestionGuiasComponent implements OnInit {
       size: 'sm',
       scrollable: true
     });
-
   }
+
+  encontrarGuia(){
+    this.informacionGuia = [];
+    if (this.formBuscar.controls.encontrarGuia.value.trim() != "")
+    {
+      this._ServiceLogistica.ObtenerNumeroGuia(this.formBuscar.controls.encontrarGuia.value.trim()).subscribe(
+        (resp:any)=>{
+            if(resp["success"] == false)
+            {
+              this.toastr.warning(resp["message"])
+              this.informacionGuia = [];
+            }
+            else
+            {
+              this.informacionGuia.push(resp.content);
+              this.formBuscar.reset({
+                encontrarGuia:''
+              });
+            } 
+              
+        }
+      );
+    } 
+  }
+
 
   ListarCliente(){
     const body = {};
@@ -171,7 +202,7 @@ export class GestionGuiasComponent implements OnInit {
       resp["success"] == true ? this.listarcliente = resp["content"] : this.listarcliente = [];
     });
   } 
-
+  
 
   openModalConsultaClientes(){
     const modalBusquedaCliente = this._modalService.open(ModalClienteComponent, {

@@ -17,7 +17,7 @@
                                                             autocomplete="off" placeholder="Guia" aria-label=""
                                                             aria-describedby="basic-addon1">
                                                         <div class="input-group-append">
-                                                            <button class="btn mr-0 btn-info btn-sm" type="button"
+                                                            <button class="btn mr-0 btn-success btn-sm" type="button"
                                                                 (click)="buscar()">
                                                                 <i class="ti-search"></i>
                                                             </button>
@@ -74,6 +74,86 @@
                             </div>
                         </div>
                     </div>
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab>
+                <ng-template ngbTabTitle><b>Buscar</b></ng-template>
+                <ng-template ngbTabContent>
+                    <form [formGroup]="formBuscar" (ngSubmit)="encontrarGuia()">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-body justify-content-start">
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <div class="input-group">
+                                                        <input type="text" formControlName="encontrarGuia"
+                                                            class="form-control form-control-sm font-medium"
+                                                            autocomplete="off" placeholder="Guia" aria-label=""
+                                                            aria-describedby="basic-addon1">
+                                                        <div class="input-group-append">
+                                                            <button class="btn mr-0 btn-info btn-sm" type="button"
+                                                                (click)="buscar()">
+                                                                <i class="ti-search"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="row" *ngIf="informacionGuia.length > 0">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <p >
+                                        <ngb-alert [type]="'warning'" class="font-bold"> Recordar: la etiqueta de buscar no guardar la fecha de retorno, solo es informativo</ngb-alert>
+                                    </p>
+                                    <div class="align-items-center">
+                                        <div class="table-hover table-responsive table-bordered">
+                                            <table class="table table-striped border table-hover table-inf">
+                                                <thead style="font-size: 13px">
+                                                    <tr>
+                                                        <th class="text-center" scope="col">SERIE - NÚMERO</th>
+                                                        <th class="text-center" scope="col">FECHA EMISIÓN</th>
+                                                        <th class="text-center" scope="col">NOMBRE DE CLIENTE</th>
+                                                        <th class="text-center" scope="col">FACTURA</th>
+                                                        <th class="text-center" scope="col">FECHA RETORNO ALMACEN</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody style="font-size: 14px" id="tbodyDetalle">
+                                                    <tr *ngFor="let guia of informacionGuia; let i = index">
+                                                        <td class="text-center font-bold">
+                                                            {{guia.numeroGuia}}
+                                                        </td>
+                                                        <td class="text-center font-bold">
+                                                            {{guia.fechaDocumento | date : 'dd/MM/yyyy'}}
+                                                        </td>
+                                                        <td class="text-center font-bold">
+                                                            {{guia.cliente}}
+                                                        </td>
+                                                        <td class="text-center font-bold">
+                                                            {{guia.ordenServicios}}
+                                                        </td>
+                                                        <td class="text-center font-bold">
+                                                            <span *ngIf="guia.fechaRetorno == '1900-01-01T00:00:00'" class="text-danger">SIN RETORNO</span>
+                                                            <span *ngIf="guia.fechaRetorno != '1900-01-01T00:00:00'"> {{guia.fechaRetorno | date : 'dd/MM/yyyy'}} </span>
+                                                            
+                                                        </td>
+
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </ng-template>
             </ngb-tab>
             <ngb-tab>
