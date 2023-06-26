@@ -18,7 +18,7 @@
                                                             aria-describedby="basic-addon1">
                                                         <div class="input-group-append">
                                                             <button class="btn mr-0 btn-info btn-sm" type="button"
-                                                                (click)="buscar()">
+                                                                (click)="encontrarGuia()">
                                                                 <i class="ti-search"></i>
                                                             </button>
                                                         </div>
@@ -48,6 +48,7 @@
                                                         <th class="text-center" scope="col">FACTURA</th>
                                                         <th class="text-center" scope="col">F.ORDEN SERVICIO</th>
                                                         <th class="text-center" scope="col">ORDEN SERVICIO</th>
+                                                        <th class="text-center" scope="col">TRANSPORTISTA</th>
                                                         <th class="text-center" scope="col">FECHA RETORNO ALMACEN</th>
                                                     </tr>
                                                 </thead>
@@ -70,6 +71,9 @@
                                                         </td>
                                                         <td class="text-center font-bold">
                                                             {{guia.ordenServicio}}
+                                                        </td>
+                                                        <td class="text-center font-bold">
+                                                            {{guia.nombreTransportista}}
                                                         </td>
                                                         <td class="text-center font-bold">
                                                             <span *ngIf="guia.fechaRetorno == '1900-01-01T00:00:00'" class="text-danger">SIN RETORNO</span>
