@@ -302,4 +302,14 @@ export class ProduccionService {
       })
     );
   }
+
+  informacionPedidos(item:string){
+    const params = new HttpParams().set('item',item)
+    return this._http.get(this.url+"/api/Produccion/InformacionPedidoAguja",{params: params}).pipe(
+      catchError( _ => {
+        this._toastr.error("Error al momento de mostrar información de pedido ", "Error !!", { timeOut: 4000, closeButton: true })
+        return throwError("Error  al momento de mostrar información de pedido ")
+      })
+    );
+  }
 }

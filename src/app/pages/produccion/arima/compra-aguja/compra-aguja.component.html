@@ -219,7 +219,11 @@
 
                             <ngx-datatable-column name="Disp-Planta"  prop="almacenMenosPlanta" [width]="50">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
-                                    <span class="font-medium">{{row.almacenMenosPlanta | number : '1.0-0'}}</span>
+                                    <span class="font-medium" *ngIf="row.planta == 0" >{{row.almacenMenosPlanta | number : '1.0-0'}}</span>
+                                    <button class="btn btn-sm btn-outline-primary btn-rounded font-medium" type="button"
+                                    *ngIf="row.planta > 0" (click)="abrirModalPedidos(modalPedido, row.itemFinal, row.descripcionLocal )">
+                                    {{ row.almacenMenosPlanta | number : '1.0-0' }}
+                                </button>
                                 </ng-template>
                             </ngx-datatable-column>
 
@@ -379,6 +383,65 @@
                         </td>
                         <td class="text-center font-medium">
                             {{ ordenCompra['fechaLlegada'] | date:'dd/MM/yyyy' }}
+                        </td>
+                        
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</ng-template>
+
+
+
+<ng-template #modalPedido let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">
+            PEDIDOS
+        </h4>
+        <button type="button" id="modal-basic-title" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">
+                &times;
+            </span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <p class="text-info font-medium">ITEM: {{this.itemModal}} - {{this.descripcionModal}}</p>
+        <div class="table-responsive table-sm">
+            <table class="table table-striped no-wrap border" style="font-size: 13px;">
+                <thead>
+                    <tr>
+                        <th class="text-center">ProductoTerminado</th>
+                        <th class="text-center">Pedido</th>
+                        <th class="text-center">Cliente</th>
+                        <th class="text-center">Cant.Pedida</th>
+                        <th class="text-center">(cant.Requerida + Merma)</th>
+                        <th class="text-center">Fecha Preparación</th>
+                        <th class="text-center wrap">Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let pedido of pedidosAgujas">
+                        <td class="text-center font-medium">
+                            {{ pedido['itemTerminado'] }}
+                        </td>
+                        <td class="text-center font-medium">
+                            {{ pedido['pedido'] }}
+                        </td>
+                        <td class="text-center font-medium">
+                            {{ pedido['cliente'] }}
+                        </td>
+                        <td class="text-center font-medium">
+                            {{ pedido['cantidadpedida'] | number }}
+                        </td>
+                        <td class="text-center font-medium">
+                            {{ pedido['totalRequerida'] | number }}
+                        </td>
+                        <td class="text-center font-medium">
+                            {{ pedido['fechaPreparacion'] | date:'dd/MM/yyyy' }}
+                        </td>
+                        <td class="text-center font-medium">
+                            {{ pedido['estado']}}
                         </td>
                         
                     </tr>

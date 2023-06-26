@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { DatosFormatoListadoCompraAguja } from '@data/interface/Response/CompraAguja/DatosFormatoListadoCompraAguja.interface';
+import { PedidosAgujas } from '@data/interface/Response/CompraAguja/DatosFormatoListadoPedidoAguja.interface';
 import { OCPendientesArima } from '@data/interface/Response/CompraAguja/DatosFormatoOCPendientes.interface';
 import { DatosFormatoListadoCantidadTotal } from '@data/interface/Response/CompraAguja/DatosFormatosListadoCantidadTotal.interface';
 import { ProduccionService } from '@data/services/backEnd/pages/produccion.service';
@@ -32,6 +33,7 @@ export class CompraAgujaComponent implements OnInit {
 
   checkMostrarColumna = new FormControl(false);
   textFiltrarAgujas = new FormControl('');
+  pedidosAgujas: PedidosAgujas[] =[] 
 
   itemModal:string = '';
   descripcionModal:string = '';
@@ -174,5 +176,24 @@ export class CompraAgujaComponent implements OnInit {
     {
       return {'row-color-comercial': true};
     }
+  }
+
+
+  abrirModalPedidos(modal: NgbModal,item:string, descripcion:string){
+    this.itemModal = item;
+    this.descripcionModal = descripcion;
+    this._modalService.open(modal, {
+      centered: true,
+      windowClass: 'my-class',
+      backdrop: 'static',
+      size: 'lg',
+      scrollable: true
+    });
+  
+    this._ProduccionService.informacionPedidos(item).subscribe(
+      (resp:any) => {
+        this.pedidosAgujas = resp;
+      }
+    );
   }
 }
