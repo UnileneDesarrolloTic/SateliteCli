@@ -8,7 +8,7 @@
                             <div class="form-group">
                                 <div class="input-group">
                                     <input type="text" name="Numerolote" formControlName="Numerolote" 
-                                        class="form-control form-control-sm" placeholder="Buscar Numero Lote"
+                                        class="form-control form-control-sm font-medium" placeholder="Buscar Numero Lote"
                                         autocomplete="off" aria-label="" aria-describedby="basic-addon1">
                                     <div class="input-group-append">
                                         <button class="btn mr-0 btn-info btn-sm"
@@ -49,43 +49,52 @@
                                     </ng-template>
                                     <ng-template ngbPanelContent >
                                         <div class="row justify-content-start">
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
                                                 <label for="producto" class="text-right control-label col-form-label">Presentación:</label>
                                                 <div class="form-group">
                                                     <p [style]="'font-size:13px;color:#3c8dbc;font-weight:800'">{{this.FormProtocolo.controls.presentacion.value}}</p>
                                                 </div>
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
                                                 <label for="numerodeparte" class="text-right control-label col-form-label">Fecha de Fabricación</label>
                                                 <div class="form-group">
                                                     <b [style]="'font-size:13px;color:#3c8dbc;font-weight:800'">{{this.FormProtocolo.controls.fechaproduccion.value | date:'dd/MM/yyyy'}}</b>
                                                 </div>
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
                                                 <label for="fechaanalisis" class="text-right control-label col-form-label">N°Lote</label>
                                                 <div class="form-group">
                                                     <b [style]="'font-size:13px;color:#3c8dbc;font-weight:800'">{{this.FormProtocolo.controls.Numerolote.value}}</b>
                                                 </div>
                                             </div>
+                                            <div class="col-md-3">
+                                                <label for="ordenfabricacion" class="text-right control-label col-form-label">Orden Fabricación:</label>
+                                                <div class="form-group">
+                                                    <b [style]="'font-size:13px;color:#3c8dbc;font-weight:800'">{{this.FormProtocolo.controls.ordenfabricacion.value }}</b>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="row justify-content-start">
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
                                                 <label for="producto" class="text-right control-label col-form-label">Tamaño de Lote:</label>
                                                 <div class="form-group">
                                                     <b [style]="'font-size:13px;color:#3c8dbc;font-weight:800'">{{this.FormProtocolo.controls.cantidadproducida.value | number}}</b>
                                                 </div>
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
                                                 <label for="numerodeparte" class="text-right control-label col-form-label">Fecha de Expira</label>
                                                 <div class="form-group">
                                                     <b [style]="'font-size:13px;color:#3c8dbc;font-weight:800'">{{this.FormProtocolo.controls.fechaexpiracion.value | date:'dd/MM/yyyy'}}</b>
                                                 </div>
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
                                                 <label for="fechaanalisis" class="text-right control-label col-form-label">Marca</label>
                                                 <div class="form-group">
                                                     <b [style]="'font-size:13px;color:#3c8dbc;font-weight:800'">{{this.FormProtocolo.controls.marca.value}}</b>
                                                 </div>
+                                            </div>
+                                            <div class="col-md-3">
+
                                             </div>
                                         </div>
                                     </ng-template>

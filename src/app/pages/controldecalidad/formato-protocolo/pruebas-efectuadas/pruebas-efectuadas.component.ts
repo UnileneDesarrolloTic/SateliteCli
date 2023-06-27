@@ -28,6 +28,7 @@ export class PruebasEfectuadasComponent implements OnInit , OnDestroy{
   NumeroParte:string;
   buttonDeshabilitar:boolean=false;
   NombreCumple:string='Cumple';
+  mostrarmodalCantidad:boolean = false;
 
   constructor(private _router: Router,
     private toastr: ToastrService,
@@ -117,7 +118,7 @@ export class PruebasEfectuadasComponent implements OnInit , OnDestroy{
         (resp:any)=>{
               if(resp["success"]){
                   this.InformacionProducto=resp["content"];
-                  // console.log(this.InformacionProducto);
+                  console.log(this.InformacionProducto);
                   const date1 = new Date('0001-01-01T00:00:00');
                   this.PruebasFormularioProtocolo.get("Tecnica").patchValue(this.InformacionProducto.tecnica);                  
                   this.PruebasFormularioProtocolo.get("Metodo").patchValue(this.InformacionProducto.metodo);
@@ -285,6 +286,16 @@ export class PruebasEfectuadasComponent implements OnInit , OnDestroy{
     );
   }
 
+  verProducto(){
+    this.mostrarmodalCantidad = true;
+    (document.getElementById('rightMenu') as HTMLFormElement).style.width = '300px';
+  }
+
+
+  cancelClick(){
+    this.mostrarmodalCantidad = false;
+    (document.getElementById('rightMenu') as HTMLFormElement).style.width = '0';
+  }
   // modalpdf(base){
   //   // const ModalCarga = this._modalService.open(ModalPdfComponent, {
   //   const ModalCarga = this._modalService.open(ModalPdfComponent, {

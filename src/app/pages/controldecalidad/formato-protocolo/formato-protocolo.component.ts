@@ -43,6 +43,7 @@ export class FormatoProtocoloComponent implements OnInit {
       itemdescripcion: new FormControl(''),
       numerodeparte: new FormControl(''),
       fechaanalisis: new FormControl(null),
+      ordenfabricacion: new FormControl(''),
       presentacion: new FormControl(''),
       fechaproduccion: new FormControl(''), //fecha de fabricacion 
       cantidadproducida: new FormControl(''), // cantidadproducida 
@@ -70,6 +71,9 @@ export class FormatoProtocoloComponent implements OnInit {
                       this.FormProtocolo.get("cantidadproducida").patchValue(this.InformacionProducto.cantidadproducida);
                       this.FormProtocolo.get("fechaexpiracion").patchValue(this.formatoFecha(this.InformacionProducto.fechaexpiracion));
                       this.FormProtocolo.get("marca").patchValue(this.InformacionProducto.marca);
+                      this.FormProtocolo.get("ordenfabricacion").patchValue(this.InformacionProducto.ordenfabricacion);
+
+                      console.log(this.FormProtocolo.value);
                   }else{
                       this.toastr.warning(`El lote '${this.FormProtocolo.controls.Numerolote.value}' no ha sido encontrado`)
                   }
