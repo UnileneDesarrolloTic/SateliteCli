@@ -65,8 +65,6 @@ export class ModalVerTransitoComponent implements OnInit {
   }
 
   CerrarModalTransito(){
-    console.log(this.contar);
-    
     this.activeModal.dismiss(this.contar)
   }
 }

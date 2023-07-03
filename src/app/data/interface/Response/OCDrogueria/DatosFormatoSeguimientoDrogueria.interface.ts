@@ -23,6 +23,7 @@ export interface ModelSeguimientoDrogueria {
   mesesAdicional:      number;
   stockAlmacenDRO:     number;
   cantidadOC:          number;
+  aduanas:             number;
   totalStock:          number;
   futuroStock:         number;
   diasEspera:          number;
@@ -34,5 +35,7 @@ export interface ModelSeguimientoDrogueria {
   precioFOBTotalFinal: number;
   colorVariacion:      string;
   idGestionarColor:    number;
+  duracion:            number;
+  mesesPotencialesFuturo: number;
   }
   

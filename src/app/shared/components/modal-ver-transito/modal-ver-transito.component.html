@@ -16,46 +16,46 @@
                 <ngx-datatable class="material"  [reorderable]="false" [rows]="listarOrdenCompraDrogueria" [columnMode]="'force'"
                     [headerHeight]="50" [footerHeight]="50" [rowHeight]="50" [scrollbarV]="true"
                     [sorts]="[{prop: 'name', dir: 'desc'}]" [loadingIndicator]="flagEspera" style="height: 90%;" class="material font-medium"
-                    [rowHeight]="50" [scrollbarH]="true">
+                    [rowHeight]="50">
 
-                    <ngx-datatable-column name="NumeroOrden" prop="numeroOrden" [frozenLeft]="true" [width]="40">
+                    <ngx-datatable-column name="NumeroOrden" prop="numeroOrden" [frozenLeft]="true" [width]="10">
                         <ng-template let-row="row" ngx-datatable-cell-template>
-                            <span class="font-medium">{{row.numeroOrden }}</span>
+                            <span class="font-medium" style="font-size: 12px;">{{row.numeroOrden }}</span>
                         </ng-template>
                     </ngx-datatable-column>
                     <ngx-datatable-column name="Item" prop="itemFinal" [frozenLeft]="true" [width]="5">
                         <ng-template let-row="row" ngx-datatable-cell-template>
-                            <span class="font-medium">{{row.itemFinal }}</span>
+                            <span class="font-medium" style="font-size: 12px;">{{row.itemFinal }}</span>
                         </ng-template>
                     </ngx-datatable-column>
 
                     <ngx-datatable-column name="Descripción" prop="descripcion" [frozenLeft]="true" [width]="250">
                         <ng-template let-row="row" ngx-datatable-cell-template>
-                            <span class="font-medium">{{row.descripcion }}</span>
+                            <span class="font-medium" style="font-size: 12px;">{{row.descripcion }}</span>
                         </ng-template>
                     </ngx-datatable-column>
 
-                    <ngx-datatable-column name="Proveedor" prop="proveedor" [frozenLeft]="true" [width]="10">
+                    <ngx-datatable-column name="Proveedor" prop="proveedor" [frozenLeft]="true" [width]="3">
                         <ng-template let-row="row" ngx-datatable-cell-template>
-                            <span class="font-medium">{{row.proveedor }}</span>
+                            <span class="font-medium" style="font-size: 12px;">{{row.proveedor }}</span>
                         </ng-template>
                     </ngx-datatable-column>
 
                     <ngx-datatable-column name="F.Preparación" prop="fechaPreparacion" [width]="14">
                         <ng-template let-row="row" ngx-datatable-cell-template>
-                            <span class="font-medium">{{row.fechaPreparacion | date:'dd/MM/yyyy'  }}</span>
+                            <span class="font-medium" style="font-size: 12px;">{{row.fechaPreparacion | date:'dd/MM/yyyy'  }}</span>
                         </ng-template>
                     </ngx-datatable-column>
 
                     <ngx-datatable-column name="T.General" prop="tiempoGeneral"  [width]="10">
                         <ng-template let-row="row" ngx-datatable-cell-template>
-                            <span class="font-medium">{{row.tiempoGeneral | number : '1.0-0'  }}</span>
+                            <span class="font-medium" style="font-size: 12px;">{{row.tiempoGeneral | number : '1.0-0'  }}</span>
                         </ng-template>
                     </ngx-datatable-column>
 
                     <ngx-datatable-column name="F.Llegada(Planificada)" prop="nuevoTiempoEntrega"  [width]="10">
                         <ng-template let-row="row" ngx-datatable-cell-template>
-                            <span class="font-medium">{{row.nuevoTiempoEntrega | date:'dd/MM/yyyy'   }}</span>
+                            <span class="font-medium" style="font-size: 12px;">{{row.nuevoTiempoEntrega | date:'dd/MM/yyyy'   }}</span>
                         </ng-template>
                     </ngx-datatable-column>
 
@@ -71,22 +71,15 @@
 
                     <ngx-datatable-column name="Cant.Pedida" prop="cantidadPedida" [width]="10">
                         <ng-template let-row="row" ngx-datatable-cell-template>
-                            <span class="font-medium">{{row.cantidadPedida | number : '1.0-0' }}</span>
+                            <span class="font-medium" style="font-size: 12px;">{{row.cantidadPedida | number : '1.0-0' }}</span>
                         </ng-template>
                     </ngx-datatable-column>
 
-                    <ngx-datatable-column name="Cant.Kardex" prop="cantidadKardex" [width]="10">
+                    <ngx-datatable-column name="Cant.Recibida" prop="cantidadRecibida" [width]="10">
                         <ng-template let-row="row" ngx-datatable-cell-template>
-                            <span class="font-medium">{{row.cantidadKardex | number : '1.0-0'  }}</span>
+                            <span class="font-medium" style="font-size: 12px;">{{row.cantidadRecibida | number : '1.0-0'  }}</span>
                         </ng-template>
                     </ngx-datatable-column>
-
-                    <ngx-datatable-column name="Cant.Tránsito" prop="cantidadTransito" [width]="10">
-                        <ng-template let-row="row" ngx-datatable-cell-template>
-                            <span class="font-medium">{{row.cantidadTransito | number : '1.0-0'  }}</span>
-                        </ng-template>
-                    </ngx-datatable-column>
-
                   
                 </ngx-datatable>
             </div>

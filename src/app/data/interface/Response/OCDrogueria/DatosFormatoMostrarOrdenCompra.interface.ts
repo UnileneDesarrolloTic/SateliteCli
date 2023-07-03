@@ -5,10 +5,9 @@ export interface MostrarOrdenCompraDrogueria {
     proveedor:          string;
     cantidadPedida:     number;
     cantidadRecibida:   number;
-    cantidadKardex:     number;
-    cantidadTransito:   number;
     fechaPreparacion:   Date;
     tiempoGeneral:      number;
     nuevoTiempoEntrega: Date;
     diasFalta:          number;
+    fechaPrometida:     Date;
 }
