@@ -175,9 +175,7 @@ export class ProtocoloAnalisisComponent implements OnInit
 
 
   imprimirProtocolos(){
-      console.log(this.idioma.value);
 
-      
     const lotesSeleccion = this.selected.filter( p => p.ordenFabricacion).map( p => p.ordenFabricacion)
 
     if(lotesSeleccion.length < 1)
