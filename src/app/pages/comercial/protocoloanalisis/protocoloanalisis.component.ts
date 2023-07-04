@@ -32,7 +32,7 @@ export class ProtocoloAnalisisComponent implements OnInit
   disabledInput:boolean=false;
 
   //IMPRIMIR PROTOCOLO 
-  idioma = new FormControl(0);
+  idioma = new FormControl(1);
 
   constructor( private _fb: FormBuilder, private _modalService: NgbModal, private _comercialService: ComercialService,
     private toastr: ToastrService, private _fileService: FileService )
