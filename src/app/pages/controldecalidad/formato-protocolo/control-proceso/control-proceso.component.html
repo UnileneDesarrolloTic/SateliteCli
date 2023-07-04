@@ -81,23 +81,29 @@
                                 </tr>
                                 <tr>
                                     <td colspan="3">
-                                        Prom.<input type="number" [readonly]="true" class="form-control form-control-sm font-medium"
+                                        <span class="font-medium">Prom.</span>
+                                        <input type="number" [readonly]="true" class="form-control form-control-sm font-medium"
+                                        [ngStyle]="{'border-color': '#67757c'}"
                                                     formControlName="PromLongitud" />
                                     </td>
                                     <td colspan="3">
                                         <span class="text-white">.</span>
                                         <input type="number" [readonly]="true" class="form-control form-control-sm font-medium"
+                                        [ngStyle]="{'border-color': '#67757c'}"
                                                     formControlName="CampoVacio1Longitud" />
                                     </td>
                                 </tr>
                                 <tr>
                                     <td colspan="3">
-                                        O.<input type="number" class="form-control form-control-sm font-medium" [readonly]="true"
+                                        <span class="font-medium">O.</span>
+                                        <input type="number" class="form-control form-control-sm font-medium" [readonly]="true"
+                                        [ngStyle]="{'border-color': '#67757c'}"
                                                     formControlName="CampoVacio2Longitud" />
                                     </td>
                                     <td colspan="3">
                                         <span class="text-white">.</span>
                                         <input type="number" class="form-control form-control-sm font-medium" [readonly]="true"
+                                        [ngStyle]="{'border-color': '#67757c'}"
                                                     formControlName="CampoVacio3Longitud" />
                                     </td>
                                 </tr>
@@ -159,34 +165,43 @@
 
                                 <tr>
                                     <td colspan="3">
-                                        Prom.<input type="number"  [readonly]="true" class="form-control form-control-sm font-medium"
+                                        <span class="font-medium">Prom.</span>
+                                        <input type="number"  [readonly]="true" class="form-control form-control-sm font-medium"
+                                        [ngStyle]="{'border-color': '#67757c'}"
                                                     formControlName="PromResistencia" />
                                     </td>
                                     <td colspan="1">
                                         <span class="text-white">.</span>
                                         <input type="number" [readonly]="true"  class="form-control form-control-sm font-medium"
+                                        [ngStyle]="{'border-color': this.FormProtocolo.controls.CampoVacio1Resistencia.value == null ? '#67757c' : this.FormProtocolo.controls.s_PromedioMinimo.value <  this.FormProtocolo.controls.CampoVacio1Resistencia.value ? 'red': '#67757c'}" 
                                                     formControlName="CampoVacio1Resistencia" />
                                     </td>
                                 </tr>
                                 <tr>
                                     <td colspan="3">
-                                        Invididual<input type="number" [readonly]="true" class="form-control form-control-sm font-medium"
+                                        <span class="font-medium">Invididual</span>
+                                        <input type="number" [readonly]="true" class="form-control form-control-sm font-medium"
+                                        [ngStyle]="{'border-color': '#67757c'}"
                                                     formControlName="CampoVacio2Resistencia" />
                                     </td>
                                     <td colspan="1">
                                         <span class="text-white">.</span>
                                         <input type="number"  class="form-control form-control-sm font-medium"
+                                        [ngStyle]="{'border-color': '#67757c'}"
                                                     formControlName="CampoVacio3Resistencia" />
                                     </td>
                                 </tr>
                                 <tr>
                                     <td colspan="3">
-                                        O.<input type="number" [readonly]="true" class="form-control form-control-sm font-medium"
+                                        <span class="font-medium">O.</span>
+                                        <input type="number" [readonly]="true" class="form-control form-control-sm font-medium"
+                                        [ngStyle]="{'border-color': '#67757c'}"
                                                     formControlName="CampoVacio4Resistencia" />
                                     </td>
                                     <td colspan="1">
                                         <span class="text-white">.</span>
                                         <input type="number"  [readonly]="true" class="form-control form-control-sm font-medium"
+                                        [ngStyle]="{'border-color': '#67757c'}"
                                                     formControlName="CampoVacio5Resistencia" />
                                     </td>
                                 </tr>

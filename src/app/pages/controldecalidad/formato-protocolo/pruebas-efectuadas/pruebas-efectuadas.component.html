@@ -1,5 +1,72 @@
 <form [formGroup]="PruebasFormularioProtocolo">
     <div class="row">
+        <div class="col-lg-12">
+            <ngb-accordion #a="ngbAccordion" activeIds="custom-panel-1">
+                <ngb-panel id="custom-panel-1">
+                    <ng-template ngbPanelHeader let-opened="opened">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <h5 class="m-0">Datos Generales...</h5>
+                            <button ngbPanelToggle  class="btn btn-link p-0"><i class="fas fa-window-minimize"></i></button>
+                        </div>
+                    </ng-template>
+                    <ng-template ngbPanelContent >
+                        <div class="row justify-content-start">
+                            <div class="col-md-3">
+                                <label for="producto" class="text-right control-label col-form-label">Producto::</label>
+                                <div class="form-group">
+                                    <p [style]="'font-size:13px;color:#3c8dbc;font-weight:800'">{{this.InformacionProducto?.itemdescripcion}}</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="numerodeparte" class="text-right control-label col-form-label">Presentación</label>
+                                <div class="form-group">
+                                    <b [style]="'font-size:13px;color:#3c8dbc;font-weight:800'">{{this.InformacionProducto?.presentacion}}</b>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="fechaanalisis" class="text-right control-label col-form-label">Lote:</label>
+                                <div class="form-group">
+                                    <b [style]="'font-size:13px;color:#3c8dbc;font-weight:800'">{{this.InformacionProducto?.referencianumero}}</b>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="ordenfabricacion" class="text-right control-label col-form-label">Tamaño de lote: </label>
+                                <div class="form-group">
+                                    <b [style]="'font-size:13px;color:#3c8dbc;font-weight:800'">{{this.InformacionProducto?.cantidadproducida}}</b>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row justify-content-start">
+                            <div class="col-md-3">
+                                <label for="producto" class="text-right control-label col-form-label">Tamaño de Lote:</label>
+                                <div class="form-group">
+                                    <b [style]="'font-size:13px;color:#3c8dbc;font-weight:800'">{{this.InformacionProducto?.cantidadproducida}}</b>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="numerodeparte" class="text-right control-label col-form-label">Orden Fabricación:</label>
+                                <div class="form-group">
+                                    <b [style]="'font-size:13px;color:#3c8dbc;font-weight:800'">{{this.InformacionProducto?.ordenfabricacion}}</b>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="fechaanalisis" class="text-right control-label col-form-label">Fecha de expira: </label>
+                                <div class="form-group">
+                                    <b [style]="'font-size:13px;color:#3c8dbc;font-weight:800'">{{this.InformacionProducto?.fechaexpiracion | date : 'dd/MM/YYYY'}}</b>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+
+                            </div>
+                        </div>
+                    </ng-template>
+                </ngb-panel>
+            </ngb-accordion>
+
+            
+        </div>
+    </div>
+    <div class="row">
         <div class="col-md-12">
             <div class="card border-bottom border-info">
                 <div class="card-body">
@@ -18,7 +85,7 @@
                         </div>
                         <div class="mr-auto">
                             <h4>Fecha de análisis:</h4>
-                            <input type="date" formControlName="fechaanalisis" class="form-control form-control-sm font-medium" placeholder="Fecha Fin">       
+                            <input type="date" formControlName="fechaanalisis" class="form-control form-control-sm font-medium" placeholder="Fecha analisis"  >       
                         </div>
                         <div class="ml-auto">
                             <span class="text-info display-6">
@@ -32,9 +99,6 @@
                                 </span>
                                 <span class="text-info display-6">
                                     <button type="button"   (click)="Cancelar()"  class="btn btn-danger btn-sm"> <i class="fas fa-ban"></i> Cancelar </button>
-                                </span>
-                                <span class="text-info display-6">
-                                    <button type="button"   (click)="verProducto()"  class="btn btn-primary btn-sm"> <i class=" fas fa-external-link-alt"></i></button>
                                 </span>
                             </span>
                         </div>
@@ -156,25 +220,3 @@
         </div>
     </div>
 </form>
-
-
-
-<div class="app-sidebar card" id="rightMenu">
-    <div class="card-img-overlay border">
-        <div class="d-flex justify-content-end">
-            <a href="javascript:void(0)"  *ngIf="mostrarmodalCantidad" class="btn bg-white text-danger py px-1 link ml-3"
-                (click)="cancelClick()"> <i class="fas fa-times"></i>
-            </a>
-        </div>
-
-        <div class="row">
-            <label for="">Producto:</label>
-            <p class="font-medium">{{this.InformacionProducto.itemdescripcion}}</p>
-        </div>
-        <div class="row">
-            <label for="">Producto:</label>
-            <p class="font-medium">{{this.InformacionProducto.itemdescripcion}}</p>
-        </div>
-        
-    </div>
-</div>

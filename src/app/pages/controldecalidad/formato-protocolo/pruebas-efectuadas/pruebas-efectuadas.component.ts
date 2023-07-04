@@ -65,8 +65,8 @@ export class PruebasEfectuadasComponent implements OnInit , OnDestroy{
 
 
   save(){
-        
-        if (this.PruebasFormularioProtocolo.controls.fechaanalisis.value=="0001-01-01")
+
+        if (this.PruebasFormularioProtocolo.controls.fechaanalisis.value == "")
         {
           return this.toastr.warning("Debe Seleccionar la fecha");
         }
@@ -118,14 +118,13 @@ export class PruebasEfectuadasComponent implements OnInit , OnDestroy{
         (resp:any)=>{
               if(resp["success"]){
                   this.InformacionProducto=resp["content"];
-                  console.log(this.InformacionProducto);
                   const date1 = new Date('0001-01-01T00:00:00');
                   this.PruebasFormularioProtocolo.get("Tecnica").patchValue(this.InformacionProducto.tecnica);                  
                   this.PruebasFormularioProtocolo.get("Metodo").patchValue(this.InformacionProducto.metodo);
                   this.PruebasFormularioProtocolo.get("Detalle").patchValue(this.InformacionProducto.detalle);
                   this.PruebasFormularioProtocolo.get("NumeroParte").patchValue(this.InformacionProducto.numerodeparte);
                   this.PruebasFormularioProtocolo.get("NumeroLote").patchValue(this.InformacionProducto.referencianumero);
-                  this.PruebasFormularioProtocolo.get("fechaanalisis").patchValue(  this.formatoFecha(this.InformacionProducto.fechaanalisis) );
+                  this.PruebasFormularioProtocolo.get("fechaanalisis").patchValue( this.formatoFecha(this.InformacionProducto.fechaanalisis) );
                   this.PruebasFormularioProtocolo.get("fechaproduccion").patchValue(this.formatoFecha(this.InformacionProducto.fechaproduccion));
               }else{
                   this.InformacionProducto=null;
@@ -134,9 +133,8 @@ export class PruebasEfectuadasComponent implements OnInit , OnDestroy{
     )
   }
 
-
   formatoFecha(Fecha){
-    return  Fecha!='01-01-0001' ? Fecha.split("T")[0] : '01-01-0001';
+    return  Fecha.split("T")[0]!='0001-01-01' ? Fecha.split("T")[0] : '';
   }
 
   transformDecimal(num,decimal) {
@@ -286,32 +284,5 @@ export class PruebasEfectuadasComponent implements OnInit , OnDestroy{
     );
   }
 
-  verProducto(){
-    this.mostrarmodalCantidad = true;
-    (document.getElementById('rightMenu') as HTMLFormElement).style.width = '300px';
-  }
-
-
-  cancelClick(){
-    this.mostrarmodalCantidad = false;
-    (document.getElementById('rightMenu') as HTMLFormElement).style.width = '0';
-  }
-  // modalpdf(base){
-  //   // const ModalCarga = this._modalService.open(ModalPdfComponent, {
-  //   const ModalCarga = this._modalService.open(ModalPdfComponent, {
-  //     centered: true,
-  //     backdrop: 'static',
-  //     size: 'lx',
-  //     scrollable: true
-  //   });
-  //   ModalCarga.componentInstance.base = base;
-  //   ModalCarga.result.then((result) => {
-     
-  //   },
-  //   (reason) => {
-
-  //   }
-  // );
-  // }
 
 }

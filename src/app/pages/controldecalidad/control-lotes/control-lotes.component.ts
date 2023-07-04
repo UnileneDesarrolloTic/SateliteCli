@@ -21,7 +21,7 @@ export class ControlLotesComponent implements OnInit {
   ControlLotesArray:DetalleControlLotes[]=[];
   TempControlLotesArray:DetalleControlLotes[]=[];
   disabledFecha:boolean=true;
-
+  fechaActual = new Date();
 
 
   
@@ -96,7 +96,7 @@ export class ControlLotesComponent implements OnInit {
 
     formArrayResp.forEach((itemRow:DetalleControlLotes)=>{
 
-        let separarFecha= itemRow.fechaEntrega!='0001-01-01T00:00:00' ? itemRow.fechaEntrega.split("T")[0] : null;
+        let separarFecha= formatDate(new Date(itemRow.fechaEntrega),'yyyy-MM-dd','en');
         const ItemFilaForm = this._fb.group({
           fechaEntrega: [separarFecha ],
           aprobado: [itemRow.aprobado ],
@@ -123,7 +123,7 @@ export class ControlLotesComponent implements OnInit {
           cantidadMuestra: [itemRow.cantidadMuestra],
           cliente: [itemRow.cliente],
           transferidoFlag: [itemRow.transferidoFlag],
-          comentarios: [itemRow.comentarios],
+          comentarios: [ itemRow.comentarios == null ?  '' : itemRow.comentarios],
           fechaRequerida: [itemRow.fechaRequerida],
           pedidoNumero: [itemRow.pedidoNumero],
           numerodeParte: [itemRow.numerodeParte],

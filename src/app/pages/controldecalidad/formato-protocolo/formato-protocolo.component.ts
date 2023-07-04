@@ -93,21 +93,21 @@ export class FormatoProtocoloComponent implements OnInit {
     if(this.FormProtocolo.controls.Numerolote.value.trim()=='')
       return this.toastr.warning("Debe ingresar el  Numero de Lote");
     else
-      this._router.navigate(['ControlCalidad', 'Protocolo', 'ControlProceso', this.FormProtocolo.controls.Numerolote.value]);
+      this._router.navigate(['ControlCalidad', 'Protocolo', 'ControlProceso', this.FormProtocolo.controls.Numerolote.value.trim()]);
   }
   
   AbrirInterfaceControlProductoTerminado(){
     if(this.FormProtocolo.controls.Numerolote.value.trim()=='')
       return this.toastr.warning("Debe ingresar el  Numero de Lote");
     else
-      this._router.navigate(['ControlCalidad', 'Protocolo', 'ControlProductoTerminado', this.FormProtocolo.controls.Numerolote.value]);
+      this._router.navigate(['ControlCalidad', 'Protocolo', 'ControlProductoTerminado', this.FormProtocolo.controls.Numerolote.value.trim()]);
   }
 
   AbrirPruebaEfectuadas(){
     if(this.FormProtocolo.controls.Numerolote.value.trim()=='' ||  this.FormProtocolo.controls.numerodeparte.value.trim()=='')
       return this.toastr.warning("Debe ingresar el  Numero de Lote y/o Numero Parte");
     else
-      this._router.navigate(['ControlCalidad', 'Protocolo', 'PruebaEfectuadas', this.FormProtocolo.controls.Numerolote.value,'NumeroParte',this.FormProtocolo.controls.numerodeparte.value.trim()]);
+      this._router.navigate(['ControlCalidad', 'Protocolo', 'PruebaEfectuadas', this.FormProtocolo.controls.Numerolote.value.trim(),'NumeroParte',this.FormProtocolo.controls.numerodeparte.value.trim()]);
   }
 
 

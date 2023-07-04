@@ -46,16 +46,16 @@
                                     <th colspan="2" class="center">
                                         <!-- <table> -->
                                         <input type="number" formControlName="longitud"
-                                            class="form-control form-control-sm">
+                                            class="form-control form-control-sm font-medium">
 
                                         <!-- </table> -->
                                     </th>
                                     <th colspan="2">
                                         <!-- <table [style]="'border-color:white'">  -->
                                         Minimo:<input type="text" formControlName="dMinimo"
-                                            class="form-control form-control-sm">
+                                            class="form-control form-control-sm font-medium">
                                         Maximo:<input type="text" formControlName="dMaximo"
-                                            class="form-control form-control-sm">
+                                            class="form-control form-control-sm font-medium">
                                         <!-- </table> -->
                                     </th>
                                 </tr>
@@ -84,23 +84,29 @@
                                 </tr>
                                 <tr>
                                     <td colspan="3">
-                                        Prom.<input type="number" [readonly]="true" class="form-control form-control-sm"
+                                        <span class="font-medium">Prom.</span>
+                                        <input type="number" [readonly]="true" class="form-control form-control-sm font-medium"
+                                        [ngStyle]="{'border-color': '#67757c'}"
                                                     formControlName="CampoPromvacioCP" />
                                     </td>
                                     <td colspan="3">
                                         <span class="text-white">.</span>
-                                        <input type="number" [readonly]="true" class="form-control form-control-sm"
+                                        <input type="number" [readonly]="true" class="form-control form-control-sm font-medium"
+                                        [ngStyle]="{'border-color': '#67757c'}"
                                                     formControlName="CampoPromvacio1CP" />
                                     </td>
                                 </tr>
                                 <tr>
                                     <td colspan="3">
-                                        O.<input type="number" class="form-control form-control-sm" [readonly]="true"
+                                       <span class="font-medium">O.</span>
+                                        <input type="number" class="form-control form-control-sm font-medium" [readonly]="true"
+                                        [ngStyle]="{'border-color': '#67757c'}"
                                                     formControlName="CampoPromvacio2CP" />
                                     </td>
                                     <td colspan="3">
                                         <span class="text-white">.</span>
-                                        <input type="number" class="form-control form-control-sm" [readonly]="true"
+                                        <input type="number" class="form-control form-control-sm font-medium" [readonly]="true"
+                                        [ngStyle]="{'border-color': '#67757c'}"
                                                     formControlName="CampoPromvacio3CP" />
                                     </td>
                                 </tr>
@@ -122,12 +128,12 @@
                                 </tr>
                                 <tr>
                                     <th colspan="2" class="center">
-                                        Prom. Min:<input type="number" formControlName="r_PromedioMinimo" class="form-control form-control-sm">
-                                        Indi. Min:<input type="number" formControlName="r_individualMinimo" class="form-control form-control-sm">
+                                        Prom. Min:<input type="number" formControlName="r_PromedioMinimo" class="form-control form-control-sm font-medium">
+                                        Indi. Min:<input type="number" formControlName="r_individualMinimo" class="form-control form-control-sm font-medium">
                                     </th>
                                     <th colspan="2">
-                                        Prom. Min:<input type="number" formControlName="s_PromedioMinimo" class="form-control form-control-sm">
-                                        Indi. Min:<input type="number" formControlName="s_individualMinimo" class="form-control form-control-sm">
+                                        Prom. Min:<input type="number" formControlName="s_PromedioMinimo" class="form-control form-control-sm font-medium">
+                                        Indi. Min:<input type="number" formControlName="s_individualMinimo" class="form-control form-control-sm font-medium">
                                     </th>
                                 </tr>
                             </thead>
@@ -143,7 +149,7 @@
                                                                                     Tabla2.value.TensionNewtons < this.FormProtocolo.controls.r_PromedioMinimo.value ?  'red': '#67757c'
                                                                                     :Tabla2.value.TensionNewtons < this.FormProtocolo.controls.r_individualMinimo.value ? 'red': '#67757c'
                                                                                 }" 
-                                                    class="form-control form-control-sm"
+                                                    class="form-control form-control-sm font-medium"
                                                     (keyup)="PromedioResistencia2(i)"
                                                     formControlName="TensionNewtons" />
                                             </div>
@@ -152,7 +158,7 @@
                                             <div class="input-group input-group-sm" style='width:10rem'>
                                                 <input type="number"   
                                                     [ngStyle]="{'border-color': Tabla2.value.AgujasNewtons==null ? '#67757c' : Tabla2.value.AgujasNewtons < this.FormProtocolo.controls.s_individualMinimo.value ? 'red': '#67757c'}"  
-                                                    class="form-control form-control-sm"
+                                                    class="form-control form-control-sm font-medium"
                                                     (keyup)="PromedioUnion2(i)"
                                                     formControlName="AgujasNewtons" />
                                             </div>
@@ -162,34 +168,43 @@
 
                                 <tr>
                                     <td colspan="3">
-                                        Prom.<input type="number"  [readonly]="true" class="form-control form-control-sm"
+                                        <span class="font-medium">Prom</span>
+                                        <input type="number"  [readonly]="true" class="form-control form-control-sm font-medium"
+                                        [ngStyle]="{'border-color': '#67757c'}"
                                                     formControlName="CampoPromvacioRCP" />
                                     </td>
                                     <td colspan="1">
                                         <span class="text-white">.</span>
-                                        <input type="number" [readonly]="true"  class="form-control form-control-sm"
+                                        <input type="number" [readonly]="true"  class="form-control form-control-sm font-medium"
+                                        [ngStyle]="{'border-color': this.FormProtocolo.controls.CampoPromvacio1RCP.value == null ? '#67757c' : this.FormProtocolo.controls.s_PromedioMinimo.value <  this.FormProtocolo.controls.CampoPromvacio1RCP.value ? 'red': '#67757c'}" 
                                                     formControlName="CampoPromvacio1RCP" />
                                     </td>
                                 </tr>
                                 <tr>
                                     <td colspan="3">
-                                        Invididual Min<input type="number" [readonly]="true" class="form-control form-control-sm"
+                                        <span class="font-medium">Invididual Min</span>
+                                        <input type="number" [readonly]="true" class="form-control form-control-sm font-medium"
+                                        [ngStyle]="{'border-color': '#67757c'}"
                                                     formControlName="CampoPromvacio2RCP" />
                                     </td>
                                     <td colspan="1">
                                         <span class="text-white">.</span>
-                                        <input type="number"  class="form-control form-control-sm"
+                                        <input type="number"  class="form-control form-control-sm font-medium"
+                                        [ngStyle]="{'border-color': '#67757c'}"
                                                     formControlName="CampoPromvacio3RCP" />
                                     </td>
                                 </tr>
                                 <tr>
                                     <td colspan="3">
-                                        O.<input type="number" [readonly]="true" class="form-control form-control-sm"
+                                       <span class="font-medium"> O.</span>
+                                        <input type="number" [readonly]="true" class="form-control form-control-sm font-medium"
+                                        [ngStyle]="{'border-color': '#67757c'}"
                                                     formControlName="CampoPromvacio4CP" />
                                     </td>
                                     <td colspan="1">
                                         <span class="text-white">.</span>
-                                        <input type="number"  [readonly]="true" class="form-control form-control-sm"
+                                        <input type="number"  [readonly]="true" class="form-control form-control-sm font-medium"
+                                        [ngStyle]="{'border-color': '#67757c'}"
                                                     formControlName="CampoPromvacio5RCP" />
                                     </td>
                                 </tr>

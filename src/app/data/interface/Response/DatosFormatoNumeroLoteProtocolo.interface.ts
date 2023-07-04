@@ -26,6 +26,5 @@ export interface NumeroLoteProtocoloModel {
             deC_S_PromedioMinimo:number;
             deC_S_IndividualMinimo: number;
 
-         
   }
   

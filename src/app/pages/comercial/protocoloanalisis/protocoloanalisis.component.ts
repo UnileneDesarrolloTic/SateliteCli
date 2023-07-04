@@ -1,4 +1,4 @@
-import { FormGroup, FormBuilder } from "@angular/forms";
+import { FormGroup, FormBuilder, FormControl } from "@angular/forms";
 import { Component, OnInit } from "@angular/core";
 import { ProtocoloAnalisisData } from "@data/interface/Request/ProtocoloAnalisis.interface";
 import { ComercialService } from "@data/services/backEnd/pages/comercial.service";
@@ -30,6 +30,9 @@ export class ProtocoloAnalisisComponent implements OnInit
 
   frmBusqueda: FormGroup;
   disabledInput:boolean=false;
+
+  //IMPRIMIR PROTOCOLO 
+  idioma = new FormControl(0);
 
   constructor( private _fb: FormBuilder, private _modalService: NgbModal, private _comercialService: ComercialService,
     private toastr: ToastrService, private _fileService: FileService )
@@ -158,8 +161,23 @@ export class ProtocoloAnalisisComponent implements OnInit
     );
   }
 
-  imprimirProtocolos()
-  {
+
+  modalProtocolo(modal:NgbModal)
+  { 
+    this._modalService.open(modal, {
+      centered: true,
+      backdrop: 'static',
+      size: 'sm',
+      scrollable: true
+    });
+
+  }
+
+
+  imprimirProtocolos(){
+      console.log(this.idioma.value);
+
+      
     const lotesSeleccion = this.selected.filter( p => p.ordenFabricacion).map( p => p.ordenFabricacion)
 
     if(lotesSeleccion.length < 1)
@@ -171,8 +189,9 @@ export class ProtocoloAnalisisComponent implements OnInit
     if(lotesSeleccion.length != this.selected.length)
       this.toastr.warning("Para los protocolos seleccionados sin Ord. Fabricación, no se podra generar el reporte.", "Advertencia !!", { closeButton: true, progressBar: true, timeOut: 3000})
 
-    const ordenesFabricacion = { ordenesFabricacion: lotesSeleccion}
+    const ordenesFabricacion = { ordenesFabricacion: lotesSeleccion , idioma: this.idioma.value}
     this.flagDescargarPdf = true;
+
 
     this._comercialService.GenerarReporteProtocoloAnalisis(ordenesFabricacion).subscribe( resp => 
       {
@@ -193,6 +212,9 @@ export class ProtocoloAnalisisComponent implements OnInit
       err => this.flagDescargarPdf = false
     );
   }
+
+
+  
 
   eventoSeleccionar( {selected} ) 
   {
