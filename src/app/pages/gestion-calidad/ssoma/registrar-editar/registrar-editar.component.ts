@@ -76,9 +76,9 @@ export class RegistrarEditarComponent implements OnInit {
 
   colocarValorFormulario(formulario:FormGroup,data:SsomaDTO)
   {   
-    let fechaPublicacion = formatDate(data.fechaPublicacion, 'yyyy-dd-MM', 'en-US') ?? "";
-    let fechaRevision = formatDate(data.fechaRevision, 'yyyy-dd-MM', 'en-US') ?? "";
-    let fechaAprobacion = formatDate(data.fechaAprobacion, 'yyyy-dd-MM', 'en-US') ?? "";
+    let fechaPublicacion = formatDate(data.fechaPublicacion, 'yyyy-MM-dd', 'en') ?? "";
+    let fechaRevision = formatDate(data.fechaRevision, 'yyyy-MM-dd', 'en') ?? "";
+    let fechaAprobacion = formatDate(data.fechaAprobacion, 'yyyy-MM-dd', 'en') ?? "";
 
     formulario.patchValue({
       idSsoma : data.idSsoma,
