@@ -5,6 +5,8 @@ import { GestionGuiasComponent } from "./gestion-guias/gestion-guias.component";
 import { OrdenesServicioDetalleComponent } from "./gestion-ordenes-servicio/ordenes-servicio-detalle/ordenes-servicio-detalle.component";
 import { OrdenesServicioMainComponent } from "./gestion-ordenes-servicio/ordenes-servicio-main/ordenes-servicio-main.component";
 import { MaestroItemComponent } from "./maestro-item/maestro-item.component";
+import { DispensacionMpComponent } from "./dispensacion-mp/dispensacion-mp.component";
+import { DetalleDispensacionMpComponent } from "./dispensacion-mp/detalle-dispensacion-mp/detalle-dispensacion-mp.component";
 
 export const LogisticaRoutes: Routes = [
   {
@@ -76,6 +78,33 @@ export const LogisticaRoutes: Routes = [
             { title: 'Consultar stock para ventas' },
             { title: 'Logistica' }
             
+          ]
+        }
+      },
+      
+    ]
+  },
+
+  {
+    path: 'Dispensacion',
+    canActivateChild: [AuthGuard],
+    children : [
+      {
+        path: 'MateriaPrima',
+        component: DispensacionMpComponent,
+        data: {
+          title: "Dispensación Fisica MP",
+        
+        }
+      },
+      {
+        path: 'MateriaPrima/detalle/:codigo',
+        component: DetalleDispensacionMpComponent,
+        data: {
+          title: "Dispensación de MP",
+          urls: [
+            { title: 'Dispensar MP', url: '/Logistica/Dispensacion/MateriaPrima'},
+            { title: 'detalle dispensar' }
           ]
         }
       },
