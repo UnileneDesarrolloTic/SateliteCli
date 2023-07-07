@@ -98,7 +98,7 @@ export const LogisticaRoutes: Routes = [
         }
       },
       {
-        path: 'MateriaPrima/detalle/:codigo',
+        path: 'MateriaPrima/detalle/:ordenFabricacion',
         component: DetalleDispensacionMpComponent,
         data: {
           title: "Dispensación de MP",

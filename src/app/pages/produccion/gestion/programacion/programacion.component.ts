@@ -1,21 +1,22 @@
-import { formatDate } from '@angular/common';
+
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ObtenerOrdneFabricacion } from '@data/interface/Response/Dispensacion/DatosFormatoObtenerOrdencompra.interface';
 import { DispensacionService } from '@data/services/backEnd/pages/dispensacion.service';
 import { FullComponent } from '@layout/full/full.component';
-import { debounceTime } from 'rxjs/operators';
+
 
 @Component({
-  selector: 'app-dispensacion-mp',
-  templateUrl: './dispensacion-mp.component.html',
-  styleUrls: ['./dispensacion-mp.component.css']
+  selector: 'app-programacion',
+  templateUrl: './programacion.component.html',
+  styleUrls: ['./programacion.component.css']
 })
-export class DispensacionMpComponent implements OnInit {
+export class ProgramacionComponent implements OnInit {
 
+  
   formFiltros:FormGroup;
-  listOrdeFabricacion: ObtenerOrdneFabricacion[]=[];
+  listOrdeFabricacionProgramacion: ObtenerOrdneFabricacion[]=[];
   activarCampo:boolean = false;
 
   constructor(private _router: Router, private _DispensacionService:DispensacionService, private _fullcomponent: FullComponent) { 
@@ -50,7 +51,7 @@ export class DispensacionMpComponent implements OnInit {
       (resp)=>{
           if(resp["success"])
           {
-            this.listOrdeFabricacion = resp["content"]
+            this.listOrdeFabricacionProgramacion = resp["content"]
           }
       }
     )
@@ -81,5 +82,5 @@ export class DispensacionMpComponent implements OnInit {
 
       }
   }
-  
+
 }

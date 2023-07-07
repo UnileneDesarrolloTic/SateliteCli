@@ -4,7 +4,7 @@
             <div class="card-body">
                 <div class="d-flex no-block align-items-center">
                     <div class="mr-auto">
-                        <h4 class="text-info"></h4>
+                        <h4 class="text-info">Orden Fabricacion : <span class="font-medium text-dark">  {{ordenFabricacion}} </span></h4>
                     </div>
                     <div class="ml-auto">
                         <span class="text-info display-6">
@@ -14,43 +14,44 @@
                             </div>
                         </span>
                         <span class="text-info display-6">
-                            <button type="button" class="btn btn-success btn-sm" > <i class="fas fa-shopping-basket"> Entregar </i></button>
+                            <button type="button" class="btn btn-success btn-sm" (click)="guardarEntrega()" > <i class="fas fa-shopping-basket"> Entregar </i></button>
                         </span>
                       
                     </div>
                 </div>
                 <div class="table-responsive">
-                    <table class="table table-striped border hover table-sm">
-                      <thead>
+                    <table class="table table-striped border hover table-sm ">
+                      <thead class="bg-success text-white">
                         <tr class="font-bold">
-                          <th class="text-center">N°</th>
+                          <!-- <th class="text-center">N°</th> -->
+                          <th class="text-center">Documento</th>
                           <th class="text-center">Item</th>
-                          <th class="text-center">Descripción</th>
-                          <th class="text-center">UM</th>
-                          <th class="text-center">Cant. Pedida</th>
-                          <th class="text-center">Cant. entregar</th>
-                          <th class="text-center">Requision</th>
-                          <th class="text-center">Estado</th>
+                          <th class="text-center">Descripcion</th>
+                          <th class="text-center">TipoMP</th>
+                          <th class="text-center">Unidad</th>
+                          <th class="text-center">Cant.Solicitada</th>
+                          <th class="text-center">Cant.Entregada</th>
+                          <th class="text-center">Por entregar</th>
+                          <th class="text-center">Lote</th>
                         </tr>
                       </thead>
                       <tbody>
                         <tr *ngFor="let dispensacionForm of listarDetalleDispensacion.controls; let i = index">
                             <ng-container [formGroup]="dispensacionForm">
-                                <td class="text-center font-medium">{{dispensacionForm.value.numero }}</td>
-                                <td class="text-center font-medium">{{ dispensacionForm.value.item }}</td>
-                                <td class="text-left font-medium">{{ dispensacionForm.value.descripcion }}</td>
-                                <td class="text-center font-medium">{{ dispensacionForm.value.um}}</td>
-                                <td class="text-center font-medium">{{ dispensacionForm.value.cantidadPedida}}</td>
+                                <!-- <td class="text-center font-medium">{{dispensacionForm.value.secuencia }}</td> -->
+                                <td class="text-center font-medium">{{ dispensacionForm.value.documento }}</td>
+                                <td class="text-center font-medium">{{ dispensacionForm.value.itemInsumo }}</td>
+                                <td class="text-left font-medium">{{ dispensacionForm.value.descripcionLocal}}</td>
+                                <td class="text-center font-medium">{{ dispensacionForm.value.itemTipo}}</td>
+                                <td class="text-center font-medium">{{ dispensacionForm.value.unidadCodigo}}</td>
+                                <td class="text-center font-medium">{{ dispensacionForm.value.cantidadSolicitada}}</td>
+                                <td class="text-center font-medium">{{ dispensacionForm.value.cantidadDespachada}}</td>
                                 <td class="text-center font-medium justify-content-center">
                                     <div class="input-group input-group-sm" style='width:6rem'>
-                                        <input type="number" class="form-control form-control-sm font-medium" formControlName="cantidadEntrega" />
+                                        <input type="number" class="form-control form-control-sm font-medium"  [readOnly]="dispensacionForm.value.cantidadSolicitada == dispensacionForm.value.cantidadDespachada" formControlName="cantidadIngresada" />
                                     </div>
                                 </td>
-                                <td class="text-center font-medium">{{ dispensacionForm.value.requision }}</td>
-                                <td class="text-center font-medium">
-                                    <span *ngIf="dispensacionForm.value.estado == 'Completado'" class="text-info">{{ dispensacionForm.value.estado }}</span>
-                                    <span *ngIf="dispensacionForm.value.estado == 'Pendiente'" class="text-danger">{{ dispensacionForm.value.estado }}</span>
-                                </td>
+                                <td class="text-center font-medium">{{ dispensacionForm.value.lote }}</td>
                             </ng-container>
 
                         </tr>
