@@ -27,7 +27,7 @@ export class ProgramacionComponent implements OnInit {
   agrupadores: AgrupadorGerencia[] = [];
 
   constructor(private _router: Router, 
-              private _ProgramacionOperacionesService: ProgramacionOperacionesService,
+              private _programacionOperacionesService: ProgramacionOperacionesService,
               private _modalService: NgbModal, 
               private _fullcomponent: FullComponent, private toastr: ToastrService) {
     this._fullcomponent.options.sidebartype = 'mini-sidebar'
@@ -44,7 +44,7 @@ export class ProgramacionComponent implements OnInit {
   formatoFiltroBusqueda() {
     this.formFiltros = new FormGroup({
       gerencia: new FormControl('Suturas'),
-      agrupador: new FormControl(null, Validators.required),
+      agrupador: new FormControl('', Validators.required),
       lote: new FormControl(''),
       ordenFabricacion: new FormControl(''),
       venta: new FormControl('null'),
@@ -55,7 +55,7 @@ export class ProgramacionComponent implements OnInit {
   }
 
   agrupador() {
-    this._ProgramacionOperacionesService.listarAgrupador(this.formFiltros.controls.gerencia.value)
+    this._programacionOperacionesService.listarAgrupador(this.formFiltros.controls.gerencia.value)
       .subscribe((resp: any) => {
         this.agrupadores = resp;
     });
@@ -64,18 +64,14 @@ export class ProgramacionComponent implements OnInit {
   observacionAgrupador() {
     this.formFiltros.controls.gerencia.valueChanges.subscribe((valor) => {
         this.agrupador();
-    })
+    });
   }
 
   filtroBuscar() {
 
-
-    // if(this.formFiltros.controls.estado.value == 'PR')
-    //       if((this.formFiltros.controls.fechaInicio.value == '' || this.formFiltros.controls.fechaInicio.value == null || this.formFiltros.controls.fechaFinal.value == '' || this.formFiltros.controls.fechaFinal.value == null))
-    //         return this.toastr.warning("Colocar la fecha de incio y la fecha final")¿
-
+    this.listOrdeFabricacionProgramacion=[];
     this.loadingTable = true;
-    this._ProgramacionOperacionesService.obtenerProgramacionOrdenFabricacion(this.formFiltros.value).subscribe(
+    this._programacionOperacionesService.obtenerProgramacionOrdenFabricacion(this.formFiltros.value).subscribe(
       (resp) => {
         this.loadingTable = false;
         if (resp["success"]) {
@@ -125,14 +121,14 @@ export class ProgramacionComponent implements OnInit {
       windowClass: 'my-class',
       centered: true,
       backdrop: 'static',
-      size: 'lg',
+      size: 'md',
       scrollable: true
     });
     ModalTransito.componentInstance.paramentros = filaOrdenFabricacion;
     ModalTransito.result.then((result) => {
-
+      this.filtroBuscar();
     }, (refrescado) => {
-     
+      // this.filtroBuscar();
     });
 
   }

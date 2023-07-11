@@ -34,13 +34,23 @@ import { ToastrService } from 'ngx-toastr';
         );
     }
 
-    registrarFechaEntregaOrdenFabricacion(ordenFabricacion:string, fechaEntrega:string ){
-      const params = new HttpParams().set('ordenFabricacion', ordenFabricacion).set('fechaEntrega',fechaEntrega);
-
-      return this._http.get(this.url+"/api/ProgramacionOperaciones/ActualizarFechaIngresoOrdenFabricacion", {"params": params}).pipe(
+    ActualizarFechaProgramada(body){
+      return this._http.post(this.url+"/api/ProgramacionOperaciones/ActualizarFechaProgramada", body).pipe(
         catchError (() => {
-          this._toastr.error("Error al registar la fecha entrega para la orden fabricación", "Error !!", { timeOut: 4000, closeButton: true })
-          return throwError("Error al registar la fecha entrega para la orden fabricación")
+          this._toastr.error("Error al registar la fecha entrega o inicio", "Error !!", { timeOut: 4000, closeButton: true })
+          return throwError("Error al registar la fecha entrega o inicio")
+        })
+      );
+    }
+
+
+    obteneListadoFechasProgramadas(ordenFabricacion:string, tipoFecha:string){
+      const params = new HttpParams().set('ordenFabricacion', ordenFabricacion).set('tipoFecha',tipoFecha);
+
+      return this._http.get(this.url+"/api/ProgramacionOperaciones/ObtenerTipoFechaOrdenFabricacion", {"params": params}).pipe(
+        catchError (() => {
+          this._toastr.error("Error al buscar el registro de las fechas ", "Error !!", { timeOut: 4000, closeButton: true })
+          return throwError("Error al buscar el registro de las fechas")
         })
       );
   }

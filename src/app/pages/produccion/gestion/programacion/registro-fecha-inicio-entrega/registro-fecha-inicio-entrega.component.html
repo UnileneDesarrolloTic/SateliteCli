@@ -1,60 +1,49 @@
 <div class="row">
-
     <div class="card-body">
-        <form [formGroup]="form" (submit)="registrarFecha()" >
+        <form [formGroup]="form">
             <div class="modal-header">
-                <h4 class="modal-title" id="modal-basic-title">ORDEN DE FABRICACION: </h4>
+                <h4 class="modal-title" id="modal-basic-title">ORDEN DE FABRICACION: {{this.paramentros.ordenFabricacion}}</h4>
                 <button type="button" class="close" aria-label="Close" (click)="cerrarModal()">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body justify-content-center">
+            <hr>
             <div class="row">
-                <div class="col-md-6">
-                    <label for="fecha" class="text-right control-label col-form-label font-medium">Fecha:</label>
+                <div class="col-md-4">
+                    <label for="fecha" class="text-right control-label col-form-label font-medium">Fecha Inicio:</label>
                     <div class="form-group">
-                        <input type="date"  class="form-control form-control-sm font-medium" min="{{fechaActual}}" formControlName="fecha"  placeholder="Fecha Final">
+                        <input type="date"  class="form-control form-control-sm font-medium" min="{{fechaActual}}"  formControlName="fechaInicio">
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <label class="text-right control-label col-form-label font-medium">Tipo Fecha:</label>
-                    <div class="form-group">
-                        <select class="form-control  form-control-sm font-medium" formControlName="tipoFecha" >
-                            <option value=null class="font-medium" disabled>SELECCIONAR TIPO DE FECHA</option>
-                            <option value="I" class="font-medium">FECHA INICIO</option>
-                            <option value="E" class="font-medium">Fecha ENTREGA</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-8">
                     <label for="comentario" class="text-right control-label col-form-label">Comentario</label>
                     <div class="form-group">
-                        <textarea  class="form-control form-control-sm font-medium" formControlName="comentario"></textarea>
+                        <textarea  class="form-control form-control-sm font-medium" formControlName="comentarioInicio"></textarea>
                     </div>
                 </div>
             </div>
-            <div class="table-responsive table-sm">
-                <table class="table table-striped no-wrap border mt-4" style="font-size: 13px;">
-                    <thead>
-                        <tr>
-                            <th class="text-center">Fecha Entrega</th>
-                            <th class="text-center">Comentario</th>
-                            <th class="text-center">Usuario</th>
-                            <th class="text-center">Fecha de registo</th>
-                        </tr>
-                    </thead>
-                    <tbody >
-                            
-                    </tbody>
-                </table>
+
+            <hr>
+            <div class="row">
+                <div class="col-md-4">
+                    <label for="fecha" class="text-right control-label col-form-label font-medium">Fecha Entrega:</label>
+                    <div class="form-group">
+                        <input type="date"  class="form-control form-control-sm font-medium" min="{{fechaActual}}" formControlName="fechaEntrega" >
+                    </div>
+                </div>
+
+                <div class="col-md-8">
+                    <label for="comentario" class="text-right control-label col-form-label">Comentario</label>
+                    <div class="form-group">
+                        <textarea  class="form-control form-control-sm font-medium" formControlName="comentarioEntrega"></textarea>
+                    </div>
+                </div>
             </div>
-        
             </div>
             <div class="modal-footer">
-                <button type="submit" [disabled]="!form.valid" style="background-color: #4CAF50; border: none;"
-                    class="btn btn-rounded btn-success"> <i class="fas fa-save"></i> Guardar</button>
+                <button type="button" 
+                    class="btn btn-rounded btn-success" (click)="registrar()"> <i class="fas fa-save"></i> Guardar</button>
             </div>
         </form>
 

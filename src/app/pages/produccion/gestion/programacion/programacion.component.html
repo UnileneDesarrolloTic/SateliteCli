@@ -19,7 +19,7 @@
                             <label class="text-right control-label col-form-label">Agrupadores</label>
                             <div class="form-group">
                                 <select class="form-control  form-control-sm font-medium"  formControlName="agrupador">
-                                    <option [value]="null">Eliga un agrupador</option>
+                                    <option value="">Eliga un agrupador</option>
                                     <option *ngFor="let agrupador of agrupadores"  class="font-medium" [value]="agrupador.idAgrupador">
                                         {{agrupador.agrupador}}
                                     </option>
