@@ -9,7 +9,7 @@
                 <div class="form-group">
                     <!-- <input type="text"  name='cliente' formControlName="cliente" readonly class="form-control" placeholder="Buscar Cliente"> -->
                   <div class="input-group mb-3">
-                    <input type="text" name='cliente' formControlName="cliente" readonly  class="form-control form-control-sm" placeholder="Buscar Cliente" aria-label="" aria-describedby="basic-addon1">
+                    <input type="text" name='cliente' formControlName="cliente" readonly  class="form-control form-control-sm font-medium" placeholder="Buscar Cliente" aria-label="" aria-describedby="basic-addon1">
                     <div class="input-group-append">
                         <button class="btn mr-0 btn-info btn-sm" (click)="openModalConsultaClientes()"  type="button">
                             <i class="ti-search"></i>
@@ -21,13 +21,13 @@
               <div class="col-md-3">
                   <label for="fechainicio" class="text-right control-label col-form-label">Inicio</label>
                   <div class="form-group">
-                      <input type="date"  formControlName="fechainicio" class="form-control form-control-sm" placeholder="Fecha Inicio">
+                      <input type="date"  formControlName="fechainicio" class="form-control form-control-sm font-medium" placeholder="Fecha Inicio">
                   </div>
               </div>
               <div class="col-md-3">
                   <label for="fechafinal" class="text-right control-label col-form-label">Final</label>
                   <div class="form-group">
-                      <input type="date" formControlName="fechafinal" class="form-control form-control-sm" placeholder="Fecha Fin">
+                      <input type="date" formControlName="fechafinal" class="form-control form-control-sm font-medium" placeholder="Fecha Fin">
                   </div>
               </div>
               <div class="col-md-2">
@@ -112,14 +112,14 @@
                 </thead>
                 <tbody style="font-size: 13px" id="tbodyDetalle" >
                   <tr *ngFor="let licitacion of listarLicitaciones; let i = index">
-                    <td class="text-center">{{licitacion.fechaDocumento | date }}</td>
-                    <td class="text-center">{{licitacion.serieNumero}}-{{licitacion.guiaNumero}}</td>
-                    <td class="text-center">{{licitacion.destinatarioDireccion}}</td>
-                    <td class="text-center">{{licitacion.facturaNumero}}</td>
-                    <td class="text-center">{{licitacion.almacenCodigo}}</td>
-                    <td class="text-center">{{licitacion.referenciaNumeroPedido}}</td>
-                    <td class="text-center">{{licitacion.comentarios}}</td>
-                    <td class="text-center">
+                    <td class="text-center font-medium">{{licitacion.fechaDocumento | date }}</td>
+                    <td class="text-center font-medium">{{licitacion.serieNumero}}-{{licitacion.guiaNumero}}</td>
+                    <td class="text-center font-medium">{{licitacion.destinatarioDireccion}}</td>
+                    <td class="text-center font-medium">{{licitacion.facturaNumero}}</td>
+                    <td class="text-center font-medium">{{licitacion.almacenCodigo}}</td>
+                    <td class="text-center font-medium">{{licitacion.referenciaNumeroPedido}}</td>
+                    <td class="text-center font-medium">{{licitacion.comentarios}}</td>
+                    <td class="text-center font-medium">
                       <input type="checkbox" [(ngModel)]="licitacion.isSelected" name="list_name" 
                             (change)="SeleccionaItem(licitacion)" value="{{ licitacion.serieNumero }}-{{licitacion.guiaNumero}}" />
 

@@ -1,10 +1,15 @@
 
+import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ObtenerOrdneFabricacion } from '@data/interface/Response/Dispensacion/DatosFormatoObtenerOrdencompra.interface';
-import { DispensacionService } from '@data/services/backEnd/pages/dispensacion.service';
+import { AgrupadorGerencia } from '@data/interface/Response/ProgramacionOperaciones/DatosFormatoAgrupadores.interface';
+import { ProgramacionOperacionesOrdenFabricacion } from '@data/interface/Response/ProgramacionOperaciones/DatosFormatoProgramacionOperaciones.interface';
+import { ProgramacionOperacionesService } from '@data/services/backEnd/pages/programacion-operaciones.service';
 import { FullComponent } from '@layout/full/full.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
+import { RegistroFechaInicioEntregaComponent } from './registro-fecha-inicio-entrega/registro-fecha-inicio-entrega.component';
 
 
 @Component({
@@ -14,73 +19,124 @@ import { FullComponent } from '@layout/full/full.component';
 })
 export class ProgramacionComponent implements OnInit {
 
-  
-  formFiltros:FormGroup;
-  listOrdeFabricacionProgramacion: ObtenerOrdneFabricacion[]=[];
-  activarCampo:boolean = false;
 
-  constructor(private _router: Router, private _DispensacionService:DispensacionService, private _fullcomponent: FullComponent) { 
+  formFiltros: FormGroup;
+  listOrdeFabricacionProgramacion: ProgramacionOperacionesOrdenFabricacion[] = [];
+  activarCampo: boolean = false;
+  loadingTable: boolean = false;
+  agrupadores: AgrupadorGerencia[] = [];
+
+  constructor(private _router: Router, 
+              private _ProgramacionOperacionesService: ProgramacionOperacionesService,
+              private _modalService: NgbModal, 
+              private _fullcomponent: FullComponent, private toastr: ToastrService) {
     this._fullcomponent.options.sidebartype = 'mini-sidebar'
 
   }
 
   ngOnInit(): void {
     this.formatoFiltroBusqueda();
-    this.filtroBuscar();
+    this.agrupador();
+    this.observacionEstado();
+    this.observacionAgrupador();
   }
 
-  formatoFiltroBusqueda(){
+  formatoFiltroBusqueda() {
     this.formFiltros = new FormGroup({
-      // fechaInicio: new FormControl(formatDate(new Date(Date.now()), 'yyyy-MM-dd', 'en')),
-      // fechaFinal: new FormControl(formatDate(new Date(Date.now()), 'yyyy-MM-dd', 'en')),
-      fechaInicio: new FormControl('2023-01-03'),
-      fechaFinal: new FormControl('2023-01-03'),
+      gerencia: new FormControl('Suturas'),
+      agrupador: new FormControl(null, Validators.required),
       lote: new FormControl(''),
       ordenFabricacion: new FormControl(''),
-      estado: new FormControl('PD'),
+      venta: new FormControl('null'),
+      estado: new FormControl('PR'),
+      fechaInicio: new FormControl('2023-01-03'),
+      fechaFinal: new FormControl('2023-01-03'),
     })
   }
 
-  verDispensacion(fila:ObtenerOrdneFabricacion){
-    this._router.navigate(['Logistica', 'Dispensacion','MateriaPrima', 'detalle', fila.ordenFabricacion]);
+  agrupador() {
+    this._ProgramacionOperacionesService.listarAgrupador(this.formFiltros.controls.gerencia.value)
+      .subscribe((resp: any) => {
+        this.agrupadores = resp;
+    });
   }
 
-  filtroBuscar(){
-   
-    this._DispensacionService.obtenerOrdenFabricacion(this.formFiltros.value).subscribe(
-      (resp)=>{
-          if(resp["success"])
-          {
-            this.listOrdeFabricacionProgramacion = resp["content"]
-          }
-      }
+  observacionAgrupador() {
+    this.formFiltros.controls.gerencia.valueChanges.subscribe((valor) => {
+        this.agrupador();
+    })
+  }
+
+  filtroBuscar() {
+
+
+    // if(this.formFiltros.controls.estado.value == 'PR')
+    //       if((this.formFiltros.controls.fechaInicio.value == '' || this.formFiltros.controls.fechaInicio.value == null || this.formFiltros.controls.fechaFinal.value == '' || this.formFiltros.controls.fechaFinal.value == null))
+    //         return this.toastr.warning("Colocar la fecha de incio y la fecha final")¿
+
+    this.loadingTable = true;
+    this._ProgramacionOperacionesService.obtenerProgramacionOrdenFabricacion(this.formFiltros.value).subscribe(
+      (resp) => {
+        this.loadingTable = false;
+        if (resp["success"]) {
+          this.listOrdeFabricacionProgramacion = resp["content"];
+        } else {
+          this.toastr.info(resp["message"])
+          this.listOrdeFabricacionProgramacion = resp["content"];
+        }
+      },
+      _ => this.loadingTable = false
     )
+
   }
 
-  activaDesactiva(){
-      this.activarCampo =! this.activarCampo;
+  observacionEstado() {
+    this.formFiltros.controls.estado.valueChanges.subscribe(estado => {
 
-      if(this.activarCampo)
-      {
-        this.formFiltros.patchValue({
-          fechaInicio: '',
-          fechaFinal: '',
-          lote: '',
-          ordenFabricacion: '',
-          estado: 'PD',
-        })
-       
-      }
-      else{
+      if (estado == 'PR') {
+        this.activarCampo = false;
         this.formFiltros.patchValue({
           fechaInicio: '2023-01-03',
           fechaFinal: '2023-01-03',
-          lote: '',
-          ordenFabricacion: '',
-          estado: 'PD',
-        })
+          lote: this.formFiltros.controls.lote.value,
+          ordenFabricacion: this.formFiltros.controls.ordenFabricacion.value,
+          venta: this.formFiltros.controls.venta.value,
+        });
 
       }
+      else {
+        this.activarCampo = true
+        this.formFiltros.patchValue({
+          fechaInicio: null,
+          fechaFinal: null,
+          lote: this.formFiltros.controls.lote.value,
+          ordenFabricacion: this.formFiltros.controls.ordenFabricacion.value,
+          venta: this.formFiltros.controls.venta.value,
+        });
+        
+      }
+    });
+    
   }
+
+  abrirComentario(filaOrdenFabricacion:ProgramacionOperacionesOrdenFabricacion){
+
+    const ModalTransito = this._modalService.open(RegistroFechaInicioEntregaComponent, {
+      windowClass: 'my-class',
+      centered: true,
+      backdrop: 'static',
+      size: 'lg',
+      scrollable: true
+    });
+    ModalTransito.componentInstance.paramentros = filaOrdenFabricacion;
+    ModalTransito.result.then((result) => {
+
+    }, (refrescado) => {
+     
+    });
+
+  }
+
+
 
 }

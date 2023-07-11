@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { ObtenerOrdneFabricacion } from '@data/interface/Response/Dispensacion/DatosFormatoObtenerOrdencompra.interface';
 import { DispensacionService } from '@data/services/backEnd/pages/dispensacion.service';
 import { FullComponent } from '@layout/full/full.component';
+import { ToastrService } from 'ngx-toastr';
 import { debounceTime } from 'rxjs/operators';
 
 @Component({
@@ -17,8 +18,9 @@ export class DispensacionMpComponent implements OnInit {
   formFiltros:FormGroup;
   listOrdeFabricacion: ObtenerOrdneFabricacion[]=[];
   activarCampo:boolean = false;
+  loadingIndicator:boolean =  false;
 
-  constructor(private _router: Router, private _DispensacionService:DispensacionService, private _fullcomponent: FullComponent) { 
+  constructor(private _router: Router, private _DispensacionService:DispensacionService, private _fullcomponent: FullComponent, private toastr: ToastrService) { 
     this._fullcomponent.options.sidebartype = 'mini-sidebar'
 
   }
@@ -45,14 +47,21 @@ export class DispensacionMpComponent implements OnInit {
   }
 
   filtroBuscar(){
-   
+    this.loadingIndicator = true;
     this._DispensacionService.obtenerOrdenFabricacion(this.formFiltros.value).subscribe(
       (resp)=>{
+          this.loadingIndicator = false;
           if(resp["success"])
           {
             this.listOrdeFabricacion = resp["content"]
+          }else
+          {
+              this.toastr.info(resp["message"])
+              this.listOrdeFabricacion = resp["content"];
+
           }
-      }
+      },
+      _=> this.loadingIndicator = false
     )
   }
 
@@ -62,8 +71,8 @@ export class DispensacionMpComponent implements OnInit {
       if(this.activarCampo)
       {
         this.formFiltros.patchValue({
-          fechaInicio: '',
-          fechaFinal: '',
+          fechaInicio: null,
+          fechaFinal: null,
           lote: '',
           ordenFabricacion: '',
           estado: 'PD',

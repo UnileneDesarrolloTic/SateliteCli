@@ -295,7 +295,10 @@ export class InterceptorService implements HttpInterceptor {
       "OrdenServicio/reporteGuiaOrdenServicio",
       "Dispensacion/ObtenerOrdenFabricacion",
       "Dispensacion/RecetasOrdenFabricacion",
-      "Dispensacion/RegistrarDispensacionMP"
+      "Dispensacion/RegistrarDispensacionMP",
+      "ProgramacionOperaciones/ObtenerAgrupadores",
+      "ProgramacionOperaciones/ObtenerProgramacionOrdenFabricacion",
+      "ProgramacionOperaciones/ActualizarFechaIngresoOrdenFabricacion"
     ];
     
     const data = this.sesionService.datosPersonales();

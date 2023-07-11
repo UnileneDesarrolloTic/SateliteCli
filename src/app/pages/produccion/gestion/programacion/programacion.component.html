@@ -5,11 +5,72 @@
                 <form autocomplete="off" [formGroup]="formFiltros" (submit)="filtroBuscar()">
                     <div class="row">
                         <div class="col-md-2">
-                            
+                            <label class="text-right control-label col-form-label">Gerencia:</label>
+                            <div class="form-group">
+                                <select class="form-control  form-control-sm font-medium" formControlName="gerencia">
+                                    <option value="Suturas" class="font-medium">Suturas</option>
+                                    <option value="Plasticos" class="font-medium">Plasticos</option>
+                                    <option value="Demas agrupadores" class="font-medium">Demas Agrupadores </option>
+                                  
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="text-right control-label col-form-label">Agrupadores</label>
+                            <div class="form-group">
+                                <select class="form-control  form-control-sm font-medium"  formControlName="agrupador">
+                                    <option [value]="null">Eliga un agrupador</option>
+                                    <option *ngFor="let agrupador of agrupadores"  class="font-medium" [value]="agrupador.idAgrupador">
+                                        {{agrupador.agrupador}}
+                                    </option>
+                                  </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <label for="lote" class="text-right control-label col-form-label">Lote:</label>
+                            <div class="form-group">
+                                <input type="text" formControlName="lote" [readOnly]="!activarCampo" class="form-control form-control-sm font-medium">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <label for="ordenFabricacion" class="text-right control-label col-form-label">Orden fabricación:</label>
+                            <div class="form-group">
+                                <input type="text" formControlName="ordenFabricacion" [readOnly]="!activarCampo" class="form-control form-control-sm font-medium">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="text-right control-label col-form-label">Tipo Ventas:</label>
+                            <div class="form-group">
+                                <select class="form-control  form-control-sm font-medium" formControlName="venta">
+                                    <option value="RFC" class="font-medium">Refacturación - RFC</option>
+                                    <option value="EXP" class="font-medium">Exportación - EXP</option>
+                                    <option value="VTM" class="font-medium">Venta Muestra - VTM</option>
+                                    <option value="STP" class="font-medium">Stock Permanente - STP</option>
+                                    <option value="LIC" class="font-medium">Licitaciones - LIC</option>
+                                    <option value="NOR" class="font-medium">Compra Directa - NOR</option>
+                                    <option value="VTH" class="font-medium">Venta Horizontal - VTH</option>
+                                    <option value="SER" class="font-medium">Servicios - SER</option>
+                                    <option value="null" class="font-medium">Sin Identificador</option>
+                                </select>
+                            </div>
+                        </div>
+                       
+                      
+                    </div>
+                    
+                    <div class="row ">
+                        <div class="col-md-2">
+                            <label class="text-right control-label col-form-label">Estado:</label>
+                            <div class="form-group">
+                                <select class="form-control  form-control-sm font-medium"   formControlName="estado">
+                                    <option value="PR" class="font-medium">Programado</option>
+                                    <option value="NPR" class="font-medium">No programado</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
                             <label for="fechainicio" class="text-right control-label col-form-label">Fecha
                                 inicio:</label>
-                                <button class="btn btn-success btn-xs side-badge badge badge-success ml-4" *ngIf="activarCampo" (click)="activaDesactiva()" type="button"> Activar  Fecha</button>
-                                <button class="btn btn-danger btn-xs side-badge badge badge-danger ml-4" *ngIf="!activarCampo" (click)="activaDesactiva()" type="button"> Desactivar  Fecha</button>
                             <div class="form-group">
                                 <input type="date" formControlName="fechaInicio"
                                     class="form-control form-control-sm font-medium" [readOnly]="activarCampo" placeholder="Fecha Inicio">
@@ -21,36 +82,15 @@
                                 <input type="date" formControlName="fechaFinal"
                                     class="form-control form-control-sm font-medium" [readOnly]="activarCampo" placeholder="Fecha Final">
                             </div>
-                        </div>
+                        </div> 
                         <div class="col-md-2">
-                            <label for="lote" class="text-right control-label col-form-label">Lote:</label>
-                            <div class="form-group">
-                                <input type="text" formControlName="lote" [readOnly]="!activarCampo" class="form-control form-control-sm font-medium">
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <label for="ordenFabricacion" class="text-right control-label col-form-label">Orden
-                                fabricación:</label>
-                            <div class="form-group">
-                                <input type="text" formControlName="ordenFabricacion" [readOnly]="!activarCampo" class="form-control form-control-sm font-medium">
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <label class="text-right control-label col-form-label">Estado:</label>
-                            <div class="form-group">
-                                <select class="form-control  form-control-sm font-medium"   formControlName="estado">
-                                    <option value="PD" class="font-medium">POR DISPENSAR</option>
-                                    <option value="D" class="font-medium">DISPENSADO</option>
-                                </select>
-                            </div>
-                        </div>
-                         <div class="col-md-2">
                             <label class="text-right control-label col-form-label">&nbsp;&nbsp;</label>
                             <div class="form-group">
                                 <button class="btn btn-sm btn-info">   <i class="fa fa-search"></i>&nbsp;&nbsp;Buscar&nbsp;</button>
                             </div>
                          </div>
                     </div>
+
                 </form>
             </div>
         </div>
@@ -68,6 +108,7 @@
             [headerHeight]="50" 
             [footerHeight]="50" 
             [rowHeight]="50"  
+            [loadingIndicator]="loadingTable"
             [scrollbarV]="true">        
                 <ngx-datatable-column name="OrdeFabricacion" prop="ordenFabricacion" [width]="60">
                     <ng-template let-row="row" ngx-datatable-cell-template>
@@ -90,7 +131,7 @@
                         <span class="font-medium">{{row.item}}</span>
                     </ng-template>
                 </ngx-datatable-column>
-                <ngx-datatable-column name="Descripcion" prop="descripcion"  [width]="200">
+                <ngx-datatable-column name="Descripcion" prop="descripcion"  [width]="230">
                     <ng-template let-row="row" ngx-datatable-cell-template>
                         <span class="font-medium">{{row.descripcionLocal}}</span>
                     </ng-template>
@@ -120,30 +161,27 @@
                         <span class="font-medium">{{row.referenciaTipo}}</span>
                     </ng-template>
                 </ngx-datatable-column>
-                <ngx-datatable-column name="Transferido" prop="transferidoFlag"  [width]="30">
-                    <ng-template let-row="row" ngx-datatable-cell-template>
-                        <span class="font-medium" *ngIf="row.transferidoFlag == 'N'"> <i class="fas fa-window-close text-danger"></i></span>
-                        <span class="font-medium" *ngIf="row.transferidoFlag == 'S'"> <i class="fas fa-check-square text-success"></i></span>
-                    </ng-template>
-                </ngx-datatable-column>
-                <ngx-datatable-column name="Comentario" prop="comentarios"  [width]="60">
-                    <ng-template let-row="row" ngx-datatable-cell-template>
-                        <span class="font-medium">{{row.comentarios}}</span>
-                    </ng-template>
-                </ngx-datatable-column>
                 <ngx-datatable-column name="F.Requerida"  prop="fechaRequerida" [width]="65">
                     <ng-template let-row="row" ngx-datatable-cell-template>
                         <span class="font-medium">{{row.fechaRequerida | date:'dd-MM-YYYY'}}</span>
                     </ng-template>
                 </ngx-datatable-column>
+
+                <ngx-datatable-column name="F.Inicio"  prop="fechaProgramadaInicio" [width]="65">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                        <span class="font-medium">{{row.fechaProgramadaInicio | date:'dd-MM-YYYY'}}</span>
+                    </ng-template>
+                </ngx-datatable-column>
+
                 <ngx-datatable-column name="F.Entrega"  prop="fechaEntrega" [width]="65">
                     <ng-template let-row="row" ngx-datatable-cell-template>
                         <span class="font-medium">{{row.fechaEntrega | date:'dd-MM-YYYY'}}</span>
                     </ng-template>
                 </ngx-datatable-column>
-                <ngx-datatable-column name="..."  prop="entrega" [width]="30">
-                    <ng-template let-row="row" ngx-datatable-cell-template>
-                        <button class="btn btn-primary btn-sm" (click)="verDispensacion(row)"> <i class="fas fa-clipboard-list"></i> </button>
+
+                <ngx-datatable-column name="..."  prop="comentarios" [width]="50">
+                    <ng-template let-row="row" ngx-datatable-cell-template class="d-flex justify-content-cente">
+                        <button class="btn btn-primary btn-sm  btn-circle" (click)="abrirComentario(row)"> <i class="fas fa-comment"></i></button>    
                     </ng-template>
                 </ngx-datatable-column>
               </ngx-datatable>

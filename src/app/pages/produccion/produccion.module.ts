@@ -27,6 +27,7 @@ import { OrdenCompraDrogueriaComponent } from './arima/oc-drogueria/orden-compra
 import { ListarOrdenCompraPrevioComponent } from './arima/oc-drogueria/listar-orden-compra-previo/listar-orden-compra-previo.component';
 import { CompraNacionalImportacionComponent } from './arima/compra-nacional-importacion/compra-nacional-importacion.component';
 import { ProgramacionComponent } from './gestion/programacion/programacion.component';
+import { RegistroFechaInicioEntregaComponent } from './gestion/programacion/registro-fecha-inicio-entrega/registro-fecha-inicio-entrega.component';
 
 registerLocaleData(localeEs);
 
@@ -49,6 +50,7 @@ registerLocaleData(localeEs);
     ListarOrdenCompraPrevioComponent,
     CompraNacionalImportacionComponent,
     ProgramacionComponent,
+    RegistroFechaInicioEntregaComponent,
   ],
   imports: [
     RouterModule.forChild(ProduccionRoutes),
