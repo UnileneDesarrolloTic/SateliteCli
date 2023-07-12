@@ -49,8 +49,8 @@ export class ProgramacionComponent implements OnInit {
       ordenFabricacion: new FormControl(''),
       venta: new FormControl('null'),
       estado: new FormControl('PR'),
-      fechaInicio: new FormControl('2023-01-03'),
-      fechaFinal: new FormControl('2023-01-03'),
+      fechaInicio: new FormControl(formatDate(new Date(Date.now()), 'yyyy-MM-dd', 'en')),
+      fechaFinal: new FormControl(formatDate(new Date(Date.now()), 'yyyy-MM-dd', 'en')),
     })
   }
 
@@ -92,8 +92,8 @@ export class ProgramacionComponent implements OnInit {
       if (estado == 'PR') {
         this.activarCampo = false;
         this.formFiltros.patchValue({
-          fechaInicio: '2023-01-03',
-          fechaFinal: '2023-01-03',
+          fechaInicio: formatDate(new Date(Date.now()), 'yyyy-MM-dd', 'en'),
+          fechaFinal: formatDate(new Date(Date.now()), 'yyyy-MM-dd', 'en'),
           lote: this.formFiltros.controls.lote.value,
           ordenFabricacion: this.formFiltros.controls.ordenFabricacion.value,
           venta: this.formFiltros.controls.venta.value,

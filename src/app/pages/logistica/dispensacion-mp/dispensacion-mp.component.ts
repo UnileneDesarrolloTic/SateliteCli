@@ -34,8 +34,8 @@ export class DispensacionMpComponent implements OnInit {
     this.formFiltros = new FormGroup({
       // fechaInicio: new FormControl(formatDate(new Date(Date.now()), 'yyyy-MM-dd', 'en')),
       // fechaFinal: new FormControl(formatDate(new Date(Date.now()), 'yyyy-MM-dd', 'en')),
-      fechaInicio: new FormControl('2023-01-03'),
-      fechaFinal: new FormControl('2023-01-03'),
+      fechaInicio: new FormControl(formatDate(new Date(Date.now()), 'yyyy-MM-dd', 'en')),
+      fechaFinal: new FormControl(formatDate(new Date(Date.now()), 'yyyy-MM-dd', 'en')),
       lote: new FormControl(''),
       ordenFabricacion: new FormControl(''),
       estado: new FormControl('PD'),
@@ -81,8 +81,8 @@ export class DispensacionMpComponent implements OnInit {
       }
       else{
         this.formFiltros.patchValue({
-          fechaInicio: '2023-01-03',
-          fechaFinal: '2023-01-03',
+          fechaInicio:formatDate(new Date(Date.now()), 'yyyy-MM-dd', 'en'),
+          fechaFinal: formatDate(new Date(Date.now()), 'yyyy-MM-dd', 'en'),
           lote: '',
           ordenFabricacion: '',
           estado: 'PD',
