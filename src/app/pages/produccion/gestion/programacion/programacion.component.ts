@@ -1,7 +1,7 @@
 
 import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AgrupadorGerencia } from '@data/interface/Response/ProgramacionOperaciones/DatosFormatoAgrupadores.interface';
 import { ProgramacionOperacionesOrdenFabricacion } from '@data/interface/Response/ProgramacionOperaciones/DatosFormatoProgramacionOperaciones.interface';
@@ -26,6 +26,10 @@ export class ProgramacionComponent implements OnInit {
   loadingTable: boolean = false;
   agrupadores: AgrupadorGerencia[] = [];
 
+  dropdownList = [];
+  selectedItems = [];
+  dropdownSettings = {};
+
   constructor(private _router: Router, 
               private _programacionOperacionesService: ProgramacionOperacionesService,
               private _modalService: NgbModal, 
@@ -39,12 +43,24 @@ export class ProgramacionComponent implements OnInit {
     this.agrupador();
     this.observacionEstado();
     this.observacionAgrupador();
+
+    this.dropdownSettings = {
+      singleSelection: false,
+      idField: 'idAgrupador',
+      textField: 'agrupador',
+      unSelectAllText: 'Todos',
+      itemsShowLimit: 0,
+      allowSearchFilter: true,
+      maxHeight:150
+    };
+
+    this.observacionEntrega();
   }
 
   formatoFiltroBusqueda() {
     this.formFiltros = new FormGroup({
       gerencia: new FormControl('Suturas'),
-      agrupador: new FormControl('', Validators.required),
+      agrupador: new FormControl([], Validators.required),
       lote: new FormControl(''),
       ordenFabricacion: new FormControl(''),
       venta: new FormControl('null'),
@@ -68,10 +84,25 @@ export class ProgramacionComponent implements OnInit {
   }
 
   filtroBuscar() {
+  
+
+    if(this.formFiltros.controls.agrupador.value.length == 0 )
+    {
+      this.formFiltros.markAsPending();
+      this.toastr.warning("Seleccionar uno o varios agrupador")
+      return ;
+    }
+
+    const datos = {
+        ...this.formFiltros.value,
+        agrupador: this.formFiltros.controls.agrupador.value.map((itemAgrupador:any)=> (itemAgrupador.idAgrupador))
+    }
 
     this.listOrdeFabricacionProgramacion=[];
     this.loadingTable = true;
-    this._programacionOperacionesService.obtenerProgramacionOrdenFabricacion(this.formFiltros.value).subscribe(
+
+
+    this._programacionOperacionesService.obtenerProgramacionOrdenFabricacion(datos).subscribe(
       (resp) => {
         this.loadingTable = false;
         if (resp["success"]) {
@@ -94,8 +125,8 @@ export class ProgramacionComponent implements OnInit {
         this.formFiltros.patchValue({
           fechaInicio: formatDate(new Date(Date.now()), 'yyyy-MM-dd', 'en'),
           fechaFinal: formatDate(new Date(Date.now()), 'yyyy-MM-dd', 'en'),
-          lote: this.formFiltros.controls.lote.value,
-          ordenFabricacion: this.formFiltros.controls.ordenFabricacion.value,
+          lote: '',
+          ordenFabricacion: '',
           venta: this.formFiltros.controls.venta.value,
         });
 
@@ -105,8 +136,8 @@ export class ProgramacionComponent implements OnInit {
         this.formFiltros.patchValue({
           fechaInicio: null,
           fechaFinal: null,
-          lote: this.formFiltros.controls.lote.value,
-          ordenFabricacion: this.formFiltros.controls.ordenFabricacion.value,
+          lote: '',
+          ordenFabricacion: '',
           venta: this.formFiltros.controls.venta.value,
         });
         
@@ -121,7 +152,7 @@ export class ProgramacionComponent implements OnInit {
       windowClass: 'my-class',
       centered: true,
       backdrop: 'static',
-      size: 'md',
+      size: 'dm',
       scrollable: true
     });
     ModalTransito.componentInstance.paramentros = filaOrdenFabricacion;
@@ -131,6 +162,12 @@ export class ProgramacionComponent implements OnInit {
       // this.filtroBuscar();
     });
 
+  }
+
+  observacionEntrega(){
+    this.formFiltros.controls.gerencia.valueChanges.subscribe((_)=>{
+        this.formFiltros.get("agrupador").patchValue([]);
+    })
   }
 
 

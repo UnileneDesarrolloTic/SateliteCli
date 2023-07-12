@@ -2,48 +2,44 @@
     <div class="card-body">
         <form [formGroup]="form">
             <div class="modal-header">
-                <h4 class="modal-title" id="modal-basic-title">ORDEN DE FABRICACION: {{this.paramentros.ordenFabricacion}}</h4>
-                <button type="button" class="close" aria-label="Close" (click)="cerrarModal()">
+                <h4 class="modal-title font-medium" id="modal-basic-title">ORDEN DE FABRICACION: <span class="text-info font-bold" >{{this.paramentros.ordenFabricacion}}</span></h4>
+                <button type="button" class="close" aria-label="Close" (click)="this.activeModal.dismiss()">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body justify-content-center">
-            <hr>
             <div class="row">
                 <div class="col-md-4">
-                    <label for="fecha" class="text-right control-label col-form-label font-medium">Fecha Inicio:</label>
+                    <label for="fecha" class="text-right control-label col-form-label font-bold">Fecha Inicio:</label>
                     <div class="form-group">
                         <input type="date"  class="form-control form-control-sm font-medium" min="{{fechaActual}}"  formControlName="fechaInicio">
                     </div>
                 </div>
                 <div class="col-md-8">
-                    <label for="comentario" class="text-right control-label col-form-label">Comentario</label>
+                    <label for="comentario" class="text-right control-label col-form-label font-bold">Comentario</label>
                     <div class="form-group">
                         <textarea  class="form-control form-control-sm font-medium" formControlName="comentarioInicio"></textarea>
                     </div>
                 </div>
             </div>
-
-            <hr>
             <div class="row">
                 <div class="col-md-4">
-                    <label for="fecha" class="text-right control-label col-form-label font-medium">Fecha Entrega:</label>
+                    <label for="fecha" class="text-right control-label col-form-label font-bold">Fecha Entrega:</label>
                     <div class="form-group">
                         <input type="date"  class="form-control form-control-sm font-medium" min="{{fechaActual}}" formControlName="fechaEntrega" >
                     </div>
                 </div>
 
                 <div class="col-md-8">
-                    <label for="comentario" class="text-right control-label col-form-label">Comentario</label>
+                    <label for="comentario" class="text-right control-label col-form-label font-bold">Comentario</label>
                     <div class="form-group">
                         <textarea  class="form-control form-control-sm font-medium" formControlName="comentarioEntrega"></textarea>
                     </div>
                 </div>
             </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" 
-                    class="btn btn-rounded btn-success" (click)="registrar()"> <i class="fas fa-save"></i> Guardar</button>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-rounded btn-success btn" (click)="registrar()"> <i class="fas fa-save"></i> Guardar</button>
             </div>
         </form>
 

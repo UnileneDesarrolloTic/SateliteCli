@@ -18,12 +18,14 @@
                         <div class="col-md-2">
                             <label class="text-right control-label col-form-label">Agrupadores</label>
                             <div class="form-group">
-                                <select class="form-control  form-control-sm font-medium"  formControlName="agrupador">
+                                <!-- <select class="form-control  form-control-sm font-medium"  formControlName="agrupador">
                                     <option value="">Eliga un agrupador</option>
                                     <option *ngFor="let agrupador of agrupadores"  class="font-medium" [value]="agrupador.idAgrupador">
                                         {{agrupador.agrupador}}
                                     </option>
-                                  </select>
+                                  </select> -->
+                                  <ng-multiselect-dropdown #multiSelect style="font-size: 12px;" class="font-medium" placeholder="Agrupador" [settings]="dropdownSettings" [data]="agrupadores" formControlName="agrupador"> 
+                                </ng-multiselect-dropdown>
                             </div>
                         </div>
                         <div class="col-md-2">

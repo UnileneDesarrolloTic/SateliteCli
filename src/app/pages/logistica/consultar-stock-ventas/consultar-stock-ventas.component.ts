@@ -60,8 +60,6 @@ export class ConsultarStockVentasComponent implements OnInit {
     this.instanciarObservadoresAgrupador();
     this.instanciarObservadoresLinea();
     this.instanciarObservadoresfamilia();
-    // this.ListarItemVentasResumen();
-    // this.ListarItemVentasDetalle();
 
 
     this.dropdownSettings = {
@@ -251,13 +249,6 @@ instanciarObservadoresfamilia(){
         this.SubFamilia(this.filtrosForm.controls.idLinea.value,idfamilia);
     })
 }
-
-
-
-
- 
-
-  
 
   BuscarProducto(){
     this.ListarItemVentasResumen();
