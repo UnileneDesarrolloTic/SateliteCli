@@ -10,6 +10,7 @@ import { FullComponent } from '@layout/full/full.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { RegistroFechaInicioEntregaComponent } from './registro-fecha-inicio-entrega/registro-fecha-inicio-entrega.component';
+import { DividirProgramacionComponent } from './dividir-programacion/dividir-programacion.component';
 
 
 @Component({
@@ -164,12 +165,26 @@ export class ProgramacionComponent implements OnInit {
 
   }
 
+  abrirModalDividirProgramacion(filaOrdenFabricacion:ProgramacionOperacionesOrdenFabricacion){
+    const ModalTransito = this._modalService.open(DividirProgramacionComponent, {
+      windowClass: 'my-class',
+      centered: true,
+      backdrop: 'static',
+      size: 'dm',
+      scrollable: true
+    });
+    ModalTransito.componentInstance.paramentros = filaOrdenFabricacion;
+    ModalTransito.result.then((result) => {
+      this.filtroBuscar();
+    }, (refrescado) => {
+      // this.filtroBuscar();
+    });
+  }
+
   observacionEntrega(){
     this.formFiltros.controls.gerencia.valueChanges.subscribe((_)=>{
         this.formFiltros.get("agrupador").patchValue([]);
     })
   }
-
-
 
 }

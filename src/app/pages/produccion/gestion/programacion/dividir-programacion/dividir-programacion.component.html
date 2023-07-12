@@ -1,0 +1,35 @@
+<div class="row">
+    <div class="card-body">
+        <form [formGroup]="form">
+            <div class="modal-header">
+                <h5 class="modal-title font-medium" id="modal-basic-title"> DIVIDIR ORDEN DE FABRICACION:
+                    <span class="text-info font-bold">{{this.paramentros.ordenFabricacion}}</span>
+                </h5>
+                <button type="button" class="close" aria-label="Close" (click)="this.activeModal.dismiss()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body justify-content-center">
+                <div class="row">
+                    <div class="m-t-10 col-md-10 font-medium">Programada Cantidad : <span class="font-bold"> {{this.paramentros.cantidadProgramada | number : '1.0-0'}} </span></div>
+                    <div class="m-t-10 col-md-2 font-medium"><button class="btn btn-success btn-sm" (click)="agregarDivision()"> <i class="fas fa-plus"></i> </button></div>
+                </div>
+                <div class="row" formArrayName="items" *ngFor="let item of form.get('items')?.controls; let i = index;">
+                    <div [formGroupName]="i">
+                       
+                            <input type="text" class="form-control form-control-sm font-medium" formControlName="cantidad">
+                       
+                       
+                            <input type="date" class="form-control form-control-sm font-medium" formControlName="fecha">
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-rounded btn-success btn"> <i class="fas fa-save"></i>
+                    Guardar</button>
+            </div>
+        </form>
+
+    </div>
+</div>
