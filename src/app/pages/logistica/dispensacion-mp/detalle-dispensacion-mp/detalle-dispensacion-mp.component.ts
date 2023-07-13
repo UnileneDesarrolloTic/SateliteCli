@@ -18,12 +18,6 @@ export class DetalleDispensacionMpComponent implements OnInit{
   ordenFabricacion:string = '';
   detalleDispensacion : RecetasDispensacion[] = [];
 
-  // detalleDispensacion:any = [
-  //   { numero: 1 , item: 'MEVISB00003', descripcion: 'SOBRE DE PAPEL', um: 'UNI', cantidadPedida: 600, cantidadEntrega: 600, requision: '0000052', estado: 'Completado'},
-  //   { numero: 2 , item: 'MVISC00026', descripcion: 'SACHET ALUPOL CON PEEL', um: 'UNI', cantidadPedida: 608, cantidadEntrega: 608, requision: '0000052', estado: 'Completado'},
-  //   { numero: 3 , item: 'MBNL000025', descripcion: 'BOLSA TERMOENCOGIGLE', um: 'UNI', cantidadPedida: 50, cantidadEntrega: 50, requision: '0000052', estado: 'Completado'},
-  //   { numero: 4 , item: 'MSTMK0001', descripcion: 'CAJA VETERINARY', um: 'UNI', cantidadPedida: 50, cantidadEntrega: 0, requision: '0000052', estado: 'Pendiente'}
-  // ]
   formDetalle:FormGroup;
   dispensarTodo = new FormControl(false)
  
