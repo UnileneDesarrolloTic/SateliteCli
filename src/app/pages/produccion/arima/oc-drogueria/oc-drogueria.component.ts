@@ -38,6 +38,7 @@ export class OcDrogueriaComponent implements OnInit {
   reporteDrogueria = new FormControl('sinGrupo');
   flagEsperaExcelAgrupador: boolean = false;
   flagMostrarBotontransito: boolean = false;
+  flagMostrarColumnatransito:boolean = false;
 
   constructor(private _ProduccionService: ProduccionService,
     private _modalService: NgbModal,
@@ -60,6 +61,7 @@ export class OcDrogueriaComponent implements OnInit {
     this.generarOC();
 
     this.permisoBotonTransito();
+    this.permisoColumnaTransito();
   }
 
   ngAfterViewInit() {
@@ -121,6 +123,7 @@ export class OcDrogueriaComponent implements OnInit {
       scrollable: true
     });
     ModalTransito.componentInstance.Item = Item;
+    ModalTransito.componentInstance.mostrarBotonTransito= this.flagMostrarBotontransito;
     ModalTransito.result.then((result) => {
 
     }, (refrescado) => {
@@ -153,6 +156,7 @@ export class OcDrogueriaComponent implements OnInit {
 
     ModalTransito.componentInstance.Item = '';
     ModalTransito.componentInstance.mostrarBotonTransito= this.flagMostrarBotontransito;
+    ModalTransito.componentInstance.flagMostrarColumnatransito= this.flagMostrarColumnatransito;
     ModalTransito.result.then((result) => {
 
     }, (refrescado) => {
@@ -231,13 +235,23 @@ export class OcDrogueriaComponent implements OnInit {
   }
 
   permisoBotonTransito(){
-    this._GenericoService.AccesosPermiso('BTN0002').subscribe(
+    this._GenericoService.AccesosPermiso('BTN002').subscribe(
       (resp:any)=>{
-          console.log(resp);
           if(resp["success"])
               this.flagMostrarBotontransito = resp["content"];
           else
               this.flagMostrarBotontransito = false;
+      }
+    )
+  }
+
+  permisoColumnaTransito(){
+    this._GenericoService.AccesosPermiso('CLN002').subscribe(
+      (resp:any)=>{
+          if(resp["success"])
+              this.flagMostrarColumnatransito = resp["content"];
+          else
+              this.flagMostrarColumnatransito = false;
       }
     )
   }

@@ -35,7 +35,7 @@
                         </ng-template>
                     </ngx-datatable-column>
 
-                    <ngx-datatable-column name="Proveedor" prop="proveedor" [frozenLeft]="true" [width]="3">
+                    <ngx-datatable-column name="Proveedor" prop="proveedor" [frozenLeft]="true" [width]="3" *ngIf="flagMostrarColumnatransito == false">
                         <ng-template let-row="row" ngx-datatable-cell-template>
                             <span class="font-medium" style="font-size: 12px;">{{row.proveedor }}</span>
                         </ng-template>
@@ -43,19 +43,26 @@
 
                     <ngx-datatable-column name="F.Preparación" prop="fechaPreparacion" [width]="14">
                         <ng-template let-row="row" ngx-datatable-cell-template>
-                            <span class="font-medium" style="font-size: 12px;">{{row.fechaPreparacion | date:'dd/MM/yyyy'  }}</span>
+                            <span class="font-medium" style="font-size: 12px;">{{row.fechaPreparacion | date:'dd/MM/yyyy' }}</span>
                         </ng-template>
                     </ngx-datatable-column>
 
-                    <ngx-datatable-column name="T.General" prop="tiempoGeneral"  [width]="10">
+                    <ngx-datatable-column name="F.Prometida(Spring)" prop="fechaPrometida" [width]="14">
                         <ng-template let-row="row" ngx-datatable-cell-template>
-                            <span class="font-medium" style="font-size: 12px;">{{row.tiempoGeneral | number : '1.0-0'  }}</span>
+                            <span class="font-medium" style="font-size: 12px;">{{row.fechaPrometida | date:'dd/MM/yyyy'  }}</span>
+                        </ng-template>
+                    </ngx-datatable-column>
+
+
+                    <ngx-datatable-column name="Tiemp.General" prop="tiempoGeneral"  [width]="10">
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                            <span class="font-medium" style="font-size: 12px;">{{row.tiempoGeneral | number : '1.0-0' }}</span>
                         </ng-template>
                     </ngx-datatable-column>
 
                     <ngx-datatable-column name="F.Llegada(Planificada)" prop="nuevoTiempoEntrega"  [width]="10">
                         <ng-template let-row="row" ngx-datatable-cell-template>
-                            <span class="font-medium" style="font-size: 12px;">{{row.nuevoTiempoEntrega | date:'dd/MM/yyyy'   }}</span>
+                            <span class="font-medium" style="font-size: 12px;">{{row.nuevoTiempoEntrega | date:'dd/MM/yyyy'}}</span>
                         </ng-template>
                     </ngx-datatable-column>
 
@@ -69,17 +76,25 @@
                         </ng-template>
                     </ngx-datatable-column>
 
-                    <ngx-datatable-column name="Cant.Pedida" prop="cantidadPedida" [width]="10">
+                    <ngx-datatable-column name="Cant.Pedida" prop="cantidadPedida" [width]="15" *ngIf="flagMostrarColumnatransito == false">
                         <ng-template let-row="row" ngx-datatable-cell-template>
                             <span class="font-medium" style="font-size: 12px;">{{row.cantidadPedida | number : '1.0-0' }}</span>
                         </ng-template>
                     </ngx-datatable-column>
 
-                    <ngx-datatable-column name="Cant.Recibida" prop="cantidadRecibida" [width]="10">
+                    <ngx-datatable-column name="Cant.Recibida" prop="cantidadRecibida" [width]="15" *ngIf="flagMostrarColumnatransito == false">
                         <ng-template let-row="row" ngx-datatable-cell-template>
                             <span class="font-medium" style="font-size: 12px;">{{row.cantidadRecibida | number : '1.0-0'  }}</span>
                         </ng-template>
                     </ngx-datatable-column>
+                    
+                    <ngx-datatable-column name="Cant.Pendiente" prop="cantidadRecibida" [width]="15">
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                            <span class="font-medium" style="font-size: 12px;">{{row.cantidadPendiente | number : '1.0-0'  }}</span>
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    
                   
                 </ngx-datatable>
             </div>
