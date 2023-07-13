@@ -29,13 +29,17 @@ export class DividirProgramacionComponent implements OnInit {
     
     this.crearFormulario();
     this.form.patchValue({
-      ordenFabricacion: this.paramentros.ordenFabricacion
+      ordenFabricacion: this.paramentros.ordenFabricacion,
+      cantidadProgramada: this.paramentros.cantidadProgramada,
+      lote: this.paramentros.lote
     });
   }
 
   crearFormulario() {
     this.form = new FormGroup({
       ordenFabricacion: new FormControl('',Validators.required),
+      cantidadProgramada: new FormControl('',Validators.required),
+      lote: new FormControl('',Validators.required),
       divisionProgramacion: new FormArray([])
     })
   }
@@ -73,8 +77,7 @@ export class DividirProgramacionComponent implements OnInit {
 
     const dato =
     {
-      ordenFabricacion: this.form.controls.ordenFabricacion.value,
-      cantidadProgramada: this.paramentros.cantidadProgramada,
+      ...this.form.value,
       divisionProgramacion: this.form.controls.divisionProgramacion.value.map((elemento,index)=>({ correlactivo: index +1 , cantidad: elemento.cantidad }))
     }
     

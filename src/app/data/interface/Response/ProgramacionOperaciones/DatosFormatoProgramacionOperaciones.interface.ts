@@ -20,7 +20,6 @@ export interface ProgramacionOperacionesOrdenFabricacion {
     fechaEntrega:          Date | null;
     fechaRequerida:        Date | null;
     pedidoNumero:          string;
-    multipedido:           number;
     fechaEntregaString:    Date | null;
     codigoAgrupador:       number;
     agrupador:             string;
