@@ -299,7 +299,8 @@ export class InterceptorService implements HttpInterceptor {
       "ProgramacionOperaciones/ObtenerAgrupadores",
       "ProgramacionOperaciones/ObtenerProgramacionOrdenFabricacion",
       "ProgramacionOperaciones/ActualizarFechaProgramada",
-      "ProgramacionOperaciones/ObtenerTipoFechaOrdenFabricacion"
+      "ProgramacionOperaciones/ObtenerTipoFechaOrdenFabricacion",
+      "ProgramacionOperaciones/RegistrarDivisionProgramacion"
     ];
     
     const data = this.sesionService.datosPersonales();

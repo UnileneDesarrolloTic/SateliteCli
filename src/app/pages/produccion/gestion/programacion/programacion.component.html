@@ -112,12 +112,12 @@
                         <button class="btn btn-info btn-sm" (click)="abrirComentario(row)"> <i class="fas fa-calendar-alt"></i></button>    
                     </ng-template>
                 </ngx-datatable-column>     
-                <ngx-datatable-column name="OrdeFabricacion" prop="ordenFabricacion" [width]="60" [frozenLeft]="true" [flexGrow]="1">
+                <ngx-datatable-column name="OrdeFabricacion" prop="ordenFabricacion" [width]="100" [frozenLeft]="true" [flexGrow]="1">
                     <ng-template let-row="row" ngx-datatable-cell-template>
                         <span class="font-medium" [ngbTooltip]="row.ordenFabricacion" >{{row.ordenFabricacion}}</span>
                     </ng-template>
                 </ngx-datatable-column>
-                <ngx-datatable-column name="Lote" prop="lote" [width]="60" [frozenLeft]="true" [flexGrow]="1" >
+                <ngx-datatable-column name="Lote" prop="lote" [width]="100" [frozenLeft]="true" [flexGrow]="1" >
                     <ng-template let-row="row" ngx-datatable-cell-template>
                         <span class="font-medium" [ngbTooltip]="row.lote">{{row.lote}}</span>
                     </ng-template>
@@ -140,9 +140,9 @@
                 </ngx-datatable-column>
                 <ngx-datatable-column name="C.Programada" prop="cantidadProgramada" [width]="100" [frozenLeft]="true" [flexGrow]="4">
                     <ng-template let-row="row" ngx-datatable-cell-template>
-                        <span class="font-medium" *ngIf="row.cantidadProgramada <= 0">{{row.cantidadProgramada | number: '1.0-0'}}</span>
+                        <span class="font-medium" *ngIf="this.formFiltros.controls.estado.value == 'PR'">{{row.cantidadProgramada | number: '1.0-0'}}</span>
                         <button class="btn btn-sm btn-outline-primary btn-rounded font-medium" type="button"
-                        *ngIf="row.cantidadProgramada>0" (click)="abrirModalDividirProgramacion(row)">
+                        *ngIf="row.cantidadProgramada>0 && this.formFiltros.controls.estado.value == 'NPR' " (click)="abrirModalDividirProgramacion(row)">
                         {{ row.cantidadProgramada | number : '1.0-0' }}
                     </button>
                     </ng-template>

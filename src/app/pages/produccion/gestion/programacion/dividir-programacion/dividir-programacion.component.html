@@ -14,16 +14,14 @@
                     <div class="m-t-10 col-md-8 font-medium">Cantidad Programada : <span class="font-bold"> {{this.paramentros.cantidadProgramada | number : '1.0-0'}} </span></div>
                     <div class="m-t-10 col-md-4 font-medium"><button class="btn btn-info btn-sm" (click)="agregarDivision()"> <i class="fas fa-plus"></i> Agregar </button></div>
                 </div>
-                <div class="row" formArrayName="items" *ngFor="let item of form.get('items')?.controls; let i = index;"  >
+                <div class="row justify-content-center" formArrayName="divisionProgramacion" *ngFor="let item of form.get('divisionProgramacion')?.controls; let i = index;"  >
                     <ng-container [formGroupName]="i" >
-                        <div class="col-md-5">
-                            <div class="form-group">
-                                <input type="number"  class="form-control form-control-sm font-medium" formControlName="cantidad">
-                            </div>
+                        <div class="col-md-1">
+                            <label for="">{{i + 1 }}</label>
                         </div>
                         <div class="col-md-5">
                             <div class="form-group">
-                                <input type="date"  class="form-control form-control-sm font-medium" formControlName="fecha">
+                                <input type="number"  class="form-control form-control-sm font-medium" formControlName="cantidad">
                             </div>
                         </div>
                         <div class="col-md-2">
@@ -32,11 +30,16 @@
                             </div>
                         </div>
                     </ng-container>
-    
+                </div>
+                <div class="row">
+                    <ngb-alert *ngIf="mostrarMensaje" type="warning" (close)="mostrarMensaje = false" class="font-medium"><span class="font-bold">Advertencia:</span> {{mensaje}}</ngb-alert>	
+                    <div class="m-t-10 col-md-8 font-medium">Cantidad Total: <span class="font-bold"> {{this.sumarArrayForm | number : '1.0-0'}} </span></div>
                 </div>
             </div>
             <div class="modal-footer justify-content-center">
-                <button type="button" class="btn btn-rounded btn-success btn"  [disabled]="!form.valid" (click)="registrarDivisionProgramacion()"> <i class="fas fa-save"></i>
+                <button type="button" class="btn btn-rounded btn-success btn"  [disabled]="!form.valid" (click)="registrarDivisionProgramacion()"> 
+                    <i class="fa fa-spinner fa-spin fa-fw" *ngIf="flagEspera"></i> 
+                    <i class="fas fa-save" *ngIf="flagEspera"></i>
                     Guardar</button>
             </div>
         </form>

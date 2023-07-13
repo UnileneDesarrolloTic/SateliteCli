@@ -85,8 +85,6 @@ export class ProgramacionComponent implements OnInit {
   }
 
   filtroBuscar() {
-  
-
     if(this.formFiltros.controls.agrupador.value.length == 0 )
     {
       this.formFiltros.markAsPending();
@@ -143,9 +141,14 @@ export class ProgramacionComponent implements OnInit {
         });
         
       }
+
+      this.filtroBuscar();
     });
+
+ 
     
   }
+
 
   abrirComentario(filaOrdenFabricacion:ProgramacionOperacionesOrdenFabricacion){
 

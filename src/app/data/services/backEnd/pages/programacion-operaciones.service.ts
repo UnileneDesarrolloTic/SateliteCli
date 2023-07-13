@@ -53,7 +53,17 @@ import { ToastrService } from 'ngx-toastr';
           return throwError("Error al buscar el registro de las fechas")
         })
       );
-  }
+    }
+    
+
+    registrarProgramacionDivida(body){
+      return this._http.post(this.url+"/api/ProgramacionOperaciones/RegistrarDivisionProgramacion", body).pipe(
+        catchError (() => {
+          this._toastr.error("Error al registar la cantidad divida de la programación", "Error !!", { timeOut: 4000, closeButton: true })
+          return throwError("Error al registarla cantidad divida de la programación")
+        })
+      );
+    }
     
 }
   
