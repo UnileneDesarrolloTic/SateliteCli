@@ -63,7 +63,7 @@
                         <ng-template let-row="row" ngx-datatable-cell-template>
                             <span class="font-medium"
                                         [ngStyle]="{ 'color': row.diasFalta > 0 ? 'blue' : 'red' }">{{row.diasFalta}}</span>
-                            <a type="button" (click)="quitarTransito(row,i)" *ngIf="row['diasFalta']<0">
+                            <a type="button" (click)="quitarTransito(row,i)" *ngIf="row['diasFalta']<0 && mostrarBotonTransito == false">
                                             <i class="fa fa-times text-danger"></i>
                             </a>
                         </ng-template>

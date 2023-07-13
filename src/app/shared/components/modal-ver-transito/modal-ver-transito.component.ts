@@ -14,6 +14,7 @@ export class ModalVerTransitoComponent implements OnInit {
   contar:number=0;
   flagEspera:boolean=true;
   @Input() Item:string = '';
+  @Input() mostrarBotonTransito:boolean = false;
   
   constructor( public activeModal: NgbActiveModal,
                public _ProduccionService: ProduccionService,

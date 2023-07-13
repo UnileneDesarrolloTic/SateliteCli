@@ -11,6 +11,7 @@ import { debounceTime } from 'rxjs/operators';
 import { ModalVerTransitoComponent } from '@shared/components/modal-ver-transito/modal-ver-transito.component';
 import { FullComponent } from '@layout/full/full.component';
 import { FileService } from '@shared/services/comunes/file.service';
+import { GenericoService } from '@shared/services/comunes/generico.service';
 
 @Component({
   selector: 'app-oc-drogueria',
@@ -36,13 +37,14 @@ export class OcDrogueriaComponent implements OnInit {
   textFiltrar = new FormControl('');
   reporteDrogueria = new FormControl('sinGrupo');
   flagEsperaExcelAgrupador: boolean = false;
-
+  flagMostrarBotontransito: boolean = false;
 
   constructor(private _ProduccionService: ProduccionService,
     private _modalService: NgbModal,
     private _toastr: ToastrService,
     private _FileService: FileService,
-    private _fullcomponent: FullComponent) {
+    private _fullcomponent: FullComponent,
+    private _GenericoService: GenericoService) {
     this._fullcomponent.options.sidebartype = 'mini-sidebar'
 
   }
@@ -56,6 +58,8 @@ export class OcDrogueriaComponent implements OnInit {
     this.isObservableFiltro();
     this.generarOrdenCompra();
     this.generarOC();
+
+    this.permisoBotonTransito();
   }
 
   ngAfterViewInit() {
@@ -148,6 +152,7 @@ export class OcDrogueriaComponent implements OnInit {
     });
 
     ModalTransito.componentInstance.Item = '';
+    ModalTransito.componentInstance.mostrarBotonTransito= this.flagMostrarBotontransito;
     ModalTransito.result.then((result) => {
 
     }, (refrescado) => {
@@ -223,9 +228,18 @@ export class OcDrogueriaComponent implements OnInit {
     {
       return {'row-color-comercial': true};
     }
+  }
 
-
-
+  permisoBotonTransito(){
+    this._GenericoService.AccesosPermiso('BTN0002').subscribe(
+      (resp:any)=>{
+          console.log(resp);
+          if(resp["success"])
+              this.flagMostrarBotontransito = resp["content"];
+          else
+              this.flagMostrarBotontransito = false;
+      }
+    )
   }
 
 }
