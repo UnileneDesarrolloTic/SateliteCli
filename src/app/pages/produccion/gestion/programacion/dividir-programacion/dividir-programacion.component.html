@@ -10,23 +10,33 @@
                 </button>
             </div>
             <div class="modal-body justify-content-center">
-                <div class="row">
-                    <div class="m-t-10 col-md-10 font-medium">Programada Cantidad : <span class="font-bold"> {{this.paramentros.cantidadProgramada | number : '1.0-0'}} </span></div>
-                    <div class="m-t-10 col-md-2 font-medium"><button class="btn btn-success btn-sm" (click)="agregarDivision()"> <i class="fas fa-plus"></i> </button></div>
+                <div class="row p-2">
+                    <div class="m-t-10 col-md-8 font-medium">Cantidad Programada : <span class="font-bold"> {{this.paramentros.cantidadProgramada | number : '1.0-0'}} </span></div>
+                    <div class="m-t-10 col-md-4 font-medium"><button class="btn btn-info btn-sm" (click)="agregarDivision()"> <i class="fas fa-plus"></i> Agregar </button></div>
                 </div>
-                <div class="row" formArrayName="items" *ngFor="let item of form.get('items')?.controls; let i = index;">
-                    <div [formGroupName]="i">
-                       
-                            <input type="text" class="form-control form-control-sm font-medium" formControlName="cantidad">
-                       
-                       
-                            <input type="date" class="form-control form-control-sm font-medium" formControlName="fecha">
-                        
-                    </div>
+                <div class="row" formArrayName="items" *ngFor="let item of form.get('items')?.controls; let i = index;"  >
+                    <ng-container [formGroupName]="i" >
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <input type="number"  class="form-control form-control-sm font-medium" formControlName="cantidad">
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <input type="date"  class="form-control form-control-sm font-medium" formControlName="fecha">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <button class="btn btn-danger btn-xs" (click)="eliminacionDivision(i)"> <i class="fas fa-trash-alt"></i></button>
+                            </div>
+                        </div>
+                    </ng-container>
+    
                 </div>
             </div>
             <div class="modal-footer justify-content-center">
-                <button type="button" class="btn btn-rounded btn-success btn"> <i class="fas fa-save"></i>
+                <button type="button" class="btn btn-rounded btn-success btn"  [disabled]="!form.valid" (click)="registrarDivisionProgramacion()"> <i class="fas fa-save"></i>
                     Guardar</button>
             </div>
         </form>
