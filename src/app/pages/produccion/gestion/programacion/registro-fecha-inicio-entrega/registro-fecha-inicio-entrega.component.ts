@@ -23,19 +23,24 @@ export class RegistroFechaInicioEntregaComponent implements OnInit {
   ngOnInit(): void {
     this.crearFormulario();
     this.form.patchValue({
-      fechaInicio: this.paramentros.fechaProgramadaInicio == null ? null : formatDate(this.paramentros.fechaProgramadaInicio, 'yyyy-MM-dd', 'en'),
-      fechaEntrega: this.paramentros.fechaEntrega == null ? null : formatDate(this.paramentros.fechaEntrega, 'yyyy-MM-dd', 'en')
+      id: this.paramentros.id,
+      fechaInicio: this.paramentros.fechaInicio == null ? null : formatDate(this.paramentros.fechaInicio, 'yyyy-MM-dd', 'en'),
+      fechaEntrega: this.paramentros.fechaEntrega == null ? null : formatDate(this.paramentros.fechaEntrega, 'yyyy-MM-dd', 'en'),
+      lote: this.paramentros.lote,
+      cantidadProgramada : this.paramentros.cantidadProgramada,
+      ordenFabricacion: this.paramentros.ordenFabricacion
     })
   }
 
   crearFormulario() {
     this.form = new FormGroup({
+      id: new FormControl(null),
+      lote: new FormControl(''),
+      ordenFabricacion: new FormControl(''),
+      cantidadProgramada : new FormControl(0),
       fechaInicio: new FormControl(null),
-      tipoFechaInicio: new FormControl('I'),
       fechaEntrega: new FormControl(null),
-      tipoFechaEntrega: new FormControl('E'),
-      comentarioInicio: new FormControl(''),
-      comentarioEntrega: new FormControl(''),
+      comentario: new FormControl(''),
     })
   }
 
@@ -44,19 +49,16 @@ export class RegistroFechaInicioEntregaComponent implements OnInit {
     if ((this.form.controls.fechaInicio.value == null || this.form.controls.fechaInicio.value == "") && (this.form.controls.fechaEntrega.value == null || this.form.controls.fechaEntrega.value == ""))
       return this._toastrService.warning("Debe ingresar la fecha de inicio o la fecha entrega", "Advertencia!!");
 
-    const dato = {
-      ...this.form.value,
-      ordenFabricacion: this.paramentros.ordenFabricacion,
-      programacionInicio: this.paramentros.fechaProgramadaInicio,
-      programacionEntrega: this.paramentros.fechaEntrega,
-    }
+    // const dato = {
+    //   ...this.form.value,
+    //   ordenFabricacion: this.paramentros.ordenFabricacion,
+    // }
 
-    this._programacionOperacionesService.ActualizarFechaProgramada(dato).subscribe(
+    this._programacionOperacionesService.ActualizarFechaProgramada(this.form.value).subscribe(
       (resp: any) => {
         if (resp["success"]) {
           this._toastrService.success(resp["message"]);
-          this.form.get("comentarioInicio").patchValue("");
-          this.form.get("comentarioEntrega").patchValue("");
+          this.form.get("comentario").patchValue("");
           this.activeModal.close();
 
         }

@@ -1,4 +1,5 @@
 export interface ProgramacionOperacionesOrdenFabricacion {
+    id:                    number;
     fechaRegistro:         Date;
     ordenFabricacion:      string;
     lote:                  string;
@@ -16,11 +17,10 @@ export interface ProgramacionOperacionesOrdenFabricacion {
     referenciaTipo:        string;
     cliente:               number;
     comentarios:           string;
-    fechaProgramadaInicio: Date | null;
+    fechaInicio:           Date | null;
     fechaEntrega:          Date | null;
     fechaRequerida:        Date | null;
     pedidoNumero:          string;
-    fechaEntregaString:    Date | null;
     codigoAgrupador:       number;
     agrupador:             string;
     clasificacionGerencia: string;

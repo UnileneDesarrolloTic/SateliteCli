@@ -1,3 +1,4 @@
+import { formatDate } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ProgramacionOperacionesOrdenFabricacion } from '@data/interface/Response/ProgramacionOperaciones/DatosFormatoProgramacionOperaciones.interface';
@@ -15,7 +16,7 @@ export class DividirProgramacionComponent implements OnInit {
   @Input() paramentros: ProgramacionOperacionesOrdenFabricacion;
   form: FormGroup;
   divisionProgramacion: FormArray;
-
+  fechaActual = formatDate(new Date(Date.now()), 'yyyy-MM-dd', 'en');
   mostrarMensaje: boolean = false;
   mensaje:string = '';
   flagEspera:boolean = false;
@@ -47,6 +48,8 @@ export class DividirProgramacionComponent implements OnInit {
   createDivision(): FormGroup {
     return this._fb.group({
       cantidad: [0,Validators.required],
+      fechaInicio: [null],
+      fechaEntrega: [null]
     });
   }
 
@@ -58,7 +61,7 @@ export class DividirProgramacionComponent implements OnInit {
 
   registrarDivisionProgramacion(){
     this.mostrarMensaje = false;
-    this.flagEspera = true;
+    
     if(this.sumarArrayForm != this.paramentros.cantidadProgramada)
     {
       this.mostrarMensaje = true;
@@ -75,10 +78,13 @@ export class DividirProgramacionComponent implements OnInit {
       return ;
     }
 
+    this.flagEspera = true;
+    
     const dato =
     {
       ...this.form.value,
-      divisionProgramacion: this.form.controls.divisionProgramacion.value.map((elemento,index)=>({ correlactivo: index +1 , cantidad: elemento.cantidad }))
+      divisionProgramacion: this.form.controls.divisionProgramacion.value.map((elemento,index)=>(
+                  { correlactivo: index +1 , cantidad: elemento.cantidad , fechaInicio:elemento.fechaInicio, fechaEntrega: elemento.fechaEntrega }))
     }
     
     this._programacionOperacionesService.registrarProgramacionDivida(dato).subscribe(

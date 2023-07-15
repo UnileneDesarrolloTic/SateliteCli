@@ -1,27 +1,37 @@
 <div class="row">
     <div class="card-body">
         <form [formGroup]="form">
-            <div class="modal-header">
-                <h5 class="modal-title font-medium" id="modal-basic-title"> DIVIDIR ORDEN DE FABRICACION:
-                    <span class="text-info font-bold">{{this.paramentros.ordenFabricacion}}</span>
-                </h5>
+            <div class="modal-header" >
+                <h5 class="modal-title font-medium" id="modal-basic-title"> 
+                    ORDEN DE FABRICACION: <span class="text-info font-bold" >{{this.paramentros.ordenFabricacion}} <br>
+                    </span>  LOTE : <span class="text-info font-bold" >{{this.paramentros.lote}} </span> </h5>
                 <button type="button" class="close" aria-label="Close" (click)="this.activeModal.dismiss()">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body justify-content-center">
+            <div class="modal-body justify-content-center scroll-group">
                 <div class="row p-2">
-                    <div class="m-t-10 col-md-8 font-medium">Cantidad Programada : <span class="font-bold"> {{this.paramentros.cantidadProgramada | number : '1.0-0'}} </span></div>
-                    <div class="m-t-10 col-md-4 font-medium"><button class="btn btn-info btn-sm" (click)="agregarDivision()"> <i class="fas fa-plus"></i> Agregar </button></div>
+                    <div class="m-t-10 col-md-9 font-medium">Cantidad Programada : <span class="font-bold"> {{this.paramentros.cantidadProgramada | number : '1.0-0'}} </span></div>
+                    <div class="m-t-10 col-md-3 font-medium"><button class="btn btn-info btn-sm" (click)="agregarDivision()"> <i class="fas fa-plus"></i> Agregar </button></div>
                 </div>
                 <div class="row justify-content-center" formArrayName="divisionProgramacion" *ngFor="let item of form.get('divisionProgramacion')?.controls; let i = index;"  >
                     <ng-container [formGroupName]="i" >
                         <div class="col-md-1">
-                            <label for="">{{i + 1 }}</label>
+                            <label class="text-right control-label col-form-label">{{i + 1 }}</label>
                         </div>
-                        <div class="col-md-5">
+                        <div class="col-md-2">
                             <div class="form-group">
                                 <input type="number"  class="form-control form-control-sm font-medium" formControlName="cantidad">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <input type="date"  class="form-control form-control-sm font-medium" min="{{fechaActual}}" formControlName="fechaInicio">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <input type="date"  class="form-control form-control-sm font-medium" min="{{fechaActual}}" formControlName="fechaEntrega">
                             </div>
                         </div>
                         <div class="col-md-2">
@@ -36,7 +46,8 @@
                     <div class="m-t-10 col-md-8 font-medium">Cantidad Total: <span class="font-bold"> {{this.sumarArrayForm | number : '1.0-0'}} </span></div>
                 </div>
             </div>
-            <div class="modal-footer justify-content-center">
+            <hr>
+            <div class="row justify-content-center">
                 <button type="button" class="btn btn-rounded btn-success btn"  [disabled]="!form.valid" (click)="registrarDivisionProgramacion()"> 
                     <i class="fa fa-spinner fa-spin fa-fw" *ngIf="flagEspera"></i> 
                     <i class="fas fa-save" *ngIf="flagEspera"></i>

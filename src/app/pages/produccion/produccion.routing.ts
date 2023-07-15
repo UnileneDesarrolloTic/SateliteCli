@@ -91,7 +91,7 @@ export const ProduccionRoutes: Routes = [
         path: 'Programacion',
         component: ProgramacionComponent,
         data: {
-          title: "Programación"
+          title: "  "
         }
       },
      

@@ -26,6 +26,7 @@ export class ProgramacionComponent implements OnInit {
   activarCampo: boolean = false;
   loadingTable: boolean = false;
   agrupadores: AgrupadorGerencia[] = [];
+  flagMostraFiltro:boolean = true;
 
   dropdownList = [];
   selectedItems = [];
@@ -52,7 +53,7 @@ export class ProgramacionComponent implements OnInit {
       unSelectAllText: 'Todos',
       itemsShowLimit: 0,
       allowSearchFilter: true,
-      maxHeight:150
+      maxHeight:150 
     };
 
     this.observacionEntrega();
@@ -173,7 +174,7 @@ export class ProgramacionComponent implements OnInit {
       windowClass: 'my-class',
       centered: true,
       backdrop: 'static',
-      size: 'dm',
+      size: 'lg',
       scrollable: true
     });
     ModalTransito.componentInstance.paramentros = filaOrdenFabricacion;

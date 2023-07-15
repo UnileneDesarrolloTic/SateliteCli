@@ -1,6 +1,11 @@
 <div class="row">
-    <div class="col-md-12">
-        <div class="card border-left border-info">
+    <div class="col-md-12" >
+        <div class="text-right font-medium"  >
+           <button type="button" class="btn btn-secondary btn-xs" (click)="this.flagMostraFiltro = !this.flagMostraFiltro"> 
+                <i class="fas fa-caret-down" style="font-size: 12px;"></i>
+            </button>
+        </div>
+        <div class="card border-left border-info" *ngIf="flagMostraFiltro">
             <div class="card-body">
                 <form autocomplete="off" [formGroup]="formFiltros" (submit)="filtroBuscar()">
                     <div class="row">
@@ -10,28 +15,34 @@
                                 <select class="form-control  form-control-sm font-medium" formControlName="gerencia">
                                     <option value="Suturas" class="font-medium">Suturas</option>
                                     <option value="Plasticos" class="font-medium">Plasticos</option>
-                                    <option value="Demas agrupadores" class="font-medium">Demas Agrupadores </option>
-                                  
+                                    <option value="Demas agrupadores" class="font-medium">Demas Agrupadores
+                                    </option>
+
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-2">
                             <label class="text-right control-label col-form-label">Agrupadores</label>
                             <div class="form-group">
-                                <ng-multiselect-dropdown #multiSelect style="font-size: 12px;" class="font-medium" placeholder="Agrupador" [settings]="dropdownSettings" [data]="agrupadores" formControlName="agrupador"> 
+                                <ng-multiselect-dropdown #multiSelect style="font-size: 12px;" class="font-medium"
+                                    placeholder="Agrupador" [settings]="dropdownSettings" [data]="agrupadores"
+                                    formControlName="agrupador">
                                 </ng-multiselect-dropdown>
                             </div>
                         </div>
                         <div class="col-md-2">
                             <label for="lote" class="text-right control-label col-form-label">Lote:</label>
                             <div class="form-group">
-                                <input type="text" formControlName="lote" [readOnly]="!activarCampo" class="form-control form-control-sm font-medium">
+                                <input type="text" formControlName="lote"
+                                    class="form-control form-control-sm font-medium">
                             </div>
                         </div>
                         <div class="col-md-2">
-                            <label for="ordenFabricacion" class="text-right control-label col-form-label">Orden fabricación:</label>
+                            <label for="ordenFabricacion" class="text-right control-label col-form-label">Orden
+                                fabricación:</label>
                             <div class="form-group">
-                                <input type="text" formControlName="ordenFabricacion" [readOnly]="!activarCampo" class="form-control form-control-sm font-medium">
+                                <input type="text" formControlName="ordenFabricacion"
+                                    class="form-control form-control-sm font-medium">
                             </div>
                         </div>
                         <div class="col-md-2">
@@ -50,15 +61,15 @@
                                 </select>
                             </div>
                         </div>
-                       
-                      
+
+
                     </div>
-                    
+
                     <div class="row ">
                         <div class="col-md-2">
                             <label class="text-right control-label col-form-label">Estado:</label>
                             <div class="form-group">
-                                <select class="form-control  form-control-sm font-medium"   formControlName="estado">
+                                <select class="form-control  form-control-sm font-medium" formControlName="estado">
                                     <option value="PR" class="font-medium">Programado</option>
                                     <option value="NPR" class="font-medium">No programado</option>
                                 </select>
@@ -69,25 +80,30 @@
                                 inicio:</label>
                             <div class="form-group">
                                 <input type="date" formControlName="fechaInicio"
-                                    class="form-control form-control-sm font-medium" [readOnly]="activarCampo" placeholder="Fecha Inicio">
+                                    class="form-control form-control-sm font-medium" [readOnly]="activarCampo"
+                                    placeholder="Fecha Inicio">
                             </div>
                         </div>
                         <div class="col-md-2">
-                            <label for="fechafinal" class="text-right control-label col-form-label">Fecha final:</label>
+                            <label for="fechafinal" class="text-right control-label col-form-label">Fecha
+                                final:</label>
                             <div class="form-group">
                                 <input type="date" formControlName="fechaFinal"
-                                    class="form-control form-control-sm font-medium" [readOnly]="activarCampo" placeholder="Fecha Final">
+                                    class="form-control form-control-sm font-medium" [readOnly]="activarCampo"
+                                    placeholder="Fecha Final">
                             </div>
-                        </div> 
+                        </div>
                         <div class="col-md-2">
                             <label class="text-right control-label col-form-label">&nbsp;&nbsp;</label>
                             <div class="form-group">
-                                <button class="btn btn-sm btn-info">   <i class="fa fa-search"></i>&nbsp;&nbsp;Buscar&nbsp;</button>
+                                <button class="btn btn-sm btn-info"> <i
+                                        class="fa fa-search"></i>&nbsp;&nbsp;Buscar&nbsp;</button>
                             </div>
-                         </div>
+                        </div>
                     </div>
 
                 </form>
+
             </div>
         </div>
     </div>
@@ -95,56 +111,65 @@
 
 <div class="card">
     <div class="card-body">
-        <div class="col-md-12" style="height: 80vh;">
-            <ngx-datatable 
-            class="material" 
-            [rows]="listOrdeFabricacionProgramacion" 
-            columnMode="force"  
-            style="height: 90%;" 
-            [headerHeight]="50" 
-            [footerHeight]="50" 
-            [rowHeight]="50"  
-            [loadingIndicator]="loadingTable"
-            [scrollbarV]="true"
-            [scrollbarH]="true">
-                <ngx-datatable-column name="..."  prop="comentarios" [width]="50" [frozenLeft]="true" [flexGrow]="1">
+        <div class="col-md-12" style="height: 90vh;">
+            <ngx-datatable class="material" [rows]="listOrdeFabricacionProgramacion" columnMode="force"
+                style="height: 110%;" [headerHeight]="50" [footerHeight]="50" [rowHeight]="50"
+                [loadingIndicator]="loadingTable" [scrollbarV]="true" [scrollbarH]="true">
+                <ngx-datatable-column name="..." prop="comentarios" [width]="50" [frozenLeft]="true" [flexGrow]="1">
                     <ng-template let-row="row" ngx-datatable-cell-template class="d-flex justify-content-cente">
-                        <button class="btn btn-info btn-sm" (click)="abrirComentario(row)"> <i class="fas fa-calendar-alt"></i></button>    
-                    </ng-template>
-                </ngx-datatable-column>     
-                <ngx-datatable-column name="OrdeFabricacion" prop="ordenFabricacion" [width]="100" [frozenLeft]="true" [flexGrow]="1">
-                    <ng-template let-row="row" ngx-datatable-cell-template>
-                        <span class="font-medium" [ngbTooltip]="row.ordenFabricacion" >{{row.ordenFabricacion}}</span>
+                        <button class="btn btn-info btn-sm" *ngIf="row.id == 0"
+                            (click)="abrirModalDividirProgramacion(row)" [ngbTooltip]="'Programacion'"> <i
+                                class="fas fa-clipboard-list"></i></button>
+                        <button class="btn btn-danger btn-sm" *ngIf="row.id != 0" (click)="abrirComentario(row)"
+                            [ngbTooltip]="'Reprogramar'"> <i class="fas fa-calendar-alt"></i></button>
                     </ng-template>
                 </ngx-datatable-column>
-                <ngx-datatable-column name="Lote" prop="lote" [width]="100" [frozenLeft]="true" [flexGrow]="1" >
+                <ngx-datatable-column name="dividir" prop="id" [width]="20" [frozenLeft]="true" [flexGrow]="1"
+                    *ngIf="this.formFiltros.controls.estado.value == 'NPR'">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                        <span class="font-medium">
+                            <i *ngIf="row.id != 0 " class="fas fa-chart-pie text-warning"></i>
+                            <i *ngIf="row.id == 0 " class="fas fa-circle text-secondary"></i>
+                        </span>
+                    </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column name="OrdeFabricacion" prop="ordenFabricacion" [width]="100" [frozenLeft]="true"
+                    [flexGrow]="1">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                        <span class="font-medium" [ngbTooltip]="row.ordenFabricacion">{{row.ordenFabricacion}}</span>
+                    </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column name="Lote" prop="lote" [width]="100" [frozenLeft]="true" [flexGrow]="1">
                     <ng-template let-row="row" ngx-datatable-cell-template>
                         <span class="font-medium" [ngbTooltip]="row.lote">{{row.lote}}</span>
                     </ng-template>
                 </ngx-datatable-column>
-                <ngx-datatable-column name="F.Producción"  prop="fechaProduccion" [width]="65" [frozenLeft]="true" [flexGrow]="1">
+                <ngx-datatable-column name="F.Producción" prop="fechaProduccion" [width]="65" [frozenLeft]="true"
+                    [flexGrow]="1">
                     <ng-template let-row="row" ngx-datatable-cell-template>
-                        <span class="font-medium" [ngbTooltip]="row.fechaProduccion | date:'dd-MM-YYYY'" >{{row.fechaProduccion | date:'dd-MM-YYYY'}}</span>
+                        <span class="font-medium"
+                            [ngbTooltip]="row.fechaProduccion | date:'dd-MM-YYYY'">{{row.fechaProduccion |
+                            date:'dd-MM-YYYY'}}</span>
                     </ng-template>
                 </ngx-datatable-column>
-              
+
                 <ngx-datatable-column name="Item" prop="item" [width]="60" [frozenLeft]="true" [flexGrow]="3">
                     <ng-template let-row="row" ngx-datatable-cell-template>
                         <span class="font-medium" [ngbTooltip]="row.item">{{row.item}}</span>
                     </ng-template>
                 </ngx-datatable-column>
-                <ngx-datatable-column name="Descripcion" prop="descripcionLocal" [width]="550"  [frozenLeft]="true" [flexGrow]="15">
+                <ngx-datatable-column name="Descripcion" prop="descripcionLocal" [width]="550" [frozenLeft]="true"
+                    [flexGrow]="15">
                     <ng-template let-row="row" ngx-datatable-cell-template>
-                        <span class="font-medium"  [ngbTooltip]="row.descripcionLocal" >{{row.descripcionLocal}}</span>
+                        <span class="font-medium" [ngbTooltip]="row.descripcionLocal">{{row.descripcionLocal}}</span>
                     </ng-template>
                 </ngx-datatable-column>
-                <ngx-datatable-column name="C.Programada" prop="cantidadProgramada" [width]="100" [frozenLeft]="true" [flexGrow]="4">
+                <ngx-datatable-column name="C.Programada" prop="cantidadProgramada" [width]="100" [frozenLeft]="true"
+                    [flexGrow]="4">
                     <ng-template let-row="row" ngx-datatable-cell-template>
-                        <span class="font-medium" *ngIf="this.formFiltros.controls.estado.value == 'PR'">{{row.cantidadProgramada | number: '1.0-0'}}</span>
-                        <button class="btn btn-sm btn-outline-primary btn-rounded font-medium" type="button"
-                        *ngIf="row.cantidadProgramada>0 && this.formFiltros.controls.estado.value == 'NPR' " (click)="abrirModalDividirProgramacion(row)">
-                        {{ row.cantidadProgramada | number : '1.0-0' }}
-                    </button>
+                        <span class="font-medium">{{row.cantidadProgramada | number: '1.0-0'}}</span>
                     </ng-template>
                 </ngx-datatable-column>
                 <ngx-datatable-column name="C.Pedida" prop="cantidadPedida" [width]="80" [flexGrow]="4">
@@ -152,7 +177,7 @@
                         <span class="font-medium">{{row.cantidadPedida | number: '1.0-0'}}</span>
                     </ng-template>
                 </ngx-datatable-column>
-                <ngx-datatable-column name="C.Muestra" prop="cantidadMuestra" [width]="80" [flexGrow]="4">
+                <!-- <ngx-datatable-column name="C.Muestra" prop="cantidadMuestra" [width]="80" [flexGrow]="4">
                     <ng-template let-row="row" ngx-datatable-cell-template>
                         <span class="font-medium">{{row.cantidadMuestra | number: '1.0-0'}}</span>
                     </ng-template>
@@ -161,30 +186,30 @@
                     <ng-template let-row="row" ngx-datatable-cell-template>
                         <span class="font-medium">{{row.cantidadProducida | number: '1.0-0'}}</span>
                     </ng-template>
-                </ngx-datatable-column>
-                  <ngx-datatable-column name="Tipo" prop="referenciaTipo" [width]="100" [flexGrow]="4">
+                </ngx-datatable-column> -->
+                <ngx-datatable-column name="Tipo" prop="referenciaTipo" [width]="120" [flexGrow]="4">
                     <ng-template let-row="row" ngx-datatable-cell-template>
                         <span class="font-medium">{{row.referenciaTipo}}</span>
                     </ng-template>
                 </ngx-datatable-column>
-                <ngx-datatable-column name="F.Requerida"  prop="fechaRequerida" [width]="100" [flexGrow]="4">
+                <ngx-datatable-column name="F.Requerida" prop="fechaRequerida" [width]="100" [flexGrow]="4">
                     <ng-template let-row="row" ngx-datatable-cell-template>
                         <span class="font-medium">{{row.fechaRequerida | date:'dd-MM-YYYY'}}</span>
                     </ng-template>
                 </ngx-datatable-column>
 
-                <ngx-datatable-column name="F.Inicio"  prop="fechaProgramadaInicio" [width]="100" [flexGrow]="4">
+                <ngx-datatable-column name="F.Inicio" prop="fechaInicio" [width]="100" [flexGrow]="4">
                     <ng-template let-row="row" ngx-datatable-cell-template>
-                        <span class="font-medium">{{row.fechaProgramadaInicio | date:'dd-MM-YYYY'}}</span>
+                        <span class="font-medium">{{row.fechaInicio | date:'dd-MM-YYYY'}}</span>
                     </ng-template>
                 </ngx-datatable-column>
 
-                <ngx-datatable-column name="F.Entrega"  prop="fechaEntrega" [width]="100" [flexGrow]="4">
+                <ngx-datatable-column name="F.Entrega" prop="fechaEntrega" [width]="100" [flexGrow]="4">
                     <ng-template let-row="row" ngx-datatable-cell-template>
                         <span class="font-medium">{{row.fechaEntrega | date:'dd-MM-YYYY'}}</span>
                     </ng-template>
                 </ngx-datatable-column>
-              </ngx-datatable>
+            </ngx-datatable>
         </div>
     </div>
-  </div>
+</div>
