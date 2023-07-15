@@ -5,6 +5,7 @@ export interface OCPendientesArima {
     cantidad:          number;
     cantidadRecibidad: number;
     pendienteOC:       number;
+    fechaPreparacion:  Date;
     fecha:             Date;
     diferenciaFecha:   number;
     fechaLlegada:       Date;

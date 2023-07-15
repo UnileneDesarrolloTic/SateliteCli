@@ -352,7 +352,8 @@
                         <th class="text-center">C. Pedido</th>
                         <th class="text-center">C. Recibida</th>
                         <th class="text-center">C. Pendiente</th>
-                        <th class="text-center">Fec. Prometida</th>
+                        <th class="text-center">Fec. Preparacion</th>
+                        <th class="text-center">Fec. Prometida(Spring)</th>
                         <th class="text-center">Dif. Días</th>
                         <th class="text-center wrap">Fec. Llegada(Leadtime)</th>
                     </tr>
@@ -373,6 +374,12 @@
                         </td>
                         <td class="text-center font-medium">
                             {{ ordenCompra['pendienteOC'] | number }}
+                        </td>
+                        <td class="text-center font-medium">
+                            {{ ordenCompra['fechaPreparacion'] | date:'dd/MM/yyyy' }}
+                        </td>
+                        <td class="text-center font-medium">
+                            {{ ordenCompra['fechaPreparacion'] | date:'dd/MM/yyyy' }}
                         </td>
                         <td class="text-center font-medium">
                             {{ ordenCompra['fecha'] | date:'dd/MM/yyyy' }}

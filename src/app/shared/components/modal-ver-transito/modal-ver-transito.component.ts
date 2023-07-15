@@ -13,8 +13,11 @@ export class ModalVerTransitoComponent implements OnInit {
   listarOrdenCompraDrogueria: MostrarOrdenCompraDrogueria[] = [];
   contar:number=0;
   flagEspera:boolean=true;
+
   @Input() Item:string = '';
-  
+  @Input() mostrarBotonTransito:boolean;
+  @Input() flagMostrarColumnatransito:boolean;
+
   constructor( public activeModal: NgbActiveModal,
                public _ProduccionService: ProduccionService,
                private _toastr: ToastrService ) { }
@@ -23,8 +26,6 @@ export class ModalVerTransitoComponent implements OnInit {
     this.obtenerOrdenCompra(this.Item);
   }
 
-
-  
   obtenerOrdenCompra(Item:string){
     this._ProduccionService.mostarOrdenCompraItem(Item).subscribe(
       (resp: any) => {
