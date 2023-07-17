@@ -16,11 +16,12 @@ import { debounceTime } from 'rxjs/operators';
 export class DetalleDispensacionMpComponent implements OnInit{
   subcripcion: Subscription;
   ordenFabricacion:string = '';
+  itemTerminado:string = '';
   detalleDispensacion : RecetasDispensacion[] = [];
 
   formDetalle:FormGroup;
   dispensarTodo = new FormControl(false)
- 
+  
 
   constructor(private _fb:FormBuilder,
     private _router: Router,
@@ -31,6 +32,7 @@ export class DetalleDispensacionMpComponent implements OnInit{
     this._fullcomponent.options.sidebartype = 'mini-sidebar'
     this.subcripcion=this.activeroute.params.subscribe(params=>{
       this.ordenFabricacion = params["ordenFabricacion"];
+      this.itemTerminado = params["itemTerminado"];
     });  
    
 
@@ -40,6 +42,10 @@ export class DetalleDispensacionMpComponent implements OnInit{
     this.listadoMateriaPrimaRecetas();
     this.formularioDetalle();
     this.observableDispensarTodo();
+    this.formDetalle.patchValue({
+      ordenFabricacion:this.ordenFabricacion,
+      itemTerminado:this.itemTerminado,
+    })
   }
 
   ngOnDestroy() {
@@ -86,8 +92,10 @@ export class DetalleDispensacionMpComponent implements OnInit{
 
   formularioDetalle(){
     this.formDetalle=new FormGroup({
+      ordenFabricacion: new FormControl(''),
+      itemTerminado: new FormControl(''),
       detalleDispensacion:this._fb.array([])
-    })
+    });
   }
 
   observableDispensarTodo(){
@@ -118,12 +126,15 @@ export class DetalleDispensacionMpComponent implements OnInit{
   {
     let ArrayDispensacion =  this.listarDetalleDispensacion.value.filter((element:RecetasDispensacion, index)=> element.cantidadSolicitada < (element.cantidadDespachada + element.cantidadIngresada));
     
+
+
     if (ArrayDispensacion.length > 0)
     {
       this.toastr.warning("El valor del ingreso excede a la cantidad solicitada");
     }else
     { 
-        this._DispensacionService.RegistrarDispensacion(this.formDetalle.controls.detalleDispensacion.value).subscribe(
+
+        this._DispensacionService.RegistrarDispensacion(this.formDetalle.value).subscribe(
             (resp:any)=>{
                 if(resp["success"])
                 {

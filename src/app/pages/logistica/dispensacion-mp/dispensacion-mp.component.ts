@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { ObtenerOrdneFabricacion } from '@data/interface/Response/Dispensacion/DatosFormatoObtenerOrdencompra.interface';
 import { DispensacionService } from '@data/services/backEnd/pages/dispensacion.service';
 import { FullComponent } from '@layout/full/full.component';
+import { SesionService } from '@shared/services/comunes/sesion.service';
 import { ToastrService } from 'ngx-toastr';
 import { debounceTime } from 'rxjs/operators';
 
@@ -43,7 +44,7 @@ export class DispensacionMpComponent implements OnInit {
   }
 
   verDispensacion(fila:ObtenerOrdneFabricacion){
-    this._router.navigate(['Logistica', 'Dispensacion','MateriaPrima', 'detalle', fila.ordenFabricacion]);
+    this._router.navigate(['Logistica', 'Dispensacion','MateriaPrima', 'detalle', fila.ordenFabricacion, fila.item]);
   }
 
   filtroBuscar(){
