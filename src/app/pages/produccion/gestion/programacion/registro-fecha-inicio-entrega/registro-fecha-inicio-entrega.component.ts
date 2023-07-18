@@ -45,16 +45,11 @@ export class RegistroFechaInicioEntregaComponent implements OnInit {
   }
 
   registrar() {
-
-    console.log(this.form.value);
     if ((this.form.controls.fechaInicio.value == null || this.form.controls.fechaInicio.value == "") && (this.form.controls.fechaEntrega.value == null || this.form.controls.fechaEntrega.value == ""))
       return this._toastrService.warning("Debe ingresar la fecha de inicio o la fecha entrega", "Advertencia!!");
 
-    // const dato = {
-    //   ...this.form.value,
-    //   ordenFabricacion: this.paramentros.ordenFabricacion,
-    // }
 
+      
     this._programacionOperacionesService.ActualizarFechaProgramada(this.form.value).subscribe(
       (resp: any) => {
         if (resp["success"]) {
