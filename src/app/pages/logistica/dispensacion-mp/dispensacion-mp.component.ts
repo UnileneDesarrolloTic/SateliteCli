@@ -2,13 +2,11 @@ import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { HistorialDispensacion } from '@data/interface/Response/Dispensacion/DatosFormatoListadoHistorial.interfaces';
 import { ObtenerOrdneFabricacion } from '@data/interface/Response/Dispensacion/DatosFormatoObtenerOrdencompra.interface';
 import { DispensacionService } from '@data/services/backEnd/pages/dispensacion.service';
 import { FullComponent } from '@layout/full/full.component';
-import { SesionService } from '@shared/services/comunes/sesion.service';
 import { ToastrService } from 'ngx-toastr';
-import { debounceTime } from 'rxjs/operators';
-
 @Component({
   selector: 'app-dispensacion-mp',
   templateUrl: './dispensacion-mp.component.html',
@@ -17,7 +15,10 @@ import { debounceTime } from 'rxjs/operators';
 export class DispensacionMpComponent implements OnInit {
 
   formFiltros:FormGroup;
+  formHistorial:FormGroup;
   listOrdeFabricacion: ObtenerOrdneFabricacion[]=[];
+  historialDispensacion: HistorialDispensacion[]=[];
+
   activarCampo:boolean = false;
   loadingIndicator:boolean =  false;
 
@@ -28,23 +29,28 @@ export class DispensacionMpComponent implements OnInit {
 
   ngOnInit(): void {
     this.formatoFiltroBusqueda();
+    this.formatoFiltroHistorial();
     this.filtroBuscar();
   }
 
   formatoFiltroBusqueda(){
     this.formFiltros = new FormGroup({
-      // fechaInicio: new FormControl(formatDate(new Date(Date.now()), 'yyyy-MM-dd', 'en')),
-      // fechaFinal: new FormControl(formatDate(new Date(Date.now()), 'yyyy-MM-dd', 'en')),
-      fechaInicio: new FormControl(formatDate(new Date(Date.now()), 'yyyy-MM-dd', 'en')),
-      fechaFinal: new FormControl(formatDate(new Date(Date.now()), 'yyyy-MM-dd', 'en')),
+      fechaInicio: new FormControl(null),
+      fechaFinal: new FormControl(null),
       lote: new FormControl(''),
-      ordenFabricacion: new FormControl(''),
-      estado: new FormControl('PD'),
+      ordenFabricacion: new FormControl('')
+    })
+  }
+  
+  formatoFiltroHistorial(){
+    this.formHistorial = new FormGroup({
+      ordenFabricacionHistoria : new FormControl(''),
+      loteHistoria : new FormControl('')
     })
   }
 
   verDispensacion(fila:ObtenerOrdneFabricacion){
-    this._router.navigate(['Logistica', 'Dispensacion','MateriaPrima', 'detalle', fila.ordenFabricacion, fila.item]);
+    this._router.navigate(['Logistica', 'Dispensacion','MateriaPrima', 'detalle', fila.ordenFabricacion, fila.item, fila.cantidadProgramada, fila.cantidadPedida]);
   }
 
   filtroBuscar(){
@@ -57,39 +63,22 @@ export class DispensacionMpComponent implements OnInit {
             this.listOrdeFabricacion = resp["content"]
           }else
           {
-              this.toastr.info(resp["message"])
-              this.listOrdeFabricacion = resp["content"];
-
+            this.toastr.info(resp["message"])
+            this.listOrdeFabricacion = resp["content"];
           }
       },
       _=> this.loadingIndicator = false
     )
   }
 
-  activaDesactiva(){
-      this.activarCampo =! this.activarCampo;
 
-      if(this.activarCampo)
-      {
-        this.formFiltros.patchValue({
-          fechaInicio: null,
-          fechaFinal: null,
-          lote: '',
-          ordenFabricacion: '',
-          estado: 'PD',
-        })
-       
+  filtroHistorial(){
+    this._DispensacionService.historialDispensacion(this.formHistorial.controls.ordenFabricacionHistoria.value, this.formHistorial.controls.loteHistoria.value).subscribe(
+      (resp:any)=>{
+            this.historialDispensacion = resp;
       }
-      else{
-        this.formFiltros.patchValue({
-          fechaInicio:formatDate(new Date(Date.now()), 'yyyy-MM-dd', 'en'),
-          fechaFinal: formatDate(new Date(Date.now()), 'yyyy-MM-dd', 'en'),
-          lote: '',
-          ordenFabricacion: '',
-          estado: 'PD',
-        })
-
-      }
+    );
   }
+  
   
 }

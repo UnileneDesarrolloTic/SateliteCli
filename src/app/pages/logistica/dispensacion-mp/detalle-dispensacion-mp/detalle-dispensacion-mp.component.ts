@@ -1,9 +1,11 @@
 import { Component, OnInit, OnDestroy, } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { InformacionItem } from '@data/interface/Response/DatosFormatoInformacionItem.interfaces';
 import { RecetasDispensacion } from '@data/interface/Response/Dispensacion/DatosFormatoRecetas.interface';
 import { DispensacionService } from '@data/services/backEnd/pages/dispensacion.service';
 import { FullComponent } from '@layout/full/full.component';
+import { GenericoService } from '@shared/services/comunes/generico.service';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, ReplaySubject, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
@@ -18,9 +20,12 @@ export class DetalleDispensacionMpComponent implements OnInit{
   ordenFabricacion:string = '';
   itemTerminado:string = '';
   detalleDispensacion : RecetasDispensacion[] = [];
-
+  productoTerminado: InformacionItem;
   formDetalle:FormGroup;
   dispensarTodo = new FormControl(false)
+  desactivarBoton: boolean = false;
+  cantidadTotal:number=0;
+  cantidadParcial:number=0;
   
 
   constructor(private _fb:FormBuilder,
@@ -28,11 +33,14 @@ export class DetalleDispensacionMpComponent implements OnInit{
     private activeroute:ActivatedRoute,
     private _DispensacionService: DispensacionService,
     private _fullcomponent: FullComponent,
+    private _GenericoService: GenericoService,
     private toastr: ToastrService) { 
     this._fullcomponent.options.sidebartype = 'mini-sidebar'
     this.subcripcion=this.activeroute.params.subscribe(params=>{
       this.ordenFabricacion = params["ordenFabricacion"];
       this.itemTerminado = params["itemTerminado"];
+      this.cantidadTotal = params["cantidadTotal"];
+      this.cantidadParcial = params["cantidadParcial"];
     });  
    
 
@@ -41,6 +49,7 @@ export class DetalleDispensacionMpComponent implements OnInit{
   ngOnInit(): void {
     this.listadoMateriaPrimaRecetas();
     this.formularioDetalle();
+    this.informacionProductoPT(this.itemTerminado);
     this.observableDispensarTodo();
     this.formDetalle.patchValue({
       ordenFabricacion:this.ordenFabricacion,
@@ -123,18 +132,19 @@ export class DetalleDispensacionMpComponent implements OnInit{
   
 
   guardarEntrega()
-  {
+  { 
+   
     let ArrayDispensacion =  this.listarDetalleDispensacion.value.filter((element:RecetasDispensacion, index)=> element.cantidadSolicitada < (element.cantidadDespachada + element.cantidadIngresada));
     
-
-
     if (ArrayDispensacion.length > 0)
     {
+     
       this.toastr.warning("El valor del ingreso excede a la cantidad solicitada");
-    }else
+    }
+    else
     { 
-
-        this._DispensacionService.RegistrarDispensacion(this.formDetalle.value).subscribe(
+        this.desactivarBoton = true;
+        this._DispensacionService.registrarDispensacion(this.formDetalle.value).subscribe(
             (resp:any)=>{
                 if(resp["success"])
                 {
@@ -143,8 +153,20 @@ export class DetalleDispensacionMpComponent implements OnInit{
                 }
             }
         )
+
+        this.desactivarBoton = false;
     }
   
+  }
+
+  informacionProductoPT(item)
+  {
+    this._GenericoService.informacionItem(item).subscribe(
+      (resp:any)=>{
+            this.productoTerminado =resp["content"];
+      }
+    )
+
   }
 
 

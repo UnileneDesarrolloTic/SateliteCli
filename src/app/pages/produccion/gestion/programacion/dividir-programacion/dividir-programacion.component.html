@@ -43,7 +43,7 @@
                 </div>
                 <div class="row">
                     <ngb-alert *ngIf="mostrarMensaje" type="warning" (close)="mostrarMensaje = false" class="font-medium"><span class="font-bold">Advertencia:</span> {{mensaje}}</ngb-alert>	
-                    <div class="m-t-10 col-md-8 font-medium">Cantidad Total: <span class="font-bold"> {{this.sumarArrayForm | number : '1.0-0'}} </span></div>
+                    <div class="m-t-10 col-md-8 font-medium">Cantidad que falta ingresar: <span class="font-bold"> {{this.descontarCantidad | number : '1.0-0'}} </span></div>
                 </div>
             </div>
             <hr>

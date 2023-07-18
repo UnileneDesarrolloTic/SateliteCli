@@ -1,10 +1,13 @@
-<div class="row">
-    <div class="col-md-12">
-        <div class="card border-left border-info">
-            <div class="card-body">
-                <form autocomplete="off" [formGroup]="formFiltros" (submit)="filtroBuscar()">
-                    <div class="row">
-                        <div class="col-md-2">
+<ngb-tabset>
+    <ngb-tab title="Principal">
+        <ng-template ngbTabContent>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card border-left border-info">
+                        <div class="card-body">
+                            <form autocomplete="off" [formGroup]="formFiltros" (submit)="filtroBuscar()">
+                                <div class="row">
+                                    <!-- <div class="col-md-2">
                             
                             <label for="fechainicio" class="text-right control-label col-form-label">Fecha
                                 inicio:</label>
@@ -21,136 +24,211 @@
                                 <input type="date" formControlName="fechaFinal"
                                     class="form-control form-control-sm font-medium" [readOnly]="activarCampo" placeholder="Fecha Final">
                             </div>
+                        </div> -->
+                                    <div class="col-md-2">
+                                        <label for="ordenFabricacion"
+                                            class="text-right control-label col-form-label">Orden Fabricación:</label>
+                                        <div class="form-group">
+                                            <input type="text" formControlName="ordenFabricacion"
+                                                class="form-control form-control-sm font-medium">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label for="lote" class="text-right control-label col-form-label">Lote:</label>
+                                        <div class="form-group">
+                                            <input type="text" formControlName="lote"
+                                                class="form-control form-control-sm font-medium">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label class="text-right control-label col-form-label">&nbsp;&nbsp;</label>
+                                        <div class="form-group">
+                                            <button class="btn btn-sm btn-info"> <i
+                                                    class="fa fa-search"></i>&nbsp;&nbsp;Buscar&nbsp;</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-                        <div class="col-md-2">
-                            <label for="ordenFabricacion" class="text-right control-label col-form-label">Orden
-                                fabricación:</label>
-                            <div class="form-group">
-                                <input type="text" formControlName="ordenFabricacion" [readOnly]="!activarCampo" class="form-control form-control-sm font-medium">
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <label for="lote" class="text-right control-label col-form-label">Lote:</label>
-                            <div class="form-group">
-                                <input type="text" formControlName="lote" [readOnly]="!activarCampo" class="form-control form-control-sm font-medium">
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <label class="text-right control-label col-form-label">Estado:</label>
-                            <div class="form-group">
-                                <select class="form-control  form-control-sm font-medium"   formControlName="estado">
-                                    <option value="PD" class="font-medium">POR DISPENSAR</option>
-                                    <option value="D" class="font-medium">DISPENSADO</option>
-                                </select>
-                            </div>
-                        </div>
-                         <div class="col-md-2">
-                            <label class="text-right control-label col-form-label">&nbsp;&nbsp;</label>
-                            <div class="form-group">
-                                <button class="btn btn-sm btn-info">   <i class="fa fa-search"></i>&nbsp;&nbsp;Buscar&nbsp;</button>
-                            </div>
-                         </div>
                     </div>
-                </form>
+                </div>
             </div>
-        </div>
-    </div>
-</div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="col-md-12" style="height: 80vh;">
+                        <ngx-datatable class="material" [rows]="listOrdeFabricacion" columnMode="force"
+                            style="height: 90%;" [headerHeight]="50" [footerHeight]="50"
+                            [loadingIndicator]="loadingIndicator" [rowHeight]="50" [scrollbarV]="true"
+                            [scrollbarH]="true">
+                            <ngx-datatable-column name="..." prop="entrega" [width]="100" [frozenLeft]="true"
+                                [flexGrow]="2">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <button class="btn btn-info btn-sm" (click)="verDispensacion(row)"> <i
+                                            class="fas fa-clipboard-list"></i> </button>
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="OrdeFabricacion" prop="ordenFabricacion" [width]="100"
+                                [frozenLeft]="true" [flexGrow]="2">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <span class="font-medium"
+                                        [ngbTooltip]="row.ordenFabricacion">{{row.ordenFabricacion}}</span>
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Lote" prop="lote" [width]="110" [frozenLeft]="true"
+                                [flexGrow]="2">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <span class="font-medium" [ngbTooltip]="row.lote">{{row.lote}}</span>
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="F.Producción" prop="fechaProduccion" [width]="110"
+                                [frozenLeft]="true" [flexGrow]="1">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <span class="font-medium">{{row.fechaProduccion | date:'dd/MM/YYYY'}}</span>
+                                </ng-template>
+                            </ngx-datatable-column>
 
-<div class="card">
-    <div class="card-body">
-        <div class="col-md-12" style="height: 80vh;">
-            <ngx-datatable 
-            class="material" 
-            [rows]="listOrdeFabricacion" 
-            columnMode="force"  
-            style="height: 90%;" 
-            [headerHeight]="50" 
-            [footerHeight]="50" 
-            [loadingIndicator]="loadingIndicator"
-            [rowHeight]="50"  
-            [scrollbarV]="true"
-            [scrollbarH]="true">        
-            <ngx-datatable-column name="..."  prop="entrega" [width]="100"  [frozenLeft]="true" [flexGrow]="2">
-                <ng-template let-row="row" ngx-datatable-cell-template>
-                    <button class="btn btn-info btn-sm" (click)="verDispensacion(row)"> <i class="fas fa-clipboard-list"></i> </button>
-                </ng-template>
-            </ngx-datatable-column>
-                <ngx-datatable-column name="OrdeFabricacion" prop="ordenFabricacion" [width]="100" [frozenLeft]="true" [flexGrow]="2">
-                    <ng-template let-row="row" ngx-datatable-cell-template>
-                        <span class="font-medium" [ngbTooltip]="row.ordenFabricacion"  >{{row.ordenFabricacion}}</span>
-                    </ng-template>
-                </ngx-datatable-column>
-                <ngx-datatable-column name="Lote" prop="lote" [width]="110" [frozenLeft]="true" [flexGrow]="2">
-                    <ng-template let-row="row" ngx-datatable-cell-template>
-                        <span class="font-medium" [ngbTooltip]="row.lote" >{{row.lote}}</span>
-                    </ng-template>
-                </ngx-datatable-column>
-                <ngx-datatable-column name="F.Producción"  prop="fechaProduccion" [width]="110" [frozenLeft]="true" [flexGrow]="1">
-                    <ng-template let-row="row" ngx-datatable-cell-template>
-                        <span class="font-medium">{{row.fechaProduccion | date:'dd/MM/YYYY'}}</span>
-                    </ng-template>
-                </ngx-datatable-column>
-              
-                <ngx-datatable-column name="Item" prop="item" [width]="80" [frozenLeft]="true" [flexGrow]="1">
-                    <ng-template let-row="row" ngx-datatable-cell-template>
-                        <span class="font-medium" [ngbTooltip]="row.item" >{{row.item}}</span>
-                    </ng-template>
-                </ngx-datatable-column>
-                <ngx-datatable-column name="Descripcion" prop="descripcionLocal"  [width]="550" [frozenLeft]="true" [flexGrow]="15">
-                    <ng-template let-row="row" ngx-datatable-cell-template>
-                        <span class="font-medium" [ngbTooltip]="row.descripcionLocal"  >{{row.descripcionLocal}}</span>
-                    </ng-template>
-                </ngx-datatable-column>
-                <ngx-datatable-column name="C.Programada" prop="cantidadProgramada" [width]="100" [frozenLeft]="true" [flexGrow]="5">
-                    <ng-template let-row="row" ngx-datatable-cell-template>
-                        <span class="font-medium">{{row.cantidadProgramada | number: '1.0-0'}}</span>
-                    </ng-template>
-                </ngx-datatable-column>
-                <ngx-datatable-column name="C.Pedida" prop="cantidadPedida" [width]="100" [flexGrow]="4">
-                    <ng-template let-row="row" ngx-datatable-cell-template>
-                        <span class="font-medium">{{row.cantidadPedida | number: '1.0-0'}}</span>
-                    </ng-template>
-                </ngx-datatable-column>
-                <!-- <ngx-datatable-column name="C.Muestra" prop="cantidadMuestra" [width]="100" [flexGrow]="4">
-                    <ng-template let-row="row" ngx-datatable-cell-template>
-                        <span class="font-medium">{{row.cantidadMuestra | number: '1.0-0'}}</span>
-                    </ng-template>
-                </ngx-datatable-column>
-                <ngx-datatable-column name="C.Producida" prop="cantidadProducida" [width]="100" [flexGrow]="4">
-                    <ng-template let-row="row" ngx-datatable-cell-template>
-                        <span class="font-medium">{{row.cantidadProducida | number: '1.0-0'}}</span>
-                    </ng-template>
-                </ngx-datatable-column> -->
-                  <ngx-datatable-column name="Tipo" prop="referenciaTipo" [width]="100" [flexGrow]="4">
-                    <ng-template let-row="row" ngx-datatable-cell-template>
-                        <span class="font-medium">{{row.referenciaTipo}}</span>
-                    </ng-template>
-                </ngx-datatable-column>
-                <ngx-datatable-column name="Transferido" prop="transferidoFlag"  [width]="80" [flexGrow]="2">
-                    <ng-template let-row="row" ngx-datatable-cell-template>
-                        <span class="font-medium" *ngIf="row.transferidoFlag == 'N'"> <i class="fas fa-window-close text-danger"></i></span>
-                        <span class="font-medium" *ngIf="row.transferidoFlag == 'S'"> <i class="fas fa-check-square text-success"></i></span>
-                    </ng-template>
-                </ngx-datatable-column>
-                <ngx-datatable-column name="Comentario" prop="comentarios"  [width]="60" [flexGrow]="1">
-                    <ng-template let-row="row" ngx-datatable-cell-template>
-                        <span class="font-medium">{{row.comentarios}}</span>
-                    </ng-template>
-                </ngx-datatable-column>
-                <ngx-datatable-column name="F.Requerida"  prop="fechaRequerida" [width]="140" [flexGrow]="6">
-                    <ng-template let-row="row" ngx-datatable-cell-template>
-                        <span class="font-medium">{{row.fechaRequerida | date:'dd/MM/YYYY'}}</span>
-                    </ng-template>
-                </ngx-datatable-column>
-                <ngx-datatable-column name="F.Inicio"  prop="fechaProgramadaInicio" [width]="140" [flexGrow]="6">
-                    <ng-template let-row="row" ngx-datatable-cell-template>
-                        <span class="font-medium">{{row.fechaProgramadaInicio | date:'dd/MM/YYYY'}}</span>
-                    </ng-template>
-                </ngx-datatable-column>
-              </ngx-datatable>
-        </div>
-    </div>
-  </div>
+                            <ngx-datatable-column name="Item" prop="item" [width]="80" [frozenLeft]="true"
+                                [flexGrow]="1">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <span class="font-medium" [ngbTooltip]="row.item">{{row.item}}</span>
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Descripcion" prop="descripcionLocal" [width]="600"
+                                [frozenLeft]="true" [flexGrow]="15">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <span class="font-medium"
+                                        [ngbTooltip]="row.descripcionLocal">{{row.descripcionLocal}}</span>
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="C.Programada" prop="cantidadProgramada" [width]="100"
+                                [frozenLeft]="true" [flexGrow]="5">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <span class="font-medium">{{row.cantidadProgramada | number: '1.0-0'}}</span>
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="C.Pedida" prop="cantidadPedida" [width]="100" [flexGrow]="4">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <span class="font-medium">{{row.cantidadPedida | number: '1.0-0'}}</span>
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="F.Inicio" prop="fechaProgramadaInicio" [width]="140"
+                                [flexGrow]="6">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <span class="font-medium">{{row.fechaProgramadaInicio | date:'dd/MM/YYYY'}}</span>
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Tipo" prop="referenciaTipo" [width]="100" [flexGrow]="4">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <span class="font-medium">{{row.referenciaTipo}}</span>
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Comentario" prop="comentarios" [width]="100" [flexGrow]="1">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <span class="font-medium">{{row.comentarios}}</span>
+                                </ng-template>
+                            </ngx-datatable-column>
+                        </ngx-datatable>
+                    </div>
+                </div>
+            </div>
+
+        </ng-template>
+    </ngb-tab>
+    <ngb-tab title="Historial">
+        <ng-template ngbTabContent>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card border-left border-info">
+                        <div class="card-body">
+                            <form autocomplete="off" [formGroup]="formHistorial" (submit)="filtroHistorial()">
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <label for="lote" class="text-right control-label col-form-label">Orden Fabricación:</label>
+                                        <div class="form-group">
+                                            <input type="text" formControlName="ordenFabricacionHistoria" class="form-control form-control-sm font-medium">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label for="lote" class="text-right control-label col-form-label">Lote:</label>
+                                        <div class="form-group">
+                                            <input type="text" formControlName="loteHistoria" class="form-control form-control-sm font-medium">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label class="text-right control-label col-form-label">&nbsp;&nbsp;</label>
+                                        <div class="form-group">
+                                            <button class="btn btn-sm btn-primary"> <i
+                                                    class="fa fa-search"></i>&nbsp;&nbsp;Buscar&nbsp;</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="col-md-12" style="height: 80vh;">
+                        <ngx-datatable class="material" [rows]="historialDispensacion" columnMode="force"
+                            style="height: 90%;" [headerHeight]="50" [footerHeight]="50"
+                            [loadingIndicator]="loadingIndicator" [rowHeight]="50" [scrollbarV]="true"
+                            [scrollbarH]="true">
+                          
+                            <ngx-datatable-column name="Documento" prop="documento" [width]="100" [flexGrow]="2">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <span class="font-medium"
+                                        [ngbTooltip]="row.documento">{{row.documento}}</span>
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Secuencia" prop="secuencia" [width]="110" [flexGrow]="2">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <span class="font-medium" >{{row.secuencia}}</span>
+                                </ng-template>
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column name="Item" prop="item" [width]="110" [flexGrow]="2">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <span class="font-medium" >{{row.item}}</span>
+                                </ng-template>
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column name="Lote" prop="lote" [width]="110" [flexGrow]="2">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <span class="font-medium" >{{row.lote}}</span>
+                                </ng-template>
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column name="C.Ingresada" prop="cantidadIngresada" [width]="100">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <span class="font-medium">{{row.cantidadIngresada | number: '1.2-2'}}</span>
+                                </ng-template>
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column name="C.Solicitada" prop="cantidadSolicitada" [width]="100" [flexGrow]="4">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <span class="font-medium">{{row.cantidadSolicitada | number: '1.2-2' }}</span>
+                                </ng-template>
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column name="Usuario" prop="usuarioCreacion" [width]="100" [flexGrow]="4">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <span class="font-medium">{{row.usuarioCreacion }}</span>
+                                </ng-template>
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column name="Registro" prop="fechaRegistro" [width]="100" [flexGrow]="4">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <span class="font-medium">{{row.fechaRegistro | date: 'dd/MM/yyyy' }}</span>
+                                </ng-template>
+                            </ngx-datatable-column>
 
 
+                           
+                        </ngx-datatable>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+    </ngb-tab>
+</ngb-tabset>

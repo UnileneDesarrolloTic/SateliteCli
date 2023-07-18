@@ -36,11 +36,23 @@ export class DispensacionService {
   }
 
 
-  RegistrarDispensacion(body ){
+  registrarDispensacion(body ){
     return this._http.post<any[]>(this.url+"/api/Dispensacion/RegistrarDispensacionMP", body).pipe(
       catchError (() => {
         this._toastr.error("Error al registrar Despensación", "Error !!", { timeOut: 4000, closeButton: true })
         return throwError("Error al registrar Despensación")
+      })
+    );
+  }
+
+  historialDispensacion(ordenFabricacion:string, lote:string ){
+
+    const params = new HttpParams().set('ordenFabricacion',ordenFabricacion).set('lote',lote);
+
+    return this._http.get(this.url+"/api/Dispensacion/HistorialDispensacionMP", {params: params}).pipe(
+      catchError (() => {
+        this._toastr.error("Error al historial de dispensacion", "Error !!", { timeOut: 4000, closeButton: true })
+        return throwError("Error al historial de dispensacion")
       })
     );
   }

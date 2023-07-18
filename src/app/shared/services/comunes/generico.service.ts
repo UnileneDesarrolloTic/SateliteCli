@@ -257,4 +257,12 @@ export class GenericoService {
     );
   }
 
+  informacionItem(item:string){
+    const params =  new HttpParams().set('item', item.toString());
+
+    return this._http.get<any>(this.url+"/api/Common/InformacionItem", {params: params}).pipe(
+      catchError ((ex)=> throwError('Error al momento de traer información producto terminado'))
+    );
+  }
+
 }

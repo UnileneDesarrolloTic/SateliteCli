@@ -113,6 +113,11 @@ export class DividirProgramacionComponent implements OnInit {
       return sumar.reduce((previousValue, currentValue) => previousValue + currentValue, 0);
   }
 
+  get descontarCantidad(){
+    let restar:[] = this.form.get('divisionProgramacion').value.map((elementosArray)=> elementosArray.cantidad);
+    return this.paramentros.cantidadProgramada  - restar.reduce((previousValue, currentValue) => previousValue + currentValue, 0);
+  }
+
   eliminacionDivision(index:number) {
     this.formItemDividir().removeAt(index);
   }
