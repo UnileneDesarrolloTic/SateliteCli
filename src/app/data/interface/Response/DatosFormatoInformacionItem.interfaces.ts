@@ -1,11 +1,7 @@
-export interface InformacionItem {
+export interface InformacionItemDispensacion {
+    ordenFabricacion:  string;
     item:              string;
-    itemTipo:          string;
-    linea:             string;
-    familia:           string;
-    subFamilia:        string;
-    descripcionLocal:  string | null;
-    descripcionIngles: string;
-    numeroDeParte:     string;
-    unidadCodigo:      string;
+    descripcion:       string;
+    cantidadTotal:     number;
+    cantidadParcial:   number;
 }

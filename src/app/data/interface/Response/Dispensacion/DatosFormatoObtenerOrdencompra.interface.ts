@@ -21,4 +21,5 @@ export interface ObtenerOrdneFabricacion {
     pedidoNumero:       string;
     multipedido:        number;
     fechaProgramadaInicio: Date;
+    secuencia:          number;
 }

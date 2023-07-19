@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { InformacionItem } from '@data/interface/Response/DatosFormatoInformacionItem.interfaces';
+import { InformacionItemDispensacion} from '@data/interface/Response/DatosFormatoInformacionItem.interfaces';
 import { RecetasDispensacion } from '@data/interface/Response/Dispensacion/DatosFormatoRecetas.interface';
 import { DispensacionService } from '@data/services/backEnd/pages/dispensacion.service';
 import { FullComponent } from '@layout/full/full.component';
@@ -20,12 +20,12 @@ export class DetalleDispensacionMpComponent implements OnInit{
   ordenFabricacion:string = '';
   itemTerminado:string = '';
   detalleDispensacion : RecetasDispensacion[] = [];
-  productoTerminado: InformacionItem;
+  productoTerminado: InformacionItemDispensacion;
   formDetalle:FormGroup;
   dispensarTodo = new FormControl(false)
   desactivarBoton: boolean = false;
-  cantidadTotal:number=0;
-  cantidadParcial:number=0;
+  secuencia:number=0;
+
   
 
   constructor(private _fb:FormBuilder,
@@ -39,8 +39,8 @@ export class DetalleDispensacionMpComponent implements OnInit{
     this.subcripcion=this.activeroute.params.subscribe(params=>{
       this.ordenFabricacion = params["ordenFabricacion"];
       this.itemTerminado = params["itemTerminado"];
-      this.cantidadTotal = params["cantidadTotal"];
-      this.cantidadParcial = params["cantidadParcial"];
+      this.secuencia = params["secuencia"]
+    
     });  
    
 
@@ -49,7 +49,7 @@ export class DetalleDispensacionMpComponent implements OnInit{
   ngOnInit(): void {
     this.listadoMateriaPrimaRecetas();
     this.formularioDetalle();
-    this.informacionProductoPT(this.itemTerminado);
+    this.informacionProductoPT(this.itemTerminado, this.ordenFabricacion, this.secuencia);
     this.observableDispensarTodo();
     this.formDetalle.patchValue({
       ordenFabricacion:this.ordenFabricacion,
@@ -138,7 +138,6 @@ export class DetalleDispensacionMpComponent implements OnInit{
     
     if (ArrayDispensacion.length > 0)
     {
-     
       this.toastr.warning("El valor del ingreso excede a la cantidad solicitada");
     }
     else
@@ -159,11 +158,12 @@ export class DetalleDispensacionMpComponent implements OnInit{
   
   }
 
-  informacionProductoPT(item)
+  informacionProductoPT(item, ordenFabricacion, secuencia)
   {
-    this._GenericoService.informacionItem(item).subscribe(
+    this._DispensacionService.informacionItem(item, ordenFabricacion, secuencia).subscribe(
       (resp:any)=>{
             this.productoTerminado =resp["content"];
+            console.log(this.productoTerminado);
       }
     )
 

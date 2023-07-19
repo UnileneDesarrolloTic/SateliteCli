@@ -7,13 +7,13 @@
                         <h4 class="text-info">Orden Fabricacion : <span class="font-medium text-dark">  {{ordenFabricacion}} </span></h4>
                     </div>
                     <div class="mr-auto">
-                        <h4 class="text-info">Producto : <span class="font-medium text-dark">  {{  productoTerminado?.descripcionLocal  }} </span></h4>
+                        <h4 class="text-info">Producto : <span class="font-medium text-dark">  {{  productoTerminado?.descripcion  }} </span></h4>
                     </div>
                     <div class="mr-auto">
-                        <h4 class="text-info">Cantidad Total : <span class="font-medium text-dark">  {{cantidadTotal}} </span></h4>
+                        <h4 class="text-info">Cantidad Total : <span class="font-medium text-dark">  {{productoTerminado?.cantidadTotal | number: '1.2-2'}} </span></h4>
                     </div>
                     <div class="mr-auto">
-                        <h4 class="text-info">Cantidad Parcial : <span class="font-medium text-dark">  {{cantidadParcial}} </span></h4>
+                        <h4 class="text-info">Cantidad Parcial : <span class="font-medium text-dark">  {{productoTerminado?.cantidadParcial | number: '1.2-2'}} </span></h4>
                     </div>
                 </div>
 

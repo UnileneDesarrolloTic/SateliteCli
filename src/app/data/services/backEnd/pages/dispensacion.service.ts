@@ -57,6 +57,14 @@ export class DispensacionService {
     );
   }
 
+  informacionItem(item:string, ordenFabricacion:string, secuencia:string){
+    const params =  new HttpParams().set('item', item.toString()).set('ordenFabricacion',ordenFabricacion).set('secuencia',secuencia);
+
+    return this._http.get<any>(this.url+"/api/Dispensacion/InformacionItem", {params: params}).pipe(
+      catchError ((ex)=> throwError('Error al momento de traer información producto terminado'))
+    );
+  }
+
   
   
 }

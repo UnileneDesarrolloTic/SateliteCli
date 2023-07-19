@@ -50,7 +50,7 @@ export class DispensacionMpComponent implements OnInit {
   }
 
   verDispensacion(fila:ObtenerOrdneFabricacion){
-    this._router.navigate(['Logistica', 'Dispensacion','MateriaPrima', 'detalle', fila.ordenFabricacion, fila.item, fila.cantidadProgramada, fila.cantidadPedida]);
+     this._router.navigate(['Logistica', 'Dispensacion','MateriaPrima', 'detalle', fila.ordenFabricacion, fila.item, fila.secuencia ]);
   }
 
   filtroBuscar(){
