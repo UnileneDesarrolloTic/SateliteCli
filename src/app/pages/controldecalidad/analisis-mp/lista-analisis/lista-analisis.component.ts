@@ -31,13 +31,12 @@ export class ListaAnalisisComponent implements OnInit {
 
   ngOnInit(): void {
     this.inicializarFormularios();
-    this.listarAnalisis();
   }
 
   inicializarFormularios() {
     this.formFiltros = new FormGroup(
       {
-        numeroOrden: new FormControl('1968'),
+        numeroOrden: new FormControl(''),
         codigoAnalisis: new FormControl('')
       }
     );
