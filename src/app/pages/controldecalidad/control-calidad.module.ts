@@ -28,6 +28,8 @@ import { ControlProcesoComponent } from './formato-protocolo/control-proceso/con
 import { ControlProductoTerminadoComponent } from './formato-protocolo/control-producto-terminado/control-producto-terminado.component';
 import { PruebasEfectuadasComponent } from './formato-protocolo/pruebas-efectuadas/pruebas-efectuadas.component';
 import { ModalElegirDocumentoComponent } from './formato-protocolo/pruebas-efectuadas/modal-elegir-documento/modal-elegir-documento.component';
+import { ListaAnalisisComponent } from './analisis-mp/lista-analisis/lista-analisis.component';
+import { AnalisisHebraComponent } from './analisis-mp/analisis-hebra/analisis-hebra.component';
 
 
 
@@ -53,6 +55,8 @@ import { ModalElegirDocumentoComponent } from './formato-protocolo/pruebas-efect
     ControlProductoTerminadoComponent,
     PruebasEfectuadasComponent,
     ModalElegirDocumentoComponent,
+    ListaAnalisisComponent,
+    AnalisisHebraComponent,
 
   ],
   imports: [

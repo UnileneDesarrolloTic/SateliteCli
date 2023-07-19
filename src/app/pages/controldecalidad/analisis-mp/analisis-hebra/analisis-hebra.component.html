@@ -1,0 +1,419 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card border-left border-info">
+            <div class="card-header bg-info text-white" style="font-weight: bold">
+                Datos del item
+            </div>
+            <div class="card-body">
+                <form autocomplete="off" style="font-size: 13px" [formGroup]="datosGeneralesForm">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-3">
+                            <div class="form-group row">
+                                <label for="item"
+                                    class="col-sm-4 text-left control-label col-form-label col-form-label-sm">Item</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control form-control-sm" id="item"
+                                        placeholder="Código Item" formControlName="item">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-3">
+                            <div class="form-group row">
+                                <label for="lote"
+                                    class="col-sm-4 text-left control-label col-form-label col-form-label-sm">Lote</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control form-control-sm" id="lote"
+                                        placeholder="Nro Lote" formControlName="lote">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-3">
+                            <div class="form-group row">
+                                <label for="ingreso"
+                                    class="col-sm-4 text-left control-label col-form-label col-form-label-sm">Ingreso</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control form-control-sm" id="ingreso"
+                                        placeholder="Nro. Ingreso" formControlName="nroIngreso">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-3">
+                            <div class="form-group row">
+                                <label for="compra"
+                                    class="col-sm-4 text-left control-label col-form-label col-form-label-sm">
+                                    Compra</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control form-control-sm" id="compra"
+                                        placeholder="Orden de compra" formControlName="ordCompra">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6">
+                            <div class="form-group row">
+                                <label for="producto"
+                                    class="col-sm-2 text-left control-label col-form-label col-form-label-sm">Producto</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control form-control-sm" id="producto"
+                                        placeholder="Nombre Producto" formControlName="producto">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6">
+                            <div class="form-group row">
+                                <label for="proveedor"
+                                    class="col-sm-2 text-left control-label col-form-label col-form-label-sm">Proveedo</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control form-control-sm" id="proveedor"
+                                        placeholder="Nombre Proveedor" formControlName="proveedor">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6">
+                            <div class="form-group row">
+                                <label for="ingreso"
+                                    class="col-sm-2 text-left control-label col-form-label col-form-label-sm">Ingreso</label>
+                                <div class="col-sm-10">
+                                    <input type="date" class="form-control form-control-sm" id="ingreso"
+                                        placeholder="Ingreso" formControlName="fechaIngreso">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6">
+                            <div class="form-group row">
+                                <label for="analisis"
+                                    class="col-sm-2 text-left control-label col-form-label col-form-label-sm">Análisis</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control form-control-sm" id="nroAnalisis"
+                                        placeholder="Feca Análisis" formControlName="analisis">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <ngb-tabset (tabChange)="eventoTab($event)">
+            <ngb-tab title="Análisis" id="analisis">
+                <ng-template ngbTabContent>
+                    <form autocomplete="off" [formGroup]="analisisForm">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card border-left border-info">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-center">
+                                            <div class="table table-hover w-75">
+                                                <table class="scroll-group table table-striped border mt-4"
+                                                    style="font-size: 12px">
+                                                    <thead class="no-wrap">
+                                                        <tr>
+                                                            <th class="text-center"></th>
+                                                            <th class="text-center font-weight-bold">Longitud (cm)</th>
+                                                            <th class="text-center font-weight-bold">Diametro (mm)</th>
+                                                            <th class="text-center font-weight-bold" colspan="2">Tensión (N)</th>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="text-center font-weight-bold">N°</th>
+                                                            <th class="text-center text-danger font-weight-bold"> >= {{pruebaLongitud |
+                                                                number : '1.0-3'}}
+                                                            </th>
+                                                            <th class="text-center text-danger font-weight-bold">{{pruebaDiametroMinimo |
+                                                                number : '1.0-3'}}
+                                                                - {{pruebaDiametroMaximo | number : '1.0-3'}}</th>
+                                                            <th class="text-center text-danger font-weight-bold" colspan="2">Promedio Min
+                                                                {{pruebaTension |
+                                                                number : '1.0-3'}}</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody formArrayName="dimensiones">
+                                                        <tr *ngFor="let prueba of pruebasDimensiones.controls">
+                                                            <ng-container [formGroup]="prueba">
+                                                                <td class="text-center font-weight-bold" style="font-size: 12px">
+                                                                    {{prueba.get('numero').value}}</td>
+                                                                <td class="text-center col-3">
+                                                                    <input class="form-control form-control-sm font-weight-bold"
+                                                                        type="number" placeholder="Longitud (cm)" style="font-size: 12px"
+                                                                        formControlName="longitud">
+                                                                </td>
+                                                                <td class="text-center col-3 ">
+                                                                    <input class="form-control form-control-sm font-weight-bold"
+                                                                        type="number" placeholder="Diametro (mm)" style="font-size: 12px"
+                                                                        formControlName="diametro">
+                                                                </td>
+                                                                <td class="text-center col-3">
+                                                                    <input class="form-control form-control-sm font-weight-bold"
+                                                                        type="number" placeholder="Tensión (N)" style="font-size: 12px"
+                                                                        formControlName="tension">
+                                                                </td>
+                                                                <td class="text-center font-weight-bold" style="font-size: 12px">
+                                                                    {{prueba.get('porcentaje').value | number:
+                                                                    '1.0-1'}} %</td>
+                                                            </ng-container>
+                                                        </tr>
+                                                        <tr [formGroup]="promedioTable">
+                                                            <td class="text-center font-weight-bold ">
+                                                                {{promedioTable.get('numero').value}}
+                                                            </td>
+                                                            <td class="text-center col-3 font-weight-bold">
+                                                                {{promedioTable.get('longitud').value | number:
+                                                                '1.0-2'}}
+                                                            </td>
+                                                            <td class="text-center col-3 font-weight-bold">
+                                                                {{promedioTable.get('diametro').value | number:
+                                                                '1.0-4'}}
+                                                            </td>
+                                                            <td class="text-center col-3 font-weight-bold">
+                                                                {{promedioTable.get('tension').value | number: '1.0-2'}}
+                                                            </td>
+                                                            <td class="text-center font-weight-bold">
+                                                                {{promedioTable.get('porcentaje').value| number |
+                                                                number: '1.0-0'}} %
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card border-left border-info">
+                                    <div class="card-body" style="font-size: 14px;">
+                                        <form autocomplete="off" [formGroup]="resumen" (submit)="guardarAnalisis()">
+                                            <div class="row">
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label class=" control-label">Certificado de Análisis: *</label>
+                                                        <div>
+                                                            <div
+                                                                class="custom-control custom-radio custom-control-inline m-t-5">
+                                                                <input type="radio" class="custom-control-input"
+                                                                    id="certificadoSi" name="certificado"
+                                                                    formControlName="certificado" value="S">
+                                                                <label class="custom-control-label"
+                                                                    for="certificadoSi">Si</label>
+                                                            </div>
+                                                            <div
+                                                                class="custom-control custom-radio custom-control-inline">
+                                                                <input type="radio" class="custom-control-input"
+                                                                    id="certificadoNo" name="certificado"
+                                                                    formControlName="certificado" value="N">
+                                                                <label class="custom-control-label"
+                                                                    for="certificadoNo">No</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group has-danger">
+                                                        <label class=" control-label">Análisis Química: *</label>
+                                                        <div>
+                                                            <div
+                                                                class="custom-control custom-radio custom-control-inline m-t-5">
+                                                                <input type="radio" class="custom-control-input"
+                                                                    id="conforme" name="quimica"
+                                                                    formControlName="quimica" value="C">
+                                                                <label class="custom-control-label"
+                                                                    for="conforme">Conforme</label>
+                                                            </div>
+                                                            <div
+                                                                class="custom-control custom-radio custom-control-inline">
+                                                                <input type="radio" class="custom-control-input"
+                                                                    id="noConforme" name="quimica"
+                                                                    formControlName="quimica" value="N">
+                                                                <label class="custom-control-label" for="noConforme">No
+                                                                    Conforme</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group has-danger">
+                                                        <label class=" control-label">Conclusión: *</label>
+                                                        <div>
+                                                            <div
+                                                                class="custom-control custom-radio custom-control-inline m-t-5">
+                                                                <input type="radio" class="custom-control-input"
+                                                                    id="aprobado" name="conclusion"
+                                                                    formControlName="conclusion" value="A">
+                                                                <label class="custom-control-label"
+                                                                    for="aprobado">Aprobado</label>
+                                                            </div>
+                                                            <div
+                                                                class="custom-control custom-radio custom-control-inline">
+                                                                <input type="radio" class="custom-control-input"
+                                                                    id="rechazado" name="conclusion"
+                                                                    formControlName="conclusion" value="R">
+                                                                <label class="custom-control-label"
+                                                                    for="rechazado">Rechazado</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group has-danger">
+                                                        <label class=" control-label">Fecha Análisis: *</label>
+                                                        <input type="date" class="form-control form-control-sm"
+                                                            id="fechaAnalisis" placeholder="Fecha Análisis"
+                                                            formControlName="fechaAnalisis">
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-form-label"
+                                                            for="conclucion">Observasiones:</label>
+                                                        <textarea class="form-control" aria-label="With textarea"
+                                                            placeholder="Concluciones del análisis" rows="2"
+                                                            id="conclucion" formControlName="observaciones"></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-12 d-flex justify-content-center">
+                                                    <button type="button" class="btn btn-danger btn-sm mr-4"
+                                                        (click)="cancelar()">
+                                                        <i class="fas fa-angle-left" aria-hidden="true"></i>&nbsp;&nbsp;
+                                                        Cancelar
+                                                    </button>
+                                                    <button type="submit" class="btn btn-success btn-sm ml-4">
+                                                        <i class="fas fa-save" aria-hidden="true"></i>&nbsp;&nbsp;
+                                                        Guardar
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab title="Protocolo" id="protocolo">
+                <ng-template ngbTabContent>
+                    <div class="alert alert-warning mt-5" role="alert" *ngIf="mensajeProtocolo?.length > 0" >
+                        {{ mensajeProtocolo }}
+                    </div>
+                    <form autocomplete="off" [formGroup]="formProtocolo" (submit)="guardarProtocolo()" *ngIf="mensajeProtocolo?.length < 1">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12">
+                                <div class="card border-left border-info">
+                                    <div class="card-body">
+                                        <h5 class="mt-3 mb-3 font-weight-bold"> Pruebas Efectuadas:</h5>
+                                        <div class="row">
+                                            <div class="table-responsive">
+                                                <div class="table table-hover w-100">
+                                                    <table class="scroll-group table table-striped border mt-3"
+                                                        style="font-size: 12px">
+                                                        <thead class="table-sm font-weight-bold">
+                                                            <tr>
+                                                                <th class="text-center">Secuencia</th>
+                                                                <th class="text-center">Pruebas Efectuadas</th>
+                                                                <th class="text-center">Especificaciones</th>
+                                                                <th class="text-center">Resultados</th>
+                                                                <th class="text-center">Metodología</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody formArrayName="pruebas">
+                                                            <tr *ngFor="let prueba of pruebasProtocolo.controls">
+                                                                <ng-container [formGroup]="prueba">
+                                                                    <td class="text-center font-weight-bold" style='max-width: 3rem;'>
+                                                                        {{prueba.get('secuencia')['value'].value}}</td>
+                                                                    <td style='max-width: 11rem;'>
+                                                                        <textarea class="form-control form-control-sm font-weight-bold" type="text"
+                                                                            placeholder="Prueba efectuada" style="font-size: 11px"
+                                                                            formControlName="prueba"></textarea>
+                                                                    </td>
+                                                                    <td>
+                                                                        <textarea class="form-control form-control-sm font-weight-bold" type="text"
+                                                                            placeholder="Especificación" style="font-size: 11px"
+                                                                            formControlName="especificacion"></textarea>
+                                                                    </td>
+                                                                    <td style='max-width: 5rem;'>
+                                                                        <textarea class="form-control form-control-sm font-weight-bold" type="text"
+                                                                            placeholder="Resultado" formControlName="valor" style="font-size: 11px"></textarea>
+                                                                    </td>
+                                                                    <td style='max-width: 7rem;'>
+                                                                        <textarea class="form-control form-control-sm font-weight-bold" type="text"
+                                                                            placeholder="Metodología" style="font-size: 11px"
+                                                                            formControlName="metodologia"></textarea>
+                                                                    </td>
+                                                                </ng-container>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card border-left border-info">
+                                    <div class="card-body">
+                                        <div class="col-12">
+                                            <div class="form-group has-danger">
+                                                <label class="control-label font-weight-bold">Conclusión: *</label>
+                                                <div>
+                                                    <div
+                                                        class="custom-control custom-radio custom-control-inline m-t-5">
+                                                        <input type="radio" class="custom-control-input"
+                                                            id="aprobado" name="conclusion"
+                                                            formControlName="conclusion" value="S">
+                                                        <label class="custom-control-label"
+                                                            for="aprobado">Aprobado</label>
+                                                    </div>
+                                                    <div
+                                                        class="custom-control custom-radio custom-control-inline">
+                                                        <input type="radio" class="custom-control-input"
+                                                            id="rechazado" name="conclusion" 
+                                                            formControlName="conclusion" value="N">
+                                                        <label class="custom-control-label"
+                                                            for="rechazado">Rechazado</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label class="control-label col-form-label font-weight-bold"
+                                                    for="conclucion">Observasiones:</label>
+                                                <textarea class="form-control" aria-label="With textarea"
+                                                    placeholder="Concluciones del análisis" rows="2"
+                                                    id="conclucion" formControlName="observaciones"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            
+                        </div>
+                        <div class="row mt-4">
+                            <div class="col-12 d-flex justify-content-center">
+                                <button type="button" class="btn btn-danger btn-sm mr-4"
+                                    (click)="cancelar()">
+                                    <i class="fas fa-angle-left" aria-hidden="true"></i>&nbsp;&nbsp;
+                                    Cancelar
+                                </button>
+                                <button type="submit" class="btn btn-success btn-sm ml-4">
+                                    <i class="fas fa-save" aria-hidden="true"></i>&nbsp;&nbsp;
+                                    Guardar
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </ng-template>
+            </ngb-tab>
+        </ngb-tabset>
+    </div>
+</div>

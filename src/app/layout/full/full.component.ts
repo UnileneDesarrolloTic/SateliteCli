@@ -29,7 +29,7 @@ export class FullComponent implements OnInit {
   options = {
     theme: 'light', // two possible values: light, dark
     layout: 'vertical', // two possible values: vertical, horizontal
-    sidebartype: 'full', // four possible values: full, iconbar, overlay, mini-sidebar
+    sidebartype: 'mini-sidebar', // four possible values: full, iconbar, overlay, mini-sidebar
     sidebarpos: 'fixed', // two possible values: fixed, absolute
     headerpos: 'fixed', // two possible values: fixed, absolute
     boxed: 'full', // two possible values: full, boxed

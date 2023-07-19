@@ -302,7 +302,14 @@ export class InterceptorService implements HttpInterceptor {
       "ProgramacionOperaciones/ObtenerProgramacionOrdenFabricacion",
       "ProgramacionOperaciones/ActualizarFechaProgramada",
       "ProgramacionOperaciones/ObtenerTipoFechaOrdenFabricacion",
-      "ProgramacionOperaciones/RegistrarDivisionProgramacion"
+      "ProgramacionOperaciones/RegistrarDivisionProgramacion",
+      "AnalisisMateriaPrima/listarAnalisisMateriaPrima",
+      "AnalisisMateriaPrima/guardarAnalisisHebra",
+      "AnalisisMateriaPrima/datosGeneralesAnalisisHebra",
+      "AnalisisMateriaPrima/rptAnalisisMPHebra",
+      "AnalisisMateriaPrima/datosProtocolo",
+      "AnalisisMateriaPrima/guardarDatosProtocoloMateriaPrima",
+      "AnalisisMateriaPrima/rptProtocoloAnalisisMateriaPrima"
     ];
     
     const data = this.sesionService.datosPersonales();
