@@ -11,6 +11,8 @@ import { ControlProcesoComponent } from './formato-protocolo/control-proceso/con
 import { ControlProductoTerminadoComponent } from './formato-protocolo/control-producto-terminado/control-producto-terminado.component';
 import { PruebasEfectuadasComponent } from './formato-protocolo/pruebas-efectuadas/pruebas-efectuadas.component';
 import { ConfirmExitGuard } from '@guard/confirm-exit.guard';
+import { ListaAnalisisComponent } from './analisis-mp/lista-analisis/lista-analisis.component';
+import { AnalisisHebraComponent } from './analisis-mp/analisis-hebra/analisis-hebra.component';
 
 export const ControlCalidadRoutes: Routes = [
   {
@@ -138,5 +140,25 @@ export const ControlCalidadRoutes: Routes = [
         },
       },
     ],
+  },
+  {
+    path: 'AnalisisMP',
+    canActivateChild: [AuthGuard],
+    children : [
+      {
+        path: 'lista',
+        component: ListaAnalisisComponent,
+        data: {
+          title: "Lista de análisis",
+        }
+      },
+      {
+        path: 'hebra/:controlNro/:nroAnalisis',
+        component: AnalisisHebraComponent,
+        data: {
+          title: "Análisis de hebra",
+        }
+      },
+    ]
   },
 ]

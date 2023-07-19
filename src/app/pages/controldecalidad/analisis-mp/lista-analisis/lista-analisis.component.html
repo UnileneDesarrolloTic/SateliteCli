@@ -1,0 +1,136 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card border-left border-info">
+            <div class="card-header bg-info text-white" style="font-weight: bold">
+                Filtros de búsqueda
+            </div>
+            <div class="card-body">
+                <form autocomplete="off" [formGroup]="formFiltros" (submit)="listarAnalisis()">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6">
+                            <div class="form-group row">
+                                <label for="nroOrden" class="col-sm-3 text-right control-label col-form-label-sm">Nro.
+                                    Orden</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control form-control-sm" id="nroOrden"
+                                        placeholder="Orden de compra" formControlName="numeroOrden">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6">
+                            <div class="form-group row">
+                                <label for="codigoAnalisis"
+                                    class="col-sm-3 text-right control-label col-form-label col-form-label-sm">Análisis</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control form-control-sm" id="nroOrden"
+                                        placeholder="codigoAnalisis" formControlName="codigoAnalisis">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row m-t-20">
+                        <div class="col-12 d-flex justify-content-center">
+                            <button class="btn btn-info btn-rounded btn-sm" type="submit">
+                                <span *ngIf="!flagBuscar">
+                                    <i class="fa fa-search"></i>&nbsp;&nbsp;Filtrar&nbsp;
+                                </span>
+                                <span *ngIf="flagBuscar">
+                                    <i class="fa fa-spinner fa-spin"></i>&nbsp;&nbsp;Filtrando...&nbsp;
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="card border-left border-info">
+            <div class="card-body">
+                <div class="alert alert-warning" role="alert" *ngIf="listaAnalisis.length < 1 && flagPrimeraConsulta && !flagBuscar">
+                    No se encontrarón registros.
+                </div>
+                <div class="table table-hover" *ngIf="listaAnalisis.length > 0 && !flagBuscar">
+                    <div class="scroll-group">
+                        <table class=" scroll-group table table-striped border mt-4" style="font-size: 12px">
+                            <thead class="no-wrap">
+                                <tr>
+                                    <th class="text-center">Nro. Orden</th>
+                                    <th class="text-center">Análisis</th>
+                                    <th class="text-center">Aprobación</th>
+                                    <th class="text-center">Tipo</th>
+                                    <th class="text-center">Item</th>
+                                    <th class="text-center">Descripción</th>
+                                    <th class="text-center">Recibido</th>
+                                    <th class="text-center">...</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let analisis of listaAnalisis">
+                                    <td class="text-center">{{analisis.numeroOrden}}</td>
+                                    <td class="text-center">{{analisis.analisis}}</td>
+                                    <td class="text-center">{{analisis.fechaAprobacion | date: 'dd/MM/yyyy hh:mm'}}</td>
+                                    <td>{{analisis.tipo}}</td>
+                                    <td>{{analisis.item}}</td>
+                                    <td>{{analisis.descripcion}}</td>
+                                    <td class="text-center">{{analisis.cantidadAceptada | number }}</td>
+                                    <td align="center">
+                                        <a class="mr-2" type="button" (click)="abrirModalReporte(modalReporteSelect, analisis.numeroOrden, analisis.analisis, analisis.tipoItem)">
+                                            <i class="fas fa-download fa-md" ></i>
+                                        </a>
+                                        <a type="button" (click)="registrarAnalisis(analisis.numeroOrden, analisis.analisis, analisis.tipoItem)">
+                                            <i class="fas fa-file-alt fa-md" ></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>  
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #modalReporteSelect let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">
+           Seleccione los reportes
+      </h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <span aria-hidden="true">
+              &times;
+          </span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="row">
+        <div class="form-group row">
+          <div class="col-12 ml-3" >
+              <div class="custom-control custom-radio mb-2">
+                  <input type="radio" class="custom-control-input" id="reporteFlexion" name="reporteAnalisisAguja" value="a" [(ngModel)]="reporteSeleccionado" required>
+                  <label class="custom-control-label" for="reporteFlexion"> Reporte Análisis</label>
+              </div>
+              <div class="custom-control custom-radio">
+                  <input type="radio" class="custom-control-input" id="reporteAguja" name="reporteAnalisisAguja" value="p" [(ngModel)]="reporteSeleccionado" required>
+                  <label class="custom-control-label" for="reporteAguja"> Protocolo Materia Prima</label>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <div class="col-12 text-center">
+        <button class="btn btn-info btn-sm" (click)="descargarReporte()">
+          <span *ngIf="!flagDescargandoReporte">
+            <i class="fas fa-download" aria-hidden="true"></i>&nbsp;&nbsp;Descargar
+          </span>
+          <span *ngIf="flagDescargandoReporte">
+            <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>&nbsp;Descargando..
+          </span>
+        </button>
+      </div>
+    </div>
+  </ng-template>
+  
