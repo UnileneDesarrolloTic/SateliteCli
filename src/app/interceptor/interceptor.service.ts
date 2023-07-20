@@ -297,7 +297,7 @@ export class InterceptorService implements HttpInterceptor {
       "Dispensacion/RecetasOrdenFabricacion",
       "Dispensacion/RegistrarDispensacionMP",
       "Dispensacion/HistorialDispensacionMP",
-      'Dispensacion/InformacionItem',
+      "Dispensacion/InformacionItem",
       "ProgramacionOperaciones/ObtenerAgrupadores",
       "ProgramacionOperaciones/ObtenerProgramacionOrdenFabricacion",
       "ProgramacionOperaciones/ActualizarFechaProgramada",

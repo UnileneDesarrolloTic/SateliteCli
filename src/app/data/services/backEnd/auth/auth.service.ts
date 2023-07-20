@@ -2,7 +2,7 @@ import { CryptoService } from '@shared/services/comunes/crypto.service';
 import { Router } from '@angular/router';
 import { environment } from 'environments/environment';
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http'
+import { HttpClient, HttpParams } from '@angular/common/http'
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { AuthReturn } from '@data/interface/auth_Return.interface';
