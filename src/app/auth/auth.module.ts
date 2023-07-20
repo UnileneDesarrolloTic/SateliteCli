@@ -5,11 +5,13 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AuthRoutes } from './auth.routing';
 import { RouterModule } from '@angular/router';
 import { NotFoundComponent } from '@auth/not-found/not-found.component';
+import { RegistrarAsistenciaComponent } from './registrar-asistencia/registrar-asistencia.component';
 
 @NgModule({
   declarations: [
     LoginComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    RegistrarAsistenciaComponent
   ],
   imports: [
     CommonModule,
