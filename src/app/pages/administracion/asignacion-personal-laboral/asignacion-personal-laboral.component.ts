@@ -85,8 +85,6 @@ export class AsignacionPersonalLaboralComponent implements OnInit {
       this.cantidadVacaciones = this.ListarAreaContar.map((element:DatosFormatoAreaPersonalModel)=> element.vacaciones ).reduce((a, b) => a + b, 0);
       this.cantidadPermiso = this.ListarAreaContar.map((element:DatosFormatoAreaPersonalModel)=> element.permisos ).reduce((a, b) => a + b, 0);
       this.cantidadInjustificado = this.ListarAreaContar.map((element:DatosFormatoAreaPersonalModel)=> element.injustificados ).reduce((a, b) => a + b, 0);
-
-      console.log(this.cantidadInjustificado);
     });
   }
 

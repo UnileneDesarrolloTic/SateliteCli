@@ -28,7 +28,6 @@ export class AreaComponent implements OnInit {
   ngOnInit(): void {
     this.CrearFormulario();
     this.TablaListarArea(this.ListarArea);
-    console.log(this.flagMostrarboton);
   }
 
   CrearFormulario(){
