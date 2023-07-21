@@ -4,6 +4,9 @@ export interface DatosFormatoAreaPersonalModel {
     descripcion: string,
     total: number,
     asistio: number,
-    falto: number
+    falto: number,
+    permisos: number,
+    vacaciones: number,
+    injustificados: number,
   }
   

@@ -37,7 +37,7 @@
 
 <div class="row">
     <!-- Column BLOQUE 1 -->
-    <div class="col-lg-6">
+    <div class="col-lg-4">
         <div class="card">
             <div class="card-body">
             <ngb-tabset>
@@ -57,7 +57,7 @@
                                     (ngModelChange)="filtroNombreCompleto()" class="form-control col-md-6 form-control-sm"
                                     placeholder="Buscar Nombre">
                                 <h6>Total: {{this.ListarPersonaLaboral.length}}</h6>
-                                <button type="button" [disabled]="botonestado" (click)="Guardar()"
+                                <button type="button" [disabled]="botonestado" *ngIf="flagMostrarboton" (click)="Guardar()"
                                     class="btn btn-info btn-sm rounded"><i class="fas fa-file-alt"></i> Guardar </button>
                             </div>
                             <div class="row">
@@ -65,7 +65,7 @@
                                     <table class=" table table-striped border table-sm table-hover">
                                         <thead style="font-size: 12px" class="bg-info text-white table-bordered">
                                             <tr>
-                                                <th class="text-center">
+                                                <th class="text-center"  *ngIf="flagMostrarboton">
                                                     <input type="checkbox" [(ngModel)]="MaestroSeleccion" name="list_name"
                                                         value="h1" (change)="checkTodo()" />
                                                 </th>
@@ -77,7 +77,7 @@
                                         </thead>
                                         <tbody style="font-size: 13px">
                                             <tr *ngFor="let persona of ListarPersonaLaboral; let i = index">
-                                                <td class="text-center">
+                                                <td class="text-center"  *ngIf="flagMostrarboton">
                                                     <input type="checkbox" [(ngModel)]="persona.isSelected" name="list_name"
                                                         (change)="SeleccionaItem(persona)" value="{{ persona.idEmpleado}}" />
                                                 </td>
@@ -99,7 +99,7 @@
                 </ngb-tab>
                 <ngb-tab title="Area">
                     <ng-template ngbTabContent>
-                        <app-area [ListarArea]="ListarArea" (enviarRespuesta)="recibirMensaje($event)" (enviarRespuesta2)="RefrescarInformacion($event)"></app-area>
+                        <app-area [ListarArea]="ListarArea"  [flagMostrarboton] = "flagMostrarboton" (enviarRespuesta)="recibirMensaje($event)" (enviarRespuesta2)="RefrescarInformacion($event)" ></app-area>
                     </ng-template>
                 </ngb-tab>
             </ngb-tabset>
@@ -107,7 +107,7 @@
         </div>
     </div>
     <!-- Column BLOQUE 2 -->
-    <div class="col-lg-6">
+    <div class="col-lg-8">
         <div class="card">
             <div class="card-body">
                 <ngb-tabset>
@@ -127,32 +127,46 @@
                                 <div class="table-hover table-responsive table-bordered">
                                     <table class=" table table-striped border table-sm table-hover">
                                         <thead style="font-size: 12px" class="bg-info text-white table-bordered">
+                                            
                                             <tr>
-                                                <th class="text-center font-medium">Area</th>
-                                                <th class="text-center font-medium">Asistieron</th>
-                                                <th class="text-center font-medium">Faltaron</th>
-                                                <th class="text-center font-medium">Total</th>
-                                                <th class="text-center font-medium">...</th>
+                                                <th class="text-center font-medium "></th>
+                                                <th class="text-center font-medium"></th>
+                                                <th class="text-center font-medium" colspan="3" >Faltaron</th>
+                                                <th class="text-center font-medium" ></th>
+                                                <th class="text-center font-medium"></th>
+                                            </tr>
+                                            <tr>
+                                                <th class="text-center font-medium" rowspan="2"  >Area</th>
+                                                <th class="text-center font-medium" rowspan="2" >Asistieron</th>
+                                                <th class="text-center font-medium">Vacaciones</th>
+                                                <th class="text-center font-medium">Permiso</th>
+                                                <th class="text-center font-medium">Injustificado</th>
+                                                <th class="text-center font-medium" rowspan="2">Total</th>
+                                                <th class="text-center font-medium" rowspan="2">...</th>
                                             </tr>
                                         </thead>
-                                        <tbody style="font-size: 13px">
+                                        <tbody style="font-size: 13px" class="font-medium">
                                             <tr *ngFor="let area of ListarAreaContar; let i = index">
-                                                <td class="text-left font-medium">{{area.descripcion }}</td>
-                                                <td class="text-center  text-primary font-medium">{{area.asistio}}</td>
-                                                <td class="text-center font-medium">
-                                                    <span [ngStyle]="{ 'color': area.falto > 0 ? 'red' : 'black' }">{{area.falto}}</span>
+                                                <td class="text-left">{{area.descripcion }}</td>
+                                                <td class="text-center  text-primary ">{{area.asistio}}</td>
+                                                <td class="text-center  text-primary ">{{area.vacaciones}}</td>
+                                                <td class="text-center  text-primary ">{{area.permisos}}</td>
+                                                <td class="text-center  text-primary ">
+                                                    <span [ngStyle]="{ 'color': area.injustificados > 0 ? 'red' : 'black' }">{{area.injustificados}}</span> 
                                                 </td>
-                                                <td class="text-center font-medium">{{area.total}}</td>
-                                                <td class="text-center font-medium">
-                                                        <button class="btn btn-xs btn-primary font-medium" (click)="mostrarPersonaFaltante(area)"> <i class="fas fa-child"></i></button>
+                                                <td class="text-center">{{area.total}}</td>
+                                                <td class="text-center">
+                                                        <button class="btn btn-xs btn-primary" (click)="mostrarPersonaFaltante(area)"> <i class="fas fa-child"></i></button>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                    <td class="text-center font-medium bg-info text-white table-bordered">Total</td>                                                   
-                                                    <td class="text-center font-medium">{{this.cantidadAsistio}}</td>
-                                                    <td class="text-center font-medium">{{this.cantidadFalto}}</td>
-                                                    <td class="text-center font-medium">{{this.cantidadAsistio + this.cantidadFalto}}</td>
-                                                    <td class="text-center font-medium">---</td>
+                                                    <td class="text-center bg-info text-white table-bordered">Total</td>                                                   
+                                                    <td class="text-center">{{this.cantidadAsistio}}</td>
+                                                    <td class="text-center">{{this.cantidadVacaciones}}</td>
+                                                    <td class="text-center">{{this.cantidadPermiso}}</td>
+                                                    <td class="text-center">{{this.cantidadInjustificado}}</td>
+                                                    <td class="text-center">{{this.cantidadAsistio + this.cantidadFalto}}</td>
+                                                    <td class="text-center">---</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -185,7 +199,7 @@
                                     <table class=" table table-striped border table-sm table-hover">
                                         <thead style="font-size: 12px" class="bg-info text-white table-bordered">
                                             <tr>
-                                                <th class="text-center">Opcion</th>
+                                                <th class="text-center" *ngIf="flagMostrarboton">Opcion</th>
                                                 <th class="text-center">Id</th>
                                                 <th class="text-center">Apellido y Nombre</th>
                                                 <th class="text-center">Area</th>
@@ -193,7 +207,7 @@
                                         </thead>
                                         <tbody style="font-size: 11px">
                                             <tr *ngFor="let persona of ListarFiltrarAreaPersona; let i = index">
-                                                <td class="text-center">
+                                                <td class="text-center" *ngIf="flagMostrarboton">
                                                     <a class="cursor-pointer" (click)="LiberalPersona(persona)">
                                                         <i style="font-size: 16px;color: #ff6961;"
                                                             class=" fas fa-trash-alt"></i>

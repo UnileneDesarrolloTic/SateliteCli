@@ -12,10 +12,12 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class AreaComponent implements OnInit {
   @Input() ListarArea: DatosFormtoArea[];
+  @Input() flagMostrarboton : boolean;
   TablaFormulario:FormGroup;
   //enviar al componente padre
   @Output() enviarRespuesta : EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() enviarRespuesta2 : EventEmitter<boolean> = new EventEmitter<boolean>();
+
 
   NuevaArea = new FormControl('');
 
@@ -26,7 +28,7 @@ export class AreaComponent implements OnInit {
   ngOnInit(): void {
     this.CrearFormulario();
     this.TablaListarArea(this.ListarArea);
-    
+    console.log(this.flagMostrarboton);
   }
 
   CrearFormulario(){

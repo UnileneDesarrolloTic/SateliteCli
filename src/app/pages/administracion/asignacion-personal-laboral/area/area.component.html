@@ -2,7 +2,7 @@
 <form autocomplete="off" [formGroup]="TablaFormulario">
 <div class="row p-1 justify-content-end">
     <input type="text" name='ingresarArea' [formControl]="NuevaArea"  autocomplete="off"  class="form-control col-md-6 form-control-sm" placeholder="Ingrese Nueva areaa">
-    <button class="btn btn-success btn-sm"  (click)="agregarArea()" type="button" >
+    <button class="btn btn-success btn-sm" *ngIf="flagMostrarboton"  (click)="agregarArea()" type="button" >
      <i class="fas fa-plus"></i> 
     </button>
 </div>  
@@ -13,7 +13,7 @@
                 <tr>
                     <th class="text-center">Id</th>
                     <th class="text-center">Descripción</th>
-                    <th class="text-center">Opcion</th>
+                    <th class="text-center" *ngIf="flagMostrarboton" >Opcion</th>
                 </tr>
             </thead>
             <tbody style="font-size: 11px" *ngFor="let lessonForm of ListadoArea.controls; let i = index" >
@@ -23,13 +23,13 @@
                     </td>
                     <td class="text-center">
                         <div class="input-group input-group-sm"  style='width:100%'>
-                            <input type="text" class="form-control form-control-sm"
+                            <input type="text" class="form-control form-control-sm font-medium"
                                 formControlName="descripcion" />
                         </div>
                     </td>
 
-                    <td class="text-center">
-                        <button class="btn btn-info btn-sm" type="button" 
+                    <td class="text-center" *ngIf="flagMostrarboton">
+                        <button class="btn btn-info btn-sm" type="button"  
                             (click)="editar(lessonForm,i)"> <i class="fas fa-edit"></i> 
                         </button>
 
