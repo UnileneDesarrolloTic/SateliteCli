@@ -1,0 +1,237 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card border-left border-info">
+            <div class="card-header bg-info text-white" style="font-weight: bold">
+                Filtros de búsqueda
+            </div>
+            <div class="card-body">
+                <form autocomplete="off">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-7">
+                            <div class="form-group row mb-0">
+                                <label for="nroOrden" class="col-3 control-label col-form-label-sm">Ord.
+                                    Fabricacion</label>
+                                <div class="col-8">
+                                    <input type="text" class="form-control form-control-sm" id="nroOrden"
+                                        placeholder="Orden de compra" formControlName="numeroOrden">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-5">
+                            <button class="btn btn-info btn-rounded btn-sm d-md-inline-block mt-sm-4 mt-md-0 "
+                                type="submit">
+                                <span>
+                                    <i class="fa fa-search"></i>&nbsp;&nbsp;Buscar&nbsp;
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="card border-left border-info">
+            <div class="card-body">
+                <div class="table table-hover">
+                    <div class="scroll-group">
+                        <table class=" scroll-group table table-striped border mt-4" style="font-size: 12px">
+                            <thead class="no-wrap">
+                                <tr>
+                                    <th class="text-center">O. Fabricación</th>
+                                    <th class="text-center">Lote</th>
+                                    <th class="text-center">Item</th>
+                                    <th class="text-center">Descripción</th>
+                                    <th class="text-center">C. Total</th>
+                                    <th class="text-center">C. Ingresada</th>
+                                    <th class="text-center">C. Confirmada</th>
+                                    <th class="text-center">...</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="font-medium">
+                                    <td class="text-center">20737643</td>
+                                    <td class="text-center">20737643</td>
+                                    <td class="text-center">PSTXA00024</td>
+                                    <td>Polidioxanona Antibacterial 4/0 Aguja 1/2 Círculo Cortante 17 mm x 90 cm SD</td>
+                                    <td class="text-center">1,200</td>
+                                    <td class="text-center">1,000</td>
+                                    <td class="text-center">500</td>
+                                    <td align="center">
+                                        <a class="mr-2" type="button" (click)="abrirModalReporte(modal)">
+                                            <i class="fas fa-cog fa-lg"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #modal let-modal>
+    <!-- <div class="modal-header">
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">
+                &times;
+            </span>
+        </button>
+    </div> -->
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-12">
+                <section id="ngx">
+                    <div class="card">
+                        <div class="card-body py-0">
+                            <div class="card-block">
+                                <div class="board">
+                                    <ul class="wizard-navbar">
+                                        <li class="active flex-fill">
+                                            <a [ngClass]="(etapaEncajado===1)?'nav-link active':'nav-link'"
+                                                uiSrefActive="active" uiSref="flexión" data-toggle="tab"
+                                                title="flexión" (click)="cambiarEtapa(1)" style="cursor:pointer;">
+                                                <span class="round-tabs">
+                                                    &nbsp;&nbsp;1&nbsp;&nbsp;
+                                                </span>
+                                            </a>
+                                        </li>
+                                        <li class="flex-fill">
+                                            <a [ngClass]="(etapaEncajado===2)?'nav-link active':'nav-link'"
+                                                uiSrefActive="active" uiSref="corroción" data-toggle="tab"
+                                                title="datosgeneral" (click)="cambiarEtapa(2)" style="cursor:pointer;">
+                                                <span class="round-tabs">
+                                                    &nbsp;2&nbsp;
+                                                </span>
+                                            </a>
+                                        </li>
+                                        <li class="flex-fill">
+                                            <a [ngClass]="(etapaEncajado===3)?'nav-link active':'nav-link'"
+                                                uiSrefActive="active" uiSref="datos" data-toggle="tab"
+                                                title="dimensional" style="cursor:pointer;">
+                                                <span class="round-tabs">
+                                                    &nbsp;3&nbsp;
+                                                </span>
+                                            </a>
+                                        </li>
+                                        <li class="flex-fill">
+                                            <a [ngClass]="(etapaEncajado===4)?'nav-link active':'nav-link'"
+                                                uiSrefActive="active" uiSref="datos" data-toggle="tab"
+                                                title="elasticidad" style="cursor:pointer;">
+                                                <span class="round-tabs">
+                                                    &nbsp;4&nbsp;
+                                                </span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="tab-content">
+                                    <div *ngIf="etapaEncajado === 1">
+                                        <form class="editForm" novalidate>
+                                            <div class="tab-pane active">
+                                                <h4 class="text-center font-weight-bold text-info m-0">ARMADO
+                                                    CAJA</h4>
+                                                <div class="row">
+                                                    <div class="col-12 d-flex justify-content-between align-items-end">
+                                                        <span style="font-size: 13px;" class="font-weight-bold">Pendiente: 500</span>
+                                                        <button type="button" class="btn btn-info btn-sm btn-rounded">
+                                                            <i class="fas fa-plus"></i>&nbsp;&nbsp;Asignar
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div class='row'>
+                                                    <div class='col-12'>
+                                                        <div class="table table-hover">
+                                                            <div class="scroll-group">
+                                                                <table
+                                                                    class=" scroll-group table table-striped border mt-4"
+                                                                    style="font-size: 12px">
+                                                                    <thead class="no-wrap">
+                                                                        <tr>
+                                                                            <th class="text-center">Código</th>
+                                                                            <th class="text-center">Usuario</th>
+                                                                            <th class="text-center">Fecha</th>
+                                                                            <th class="text-center">Cantidad</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr class="font-medium">
+                                                                            <td class="text-center">18834</td>
+                                                                            <td>Eddie Gomez Ochante</td>
+                                                                            <td class="text-center">20/07/2023</td>
+                                                                            <td class="text-center">500</td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group text-center mt-4">
+                                                            <button type="button" class="btn btn-success btn-sm">
+                                                                <i class="fas fa-save"></i> Guardar
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div *ngIf="etapaEncajado === 2">
+                                        <form class="editForm" novalidate>
+                                            <div class="tab-pane active">
+                                                <h4 class="text-center font-weight-bold text-info m-0">EMBALADO</h4>
+                                                <div class="row">
+                                                    <div class="col-12 d-flex justify-content-between align-items-end">
+                                                        <span style="font-size: 13px;" class="font-weight-bold">Pendiente: 500</span>
+                                                        <button type="button" class="btn btn-info btn-sm btn-rounded">
+                                                            <i class="fas fa-plus"></i>&nbsp;&nbsp;Asignar
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div class='row'>
+                                                    <div class='col-12'>
+                                                        <div class="table table-hover">
+                                                            <div class="scroll-group">
+                                                                <table
+                                                                    class=" scroll-group table table-striped border mt-4"
+                                                                    style="font-size: 12px">
+                                                                    <thead class="no-wrap">
+                                                                        <tr>
+                                                                            <th class="text-center">Código</th>
+                                                                            <th class="text-center">Usuario</th>
+                                                                            <th class="text-center">Fecha</th>
+                                                                            <th class="text-center">Cantidad</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr class="font-medium">
+                                                                            <td class="text-center">18834</td>
+                                                                            <td>Eddie Gomez Ochante</td>
+                                                                            <td class="text-center">20/07/2023</td>
+                                                                            <td class="text-center">500</td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group text-center mt-4">
+                                                            <button type="button" class="btn btn-success btn-sm">
+                                                                <i class="fas fa-save"></i> Guardar
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</ng-template>
