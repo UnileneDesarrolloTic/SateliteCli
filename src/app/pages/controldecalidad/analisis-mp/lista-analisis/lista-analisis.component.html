@@ -57,17 +57,17 @@
                         <table class=" scroll-group table table-striped border mt-4" style="font-size: 12px">
                             <thead class="no-wrap">
                                 <tr>
-                                    <th class="text-center">Nro. Orden</th>
-                                    <th class="text-center">Análisis</th>
-                                    <th class="text-center">Aprobación</th>
-                                    <th class="text-center">Tipo</th>
-                                    <th class="text-center">Item</th>
-                                    <th class="text-center">Descripción</th>
-                                    <th class="text-center">Recibido</th>
-                                    <th class="text-center">...</th>
+                                    <th class="text-center font-weight-bold">Nro. Orden</th>
+                                    <th class="text-center font-weight-bold" >Análisis</th>
+                                    <th class="text-center font-weight-bold">Aprobación</th>
+                                    <th class="text-center font-weight-bold">Tipo</th>
+                                    <th class="text-center font-weight-bold">Item</th>
+                                    <th class="text-center font-weight-bold">Descripción</th>
+                                    <th class="text-center font-weight-bold">Recibido</th>
+                                    <th class="text-center font-weight-bold">...</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody class="font-medium">
                                 <tr *ngFor="let analisis of listaAnalisis">
                                     <td class="text-center">{{analisis.numeroOrden}}</td>
                                     <td class="text-center">{{analisis.analisis}}</td>
@@ -78,10 +78,10 @@
                                     <td class="text-center">{{analisis.cantidadAceptada | number }}</td>
                                     <td align="center">
                                         <a class="mr-2" type="button" (click)="abrirModalReporte(modalReporteSelect, analisis.numeroOrden, analisis.analisis, analisis.tipoItem)">
-                                            <i class="fas fa-download fa-md" ></i>
+                                            <i class="fas fa-download fa-lg" ></i>
                                         </a>
                                         <a type="button" (click)="registrarAnalisis(analisis.numeroOrden, analisis.analisis, analisis.tipoItem)">
-                                            <i class="fas fa-file-alt fa-md" ></i>
+                                            <i class="fas fa-file-alt fa-lg" ></i>
                                         </a>
                                     </td>
                                 </tr>
