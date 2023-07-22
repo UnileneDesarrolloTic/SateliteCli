@@ -83,7 +83,8 @@ export class AnalisisHebraComponent implements OnInit {
         quimica: new FormControl('', Validators.required),
         conclusion: new FormControl('', Validators.required),
         observaciones: new FormControl(null, Validators.maxLength(100)),
-        fechaAnalisis: new FormControl(formatDate(new Date(), 'yyyy-MM-dd', 'en'), Validators.required)
+        fechaAnalisis: new FormControl(formatDate(new Date(), 'yyyy-MM-dd', 'en'), Validators.required),
+        color: new FormControl(null, Validators.required)
       })
     })   
 
@@ -127,28 +128,26 @@ export class AnalisisHebraComponent implements OnInit {
     return +this.pruebaTension == 0 ? 1 : +this.pruebaTension
   }
 
-  actualizarLongitud() {
+  private obtenerPromedio(columna: string): number{
     let sumaTotal: number = 0;
 
     this.pruebasDimensiones.controls.forEach((x: FormArray) => {
-      sumaTotal = sumaTotal + (+x.controls['longitud'].value)
+      sumaTotal = sumaTotal + (+x.controls[columna].value)
     })
 
+    return sumaTotal/20;
+  }
+
+  actualizarLongitud() {
     this.promedioTable.patchValue({
-      longitud: (sumaTotal / 20)
+      longitud: this.obtenerPromedio('longitud')
     })
 
   }
 
   actualizarDiametro() {
-    let sumaTotal: number = 0;
-
-    this.pruebasDimensiones.controls.forEach((x: FormArray) => {
-      sumaTotal = sumaTotal + (+x.controls['diametro'].value)
-    })
-
     this.promedioTable.patchValue({
-      diametro: (sumaTotal / 20)
+      diametro: this.obtenerPromedio('diametro')
     })
 
   }
@@ -161,14 +160,8 @@ export class AnalisisHebraComponent implements OnInit {
       porcentaje: porcentajeCalculado
     });
 
-    let sumaTotal: number = 0;
-
-    this.pruebasDimensiones.controls.forEach((x: FormArray) => {
-      sumaTotal = sumaTotal + (+x.controls['tension'].value)
-    })
-
     this.promedioTable.patchValue({
-      tension: (sumaTotal / 20)
+      tension:this.obtenerPromedio('tension')
     })
   }
 
@@ -217,7 +210,13 @@ export class AnalisisHebraComponent implements OnInit {
         usuarioModificacion: usuario,
         fechaRegistro: new Date()
       },
-      detalle: detalleAnalisis
+      detalle: detalleAnalisis,
+      item: this.datosGeneralesForm.get('item').value,
+      numeroLote: this.numeroAnalisis,
+      numeroDeParte: this.datosGeneralesForm.get('numeroDeParte').value,
+      longitud: this.obtenerPromedio('longitud'),
+      diametro: this.obtenerPromedio('diametro'),
+      tension: this.obtenerPromedio('tension'),
     }
 
     this._analisisMateriaPrimaService.guardarAnalisisHebra(body).subscribe(
@@ -252,7 +251,7 @@ export class AnalisisHebraComponent implements OnInit {
       return {
         item: this.datosGeneralesForm.get('item').value,
         numeroLote: this.numeroAnalisis,
-        itemNumeroParte: this.datosGeneralesForm.get('numeroDeParte').value,
+        itemNumeroDeParte: this.datosGeneralesForm.get('numeroDeParte').value,
         ...x,
         secuencia: x['secuencia'].value,
         conclusion: conclusion,
@@ -362,8 +361,11 @@ export class AnalisisHebraComponent implements OnInit {
 
   eventoTab ($event: any){
 
-    if($event.nextId == 'protocolo' && this.pruebasProtocolo.length < 1 )
+    this.formProtocolo.controls['pruebas'] = new FormArray([])
+
+    if($event.nextId == 'protocolo' )
       this.obtenerDatosProtocolo()
+    
       
   }
 
@@ -371,3 +373,4 @@ export class AnalisisHebraComponent implements OnInit {
 
 
 }
+''

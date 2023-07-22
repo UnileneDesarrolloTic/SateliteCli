@@ -211,9 +211,9 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-12 col-md-4">
+                                                <div class="col-sm-12 col-md-5">
                                                     <div class="form-group has-danger">
-                                                        <label class=" control-label">Análisis Química: *</label>
+                                                        <label class=" control-label">Análisis Químico: *</label>
                                                         <div>
                                                             <div
                                                                 class="custom-control custom-radio custom-control-inline m-t-5">
@@ -231,10 +231,18 @@
                                                                 <label class="custom-control-label" for="noConforme">No
                                                                     Conforme</label>
                                                             </div>
+                                                            <div
+                                                                class="custom-control custom-radio custom-control-inline">
+                                                                <input type="radio" class="custom-control-input"
+                                                                    id="noConforme" name="quimica"
+                                                                    formControlName="quimica" value="A">
+                                                                <label class="custom-control-label" for="noConforme">No
+                                                                    Aplica</label>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-12 col-md-4">
+                                                <div class="col-sm-12 col-md-3">
                                                     <div class="form-group has-danger">
                                                         <label class=" control-label">Conclusión: *</label>
                                                         <div>
@@ -253,6 +261,29 @@
                                                                     formControlName="conclusion" value="R">
                                                                 <label class="custom-control-label"
                                                                     for="rechazado">Rechazado</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group has-danger">
+                                                        <label class=" control-label">Color extractable: *</label>
+                                                        <div>
+                                                            <div
+                                                                class="custom-control custom-radio custom-control-inline m-t-5">
+                                                                <input type="radio" class="custom-control-input"
+                                                                    id="conColor" name="color" formControlName="color"
+                                                                    value="C">
+                                                                <label class="custom-control-label"
+                                                                    for="conColor">Con Color</label>
+                                                            </div>
+                                                            <div
+                                                                class="custom-control custom-radio custom-control-inline">
+                                                                <input type="radio" class="custom-control-input"
+                                                                    id="sinColor" name="color" formControlName="color"
+                                                                    value="S">
+                                                                <label class="custom-control-label"
+                                                                    for="sinColor">Sin Color</label>
                                                             </div>
                                                         </div>
                                                     </div>
