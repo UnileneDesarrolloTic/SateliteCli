@@ -1,7 +1,7 @@
 
 import { Routes } from "@angular/router";
 import { AuthGuard } from "@guard/auth.guard";
-import { AvanceComponent } from "@pages/encajado/avance/avance.component";
+import { TransferenciaPTComponent } from "@pages/encajado/transferencia-pt/transferencia-pt.component";
 
 export const EncajadoRoutes: Routes = [
   {
@@ -9,8 +9,8 @@ export const EncajadoRoutes: Routes = [
     canActivateChild: [AuthGuard],
     children : [
       {
-        path: 'registro',
-        component: AvanceComponent,
+        path: 'transferenciaPT',
+        component: TransferenciaPTComponent,
         data: {
           title: "Registro de encajado"
         }

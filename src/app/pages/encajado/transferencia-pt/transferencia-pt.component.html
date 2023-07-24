@@ -13,7 +13,7 @@
                                     Fabricacion</label>
                                 <div class="col-8">
                                     <input type="text" class="form-control form-control-sm" id="nroOrden"
-                                        placeholder="Orden de compra" formControlName="numeroOrden">
+                                        placeholder="Orden de compra">
                                 </div>
                             </div>
                         </div>
@@ -74,13 +74,6 @@
     </div>
 </div>
 <ng-template #modal let-modal>
-    <!-- <div class="modal-header">
-        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-            <span aria-hidden="true">
-                &times;
-            </span>
-        </button>
-    </div> -->
     <div class="modal-body">
         <div class="row">
             <div class="col-12">
@@ -137,7 +130,7 @@
                                                 <div class="row">
                                                     <div class="col-12 d-flex justify-content-between align-items-end">
                                                         <span style="font-size: 13px;" class="font-weight-bold">Pendiente: 500</span>
-                                                        <button type="button" class="btn btn-info btn-sm btn-rounded">
+                                                        <button type="button" class="btn btn-info btn-sm btn-rounded" (click)="asignarRegistro()">
                                                             <i class="fas fa-plus"></i>&nbsp;&nbsp;Asignar
                                                         </button>
                                                     </div>
@@ -151,27 +144,54 @@
                                                                     style="font-size: 12px">
                                                                     <thead class="no-wrap">
                                                                         <tr>
-                                                                            <th class="text-center">Código</th>
-                                                                            <th class="text-center">Usuario</th>
-                                                                            <th class="text-center">Fecha</th>
-                                                                            <th class="text-center">Cantidad</th>
+                                                                            <th class="text-center col-1">Código</th>
+                                                                            <th class="text-center col-2">Usuario</th>
+                                                                            <th class="text-center col-1">Fecha</th>
+                                                                            <th class="text-center col-1">Cantidad</th>
+                                                                            <th class="text-center col-1">...</th>
                                                                         </tr>
                                                                     </thead>
-                                                                    <tbody>
-                                                                        <tr class="font-medium">
-                                                                            <td class="text-center">18834</td>
-                                                                            <td>Eddie Gomez Ochante</td>
-                                                                            <td class="text-center">20/07/2023</td>
-                                                                            <td class="text-center">500</td>
+                                                                    <tbody *ngFor="let armado of listaArmadoCaja">
+                                                                        <tr class="font-medium" *ngIf="!armado.editable">
+                                                                            <td class="text-center">{{armado.codigo}}</td>
+                                                                            <td>{{armado.usuario}}</td>
+                                                                            <td class="text-center">{{armado.fecha}}</td>
+                                                                            <td class="text-center">{{armado.cantidad}}</td>
+                                                                            <td align="center">
+                                                                                <a type="button" class="text-success">
+                                                                                    <i class="fas fa-check-circle fa-lg"></i>
+                                                                                </a>&nbsp;&nbsp;&nbsp;
+                                                                                <a type="button" class="text-danger" (click)="eliminarItem()">
+                                                                                    <i class="fas fa-trash-alt fa-lg"></i>
+                                                                                </a>
+                                                                            </td>
                                                                         </tr>
+                                                                        <tr class="font-medium" *ngIf="armado.editable" [formGroup]="formArmadoCaja" 
+                                                                            (keyup.enter)="registrarItem()">
+                                                                            <td class="text-center">
+                                                                                <input class="form-control form-control-sm font-weight-bold" 
+                                                                                    type="number" placeholder="Código" style="font-size: 12px" formControlName="codigo">
+                                                                            </td>
+                                                                            <td>
+                                                                                <input class="form-control form-control-sm font-weight-bold" 
+                                                                                    type="text" placeholder="Nombre usuario" style="font-size: 12px" formControlName="usuario">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input class="form-control form-control-sm font-weight-bold" 
+                                                                                    type="datetime-local" placeholder="Fecha" style="font-size: 12px" formControlName="fecha">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input class="form-control form-control-sm font-weight-bold" 
+                                                                                    type="number" placeholder="Cantidad" style="font-size: 12px" formControlName="cantidad">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                --
+                                                                            </td>
+                                                                        </tr>
+                                                                        
                                                                     </tbody>
                                                                 </table>
                                                             </div>
-                                                        </div>
-                                                        <div class="form-group text-center mt-4">
-                                                            <button type="button" class="btn btn-success btn-sm">
-                                                                <i class="fas fa-save"></i> Guardar
-                                                            </button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -199,10 +219,10 @@
                                                                     style="font-size: 12px">
                                                                     <thead class="no-wrap">
                                                                         <tr>
-                                                                            <th class="text-center">Código</th>
-                                                                            <th class="text-center">Usuario</th>
-                                                                            <th class="text-center">Fecha</th>
-                                                                            <th class="text-center">Cantidad</th>
+                                                                            <th class="text-center col-1">Código</th>
+                                                                            <th class="text-center col-2">Usuario</th>
+                                                                            <th class="text-center col-1">Fecha</th>
+                                                                            <th class="text-center col-1">Cantidad</th>
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
@@ -215,11 +235,6 @@
                                                                     </tbody>
                                                                 </table>
                                                             </div>
-                                                        </div>
-                                                        <div class="form-group text-center mt-4">
-                                                            <button type="button" class="btn btn-success btn-sm">
-                                                                <i class="fas fa-save"></i> Guardar
-                                                            </button>
                                                         </div>
                                                     </div>
                                                 </div>
