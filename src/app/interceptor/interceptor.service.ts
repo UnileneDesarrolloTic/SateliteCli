@@ -309,7 +309,12 @@ export class InterceptorService implements HttpInterceptor {
       "AnalisisMateriaPrima/rptAnalisisMPHebra",
       "AnalisisMateriaPrima/datosProtocolo",
       "AnalisisMateriaPrima/guardarDatosProtocoloMateriaPrima",
-      "AnalisisMateriaPrima/rptProtocoloAnalisisMateriaPrima"
+      "AnalisisMateriaPrima/rptProtocoloAnalisisMateriaPrima",
+      "GestionEquipoEngaste/ListarEquipoEngaste",
+      "GestionEquipoEngaste/ObtenerEmpleado",
+      "GestionEquipoEngaste/ObtenerListadoDados",
+      "GestionEquipoEngaste/RegistrarEquipoEngastado",
+      "GestionEquipoEngaste/ObtenerInformacionEquipo"
     ];
     
     const data = this.sesionService.datosPersonales();

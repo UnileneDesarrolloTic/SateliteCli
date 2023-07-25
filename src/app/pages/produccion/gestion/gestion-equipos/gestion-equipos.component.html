@@ -1,0 +1,89 @@
+<div class="row">
+    <div class="col-12">
+        <form [formGroup]="formFiltro">
+            <div class="card border-left border-info">
+                <div class="card-header bg-info text-white" style="font-weight: bold;">
+                    Programación de personal & equipo - Engaste
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label for="fecha" class="text-right control-label col-form-label font-bold">Operador</label>
+                            <div class="input-group mb-3">
+                                <div class="input-group-append">
+                                    <button class="btn mr-0 btn-primary btn-sm" (click)="refrescarOperador()" ngbTooltip="limpiar" type="button">
+                                        <i class="fas fa-redo"></i>
+                                    </button>
+                                </div>
+                                <input type="text" name='cliente' formControlName="nombrePersona" readonly
+                                    class="form-control form-control-sm font-medium" placeholder="Buscar operador"
+                                    aria-label="" aria-describedby="basic-addon1">
+                                <div class="input-group-append">
+                                    <button class="btn mr-0 btn-info btn-sm" (click)="openModalOperador()"
+                                        type="button">
+                                        <i class="ti-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <label for="tipo" class="text-right control-label col-form-label font-bold">Tipo</label>
+                            <div class="form-group">
+                                <select class="form-control  form-control-sm font-medium" formControlName="tipo">
+                                    <option [value]="" class="font-medium">SELECCIONA HEBRA</option>
+                                    <option value="MU" class="font-medium">HEBRA MULTIFILAMENTO</option>
+                                    <option value="MO" class="font-medium">HEBRA MONOFILAMENTO</option>
+                                    <option value="SC" class="font-medium">SIN CALIBRE</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="text-right control-label col-form-label">Codigo</label>
+                            <div class="form-group">
+                                <ng-multiselect-dropdown #multiSelect style="font-size: 12px;" class="font-medium"
+                                    placeholder="Codigo" [settings]="dropdownSettings" [data]="listaDadosEquipo"
+                                    formControlName="codigo">
+                                </ng-multiselect-dropdown>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="fecha" class="text-right control-label col-form-label font-bold">&nbsp; &nbsp; &nbsp; </label>
+                            <div class="form-group">
+                                <button class="btn btn-info btn-sm text-white" (click)="busquedaEquipo()"> <i class="fas fa-search"></i>  Buscar</button>
+                                <button class="btn btn-success btn-sm text-white" (click)="nuevoEquipo()"> <i class="fas fa-plus"></i>  Nuevo</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4 p-1" *ngFor="let equipo of listadoEquipo">
+                        <div class="d-flex flex-row comment-row m-t-0 border ">
+                            <div class="p-2">
+                               <i class="fas fa-window-restore" style="font-size: 100px;"> </i>
+                            </div>
+                            <div class="comment-text w-100">
+                                <label class="font-bold text-primary">{{equipo.descripcion}}</label>
+                                <label class="m-b-15 d-block text-info font-medium">{{equipo.nombreCompleto}}</label>
+                                <div class="comment-footer font-medium">
+                                    <span class="text-muted float-right ">FC: {{equipo.fechaCreacion | date: 'dd/MM/YYYY'}}</span>
+                                    <span class="label label-rounded label-success" *ngIf="equipo.estado == 'A'">ACTIVO</span>
+                                    <span class="label label-rounded label-danger" *ngIf="equipo.estado == 'I'">INACTIVO</span>
+                                    <span class="p-2 cursor-pointer" ngbTooltip="Editar" (click)="editarEquipo(equipo)"> <i class="ti-pencil-alt"></i> </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

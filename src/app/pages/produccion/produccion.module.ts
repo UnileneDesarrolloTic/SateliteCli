@@ -29,6 +29,8 @@ import { CompraNacionalImportacionComponent } from './arima/compra-nacional-impo
 import { ProgramacionComponent } from './gestion/programacion/programacion.component';
 import { RegistroFechaInicioEntregaComponent } from './gestion/programacion/registro-fecha-inicio-entrega/registro-fecha-inicio-entrega.component';
 import { DividirProgramacionComponent } from './gestion/programacion/dividir-programacion/dividir-programacion.component';
+import { GestionEquiposComponent } from './gestion/gestion-equipos/gestion-equipos.component';
+import { EquiposEngasteComponent } from './gestion/gestion-equipos/equipos-engaste/equipos-engaste.component';
 
 registerLocaleData(localeEs);
 
@@ -53,6 +55,8 @@ registerLocaleData(localeEs);
     ProgramacionComponent,
     RegistroFechaInicioEntregaComponent,
     DividirProgramacionComponent,
+    GestionEquiposComponent,
+    EquiposEngasteComponent,
   ],
   imports: [
     RouterModule.forChild(ProduccionRoutes),

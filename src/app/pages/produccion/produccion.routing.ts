@@ -10,6 +10,7 @@ import { OcDrogueriaComponent } from "./arima/oc-drogueria/oc-drogueria.componen
 import { CompraAgujaComponent } from "./arima/compra-aguja/compra-aguja.component";
 import { CompraNacionalImportacionComponent } from "./arima/compra-nacional-importacion/compra-nacional-importacion.component";
 import { ProgramacionComponent } from "./gestion/programacion/programacion.component";
+import { GestionEquiposComponent } from "./gestion/gestion-equipos/gestion-equipos.component";
 
 export const ProduccionRoutes: Routes = [
   {
@@ -90,6 +91,13 @@ export const ProduccionRoutes: Routes = [
       {
         path: 'Programacion',
         component: ProgramacionComponent,
+        data: {
+          title: "  "
+        }
+      },
+      {
+        path: 'EquiposPlanta',
+        component: GestionEquiposComponent,
         data: {
           title: "  "
         }

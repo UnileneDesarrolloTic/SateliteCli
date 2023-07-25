@@ -11,6 +11,7 @@ import { ModalItemCostoComponent } from './modal-item-costo/modal-item-costo.com
 import { ModalItemMastComponent } from './modal-item-mast/modal-item-mast.component';
 import { ModalPdfComponent } from './modal-pdf/modal-pdf.component';
 import { ModalVerTransitoComponent } from './modal-ver-transito/modal-ver-transito.component';
+import { ModalEmpleadorComponent } from './modal-empleador/modal-empleador.component';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { ModalVerTransitoComponent } from './modal-ver-transito/modal-ver-transi
     ModalItemCostoComponent,
     ModalItemMastComponent,
     ModalPdfComponent,
-    ModalVerTransitoComponent
+    ModalVerTransitoComponent,
+    ModalEmpleadorComponent
   ],
   imports: [
     CommonModule,
