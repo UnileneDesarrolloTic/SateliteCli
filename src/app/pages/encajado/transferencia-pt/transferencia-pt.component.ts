@@ -51,7 +51,7 @@ export class TransferenciaPTComponent implements OnInit {
     this.formArmadoCaja = new FormGroup({
       codigo: new FormControl(null, Validators.required),
       usuario: new FormControl({value: null, disabled: true}, Validators.required),
-      fecha: new FormControl(formatDate(new Date, 'yyyy-MM-dd hh-mm', 'en'), Validators.required),
+      fecha: new FormControl(formatDate(new Date, 'yyyy-MM-dd hh:mm', 'en'), Validators.required),
       cantidad: new FormControl(null, [Validators.required, Validators.min(1)])
     })
 
@@ -72,10 +72,7 @@ export class TransferenciaPTComponent implements OnInit {
     const item = this.formArmadoCaja.value
     item.usuario='Andy Ancajima'
 
-    console.log(item);
-
-    const indexForm = this.listaArmadoCaja.findIndex(x => x.codigo == 0)    
-    this.listaArmadoCaja.splice(indexForm, 1)    
+    this.eliminarFormNuevoRegistro()
     this.listaArmadoCaja.push(item)
 
     this.formArmadoCaja = new FormGroup({})
@@ -84,6 +81,11 @@ export class TransferenciaPTComponent implements OnInit {
 
   eliminarItem(){
     var r = confirm("¿ Seguro de eliminar el item ?");
+  }
+
+  eliminarFormNuevoRegistro(){
+    const indexForm = this.listaArmadoCaja.findIndex(x => x.codigo == 0)    
+    this.listaArmadoCaja.splice(indexForm, 1)   
   }
 
 }
