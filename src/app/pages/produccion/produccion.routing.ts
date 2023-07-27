@@ -11,6 +11,7 @@ import { CompraAgujaComponent } from "./arima/compra-aguja/compra-aguja.componen
 import { CompraNacionalImportacionComponent } from "./arima/compra-nacional-importacion/compra-nacional-importacion.component";
 import { ProgramacionComponent } from "./gestion/programacion/programacion.component";
 import { GestionEquiposComponent } from "./gestion/gestion-equipos/gestion-equipos.component";
+import { ProductoTerminadoTransferidoComponent } from "@pages/produccion/transferencia/producto-terminado-transferido/producto-terminado-transferido.component";
 
 export const ProduccionRoutes: Routes = [
   {
@@ -105,6 +106,20 @@ export const ProduccionRoutes: Routes = [
      
     ]
   },
+
+  {
+    path: 'Transferencia',
+    canActivateChild: [AuthGuard],
+    children : [
+      {
+        path: 'ProductoTerminado',
+        component: ProductoTerminadoTransferidoComponent,
+        data: {
+          title: "Transferencia Producto Teminado"
+        }
+      },
+    ]
+  }
 
 
 ]

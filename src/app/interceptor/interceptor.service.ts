@@ -314,7 +314,11 @@ export class InterceptorService implements HttpInterceptor {
       "GestionEquipoEngaste/ObtenerEmpleado",
       "GestionEquipoEngaste/ObtenerListadoDados",
       "GestionEquipoEngaste/RegistrarEquipoEngastado",
-      "GestionEquipoEngaste/ObtenerInformacionEquipo"
+      "GestionEquipoEngaste/ObtenerInformacionEquipo",
+      "TransferenciaPt/listaPendienteTransferenciaFisica",
+      "TransferenciaPt/registrarTransfenciaPT",
+      "TransferenciaPt/listaPendienteRecepcionFisica",
+      "TransferenciaPt/registrarRecepcionPT"
     ];
     
     const data = this.sesionService.datosPersonales();
