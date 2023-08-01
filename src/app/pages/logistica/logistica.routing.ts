@@ -7,6 +7,7 @@ import { OrdenesServicioMainComponent } from "./gestion-ordenes-servicio/ordenes
 import { MaestroItemComponent } from "./maestro-item/maestro-item.component";
 import { DispensacionMpComponent } from "./dispensacion-mp/dispensacion-mp.component";
 import { DetalleDispensacionMpComponent } from "./dispensacion-mp/detalle-dispensacion-mp/detalle-dispensacion-mp.component";
+import { GuiaDespachoComponent } from "./guia-despacho/guia-despacho.component";
 
 export const LogisticaRoutes: Routes = [
   {
@@ -106,6 +107,15 @@ export const LogisticaRoutes: Routes = [
             { title: 'Dispensar MP', url: '/Logistica/Dispensacion/MateriaPrima'},
             { title: 'detalle dispensar' }
           ]
+        }
+      },
+
+      {
+        path: 'GuiaDespacho',
+        component: GuiaDespachoComponent,
+        data: {
+          title: "Guia Despacho",
+        
         }
       },
       

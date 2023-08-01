@@ -150,6 +150,10 @@ export class DetalleDispensacionMpComponent implements OnInit{
                     this.toastr.success(resp["message"]);
                     this._router.navigate(['Logistica', 'Dispensacion','MateriaPrima']);
                 }
+                else
+                {
+                    this.toastr.info(resp["message"]);
+                }
             }
         )
 

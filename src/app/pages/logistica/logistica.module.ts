@@ -21,11 +21,12 @@ import { OrdenesServicioMainComponent } from './gestion-ordenes-servicio/ordenes
 import { OrdenesServicioDetalleComponent } from './gestion-ordenes-servicio/ordenes-servicio-detalle/ordenes-servicio-detalle.component';
 import { DispensacionMpComponent } from './dispensacion-mp/dispensacion-mp.component';
 import { DetalleDispensacionMpComponent } from './dispensacion-mp/detalle-dispensacion-mp/detalle-dispensacion-mp.component';
+import { GuiaDespachoComponent } from './guia-despacho/guia-despacho.component';
 
 
 @NgModule({
   declarations:
-  [ MaestroItemComponent, GestionGuiasComponent, ConsultarStockVentasComponent, DetalleItemVentasComponent, TagResumenComponent, TagDetalleComponent, ModalDetalleComprometidoComponent, MateriaPrimaItemComponent, ModalDetalleRecetaComponent, OrdenesServicioMainComponent, OrdenesServicioDetalleComponent, DispensacionMpComponent, DetalleDispensacionMpComponent],
+  [ MaestroItemComponent, GestionGuiasComponent, ConsultarStockVentasComponent, DetalleItemVentasComponent, TagResumenComponent, TagDetalleComponent, ModalDetalleComprometidoComponent, MateriaPrimaItemComponent, ModalDetalleRecetaComponent, OrdenesServicioMainComponent, OrdenesServicioDetalleComponent, DispensacionMpComponent, DetalleDispensacionMpComponent, GuiaDespachoComponent],
   imports:
   [
     RouterModule.forChild(LogisticaRoutes),
