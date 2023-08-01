@@ -29,7 +29,8 @@ export class RecepcionPtComponent implements OnInit {
 
   inicializarFormulario(){
     this.formFiltro = new FormGroup({
-      almacen: new FormControl('ALMPRT', [Validators.required, Validators.minLength(2)])
+      almacen: new FormControl('ALMPRT', [Validators.required, Validators.minLength(2)]),
+      estado: new FormControl('AP', [Validators.required, Validators.minLength(2)])
     })
 
     this.formRecepcion = new FormGroup({
@@ -47,9 +48,10 @@ export class RecepcionPtComponent implements OnInit {
       return this._toastr.warning('El almacen seleccionado no es válido.', 'Advetencia', {closeButton: true, timeOut: 3000, progressBar: true})
     
     const almacen = this.formFiltro.get('almacen').value
+    const estado = this.formFiltro.get('estado').value
     this.listaPendientes = []
     
-    this._transferenciaService.listaPendienteRecepcionFisica(almacen).subscribe( 
+    this._transferenciaService.listaPendienteRecepcionFisica(almacen, estado).subscribe( 
       x => this.listaPendientes = x
     )
   }

@@ -7,21 +7,38 @@
             <div class="card-body">
                 <form autocomplete="off" [formGroup]="formFiltro" (submit)="listarPendientesTransferencia()">
                     <div class="row">
-                        <div class="col-sm-12 col-lg-5">
+                        <div class="col-sm-12 col-lg-6">
                             <div class="form-group row">
-                                <label for="inputEmail3"
+                                <label for="almacen"
                                     class="col-sm-3 text-center control-label col-form-label col-form-label-sm">Almacen:
                                 </label>
                                 <div class="col-sm-9">
-                                    <select class="form-control form-control-sm" formControlName="almacen">
+                                    <select class="form-control form-control-sm" formControlName="almacen" id="almacen">
                                         <option value="ALMPRT">Alm. Producto Terminado</option>
-                                        <option value="CONTRCALID">Alm. Control de Calidad</option>
-                                        <option value="ALMCMPT">Alm. Contra Muestra PT</option>
+                                        <option value="ALMDRO">Alm. Droguería</option>
+                                        <option value="ALMLICIT">Alm. Licitaciones</option>
+                                        <option value="ALMMAT">Alm. Materia Prima</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-12 col-lg-7">
+                        <div class="col-sm-12 col-lg-6">
+                            <div class="form-group row">
+                                <label for="estado"
+                                    class="col-sm-3 text-center control-label col-form-label col-form-label-sm">Estado:
+                                </label>
+                                <div class="col-sm-9">
+                                    <select class="form-control form-control-sm" formControlName="estado" id="estado">
+                                        <option value="AP">Liberado</option>
+                                        <option value="PR">Cuarentena</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+
+                        <div class="col-12 d-flex justify-content-center">
                             <button class="btn btn-info btn-sm btn-rounded btn-block-sm" type="submit">
                                 <i class="fas fa-search"></i> Filtrar
                             </button>
@@ -75,7 +92,7 @@
                                         <td class="text-right">{{pendiente.cantidadEnviada | number: '1.0-2'}}</td>
                                         <td class="text-right">{{pendiente.cantidadAceptada | number: '1.0-2'}}</td>
                                         <td align="center">
-                                            <a type="button" (click)="abrirModalRecepcion(modalRecepcion, i)">
+                                            <a type="button" (click)="abrirModalRecepcion(modalRecepcion, i)" *ngIf="pendiente.estado == 'AP'">
                                                 <i class="fas fa-file-alt fa-lg"></i>
                                             </a>
                                         </td>

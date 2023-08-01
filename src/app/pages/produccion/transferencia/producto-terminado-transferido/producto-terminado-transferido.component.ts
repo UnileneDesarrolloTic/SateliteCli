@@ -53,11 +53,14 @@ export class ProductoTerminadoTransferidoComponent implements OnInit {
     )
   }
 
-  abrirModalTransferencia(modal:NgbModal, id: number, controlNumero: string, cantidadRecibida: number, cantidadEntregada: number)
+  abrirModalTransferencia(modal:NgbModal, id: number, controlNumero: string, cantidadRecibida: number, cantidadPendiente: number, cantidadAceptado: number)
   {
     this.formTransferencia.reset()
 
-    this.pendienteTransferencia = (cantidadRecibida ?? 0) - (cantidadEntregada ?? 0)
+    console.log(cantidadRecibida, cantidadPendiente, cantidadAceptado);
+    
+
+    this.pendienteTransferencia = (cantidadRecibida ?? 0) - ((cantidadPendiente ?? 0) + (cantidadAceptado ?? 0))
 
     this.formTransferencia.patchValue({
       idControl: id,

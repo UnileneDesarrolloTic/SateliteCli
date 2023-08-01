@@ -79,7 +79,7 @@
                                         <td class="text-right">{{pendiente.cantidadEntregada | number: '1.0-2'}}</td>
                                         <td class="text-right">{{pendiente.cantidadAceptada | number: '1.0-2'}}</td>
                                         <td align="center">
-                                            <a type="button" (click)="abrirModalTransferencia(modalTransferencia, pendiente.id, pendiente.controlNumero, pendiente.cantidadRecibida, pendiente.cantidadEntregada)">
+                                            <a type="button" (click)="abrirModalTransferencia(modalTransferencia, pendiente.id, pendiente.controlNumero, pendiente.cantidadRecibida, pendiente.cantidadPendiente, pendiente.cantidadAceptada)">
                                                 <i class="fas fa-file-alt fa-lg"></i>
                                             </a>
                                         </td>

@@ -38,9 +38,9 @@ export class TransferenciaMPService {
         );
     }
 
-    listaPendienteRecepcionFisica(almacen: string){
+    listaPendienteRecepcionFisica(almacen: string, estado: string){
 
-        const params = new HttpParams().set('almacen',almacen);
+        const params = new HttpParams().set('almacen',almacen).set('estado',estado);
 
         return this._http.get<any[]>(this.url+"/listaPendienteRecepcionFisica", {'params': params}).pipe(
             map((x: any) => x.content),
