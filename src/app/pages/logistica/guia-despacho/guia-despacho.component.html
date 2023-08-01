@@ -1,0 +1,178 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="card border-left border-info">
+            <div class="card-header bg-info text-white" style="font-weight: bold">
+                Filtros de búsqueda
+            </div>
+            <div class="card-body">
+                <form autocomplete="off" [formGroup]="formFiltros" (submit)="listarDespacho()">
+                    <div class="form-body" style="font-size: 14px;">
+                        <div class="row p-t-5">
+                            <div class="col-sm-12 col-md-4">
+                                <div class="form-group row">
+                                    <label class="col-3 text-left control-label col-form-label" for="fechaInicio">Fecha
+                                        Inicio:</label>
+                                    <div class="col-sm-9 input-group input-group-sm mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                                        </div>
+                                        <input type="date" class="form-control form-control-sm font-medium" aria-label="Small"
+                                            aria-describedby="fechaInicio" id="fechaInicio"
+                                            formControlName="fechaInicio">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-4">
+                                <div class="form-group row">
+                                    <label class="col-3 text-left control-label col-form-label" for="fechaFin">Fecha
+                                        Fin:</label>
+                                    <div class="col-sm-9 input-group input-group-sm mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                                        </div>
+                                        <input type="date" class="form-control form-control-sm font-medium" aria-label="Small"
+                                            aria-describedby="fechaFin" id="fechaFin" formControlName="fechaFin">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12 col-md-4">
+                                <div class="form-group row">
+                                    <button class="btn btn-info btn-sm " type="submit">
+                                        <i class="fa fa-spinner fa-spin fa-fw fa-lg" *ngIf="flagLoadingLista"></i>
+                                        <i class="fa fa-search fa-fw fa-lg" *ngIf="!flagLoadingLista"></i>
+                                        &nbsp;&nbsp;Buscar&nbsp;
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped border hover table-sm">
+                        <thead>
+                            <tr>
+                                <th class="text-center font-bold">Id</th>
+                                <th class="text-center">Entregado Por</th>
+                                <th class="text-center">Fecha Entrega</th>
+                                <th class="text-center">Estado</th>
+                                <th class="text-center">...</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let guia of guiaDespacho; let i = index">
+                                <td class="text-center font-medium">{{ guia.id }}</td>
+                                <td class="text-center font-medium">{{ guia.entregadoPor }}</td>
+                                <td class="text-center font-medium">{{ guia.fechaRegistro | date:'dd-MM-yyyy' }}</td>
+                                <td class="text-center font-medium">
+                                    <span *ngIf="guia.estado == 'PR'">PREPARACION</span>
+                                    <span *ngIf="guia.estado == 'AP'">APROBADO</span>
+                                </td>       
+                                <td class="text-center"> 
+                                    <button type="button" class="btn btn-sm btn-primary" (click)="modalverDispensacion(modalDispensacion, guia)" ngbTooltip="ver" ><i class="fas fa-eye"></i></button>
+                                    <button type="button" class="btn btn-sm btn-danger" (click)="imprimir(guia)" ngbTooltip="imprimir"><i class="fas fa-file-pdf"></i></button>
+                                </td>                         
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<ng-template #modalDispensacion let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title font-bold">
+            Guia de despacho
+        </h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">
+                &times;
+            </span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="table-responsive table-sm">
+            <table class="table table-striped no-wrap border" style="font-size: 13px;">
+                <thead>
+                    <tr>
+                        <!-- <th class="text-center">Id</th> -->
+                        <th class="text-center">Orden Fabricacion</th>
+                        <th class="text-center">Secuencia</th>
+                        <th class="text-center">Item</th>
+                        <th class="text-center">Descripción</th>
+                        <th class="text-center">Documento</th>
+                        <th class="text-center">Lote</th>
+                        <th class="text-center">Cantidad Ingresada</th>
+                        <th class="text-center wrap">Cantidad Solicitada</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let guia of informacionGuiaDespacho">
+                        <!-- <td class="text-center font-medium">
+                            {{ guia['idDispensacion'] }}
+                        </td> -->
+                        <td class="text-center font-medium">
+                            {{ guia['ordenFabricacion'] }}
+                        </td>
+                        <td class="text-center font-medium">
+                            {{ guia['secuencia']}}
+                        </td>
+                        <td class="text-center font-medium">
+                            {{ guia['item']}}
+                        </td>
+
+                        <td class="text-center font-medium">
+                            {{ guia['descripcionLocal']}}
+                        </td>
+
+                        <td class="text-center font-medium">
+                            {{ guia['documento']}}
+                        </td>
+                       
+                        <td class="text-center font-medium">
+                            {{ guia['lote'] }}
+                        </td>
+                        <td class="text-center font-medium">
+                            {{ guia['cantidadIngresada'] | number : '1.2-2' }}
+                        </td>
+
+                        <td class="text-center font-medium">
+                            {{ guia['cantidadSolicitada'] | number : '1.2-2'  }}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</ng-template>
+
+
+<ng-template #modalVisualizarBarra let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title font-bold">
+            Codigo de Barra
+        </h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">
+                &times;
+            </span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <iframe [src]="generadorCodigo" style="width:100%; height:200px;" frameborder="0" ></iframe>
+        </div>
+    </div>
+</ng-template>
+

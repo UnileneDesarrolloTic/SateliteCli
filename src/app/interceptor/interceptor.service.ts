@@ -298,6 +298,11 @@ export class InterceptorService implements HttpInterceptor {
       "Dispensacion/RegistrarDispensacionMP",
       "Dispensacion/HistorialDispensacionMP",
       "Dispensacion/InformacionItem",
+      "Dispensacion/DetalleDispensacionReceta",
+      "Dispensacion/RegistrarRecetasGlobal",
+      "Dispensacion/DispensacionGuiaDespacho",
+      "Dispensacion/MostrarDispensacionDespacho",
+      "Dispensacion/GeneracionPdfDespacho",
       "ProgramacionOperaciones/ObtenerAgrupadores",
       "ProgramacionOperaciones/ObtenerProgramacionOrdenFabricacion",
       "ProgramacionOperaciones/ActualizarFechaProgramada",
@@ -318,7 +323,8 @@ export class InterceptorService implements HttpInterceptor {
       "TransferenciaPt/listaPendienteTransferenciaFisica",
       "TransferenciaPt/registrarTransfenciaPT",
       "TransferenciaPt/listaPendienteRecepcionFisica",
-      "TransferenciaPt/registrarRecepcionPT"
+      "TransferenciaPt/registrarRecepcionPT",
+      
     ];
     
     const data = this.sesionService.datosPersonales();
