@@ -11,6 +11,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { RegistroFechaInicioEntregaComponent } from './registro-fecha-inicio-entrega/registro-fecha-inicio-entrega.component';
 import { DividirProgramacionComponent } from './dividir-programacion/dividir-programacion.component';
+import { FileService } from '@shared/services/comunes/file.service';
 
 
 @Component({
@@ -27,6 +28,7 @@ export class ProgramacionComponent implements OnInit {
   loadingTable: boolean = false;
   agrupadores: AgrupadorGerencia[] = [];
   flagMostraFiltro:boolean = true;
+  flagExcel:boolean = false;
 
   dropdownList = [];
   selectedItems = [];
@@ -35,6 +37,7 @@ export class ProgramacionComponent implements OnInit {
   constructor(private _router: Router, 
               private _programacionOperacionesService: ProgramacionOperacionesService,
               private _modalService: NgbModal, 
+              private _fileService : FileService,
               private _fullcomponent: FullComponent, private toastr: ToastrService) {
     this._fullcomponent.options.sidebartype = 'mini-sidebar'
 
@@ -189,6 +192,29 @@ export class ProgramacionComponent implements OnInit {
     this.formFiltros.controls.gerencia.valueChanges.subscribe((_)=>{
         this.formFiltros.get("agrupador").patchValue([]);
     })
+  }
+
+
+  excelProgramacion(){
+    const datos = {
+      ...this.formFiltros.value,
+      agrupador: this.formFiltros.controls.agrupador.value.map((itemAgrupador:any)=> (itemAgrupador.idAgrupador))
+    }
+
+    this.flagExcel = true;
+    this._programacionOperacionesService.excelProgramacion(datos).subscribe(
+      (resp:any)=>{
+              if(resp["success"])
+              {
+                  this._fileService.decargarExcel_Base64(resp["content"],'ExportarProgramacion','xlsx');
+              }else
+              {
+                  this.toastr.info(resp["content"],"Información!!");
+              }
+              this.flagExcel = false;
+      },
+      (_)=> this.flagExcel = false
+    )
   }
 
 }

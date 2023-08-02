@@ -64,6 +64,15 @@ import { ToastrService } from 'ngx-toastr';
         })
       );
     }
+
+    excelProgramacion(body){
+      return this._http.post(this.url+"/api/ProgramacionOperaciones/ExportarExcelProgramacion", body).pipe(
+        catchError (() => {
+          this._toastr.error("Error al exportar programacion", "Error !!", { timeOut: 4000, closeButton: true })
+          return throwError("Error al exportar programacion")
+        })
+      );
+    }
     
 }
   

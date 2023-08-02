@@ -98,12 +98,14 @@
                             <div class="form-group">
                                 <button class="btn btn-sm btn-info"> <i
                                         class="fa fa-search"></i>&nbsp;&nbsp;Buscar&nbsp;</button>
+                                <button  type="button" (click)="excelProgramacion()" class="btn btn-sm btn-success"> 
+                                        <i class="fas fa-file-excel" *ngIf="!flagExcel"></i>
+                                        <i class="fa fa-spinner fa-spin fa-fw" *ngIf="flagExcel"></i> &nbsp;&nbsp;Excel&nbsp;
+                                </button>      
                             </div>
                         </div>
                     </div>
-
                 </form>
-
             </div>
         </div>
     </div>
@@ -207,6 +209,12 @@
                 <ngx-datatable-column name="F.Entrega" prop="fechaEntrega" [width]="100" [flexGrow]="4">
                     <ng-template let-row="row" ngx-datatable-cell-template>
                         <span class="font-medium">{{row.fechaEntrega | date:'dd-MM-YYYY'}}</span>
+                    </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column name="Cliente" prop="busqueda" [width]="150" [flexGrow]="4">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                        <span class="font-medium">{{row.busqueda}}</span>
                     </ng-template>
                 </ngx-datatable-column>
             </ngx-datatable>

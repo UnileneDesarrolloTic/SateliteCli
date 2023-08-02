@@ -308,6 +308,7 @@ export class InterceptorService implements HttpInterceptor {
       "ProgramacionOperaciones/ActualizarFechaProgramada",
       "ProgramacionOperaciones/ObtenerTipoFechaOrdenFabricacion",
       "ProgramacionOperaciones/RegistrarDivisionProgramacion",
+      "ProgramacionOperaciones/ExportarExcelProgramacion",
       "AnalisisMateriaPrima/listarAnalisisMateriaPrima",
       "AnalisisMateriaPrima/guardarAnalisisHebra",
       "AnalisisMateriaPrima/datosGeneralesAnalisisHebra",

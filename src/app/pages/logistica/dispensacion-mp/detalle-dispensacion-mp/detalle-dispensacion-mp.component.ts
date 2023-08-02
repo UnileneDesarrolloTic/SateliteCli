@@ -143,7 +143,14 @@ export class DetalleDispensacionMpComponent implements OnInit{
     else
     { 
         this.desactivarBoton = true;
-        this._DispensacionService.registrarDispensacion(this.formDetalle.value).subscribe(
+
+        const dato = {
+            ...this.formDetalle.value,
+            detalleDispensacion: this.formDetalle.controls.detalleDispensacion.value.filter(x=> x.cantidadIngresada > 0)
+
+        }
+        
+        this._DispensacionService.registrarDispensacion(dato).subscribe(
             (resp:any)=>{
                 if(resp["success"])
                 {
