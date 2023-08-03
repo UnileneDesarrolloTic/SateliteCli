@@ -3,8 +3,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { TransferenciaMPService } from '@data/services/backEnd/pages/transferencia-pt.service';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { FileService } from '@shared/services/comunes/file.service';
+import { LogIn } from 'angular-feather/icons';
 import { tickStep } from 'd3-array';
 import { ToastrService } from 'ngx-toastr';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-recepcion-pt',
@@ -13,14 +16,18 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class RecepcionPtComponent implements OnInit {
 
+  filtroTexto: FormControl;
   listaPendientes: any[] = []
+  listaPendientesCompleto: any[] = []
   formFiltro: FormGroup;
   modalNuevaSolicitud: NgbModalRef;
   formRecepcion: FormGroup;
   flagRegistrarRecepcion: boolean;
-  indexSeleccionado: number = -1
+  indexSeleccionado: number = -1;
+  flagDescargarReporte: boolean = false;
 
-  constructor(private _transferenciaService: TransferenciaMPService, private _modalService: NgbModal, private _toastr: ToastrService) { }
+  constructor(private _transferenciaService: TransferenciaMPService, private _modalService: NgbModal, 
+      private _toastr: ToastrService,  private _fileService: FileService) { }
 
   ngOnInit(): void {
     this.inicializarFormulario()
@@ -28,6 +35,13 @@ export class RecepcionPtComponent implements OnInit {
   }
 
   inicializarFormulario(){
+
+    this.filtroTexto = new FormControl('')
+
+    this.filtroTexto.valueChanges.pipe(debounceTime(500)).subscribe(x =>
+      this.filtrarPorTexto()
+    )
+    
     this.formFiltro = new FormGroup({
       almacen: new FormControl('ALMPRT', [Validators.required, Validators.minLength(2)]),
       estado: new FormControl('AP', [Validators.required, Validators.minLength(2)])
@@ -52,7 +66,10 @@ export class RecepcionPtComponent implements OnInit {
     this.listaPendientes = []
     
     this._transferenciaService.listaPendienteRecepcionFisica(almacen, estado).subscribe( 
-      x => this.listaPendientes = x
+      x => {
+        this.listaPendientesCompleto = x
+        this.filtrarPorTexto()
+      }
     )
   }
 
@@ -120,6 +137,31 @@ export class RecepcionPtComponent implements OnInit {
         size: 'md',
         scrollable: true
       });
+  }
+
+  filtrarPorTexto() {
+    
+    const texto = this.filtroTexto.value
+    
+    if(texto == '' || texto == null || texto == undefined)
+      this.listaPendientes = this.listaPendientesCompleto
+    else{
+      this.listaPendientes = this.listaPendientesCompleto.filter( x => x.ordenFabricacion?.toLowerCase().indexOf(texto) !== -1
+        || x.lote?.toLowerCase().indexOf(texto) !== -1)
+    }
+
+  }
+
+  descargarReporte() {
+
+    if (this.flagDescargarReporte)
+      return this._toastr.warning('Se esta descargando el reporte...', "Advertencia !!", { closeButton: true, timeOut: 3000, progressBar: true })
+
+    this.flagDescargarReporte = true
+    this._transferenciaService.reporteTransferencia().subscribe(x => {
+      this._fileService.decargarExcel_Base64(x, "Reporte de Transferencia", 'xlsx')
+      this.flagDescargarReporte = false
+    }, _ => this.flagDescargarReporte = false)
   }
 
 }

@@ -62,4 +62,14 @@ export class TransferenciaMPService {
         );
     }
 
+    reporteTransferencia (){
+        return this._http.get(this.url+"/reporteTransferencia").pipe(
+            map((x: any) => x.content),
+            catchError (() => {
+            this._toastr.error("Error descargar el reporte.", "Error !!", { timeOut: 4000, closeButton: true })
+            return throwError("Error descargar el reporte.")
+            })
+        );
+    }
+
 }
