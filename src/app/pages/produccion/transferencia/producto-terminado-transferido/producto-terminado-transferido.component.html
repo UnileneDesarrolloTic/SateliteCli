@@ -39,10 +39,21 @@
                 <div class="alert alert-warning" role="alert" *ngIf="listaPendientes.length < 1">
                     No se encontrarón pendientes.
                 </div>
+                <div class="col-12 m-b-20 d-flex justify-content-between" >
+                    <div class="col-sm-12 col-md-4 p-0">
+                        <input type="text" placeholder="Buscar por Orden o Lote" 
+                            class="form-control form-control-sm rounded-pill" [formControl]="filtroTexto">
+                    </div>
+                    <button class="btn btn-success btn-rounded btn-sm" (click)="descargarReporte()">
+                      <i class="fa fa-download" *ngIf="!flagDescargarReporte"></i>
+                      <i class="fa fa-spinner fa-spin fa-fw" *ngIf="flagDescargarReporte"></i>
+                        &nbsp;&nbsp;Descargar Reporte&nbsp;&nbsp;
+                    </button>
+                </div>
                 <div class="table-responsive">
                     <div class="table table-hover table-sm" *ngIf="listaPendientes.length > 0">
                         <div class="scroll-group">
-                            <table class=" scroll-group table table-striped border mt-4" style="font-size: 11px">
+                            <table class=" scroll-group table table-striped border " style="font-size: 11px">
                                 <thead class="no-wrap">
                                     <tr>
                                         <th class="text-center font-weight-bold">Ctrl. Nro</th>
