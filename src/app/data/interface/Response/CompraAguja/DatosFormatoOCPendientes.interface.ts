@@ -1,4 +1,5 @@
 export interface OCPendientesArima {
+    secuencia:         number;
     item:              string;
     numeroOrden:       string;
     proveedor:         string;

@@ -2,7 +2,7 @@
 <div class="app-sidebar card" id="rightMenu">
     <div class="card-img-overlay border">
         <div class="d-flex justify-content-end">
-            <a href="javascript:void(0)" *ngIf="mostrarmodalCantidad" class="btn bg-white text-danger py px-1 link ml-3"
+            <a href="javascript:void(0)" *ngIf="mostrarmodal" class="btn bg-white text-danger py px-1 link ml-3"
                 (click)="cancelClick()"> <i class="fas fa-times"></i>
             </a>
         </div>
@@ -54,9 +54,6 @@
          </div>
     </div>
 </div>
-
-
-
 
 <div class="row">
     <div class="col-12">
@@ -356,6 +353,7 @@
                         <th class="text-center">Fec. Prometida(Spring)</th>
                         <th class="text-center">Dif. Días</th>
                         <th class="text-center wrap">Fec. Llegada(Leadtime)</th>
+                        <th class="text-center wrap" *ngIf="this.tipomodal == 'Aprobados'">...</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -387,6 +385,9 @@
                         </td>
                         <td class="text-center font-medium">
                             {{ ordenCompra['fechaLlegada'] | date:'dd/MM/yyyy' }}
+                        </td>
+                        <td class="text-center font-medium">
+                            <button class="btn btn-primary btn-xs" *ngIf="this.tipomodal == 'Aprobados'" (click)="historialFechaPrometida(ordenCompra)"><i class=" fas fa-calendar-alt"></i></button>
                         </td>
                         
                     </tr>

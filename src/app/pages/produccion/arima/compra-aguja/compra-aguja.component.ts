@@ -7,8 +7,10 @@ import { DatosFormatoListadoCantidadTotal } from '@data/interface/Response/Compr
 import { ProduccionService } from '@data/services/backEnd/pages/produccion.service';
 import { FullComponent } from '@layout/full/full.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { HistorialFechaprometidaOcComponent } from '@shared/components/historial-fechaprometida-oc/historial-fechaprometida-oc.component';
 import { ModalCargarComponent } from '@shared/components/modal-cargar/modal-cargar.component';
 import { Cargarbase64Service } from '@shared/services/comunes/cargarbase64.service';
+import { GenericoService } from '@shared/services/comunes/generico.service';
 import { ToastrService } from 'ngx-toastr';
 import { debounceTime } from 'rxjs/operators';
 
@@ -29,7 +31,7 @@ export class CompraAgujaComponent implements OnInit {
   totalPendiente : number = 0;
   flagEspera: boolean = false;
   flagEsperaExcel:boolean=false;
-  mostrarmodalCantidad:Boolean=false;
+  mostrarmodal:Boolean=false;
 
   checkMostrarColumna = new FormControl(false);
   textFiltrarAgujas = new FormControl('');
@@ -37,8 +39,10 @@ export class CompraAgujaComponent implements OnInit {
 
   itemModal:string = '';
   descripcionModal:string = '';
+  tipomodal:string = '';
+  flagRegistrarFecha:boolean = true;
   
-  constructor(public _ProduccionService: ProduccionService,private _modalService: NgbModal,
+  constructor(public _ProduccionService: ProduccionService,private _modalService: NgbModal, private _GenericoService: GenericoService,
     private _Cargarbase64Service:Cargarbase64Service, private _toastr: ToastrService, private _fullComponente: FullComponent) { 
         this._fullComponente.options.sidebartype = 'mini-sidebar';
     }
@@ -46,6 +50,7 @@ export class CompraAgujaComponent implements OnInit {
   ngOnInit(): void {
     this.listadoComprasAguja();
     this.isObservableFiltro();
+    this.permisoColumnaTransito();
   }
 
 
@@ -109,6 +114,7 @@ export class CompraAgujaComponent implements OnInit {
 
   this.itemModal = item;
   this.descripcionModal = descripcion;
+  this.tipomodal = tipo;
   this._modalService.open(modal, {
     centered: true,
     windowClass: 'my-class',
@@ -146,7 +152,7 @@ export class CompraAgujaComponent implements OnInit {
 
 
   mostrarCantidad(){
-    this.mostrarmodalCantidad=true;
+    this.mostrarmodal=true;
     this.tableRowClicked();
   }
 
@@ -155,8 +161,34 @@ export class CompraAgujaComponent implements OnInit {
   }
 
   cancelClick(){
-    this.mostrarmodalCantidad=false;
+    this.mostrarmodal=false;
     (document.getElementById('rightMenu') as HTMLFormElement).style.width = '0';
+  }
+
+
+  historialFechaPrometida(fila:OCPendientesArima){
+    const ModalFechaPrometida = this._modalService.open(HistorialFechaprometidaOcComponent, {
+      centered: true,
+      backdrop: 'static',
+      size: 'lg',
+      scrollable: true
+    });
+
+    ModalFechaPrometida.componentInstance.filaNumeroDocumento = fila;
+    ModalFechaPrometida.componentInstance.permiso = this.flagRegistrarFecha;
+    ModalFechaPrometida.result.then((result) => {
+      this._ProduccionService.mostrarOrdenCompraArima(fila.item,'Aprobados').subscribe(
+        (resp:any) => {
+          if(resp["success"]){
+            this.listaDettalleCC=resp["content"];
+          }else{
+            this.listaDettalleCC=[];
+          }
+        }
+      )
+    }, (refrescado) => {
+        console.log("refrescado");
+    });
   }
 
 
@@ -195,5 +227,16 @@ export class CompraAgujaComponent implements OnInit {
         this.pedidosAgujas = resp;
       }
     );
+  }
+
+  permisoColumnaTransito(){
+    this._GenericoService.AccesosPermiso('BTN004').subscribe(
+      (resp:any)=>{
+          if(resp["success"])
+              this.flagRegistrarFecha = resp["content"];
+          else
+              this.flagRegistrarFecha = false;
+      }
+    )
   }
 }

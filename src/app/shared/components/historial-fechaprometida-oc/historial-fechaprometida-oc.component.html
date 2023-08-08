@@ -1,0 +1,52 @@
+<div class="modal-header">
+    <h4 class="modal-title font-bold">Historial Fecha Prometida Documento: {{ filaNumeroDocumento.numeroOrden }} - Item:
+        {{ filaNumeroDocumento.item}} </h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <form [formGroup]="form">
+        <div class="row" *ngIf="!permiso">
+            <div class="col-sm-4">
+                <label>Fecha Prometida: </label> <input type="date" class="form-control form-control-sm font-medium" formControlName = "prometida" />
+            </div>
+            <div class="col-sm-8">
+                <label>Comentario: </label>
+                <textarea class="form-control form-control-sm font-medium"  formControlName = "comentario"  cols="30" rows="2"></textarea>
+            </div>
+        </div>
+    </form>
+    <div class="row">
+        <div class="table-responsive table-sm">
+            <table class="table table-striped no-wrap border mt-4" style="font-size: 13px;">
+                <thead>
+                    <tr>
+                        <th class="text-center font-bold">Fecha Prometida</th>
+                        <th class="text-center font-bold">Comentario</th>
+                        <th class="text-center font-bold">Usuario</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let fecha of listadoHistorialPrometida">
+                        <td class="text-center font-medium ">
+                          {{ fecha['reprogramacion'] | date: 'dd/MM/yyyy' }}
+                        </td>
+                        <td class="text-center font-medium">
+                          {{ fecha['comentarios']  }}
+                        </td>
+                        <td class="text-center font-medium">
+                          {{ fecha['usuario'] }}
+                        </td>
+                    
+                    </tr>
+                </tbody>
+            </table>
+          </div>
+    </div>
+
+</div>
+<div class="modal-footer" >
+    <button type="button" *ngIf="!permiso" [disabled]="!form.valid" (click)="registrarFechaPrometida()" class="btn btn-success">Registrar</button>
+    <button type="button" class="btn btn-danger"  (click)="activeModal.dismiss('Cross click')" >Cancelar</button>
+</div>

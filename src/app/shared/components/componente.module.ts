@@ -12,6 +12,7 @@ import { ModalItemMastComponent } from './modal-item-mast/modal-item-mast.compon
 import { ModalPdfComponent } from './modal-pdf/modal-pdf.component';
 import { ModalVerTransitoComponent } from './modal-ver-transito/modal-ver-transito.component';
 import { ModalEmpleadorComponent } from './modal-empleador/modal-empleador.component';
+import { HistorialFechaprometidaOcComponent } from './historial-fechaprometida-oc/historial-fechaprometida-oc.component';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { ModalEmpleadorComponent } from './modal-empleador/modal-empleador.compo
     ModalItemMastComponent,
     ModalPdfComponent,
     ModalVerTransitoComponent,
-    ModalEmpleadorComponent
+    ModalEmpleadorComponent,
+    HistorialFechaprometidaOcComponent
   ],
   imports: [
     CommonModule,
