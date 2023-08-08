@@ -47,6 +47,6 @@
 
 </div>
 <div class="modal-footer" >
-    <button type="button" *ngIf="!permiso" [disabled]="!form.valid" (click)="registrarFechaPrometida()" class="btn btn-success">Registrar</button>
-    <button type="button" class="btn btn-danger"  (click)="activeModal.dismiss('Cross click')" >Cancelar</button>
+    <button type="button" *ngIf="!permiso" [disabled]="!form.valid" (click)="registrarFechaPrometida()" class="btn btn-success btn-sm"> <i class="fas fa-save"></i> Registrar</button>
+    <button type="button" class="btn btn-danger btn-sm"  (click)="activeModal.dismiss('Cross click')" > <i class="fas fa-ban"></i> Cancelar</button>
 </div>
