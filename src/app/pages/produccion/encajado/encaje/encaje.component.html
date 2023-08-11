@@ -5,21 +5,31 @@
                 Filtros de búsqueda
             </div>
             <div class="card-body">
-                <form autocomplete="off">
+                <form autocomplete="off" [formGroup]="formFiltro" (submit)="listarOrdenesCompra()">
                     <div class="row">
-                        <div class="col-sm-12 col-md-7">
+                        <div class="col-sm-12 col-md-6">
                             <div class="form-group row mb-0">
-                                <label for="nroOrden" class="col-3 control-label col-form-label-sm">Ord.
+                                <label for="nroOrden" class="col-3 control-label col-form-label-sm">O.
                                     Fabricacion</label>
                                 <div class="col-8">
                                     <input type="text" class="form-control form-control-sm" id="nroOrden"
-                                        placeholder="Orden de compra">
+                                        placeholder="Orden de fabricación" formControlName="ordenFabricacion">
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-12 col-md-5">
-                            <button class="btn btn-info btn-rounded btn-sm d-md-inline-block mt-sm-4 mt-md-0 "
-                                type="submit">
+                        <div class="col-sm-12 col-md-6">
+                            <div class="form-group row mb-0">
+                                <label for="nroOrden" class="col-3 control-label col-form-label-sm">
+                                    Lote
+                                </label>
+                                <div class="col-8">
+                                    <input type="text" class="form-control form-control-sm" id="nroOrden"
+                                        placeholder="Número de lote" formControlName="lote">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 d-flex justify-content-center">
+                            <button class="btn btn-sm btn-info btn-rounded mt-4" type="submit">
                                 <span>
                                     <i class="fa fa-search"></i>&nbsp;&nbsp;Buscar&nbsp;
                                 </span>
@@ -35,32 +45,39 @@
     <div class="col-12">
         <div class="card border-left border-info">
             <div class="card-body">
-                <div class="table table-hover">
+                <div class="alert alert-warning" role="alert"
+                    *ngIf="listaOrdenesFabricacion.length < 1 && !flagListandoOrdenes">
+                    No se han encontrado ordenes de fabricación.
+                </div>
+                <div class="table table-hover" *ngIf="listaOrdenesFabricacion.length > 0">
                     <div class="scroll-group">
                         <table class=" scroll-group table table-striped border mt-4" style="font-size: 12px">
                             <thead class="no-wrap">
                                 <tr>
                                     <th class="text-center">O. Fabricación</th>
                                     <th class="text-center">Lote</th>
+                                    <th class="text-center">Codsut</th>
                                     <th class="text-center">Item</th>
                                     <th class="text-center">Descripción</th>
-                                    <th class="text-center">C. Total</th>
-                                    <th class="text-center">C. Ingresada</th>
-                                    <th class="text-center">C. Confirmada</th>
+                                    <th class="text-center">Total</th>
+                                    <th class="text-center">Ingresada</th>
+                                    <th class="text-center">Avance</th>
                                     <th class="text-center">...</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="font-medium">
-                                    <td class="text-center">20737643</td>
-                                    <td class="text-center">20737643</td>
-                                    <td class="text-center">PSTXA00024</td>
-                                    <td>Polidioxanona Antibacterial 4/0 Aguja 1/2 Círculo Cortante 17 mm x 90 cm SD</td>
-                                    <td class="text-center">1,200</td>
-                                    <td class="text-center">1,000</td>
-                                    <td class="text-center">500</td>
+                                <tr class="font-medium" *ngFor="let orden of listaOrdenesFabricacion; let i = index">
+                                    <td class="text-center">{{orden.ordenFabricacion}}</td>
+                                    <td class="text-center">{{orden.lote}}</td>
+                                    <td>{{orden.codSut}}</td>
+                                    <td class="text-center">{{orden.item}}</td>
+                                    <td>{{orden.descripcion}}</td>
+                                    <td class="text-right">{{ orden.cantidadProgramada | number: '1.0-2'}}</td>
+                                    <td class="text-right">{{ orden.ingreso | number: '1.0-2'}}</td>
+                                    <td class="text-right">{{ (orden.ingreso * 100) / orden.cantidadProgramada | number: '1.0-0' }} %</td>
                                     <td align="center">
-                                        <a class="mr-2" type="button" (click)="abrirModalReporte(modal)">
+                                        <a class="mr-2" type="button"
+                                            (click)="abrirModalTransferencia(modalTransferencia, i)">
                                             <i class="fas fa-cog fa-lg"></i>
                                         </a>
                                     </td>
@@ -73,7 +90,145 @@
         </div>
     </div>
 </div>
-<ng-template #modal let-modal>
+<ng-template #modalTransferencia let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title font-weight-bold">
+            <i class="fas fa-dolly-flatbed fa-md" *ngIf="!flagListarTransferenciaEncaje"></i>
+            <i class="fas fa-spinner fa-spin" *ngIf="flagListarTransferenciaEncaje"></i>&nbsp;&nbsp;Transferencias
+        </h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">
+                &times;
+            </span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="formHeaderTransferencia">
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-horizontal" style="font-size: 12px;">
+                        <div class="row">
+                            <div class="col-sm-12 col-md-6">
+                                <div class="form-group mb-1">
+                                    <label class="col-form-label col-form-label-sm" for="ordFabricacion">Ord.
+                                        Fabricacion:</label>
+                                    <input type="text" id="ordFabricacion" class="form-control form-control-sm"
+                                        placeholder="Orden Fabricación" formControlName="ordenFabricacion">
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <div class="form-group mb-1">
+                                    <label class="col-form-label col-form-label-sm" for="codsut">CodSut:</label>
+                                    <input type="text" id="codsut" class="form-control form-control-sm"
+                                        placeholder="Número de parte" formControlName="codsut">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="col-form-label col-form-label-sm" for="item">Item:</label>
+                                    <input type="email" id="item" class="form-control form-control-sm"
+                                        placeholder="Descripcion Item" formControlName="item">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="row">
+            <div class="col-12 d-flex justify-content-between">
+                <div style="font-size: 13px">
+                    <span class="font-weight-bold">C. Transferida: </span>&nbsp;&nbsp;<span>{{totalTransferida | number: '1.0-2'}} de {{formHeaderTransferencia.get('total').value | number: '1.0-2'}}</span>
+                </div>
+                <button class="btn btn-sm btn-info btn-rounded mb-2" type="button" (click)="agregarFormNuevoRegistroTransferencia()">
+                    <span>
+                        <i class="fa fa-plus"></i>&nbsp;&nbsp;Nuevo&nbsp;
+                    </span>
+                </button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="alert alert-warning mt-3" role="alert"
+                    *ngIf="listaTransferenciasEncaje.length < 1 && !flagListarTransferenciaEncaje">
+                    No se han encontrado ninguna transferencia registrada.
+                </div>
+                <div class="table table-hover" *ngIf="listaTransferenciasEncaje.length > 0">
+                    <div class="scroll-group">
+                        <table class="scroll-group table table-striped border" style="font-size: 12px">
+                            <thead class="no-wrap">
+                                <tr>
+                                    <th class="text-center">Id</th>
+                                    <th class="text-center">Usuario R.</th>
+                                    <th class="text-center">Fecha R.</th>
+                                    <th class="text-center">Cantidad</th>
+                                    <th class="text-center">Avance</th>
+                                    <th class="text-center">...</th>
+                                </tr>
+                            </thead>
+                            <tbody *ngFor="let transferencia of listaTransferenciasEncaje">
+                                <tr class="font-medium" *ngIf="transferencia.id > 0">
+                                    <td class="text-center">{{ transferencia.id }}</td>
+                                    <td class="text-center">{{ transferencia.usuarioRegistro }}</td>
+                                    <td class="text-center">{{ transferencia.fechaRegistro | date: 'dd/MM/yyyy HH:mm' }}</td>
+                                    <td class="text-right">{{ transferencia.cantidadTransferida }}</td>
+                                    <td class="text-center">{{ transferencia.avance }} %</td>
+                                    <td align="center">
+                                        <a class="mr-2" type="button" (click)="abrirModalProgramacion(modalAsignacion, transferencia.id)">
+                                            <i class="fas fa-boxes fa-lg"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr class="font-medium" *ngIf="transferencia.id == 0" [formGroup]="formNuevaTransferencia"
+                                    (keyup.enter)="registrarNuevaTransferencia()">
+
+                                    <td class="text-center">
+                                        <input
+                                            class="form-control form-control-sm font-weight-bold"
+                                            type="number" placeholder="Id"
+                                            style="font-size: 12px"
+                                            formControlName="id">
+                                    </td>
+                                    <td class="text-center">
+                                        <input
+                                            class="form-control form-control-sm font-weight-bold"
+                                            type="text" placeholder="usuario"
+                                            style="font-size: 12px"
+                                            formControlName="usuarioRegistro">
+                                    </td>
+                                    <td class="text-center">
+                                        <input
+                                            class="form-control form-control-sm font-weight-bold"
+                                            type="datetime-local" placeholder="fecha"
+                                            style="font-size: 12px"
+                                            formControlName="fechaRegistro">
+                                    </td>
+                                    <td class="text-center">
+                                        <input
+                                            class="form-control form-control-sm font-weight-bold"
+                                            type="number" placeholder="fecha"
+                                            style="font-size: 12px"
+                                            formControlName="cantidadTransferida">
+                                    </td>
+                                    <td class="text-center"></td>
+                                    <td class="text-center">
+                                        <a type="button" class="text-danger" (click)="eliminarFormNuevaTransferencia()">
+                                            <i class="fas fa-trash-alt fa-lg"></i>
+                                        </a>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+<ng-template #modalAsignacion let-modal>
     <div class="modal-body">
         <div class="row">
             <div class="col-12">
@@ -85,8 +240,8 @@
                                     <ul class="wizard-navbar">
                                         <li class="active flex-fill">
                                             <a [ngClass]="(etapaEncajado===1)?'nav-link active':'nav-link'"
-                                                uiSrefActive="active" uiSref="flexión" data-toggle="tab"
-                                                title="flexión" (click)="cambiarEtapa(1)" style="cursor:pointer;">
+                                                uiSrefActive="active" uiSref="flexión" data-toggle="tab" title="flexión"
+                                                (click)="cambiarEtapa(1)" style="cursor:pointer;">
                                                 <span class="round-tabs">
                                                     &nbsp;&nbsp;1&nbsp;&nbsp;
                                                 </span>
@@ -104,7 +259,7 @@
                                         <li class="flex-fill">
                                             <a [ngClass]="(etapaEncajado===3)?'nav-link active':'nav-link'"
                                                 uiSrefActive="active" uiSref="datos" data-toggle="tab"
-                                                title="dimensional" style="cursor:pointer;">
+                                                title="dimensional" (click)="cambiarEtapa(3)" style="cursor:pointer;">
                                                 <span class="round-tabs">
                                                     &nbsp;3&nbsp;
                                                 </span>
@@ -113,7 +268,7 @@
                                         <li class="flex-fill">
                                             <a [ngClass]="(etapaEncajado===4)?'nav-link active':'nav-link'"
                                                 uiSrefActive="active" uiSref="datos" data-toggle="tab"
-                                                title="elasticidad" style="cursor:pointer;">
+                                                title="elasticidad" (click)="cambiarEtapa(4)" style="cursor:pointer;">
                                                 <span class="round-tabs">
                                                     &nbsp;4&nbsp;
                                                 </span>
@@ -126,18 +281,25 @@
                                         <form class="editForm" novalidate>
                                             <div class="tab-pane active">
                                                 <h4 class="text-center font-weight-bold text-info m-0">ARMADO
-                                                    CAJA</h4>
+                                                    CAJA
+                                                </h4>
                                                 <div class="row">
                                                     <div class="col-12 d-flex justify-content-between align-items-end">
-                                                        <span style="font-size: 13px;" class="font-weight-bold">Pendiente: 500</span>
-                                                        <button type="button" class="btn btn-info btn-sm btn-rounded" (click)="asignarRegistro()">
+                                                        <span style="font-size: 13px;"
+                                                            class="font-weight-bold">Pendiente: {{pendienteAsignar}}</span>
+                                                        <button type="button" class="btn btn-info btn-sm btn-rounded"
+                                                            (click)="agregarFormAsignacionRegistro()">
                                                             <i class="fas fa-plus"></i>&nbsp;&nbsp;Asignar
                                                         </button>
                                                     </div>
                                                 </div>
                                                 <div class='row'>
                                                     <div class='col-12'>
-                                                        <div class="table table-hover">
+                                                        <div class="alert alert-warning mt-3" role="alert"
+                                                            *ngIf="listaAsignaciones.length < 1">
+                                                            No se han encontrado ninguna asignacion.
+                                                        </div>
+                                                        <div class="table table-hover" *ngIf="listaAsignaciones.length > 0">
                                                             <div class="scroll-group">
                                                                 <table
                                                                     class=" scroll-group table table-striped border mt-4"
@@ -145,52 +307,83 @@
                                                                     <thead class="no-wrap">
                                                                         <tr>
                                                                             <th class="text-center col-1">Código</th>
-                                                                            <th class="text-center col-2">Usuario</th>
+                                                                            <th class="text-center col-2">Trabajador</th>
                                                                             <th class="text-center col-1">Fecha</th>
                                                                             <th class="text-center col-1">Cantidad</th>
+                                                                            <th class="text-center col-1">Estado</th>
                                                                             <th class="text-center col-1">...</th>
                                                                         </tr>
                                                                     </thead>
-                                                                    <tbody *ngFor="let armado of listaArmadoCaja">
-                                                                        <tr class="font-medium" *ngIf="!armado.editable">
-                                                                            <td class="text-center">{{armado.codigo}}</td>
-                                                                            <td>{{armado.usuario}}</td>
-                                                                            <td class="text-center">{{armado.fecha}}</td>
-                                                                            <td class="text-center">{{armado.cantidad}}</td>
+                                                                    <tbody *ngFor="let asignacion of listaAsignaciones">
+                                                                        <tr class="font-medium" *ngIf="asignacion.empleado > 0">
+                                                                            <td class="text-center">{{asignacion.empleado}}
+                                                                            </td>
+                                                                            <td>{{asignacion.nombreEmpleado}}</td>
+                                                                            <td class="text-center">{{asignacion.fecha | date: 'dd/MM/yyyy HH:mm'}}
+                                                                            </td>
+                                                                            <td class="text-center">{{asignacion.cantidad}}
+                                                                            </td>
+                                                                            <td class="text-center">{{ asignacion.estado == 'A' ? 'Asignado' : 'Completado'}}
+                                                                            </td>
                                                                             <td align="center">
-                                                                                <a type="button" class="text-success">
+                                                                                <a type="button" class="text-success" *ngIf="asignacion.estado == 'A'"
+                                                                                    (click)="actualizarEstadoAsignacion(asignacion.id, 'C', 1)">
                                                                                     <i class="fas fa-check-circle fa-lg"></i>
                                                                                 </a>&nbsp;&nbsp;&nbsp;
-                                                                                <a type="button" class="text-danger" (click)="eliminarItem()">
+                                                                                <a type="button" class="text-danger" *ngIf="asignacion.estado == 'A'"
+                                                                                    (click)="actualizarEstadoAsignacion(asignacion.id, 'I', 1)">
                                                                                     <i class="fas fa-trash-alt fa-lg"></i>
                                                                                 </a>
                                                                             </td>
                                                                         </tr>
-                                                                        <tr class="font-medium" *ngIf="armado.editable" [formGroup]="formArmadoCaja" 
-                                                                            (keyup.enter)="registrarItem()">
+                                                                        <tr class="font-medium" *ngIf="asignacion.empleado == 0"
+                                                                            [formGroup]="formNuevaAsignacion"
+                                                                            (keyup.enter)="registrarNuevaAsignacion(1)">
                                                                             <td class="text-center">
-                                                                                <input class="form-control form-control-sm font-weight-bold" 
-                                                                                    type="number" placeholder="Código" style="font-size: 12px" formControlName="codigo">
+                                                                                <input
+                                                                                    class="form-control form-control-sm font-weight-bold"
+                                                                                    type="number" placeholder="Código"
+                                                                                    style="font-size: 12px"
+                                                                                    formControlName="empleado">
                                                                             </td>
                                                                             <td>
-                                                                                <input class="form-control form-control-sm font-weight-bold" 
-                                                                                    type="text" placeholder="Nombre usuario" style="font-size: 12px" formControlName="usuario">
+                                                                                <input
+                                                                                    class="form-control form-control-sm font-weight-bold"
+                                                                                    type="text"
+                                                                                    placeholder="Nombre usuario"
+                                                                                    style="font-size: 12px"
+                                                                                    formControlName="nombreEmpleado">
                                                                             </td>
                                                                             <td class="text-center">
-                                                                                <input class="form-control form-control-sm font-weight-bold" 
-                                                                                    type="datetime-local" placeholder="Fecha" style="font-size: 12px" formControlName="fecha">
+                                                                                <input
+                                                                                    class="form-control form-control-sm font-weight-bold"
+                                                                                    type="datetime-local"
+                                                                                    placeholder="Fecha"
+                                                                                    style="font-size: 12px"
+                                                                                    formControlName="fecha">
                                                                             </td>
                                                                             <td class="text-center">
-                                                                                <input class="form-control form-control-sm font-weight-bold" 
-                                                                                    type="number" placeholder="Cantidad" style="font-size: 12px" formControlName="cantidad">
+                                                                                <input
+                                                                                    class="form-control form-control-sm font-weight-bold"
+                                                                                    type="number"
+                                                                                    placeholder="Cantidad"
+                                                                                    style="font-size: 12px"
+                                                                                    formControlName="cantidad">
                                                                             </td>
                                                                             <td class="text-center">
-                                                                                <a type="button" class="text-danger" (click)="eliminarFormNuevoRegistro()">
-                                                                                    <i class="fas fa-trash-alt fa-lg"></i>
+                                                                                <input
+                                                                                    class="form-control form-control-sm font-weight-bold"
+                                                                                    type="number" placeholder="Asignado"
+                                                                                    style="font-size: 12px" disabled>
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <a type="button" class="text-danger"
+                                                                                    (click)="eliminarFormNuevoRegistro()">
+                                                                                    <i
+                                                                                        class="fas fa-trash-alt fa-lg"></i>
                                                                                 </a>
                                                                             </td>
                                                                         </tr>
-                                                                        
                                                                     </tbody>
                                                                 </table>
                                                             </div>
@@ -203,18 +396,26 @@
                                     <div *ngIf="etapaEncajado === 2">
                                         <form class="editForm" novalidate>
                                             <div class="tab-pane active">
-                                                <h4 class="text-center font-weight-bold text-info m-0">EMBALADO</h4>
+                                                <h4 class="text-center font-weight-bold text-info m-0">
+                                                    EMBALADO
+                                                </h4>
                                                 <div class="row">
                                                     <div class="col-12 d-flex justify-content-between align-items-end">
-                                                        <span style="font-size: 13px;" class="font-weight-bold">Pendiente: 500</span>
-                                                        <button type="button" class="btn btn-info btn-sm btn-rounded">
+                                                        <span style="font-size: 13px;"
+                                                            class="font-weight-bold">Pendiente: {{pendienteAsignar}}</span>
+                                                        <button type="button" class="btn btn-info btn-sm btn-rounded"
+                                                            (click)="agregarFormAsignacionRegistro()">
                                                             <i class="fas fa-plus"></i>&nbsp;&nbsp;Asignar
                                                         </button>
                                                     </div>
                                                 </div>
                                                 <div class='row'>
                                                     <div class='col-12'>
-                                                        <div class="table table-hover">
+                                                        <div class="alert alert-warning mt-3" role="alert"
+                                                            *ngIf="listaAsignaciones.length < 1">
+                                                            No se han encontrado ninguna asignacion.
+                                                        </div>
+                                                        <div class="table table-hover" *ngIf="listaAsignaciones.length > 0">
                                                             <div class="scroll-group">
                                                                 <table
                                                                     class=" scroll-group table table-striped border mt-4"
@@ -222,17 +423,314 @@
                                                                     <thead class="no-wrap">
                                                                         <tr>
                                                                             <th class="text-center col-1">Código</th>
-                                                                            <th class="text-center col-2">Usuario</th>
+                                                                            <th class="text-center col-2">Trabajador</th>
                                                                             <th class="text-center col-1">Fecha</th>
                                                                             <th class="text-center col-1">Cantidad</th>
+                                                                            <th class="text-center col-1">Estado</th>
+                                                                            <th class="text-center col-1">...</th>
                                                                         </tr>
                                                                     </thead>
-                                                                    <tbody>
-                                                                        <tr class="font-medium">
-                                                                            <td class="text-center">18834</td>
-                                                                            <td>Eddie Gomez Ochante</td>
-                                                                            <td class="text-center">20/07/2023</td>
-                                                                            <td class="text-center">500</td>
+                                                                    <tbody *ngFor="let asignacion of listaAsignaciones">
+                                                                        <tr class="font-medium" *ngIf="asignacion.empleado > 0">
+                                                                            <td class="text-center">{{asignacion.empleado}}
+                                                                            </td>
+                                                                            <td>{{asignacion.nombreEmpleado}}</td>
+                                                                            <td class="text-center">{{asignacion.fecha | date: 'dd/MM/yyyy HH:mm'}}
+                                                                            </td>
+                                                                            <td class="text-center">{{asignacion.cantidad}}
+                                                                            </td>
+                                                                            <td class="text-center">{{ asignacion.estado == 'A' ? 'Asignado' : 'Completado'}}
+                                                                            </td>
+                                                                            <td align="center">
+                                                                                <a type="button" class="text-success" *ngIf="asignacion.estado == 'A'"
+                                                                                    (click)="actualizarEstadoAsignacion(asignacion.id, 'C', 2)">
+                                                                                    <i class="fas fa-check-circle fa-lg"></i>
+                                                                                </a>&nbsp;&nbsp;&nbsp;
+                                                                                <a type="button" class="text-danger" *ngIf="asignacion.estado == 'A'"
+                                                                                    (click)="actualizarEstadoAsignacion(asignacion.id, 'I', 2)">
+                                                                                    <i class="fas fa-trash-alt fa-lg"></i>
+                                                                                </a>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr class="font-medium" *ngIf="asignacion.empleado == 0"
+                                                                            [formGroup]="formNuevaAsignacion"
+                                                                            (keyup.enter)="registrarNuevaAsignacion(2)">
+                                                                            <td class="text-center">
+                                                                                <input
+                                                                                    class="form-control form-control-sm font-weight-bold"
+                                                                                    type="number" placeholder="Código"
+                                                                                    style="font-size: 12px"
+                                                                                    formControlName="empleado">
+                                                                            </td>
+                                                                            <td>
+                                                                                <input
+                                                                                    class="form-control form-control-sm font-weight-bold"
+                                                                                    type="text"
+                                                                                    placeholder="Nombre usuario"
+                                                                                    style="font-size: 12px"
+                                                                                    formControlName="nombreEmpleado">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input
+                                                                                    class="form-control form-control-sm font-weight-bold"
+                                                                                    type="datetime-local"
+                                                                                    placeholder="Fecha"
+                                                                                    style="font-size: 12px"
+                                                                                    formControlName="fecha">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input
+                                                                                    class="form-control form-control-sm font-weight-bold"
+                                                                                    type="number"
+                                                                                    placeholder="Cantidad"
+                                                                                    style="font-size: 12px"
+                                                                                    formControlName="cantidad">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input
+                                                                                    class="form-control form-control-sm font-weight-bold"
+                                                                                    type="number" placeholder="Asignado"
+                                                                                    style="font-size: 12px" disabled>
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <a type="button" class="text-danger"
+                                                                                    (click)="eliminarFormNuevoRegistro()">
+                                                                                    <i
+                                                                                        class="fas fa-trash-alt fa-lg"></i>
+                                                                                </a>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div *ngIf="etapaEncajado === 3">
+                                        <form class="editForm" novalidate>
+                                            <div class="tab-pane active">
+                                                <h4 class="text-center font-weight-bold text-info m-0">
+                                                    SELLADO
+                                                </h4>
+                                                <div class="row">
+                                                    <div class="col-12 d-flex justify-content-between align-items-end">
+                                                        <span style="font-size: 13px;"
+                                                            class="font-weight-bold">Pendiente: {{pendienteAsignar}}</span>
+                                                        <button type="button" class="btn btn-info btn-sm btn-rounded"
+                                                            (click)="agregarFormAsignacionRegistro()">
+                                                            <i class="fas fa-plus"></i>&nbsp;&nbsp;Asignar
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div class='row'>
+                                                    <div class='col-12'>
+                                                        <div class="alert alert-warning mt-3" role="alert"
+                                                            *ngIf="listaAsignaciones.length < 1">
+                                                            No se han encontrado ninguna asignacion.
+                                                        </div>
+                                                        <div class="table table-hover" *ngIf="listaAsignaciones.length > 0">
+                                                            <div class="scroll-group">
+                                                                <table
+                                                                    class=" scroll-group table table-striped border mt-4"
+                                                                    style="font-size: 12px">
+                                                                    <thead class="no-wrap">
+                                                                        <tr>
+                                                                            <th class="text-center col-1">Código</th>
+                                                                            <th class="text-center col-2">Trabajador</th>
+                                                                            <th class="text-center col-1">Fecha</th>
+                                                                            <th class="text-center col-1">Cantidad</th>
+                                                                            <th class="text-center col-1">Estado</th>
+                                                                            <th class="text-center col-1">...</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody *ngFor="let asignacion of listaAsignaciones">
+                                                                        <tr class="font-medium" *ngIf="asignacion.empleado > 0">
+                                                                            <td class="text-center">{{asignacion.empleado}}
+                                                                            </td>
+                                                                            <td>{{asignacion.nombreEmpleado}}</td>
+                                                                            <td class="text-center">{{asignacion.fecha | date: 'dd/MM/yyyy HH:mm'}}
+                                                                            </td>
+                                                                            <td class="text-center">{{asignacion.cantidad}}
+                                                                            </td>
+                                                                            <td class="text-center">{{ asignacion.estado == 'A' ? 'Asignado' : 'Completado'}}
+                                                                            </td>
+                                                                            <td align="center">
+                                                                                <a type="button" class="text-success" *ngIf="asignacion.estado == 'A'"
+                                                                                    (click)="actualizarEstadoAsignacion(asignacion.id, 'C', 3)">
+                                                                                    <i class="fas fa-check-circle fa-lg"></i>
+                                                                                </a>&nbsp;&nbsp;&nbsp;
+                                                                                <a type="button" class="text-danger" *ngIf="asignacion.estado == 'A'"
+                                                                                    (click)="actualizarEstadoAsignacion(asignacion.id, 'I', 3)">
+                                                                                    <i class="fas fa-trash-alt fa-lg"></i>
+                                                                                </a>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr class="font-medium" *ngIf="asignacion.empleado == 0"
+                                                                            [formGroup]="formNuevaAsignacion"
+                                                                            (keyup.enter)="registrarNuevaAsignacion(3)">
+                                                                            <td class="text-center">
+                                                                                <input
+                                                                                    class="form-control form-control-sm font-weight-bold"
+                                                                                    type="number" placeholder="Código"
+                                                                                    style="font-size: 12px"
+                                                                                    formControlName="empleado">
+                                                                            </td>
+                                                                            <td>
+                                                                                <input
+                                                                                    class="form-control form-control-sm font-weight-bold"
+                                                                                    type="text"
+                                                                                    placeholder="Nombre usuario"
+                                                                                    style="font-size: 12px"
+                                                                                    formControlName="nombreEmpleado">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input
+                                                                                    class="form-control form-control-sm font-weight-bold"
+                                                                                    type="datetime-local"
+                                                                                    placeholder="Fecha"
+                                                                                    style="font-size: 12px"
+                                                                                    formControlName="fecha">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input
+                                                                                    class="form-control form-control-sm font-weight-bold"
+                                                                                    type="number"
+                                                                                    placeholder="Cantidad"
+                                                                                    style="font-size: 12px"
+                                                                                    formControlName="cantidad">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input
+                                                                                    class="form-control form-control-sm font-weight-bold"
+                                                                                    type="number" placeholder="Asignado"
+                                                                                    style="font-size: 12px" disabled>
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <a type="button" class="text-danger"
+                                                                                    (click)="eliminarFormNuevoRegistro()">
+                                                                                    <i
+                                                                                        class="fas fa-trash-alt fa-lg"></i>
+                                                                                </a>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div *ngIf="etapaEncajado === 4">
+                                        <form class="editForm" novalidate>
+                                            <div class="tab-pane active">
+                                                <h4 class="text-center font-weight-bold text-info m-0">
+                                                    EMBALADO
+                                                </h4>
+                                                <div class="row">
+                                                    <div class="col-12 d-flex justify-content-between align-items-end">
+                                                        <span style="font-size: 13px;"
+                                                            class="font-weight-bold">Pendiente: {{pendienteAsignar}}</span>
+                                                        <button type="button" class="btn btn-info btn-sm btn-rounded"
+                                                            (click)="agregarFormAsignacionRegistro()">
+                                                            <i class="fas fa-plus"></i>&nbsp;&nbsp;Asignar
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div class='row'>
+                                                    <div class='col-12'>
+                                                        <div class="alert alert-warning mt-3" role="alert"
+                                                            *ngIf="listaAsignaciones.length < 1">
+                                                            No se han encontrado ninguna asignacion.
+                                                        </div>
+                                                        <div class="table table-hover" *ngIf="listaAsignaciones.length > 0">
+                                                            <div class="scroll-group">
+                                                                <table
+                                                                    class=" scroll-group table table-striped border mt-4"
+                                                                    style="font-size: 12px">
+                                                                    <thead class="no-wrap">
+                                                                        <tr>
+                                                                            <th class="text-center col-1">Código</th>
+                                                                            <th class="text-center col-2">Trabajador</th>
+                                                                            <th class="text-center col-1">Fecha</th>
+                                                                            <th class="text-center col-1">Cantidad</th>
+                                                                            <th class="text-center col-1">Estado</th>
+                                                                            <th class="text-center col-1">...</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody *ngFor="let asignacion of listaAsignaciones">
+                                                                        <tr class="font-medium" *ngIf="asignacion.empleado > 0">
+                                                                            <td class="text-center">{{asignacion.empleado}}
+                                                                            </td>
+                                                                            <td>{{asignacion.nombreEmpleado}}</td>
+                                                                            <td class="text-center">{{asignacion.fecha | date: 'dd/MM/yyyy HH:mm'}}
+                                                                            </td>
+                                                                            <td class="text-center">{{asignacion.cantidad}}
+                                                                            </td>
+                                                                            <td class="text-center">{{ asignacion.estado == 'A' ? 'Asignado' : 'Completado'}}
+                                                                            </td>
+                                                                            <td align="center">
+                                                                                <a type="button" class="text-success" *ngIf="asignacion.estado == 'A'"
+                                                                                    (click)="actualizarEstadoAsignacion(asignacion.id, 'C', 4)">
+                                                                                    <i class="fas fa-check-circle fa-lg"></i>
+                                                                                </a>&nbsp;&nbsp;&nbsp;
+                                                                                <a type="button" class="text-danger" *ngIf="asignacion.estado == 'A'"
+                                                                                    (click)="actualizarEstadoAsignacion(asignacion.id, 'I', 4)">
+                                                                                    <i class="fas fa-trash-alt fa-lg"></i>
+                                                                                </a>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr class="font-medium" *ngIf="asignacion.empleado == 0"
+                                                                            [formGroup]="formNuevaAsignacion"
+                                                                            (keyup.enter)="registrarNuevaAsignacion(4)">
+                                                                            <td class="text-center">
+                                                                                <input
+                                                                                    class="form-control form-control-sm font-weight-bold"
+                                                                                    type="number" placeholder="Código"
+                                                                                    style="font-size: 12px"
+                                                                                    formControlName="empleado">
+                                                                            </td>
+                                                                            <td>
+                                                                                <input
+                                                                                    class="form-control form-control-sm font-weight-bold"
+                                                                                    type="text"
+                                                                                    placeholder="Nombre usuario"
+                                                                                    style="font-size: 12px"
+                                                                                    formControlName="nombreEmpleado">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input
+                                                                                    class="form-control form-control-sm font-weight-bold"
+                                                                                    type="datetime-local"
+                                                                                    placeholder="Fecha"
+                                                                                    style="font-size: 12px"
+                                                                                    formControlName="fecha">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input
+                                                                                    class="form-control form-control-sm font-weight-bold"
+                                                                                    type="number"
+                                                                                    placeholder="Cantidad"
+                                                                                    style="font-size: 12px"
+                                                                                    formControlName="cantidad">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <input
+                                                                                    class="form-control form-control-sm font-weight-bold"
+                                                                                    type="number" placeholder="Asignado"
+                                                                                    style="font-size: 12px" disabled>
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <a type="button" class="text-danger"
+                                                                                    (click)="eliminarFormNuevoRegistro()">
+                                                                                    <i
+                                                                                        class="fas fa-trash-alt fa-lg"></i>
+                                                                                </a>
+                                                                            </td>
                                                                         </tr>
                                                                     </tbody>
                                                                 </table>

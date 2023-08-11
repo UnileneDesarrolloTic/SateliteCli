@@ -63,10 +63,6 @@ export const AppRoutes: Routes = [
       {
         path:'Exportaciones',
         loadChildren:() => import('@pages/exportaciones/exportaciones.module').then(m => m.ExportacionesModule)
-      },
-      {
-        path:'Encajado',
-        loadChildren:() => import('@pages/encajado/encajado.module').then(m => m.EncajadoModule)
       }
     ]
   },
