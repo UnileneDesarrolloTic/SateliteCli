@@ -13,6 +13,7 @@ import { ModalPdfComponent } from './modal-pdf/modal-pdf.component';
 import { ModalVerTransitoComponent } from './modal-ver-transito/modal-ver-transito.component';
 import { ModalEmpleadorComponent } from './modal-empleador/modal-empleador.component';
 import { HistorialFechaprometidaOcComponent } from './historial-fechaprometida-oc/historial-fechaprometida-oc.component';
+import { ModalComentarioArimaComponent } from './modal-comentario-arima/modal-comentario-arima.component';
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import { HistorialFechaprometidaOcComponent } from './historial-fechaprometida-o
     ModalPdfComponent,
     ModalVerTransitoComponent,
     ModalEmpleadorComponent,
-    HistorialFechaprometidaOcComponent
+    HistorialFechaprometidaOcComponent,
+    ModalComentarioArimaComponent
   ],
   imports: [
     CommonModule,

@@ -9,6 +9,7 @@ import { FullComponent } from '@layout/full/full.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { HistorialFechaprometidaOcComponent } from '@shared/components/historial-fechaprometida-oc/historial-fechaprometida-oc.component';
 import { ModalCargarComponent } from '@shared/components/modal-cargar/modal-cargar.component';
+import { ModalComentarioArimaComponent } from '@shared/components/modal-comentario-arima/modal-comentario-arima.component';
 import { Cargarbase64Service } from '@shared/services/comunes/cargarbase64.service';
 import { GenericoService } from '@shared/services/comunes/generico.service';
 import { ToastrService } from 'ngx-toastr';
@@ -170,24 +171,22 @@ export class CompraAgujaComponent implements OnInit {
     const ModalFechaPrometida = this._modalService.open(HistorialFechaprometidaOcComponent, {
       centered: true,
       backdrop: 'static',
+      // windowClass: 'my-class',
       size: 'lg',
       scrollable: true
     });
 
     ModalFechaPrometida.componentInstance.filaNumeroDocumento = fila;
-    ModalFechaPrometida.componentInstance.permiso = this.flagRegistrarFecha;
     ModalFechaPrometida.result.then((result) => {
       this._ProduccionService.mostrarOrdenCompraArima(fila.item,'Aprobados').subscribe(
         (resp:any) => {
           if(resp["success"]){
             this.listaDettalleCC=resp["content"];
           }else{
-            this.listaDettalleCC=[];
           }
         }
       )
     }, (refrescado) => {
-        console.log("refrescado");
     });
   }
 
@@ -239,4 +238,24 @@ export class CompraAgujaComponent implements OnInit {
       }
     )
   }
+
+
+  modalComentario(fila:OCPendientesArima){
+    const ModalComentario = this._modalService.open(ModalComentarioArimaComponent, {
+      centered: true,
+      backdrop: 'static',
+      // windowClass: 'my-class',
+      size: 'lg',
+      scrollable: true
+    });
+
+    ModalComentario.componentInstance.filaNumeroDocumento = fila;
+    ModalComentario.result.then((result) => {
+    
+    }, (refrescado) => {
+    });
+  }
+
+
+
 }

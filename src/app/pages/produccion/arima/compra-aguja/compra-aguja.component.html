@@ -387,7 +387,8 @@
                             {{ ordenCompra['fechaLlegada'] | date:'dd/MM/yyyy' }}
                         </td>
                         <td class="text-center font-medium">
-                            <button class="btn btn-primary btn-xs" *ngIf="this.tipomodal == 'Aprobados'" (click)="historialFechaPrometida(ordenCompra)"><i class=" fas fa-calendar-alt"></i></button>
+                            <button class="btn btn-primary btn-xs" *ngIf="this.tipomodal == 'Aprobados' && flagRegistrarFecha == false " (click)="historialFechaPrometida(ordenCompra)"><i class=" fas fa-calendar-alt"></i></button>
+                            <button class="btn btn-danger btn-xs" *ngIf="this.tipomodal == 'Aprobados' " (click)="modalComentario(ordenCompra)"><i class="fas fa-comment-dots"></i></button>
                         </td>
                         
                     </tr>

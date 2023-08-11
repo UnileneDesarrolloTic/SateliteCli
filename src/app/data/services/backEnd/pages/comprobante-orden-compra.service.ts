@@ -32,4 +32,14 @@ export class ComprobanteOrdenCompraService {
       })
     );
   }
+
+  listadoDetalle(ordenCompra, item, secuencia){
+    const params =  new HttpParams().set('ordenCompra', ordenCompra).set('item', item).set('secuencia', secuencia);
+    return this._http.get(this.url+"/api/ComprobanteOrdenCompra/MostrarDetalleOrdenCompra", {"params": params}).pipe(
+      catchError( _ => {
+        this._toastr.error("Error al mostrar el detalle de la orden de compra ", "Error !!", { timeOut: 4000, closeButton: true })
+        return throwError("Error  al mostrar el detalle de la orden de compra ")
+      })
+    );
+  }
 }
