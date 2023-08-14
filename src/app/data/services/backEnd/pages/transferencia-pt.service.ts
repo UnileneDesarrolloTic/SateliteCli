@@ -38,9 +38,9 @@ export class TransferenciaMPService {
         );
     }
 
-    listaPendienteRecepcionFisica(almacen: string){
+    listaPendienteRecepcionFisica(almacen: string, estado: string){
 
-        const params = new HttpParams().set('almacen',almacen);
+        const params = new HttpParams().set('almacen',almacen).set('estado',estado);
 
         return this._http.get<any[]>(this.url+"/listaPendienteRecepcionFisica", {'params': params}).pipe(
             map((x: any) => x.content),
@@ -58,6 +58,16 @@ export class TransferenciaMPService {
             catchError (() => {
             this._toastr.error("Error al registrar la recepción de la transferencia.", "Error !!", { timeOut: 4000, closeButton: true })
             return throwError("Error al registrar la recepción de la transferencia.")
+            })
+        );
+    }
+
+    reporteTransferencia (){
+        return this._http.get(this.url+"/reporteTransferencia").pipe(
+            map((x: any) => x.content),
+            catchError (() => {
+            this._toastr.error("Error descargar el reporte.", "Error !!", { timeOut: 4000, closeButton: true })
+            return throwError("Error descargar el reporte.")
             })
         );
     }

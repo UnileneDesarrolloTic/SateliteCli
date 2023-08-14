@@ -9,6 +9,8 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class ModalPdfComponent implements OnInit {
   @Input() base:string;
+  @Input() estilo:string;
+  @Input() titulo:string;
 
   constructor(public activeModal: NgbActiveModal,
               public sanitizer: DomSanitizer) { }

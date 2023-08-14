@@ -1,0 +1,114 @@
+<div class="row">
+    <div class="card-body">
+
+        <!-- <div class="modal-header">
+            <h5 class="modal-title font-medium" id="modal-basic-title"> REGISTRAR NUEVO EQUIPO DE ENGASTE </h5>
+            <button type="button" class="close" aria-label="Close" (click)="this.activeModal.dismiss()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div> -->
+        <div class="modal-body justify-content-center comment-widgets scrollable border" style="height: 550px;">
+            <form [formGroup]="form">
+                <div class="row">
+                    <div class="col-md-12">
+                        <label for="nombre" class="text-right control-label col-form-label font-bold">Nombre
+                            Equipo:</label>
+                        <div class="form-group">
+                            <input type="type" class="form-control form-control-sm font-medium"
+                                formControlName="nombre">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="tipo" class="text-right control-label col-form-label font-bold">Tipo</label>
+                        <div class="form-group">
+                            <select class="form-control  form-control-sm font-medium" formControlName="tipo">
+                                <option value="" class="font-medium" disabled>SELECCIONA HEBRA</option>
+                                <option value="MU" class="font-medium">HEBRA MULTIFILAMENTO</option>
+                                <option value="MO" class="font-medium">HEBRA MONOFILAMENTO</option>
+                                <option value="SC" class="font-medium">SIN CALIBRE</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="estado" class="text-right control-label col-form-label font-bold">Estado</label>
+                        <div class="form-group">
+                            <select class="form-control  form-control-sm font-medium" formControlName="estado">
+                                <option value="A" class="font-medium">ACTIVO</option>
+                                <option value="I" class="font-medium">INACTIVO</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <label for="operador" class="text-right control-label col-form-label font-bold">Operador</label>
+                        <div class="input-group mb-3">
+                            <input type="text" name='cliente' formControlName="persona" readonly
+                                class="form-control form-control-sm font-medium" placeholder="Buscar operador"
+                                aria-label="" aria-describedby="basic-addon1">
+                            <div class="input-group-append">
+                                <button class="btn mr-0 btn-info btn-sm" (click)="openModalConsultaOperador()"
+                                    type="button">
+                                    <i class="ti-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="row justify-content-center">
+                <div class="col-dm-12">
+                    <div class="d-flex pb-1">
+
+                        <input class="form-control form-control-sm font-medium" placeholder="Buscar" type="text"
+                            [formControl]='textFilterDado' />
+
+                    </div>
+                    <div class="d-flex no-block ">
+                        <div class="table-hover table-responsive table-bordered "
+                            style="font-size: 11px;overflow-y: auto; height:  14rem">
+                            <table class="table table-striped border table-hover table-inf">
+                                <thead style="font-size: 13px" class="bg-info text-white">
+                                    <tr>
+                                        <th class="text-center" scope="col">Id</th>
+                                        <th class="text-center" scope="col">Codigo</th>
+                                        <th class="text-center" scope="col">Dado</th>
+                                        <th class="text-center" scope="col">Alambre</th>
+                                        <th class="text-center" scope="col">Tipo</th>
+                                        <th class="text-center" scope="col"> ... </th>
+
+                                    </tr>
+                                </thead>
+                                <tbody style="font-size: 13px" id="tbodyDetalle">
+                                    <tr *ngFor="let licitacion of listarDados; let i = index">
+                                        <td class="text-center font-medium">{{licitacion.id}}</td>
+                                        <td class="text-center font-medium">{{licitacion.codigo}}</td>
+                                        <td class="text-center font-medium">{{licitacion.dado}}</td>
+                                        <td class="text-center font-medium">{{licitacion.alambre}}</td>
+                                        <td class="text-center font-medium">{{licitacion.tipo}}</td>
+                                        <td class="text-center font-medium">
+                                            <input type="checkbox" [(ngModel)]="licitacion.seleccionar"
+                                                name="list_idDado" (change)="SeleccionaItem(licitacion)"
+                                                value="{{licitacion.id}}" />
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="modal-footer justify-content-center">
+            <button type="button" class="btn btn-rounded btn-success btn-sm" [disabled]="!form.valid"
+                (click)="registrarEngastado()"> 
+                <i class="fas fa-save" *ngIf="!flagEspera"></i>
+                <i class="fa fa-spinner fa-spin fa-fw" *ngIf="flagEspera"></i> Guardar </button>
+            <button type="button" class="btn btn-rounded btn-danger btn-sm" 
+                (click)="this.activeModal.dismiss()"> <i class="fas fa-ban"></i> Cancelar</button>
+        </div>
+    </div>
+</div>

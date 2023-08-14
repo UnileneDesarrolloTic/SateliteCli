@@ -65,6 +65,54 @@ export class DispensacionService {
     );
   }
 
+  dispensacionRecetaGlobal(){
+    return this._http.get<any>(this.url+"/api/Dispensacion/DetalleDispensacionReceta").pipe(
+      catchError (() => {
+        this._toastr.error("Error al detalle dispensacion global", "Error !!", { timeOut: 4000, closeButton: true })
+        return throwError("Error al detalle dispensacion global")
+      })
+    );
+  }
+  
+  dispensacionRegistrarDispensacionGeneral(body){
+    return this._http.post(this.url+"/api/Dispensacion/RegistrarRecetasGlobal", body).pipe(
+      catchError (() => {
+        this._toastr.error("Error al registrar dispensacion Global", "Error !!", { timeOut: 4000, closeButton: true })
+        return throwError("Error al registrar dispensacion Global")
+      })
+    );
+  }
+  
+  dispensacionGuiaDespacho(){
+    return this._http.get<any>(this.url+"/api/Dispensacion/DispensacionGuiaDespacho").pipe(
+      catchError (() => {
+        this._toastr.error("Error al dispensacion guia Despacho ", "Error !!", { timeOut: 4000, closeButton: true })
+        return throwError("Error  al dispensacion guia Despacho")
+      })
+    );
+
+  }
+
+  mostrarDispensacionGuiaDespacho(id)
+  {
+    const params =  new HttpParams().set('id', id);
+    return this._http.get(this.url+"/api/Dispensacion/MostrarDispensacionDespacho", {'params': params}).pipe(
+      catchError (() => {
+        this._toastr.error("Error al dispensacion mostrar despacho", "Error !!", { timeOut: 4000, closeButton: true })
+        return throwError("Error  al dispensacion mostrar despacho")
+      })
+    );
+  }
+
+  generacionCodigoBarra(id){
+    const params =  new HttpParams().set('id', id);
+    return this._http.get(this.url+"/api/Dispensacion/GeneracionPdfDespacho", {'params': params}).pipe(
+      catchError (() => {
+        this._toastr.error("Error al dispensacion mostrar generación codigo barra despacho", "Error !!", { timeOut: 4000, closeButton: true })
+        return throwError("Error  al dispensacion mostrar generación codigo barra despacho")
+      })
+    );
+  }
   
   
 }
