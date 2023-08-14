@@ -28,7 +28,10 @@ export class AsignacionPersonalLaboralComponent implements OnInit {
   tempListarAreaContar:DatosFormatoAreaPersonalModel[]=[];
   cantidadAsistio:number = 0;
   cantidadFalto:number = 0;
-
+  cantidadVacaciones:number = 0;
+  cantidadPermiso:number = 0;
+  cantidadInjustificado:number = 0;
+  flagMostrarboton:boolean = false;
   ListarArea:any[]=[];
   ListarFiltrarAreaPersona:DatosFormatoFiltrarAreaPersona[]=[];
   TemporalListarFiltrarAreaPersona:DatosFormatoFiltrarAreaPersona[]=[];
@@ -61,7 +64,7 @@ export class AsignacionPersonalLaboralComponent implements OnInit {
     this.filtrarArea();
     this.clasificacionAreas();
     this.filtrarClasificacionArea();
-
+    this.permisoBoton();
     
     //Bloque 1d
     this.buscarnombrecompleto.pipe(debounceTime(900)).subscribe(() => {
@@ -79,6 +82,9 @@ export class AsignacionPersonalLaboralComponent implements OnInit {
       this.ListarAreaContar = this.tempListarAreaContar.filter((element:DatosFormatoAreaPersonalModel)=> (valor == 0) ? element.idClasificacionArea != 0 : element.idClasificacionArea == valor);
       this.cantidadAsistio = this.ListarAreaContar.map((element:DatosFormatoAreaPersonalModel)=> element.asistio ).reduce((a, b) => a + b, 0);
       this.cantidadFalto = this.ListarAreaContar.map((element:DatosFormatoAreaPersonalModel)=> element.falto ).reduce((a, b) => a + b, 0);
+      this.cantidadVacaciones = this.ListarAreaContar.map((element:DatosFormatoAreaPersonalModel)=> element.vacaciones ).reduce((a, b) => a + b, 0);
+      this.cantidadPermiso = this.ListarAreaContar.map((element:DatosFormatoAreaPersonalModel)=> element.permisos ).reduce((a, b) => a + b, 0);
+      this.cantidadInjustificado = this.ListarAreaContar.map((element:DatosFormatoAreaPersonalModel)=> element.injustificados ).reduce((a, b) => a + b, 0);
     });
   }
 
@@ -86,6 +92,7 @@ export class AsignacionPersonalLaboralComponent implements OnInit {
     const modalAsistencia = this.modalService.open(ModalAsistenciaPersonaComponent, {
       ariaLabelledBy: 'modal-basic-title',
       backdrop: 'static',
+      windowClass: 'my-class',
       size: 'lg',
       scrollable: true,
       keyboard: false
@@ -106,7 +113,6 @@ export class AsignacionPersonalLaboralComponent implements OnInit {
   clasificacionAreas(){
     this._GenericoServices.clasificacionArea().subscribe(
         (resp:any)=>{
-          console.log(resp["content"]);
             this.listadoClasificacionArea = resp["content"];
         }
     )
@@ -129,6 +135,10 @@ export class AsignacionPersonalLaboralComponent implements OnInit {
 
         this.cantidadAsistio = this.ListarAreaContar.map((element:DatosFormatoAreaPersonalModel)=> element.asistio ).reduce((a, b) => a + b, 0);
         this.cantidadFalto = this.ListarAreaContar.map((element:DatosFormatoAreaPersonalModel)=> element.falto ).reduce((a, b) => a + b, 0);
+        this.cantidadVacaciones = this.ListarAreaContar.map((element:DatosFormatoAreaPersonalModel)=> element.vacaciones ).reduce((a, b) => a + b, 0);
+        this.cantidadPermiso = this.ListarAreaContar.map((element:DatosFormatoAreaPersonalModel)=> element.permisos ).reduce((a, b) => a + b, 0);
+        this.cantidadInjustificado = this.ListarAreaContar.map((element:DatosFormatoAreaPersonalModel)=> element.injustificados ).reduce((a, b) => a + b, 0);
+
       }
     );
   }
@@ -281,6 +291,17 @@ export class AsignacionPersonalLaboralComponent implements OnInit {
         this.idAreaPersonal="0";
       }
           
+  }
+
+  permisoBoton(){
+    this._GenericoServices.AccesosPermiso('BTN003').subscribe(
+      (resp:any)=>{
+          if(resp["success"])
+              this.flagMostrarboton = !resp["content"];
+          else
+              this.flagMostrarboton = false;
+      }
+    )
   }
 
  

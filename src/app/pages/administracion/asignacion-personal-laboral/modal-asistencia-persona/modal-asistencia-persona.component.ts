@@ -4,6 +4,7 @@ import { DatosFormatoAreaPersonalModel } from '@data/interface/Response/DatosFor
 import { PersonaAsistencia } from '@data/interface/Response/DatosPersonaAsistencia.interfaces';
 import { UsuarioService } from '@data/services/backEnd/pages/usuario.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-modal-asistencia-persona',
@@ -14,24 +15,32 @@ export class ModalAsistenciaPersonaComponent implements OnInit {
   @Input() areaFila:DatosFormatoAreaPersonalModel;
   listaPersonaAsistencia:PersonaAsistencia[]=[];
   tempListaPersonaAsistencia:PersonaAsistencia[]=[];
-  asistencia = new FormControl('Todos')
+  asistencia = new FormControl('Todos');
 
   constructor( public activeModal: NgbActiveModal,
                 public _UsuarioService: UsuarioService) { }
   
   ngOnInit(): void {
       this.listarPersonaAreaAsistencia(this.areaFila); 
-      this.observableFiltrar();
+      this.observableTipo();
   }
 
-  observableFiltrar(){
+
+  observableTipo(){
     this.asistencia.valueChanges.subscribe((check)=>{
-        if(check != 'Todos')
-          this.listaPersonaAsistencia = this.tempListaPersonaAsistencia.filter((element=> check == 'Asistieron' ? element.lectora > 0 :  element.lectora == 0 ));
-        else
+      if(check == 'Asistieron')
+        this.listaPersonaAsistencia = this.tempListaPersonaAsistencia.filter((element=>  element.asistencia == true ));
+      else if (check == 'Justificaciones')
+        this.listaPersonaAsistencia = this.tempListaPersonaAsistencia.filter((element=>  element.justificaciones == true ));
+      else if (check == 'Vacaciones')
+        this.listaPersonaAsistencia = this.tempListaPersonaAsistencia.filter((element=>  element.vacaciones == true ));
+      else if (check == 'Injustificado')
+        this.listaPersonaAsistencia = this.tempListaPersonaAsistencia.filter((element=>  element.injustificado == true ));
+      else
         this.listaPersonaAsistencia = this.tempListaPersonaAsistencia;
     })
   }
+
   listarPersonaAreaAsistencia(areaFila: DatosFormatoAreaPersonalModel){
       this._UsuarioService.listarPersonaAsistencia(areaFila.idArea).subscribe(
           (resp:any)=>{
