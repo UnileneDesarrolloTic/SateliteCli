@@ -328,7 +328,13 @@ export class InterceptorService implements HttpInterceptor {
       "TransferenciaPt/reporteTransferencia",
       "ComprobanteOrdenCompra/MostrarInformacionOrdenCompra",
       "ComprobanteOrdenCompra/RegistrarFechaPrometida",
-      "ComprobanteOrdenCompra/MostrarDetalleOrdenCompra"
+      "ComprobanteOrdenCompra/MostrarDetalleOrdenCompra",
+      "Encajado/listaOrdenesFabricacion",
+      "Encajado/listaTransferenciasEncaje",
+      "Encajado/registarNuevaTrasnferencia",
+      "Encajado/listraAsignacionesEncajePorEtapa",
+      "Encajado/registrarAsignacion",
+      "Encajado/actualizaEstadoAsignacion"
     ];
     
     const data = this.sesionService.datosPersonales();
