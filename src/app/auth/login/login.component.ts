@@ -66,4 +66,8 @@ export class LoginComponent {
       this.toastr.warning('Intento de vulneración del sitio web', 'Advertencia!');
     }
   }
+
+  registrarAsistencia(){
+    this.routes.navigate(['authentication','registroAsistencia' ]);
+  }
 }

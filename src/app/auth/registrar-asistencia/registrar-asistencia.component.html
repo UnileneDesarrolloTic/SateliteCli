@@ -1,0 +1,33 @@
+<div class="auth-wrapper d-flex no-block justify-content-center align-items-center" style="background:url(assets/images/background/login-register.jpg) no-repeat center center;">
+  
+           
+   
+    <div class="auth-box">
+       
+        <div>
+            <div class="logo">
+                <span class="db"><img src="assets/images/logo-unilene-mundo.png" alt="logo" width="185px" height="40px"/></span>  
+            </div>
+            <!-- Form -->
+            <div class="row">
+                <div class="col-12">
+                    <form class="form-horizontal m-t-20"  [formGroup]="formRegistro" (submit)="registroAsistencia()">
+                        <h5 class="font-medium text-center">Numero de identificación:</h5>
+                        <div class="form-group row">
+                            <!-- <label for="">Numero de identificación: </label> -->
+                            <div class="col-12">
+                                <input class="form-control form-control-lg" type="text" formControlName="numeroDocumento">
+                            </div>
+                        </div>
+                        <div class="form-group text-center">
+                            <div class="col-xs-12 p-b-20">
+                                <button class="btn btn-block btn-lg btn-info" [disabled]="!formRegistro.valid"  type="submit">Registrar</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
