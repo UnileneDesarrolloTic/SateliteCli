@@ -1,0 +1,143 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card border-left border-info">
+            <div class="card-header bg-info text-white" style="font-weight: bold">
+                Filtros de búsqueda
+            </div>
+            <div class="card-body">
+                <form autocomplete="off" [formGroup]="formFiltro" (submit)="listarPendientesTransferencia()">
+                    <div class="row">
+                        <div class="col-sm-12 col-lg-5">
+                            <div class="form-group row">
+                                <label for="inputEmail3"
+                                    class="col-sm-3 text-center control-label col-form-label col-form-label-sm">Almacen:
+                                </label>
+                                <div class="col-sm-9">
+                                    <select class="form-control form-control-sm" formControlName="almacen">
+                                        <option value="ALMPRT">Alm. Producto Terminado</option>
+                                        <option value="CONTRCALID">Alm. Control de Calidad</option>
+                                        <option value="ALMCMPT">Alm. Contra Muestra PT</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-lg-7">
+                            <button class="btn btn-info btn-sm btn-rounded btn-block-sm" type="submit">
+                                <i class="fas fa-search"></i> Filtrar
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="card border-left border-info">
+            <div class="card-body">
+                <div class="alert alert-warning" role="alert" *ngIf="listaPendientes.length < 1">
+                    No se encontrarón pendientes.
+                </div>
+                <div class="table-responsive">
+                    <div class="table table-hover table-sm" *ngIf="listaPendientes.length > 0">
+                        <div class="scroll-group">
+                            <table class=" scroll-group table table-striped border mt-4" style="font-size: 11px">
+                                <thead class="no-wrap">
+                                    <tr>
+                                        <th class="text-center font-weight-bold">Ctrl. Nro</th>
+                                        <th class="text-center font-weight-bold">O. Fabricación</th>
+                                        <th class="text-center font-weight-bold">Lote</th>
+                                        <th class="text-center font-weight-bold">Estado</th>
+                                        <th class="text-center font-weight-bold">Preparación</th>
+                                        <th class="text-center font-weight-bold">Vencimiento</th>
+                                        <th class="text-center font-weight-bold">C. Recibida</th>
+                                        <th class="text-center font-weight-bold">Item</th>
+                                        <th class="text-center font-weight-bold">Descripcion</th>
+                                        <th class="text-center font-weight-bold">Pedido</th>
+                                        <th class="text-center font-weight-bold">Cliente</th>
+                                        <th class="text-center font-weight-bold">Almacen</th>
+                                        <th class="text-center font-weight-bold">Entregado</th>
+                                        <th class="text-center font-weight-bold">Aceptado</th>
+                                        <th class="text-center font-weight-bold">...</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="font-medium">
+                                    <tr *ngFor="let pendiente of listaPendientes">
+                                        <td class="text-center">{{pendiente.controlNumero}}</td>
+                                        <td class="text-center">{{pendiente.ordenFabricacion}}</td>
+                                        <td class="text-center">{{pendiente.lote}}</td>
+                                        <td class="text-center">{{pendiente.estado}}</td>
+                                        <td class="text-center">{{pendiente.fechaPreparacion | date: 'dd/MM/yyyy'}}</td>
+                                        <td class="text-center">{{pendiente.fechaVencimiento | date: 'dd/MM/yyyy'}}</td>
+                                        <td class="text-right">{{pendiente.cantidadRecibida | number: '1.0-2'}}</td>
+                                        <td>{{pendiente.item}}</td>
+                                        <td>{{pendiente.itemDescripcion}}</td>
+                                        <td class="text-center">{{pendiente.pedidoNumero}}</td>
+                                        <td>{{pendiente.cliente}}</td>
+                                        <td class="text-center">{{pendiente.almacenCodigo}}</td>
+                                        <td class="text-right">{{pendiente.cantidadEntregada | number: '1.0-2'}}</td>
+                                        <td class="text-right">{{pendiente.cantidadAceptada | number: '1.0-2'}}</td>
+                                        <td align="center">
+                                            <a type="button" (click)="abrirModalTransferencia(modalTransferencia, pendiente.id, pendiente.controlNumero, pendiente.cantidadRecibida, pendiente.cantidadEntregada)">
+                                                <i class="fas fa-file-alt fa-lg"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #modalTransferencia let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title font-weight-bold">
+            <i class="fas fa-dolly-flatbed fa-md"></i>&nbsp;&nbsp;Nueva Transferencia
+        </h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">
+                &times;
+            </span>
+        </button>
+    </div>
+    <form autocomplete="off" [formGroup]="formTransferencia" (submit)="registrarTransferencia()">
+        <div class="modal-body">
+            <div class="form-horizontal" style="font-size: 12px;">
+                <div class="form-group">
+                    <label class="col-form-label col-form-label-sm" for="controlNumero">Ctrl. Nro:</label>
+                    <input type="text" id="controlNumero" name="control-numero" class="form-control form-control-sm"
+                        placeholder="Control Número" formControlName="controlNumero">
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label col-form-label-sm" for="cantidadTotal">Cantidad Total:</label>
+                    <input type="text" id="cantidadTotal" name="cantidad-total" class="form-control form-control-sm"
+                        placeholder="Cantidad Total" formControlName="cantidadTotal">
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label col-form-label-sm" for="cantidadTransferida">Transferencia:</label>
+                    <input type="email" id="cantidadTransferida" name="cantidad-transferencia"
+                        class="form-control form-control-sm" placeholder="Cantidad Transferida"
+                        formControlName="cantidadParcial">
+                </div>
+                <div class="form-group mb-0">
+                    <label class="col-form-label col-form-label-sm">Pendiente Transferencia: <span
+                            class="font-weight-bold">{{pendienteTransferencia | number: '1.0-2'}}</span></label>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <div class="col-12">
+                <button class="btn btn-success col-12" type="submit">
+                    <i class="fas fa-paper-plane fas-md" *ngIf="!flagRegistrarTransferencia"></i>
+                    <i class=" fas fa-spinner fa-spin fas-md" *ngIf="flagRegistrarTransferencia"></i>
+                    &nbsp;&nbsp;Registrar Transferencia
+                </button>
+            </div>
+        </div>
+    </form>
+</ng-template>

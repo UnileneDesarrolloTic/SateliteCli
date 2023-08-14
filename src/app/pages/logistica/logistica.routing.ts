@@ -7,6 +7,7 @@ import { OrdenesServicioMainComponent } from "./gestion-ordenes-servicio/ordenes
 import { MaestroItemComponent } from "./maestro-item/maestro-item.component";
 import { DispensacionMpComponent } from "./dispensacion-mp/dispensacion-mp.component";
 import { DetalleDispensacionMpComponent } from "./dispensacion-mp/detalle-dispensacion-mp/detalle-dispensacion-mp.component";
+import { RecepcionPtComponent } from "./recepcion-pt/recepcion-pt.component";
 
 export const LogisticaRoutes: Routes = [
   {
@@ -81,6 +82,13 @@ export const LogisticaRoutes: Routes = [
           ]
         }
       },
+      {
+        path: 'RecepcionPT',
+        component: RecepcionPtComponent,
+        data: {
+          title: "Recepción Producto Terminado"
+        }
+      }
       
     ]
   },

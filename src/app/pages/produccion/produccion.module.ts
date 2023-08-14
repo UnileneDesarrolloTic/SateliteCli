@@ -30,6 +30,7 @@ import { ProgramacionComponent } from './gestion/programacion/programacion.compo
 import { RegistroFechaInicioEntregaComponent } from './gestion/programacion/registro-fecha-inicio-entrega/registro-fecha-inicio-entrega.component';
 import { DividirProgramacionComponent } from './gestion/programacion/dividir-programacion/dividir-programacion.component';
 import { EncajeComponent } from './encajado/encaje/encaje.component';
+import { ProductoTerminadoTransferidoComponent } from './transferencia/producto-terminado-transferido/producto-terminado-transferido.component';
 
 registerLocaleData(localeEs);
 
@@ -54,6 +55,7 @@ registerLocaleData(localeEs);
     ProgramacionComponent,
     RegistroFechaInicioEntregaComponent,
     DividirProgramacionComponent,
+    ProductoTerminadoTransferidoComponent,
     EncajeComponent,
   ],
   imports: [
