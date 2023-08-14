@@ -5,10 +5,10 @@ import { Router } from '@angular/router';
 import { DispensacionDetalleGlobal } from '@data/interface/Response/Dispensacion/DatosFormatoDetalleDispensacionGlobal.interface';
 import { HistorialDispensacion } from '@data/interface/Response/Dispensacion/DatosFormatoListadoHistorial.interfaces';
 import { ObtenerOrdneFabricacion } from '@data/interface/Response/Dispensacion/DatosFormatoObtenerOrdencompra.interface';
+import { SubFamilia } from '@data/interface/Response/Dispensacion/DatosFormatoSubFamilia.interfaces';
 import { DispensacionService } from '@data/services/backEnd/pages/dispensacion.service';
 import { FullComponent } from '@layout/full/full.component';
 import { ToastrService } from 'ngx-toastr';
-import { debounceTime } from 'rxjs/operators';
 @Component({
   selector: 'app-dispensacion-mp',
   templateUrl: './dispensacion-mp.component.html',
@@ -22,6 +22,7 @@ export class DispensacionMpComponent implements OnInit {
   historialDispensacion: HistorialDispensacion[]=[];
   dispensacionGlobal: DispensacionDetalleGlobal[]=[];
   tempDispensacionGlobal: DispensacionDetalleGlobal[]=[];
+  subFamilia: SubFamilia[] = [];
 
   activarCampo:boolean = false;
   loadingIndicator:boolean =  false;
@@ -85,8 +86,9 @@ export class DispensacionMpComponent implements OnInit {
     this._DispensacionService.dispensacionRecetaGlobal().subscribe(
       (resp:any)=>{
           this.loadingDipensacion = false;
-          this.dispensacionGlobal = resp;
-          this.tempDispensacionGlobal = resp;
+          this.dispensacionGlobal = resp["detalleDispensacion"];
+          this.tempDispensacionGlobal = resp["detalleDispensacion"];
+          this.subFamilia = resp["subFamilia"]
       }
     )
   }
@@ -112,7 +114,7 @@ export class DispensacionMpComponent implements OnInit {
     {
        if(valorTipo != 'TD')
        {
-        this.dispensacionGlobal = this.tempDispensacionGlobal.filter((x:DispensacionDetalleGlobal)=> x.itemTipo == valorTipo)
+        this.dispensacionGlobal = this.tempDispensacionGlobal.filter((x:DispensacionDetalleGlobal)=> x.codigoSubFamilia == valorTipo)
        }
        else
        {

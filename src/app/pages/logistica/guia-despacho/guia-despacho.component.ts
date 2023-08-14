@@ -35,7 +35,7 @@ export class GuiaDespachoComponent implements OnInit {
   }
 
   listarDespacho() {
-    this._DispensacionService.dispensacionGuiaDespacho().subscribe(
+    this._DispensacionService.dispensacionGuiaDespacho(this.formFiltros.value).subscribe(
       (resp: any) => {
         this.guiaDespacho = resp;
       }

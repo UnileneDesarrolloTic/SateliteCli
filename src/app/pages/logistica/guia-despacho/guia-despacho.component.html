@@ -62,7 +62,8 @@
                             <tr>
                                 <th class="text-center font-bold">Id</th>
                                 <th class="text-center">Entregado Por</th>
-                                <th class="text-center">Fecha Entrega</th>
+                                <th class="text-center">Fecha Registro</th>
+                                <th class="text-center">Fecha Despacho</th>
                                 <th class="text-center">Estado</th>
                                 <th class="text-center">...</th>
                             </tr>
@@ -72,6 +73,7 @@
                                 <td class="text-center font-medium">{{ guia.id }}</td>
                                 <td class="text-center font-medium">{{ guia.entregadoPor }}</td>
                                 <td class="text-center font-medium">{{ guia.fechaRegistro | date:'dd-MM-yyyy' }}</td>
+                                <td class="text-center font-medium">{{ guia.fechaDespacho | date:'dd-MM-yyyy' }}</td>
                                 <td class="text-center font-medium">
                                     <span *ngIf="guia.estado == 'PR'">PREPARACION</span>
                                     <span *ngIf="guia.estado == 'AP'">APROBADO</span>

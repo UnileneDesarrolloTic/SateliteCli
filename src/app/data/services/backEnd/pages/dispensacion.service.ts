@@ -83,8 +83,8 @@ export class DispensacionService {
     );
   }
   
-  dispensacionGuiaDespacho(){
-    return this._http.get<any>(this.url+"/api/Dispensacion/DispensacionGuiaDespacho").pipe(
+  dispensacionGuiaDespacho(body){
+    return this._http.post<any>(this.url+"/api/Dispensacion/DispensacionGuiaDespacho", body).pipe(
       catchError (() => {
         this._toastr.error("Error al dispensacion guia Despacho ", "Error !!", { timeOut: 4000, closeButton: true })
         return throwError("Error  al dispensacion guia Despacho")
