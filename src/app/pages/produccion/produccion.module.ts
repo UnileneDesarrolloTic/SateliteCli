@@ -31,6 +31,7 @@ import { RegistroFechaInicioEntregaComponent } from './gestion/programacion/regi
 import { DividirProgramacionComponent } from './gestion/programacion/dividir-programacion/dividir-programacion.component';
 import { GestionEquiposComponent } from './gestion/gestion-equipos/gestion-equipos.component';
 import { EquiposEngasteComponent } from './gestion/gestion-equipos/equipos-engaste/equipos-engaste.component';
+import { EncajeComponent } from './encajado/encaje/encaje.component';
 import { ProductoTerminadoTransferidoComponent } from './transferencia/producto-terminado-transferido/producto-terminado-transferido.component';
 
 registerLocaleData(localeEs);
@@ -59,6 +60,7 @@ registerLocaleData(localeEs);
     GestionEquiposComponent,
     EquiposEngasteComponent,
     ProductoTerminadoTransferidoComponent,
+    EncajeComponent,
   ],
   imports: [
     RouterModule.forChild(ProduccionRoutes),

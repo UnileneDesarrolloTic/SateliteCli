@@ -12,6 +12,7 @@ import { CompraNacionalImportacionComponent } from "./arima/compra-nacional-impo
 import { ProgramacionComponent } from "./gestion/programacion/programacion.component";
 import { GestionEquiposComponent } from "./gestion/gestion-equipos/gestion-equipos.component";
 import { ProductoTerminadoTransferidoComponent } from "@pages/produccion/transferencia/producto-terminado-transferido/producto-terminado-transferido.component";
+import { EncajeComponent } from "./encajado/encaje/encaje.component";
 
 export const ProduccionRoutes: Routes = [
   {
@@ -69,7 +70,6 @@ export const ProduccionRoutes: Routes = [
       },
     ]
   },
-
   {
     path: 'Gestion',
     canActivateChild: [AuthGuard],
@@ -106,8 +106,19 @@ export const ProduccionRoutes: Routes = [
      
     ]
   },
-
   {
+    path: 'encajado',
+    canActivateChild: [AuthGuard],
+    children : [
+      {
+        path: 'encaje',
+        component: EncajeComponent,
+        data: {
+          title: "Encaje"
+        }
+      },
+    ]
+  },  {
     path: 'Transferencia',
     canActivateChild: [AuthGuard],
     children : [
