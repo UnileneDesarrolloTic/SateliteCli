@@ -120,7 +120,7 @@ export class ProductoTerminadoTransferidoComponent implements OnInit {
 
   filtrarPorTexto() {
     
-    const texto = this.filtroTexto.value
+    const texto = this.filtroTexto.value.toLowerCase()
     
     if(texto == '' || texto == null || texto == undefined)
       this.listaPendientes = this.listaPendientesCompleta
