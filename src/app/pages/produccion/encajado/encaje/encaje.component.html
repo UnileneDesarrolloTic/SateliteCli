@@ -45,10 +45,15 @@
     <div class="col-12">
         <div class="card border-left border-info">
             <div class="card-body">
+                <div class="d-flex justify-content-end">
+                    <button class="btn btn-success btn-rounded btn-sm" (click)="abrirModalReporte(modalReporte)">
+                        <i class="fas fa-file-excel"></i>&nbsp;&nbsp;Exportar&nbsp;
+                    </button>
+                </div>
                 <div class="alert alert-warning" role="alert"
                     *ngIf="listaOrdenesFabricacion.length < 1 && !flagListandoOrdenes">
                     No se han encontrado ordenes de fabricación.
-                </div>
+                </div>                
                 <div class="table table-hover" *ngIf="listaOrdenesFabricacion.length > 0">
                     <div class="scroll-group">
                         <table class=" scroll-group table table-striped border mt-4" style="font-size: 12px">
@@ -90,6 +95,52 @@
         </div>
     </div>
 </div>
+<ng-template #modalReporte let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title font-weight-bold">
+            <i class="fas fa-file-excel fa-md"></i>&nbsp;&nbsp;Exporte Excel
+        </h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">
+                &times;
+            </span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="formReporte" (submit)="descargarReprote()">
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-horizontal" style="font-size: 12px;">
+                        <div class="row">
+                            <div class="col-sm-12 col-md-6">
+                                <div class="form-group mb-1">
+                                    <label class="col-form-label col-form-label-sm" for="fechaInicio">F. Inicio: </label>
+                                    <input type="date" id="ordFabricacion" class="form-control form-control-sm"
+                                        placeholder="Fecha Inicio" formControlName = 'fechaInicio'>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <div class="form-group mb-1">
+                                    <label class="col-form-label col-form-label-sm" for="codsut">F. Fin: </label>
+                                    <input type="date" id="codsut" class="form-control form-control-sm"
+                                        placeholder="Fecha Fin" formControlName = 'fechaFin'>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 d-flex justify-content-center">
+                    <button class="btn btn-sm btn-success btn-rounded mb-2 mt-4" type="submit">
+                        <i class="fas fa-download" *ngIf="!flagDescargaExcel"></i>
+                        <i class="fas fa-spinner fa-spin" *ngIf="flagDescargaExcel"></i>&nbsp;&nbsp;Descargar&nbsp;
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</ng-template>
 <ng-template #modalTransferencia let-modal>
     <div class="modal-header">
         <h4 class="modal-title font-weight-bold">
@@ -397,7 +448,7 @@
                                         <form class="editForm" novalidate>
                                             <div class="tab-pane active">
                                                 <h4 class="text-center font-weight-bold text-info m-0">
-                                                    EMBALADO
+                                                    ENCAJADO
                                                 </h4>
                                                 <div class="row">
                                                     <div class="col-12 d-flex justify-content-between align-items-end">
