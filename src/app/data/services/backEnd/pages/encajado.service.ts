@@ -81,4 +81,15 @@ export class EncajadoService {
       })
     );
   }
+
+  reporteAsignacionEncajado(fechaInicio: Date, fechaFin: Date){
+    const params = new HttpParams().set('fechaInicio', fechaInicio.toString()).set('fechaFin', fechaFin.toString())
+    
+    return this._http.get(this.url + "/reporteAsignacion", { "params": params }).pipe(
+      catchError(() => {
+        this._toastr.error('Error al descargar el reporte de asignación.', 'Error !!', {timeOut: 3000, progressBar: true, closeButton: true})
+        return throwError("Error al descargar el reporte de asignación.")
+      })
+    );
+  }
 }

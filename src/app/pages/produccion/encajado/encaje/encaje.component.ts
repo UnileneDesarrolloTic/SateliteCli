@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { EncajadoService } from '@data/services/backEnd/pages/encajado.service';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { FileService } from '@shared/services/comunes/file.service';
 import { SesionService } from '@shared/services/comunes/sesion.service';
 import { easeSin } from 'd3';
 import { ToastrService } from 'ngx-toastr';
@@ -21,9 +22,11 @@ export class EncajeComponent implements OnInit {
   formNuevaAsignacion: FormGroup;
   formNuevaTransferencia: FormGroup;
   formHeaderTransferencia: FormGroup;
+  formReporte: FormGroup;
   listaOrdenesFabricacion: any[];
   flagListandoOrdenes: boolean = true;
   flagListarTransferenciaEncaje: boolean = false;
+  flagDescargaExcel: boolean = false;
   totalTransferida: number = 0;
 
   listaAsignaciones: any[] = []
@@ -33,7 +36,8 @@ export class EncajeComponent implements OnInit {
   private idEncajeSeleccionado: number = 0
 
   constructor(private _modalService: NgbModal, private _toatsr: ToastrService,
-    private _encajadoService: EncajadoService, private _sesionService: SesionService) { }
+    private _encajadoService: EncajadoService, private _sesionService: SesionService,
+    private _fileService: FileService) { }
 
   ngOnInit(): void {
     this.inicializarFomrulario()
@@ -41,6 +45,12 @@ export class EncajeComponent implements OnInit {
   }
 
   inicializarFomrulario() {
+
+    this.formReporte = new FormGroup({
+      fechaInicio: new FormControl(formatDate(new Date(), 'yyyy-MM-dd', 'en'), [Validators.required]),
+      fechaFin: new FormControl(formatDate(new Date(), 'yyyy-MM-dd', 'en'), [Validators.required])
+    })
+
     this.formFiltro = new FormGroup({
       ordenFabricacion: new FormControl(''),
       lote: new FormControl('')
@@ -190,6 +200,16 @@ export class EncajeComponent implements OnInit {
     });
   }
 
+  abrirModalReporte(modal: NgbModal){
+
+    this._modalService.open(modal, {
+      centered: true,
+      backdrop: 'static',
+      size: 'md',
+      scrollable: true
+    });
+  }
+
   listaAsignacionEncaje(idEncaje:number, etapa: number){
 
     this.listaAsignaciones = []
@@ -284,6 +304,32 @@ export class EncajeComponent implements OnInit {
 
   }
 
+  descargarReprote(){
+    if(this.flagDescargaExcel)
+      return this._toatsr.warning('El reporte de estar generando...', 'Proceso...', {closeButton: true, progressBar: true, timeOut: 3000})
+
+    if(this.formReporte.invalid)
+      return this._toatsr.warning('Las fechas no son válidas', 'Advertencia', {closeButton: true, progressBar: true, timeOut: 3000})
+    
+    this.flagDescargaExcel = true
+
+    const fechaInicio = this.formReporte.get('fechaInicio').value
+    const fechaFin = this.formReporte.get('fechaFin').value
+
+    this._encajadoService.reporteAsignacionEncajado(fechaInicio, fechaFin).subscribe( 
+      (x: any) => {
+        if(x.success){
+          this._fileService.decargarExcel_Base64(x.content, 'Reporte Asignación Encajado', 'xlsx')
+          this._toatsr.success('Se ha descargado el reporte.', 'Éxito !!', {closeButton: true, progressBar: true, timeOut: 3000})
+        }
+        else
+          this._toatsr.warning(x.message, 'Advertencia !!', {closeButton: true, progressBar: true, timeOut: 3000})
+
+        this.flagDescargaExcel = false
+      },
+      _ => this.flagDescargaExcel = false
+    )
+  }
 
   eliminarItem() {
     var r = confirm("¿ Seguro de eliminar el item ?");

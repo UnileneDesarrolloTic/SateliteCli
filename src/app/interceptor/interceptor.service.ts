@@ -334,7 +334,8 @@ export class InterceptorService implements HttpInterceptor {
       "Encajado/registarNuevaTrasnferencia",
       "Encajado/listraAsignacionesEncajePorEtapa",
       "Encajado/registrarAsignacion",
-      "Encajado/actualizaEstadoAsignacion"
+      "Encajado/actualizaEstadoAsignacion",
+      "Encajado/reporteAsignacion"
     ];
     
     const data = this.sesionService.datosPersonales();
