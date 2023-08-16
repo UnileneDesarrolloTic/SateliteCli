@@ -7,14 +7,14 @@
                         <div class="col-md-3">
                             <label for="fechainicio" class="text-right control-label col-form-label">Inicio</label>
                             <div class="form-group">
-                                <input type="date" formControlName="fechainicio" class="form-control form-control-sm font-medium"
+                                <input type="date" formControlName="fechaInicio" class="form-control form-control-sm font-medium"
                                     placeholder="Fecha Inicio">
                             </div>
                         </div>
                         <div class="col-md-3">
                             <label for="fechafinal" class="text-right control-label col-form-label">Final</label>
                             <div class="form-group">
-                                <input type="date"  formControlName="fechafinal" class="form-control form-control-sm font-medium"
+                                <input type="date"  formControlName="fechaFin" class="form-control form-control-sm font-medium"
                                     placeholder="Fecha Fin">
                             </div>
                         </div>
@@ -26,6 +26,20 @@
                                     class="btn btn-succes btn-sm text-white" style="background-color: #4b971c;">
                                     <i class="fas fa-file-excel"></i> Excel </button>
                             </div>
+                        </div>
+                    </div>
+                    <div class="row pl-2">
+                        <div class="form-check form-check-inline">
+                          <div class="custom-control custom-checkbox">
+                            <input type="checkbox" [formControl]="reporteAsistencia" class="custom-control-input" id="customCheck1">
+                            <label class="custom-control-label" for="customCheck1">Reporte Asistencia</label>
+                          </div>
+                        </div>
+                        <div class="form-check form-check-inline">
+                          <div class="custom-control custom-checkbox">
+                            <input type="checkbox" [formControl]="listadoPersonal" class="custom-control-input" id="customCheck2">
+                            <label class="custom-control-label" for="customCheck2">Listado Personal</label>
+                          </div>
                         </div>
                     </div>
                 </div>

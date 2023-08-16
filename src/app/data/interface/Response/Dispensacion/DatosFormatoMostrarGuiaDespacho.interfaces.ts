@@ -12,4 +12,5 @@ export interface InformacionDispensacionGuiaDespacho {
     usuarioCreacion:    string;
     fechaRegistro:      Date;
     cantidadSolicitada: number;
+    estado:             string;
 }

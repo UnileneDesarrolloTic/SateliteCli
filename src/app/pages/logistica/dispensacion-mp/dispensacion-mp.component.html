@@ -43,13 +43,13 @@
                             style="height: 90%;" [headerHeight]="50" [footerHeight]="50"
                             [loadingIndicator]="loadingIndicator" [rowHeight]="50" [scrollbarV]="true"
                             [scrollbarH]="true">
-                            <ngx-datatable-column name="..." prop="entrega" [width]="100" [frozenLeft]="true"
+                            <!-- <ngx-datatable-column name="..." prop="entrega" [width]="100" [frozenLeft]="true"
                                 [flexGrow]="2">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
                                     <button class="btn btn-info btn-sm" (click)="verDispensacion(row)"> <i
                                             class="fas fa-clipboard-list"></i> </button>
                                 </ng-template>
-                            </ngx-datatable-column>
+                            </ngx-datatable-column> -->
 
                             <ngx-datatable-column name="N°" prop="secuencia" [width]="5" [frozenLeft]="true" [flexGrow]="2">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
@@ -138,6 +138,11 @@
                             </select>
                         </div>
                         <div class="p-2">
+                           
+                                <button type="button" class="btn btn-info btn-sm" (click)="dispensar()" > 
+                                    <i class="fa fa-spinner fa-spin fa-fw" *ngIf="flagEsperarEntregar"></i> 
+                                    <i class="fas fa-dolly-flatbed" *ngIf="!flagEsperarEntregar"> </i> Dispensar Todo</button>
+                           
                                 <button type="button" class="btn btn-success btn-sm" (click)="guardarEntrega()" > 
                                     <i class="fa fa-spinner fa-spin fa-fw" *ngIf="flagEsperarEntregar"></i> 
                                     <i class="fas fa-shopping-basket" *ngIf="!flagEsperarEntregar"> </i> Entregar</button>
@@ -145,7 +150,7 @@
                      </div>
                     <div class="col-md-12" style="height: 80vh;">
                         <ngx-datatable class="material" [rows]="dispensacionGlobal" columnMode="force"
-                            style="height: 90%;" [headerHeight]="50" [footerHeight]="50"
+                            style="height: 90%;" [headerHeight]="50" [footerHeight]="50" 
                             [loadingIndicator]="loadingDipensacion" [rowHeight]="50" [scrollbarV]="true"
                             [scrollbarH]="true">
                           

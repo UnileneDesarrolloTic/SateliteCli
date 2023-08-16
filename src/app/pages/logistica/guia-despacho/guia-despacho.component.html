@@ -8,9 +8,9 @@
                 <form autocomplete="off" [formGroup]="formFiltros" (submit)="listarDespacho()">
                     <div class="form-body" style="font-size: 14px;">
                         <div class="row p-t-5">
-                            <div class="col-sm-12 col-md-4">
+                            <div class="col-sm-12 col-md-3">
                                 <div class="form-group row">
-                                    <label class="col-3 text-left control-label col-form-label" for="fechaInicio">Fecha
+                                    <label class="col-3 text-left control-label col-form-label" for="fechaInicio">F.
                                         Inicio:</label>
                                     <div class="col-sm-9 input-group input-group-sm mb-3">
                                         <div class="input-group-prepend">
@@ -22,9 +22,9 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-12 col-md-4">
+                            <div class="col-sm-12 col-md-3">
                                 <div class="form-group row">
-                                    <label class="col-3 text-left control-label col-form-label" for="fechaFin">Fecha
+                                    <label class="col-3 text-left control-label col-form-label" for="fechaFin">F.
                                         Fin:</label>
                                     <div class="col-sm-9 input-group input-group-sm mb-3">
                                         <div class="input-group-prepend">
@@ -35,8 +35,19 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-sm-12 col-md-3">
+                                <div class="form-group row">
+                                    <label class="col-3 text-left control-label col-form-label" for="fechaFin">Estado:</label>
+                                    <div class="col-sm-9 input-group input-group-sm mb-3">
+                                        <select class="custom-select custom-select-sm"  formControlName="estado">
+                                            <option value="AP">APROBADO</option>
+                                            <option value="PR">PREPARACION</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
 
-                            <div class="col-sm-12 col-md-4">
+                            <div class="col-sm-12 col-md-3">
                                 <div class="form-group row">
                                     <button class="btn btn-info btn-sm " type="submit">
                                         <i class="fa fa-spinner fa-spin fa-fw fa-lg" *ngIf="flagLoadingLista"></i>
@@ -57,19 +68,19 @@
         <div class="card">
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-striped border hover table-sm">
+                    <table class="table table-striped border hover table-sm" style="font-size: 13px;">
                         <thead>
                             <tr>
                                 <th class="text-center font-bold">Id</th>
                                 <th class="text-center">Entregado Por</th>
                                 <th class="text-center">Fecha Registro</th>
-                                <th class="text-center">Fecha Despacho</th>
+                                <th class="text-center">Fecha Aprobación</th>
                                 <th class="text-center">Estado</th>
                                 <th class="text-center">...</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let guia of guiaDespacho; let i = index">
+                            <tr *ngFor="let guia of guiaDespacho; let i = index" style="font-size: 13px;">
                                 <td class="text-center font-medium">{{ guia.id }}</td>
                                 <td class="text-center font-medium">{{ guia.entregadoPor }}</td>
                                 <td class="text-center font-medium">{{ guia.fechaRegistro | date:'dd-MM-yyyy' }}</td>
@@ -80,7 +91,7 @@
                                 </td>       
                                 <td class="text-center"> 
                                     <button type="button" class="btn btn-sm btn-primary" (click)="modalverDispensacion(modalDispensacion, guia)" ngbTooltip="ver" ><i class="fas fa-eye"></i></button>
-                                    <button type="button" class="btn btn-sm btn-danger" (click)="imprimir(guia)" ngbTooltip="imprimir"><i class="fas fa-file-pdf"></i></button>
+                                    <button type="button" class="btn btn-sm btn-danger" (click)="imprimir(guia)" ngbTooltip="imprimir"><i class="fas fa-barcode"></i></button>
                                 </td>                         
                             </tr>
                         </tbody>
@@ -104,6 +115,28 @@
         </button>
     </div>
     <div class="modal-body">
+
+        <div class="row p-2 justify-content-center">
+            <div class="col-md-2">
+                <div class="custom-control custom-radio">
+                    <input type="radio" id="customRadio1" [formControl]="estadoDespacho" [value]="'APROBADO'"  name="customRadio" class="custom-control-input">
+                    <label class="custom-control-label" for="customRadio1">APROBADO</label>
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <div class="custom-control custom-radio">
+                    <input type="radio" id="customRadio2" [formControl]="estadoDespacho"  [value]="'PREPARACION'" name="customRadio" class="custom-control-input">
+                    <label class="custom-control-label" for="customRadio2">PREPARACION</label>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="custom-control custom-radio">
+                    <input type="radio" id="customRadio3"  [formControl]="estadoDespacho"  [value]="'TODOS'" name="customRadio" class="custom-control-input" checked>
+                    <label class="custom-control-label" for="customRadio3">TOTAL </label>
+                </div>
+            </div>
+        </div>
         <div class="table-responsive table-sm">
             <table class="table table-striped no-wrap border" style="font-size: 13px;">
                 <thead>
@@ -116,6 +149,7 @@
                         <th class="text-center">Documento</th>
                         <th class="text-center">Lote</th>
                         <th class="text-center">Cantidad Ingresada</th>
+                        <th class="text-center">Estado</th>
                         <th class="text-center wrap">Cantidad Solicitada</th>
                     </tr>
                 </thead>
@@ -147,6 +181,9 @@
                         </td>
                         <td class="text-center font-medium">
                             {{ guia['cantidadIngresada'] | number : '1.2-2' }}
+                        </td>
+                        <td class="text-center font-medium">
+                            {{ guia['estado'] }}
                         </td>
 
                         <td class="text-center font-medium">

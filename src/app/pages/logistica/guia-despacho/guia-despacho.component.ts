@@ -16,21 +16,28 @@ export class GuiaDespachoComponent implements OnInit {
   flagLoadingLista: boolean = false;
   formFiltros: FormGroup;
   guiaDespacho: DispensacionGuiaDespacho[] = [];
+ 
   informacionGuiaDespacho: InformacionDispensacionGuiaDespacho[] = [];
+  tempinformacionGuiaDespacho: InformacionDispensacionGuiaDespacho[] = [];
   generadorCodigo: SafeResourceUrl;
+
+  estadoDespacho = new FormControl('TODOS');
+
 
   constructor(private _DispensacionService: DispensacionService, private _modalService: NgbModal, private sanitizer: DomSanitizer) { }
 
   ngOnInit(): void {
     this.crearFormulario();
     this.listarDespacho();
+    this.observableEstado();
 
   }
 
   crearFormulario() {
     this.formFiltros = new FormGroup({
       fechaInicio: new FormControl(null),
-      fechaFin: new FormControl(null)
+      fechaFin: new FormControl(null),
+      estado: new FormControl('PR'),
     })
   }
 
@@ -38,11 +45,13 @@ export class GuiaDespachoComponent implements OnInit {
     this._DispensacionService.dispensacionGuiaDespacho(this.formFiltros.value).subscribe(
       (resp: any) => {
         this.guiaDespacho = resp;
+
       }
     )
   }
 
   modalverDispensacion(modal: NgbModal, fila: DispensacionGuiaDespacho) {
+    this.estadoDespacho.patchValue('TODOS');
     this._modalService.open(modal, {
       centered: true,
       backdrop: 'static',
@@ -54,6 +63,7 @@ export class GuiaDespachoComponent implements OnInit {
     this._DispensacionService.mostrarDispensacionGuiaDespacho(fila.id).subscribe(
       (resp: any) => {
         this.informacionGuiaDespacho = resp;
+        this.tempinformacionGuiaDespacho = resp;
       }
     )
   }
@@ -84,7 +94,17 @@ export class GuiaDespachoComponent implements OnInit {
           }
       }
     );
+  }
 
 
+  observableEstado(){
+    this.estadoDespacho.valueChanges.subscribe((check)=>{
+      if(check == 'APROBADO')
+        this.informacionGuiaDespacho = this.tempinformacionGuiaDespacho.filter((element=>  element.estado == 'APROBADO' ));
+      else if (check == 'PREPARACION')
+        this.informacionGuiaDespacho = this.tempinformacionGuiaDespacho.filter((element=>  element.estado == 'PREPARACION' ));
+      else
+        this.informacionGuiaDespacho = this.tempinformacionGuiaDespacho;
+    });
   }
 }
