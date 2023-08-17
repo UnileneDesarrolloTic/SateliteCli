@@ -84,7 +84,13 @@ export class AnalisisHebraComponent implements OnInit {
         conclusion: new FormControl('', Validators.required),
         observaciones: new FormControl(null, Validators.maxLength(100)),
         fechaAnalisis: new FormControl(formatDate(new Date(), 'yyyy-MM-dd', 'en'), Validators.required),
-        color: new FormControl(null, Validators.required)
+        color: new FormControl(null, Validators.required),
+        balanza: new FormControl('CCBA-06', Validators.required),
+        estufa: new FormControl('CCES-06', Validators.required),
+        micrometro: new FormControl('CCMI-06', Validators.required),
+        regla: new FormControl('RM-10', Validators.required),
+        dinamometro: new FormControl('CCTE-', Validators.required),
+        soporte: new FormControl('CCSV-04', Validators.required),
       })
     })   
 
