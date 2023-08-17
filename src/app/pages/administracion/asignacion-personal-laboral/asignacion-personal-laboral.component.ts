@@ -108,7 +108,7 @@ export class AsignacionPersonalLaboralComponent implements OnInit {
     });
   }
 
-   //Bloque 1
+
   filtroNombreCompleto(){
     this.buscarnombrecompleto.next();
   }
@@ -135,7 +135,6 @@ export class AsignacionPersonalLaboralComponent implements OnInit {
         this.TemporalListarPersonaLaboral=resp["personalLaboral"];
         this.ListarAreaContar=resp["contarArea"];
         this.tempListarAreaContar=resp["contarArea"];
-
         this.cantidadAsistio = this.ListarAreaContar.map((element:DatosFormatoAreaPersonalModel)=> element.asistio ).reduce((a, b) => a + b, 0);
         this.cantidadFalto = this.ListarAreaContar.map((element:DatosFormatoAreaPersonalModel)=> element.falto ).reduce((a, b) => a + b, 0);
         this.cantidadVacaciones = this.ListarAreaContar.map((element:DatosFormatoAreaPersonalModel)=> element.vacaciones ).reduce((a, b) => a + b, 0);
