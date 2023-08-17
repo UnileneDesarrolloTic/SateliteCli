@@ -13,7 +13,9 @@ export interface DispensacionDetalleGlobal {
     cantidadDespachada: number;
     tipoMP:             string;
     lote:               null | string;
-    entregadoPor:      number;
+    nombresubFamilia:   string;
+    codigoSubFamilia:   string;
+    entregadoPor:       number;
     recibidoPor:        string;
     cantidadIngresada:  number;
 }

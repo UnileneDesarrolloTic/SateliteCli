@@ -49,7 +49,10 @@ export class AsignacionPersonalLaboralComponent implements OnInit {
   idAreaClasificacion = new FormControl(0);
   
   FormRangoFechas: FormGroup;
-  listadoClasificacionArea: DatosClasificacionArea[] = []
+  listadoClasificacionArea: DatosClasificacionArea[] = [];
+
+  reporteAsistencia = new FormControl(false);
+  listadoPersonal   = new FormControl(false);
 
   constructor(private _UsuarioService:UsuarioService,
               private toastr: ToastrService,
@@ -120,8 +123,8 @@ export class AsignacionPersonalLaboralComponent implements OnInit {
 
   CrearFormula(){
     this.FormRangoFechas = new FormGroup({
-      fechainicio: new FormControl(''),
-      fechafinal: new FormControl('')
+      fechaInicio: new FormControl(''),
+      fechaFin: new FormControl('')
     })
   }
 
@@ -246,9 +249,11 @@ export class AsignacionPersonalLaboralComponent implements OnInit {
   }
 
   ExportarExcel(){
+      if(this.reporteAsistencia.value == false && this.listadoPersonal.value == false)
+          return this.toastr.warning("Debe elegir 1 o mas reportes","Advertencia");
 
-      if(this.FormRangoFechas.controls.fechafinal.value < this.FormRangoFechas.controls.fechainicio.value){
-           return this.toastr.warning("La fecha final deber ser mayor que la fecha inicio")
+      if(this.FormRangoFechas.controls.fechaFin.value < this.FormRangoFechas.controls.fechaInicio.value){
+          return this.toastr.warning("La fecha final deber ser mayor que la fecha inicio","Advertencia")
       }
 
       const ModalCarga = this.modalService.open(ModalCargarComponent, {
@@ -259,10 +264,15 @@ export class AsignacionPersonalLaboralComponent implements OnInit {
       });
       ModalCarga.componentInstance.fromParent = "Generando el Formato Excel";
 
-      this._UsuarioService.ExportarExcelPersonaAsignacion(this.FormRangoFechas.controls.fechainicio.value,this.FormRangoFechas.controls.fechafinal.value)
+      const dato = {
+        ...this.FormRangoFechas.value,
+        reporteAsistencia : this.reporteAsistencia.value,
+        listadoPersonal   : this.listadoPersonal.value
+      }
+      this._UsuarioService.ExportarExcelPersonaAsignacion(dato)
       .subscribe( (resp:any)=>{
         if(resp.success){
-          this.servicebase64.file(resp.content,`ReporteAsignacion ${this.FormRangoFechas.controls.fechainicio.value} - ${this.FormRangoFechas.controls.fechafinal.value}`,'.xlsx',ModalCarga);
+          this.servicebase64.file(resp.content,`ReporteAsignacion ${this.FormRangoFechas.controls.fechaInicio.value} - ${this.FormRangoFechas.controls.fechaFin.value}`,'.xlsx',ModalCarga);
         }else{
           ModalCarga.close();
           this.toastr.info(resp.message);

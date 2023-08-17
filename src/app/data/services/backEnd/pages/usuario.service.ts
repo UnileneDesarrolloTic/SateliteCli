@@ -65,9 +65,8 @@ export class UsuarioService {
     )
   }
 
-  ExportarExcelPersonaAsignacion(FechaInicio,FechaFinal){
-    const params =  new HttpParams().set('FechaInicio', FechaInicio).set('FechaFinal',FechaFinal);
-    return this._http.get(this.url + "/api/usuario/ExportarExcelPersonaAsignacion",{'params': params}).pipe(
+  ExportarExcelPersonaAsignacion(body){
+    return this._http.post(this.url + "/api/usuario/ExportarExcelPersonaAsignacion",body).pipe(
       catchError( _ => {
         this._toastr.error("Error al mostrar el calendario de orden compra ", "Error !!", { timeOut: 4000, closeButton: true })
         return throwError("Error  al mostrar el calendario de orden compra ")

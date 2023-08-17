@@ -43,13 +43,13 @@
                             style="height: 90%;" [headerHeight]="50" [footerHeight]="50"
                             [loadingIndicator]="loadingIndicator" [rowHeight]="50" [scrollbarV]="true"
                             [scrollbarH]="true">
-                            <ngx-datatable-column name="..." prop="entrega" [width]="100" [frozenLeft]="true"
+                            <!-- <ngx-datatable-column name="..." prop="entrega" [width]="100" [frozenLeft]="true"
                                 [flexGrow]="2">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
                                     <button class="btn btn-info btn-sm" (click)="verDispensacion(row)"> <i
                                             class="fas fa-clipboard-list"></i> </button>
                                 </ng-template>
-                            </ngx-datatable-column>
+                            </ngx-datatable-column> -->
 
                             <ngx-datatable-column name="N°" prop="secuencia" [width]="5" [frozenLeft]="true" [flexGrow]="2">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
@@ -131,12 +131,18 @@
                     <div class="d-flex">
                         <div class="mr-auto p-2">
                             <select class="form-control form-control-sm font-bold" [formControl]="tipo">
-                                <option value="MP" class="font-medium">Materia Prima</option>
-                                <option value="EE" class="font-medium">Envases y Embalajes</option>
+                                <option *ngFor="let codigoFamilia of subFamilia"  class="font-medium" [value]="codigoFamilia.subFamilia">
+                                    {{codigoFamilia.nombreSubFamilia}}
+                                  </option>
                                 <option value="TD" class="font-medium">TODOS</option>
                             </select>
                         </div>
                         <div class="p-2">
+                           
+                                <button type="button" class="btn btn-info btn-sm" (click)="dispensar()" > 
+                                    <i class="fa fa-spinner fa-spin fa-fw" *ngIf="flagEsperarEntregar"></i> 
+                                    <i class="fas fa-dolly-flatbed" *ngIf="!flagEsperarEntregar"> </i> Dispensar Todo</button>
+                           
                                 <button type="button" class="btn btn-success btn-sm" (click)="guardarEntrega()" > 
                                     <i class="fa fa-spinner fa-spin fa-fw" *ngIf="flagEsperarEntregar"></i> 
                                     <i class="fas fa-shopping-basket" *ngIf="!flagEsperarEntregar"> </i> Entregar</button>
@@ -144,7 +150,7 @@
                      </div>
                     <div class="col-md-12" style="height: 80vh;">
                         <ngx-datatable class="material" [rows]="dispensacionGlobal" columnMode="force"
-                            style="height: 90%;" [headerHeight]="50" [footerHeight]="50"
+                            style="height: 90%;" [headerHeight]="50" [footerHeight]="50" 
                             [loadingIndicator]="loadingDipensacion" [rowHeight]="50" [scrollbarV]="true"
                             [scrollbarH]="true">
                           
@@ -181,17 +187,24 @@
                                 </ng-template>
                             </ngx-datatable-column>
 
-                            <ngx-datatable-column name="Tipo" prop="itemTipo" [width]="50" [flexGrow]="2">
+                            <!-- <ngx-datatable-column name="Tipo" prop="itemTipo" [width]="50" [flexGrow]="2">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
                                     <span class="font-medium">{{row.itemTipo}}</span>
                                 </ng-template>
-                            </ngx-datatable-column>
+                            </ngx-datatable-column> -->
 
-                            <ngx-datatable-column name="Unidad" prop="unidadCodigo" [width]="70" [flexGrow]="2">
+                            <!-- <ngx-datatable-column name="Unidad" prop="unidadCodigo" [width]="70" [flexGrow]="2">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
                                     <span class="font-medium">{{row.unidadCodigo }}</span>
                                 </ng-template>
+                            </ngx-datatable-column> -->
+
+                            <ngx-datatable-column name="SubFamilia" prop="nombresubFamilia" [width]="70" [flexGrow]="2">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <span class="font-medium">{{row.nombresubFamilia }}</span>
+                                </ng-template>
                             </ngx-datatable-column>
+
 
                             <ngx-datatable-column name="Cant.Solicitada" prop="cantidadSolicitada" [width]="100" [flexGrow]="2">
                                 <ng-template let-row="row" ngx-datatable-cell-template>
